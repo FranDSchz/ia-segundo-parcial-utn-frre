@@ -1,0 +1,26 @@
+MODELOS DE EVALUACIÓN — SEGUNDO PARCIAL Y FINALES
+Inteligencia Artificial — UTN Facultad Regional Resistencia (ISI)
+========================================================================
+
+Este repositorio contiene exclusivamente los exámenes originales (PDFs y fotos escaneadas),
+organizados para facilitar el estudio práctico del Segundo Parcial y Exámenes Finales:
+
+1_PARCIALES_2DO_PARCIAL/
+    Fotos y PDFs de exámenes presenciales y virtuales del 2do Parcial (2012 a 2025).
+    Los que tienen fecha verificada en el papel incluyen el año en el nombre.
+    Los que no tienen fecha impresa están identificados por los ejercicios de la consigna.
+    Incluye el PDF oficial del examen del 19/11/2025 y el compendio oficial de 29 páginas.
+
+2_FINALES/
+    Enunciados y resoluciones de exámenes finales presenciales y virtuales tomados en mesas.
+
+3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/
+    Cuestionarios online oficiales de la plataforma virtual correspondientes a las Unidades 3 y 4
+    (Cuestionario 05: Naïve Bayes, Perceptrón, MLP y Cuestionario 06: SVM, Hopfield, SOM).
+
+4_GUIAS_PRACTICAS_CATEDRA/
+    Guías oficiales de Trabajos Prácticos de la Cátedra por tema (Clustering, Hopfield,
+    KNN, MLP, Naïve Bayes, Perceptrón Simple, SOM y SVM).
+
+========================================================================
+NOTA: Se han excluido todos los temas del Primer Parcial (Búsqueda A*, Planificación POP y Árboles).
