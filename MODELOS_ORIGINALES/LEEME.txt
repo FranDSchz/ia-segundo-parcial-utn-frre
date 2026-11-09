@@ -9,8 +9,9 @@ organizados para facilitar el estudio práctico del Segundo Parcial y Exámenes 
     Fotos y PDFs de exámenes presenciales y virtuales del 2do Parcial (2012 a 2025).
     Los que tienen fecha verificada en el papel incluyen el año en el nombre.
     Los que no tienen fecha impresa están identificados por los ejercicios de la consigna.
-    Incluye el PDF oficial del examen del 19/11/2025, el compendio oficial de 29 páginas y
-    las 8 imágenes de parciales reales y recuperatorios recientemente auditadas.
+    Incluye la fotografía del examen físico impreso (parcial2_clustering_som_mlp_ag_impreso.jpg),
+    el PDF oficial del examen del 19/11/2025, el compendio oficial de 29 páginas y
+    las 8 imágenes de parciales reales y recuperatorios auditadas.
 
 2_FINALES/
     Enunciados y resoluciones de exámenes finales presenciales y virtuales tomados en mesas.
