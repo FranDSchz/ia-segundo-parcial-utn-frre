@@ -1431,9 +1431,9 @@
       const script = document.createElement("script");
       script.src = "https://giscus.app/client.js";
       script.setAttribute("data-repo", "FranDSchz/ia-segundo-parcial-utn-frre");
-      script.setAttribute("data-repo-id", "R_kgDON6rV1A");
+      script.setAttribute("data-repo-id", "R_kgDOVnmHmQ");
       script.setAttribute("data-category", "General");
-      script.setAttribute("data-category-id", "DIC_kwDON6rV1M4Cn-oM");
+      script.setAttribute("data-category-id", "DIC_kwDOVnmHmc4DKvcb");
       script.setAttribute("data-mapping", "pathname");
       script.setAttribute("data-strict", "0");
       script.setAttribute("data-reactions-enabled", "1");
