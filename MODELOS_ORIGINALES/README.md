@@ -372,13 +372,12 @@ Del análisis forense de las correcciones docentes de la cátedra en los exámen
 
 ---
 
-## 5. El Peso Real y Crítico de Algoritmos Genéticos en la Evaluación
+## 5. Relevancia y Ponderación de Algoritmos Genéticos en la Evaluación Presencial
 
 > [!IMPORTANT]
-> ### 🧬 Algoritmos Genéticos en el Segundo Parcial: Del Mito a la Realidad Numérica
-> Históricamente circuló la creencia de que Algoritmos Genéticos (AG) se evaluaba únicamente de forma conceptual o en laboratorio, debido a que en varias evaluaciones del período 2015–2023 se priorizaron otros modelos en la práctica escrita.  
-> **Esta suposición quedó totalmente desmitificada por la evidencia documental de evaluaciones recientes:**
-> - En el examen presencial del **Segundo Parcial del 19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 30% de la nota final** del examen práctico.
+> ### 🧬 Algoritmos Genéticos: Ponderación Numérica y Enfoque de Examen
+> En las evaluaciones presenciales de la Cátedra, Algoritmos Genéticos (AG) tiene un peso formal decisivo tanto en la práctica escrita como en el cuestionario teórico:
+> - En el examen presencial oficial del **Segundo Parcial del 19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 30% de la nota final** del examen práctico.
 > - La consigna evaluó destrezas numéricas y genéticas directas: **Cruza simple (corte en gen 4)**, **Cruza multipunto (genes 2, 5 y 7)** y **Control de copias esperadas al 50%** con residuo decimal y sorteo.
 > - Asimismo, en exámenes teóricos y de desarrollo se exige **Mutación adaptativa por temperatura** (ascendente y descendente con ciclos de reinicio), **Selección por Ruleta acumulada (intervalos [00–99])** y **Selección por Ranking lineal**.
 > 

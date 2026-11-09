@@ -5,8 +5,8 @@
 
 ## ÍNDICE GENERAL
 
-1. [PARTE I: Desmitificación de la Estructura Real de Examen ("Fin del Mito de los 4 Cuadrantes Fijos")](#parte-i-desmitificación-de-la-estructura-real-de-examen)
-   - 1.1 El mito de la plantilla rígida de 4 cuadrantes al 25%
+1. [PARTE I: Análisis Estructural y Distribución de Ponderación en el Examen](#parte-i-análisis-estructural-y-distribución-de-ponderación-en-el-examen)
+   - 1.1 Distribución Real de Temas y Ponderaciones en Evaluaciones Presenciales
    - 1.2 Las 4 estructuras reales implementadas por la Cátedra
    - 1.3 Matriz de rotación de temas de examen
    - 1.4 Reglas tácticas de resolución en mesa de examen
@@ -40,28 +40,31 @@
 
 ---
 
-# PARTE I: DESMITIFICACIÓN DE LA ESTRUCTURA REAL DE EXAMEN
-## ("Fin del Mito de los 4 Cuadrantes Fijos")
+# PARTE I: ANÁLISIS ESTRUCTURAL Y DISTRIBUCIÓN DE PONDERACIÓN EN EL EXAMEN
 
-### 1.1 El mito de la plantilla rígida de 4 cuadrantes al 25%
+### 1.1 Distribución Real de Temas y Ponderaciones en Evaluaciones Presenciales
 
-Durante años ha circulado entre los estudiantes una leyenda urbana sumamente peligrosa: la creencia de que el Segundo Parcial de Inteligencia Artificial es siempre una plantilla invariable de **4 cuadrantes fijos con un valor del 25% cada uno**, compuesta exclusivamente por:
-- Cuadrante 1 (25%): Perceptrón Multicapa (MLP) con Retropropagación.
-- Cuadrante 2 (25%): Máquinas de Vectores de Soporte (SVM).
-- Cuadrante 3 (25%): Redes Autoorganizadas de Kohonen (SOM).
-- Cuadrante 4 (25%): Clustering (K-Means o Jerárquico Aglomerativo).
+El Segundo Parcial de Inteligencia Artificial evalúa de forma integrada los contenidos teóricos y prácticos de las Unidades 3 y 4 (Aprendizaje Automático y Redes Neuronales). Lejos de responder a una distribución predecible o a porcentajes idénticos fijos, la Cátedra adapta dinámicamente la ponderación y selección de ejercicios según el turno de examen, la mesa y la modalidad evaluativa.
 
-Bajo esta falacia, los alumnos suelen descartar el estudio riguroso de **Algoritmos Genéticos (AG)**, **Redes de Hopfield**, **Naïve Bayes con distribuciones continuas/histogramas**, o **Búsqueda Heurística / Planning**, bajo la suposición de que "AG nunca entra en el parcial práctico".
+Es fundamental considerar que **todos los temas del programa oficial son evaluables**:
+- Perceptrón Multicapa (MLP) con Retropropagación
+- Máquinas de Vectores de Soporte (SVM)
+- Redes Autoorganizadas de Kohonen (SOM)
+- Clustering (K-Means o Jerárquico Aglomerativo)
+- **Algoritmos Genéticos (AG)** (con fuerte peso práctico y conceptual)
+- Redes de Hopfield (memoria asociativa y energía de Lyapunov)
+- Naïve Bayes (discretización por histogramas y continuo Gaussiano)
+- K-Nearest Neighbors (KNN ponderado por distancia)
 
-> [!CAUTION]
-> **EVIDENCIA HISTÓRICA IRREFUTABLE:**  
-> El examen real del **19 de Noviembre de 2025** demolió definitivamente este mito:
+> [!IMPORTANT]
+> **RELEVANCIA Y PONDERACIÓN EN EL EXAMEN MÁS RECIENTE:**  
+> En el examen presencial oficial del **19 de Noviembre de 2025**, la distribución y ponderación fue:
 > - **Punto 1 (20%):** Clustering Jerárquico Aglomerativo (*complete-link* y *average-link* con dendrogramas).
 > - **Punto 2 (30%):** Red SOM con **función de vecindad no nula** ($h(t) = \frac{1}{1 + \text{dist}^2}$), actualización del patrón P4 y arquitectura.
 > - **Punto 3 (30%):** Red MLP con cálculo analítico de errores sigmoidales y actualización de pesos.
-> - **Punto 4 (30% / 20%):** **ALGORITMOS GENÉTICOS COMPLETO**, evaluando Cruza Simple (G4), Cruza Multipunto (G2, G5, G7) y Control de Copias al 50%.
+> - **Punto 4 (20% / 30%):** **ALGORITMOS GENÉTICOS COMPLETO**, evaluando Cruza Simple (G4), Cruza Multipunto (G2, G5, G7) y Control de Copias al 50%.
 >
-> Los alumnos que no dominaban Algoritmos Genéticos dejaron automáticamente hasta el **30% de la nota en blanco**, comprometiendo de inmediato la regularidad o promoción de la asignatura.
+> Como demuestra este modelo reciente, el ejercicio de Algoritmos Genéticos representó hasta el **30% de la nota final**, confirmando que dominar todos los ejes temáticos es indispensable para la regularidad y la promoción.
 
 ---
 
