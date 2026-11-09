@@ -550,12 +550,10 @@
         promptEl.innerHTML = this.formatRichText(q.enunciado);
       }
 
-      // Multi-select hint
+      // Multi-select hint (sin revelar cantidad de opciones correctas para fidelidad 100% con el parcial)
       const multiHint = document.getElementById("exam-multi-hint");
       if (multiHint) {
-        multiHint.textContent = q.correctas.length > 1
-          ? `Múltiple Selección (${q.correctas.length} correctas · penaliza errores)`
-          : "Selección Única / Múltiple (penaliza errores)";
+        multiHint.textContent = "Seleccione una o más opciones (penaliza errores)";
       }
 
       // Flag button
@@ -1154,7 +1152,7 @@
               </span>
             </div>
             <span style="font-size: 0.8rem; color: var(--text-muted);">
-              ${q.correctas.length > 1 ? `Multi-selección (${q.correctas.length} correctas)` : "Opción Única/Múltiple"}
+              Seleccione una o más opciones
             </span>
           </div>
 
