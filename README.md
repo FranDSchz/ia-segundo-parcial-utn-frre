@@ -40,7 +40,7 @@
 > - **Fórmula Moodle de Cátedra:** Penalización proporcional por opciones incorrectas marcadas:
 >   $$\text{puntaje} = \max\!\left(0,\; 100 \cdot \left(\frac{a}{C} - \frac{e}{I}\right)\right)$$
 > - **Umbrales Oficiales:** Promoción ($\ge 80\%$) · Aprobación / Regularidad ($\ge 60\%$) · No alcanzado ($< 60\%$).
-> - **Modos Integrados + Atajos de Teclado:** **Simulacro de Cátedra** (40 min / 25 preguntas), **Simulacro Oficial 2025** (20 min / 20 preguntas del examen del 19/11/2025), **Práctica Libre con Filtro por Año/Tags**, y **Modo QA** (`#qa`) con buscador y filtro por año sobre las 79 preguntas únicas y sus respuestas oficiales.
+> - **Modos Integrados + Atajos de Teclado:** **Simulacro de Cátedra** (40 min / 25 preguntas), **Simulacro Oficial 2025** (30 min / 28 preguntas del examen del 19/11/2025 y variantes Grupo 2), **Práctica Libre con Filtro por Año/Tags**, y **Modo QA** (`#qa`) con buscador y filtro por año sobre las 87 preguntas únicas y sus respuestas oficiales.
 > - *Instrucciones de publicación:* [Guía de Activación en GitHub Pages en 2 Clics](docs/README_DEPLOY.md).
 
 ---
