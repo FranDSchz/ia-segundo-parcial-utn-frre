@@ -1,25 +1,24 @@
 # Machete Legal de Emergencia (Repaso 15 Minutos Antes de Rendir)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Instrucción:** Leé esta hoja en el pasillo del aula Magna antes de que el profesor reparta los enunciados.
+**Instrucción:** Leé esta síntesis conceptual en el pasillo del aula Magna antes de que la Cátedra reparta los enunciados.
 
 ---
 
-## ⚡ Los 4 Cuadrantes en 30 Segundos
+## ⚡ Síntesis de Modelos Clave en 30 Segundos
 
 ```
 ┌───────────────────────────────────────┬───────────────────────────────────────┐
-│ Q1: SVM (25%)                         │ Q2: SOM Kohonen (25%)                 │
+│ Mod. 1: SVM (Soporte Vectorial)       │ Mod. 2: SOM de Kohonen                │
 │ • w = Σ α_i y_i x_i (¡Sólo con α > 0!)│ • Ganadora j*: menor dist euclídea    │
 │ • b = y_i - w^T x_i (Promediar SVs)   │ • Vecindad continua h: ¡actualizar    │
 │ • Margen: M = 2 / ||w||               │   TODAS las neuronas con h > 0!       │
 │ • KKT: Σ α_i y_i = 0, α_i >= 0        │ • p2: ¡USAR PESOS NUEVOS W(1)!        │
 ├───────────────────────────────────────┼───────────────────────────────────────┤
-│ Q3: MLP Backpropagation (25%)         │ Q4: Clustering / Hopfield (25%)       │
+│ Mod. 3: MLP Backpropagation           │ Mod. 4: Clustering / Hopfield / AG    │
 │ • Sigmoide: f'(net) = f · (1 - f)     │ • Average Link: pares cruzados / N    │
 │ • δ_salida = (d - y) · f'(net)        │   ¡NO promediar distancias previas!   │
 │ • δ_oculta = f'(net) · Σ (δ_sal · w)  │ • Hopfield: ¡DIAGONAL CERO SIEMPRE!   │
-│ • Δw = α · δ_destino · activ_origen   │ • Dendrograma: escala vertical visible│
+│ • Δw = α · δ_destino · activ_origen   │ • AG: Ruleta 00-99 / Copias enteras   │
 └───────────────────────────────────────┴───────────────────────────────────────┘
 ```
 
@@ -64,4 +63,4 @@
 - [ ] **3. Diagrama de Red Dibujado:** ¿Dibujaste la arquitectura con entradas, salidas y nombres de conexiones en SOM y MLP?
 - [ ] **4. Redondeo Uniforme:** ¿Usaste 3 o 4 decimales prolijos en todos los términos $\delta$ y distancias?
 - [ ] **5. Dendrograma a Escala:** ¿El gráfico del árbol de clustering tiene el eje vertical con los números exactos de fusión marcados?
-- [ ] **6. Nombre y Cuadrantes Claros:** ¿Cada ejercicio está rotulado con su número de problema (Ejercicio 1 a 4) ocupando su espacio correspondiente?
+- [ ] **6. Identificación y Ejercicios Claros:** ¿Cada ejercicio está rotulado con su número de problema ocupando su espacio correspondiente en tus hojas en blanco?

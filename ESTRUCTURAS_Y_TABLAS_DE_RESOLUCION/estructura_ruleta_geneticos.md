@@ -1,11 +1,16 @@
-# Plantilla de Examen Imprimible: Algoritmos Genéticos (Selección y Operadores)
-**Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
-**Cátedra:** Inteligencia Artificial | **Hoja de Trabajo de Cálculo Práctico (Formato A4)**  
+> [!IMPORTANT]
+> ### 📝 GUÍA DE ESTRUCTURACIÓN PARA HOJAS EN BLANCO (NO ES UN MACHETE PARA LLEVAR)
+> **Aclaración institucional obligatoria:**  
+> El examen parcial se resuelve íntegramente en **hojas en blanco** provistas por el alumno/Cátedra. **NO está permitido ingresar al examen con plantillas impresas ni formularios ajenos al oficial.**  
+> Este documento tiene un fin estrictamente pedagógico: muestra la **estructura de tabulación óptima** que la Cátedra espera ver plasmada con claridad y rigor algebraico en tu desarrollo manuscrito para evitar pérdidas de puntaje por desorden o dispersión de datos.
 
-**Datos del Estudiante:**  
-* **Apellido y Nombre:** ____________________________________________________  
-* **Legajo N°:** ____________________ | **Comisión:** _______ | **Fecha:** ____ / ____ / 2026  
-* **Tamaño Poblacional ($N$):** _____ | **Suma de Aptitud ($\sum f_i$):** _________  
+# Estructura y Tabla de Resolución: Algoritmos Genéticos (Selección y Operadores)
+**Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
+**Cátedra:** Inteligencia Artificial | **Modelo Mental de Tabulación para Hojas en Blanco**
+
+**Guía de Encabezado a Plasmar en tu Hoja de Examen:**  
+* **Datos del Estudiante:** Apellido y Nombre | Legajo N° | Comisión | Fecha
+* **Parámetros Poblacionales:** Tamaño Poblacional ($N$) | Suma de Aptitud ($\sum f_i$) | Método de Selección asignado  
 
 ---
 

@@ -1,11 +1,16 @@
-# Plantilla de Examen Imprimible: Clustering Jerárquico Aglomerativo
-**Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
-**Cátedra:** Inteligencia Artificial | **Hoja de Trabajo de Cálculo Práctico (Formato A4)**  
+> [!IMPORTANT]
+> ### 📝 GUÍA DE ESTRUCTURACIÓN PARA HOJAS EN BLANCO (NO ES UN MACHETE PARA LLEVAR)
+> **Aclaración institucional obligatoria:**  
+> El examen parcial se resuelve íntegramente en **hojas en blanco** provistas por el alumno/Cátedra. **NO está permitido ingresar al examen con plantillas impresas ni formularios ajenos al oficial.**  
+> Este documento tiene un fin estrictamente pedagógico: muestra la **estructura de tabulación óptima** que la Cátedra espera ver plasmada con claridad y rigor algebraico en tu desarrollo manuscrito para evitar pérdidas de puntaje por desorden o dispersión de datos.
 
-**Datos del Estudiante:**  
-* **Apellido y Nombre:** ____________________________________________________  
-* **Legajo N°:** ____________________ | **Comisión:** _______ | **Fecha:** ____ / ____ / 2026  
-* **Criterio de Enlace Asignado:** [ ] Single Link (Mínimo) &nbsp;&nbsp;&nbsp; [ ] Complete Link (Máximo) &nbsp;&nbsp;&nbsp; [ ] Average Link (Promedio Ponderado)  
+# Estructura y Tabla de Resolución: Clustering Jerárquico Aglomerativo
+**Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
+**Cátedra:** Inteligencia Artificial | **Modelo Mental de Tabulación para Hojas en Blanco**
+
+**Guía de Encabezado a Plasmar en tu Hoja de Examen:**  
+* **Datos del Estudiante:** Apellido y Nombre | Legajo N° | Comisión | Fecha
+* **Criterio de Enlace Asignado:** Single Link (Mínimo) / Complete Link (Máximo) / Average Link (Promedio Ponderado UPGMA)  
 
 ---
 

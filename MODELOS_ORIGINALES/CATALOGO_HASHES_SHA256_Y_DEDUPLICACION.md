@@ -173,7 +173,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 
 | # | Nombre Canónico | SHA-256 (64 caracteres) | Tamaño | Formato | Duplicado? | Ocurrencias / Referencias Principales |
 | :-: | :--- | :--- | :-: | :-: | :-: | :--- |
-| 1 | **1_Recuperatorio_2_parcial_Dos_Santos.pdf** | `9d75733fdd3b072de0d1320ef9db4b9a2403076ee841c593cf1949e1080c81a0` | 2,967,410 B | PDF | Sí (2) | Local: `1_Recuperatorio_2_parcial_Dos_Santos.pdf` // Drive: `Folder_1_D3/2020 - Examen y solución/1° Recuperatorio 2° parcial Dos San...` |
+| 1 | **1_Recuperatorio_2_parcial_Alumno_B.pdf** | `9d75733fdd3b072de0d1320ef9db4b9a2403076ee841c593cf1949e1080c81a0` | 2,967,410 B | PDF | Sí (2) | Local: `1_Recuperatorio_2_parcial_Alumno_B.pdf` // Drive: `Folder_1_D3/2020 - Examen y solución/1° Recuperatorio 2° parcial Dos San...` |
 | 2 | **1er_Recup_2do_Parcial_2020.pdf** | `acc47240d8b65993d3ec53a2a6c428ee7b710ce2e5fbc6726eb1f4f73609fa8f` | 3,932,543 B | PDF | Sí (2) | Local: `1er_Recup_2do_Parcial_2020.pdf` // Drive: `Folder_1_D3/2020 - Recup 2do P - Examen y solución/1er Recup 2do Parcial 2020.pdf` |
 | 3 | **2 parcial práctica T1.pdf** | `e750564e25b7105cf5fad120f17a06fe64305c3f5d3a9111bebca925bda1abc0` | 963,106 B | PDF | Sí (2) | Local: `2 parcial práctica T1.pdf` |
 | 4 | **2015_punto_1.jpg** | `4b8a3ac7ea198348649816625bbb462a70565412c847516bf8d721af5d961202` | 94,843 B | JPG | Sí (2) | Local: `2015_punto_1.jpg` // Drive: `Folder_1_D3/2015 y 2016 - Examen y solución/2015 punto 1.jpg` |
@@ -183,7 +183,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 8 | **2do Parcial.pdf** | `b249e7385ac892e38f32b281f3f3f0b041448872aa425108627e62362ad57750` | 2,459,714 B | PDF | Sí (2) | Local: `2do Parcial.pdf` // Drive: `Folder_1_D3/2do Parcial` |
 | 9 | **2do Recup 2do Parcial.xlsx** | `664834e71a6b255a2e2f65655e053d88a0aa5233f42d3ede8d70e7787998b597` | 917,638 B | XLSX | Sí (2) | Local: `2do Recup 2do Parcial.xlsx` // Drive: `Folder_1_D3/2do Recup 2do Parcial.xlsx` |
 | 10 | **2do_parcial_IA_2016.jpg** | `1b9ab2f99a596c6467ba5a0c13850c6008066389c466e17554135bb0ebe70450` | 312,433 B | JPG | Sí (2) | Local: `2do_parcial_IA_2016.jpg` // Drive: `Folder_1_D3/2015 y 2016 - Examen y solución/2do parcial IA 2016.jpg` |
-| 11 | **2do_parcial_IA_2020_Gabriela_Dos_Santos.pdf** | `50d94998ccc8fdce402b1fd85985d2a6047f5cf9cf990a8f45d205d36ca2211e` | 2,877,714 B | PDF | Sí (2) | Local: `2do_parcial_IA_2020_Gabriela_Dos_Santos.pdf` // Drive: `Folder_1_D3/2019 - Examen y solución/2do parcial IA 2020 Gabriela Dos Sant...` |
+| 11 | **2do_parcial_IA_2020_Alumno_B.pdf** | `50d94998ccc8fdce402b1fd85985d2a6047f5cf9cf990a8f45d205d36ca2211e` | 2,877,714 B | PDF | Sí (2) | Local: `2do_parcial_IA_2020_Alumno_B.pdf` // Drive: `Folder_1_D3/2019 - Examen y solución/2do parcial IA 2020 Alumno B...` |
 | 12 | **4. Naive Bayes.pdf** | `7bbea04ffde1bb79cbb62124eedf15a5e2234959a629d63ee02a722ddf97f946` | 1,219,928 B | PDF | Sí (2) | Local: `4. Naive Bayes.pdf` |
 | 13 | **5. perceptrón simple.pdf** | `bf40a36be4544c13b84843aa0d91e166e21a88f6fbf7f656a86285b6bc53fea3` | 2,601,531 B | PDF | Sí (2) | Local: `5. perceptrón simple.pdf` |
 | 14 | **6. MLP.pdf** | `94a505a8178fc5950b5eac0862fbf3fe7c864c90951c85cf64890466a30cc1a1` | 1,645,259 B | PDF | Sí (2) | Local: `6. MLP.pdf` |
@@ -205,7 +205,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 30 | **parcial_2.jpg** | `ac23d787b11b830c044f07fb29fe580e43073df7fa62a86903f706091b719871` | 1,952,756 B | JPG | Sí (3) | Local: `parcial_2.jpg` // Drive: `Folder_1_D3/parcial 2.jpg` |
 | 31 | **Parcial_2_inteligencia.html** | `3927522c3f2be8e38c285219d5ad5c5cfc59b5f37c59ced5d2e899578651d016` | 434 B | HTML | Sí (3) | Local: `Parcial_2_inteligencia.html` // Drive: `Folder_1_D3/Parcial 2 inteligencia.html` |
 | 32 | **parcial_3.jpg** | `3d27c0e2232905f9c5c43f2e8feb2eed4872eecddead754add2587ab14392764` | 1,911,882 B | JPG | Sí (3) | Local: `parcial_3.jpg` // Drive: `Folder_1_D3/parcial 3.jpg` |
-| 33 | **Perez_Carlos_2do_Parcial.pdf** | `e9c37dfa913d5897e814ae3c477bdc665ae5d70fc1517e7a683247a3d9bacad7` | 1,109,371 B | PDF | Sí (2) | Local: `Perez_Carlos_2do_Parcial.pdf` // Drive: `Folder_1_D3/2020 - Examen y solución/Perez Carlos - 2do Parcial.pdf` |
+| 33 | **Alumno_A_2do_Parcial.pdf** | `e9c37dfa913d5897e814ae3c477bdc665ae5d70fc1517e7a683247a3d9bacad7` | 1,109,371 B | PDF | Sí (2) | Local: `Alumno_A_2do_Parcial.pdf` // Drive: `Folder_1_D3/2020 - Examen y solución/Alumno A - 2do Parcial.pdf` |
 | 34 | **Practica_Segundo_Parcial.xlsx** | `97502142b60425ad9a9e3f74dce3b1a27ff8ed374555679b058ba36323dded08` | 8,814,118 B | XLSX | Sí (2) | Local: `Practica_Segundo_Parcial.xlsx` // Drive: `Folder_1_D3/Practica Segundo Parcial.xlsx` |
 | 35 | **Preguntas Parcial 2.pdf** | `711b020d326b58d9aec05a31ddc5bd8960d5736ac27059e8673b8b61641f5a8e` | 1,068,703 B | PDF | Sí (4) | Local: `Preguntas Parcial 2.pdf` // Drive: `Folder_Owa/Material Parciales/Parcial 2/Preguntas Parcial 2.pdf` |
 | 36 | **Resolucion_SOM_vecindad_no_nula.png** | `fdc55cc31990296201e62e7962adfb3518a16ace4a57aa90e155db613399de39` | 410,882 B | PNG | Sí (2) | Local: `Resolucion_SOM_vecindad_no_nula.png` // Drive: `Folder_1_D3/2020 - Recup 2do P - Examen y solución/Resolucion SOM vecindad no nula.png` |
@@ -228,8 +228,8 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 1 | **13-KNN-Practica.pdf** | `4362c291271c7c6650de746e3a5b3876fc57d1d7f17b986e06c7740de3f444d1` | 213,156 B | PDF | Sí (2) | Local: `13-KNN-Practica.pdf` // Drive: `Folder_Owa/Semana 14 (U.4 - Clustering - knn)/Teoría/13-KNN-Practica.pdf` |
 | 2 | **14-Clustering.pdf** | `0d7ebc1ab076446e491921f58fe4171fcf23693e5ff683014fcd4c8c506f1432` | 147,013 B | PDF | Sí (2) | Local: `14-Clustering.pdf` // Drive: `Folder_Owa/Semana 14 (U.4 - Clustering - knn)/Teoría/14-Clustering.pdf` |
 | 3 | **banco_multiple_choice_oficial.docx** | `5bbe7f3e1f271e1f7aa6fe2c418f280b829716dcc082fcf3983c60804130975e` | 15,166 B | DOCX | Sí (5) | Local: `banco_multiple_choice_oficial.docx` // Drive: `Folder_3/MC/Multiple choice.docx` |
-| 4 | **Carlos - Cuestionario 5.pdf** | `65cf5574c437e568805d004bb53939f2fa955be1e9dcfaaa2dd234f73d6a9b2a` | 92,677 B | PDF | Sí (2) | Local: `Carlos - Cuestionario 5.pdf` |
-| 5 | **Carlos - Cuestionario 6.pdf** | `4edde234f185bb51026329c235d227775a255f41473f7a43ca77bce8881c408d` | 106,048 B | PDF | Sí (2) | Local: `Carlos - Cuestionario 6.pdf` |
+| 4 | **Alumno_A - Cuestionario 5.pdf** | `65cf5574c437e568805d004bb53939f2fa955be1e9dcfaaa2dd234f73d6a9b2a` | 92,677 B | PDF | Sí (2) | Local: `Alumno_A - Cuestionario 5.pdf` |
+| 5 | **Alumno_A - Cuestionario 6.pdf** | `4edde234f185bb51026329c235d227775a255f41473f7a43ca77bce8881c408d` | 106,048 B | PDF | Sí (2) | Local: `Alumno_A - Cuestionario 6.pdf` |
 | 6 | **CIN_teoria_IA2019.jpg** | `c71d075a639efe482a8a3b1bfd473f42592164c4ce4137dc5969fc5650c02859` | 3,695,411 B | JPG | Sí (2) | Local: `CIN_teoria_IA2019.jpg` // Drive: `Folder_1_D3/2019 - Examen y solución/CIN teoría-IA2019.jpg` |
 | 7 | **cuestionario 06 - SVM HOPFIELD SOM.pdf** | `3aba2429e0cccb492e3f41b62300f1b80e6dffc485bb71319eeef7b4a227ceb6` | 418,628 B | PDF | Sí (2) | Local: `cuestionario 06 - SVM HOPFIELD SOM.pdf` |
 | 8 | **Gaby - Cuestionario 05 - NB -Perceptrón - MLP_ Revisión del intento.pdf** | `a983155b86162a7dd56bd11a0934f003bbcc4b4d677b60f09f03b74b169ab106` | 92,425 B | PDF | Sí (2) | Local: `Gaby - Cuestionario 05 - NB -Perceptrón - MLP_ Revisión del intento.pdf` |
@@ -245,7 +245,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 1 | **FINAL - 2021 MARZO PRACTICA.jpeg** | `9ac22d7edc89e0ef4e709d4cf09fb69ba77d9d234dbfeeca97bae5f6ab663089` | 224,519 B | JPEG | Sí (4) | Local: `FINAL - 2021 MARZO PRACTICA.jpeg` |
 | 2 | **Final 2 de Marzo.xlsx** | `cbdaf4b41c98cb70ab4cfa611e1ccbfda41bf4d4c2e41596ba62d1a64e6239ca` | 92,303 B | XLSX | Sí (2) | Local: `Final 2 de Marzo.xlsx` |
 | 3 | **Final 27 abril.xlsx** | `66627cdc773a46c2333004f299128540436310650f4a5f6aed7c99999f30009e` | 1,916,679 B | XLSX | Sí (2) | Local: `Final 27 abril.xlsx` |
-| 4 | **Final AI - Dos Santos (Práctica).pdf** | `eeb70bb5dd06730d263bf04de26709c3ddff3b65b185cf45688da13a32b56593` | 2,418,017 B | PDF | Sí (2) | Local: `Final AI - Dos Santos (Práctica).pdf` |
+| 4 | **Final AI - Alumno_B (Práctica).pdf** | `eeb70bb5dd06730d263bf04de26709c3ddff3b65b185cf45688da13a32b56593` | 2,418,017 B | PDF | Sí (2) | Local: `Final AI - Alumno_B (Práctica).pdf` |
 | 5 | **Final IA Corregido. Teoría 60. Práctica 69.pdf** | `64eeaaa5d4a070b7a15bac71c3bcfb2c9c47253f5b9e57c4395ae982d756a2e8` | 3,997,067 B | PDF | Sí (2) | Local: `Final IA Corregido. Teoría 60. Práctica 69.pdf` |
 | 6 | **Guía TP-SVM.pdf** | `48178373e894c4605e2f9f54072ac9835b9955b54c7b4d739148e38f133d6c54` | 960,572 B | PDF | Sí (3) | Local: `Guía TP-SVM.pdf` // Drive: `Folder_7/PRACTICOS/Parcial 2/Guía 9 - SVM (Solo entra en Finales)/Guía TP-SVM.pdf` |
 | 7 | **Lista de Finales Prácticos - IA.docx** | `4b1f4f214245bd1842d9cff8d758ac10a5c219f2d1f032742c719a8a96da0a1d` | 11,604 B | DOCX | Sí (2) | Local: `Lista de Finales Prácticos - IA.docx` |
@@ -286,7 +286,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 24 | **Final Feb 2021.png** | `db87331a5c0edff213c45ad7c825048610a6ce869c796a1fb7df1540eca168a5` | 539,582 B | PNG | Sí (2) | Local: `Final Feb 2021.png` |
 | 25 | **FINAL IA - 08062021.docx** | `6152924d0fed706d109cd35814a5fcc8ebb506fa1624d9bfa4b1dab2113be7c7` | 1,192,895 B | DOCX | Sí (2) | Local: `FINAL IA - 08062021.docx` |
 | 26 | **FINAL IA - 27042021.pdf** | `7186374f82149812c91db1a1a1cd572e97ae8a6124fdd76c3cc6f3f84e8ae26d` | 207,329 B | PDF | Sí (2) | Local: `FINAL IA - 27042021.pdf` |
-| 27 | **Final IA - Dos Santos (Teoría).pdf** | `cecc8acbb63d0d01ebfdd645018af283f451ac22b95498f30602fe94e55299c2` | 3,085,243 B | PDF | Sí (2) | Local: `Final IA - Dos Santos (Teoría).pdf` |
+| 27 | **Final IA - Alumno_B (Teoría).pdf** | `cecc8acbb63d0d01ebfdd645018af283f451ac22b95498f30602fe94e55299c2` | 3,085,243 B | PDF | Sí (2) | Local: `Final IA - Alumno_B (Teoría).pdf` |
 | 28 | **FINAL IA TEORIA - 27042021.pdf** | `62bac9bbf2564ae916f8cd9de8caa777f031d73afd37a0ea9a55545168a1fce6` | 74,101 B | PDF | Sí (2) | Local: `FINAL IA TEORIA - 27042021.pdf` |
 | 29 | **finales_practicos_2024_2025.md** | `59fe769826676358af837d306ea1d640ca6e629ede549282c3058b93cdc49a1b` | 3,251 B | MD | Sí (3) | Local: `finales_practicos_2024_2025.md` |
 | 30 | **finales_teoricos_2024_2025.md** | `f4224a60a95a834dfce839cf2943cc12a63fb0a0bb1771baf40d6671f77852f1` | 3,314 B | MD | Sí (3) | Local: `finales_teoricos_2024_2025.md` |
@@ -326,19 +326,19 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 17 | **7-Imagen.HEIC** | `ceb3a0a8cb05c568f8920019dbfa51c0c98ea3ea9539831e82e9a2cde3692fe2` | 2,275,311 B | HEIC | Sí (2) | Local: `7-Imagen.HEIC` |
 | 18 | **8-Imagen.HEIC** | `4175b6ea2bb1e164519a67804d14f8f09e9f98ae1e518729a68076bac5e7e316` | 2,624,338 B | HEIC | Sí (2) | Local: `8-Imagen.HEIC` |
 | 19 | **9-imagen.HEIC** | `9d8ba34a9667e5da5df61b9fc40178e55ee5ad2fbf21fe00a91b46dd2bf1c90d` | 2,381,530 B | HEIC | Sí (2) | Local: `9-imagen.HEIC` |
-| 20 | **AD - Carlos - Cuestionario 3.pdf** | `91a26a7f07a3a16721fce4a9555ef61b13f2a95973bb69ad02e90d9bbcd47ba1` | 110,754 B | PDF | Sí (2) | Local: `AD - Carlos - Cuestionario 3.pdf` |
+| 20 | **AD - Alumno_A - Cuestionario 3.pdf** | `91a26a7f07a3a16721fce4a9555ef61b13f2a95973bb69ad02e90d9bbcd47ba1` | 110,754 B | PDF | Sí (2) | Local: `AD - Alumno_A - Cuestionario 3.pdf` |
 | 21 | **AD - Gaby - Cuestionario 3.pdf** | `5053e93183abc75d0ed5b70699e35731922c1d4ae6975cf1bdff51c6c845aa9f` | 105,362 B | PDF | Sí (2) | Local: `AD - Gaby - Cuestionario 3.pdf` |
 | 22 | **AD - Josie - Cuestionario 3.pdf** | `e1ee44ce938d9717b3b6c75bd8007ea5b1569197143211e637e9b004d44b4b17` | 159,777 B | PDF | Sí (2) | Local: `AD - Josie - Cuestionario 3.pdf` |
 | 23 | **AD - Vero - Cuestionario 3.pdf** | `b7b6a714e4c92b45697c412926e92d032dd180450dab0f4e390fc1a23077caaa` | 103,859 B | PDF | Sí (2) | Local: `AD - Vero - Cuestionario 3.pdf` |
 | 24 | **C2. SBR-ReglasDeAsosciación.pdf** | `6e856d663d1f9ad09dafafc92b2deb485e8efd72f538f9b5ccde98a0d2ff4d67` | 10,099 B | PDF | Sí (3) | Local: `C2. SBR-ReglasDeAsosciación.pdf` // Drive: `Folder_3/Semana 2 - U2=SistBasadReglas/C2. SBR-ReglasDeAsosciación.pdf` |
 | 25 | **C4. Planning.pdf** | `8260c00886cc988ce9503d1cc6766b2171ff85e6b76d1b8104ff72d86201cac9` | 8,348 B | PDF | Sí (3) | Local: `C4. Planning.pdf` // Drive: `Folder_3/Semana 5 - U2=Planning/C4. Planning.pdf` |
 | 26 | **C6. Búsqueda.docx** | `a4f3db43626b1e9ab28d2a81e6cdec2b6d22ff4286c413e0730ac5a4dd78e200` | 684,994 B | DOCX | Sí (3) | Local: `C6. Búsqueda.docx` // Drive: `Folder_3/Semana 8 - U3=BusqSemantica y Heuristica/C6. Búsqueda.docx` |
-| 27 | **Carlos - Cuestionario 4.pdf** | `f8e9780489defa89a15470d3c96fa2b3b4cb9f49ced0a7fcdc64933526b2a080` | 98,471 B | PDF | Sí (2) | Local: `Carlos - Cuestionario 4.pdf` |
-| 28 | **Carlos Pérez - Primer Parcial.pdf** | `19f5d365bb3293f288f80c1432f3c2b8169e5ae82d317b623b09279ca2da52a1` | 2,541,477 B | PDF | Sí (2) | Local: `Carlos Pérez - Primer Parcial.pdf` |
+| 27 | **Alumno_A - Cuestionario 4.pdf** | `f8e9780489defa89a15470d3c96fa2b3b4cb9f49ced0a7fcdc64933526b2a080` | 98,471 B | PDF | Sí (2) | Local: `Alumno_A - Cuestionario 4.pdf` |
+| 28 | **Alumno_A - Primer Parcial.pdf** | `19f5d365bb3293f288f80c1432f3c2b8169e5ae82d317b623b09279ca2da52a1` | 2,541,477 B | PDF | Sí (2) | Local: `Alumno_A - Primer Parcial.pdf` |
 | 29 | **CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS.pdf** | `f5ce4f96d5a1a7ee63cae1d0bba4c54b5e210182a6e48d43f7f14ad8b41cb308` | 102,167 B | PDF | Sí (2) | Local: `CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS.pdf` |
 | 30 | **CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS_ Revisión del intento- Josie.pdf** | `b8d8ad826fb6da0e131709581171582ae4f15f1391ac5076947c5d35c3d6961b` | 237,109 B | PDF | Sí (2) | Local: `CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS_ Revisión del intento- Josie.pdf` |
 | 31 | **CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS_ Revisión del intento.pdf** | `84c96c6dcaf77b2cbbb25171589b32eb4dba6323b3fa3f8a663316e4c0728f73` | 95,534 B | PDF | Sí (2) | Local: `CUESTIONARIO 04 - BÚSQUEDA - ALGORITMOS GENÉTICOS_ Revisión del intento.pdf` |
-| 32 | **Dos Santos Gabriela - Primer Parcial - Tema 1.pdf** | `8edeb8d550d7b51fda91ed8607c78ac510adbea5ef932a242b225db9a09a9667` | 4,575,623 B | PDF | Sí (2) | Local: `Dos Santos Gabriela - Primer Parcial - Tema 1.pdf` |
+| 32 | **Alumno_B - Primer Parcial - Tema 1.pdf** | `8edeb8d550d7b51fda91ed8607c78ac510adbea5ef932a242b225db9a09a9667` | 4,575,623 B | PDF | Sí (2) | Local: `Alumno_B - Primer Parcial - Tema 1.pdf` |
 | 33 | **Formulas.pdf** | `0fb9cceaec6fd4dfdbcfd10295c1c9abf4a234807a8de7cb7b3a053774ffe813` | 220.3 KB | PDF | Único | Drive: `Folder_Owa/Material Parciales/Parcial 1/Formulas.pdf` |
 | 34 | **GUIA 2.docx** | `0537513198544b5f00556cfa1222fe20b25948a6e65513e189354ce7e57ad389` | 747,227 B | DOCX | Sí (2) | Local: `GUIA 2.docx` |
 | 35 | **Guia 3 DT.docx** | `8352ffaf0fb58a9c5879c850de72ac6eaf25cc1d70ce5de9278e6f3eeef6c3df` | 1,955,711 B | DOCX | Sí (2) | Local: `Guia 3 DT.docx` |
@@ -348,7 +348,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 39 | **Guía 5 Busqueda.docx** | `b2ef94fa8c6d6c77d493e5fa328972531d504817fee37a4574e7f92850764238` | 407,450 B | DOCX | Sí (2) | Local: `Guía 5 Busqueda.docx` |
 | 40 | **Guía TP-SBR-Association Rules (1).pdf** | `b757e34499b3169449336389533810ab16c934fd69c1443e67d22e21c6ef813c` | 23,184 B | PDF | Sí (5) | Local: `Guía TP-SBR-Association Rules (1).pdf` // Drive: `Folder_7/PRACTICOS/Parcial 1/Guía 2 - Reglas de Asosiación/Guía TP-SBR-Association Rules (1).pdf` |
 | 41 | **GuíaTP-Planning.pdf** | `467f4f97edba0913838df1d6caa1bc41480ba5f0a517cdd0390291e6481218b6` | 17,723 B | PDF | Sí (5) | Local: `GuíaTP-Planning.pdf` // Drive: `Folder_7/PRACTICOS/Parcial 1/Guia 4 - Planning/GuíaTP-Planning.pdf` |
-| 42 | **IA y SE - Carlos - Cuestionario 1.pdf** | `6ff750d7f3af73ad64086884b59726313ab92a1b7637aa2ad38ef8de2dbbb1d3` | 98,861 B | PDF | Sí (2) | Local: `IA y SE - Carlos - Cuestionario 1.pdf` |
+| 42 | **IA y SE - Alumno_A - Cuestionario 1.pdf** | `6ff750d7f3af73ad64086884b59726313ab92a1b7637aa2ad38ef8de2dbbb1d3` | 98,861 B | PDF | Sí (2) | Local: `IA y SE - Alumno_A - Cuestionario 1.pdf` |
 | 43 | **IA y SE - Gaby - Cuestionario 1.pdf** | `19ea837bf1f6b92db31121b7b406b240213c912dce0ef25019ff98bed85f0a93` | 97,653 B | PDF | Sí (2) | Local: `IA y SE - Gaby - Cuestionario 1.pdf` |
 | 44 | **IA y SE - Josie - Cuestionario 1.pdf** | `9bd769f6571ff5c642abe8c421a46e208171df19ef5a12db2f9b395cd6e1013e` | 153,191 B | PDF | Sí (2) | Local: `IA y SE - Josie - Cuestionario 1.pdf` |
 | 45 | **IA y SE - Vero - Cuestionario 1.pdf** | `38e4803d1b1a17c0cee864147b146ecacf07936905fe912d08664f3d892c80c3` | 545,527 B | PDF | Sí (2) | Local: `IA y SE - Vero - Cuestionario 1.pdf` |
@@ -363,7 +363,7 @@ A continuación se presenta el inventario tabular completo de todos los archivos
 | 54 | **Preguntas Parcial T 1 IA.pdf** | `58dfb21e74a5d0b988242d3e8e40acd8cca1614a4f851908f0faf44bae639a75` | 580,256 B | PDF | Sí (4) | Local: `Preguntas Parcial T 1 IA-1.pdf` // Drive: `Folder_ot9/Teoria/Preguntas Parcial T 1 IA.pdf` |
 | 55 | **Práctica 2019.pdf** | `fedad65df3536a57b3af5d37cf9793b361ffab47c922c5fdb680d1f9e2e4b09b` | 149,115 B | PDF | Sí (2) | Local: `Práctica 2019.pdf` |
 | 56 | **práctico 2022.pdf** | `af8d91e4ee49325f52deab0701dfd16c88fe5096d43e9a158c1d217cc0034103` | 295,476 B | PDF | Sí (2) | Local: `práctico 2022.pdf` |
-| 57 | **SBR, RS y SBM - Carlos - Cuestionario 2.pdf** | `9772b6fd7259e529c0515c383e04699735c9d8a3f6091f9973e062ead3df26a6` | 121,590 B | PDF | Sí (2) | Local: `SBR, RS y SBM - Carlos - Cuestionario 2.pdf` |
+| 57 | **SBR, RS y SBM - Alumno_A - Cuestionario 2.pdf** | `9772b6fd7259e529c0515c383e04699735c9d8a3f6091f9973e062ead3df26a6` | 121,590 B | PDF | Sí (2) | Local: `SBR, RS y SBM - Alumno_A - Cuestionario 2.pdf` |
 | 58 | **SBR, RS y SBM - Gaby - Cuestionario 2.pdf** | `6b643f8f252aae62872c873c6367ed794d60d1472dfe009ab6465b3467194778` | 117,337 B | PDF | Sí (2) | Local: `SBR, RS y SBM - Gaby - Cuestionario 2.pdf` |
 | 59 | **SBR, RS y SBM - Josie - Cuestionario 2.pdf** | `9207799e6c0b926fa26ac4aed29643f7530a060f92c97bec9cba59e04556d1e2` | 190,315 B | PDF | Sí (2) | Local: `SBR, RS y SBM - Josie - Cuestionario 2.pdf` |
 | 60 | **SBR, RS y SBM - Vero - Cuestionario 2.pdf** | `b62149516d9872106c08baea08bffef414e8ad2a1cca0f484b9a480bc39f0345` | 118,630 B | PDF | Sí (2) | Local: `SBR, RS y SBM - Vero - Cuestionario 2.pdf` |

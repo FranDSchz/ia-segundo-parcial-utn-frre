@@ -1,7 +1,7 @@
 # Guía Paso a Paso: Clustering Jerárquico Aglomerativo (Average Linkage)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
 **Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Tiempo estimado en examen:** 20 - 25 minutos | **Ponderación:** 25% (Cuadrante Q4 Canónico)
+**Tiempo estimado en examen:** 20 - 25 minutos | **Ponderación:** 25% (Patrón de alta frecuencia histórica)
 
 ---
 
@@ -28,7 +28,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Single Linkage (Mínimo)** | $d(A, B) = \min_{x \in A, y \in B} d(x, y)$ | Tiende al encadenamiento (*chaining*). Une clusters alargados. |
 | **Complete Linkage (Máximo)** | $d(A, B) = \max_{x \in A, y \in B} d(x, y)$ | Tiende a formar clusters esféricos compactos y de diámetros similares. |
-| **Average Linkage (Promedio)** | $d(A, B) = \frac{1}{|A| \cdot |B|} \sum_{x \in A} \sum_{y \in B} d(x, y)$ | Solución de compromiso robusta frente a ruido y valores atípicos. |
+| **Average Linkage (Promedio)** | $d(A, B) = \frac{1}{\vert A \vert \cdot \vert B \vert} \sum_{x \in A} \sum_{y \in B} d(x, y)$ | Solución de compromiso robusta frente a ruido y valores atípicos. |
 
 ---
 
@@ -152,26 +152,20 @@ Dada la siguiente matriz de distancias, aplique el algoritmo de clustering jerá
 Para obtener los 25 puntos completos, el dendrograma debe dibujarse en papel con un eje vertical milimetrado o proporcionado que refleje con exactitud las 4 alturas de corte:
 
 ```
- Altura (Distancia)
+ Altura d
    ▲
-   │
-6.11├──────────────────────────────────────────┐
-   │                                          │
-   │                                          │
-   │                                          │
-   │                                          │
-2.84├──────────────────┐                      │
-   │                  │                      │
-1.98├                  │        ┌─────────────┼──────────────┐
-   │                  │        │             │              │
-1.45├───┐      ┌───────┤        │             │              │
-   │   │      │       │        │             │              │
-   │   │      │       │        │             │              │
- 0 └───┴──────┴───────┴────────┴─────────────┴──────────────┴──►
-       A      N       R        S             P
+6.1│                           ┌───────────────────────────────┐  <--- Fusión Raíz a 6.107
+   │                           │                               │
+2.8│               ┌───────────┴───────────┐                   │  <--- Fusión ((AN)R) a 2.840
+   │               │                       │                   │
+2.0│               │                       │           ┌───────┴───────┐  <--- Fusión (SP) a 1.980
+1.5│       ┌───────┴───────┐               │           │               │  <--- Fusión (AN) a 1.455
+   │       │               │               │           │               │
+0.0└───────┴───────────────┴───────────────┴───────────┴───────────────┴────► Elementos
+           A               N               R           S               P
 ```
 
-* **Secuencia de Fusión Justificada para el Docente:**
+* **Secuencia de Fusión Justificada para la Cátedra:**
   1. Nivel $1.45$: Se unen $\{A\}$ y $\{N\}$ por presentar la menor distancia global en la matriz inicial.
   2. Nivel $1.98$: Se unen $\{S\}$ y $\{P\}$ como segundo cluster disjunto.
   3. Nivel $2.84$: Se incorpora $\{R\}$ al cluster $\{A, N\}$ con distancia ponderada $2.835$.

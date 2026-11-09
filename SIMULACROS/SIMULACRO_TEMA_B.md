@@ -3,13 +3,24 @@
 **Carrera:** Ingeniería en Sistemas de Información (5to Nivel)  
 **Cátedra:** Inteligencia Artificial  
 **Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Régimen de Evaluación:** 4 Cuadrantes Independientes (25% cada uno) | **Nota de Aprobación Práctica:** $\ge 60\%$ (60/100 pts)  
-**Tiempo Límite Sugerido:** 120 minutos (2 horas de reloj en papel manuscrito con calculadora científica)  
+> [!NOTE]
+> ### 📋 Marco Metodológico y Formato de Evaluación
+> Este examen simulacro adopta un formato **representativo de 4 ejercicios prácticos (25% cada uno)**, constituyendo uno de los esquemas frecuentes de evaluación presencial.  
+> **Aclaración institucional obligatoria:** La Cátedra no se encuentra atada a una estructura invariable. La evidencia documental histórica demuestra que también se aplican:
+> - **Estructuras heterogéneas de 4 puntos (20% – 30% – 30% – 20%):** como la implementada en el examen presencial del **19/11/2025**, donde Algoritmos Genéticos y MLP alcanzaron el 30% cada uno.
+> - **Estructuras equitativas de 5 ejercicios de 20%:** habituales en instancias presenciales integradoras (ej. combinando SVM, SOM, MLP, Hopfield y Naïve Bayes).
+> - **Estructuras compactas de 3 puntos (33%/34% o 40% – 30% – 30%):** frecuentes en mesas de examen final y recuperatorios.
+> - **Estructuras mixtas (40% Teoría + 60% Práctica):** articuladas con preguntas conceptuales y batería Multiple Choice.
+> 
+> El examen se rinde íntegramente en **hojas en blanco**. Se recomienda cronometrar 120 minutos reales y desarrollar cada ejercicio con pulcritud algebraica y tabulación clara.
+
+**Régimen de Evaluación:** 4 Ejercicios Prácticos Representativos (25% cada uno) | **Nota de Aprobación Práctica:** $\ge 60\%$ (60/100 pts)  
+**Tiempo Límite Sugerido:** 120 minutos (2 horas de reloj en papel manuscrito en blanco con calculadora científica)  
 
 ---
 
 ## Instrucciones Generales para el Alumno
-1. Cada cuadrante posee una ponderación de **25 puntos**.
+1. Cada ejercicio posee una ponderación de **25 puntos**.
 2. **Desarrollo analítico obligatorio:** No se calificarán resultados numéricos huérfanos sin su correspondiente fórmula canónica, sustitución numérica explícita y despeje paso a paso.
 3. Se exige precisión de redondeo a **3 decimales** o fracción irreducible en todas las etapas intermedias.
 4. Justifique brevemente cada decisión algorítmica (ej. ortogonalidad de vectores, condiciones KKT, criterio de Early Stopping, sorteo en ruleta).
@@ -19,16 +30,16 @@
 ```mermaid
 flowchart TD
     subgraph Examen_Practico_Tema_B["Examen Práctico Tema B (100 Puntos / 120 Minutos)"]
-        Q1["<b>Cuadrante 1 (25 pts)</b><br>Support Vector Machines<br>• Planteo Dual L_D<br>• Matriz de Gram K_ij<br>• Restricciones KKT"]
-        Q2["<b>Cuadrante 2 (25 pts)</b><br>Redes de Hopfield<br>• Matriz Hebbiana W (diag=0)<br>• Ortogonalidad de patrones<br>• Recuperación síncrona/asíncrona"]
-        Q3["<b>Cuadrante 3 (25 pts)</b><br>Perceptrón Multicapa (MLP)<br>• Error Global Medio E_global<br>• Error de Validación vs Train<br>• Parada Temprana Early Stopping"]
-        Q4["<b>Cuadrante 4 (25 pts)</b><br>Algoritmos Genéticos<br>• Ruleta porcentual [00-99]<br>• Control de copias esperadas<br>• Mutación adaptativa por temperatura"]
+        Q1["<b>Ejercicio 1 (25 pts)</b><br>Support Vector Machines<br>• Planteo Dual L_D<br>• Matriz de Gram K_ij<br>• Restricciones KKT"]
+        Q2["<b>Ejercicio 2 (25 pts)</b><br>Redes de Hopfield<br>• Matriz Hebbiana W (diag=0)<br>• Ortogonalidad de patrones<br>• Recuperación síncrona/asíncrona"]
+        Q3["<b>Ejercicio 3 (25 pts)</b><br>Perceptrón Multicapa (MLP)<br>• Error Global Medio E_global<br>• Error de Validación vs Train<br>• Parada Temprana Early Stopping"]
+        Q4["<b>Ejercicio 4 (25 pts)</b><br>Algoritmos Genéticos<br>• Ruleta porcentual (00-99)<br>• Control de copias esperadas<br>• Mutación adaptativa por temperatura"]
     end
 ```
 
 ---
 
-## Cuadrante 1 [25 pts]: SVM — Formulación Dual $L_D$, Matriz de Gram y Condiciones KKT
+## Ejercicio 1 [25 pts]: SVM — Formulación Dual $L_D$, Matriz de Gram y Condiciones KKT
 
 ### Enunciado
 Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ constituido por los siguientes tres puntos de entrenamiento:
@@ -47,7 +58,7 @@ Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ cons
 
 ---
 
-### Rúbrica de Corrección Detallada (Q1: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 1: 25 puntos)
 * **[5 pts] Matriz de Gram $K$:** Cálculo exacto de los 6 productos escalares independientes.
 * **[6 pts] Expresión Algebraica de $L_D$:** Expansión rigurosa de coeficientes cuadráticos y signos de etiquetas $y_i y_j$.
 * **[4 pts] Restricciones KKT:** Enunciado formal de equilibrio de clases, no-negatividad y holgura complementaria.
@@ -56,7 +67,7 @@ Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ cons
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q1)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 1)
 
 #### 1. Cálculo de la Matriz de Gram $K_{ij} = P_i^T P_j$
 * $K_{11} = P_1 \cdot P_1 = (-2.0)^2 + (1.0)^2 = 4.0 + 1.0 = \mathbf{5.0}$
@@ -142,7 +153,7 @@ $$-\frac{2}{13} x_1 + \frac{6}{13} x_2 + \frac{3}{13} = 0 \iff -2 x_1 + 6 x_2 + 
 
 ---
 
-## Cuadrante 2 [25 pts]: Redes Asociativas de Hopfield
+## Ejercicio 2 [25 pts]: Redes Asociativas de Hopfield
 
 ### Enunciado
 Se diseña una memoria asociativa auto-recurrente de Hopfield de $N = 4$ neuronas bipolares ($s_i \in \{-1, +1\}$) para almacenar los siguientes dos patrones fundamentales de memoria:
@@ -160,7 +171,7 @@ $$P^{(1)} = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix}, \quad P^{(2)} = 
 
 ---
 
-### Rúbrica de Corrección Detallada (Q2: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 2: 25 puntos)
 * **[3 pts] Verificación de Ortogonalidad:** Producto escalar explícito igual a 0.
 * **[8 pts] Matriz Hebbiana con Diagonal Nula:** Suma de productos exteriores y anulación obligatoria de la diagonal principal. *(Trampa 4: si deja 2 en la diagonal, pierde 5 pts)*.
 * **[5 pts] Condición de Atractor:** Verificación analítica de que $\operatorname{sgn}(P W) = P$ para ambos patrones.
@@ -169,7 +180,7 @@ $$P^{(1)} = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix}, \quad P^{(2)} = 
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q2)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 2)
 
 #### 1. Demostración de Ortogonalidad
 $$\langle P^{(1)}, P^{(2)} \rangle = (P^{(1)})^T P^{(2)} = (+1)(-1) + (+1)(+1) + (-1)(+1) + (-1)(-1) = -1 + 1 - 1 + 1 = \mathbf{0}$$
@@ -231,7 +242,7 @@ Al verificar las demás neuronas, ninguna cambia, logrando la **convergencia exa
 
 ---
 
-## Cuadrante 3 [25 pts]: MLP — Error Global Medio de Época y Early Stopping
+## Ejercicio 3 [25 pts]: MLP — Error Global Medio de Época y Early Stopping
 
 ### Enunciado
 Una red MLP entrenada para clasificación multiclase dispone de $K = 2$ neuronas de salida. El conjunto de entrenamiento contiene $P = 4$ patrones. La función de pérdida cuadrática por patrón se define como:
@@ -272,7 +283,7 @@ Adicionalmente, se monitorean las curvas de error en el conjunto de entrenamient
 
 ---
 
-### Rúbrica de Corrección Detallada (Q3: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 3: 25 puntos)
 * **[8 pts] Cálculo del Error Cuadrático y Global:** Aplicación rigurosa de $E_p$ y promedio sobre $P=4$ con precisión decimal.
 * **[6 pts] Gráfico de Curvas de Aprendizaje:** Identificación del punto de bifurcación entre error de entrenamiento y error de validación.
 * **[6 pts] Criterio de Parada Temprana y Sobreajuste:** Elección fundada de la época óptima (Época 7) y justificación por aumento de varianza.
@@ -280,7 +291,7 @@ Adicionalmente, se monitorean las curvas de error en el conjunto de entrenamient
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q3)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 3)
 
 #### 1. Cálculo de Errores Individuales y Global para la Época 10
 Fórmula: $E_p = \frac{1}{2} [ (d_{p1} - y_{p1})^2 + (d_{p2} - y_{p2})^2 ]$
@@ -333,7 +344,7 @@ Para implementar formalmente Early Stopping:
 
 ---
 
-## Cuadrante 4 [25 pts]: Algoritmos Genéticos — Ruleta Acumulada, Control de Copias y Mutación Adaptativa
+## Ejercicio 4 [25 pts]: Algoritmos Genéticos — Ruleta Acumulada, Control de Copias y Mutación Adaptativa
 
 ### Enunciado
 Considere una población de **$N = 6$ individuos** en la generación $t$. Las aptitudes evaluadas por la función de fitness (*fitness*) para cada cromosoma son:
@@ -368,7 +379,7 @@ Considere una población de **$N = 6$ individuos** en la generación $t$. Las ap
 
 ---
 
-### Rúbrica de Corrección Detallada (Q4: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 4: 25 puntos)
 * **[8 pts] Ruleta Proporcional [00-99]:** Cálculo de aptitud total, porcentajes, delimitación inequívoca de rangos y asignación con los números aleatorios.
 * **[9 pts] Control de Copias Esperadas:** Cálculo de $\eta_i$, asignación de parte entera, normalización de residuos decimales y ruleta secundaria para las plazas vacantes.
 * **[6 pts] Mutación Adaptativa por Temperatura:** Aplicación rigurosa de la fórmula lineal, evaluación en los puntos temporales y cálculo del ciclo de reinicio.
@@ -376,7 +387,7 @@ Considere una población de **$N = 6$ individuos** en la generación $t$. Las ap
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q4)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 4)
 
 #### 1. Selección por Ruleta Proporcional (Rangos 00-99)
 * **Aptitud Total:**

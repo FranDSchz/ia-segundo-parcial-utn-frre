@@ -1,7 +1,7 @@
 # Guía Paso a Paso: Perceptrón Multicapa (MLP) y Backpropagation
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
 **Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Tiempo estimado en examen:** 25 - 30 minutos | **Ponderación:** 25% (Cuadrante Q3 Canónico)
+**Tiempo estimado en examen:** 25 - 30 minutos | **Ponderación:** 25% (Patrón de alta frecuencia histórica)
 
 ---
 
@@ -88,7 +88,7 @@ Calcule los errores locales de las neuronas ($\delta$) y actualice los pesos $w_
 *Pesos entre Entrada y Oculta (a actualizar):*
 * $w_{o2-x2} = -0.50, \quad w_{o1-x3} = -1.50$
 
-*Datos suministrados por el profesor en tabla:*
+*Datos suministrados por la Cátedra en tabla:*
 | Neurona / Entrada | Entrada $x_i$ | Salida Deseada $d_k$ | Activación $f(net)$ |
 | :---: | :---: | :---: | :---: |
 | $x_1$ | 0.03 | — | — |

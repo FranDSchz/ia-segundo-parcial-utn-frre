@@ -256,7 +256,7 @@ Todos los archivos han sido:
 
 ---
 
-### 3.4. Carpeta `2015_2019/` (Presenciales Históricos de 4 Cuadrantes)
+### 3.4. Carpeta `2015_2019/` (Presenciales Históricos de 4 Ejercicios)
 
 #### Ficha Técnica: `2019_cin_practica_4k.jpg`
 - **Identificadores:** `IA-H-2019-PRAC` / `IA-H0126`
@@ -372,9 +372,18 @@ Del análisis forense de las correcciones docentes de la cátedra en los exámen
 
 ---
 
-## 5. La Brecha Crítica de Algoritmos Genéticos
+## 5. El Peso Real y Crítico de Algoritmos Genéticos en la Evaluación
 
-> [!WARNING]
-> **Ninguno de los 16 exámenes prácticos impresos de 4 cuadrantes contiene ejercicios de cálculo numérico de Algoritmos Genéticos.**
-> La cátedra evalúa tradicionalmente este tema mediante coloquios orales, defensas de laboratorio o en el examen teórico conceptual (como en `2023_teoria_desarrollo.jpeg`, Pregunta 3: *Mutación por Temperatura Descendente*).
-> Para el entrenamiento práctico de Algoritmos Genéticos (selección por ruleta, cruce monopunto/bipunto y mutación bit-flip), **es obligatorio estudiar con la guía oficial `GuiaTP-AG.pdf` de la Semana 08**.
+> [!IMPORTANT]
+> ### 🧬 Algoritmos Genéticos en el Segundo Parcial: Del Mito a la Realidad Numérica
+> Históricamente circuló la creencia de que Algoritmos Genéticos (AG) se evaluaba únicamente de forma conceptual o en laboratorio, debido a que en varias evaluaciones del período 2015–2023 se priorizaron otros modelos en la práctica escrita.  
+> **Esta suposición quedó totalmente desmitificada por la evidencia documental de evaluaciones recientes:**
+> - En el examen presencial del **Segundo Parcial del 19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 30% de la nota final** del examen práctico.
+> - La consigna evaluó destrezas numéricas y genéticas directas: **Cruza simple (corte en gen 4)**, **Cruza multipunto (genes 2, 5 y 7)** y **Control de copias esperadas al 50%** con residuo decimal y sorteo.
+> - Asimismo, en exámenes teóricos y de desarrollo se exige **Mutación adaptativa por temperatura** (ascendente y descendente con ciclos de reinicio), **Selección por Ruleta acumulada (intervalos [00–99])** y **Selección por Ranking lineal**.
+> 
+> Para el entrenamiento metodológico y los modelos de tabulación en hojas en blanco, consultar:
+> - [Guía Maestra de Algoritmos Genéticos y Estructura de Examen](../GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md)
+> - [Guía Paso a Paso 08: Algoritmos Genéticos](../GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md)
+> - [Estructura y Tabla de Resolución: Ruleta y Operadores Genéticos](../ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_ruleta_geneticos.md)
+> - [Variantes Prácticas de Algoritmos Genéticos](../VARIANTES_PRACTICA/variantes_geneticos.md)

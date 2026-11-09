@@ -1,10 +1,10 @@
 # 🧠 Inteligencia Artificial — Segundo Parcial UTN FRRe 🚀
 
 [![UTN FRRe](https://img.shields.io/badge/UTN-FRRe-blue.svg)](http://www.frre.utn.edu.ar/)
-[![Carrera](https://img.shields.io/badge/Carrera-ISI%20(5to%20Nivel)-green.svg)]()
+[![Carrera](https://img.shields.io/badge/Carrera-ISI%20%285to%20Nivel%29-green.svg)]()
 [![Asignatura](https://img.shields.io/badge/Materia-Inteligencia%20Artificial-orange.svg)]()
 [![Examen](https://img.shields.io/badge/2do%20Parcial-18%2F11%2F2026-red.svg)]()
-[![Cátedra](https://img.shields.io/badge/Cátedra-Inteligencia%20Artificial-informational.svg)]()
+[![Cátedra](https://img.shields.io/badge/C%C3%A1tedra-Inteligencia%20Artificial-informational.svg)]()
 [![Estado](https://img.shields.io/badge/Status-100%25%20Curado%20y%20Verificado-success.svg)]()
 
 > **¡Bienvenido/a al repositorio definitivo de preparación para el Segundo Parcial de IA!**  
@@ -20,7 +20,7 @@
 > - **Bancos Maestros Integrales:**
 >   - [BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md): Compendio teórico de 149 KB con resoluciones conceptuales y doctrinales canónicas.
 >   - [BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md): Banco práctico de 128 KB con todos los ejercicios resueltos paso a paso en KaTeX.
-> - **Aislamiento de Primer Parcial ([TEMA_P1_RENDIDO]):** Todo ejercicio o pregunta de búsqueda (^*$, DFS/BFS), planificación (POP) o árboles C4.5 se encuentra debidamente etiquetado para no contaminar el estudio del 2do parcial pero preservarse para recuperatorio.
+> - **Aislamiento de Primer Parcial ([TEMA_P1_RENDIDO]):** Todo ejercicio o pregunta de búsqueda ($A^*$, DFS/BFS), planificación (POP) o árboles C4.5 se encuentra debidamente etiquetado para no contaminar el estudio del 2do parcial pero preservarse para recuperatorio.
 
 
 
@@ -50,14 +50,14 @@
 │   ├── multiple_choice_con_claves.md <- 14 preguntas MC oficiales corregidas en tinta roja
 │   └── preguntas_desarrollo.md       <- Preguntas conceptuales explicadas con criterio docente
 │
-├── 📂 SIMULACROS/                    <- Ensayos cronometrados de 4 cuadrantes (2 horas)
+├── 📂 SIMULACROS/                    <- Ensayos prácticos representativos de examen (120 minutos)
 │   ├── SIMULACRO_TEMA_A.md           <- Simulacro completo Tema A (SVM, SOM, MLP, Clustering)
-│   └── SIMULACRO_TEMA_B.md           <- Simulacro completo Tema B (Dual KKT, Hopfield, KNN, Bayes)
+│   └── SIMULACRO_TEMA_B.md           <- Simulacro completo Tema B (Dual KKT, Hopfield, MLP/Early Stopping, Genéticos)
 │
-├── 📂 PLANTILLAS_IMPRIMIBLES/        <- Hojas de cálculo en blanco para llevar al banco
-│   ├── plantilla_backpropagation.md  <- Tablas limpias de gradientes δ y pesos para MLP
-│   ├── plantilla_clustering_link.md  <- Matrices triangulares de distancias D0..D3 y dendrograma
-│   └── plantilla_ruleta_geneticos.md <- Tablas de probabilidad acumulada y rangos 00-99
+├── 📂 ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/ <- Modelos mentales y tablas de estructuración para hojas en blanco
+│   ├── estructura_backpropagation.md     <- Tabulación sistemática de gradientes δ, activaciones y pesos MLP
+│   ├── estructura_clustering_link.md     <- Matrices de distancias D0..D3 y dendrograma a escala
+│   └── estructura_ruleta_geneticos.md    <- Tabulación de probabilidades acumuladas, rangos 00-99 y copias
 │
 ├── 📂 VARIANTES_PRACTICA/            <- Ejercicios adicionales clasificados por tipología
 │   └── variantes_svm.md              <- Variaciones analíticas y geométricas de SVM
@@ -148,17 +148,22 @@ graph TD
 
 ---
 
-## 📅 Hoja de Ruta de Estudio: Cuenta Regresiva a 10 Días (18/11/2026)
+## 📚 Matriz Temática Modular de Autogestión (Estudio al Propio Ritmo)
 
-| Día / Fecha | Bloque Temático | Guía Recomendada | Objetivo Práctico en Papel y Lápiz |
-| :---: | :--- | :--- | :--- |
-| **Día 1-2 (08-09 Nov)** | **Support Vector Machines** | [`01_svm_paso_a_paso.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md) | Dominar cálculo de $\mathbf{w}$, sesgo $b_{prom}$ y planteo de $L_D$ con restricciones KKT. |
-| **Día 3-4 (10-11 Nov)** | **Mapas SOM de Kohonen** | [`02_som_kohonen_paso_a_paso.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/02_som_kohonen_paso_a_paso.md) | Ejercitar cálculo de BMU, vecindad continua y persistencia de pesos para patrones sucesivos. |
-| **Día 5-6 (12-13 Nov)** | **Perceptrón Multicapa (MLP)**| [`03_mlp_backpropagation.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/03_mlp_backpropagation.md) | Mecanizar la derivada sigmoidal, errores $\delta$ hacia atrás y actualización con momento $\beta$. |
-| **Día 7 (14 Nov)** | **Clustering Jerárquico** | [`04_clustering_average_link.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/04_clustering_average_link.md) | Reducción de matrices de distancias por Average Link y dibujo técnico del dendrograma a escala. |
-| **Día 8 (15 Nov)** | **Hopfield, KNN y Bayes** | [`05`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/05_redes_hopfield.md), [`06`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/06_naive_bayes_histogramas.md) y [`07`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/07_knn_leave_one_out.md) | Resolver los temas alternantes de Q4: Hebbiano con diagonal 0, bins bayesianos y LOOCV. |
-| **Día 9 (16 Nov)** | **Algoritmos Genéticos & MC** | [`08_algoritmos_geneticos.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md) + [`BANCO_TEORIA`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md) | Cerrar la brecha de AG (Ruleta 00-99 y temperatura) y repasar las 14 preguntas MC oficiales. |
-| **Día 10 (17 Nov)** | **Simulacro y Machete Legal**| [`FORMULARIO_OFICIAL.md`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/FORMULARIO_OFICIAL.md) + [`MACHETE`](file:///c:/facultad/Inteligencia%20Artificial/ia-segundo-parcial-utn-frre/MACHETE_LEGAL_5_MINUTOS.md) | Resolver un parcial completo de 4 cuadrantes con cronómetro en mano (2 horas) y repaso final. |
+Cada estudiante cuenta con tiempos, bases algebraicas y ritmos de estudio distintos. La preparación no requiere un calendario rígido predefinido, sino el **dominio autónomo y modular** de las unidades temáticas evaluadas por la Cátedra. 
+
+El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecanizar el orden de cálculo, la justificación formal y la tabulación prolija con calculadora científica.
+
+| Módulo Temático | Complejidad | Recursos Clave en Repositorio | Enfoque de Resolución en Hojas en Blanco |
+| :--- | :---: | :--- | :--- |
+| **1. Algoritmos Genéticos (AG)** | **Media - Alta** | • [Guía Maestra AG y Estructura](GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md)<br>• [Guía Paso a Paso AG](GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md)<br>• [Estructura Tabulación Ruleta](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_ruleta_geneticos.md)<br>• [Variantes AG](VARIANTES_PRACTICA/variantes_geneticos.md) | **Peso de hasta 30%** en parciales presenciales recientes (ej. 19/11/2025). Mecanizar: Ruleta acumulada con intervalos [00-99], asignación entera de copias $C_i = \lfloor \eta_i \rfloor$ y sorteo de vacantes con parte decimal, cruces monopunto/multipunto y mutación adaptativa por temperatura. |
+| **2. Support Vector Machines (SVM)** | **Alta** | • [Guía Paso a Paso SVM](GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md)<br>• [Variantes SVM](VARIANTES_PRACTICA/variantes_svm.md) | Escribir siempre la sumatoria $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$, calcular el sesgo individual $b_i$ para **cada** vector de soporte ($\alpha_i > 0$) y obtener $b_{prom}$. En planteo Dual $L_D$, expandir la matriz de Gram $K_{ij}$ respetando signos $y_i y_j$ y aplicar KKT. |
+| **3. Mapas Auto-Organizados (SOM)** | **Media** | • [Guía Paso a Paso SOM](GUIAS_PASO_A_PASO/02_som_kohonen_paso_a_paso.md)<br>• [Variantes SOM](VARIANTES_PRACTICA/variantes_som.md) | Esquematizar la red neuronal. Calcular distancias euclidianas exactas para justificar la BMU ($j^*$). Si la vecindad es continua, actualizar **todas** las neuronas con $h(i,j^*) > 0$. Para el patrón siguiente, medir distancias obligatoriamente contra los pesos actualizados $W(1)$. |
+| **4. Perceptrón Multicapa (MLP)** | **Muy Alta** | • [Guía Paso a Paso MLP](GUIAS_PASO_A_PASO/03_mlp_backpropagation.md)<br>• [Estructura Tabulación MLP](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_backpropagation.md)<br>• [Variantes MLP](VARIANTES_PRACTICA/variantes_mlp.md) | Tabular en papel el paso Forward ($net$, $\sigma(net)$) y el paso Backward con gradientes $\delta$. Recordar $\delta_s = (d-y)f'$ y $\delta_h = f' \sum \delta_s w$. Incorporar el término inercial $\beta \Delta w(t-1)$. Mantener 3-4 decimales para evitar errores en cascada. |
+| **5. Clustering Jerárquico Aglomerativo** | **Media** | • [Guía Paso a Paso Clustering](GUIAS_PASO_A_PASO/04_clustering_average_link.md)<br>• [Estructura Tabulación Clustering](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_clustering_link.md)<br>• [Variantes Clustering](VARIANTES_PRACTICA/variantes_clustering.md) | Reducir progresivamente las matrices simétricas $D_0 \dots D_{N-2}$. En Average Linkage (UPGMA), aplicar la ponderación por cardinalidad de clusters ($\frac{\vert C_i\vert d_i + \vert C_j\vert d_j}{\vert C_i\vert+\vert C_j\vert}$). Dibujar el dendrograma final a escala con cotas métricas visibles en el eje vertical. |
+| **6. Modelos Alternantes (Hopfield, KNN, Bayes)** | **Media** | • [Guía Hopfield](GUIAS_PASO_A_PASO/05_redes_hopfield.md)<br>• [Guía Naïve Bayes](GUIAS_PASO_A_PASO/06_naive_bayes_histogramas.md)<br>• [Guía KNN LOOCV](GUIAS_PASO_A_PASO/07_knn_leave_one_out.md) | En Hopfield: verificar ortogonalidad y asegurar **diagonal estrictamente nula** ($w_{ii}=0$). En Naïve Bayes: armar tablas de frecuencias relativas por clase y normalizar probabilidades a 100%. En KNN: calcular distancias y ponderación $w = 1/d^2$ resolviendo empates. |
+| **7. Banco Teórico, Tips y Multiple Choice** | **Media** | • [Banco Teórico Consolidado](BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md)<br>• [Preguntas 2024-2025 y Finales](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md)<br>• [Multiple Choice con Claves](BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md)<br>• [Preguntas de Desarrollo](BANCO_TEORIA_Y_MC/preguntas_desarrollo.md) | Incorporar los 13 Tips Doctrinales de Cátedra, repasar las justificaciones canónicas de desarrollo (diferencias arquitecturales, momentos negativos, Early Stopping) y fijar las respuestas del banco oficial de 51 Multiple Choice. |
+| **8. Ensayos Prácticos y Síntesis de Emergencia** | **Integradora** | • [Simulacro Tema A](SIMULACROS/SIMULACRO_TEMA_A.md)<br>• [Simulacro Tema B](SIMULACROS/SIMULACRO_TEMA_B.md)<br>• [Formulario Oficial de Cátedra](FORMULARIO_OFICIAL.md)<br>• [Machete Legal de 15 Minutos](MACHETE_LEGAL_5_MINUTOS.md) | Simular un examen real de 120 minutos en papel en blanco sin mirar soluciones. Autoevaluar con las rúbricas detalladas. Usar el Formulario Oficial para familiarizarse con las ecuaciones disponibles en el banco del parcial. |
 
 ---
 

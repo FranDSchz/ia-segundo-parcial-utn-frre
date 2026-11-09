@@ -79,7 +79,7 @@ $$\mathbf{E}_d = [+1, -1, +1, -1, -1]$$
 #### Paso 1: Análisis de Ortogonalidad Previo
 Calculamos el producto escalar entre $\mathbf{E}_1$ y $\mathbf{E}_2$:
 $$\mathbf{E}_1 \cdot \mathbf{E}_2 = (+1)(+1) + (+1)(-1) + (+1)(-1) + (-1)(-1) + (-1)(+1) = 1 - 1 - 1 + 1 - 1 = -1$$
-*Comentario para el profesor:* *"El producto escalar es $\mathbf{E}_1 \cdot \mathbf{E}_2 = -1 \approx 0$. Presentan un alto grado de cuasi-ortogonalidad sobre $N=5$, lo que minimiza la diafonía o crosstalk."*
+*Comentario para la Cátedra:* *"El producto escalar es $\mathbf{E}_1 \cdot \mathbf{E}_2 = -1 \approx 0$. Presentan un alto grado de cuasi-ortogonalidad sobre $N=5$, lo que minimiza la diafonía o crosstalk."*
 
 ---
 

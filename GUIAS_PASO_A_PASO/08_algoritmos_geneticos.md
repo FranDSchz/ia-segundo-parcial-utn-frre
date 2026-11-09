@@ -14,7 +14,7 @@ flowchart TD
     A["Población Inicial P(t) de N individuos codificados"] --> B["Evaluación de Aptitud (Fitness) f(i)"]
     B --> C{"Método de Selección"}
     C -->|"Ruleta Proporcional (00-99)"| D["Rangos acumulados según p_i = f_i / Σ f_j"]
-    C -->|"Ranking Lineal (R_min)"| E["P(i) = (1/N) [ R_min + 2(1-R_min) · (N-i)/(N-1) ]"]
+    C -->|"Ranking Lineal (R_min)"| E["P(i) = (1/N) * { R_min + 2(1-R_min) · (N-i)/(N-1) }"]
     C -->|"Control de Copias Esperadas"| F["η_i = N · p_i<br>Copias enteras deterministas + ruleta decimal"]
     D --> G["Mating Pool (Conjunto de Padres Seleccionados)"]
     E --> G

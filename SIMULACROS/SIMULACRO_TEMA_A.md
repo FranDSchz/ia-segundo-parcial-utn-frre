@@ -3,13 +3,24 @@
 **Carrera:** Ingeniería en Sistemas de Información (5to Nivel)  
 **Cátedra:** Inteligencia Artificial  
 **Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Régimen de Evaluación:** 4 Cuadrantes Independientes (25% cada uno) | **Nota de Aprobación Práctica:** $\ge 60\%$ (60/100 pts)  
-**Tiempo Límite Sugerido:** 120 minutos (2 horas de reloj en papel manuscrito con calculadora científica)  
+> [!NOTE]
+> ### 📋 Marco Metodológico y Formato de Evaluación
+> Este examen simulacro adopta un formato **representativo de 4 ejercicios prácticos (25% cada uno)**, constituyendo uno de los esquemas frecuentes de evaluación presencial.  
+> **Aclaración institucional obligatoria:** La Cátedra no se encuentra atada a una estructura invariable. La evidencia documental histórica demuestra que también se aplican:
+> - **Estructuras heterogéneas de 4 puntos (20% – 30% – 30% – 20%):** como la implementada en el examen presencial del **19/11/2025**, donde Algoritmos Genéticos y MLP alcanzaron el 30% cada uno.
+> - **Estructuras equitativas de 5 ejercicios de 20%:** habituales en instancias presenciales integradoras (ej. combinando SVM, SOM, MLP, Hopfield y Naïve Bayes).
+> - **Estructuras compactas de 3 puntos (33%/34% o 40% – 30% – 30%):** frecuentes en mesas de examen final y recuperatorios.
+> - **Estructuras mixtas (40% Teoría + 60% Práctica):** articuladas con preguntas conceptuales y batería Multiple Choice.
+> 
+> El examen se rinde íntegramente en **hojas en blanco**. Se recomienda cronometrar 120 minutos reales y desarrollar cada ejercicio con pulcritud algebraica y tabulación clara.
+
+**Régimen de Evaluación:** 4 Ejercicios Prácticos Representativos (25% cada uno) | **Nota de Aprobación Práctica:** $\ge 60\%$ (60/100 pts)  
+**Tiempo Límite Sugerido:** 120 minutos (2 horas de reloj en papel manuscrito en blanco con calculadora científica)  
 
 ---
 
 ## Instrucciones Generales para el Alumno
-1. Cada cuadrante posee una ponderación de **25 puntos**.
+1. Cada ejercicio posee una ponderación de **25 puntos**.
 2. **Desarrollo analítico obligatorio:** No se calificarán resultados numéricos huérfanos sin su correspondiente fórmula canónica, sustitución numérica explícita y despeje paso a paso.
 3. Se exige precisión de redondeo a **3 decimales** o fracción irreducible en todas las etapas intermedias.
 4. Justifique brevemente cada decisión algorítmica (ej. criterio de selección de neurona ganadora, condición de vector de soporte, fusión de clusters).
@@ -19,16 +30,16 @@
 ```mermaid
 flowchart TD
     subgraph Examen_Practico_Tema_A["Examen Práctico Tema A (100 Puntos / 120 Minutos)"]
-        Q1["<b>Cuadrante 1 (25 pts)</b><br>Support Vector Machines<br>• Cálculo de w<br>• Sesgo promediado b_prom<br>• Ecuación de margen"]
-        Q2["<b>Cuadrante 2 (25 pts)</b><br>Mapas de Kohonen (SOM)<br>• Red de 3 neuronas<br>• Vecindad en espacio de pesos<br>• Actualización global"]
-        Q3["<b>Cuadrante 3 (25 pts)</b><br>Perceptrón Multicapa (MLP)<br>• Red 2x2x1 con sigmoide<br>• Backpropagation de deltas<br>• Momento inercial beta"]
-        Q4["<b>Cuadrante 4 (25 pts)</b><br>Clustering Jerárquico<br>• Matriz de 5 puntos<br>• Average Linkage canónico<br>• Trazado de Dendrograma"]
+        Q1["<b>Ejercicio 1 (25 pts)</b><br>Support Vector Machines<br>• Cálculo de w<br>• Sesgo promediado b_prom<br>• Ecuación de margen"]
+        Q2["<b>Ejercicio 2 (25 pts)</b><br>Mapas de Kohonen (SOM)<br>• Red de 3 neuronas<br>• Vecindad en espacio de pesos<br>• Actualización global"]
+        Q3["<b>Ejercicio 3 (25 pts)</b><br>Perceptrón Multicapa (MLP)<br>• Red 2x2x1 con sigmoide<br>• Backpropagation de deltas<br>• Momento inercial beta"]
+        Q4["<b>Ejercicio 4 (25 pts)</b><br>Clustering Jerárquico<br>• Matriz de 5 puntos<br>• Average Linkage canónico<br>• Trazado de Dendrograma"]
     end
 ```
 
 ---
 
-## Cuadrante 1 [25 pts]: Support Vector Machines (SVM Lineal)
+## Ejercicio 1 [25 pts]: Support Vector Machines (SVM Lineal)
 
 ### Enunciado
 Se entrena un clasificador de vectores de soporte con margen estricto (*hard margin*) en el espacio bidimensional $\mathbb{R}^2$. El optimizador cuadrático ha arrojado los siguientes multiplicadores de Lagrange $\alpha_i$ correspondientes al conjunto de datos:
@@ -49,7 +60,7 @@ Se entrena un clasificador de vectores de soporte con margen estricto (*hard mar
 
 ---
 
-### Rúbrica de Corrección Detallada (Q1: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 1: 25 puntos)
 * **[3 pts] Discriminación de Vectores de Soporte:** Identificación formal basada en la condición KKT $\alpha_i > 0$ versus $\alpha_4 = 0$.
 * **[7 pts] Cálculo del Vector $\mathbf{w}$:** Planteo de la sumatoria $\sum \alpha_i y_i \mathbf{x}_i$, sustitución vectorial exacta y cálculo de $w_1$ y $w_2$.
 * **[7 pts] Cálculo del Sesgo Promediado $b_{prom}$:** Despeje de la condición $y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$ para cada SV y promedio aritmético final. *(Nota docente: Si el alumno utiliza un único vector sin justificar o promediar, se descuentan 4 puntos por Trampa 6)*.
@@ -58,7 +69,7 @@ Se entrena un clasificador de vectores de soporte con margen estricto (*hard mar
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q1)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 1)
 
 #### 1. Identificación de Vectores de Soporte
 De acuerdo con las condiciones Karush-Kuhn-Tucker (KKT), solo aquellas muestras con multiplicadores estrictamente positivos $(\alpha_i > 0)$ yacen sobre los hiperplanos frontera y definen el clasificador:
@@ -114,7 +125,7 @@ $$d(\mathbf{z}_{test}, \mathcal{H}) = \frac{f(\mathbf{z}_{test})}{\|\mathbf{w}\|
 
 ---
 
-## Cuadrante 2 [25 pts]: Redes Competitivas Autoorganizadas (SOM de Kohonen)
+## Ejercicio 2 [25 pts]: Redes Competitivas Autoorganizadas (SOM de Kohonen)
 
 ### Enunciado
 Considere una red neuronal autoorganizada de Kohonen constituida por una capa de entrada de 2 dimensiones y una grilla unidimensional de 3 neuronas de salida ($N_1, N_2, N_3$). Los vectores de pesos sinápticos iniciales al instante $t=0$ son:
@@ -137,7 +148,7 @@ $$X = \begin{bmatrix} 0.500 \\ 0.500 \end{bmatrix}$$
 
 ---
 
-### Rúbrica de Corrección Detallada (Q2: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 2: 25 puntos)
 * **[3 pts] Diagrama de Arquitectura:** Red bi-dimensional de entrada conectada a las 3 neuronas de salida.
 * **[6 pts] Distancias Euclídeas y Determinación de la Ganadora:** Cálculo cuadrático exacto y justificación por mínimo global.
 * **[6 pts] Cálculo de Factores de Vecindad Topológica:** Aplicación estricta de la fórmula $h(i, j^*)$ en el espacio de pesos. *(Si el alumno aplica vecindad nula $h=0$ para las vecinas, pierde 10 pts por Trampa 2)*.
@@ -146,7 +157,7 @@ $$X = \begin{bmatrix} 0.500 \\ 0.500 \end{bmatrix}$$
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q2)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 2)
 
 #### 1. Arquitectura de la Red
 Entrada: $\mathbf{x} = [x_1, x_2]^T$. Capa de salida: Neuronas $N_1, N_2, N_3$.  
@@ -205,7 +216,7 @@ En la fase cooperativa del algoritmo SOM, las neuronas que se encuentran en el v
 
 ---
 
-## Cuadrante 3 [25 pts]: Perceptrón Multicapa (MLP) y Backpropagation con Momento
+## Ejercicio 3 [25 pts]: Perceptrón Multicapa (MLP) y Backpropagation con Momento
 
 ### Enunciado
 Dada una red neuronal MLP con arquitectura **$2 \times 2 \times 1$** (2 entradas, 1 capa oculta de 2 neuronas $h_1, h_2$, y 1 neurona de salida $y$). Todas las unidades utilizan la función de activación logística sigmoidal unipolar:
@@ -249,7 +260,7 @@ flowchart LR
 
 ---
 
-### Rúbrica de Corrección Detallada (Q3: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 3: 25 puntos)
 * **[6 pts] Propagación Forward:** Cálculo exacto de $net$ y activaciones con sigmoide para las 3 neuronas.
 * **[7 pts] Cálculo de Gradientes Locales $\delta$:** Deducción rigurosa de $\delta_y$ y aplicación de la regla de la cadena para $\delta_{h1}$ y $\delta_{h2}$.
 * **[8 pts] Regla Delta Generalizada con Momento:** Cómputo del gradiente actual $\alpha \delta x$ sumado a la inercia $\beta \Delta w(t-1)$ para pesos y sesgos.
@@ -257,7 +268,7 @@ flowchart LR
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q3)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 3)
 
 #### 1. Paso Forward (Propagación hacia adelante)
 * **Neurona oculta $h_1$:**
@@ -315,7 +326,7 @@ Fórmula canónica: $\Delta w(t) = \alpha \delta_{\text{destino}} o_{\text{orige
 
 ---
 
-## Cuadrante 4 [25 pts]: Clustering Jerárquico Aglomerativo (Average Linkage)
+## Ejercicio 4 [25 pts]: Clustering Jerárquico Aglomerativo (Average Linkage)
 
 ### Enunciado
 Dada la siguiente matriz simétrica de distancias euclídeas $D_0$ entre 5 elementos $\{A, B, C, D, E\}$:
@@ -339,7 +350,7 @@ Dada la siguiente matriz simétrica de distancias euclídeas $D_0$ entre 5 eleme
 
 ---
 
-### Rúbrica de Corrección Detallada (Q4: 25 puntos)
+### Rúbrica de Corrección Detallada (Ejercicio 4: 25 puntos)
 * **[4 pts] Fusión 1 y Matriz $4\times 4$:** Identificación del mínimo en 2.00 y recálculo promedio exacto.
 * **[5 pts] Fusión 2 y Matriz $3\times 3$:** Fusión $\{D, E\}$ a nivel 3.00 y cálculo cruzado de 4 pares.
 * **[6 pts] Fusión 3 y Matriz $2\times 2$:** Fusión ponderada respetando el número de elementos. *(Si el alumno promedia directamente sin ponderar por los cardinales, se descuentan 4 pts por Trampa 5)*.
@@ -348,7 +359,7 @@ Dada la siguiente matriz simétrica de distancias euclídeas $D_0$ entre 5 eleme
 
 ---
 
-### Solución Oficial Paso a Paso con Calculadora (Q4)
+### Solución Oficial Paso a Paso con Calculadora (Ejercicio 4)
 
 #### Paso 1: Fusión Inicial y Matriz $4\times 4$
 En la matriz $D_0$, la distancia mínima no nula es:
