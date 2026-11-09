@@ -8,7 +8,7 @@ import os, sys, json, re, hashlib, unicodedata
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-REPO_ROOT = r"C:\dev\ia-segundo-parcial-utn-frre"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JSON_PATH = os.path.join(REPO_ROOT, "preguntas_quiz.json")
 JS_PATH = os.path.join(REPO_ROOT, "docs", "data", "preguntas.js")
 
@@ -167,8 +167,10 @@ def validar():
                 if b'\x00' in raw or b'\x07' in raw:
                     errores.append(f"Archivo {rel}: Contiene bytes de control corruptos (\\x00 o \\x07)")
                 txt = raw.decode('utf-8', errors='replace')
-                if fn.endswith('.md') and ('file:///' + 'c:/facultad') in txt.lower():
-                    errores.append(f"Archivo {rel}: Contiene enlace local externo roto a c:/facultad")
+                if fn.endswith('.md'):
+                    for bad in ['file:///', 'c:/dev', 'c:\\dev', 'c:/facultad', 'c:\\facultad', 'c:/users', 'c:\\users']:
+                        if bad in txt.lower():
+                            errores.append(f"Archivo {rel}: Contiene ruta absoluta o enlace local no portable ('{bad}')")
                 ok_anon, tok = verificar_anonimato_sha256(txt)
                 if not ok_anon:
                     errores.append(f"Archivo {rel}: Violación de anonimato detectada ('{tok}')")

@@ -7,7 +7,7 @@ import os, sys, re, json
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-REPO_ROOT = r"C:\dev\ia-segundo-parcial-utn-frre"
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MC_FILE = os.path.join(REPO_ROOT, "BANCO_TEORIA_Y_MC", "multiple_choice_con_claves.md")
 CONSOLIDADO_FILE = os.path.join(REPO_ROOT, "BANCO_TEORIA_Y_MC", "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md")
 OUT_JS = os.path.join(REPO_ROOT, "docs", "data", "preguntas.js")
