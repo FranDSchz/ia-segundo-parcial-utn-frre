@@ -12,6 +12,18 @@
 
 ---
 
+> [!IMPORTANT]
+> ### 🚀 Actualización Mayor: Incorporación de Modelos 2024 – 2025 y Exámenes Finales Históricos
+> Se ha completado la extracción e integración exhaustiva de los turnos de examen más recientes y finales históricos de la Cátedra:
+> - **Exámenes 2024 – 2025:** Evaluaciones de **Junio 2025, Abril 2025, Febrero 2025, Diciembre 2024, Noviembre 2024, Octubre 2024 y Agosto 2024**, más el modelo completo del **Segundo Parcial (19/11/2025)** con datos numéricos.
+> - **Exámenes Finales Históricos (2020 – 2021):** Evaluaciones escritas completas, grandes tablas comparativas de arquitecturas (SOM vs Hopfield vs Perceptrón, MLP vs SVM vs Hopfield, KNN vs K-Means vs NB) y banco de 37 múltiple choice oficiales verificados.
+> - **Bancos Maestros Integrales:**
+>   - [BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md): Compendio teórico de 149 KB con resoluciones conceptuales y doctrinales canónicas.
+>   - [BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md): Banco práctico de 128 KB con todos los ejercicios resueltos paso a paso en KaTeX.
+> - **Aislamiento de Primer Parcial ([TEMA_P1_RENDIDO]):** Todo ejercicio o pregunta de búsqueda (^*$, DFS/BFS), planificación (POP) o árboles C4.5 se encuentra debidamente etiquetado para no contaminar el estudio del 2do parcial pero preservarse para recuperatorio.
+
+
+
 ## 🗺️ Mapa de Navegación del Repositorio
 
 ```

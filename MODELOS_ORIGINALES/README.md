@@ -25,6 +25,20 @@ Todos los archivos han sido:
 
 | Subcarpeta | Archivo | Año / Período | Legibilidad | Temas Cubiertos | % Activo P2 | Advertencia Ruido P1 |
 | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **`2024_2025/`** | `segundo_parcial_19_nov_2025.md` | Nov 2025 | ⭐⭐⭐⭐⭐ | Clustering Avg/Complete, SOM Vecindad, MLP, Algoritmos Genéticos | **100%** | Sin ruido P1 (Canónico) |
+| **`2024_2025/`** | `finales_practicos_2024_2025.md` | 2024-2025 | ⭐⭐⭐⭐⭐ | Naive Bayes Normal, K-Means 2 iter, MLP Error, Hopfield Ortogonalidad | **80%** | ⚠️ Incluye A* y Planning (P1) |
+| **`2024_2025/`** | `finales_teoricos_2024_2025.md` | 2024-2025 | ⭐⭐⭐⭐⭐ | Momento negativo, Early Stopping, Disk K-Means, SVM d+/d-, SOM | **70%** | ⚠️ Incluye Downward closure (P1) |
+| **`2024_2025/`** | `parcial_2p_svm_som_mlp_early_stopping.jpg` | 2024-2025 | ⭐⭐⭐⭐⭐ | SVM Dual, SOM Vecindad Nula, MLP Curvas Validación y Early Stopping | **75%** | ⚠️ Ejercicio 4 es Búsqueda (P1) |
+| **`2024_2025/`** | `parcial_teoria_som_mlp_nb_knn_kmeans.jpg` | 2024-2025 | ⭐⭐⭐⭐⭐ | SOM Conexiones Laterales, MLP vs NB, Factores Ajuste, EBL, MC | **75%** | ⚠️ MC 5 es A* (P1) |
+| **`2024_2025/`** | `recuperatorio_1_mlp_svm_knn_hopfield.jpg` | 2024-2025 | ⭐⭐⭐⭐⭐ | MLP 2 Capas Ocultas, SVM Dual, KNN Ponderado 1/d², Hopfield | **100%** | Sin ruido P1 (Canónico) |
+| **`finales_historicos/`** | `17_02_2021_Final_IA.pdf` | Feb 2021 | ⭐⭐⭐⭐⭐ | Momento MLP, Agente Reactivo, SVM w/b, KNN Ponderado, K-Means | **70%** | ⚠️ Incluye C4.5 y Amenazas (P1) |
+| **`finales_historicos/`** | `2da_mesa_febrero.jpeg` | Feb 2021 | ⭐⭐⭐⭐⭐ | Tabla Comparativa SOM/Hopfield/Perceptrón, Early Stopping MLP | **75%** | ⚠️ Downward closure y C4.5 (P1) |
+| **`finales_historicos/`** | `final_screen_2021_04_27.png` | Abr 2021 | ⭐⭐⭐⭐⭐ | Tabla Comparativa MLP/SVM/Hopfield, Diseño MLP f=sin(xy)-0.5 | **75%** | ⚠️ Amenazas en POP (P1) |
+| **`finales_historicos/`** | `final_screen_2021_06_08.png` | Jun 2021 | ⭐⭐⭐⭐⭐ | Tabla Comparativa KNN/K-Means/NB, Diseño MLP Paridad XOR 3D, SVM | **75%** | ⚠️ Downward closure (P1) |
+| **`finales_historicos/`** | `practica_final_1.jpeg` | ~2021 | ⭐⭐⭐⭐⭐ | Naive Bayes Normal, Clustering Jerárquico Dendrograma, MLP Error | **75%** | ⚠️ Ejercicio 4 es A* (P1) |
+| **`finales_historicos/`** | `practica_final_2.jpeg` | Feb 2021 | ⭐⭐⭐⭐⭐ | KNN Ponderado k=3, Perceptrón Analítico, K-Means Semillas (2,4)/(1,1) | **75%** | ⚠️ Ejercicio 4 es Búsqueda (P1) |
+| **`finales_historicos/`** | `practica_final_3.jpeg` | ~2021 | ⭐⭐⭐⭐⭐ | SVM Dual 4 puntos en R2 | **33%** | ⚠️ Ej. 2 Bloques (P1), Ej. 3 C4.5 |
+| **`finales_historicos/`** | `practica_final_4.jpeg` | ~2021 | ⭐⭐⭐⭐⭐ | Clustering Jerárquico 5 puntos, Perceptrón Analítico | **65%** | ⚠️ Ej. 3 Árbol C4.5 (P1) |
 | **`2023/`** | `2023_parcial2_tema1.jpeg` | Nov 2023 | ⭐⭐⭐⭐☆ | SVM, SOM, MLP Backprop, Clustering Avg-Link | **100%** | Sin ruido P1 (Canónico) |
 | **`2023/`** | `2023_parcial2_tema2.jpeg` | Nov 2023 | ⭐⭐⭐⭐☆ | SVM, SOM, MLP Backprop, Clustering Avg-Link | **100%** | Sin ruido P1 (Canónico) |
 | **`2023/`** | `2023_teoria_tema1.jpeg` | Nov 2023 | ⭐⭐⭐⭐☆ | MLP en $\mathbb{R}^2$, Avg Link vs Centroides, SOM | **75%** | ⚠️ Ejercicio 3 es $A^*$ (P1) |
