@@ -14,7 +14,7 @@
 
 <p align="center">
   <b>Hub integral de preparación teórico-práctica para el Segundo Parcial y Exámenes Finales de Inteligencia Artificial.</b><br>
-  Construido a partir de la recopilación y resolución analítica de exámenes reales presenciales (2012–2025), priorizando los modelos recientes de Cátedra, guías algorítmicas paso a paso en KaTeX y simulador interactivo con corrección Moodle.
+  Construido a partir de la recopilación y resolución analítica de exámenes reales presenciales, virtuales y mesas de examen de Cátedra, guías algorítmicas paso a paso en KaTeX y simulador interactivo con corrección Moodle.
 </p>
 
 ---
@@ -22,7 +22,7 @@
 ### ⚡ Accesos Rápidos de Estudio
 
 [🎮 **Simulador Web Online**](https://frandschz.github.io/ia-segundo-parcial-utn-frre/) &nbsp;·&nbsp;
-[🥇 **Modelos Recientes 2024–2025**](#-1-banco-de-exámenes-priorizados-máximo-peso-evaluativo) &nbsp;·&nbsp;
+[🏛️ **Material Oficial de Cátedra**](#-1-organización-del-material-de-evaluación-de-cátedra) &nbsp;·&nbsp;
 [📚 **Las 8 Guías Paso a Paso**](#-3-matriz-temática-de-los-8-módulos-oficiales) &nbsp;·&nbsp;
 [📝 **Formulario Oficial (2 Carillas)**](FORMULARIO_OFICIAL.md) &nbsp;·&nbsp;
 [⏱ **Machete Legal 5–15 Min**](MACHETE_LEGAL_5_MINUTOS.md) &nbsp;·&nbsp;
@@ -40,46 +40,73 @@
 > - **Fórmula Moodle de Cátedra:** Penalización proporcional por opciones incorrectas marcadas:
 >   $$\text{puntaje} = \max\!\left(0,\; 100 \cdot \left(\frac{a}{C} - \frac{e}{I}\right)\right)$$
 > - **Umbrales Oficiales:** Promoción ($\ge 80\%$) · Aprobación / Regularidad ($\ge 60\%$) · No alcanzado ($< 60\%$).
-> - **3 Modos Integrados + Atajos de Teclado:** **Simulacro Oficial** (40 min / 25 preguntas, atajos <kbd>1-6</kbd>, <kbd>←</kbd><kbd>→</kbd>, <kbd>F</kbd>), **Práctica Libre por Tema** con feedback inmediato y justificación doctrinal de cátedra, y **Modo QA** (`#qa`) con buscador en vivo sobre las 52 preguntas únicas y sus respuestas oficiales.
+> - **3 Modos Integrados + Atajos de Teclado:** **Simulacro Oficial** (40 min / 25 preguntas, atajos <kbd>1-6</kbd>, <kbd>←</kbd><kbd>→</kbd>, <kbd>F</kbd>), **Práctica Libre por Tema** con feedback inmediato y justificación doctrinal de cátedra, y **Modo QA** (`#qa`) con buscador en vivo sobre las 59 preguntas únicas y sus respuestas oficiales.
 > - *Instrucciones de publicación:* [Guía de Activación en GitHub Pages en 2 Clics](docs/README_DEPLOY.md).
 
 ---
 
-## 🏆 1. Banco de Exámenes Priorizados (Máximo Peso Evaluativo)
+## 🏛️ 1. Organización del Material de Evaluación de Cátedra
 
-Para optimizar el tiempo de estudio hacia el examen del **18/11/2026**, el material se organiza en una pirámide de relevancia basada en la vigencia del equipo docente y el estilo contemporáneo de evaluación:
+El acervo de evaluación del repositorio reúne exclusivamente evaluaciones originales (PDFs escaneados y fotografías de parciales en papel), estructuradas en cuatro pilares pedagógicos de máximo valor:
 
 ```mermaid
 flowchart TD
-    G["🥇 NIVEL ORO: Modelos Recientes 2023–2025<br><b>Prioridad Máxima · Estilo y Ponderación Vigente de Cátedra</b>"]
-    S["🥈 NIVEL PLATA: Evaluaciones 2020–2022<br><b>Práctica Reforzada · Modelos de Transición y Comparativas</b>"]
-    B["🥉 NIVEL BRONCE: Archivo Histórico 2012–2019<br><b>Práctica Complementaria · Ejercicios de Consulta</b>"]
-    
-    G --> S --> B
+    A["🏛️ Acervo Documental Oficial de Cátedra (UTN FRRe)"] --> P1["1. Parciales 2do Parcial<br><b>Presenciales y Virtuales (Oficial 19/11/2025, 2015 y fotos de examen)</b>"]
+    A --> P2["2. Exámenes Finales y Mesas<br><b>Finales 2021, mesas de examen y preguntas de desarrollo</b>"]
+    A --> P3["3. Cuestionarios Moodle Oficiales<br><b>Cuestionarios 05 y 06 online (Unidades 3 y 4)</b>"]
+    A --> P4["4. Guías Prácticas y Solucionarios<br><b>Hoja de Fórmulas Oficial y Guías Resueltas (47 págs.)</b>"]
 ```
 
-### 🥇 Nivel Oro — Exámenes Recientes y Vigentes (2023 – 2025) `[PRIORIDAD MÁXIMA]`
-*Representan con exactitud el nivel de exigencia, el formato de consignas y la ponderación real en hojas en blanco:*
-* **Segundo Parcial Presencial Oficial (19/11/2025):** El modelo más actual de la Cátedra ([enunciado normalizado](MODELOS_ORIGINALES/2024_2025/segundo_parcial_19_nov_2025.md)), resuelto número a número:
-  * *Punto 1 (20%):* Clustering Jerárquico Complete Link y Average Link (matrices $D_0 \dots D_3$ y dendrogramas).
-  * *Punto 2 (30%):* Mapas de Kohonen (SOM) con vecindad continua ($25\%$ actualización online + $5\%$ gráfico de arquitectura).
-  * *Punto 3 (30%):* Perceptrón Multicapa (MLP) analítico / Backpropagation con derivadas sigmoidales.
-  * *Punto 4 (20%):* **Algoritmos Genéticos (AG):** Cruza simple en gen 4, Cruza multipunto en $G_2, G_5, G_7$ y Control de copias esperadas al 50%.
-* **Compendio de Evaluaciones 2024 – 2025:** Evaluaciones de **Junio 2025, Abril 2025, Febrero 2025, Diciembre 2024, Noviembre 2024, Octubre 2024 y Agosto 2024**.
-* **Parciales Presenciales 2023 (Temas 1 y 2):** SVM con formulación dual y vectores de soporte ($\alpha_i > 0$), SOM y mutación adaptativa por temperatura.
-* 📖 **Bancos Maestros Resueltos en KaTeX:**
-  * [**Banco de Ejercicios Prácticos 2024–2025 y Finales**](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md) (128 KB de cálculos desarrollados).
-  * [**Banco Teórico Doctrinal 2024–2025 y Finales**](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md) (149 KB con fundamentos canónicos).
+### 1. Parciales Presenciales y Virtuales del 2do Parcial (`MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/`)
+Esta sección reúne los exámenes de segundo parcial y recuperatorios administrados por la Cátedra tanto en modalidad presencial como virtual:
 
-### 🥈 Nivel Plata — Evaluaciones de Consolidación (2020 – 2022) `[PRÁCTICA REFORZADA]`
-*Exámenes de retorno presencial y evaluaciones manuscritas estructuradas:*
-* Parciales presenciales 2022 y mesas 2020–2021.
-* Grandes matrices comparativas de arquitecturas (SOM vs Hopfield vs Perceptrón, MLP vs SVM vs Hopfield, KNN vs K-Means vs Naïve Bayes).
-* Batería consolidada de 52 preguntas múltiple choice únicas validadas.
+* **Segundo Parcial Presencial Oficial (19/11/2025):** El examen presencial más reciente y completo de la Cátedra ([`parcial2_2025_11_19_oficial.pdf`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf)), resuelto número a número:
+  * *Punto 1 (20%):* Clustering Jerárquico Aglomerativo Complete Link y Average Link (matrices $D_0 \dots D_3$ y dendrogramas a escala).
+  * *Punto 2 (30%):* Mapas de Kohonen (SOM) con función de vecindad continua no nula ($h(t) = \frac{1}{1 + \text{dist}^2}$), cálculo de neurona ganadora BMU, actualización secuencial online de pesos y diagrama de arquitectura.
+  * *Punto 3 (30%):* Perceptrón Multicapa (MLP) analítico / Backpropagation con derivadas sigmoidales y actualización de pesos.
+  * *Punto 4 (20%):* Algoritmos Genéticos (AG): Cruza simple ($G_4$), cruza multipunto ($G_2, G_5, G_7$) y control de copias esperadas enteras al 50%.
+* **Parcial Oficial con Fecha Verificada (22/06/2015):** ([`parcial2_2015_06_22_nb_perceptron_hopfield_spam_svm_inverso.png`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2015_06_22_nb_perceptron_hopfield_spam_svm_inverso.png)) — Evaluación presencial clásica con 5 ejercicios integrando Naïve Bayes, Perceptrón Simple analítico, Redes de Hopfield con filtro SPAM y SVM Dual.
+* **Exámenes Reales con sus Ejercicios Característicos Relevados:**
+  * *MLP con Término de Momento $\beta$:* Aceleración de convergencia en gradientes consistentes y amortiguación de oscilaciones en valles estrechos ([`parcial2_svm_clustering_mlp_momento.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_svm_clustering_mlp_momento.jpg), [`parcial2_mlp_error_momento_svm_average_link.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_mlp_error_momento_svm_average_link.jpg)).
+  * *SVM Dual y Vectores de Soporte:* Planteo dual $L_D$ con multiplicadores $\alpha_i > 0$, condiciones KKT, vector $\mathbf{w}$ y sesgo promediado $b_{\text{prom}}$ ([`parcial2_2023_tema1.jpeg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg), [`parcial2_nb_histogramas_hopfield_spam_svm_lagrange.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_nb_histogramas_hopfield_spam_svm_lagrange.jpg)).
+  * *SOM con Vecindad Continua:* Funciones de vecindad continua $h(i, j^*) = \frac{1}{1+\text{dist}^2}$ y actualización online para el patrón siguiente empleando la matriz de pesos recién adaptada $W(1)$ ([`parcial2_perceptron_som_knn_cv.png`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_perceptron_som_knn_cv.png), [`parcial2_recup_knn_cv_perceptron_som.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_recup_knn_cv_perceptron_som.jpg)).
+  * *Hopfield en Casos Reales:* Modelos aplicados a clasificación de tamaño de empresas (PYMEs/Grandes) y filtro de correo SPAM / NO-SPAM con matriz Hebbiana y diagonal estrictamente nula ($w_{ii}=0$) ([`parcial2_nb_histogramas_hopfield_empresas_svm.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_nb_histogramas_hopfield_empresas_svm.jpg), [`parcial2_nb_histogramas_hopfield_spam_svm_lagrange.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_nb_histogramas_hopfield_spam_svm_lagrange.jpg)).
+  * *KNN Ponderado y Validación Cruzada:* Votación ponderada por inversa del cuadrado de la distancia ($w_i = \frac{1}{d^2}$) y selección de hiperparámetro $k$ mediante Leave-One-Out Cross Validation ([`parcial2_perceptron_som_knn_cv.png`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_perceptron_som_knn_cv.png)).
+  * *Clustering Jerárquico Aglomerativo:* Enlace Simple (Single Link), Completo (Complete Link) y Promedio (Average Link ponderado por cardinalidad) ([`parcial2_mlp_error_momento_svm_average_link.jpg`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_mlp_error_momento_svm_average_link.jpg)).
+  * *Compendio Oficial de Preguntas de Desarrollo (29 páginas):* [`preguntas_parcial2_desarrollo_compilado_29paginas.pdf`](MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf).
+* 📖 **Bancos Maestros Desarrollados en KaTeX:**
+  * [**Banco de Ejercicios Prácticos de Finales, Mesas y Parciales**](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_FINALES_Y_MESAS.md) (128 KB de cálculos desarrollados con máxima rigurosidad numérica).
+  * [**Banco Teórico Doctrinal de Finales y Mesas de Examen**](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md) (149 KB con fundamentos canónicos).
 
-### 🥉 Nivel Bronce — Archivo Histórico de Consulta (2012 – 2019) `[COMPLEMENTARIO]`
-*Colección histórica archivada para práctica adicional una vez afianzados los exámenes recientes:*
-* Disponible en la carpeta [`MODELOS_ORIGINALES/`](MODELOS_ORIGINALES/) con catálogo forense clasificado por año y modalidad.
+### 2. Exámenes Finales y Mesas de Examen (`MODELOS_ORIGINALES/2_FINALES/`)
+Enunciados y resoluciones auténticas de exámenes finales tomados en mesas presenciales y virtuales de la Cátedra:
+* **Final 17/02/2021:** ([`final_2021_02_17.pdf`](MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf)) — Evaluación escrita completa con teoría y práctica (MLP con momento, agente reactivo, SVM, SOM, C4.5, Clustering y POP).
+* **Final Segunda Mesa Febrero 2021:** ([`final_2021_02_segunda_mesa.jpeg`](MODELOS_ORIGINALES/2_FINALES/final_2021_02_segunda_mesa.jpeg)) — Tabla comparativa tridimensional (SOM vs Hopfield vs Perceptrón) y dinámica de Early Stopping ante error de validación creciente.
+* **Final 27/04/2021:** ([`final_2021_04_27_practica.pdf`](MODELOS_ORIGINALES/2_FINALES/final_2021_04_27_practica.pdf), [`final_2021_04_27_teoria.pdf`](MODELOS_ORIGINALES/2_FINALES/final_2021_04_27_teoria.pdf), [`final_2021_04_27_mesa.png`](MODELOS_ORIGINALES/2_FINALES/final_2021_04_27_mesa.png)) — Tabla comparativa MLP vs SVM vs Hopfield y diseño de arquitectura MLP para aproximación funcional.
+* **Final 08/06/2021:** ([`final_2021_06_08_mesa.png`](MODELOS_ORIGINALES/2_FINALES/final_2021_06_08_mesa.png)) — Tabla comparativa KNN vs K-Means vs Naïve Bayes y resolución de problema XOR tridimensional con MLP.
+* **Ejercicios Prácticos de Finales:** ([`final_practica_ejercicio_1.jpeg`](MODELOS_ORIGINALES/2_FINALES/final_practica_ejercicio_1.jpeg) al [`final_practica_ejercicio_4.jpeg`](MODELOS_ORIGINALES/2_FINALES/final_practica_ejercicio_4.jpeg)).
+* **Teoría con Preguntas de Finales:** ([`teoria_con_preguntas_de_finales_en_rojo.pdf`](MODELOS_ORIGINALES/2_FINALES/teoria_con_preguntas_de_finales_en_rojo.pdf)) — Documento de cátedra con anotaciones docentes sobre preguntas evaluadas en mesas.
+
+### 3. Cuestionarios Moodle Oficiales (`MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/`)
+Cuestionarios online tomados en la plataforma virtual de la Cátedra correspondientes al temario del Segundo Parcial:
+* **Cuestionario 05:** ([`cuestionario_moodle_05_nb_perceptron_mlp.pdf`](MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_05_nb_perceptron_mlp.pdf)) — Evaluación teórica de Naïve Bayes, Perceptrón Simple y Perceptrón Multicapa (MLP).
+* **Cuestionario 06:** ([`cuestionario_moodle_06_svm_hopfield_som.pdf`](MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf)) — Evaluación teórica de Support Vector Machines (SVM), Redes Recurrentes de Hopfield y Mapas Autoorganizados (SOM).
+* *Integración con el Simulador:* Todas las preguntas de estos cuestionarios alimentan el banco de datos de la aplicación interactiva ([`docs/index.html`](docs/index.html)) con penalización estricta por error.
+
+### 4. Guías Oficiales de Trabajos Prácticos y Solucionarios de Cátedra (`MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/`)
+* **Solucionario Maestro Oficial (Compendio de 47 páginas):**  
+  [`guias_resueltas_unidad4_y_modelos_segundo_parcial.pdf`](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guias_resueltas_unidad4_y_modelos_segundo_parcial.pdf) — Obra de referencia indispensable que incluye la totalidad de las guías prácticas resueltas paso a paso por la Cátedra, pautas numéricas oficiales y calibración de ejercicios de examen.
+* **Hoja Oficial de Fórmulas Canónica:**  
+  [`hoja_de_formulas_segundo_parcial.pdf`](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf) — La hoja oficial de fórmulas permitida en mesa de examen con todas las ecuaciones canónicas.
+* **Guías de Trabajos Prácticos por Unidad Temática:**
+  * [Clustering Jerárquico y Particional](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_clustering.pdf)
+  * [Redes Recurrentes de Hopfield](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_hopfield.pdf)
+  * [K-Nearest Neighbors (KNN)](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_knn.pdf)
+  * [Perceptrón Multicapa (MLP)](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_mlp.pdf)
+  * [Clasificador Naïve Bayes](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_naive_bayes.pdf)
+  * [Perceptrón Simple y ADALINE](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_perceptron_simple.pdf)
+  * [Mapas Auto-Organizados de Kohonen (SOM)](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_som.pdf)
+  * [Support Vector Machines (SVM)](MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_svm.pdf)
 
 ---
 
@@ -136,7 +163,7 @@ graph TD
 3. **Trampa 3 (SOM Aprendizaje Online):** Al presentar el segundo patrón ($p_2$), las distancias euclidianas deben medirse contra la matriz de pesos **$W(1)$ recién actualizada**, jamás contra $W(0)$.
 4. **Trampa 4 (Hopfield y Autolazos):** La matriz Hebbiana debe tener **estrictamente ceros en toda la diagonal principal ($w_{ii} = 0$)**. De lo contrario, se viola la función de energía de Lyapunov y la cátedra anula el ejercicio.
 5. **Trampa 5 (Average Link vs Centroides):** En *Average Linkage*, la distancia inter-cluster es el promedio de **todos los pares cruzados de puntos**. La distancia entre centroides es una técnica diferente (*Centroid Linkage*).
-6. **Trampa 6 (Sesgo en SVM):** Despejar $b$ usando un solo vector tiene descuentos por falta de rigor. La cátedra exige calcular $b_i = \frac{1}{y_i} - \mathbf{w}^T \mathbf{x}\_i$ para **cada** vector de soporte ($\alpha_i > 0$) y reportar el promedio $b\_{\text{prom}} = \frac{1}{|SV|} \sum b_i$.
+6. **Trampa 6 (Sesgo en SVM):** Despejar $b$ usando un solo vector tiene descuentos por falta de rigor. La cátedra exige calcular $b_i = \frac{1}{y_i} - \mathbf{w}^T \mathbf{x}_i$ para **cada** vector de soporte ($\alpha_i > 0$) y reportar el promedio $b_{\text{prom}} = \frac{1}{|SV|} \sum b_i$.
 
 ---
 
@@ -147,13 +174,13 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 | Módulo Temático | Complejidad | Guía, Plantilla y Variantes | Enfoque de Resolución en Hoja en Blanco |
 | :--- | :---: | :--- | :--- |
 | **1. Algoritmos Genéticos (AG)** | **Media - Alta** | • [Guía Maestra de AG y Examen](GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md)<br>• [Guía Paso a Paso 08](GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md)<br>• [Estructura Tabulación Ruleta](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_ruleta_geneticos.md)<br>• [Variantes AG](VARIANTES_PRACTICA/variantes_geneticos.md) | **Peso del 20% al 30%** en parciales presenciales recientes (ej. 19/11/2025). Mecanizar: Ruleta acumulada con ranuras [00–99], copias esperadas enteras $\lfloor c_i \rfloor$ con residuo fraccionario, cruces simples/multipunto y mutación por temperatura. |
-| **2. Support Vector Machines (SVM)** | **Alta** | • [Guía Paso a Paso 01](GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md)<br>• [Variantes SVM](VARIANTES_PRACTICA/variantes_svm.md) | Escribir la sumatoria $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}\_i$, calcular el sesgo individual $b\_i$ para **cada** vector de soporte ($\alpha_i > 0$) y promediar $b\_{\text{prom}}$. En planteo Dual $L\_D$, expandir la matriz de Gram $K\_{ij}$ respetando signos $y\_i y\_j$ y aplicar KKT. |
+| **2. Support Vector Machines (SVM)** | **Alta** | • [Guía Paso a Paso 01](GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md)<br>• [Variantes SVM](VARIANTES_PRACTICA/variantes_svm.md) | Escribir la sumatoria $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$, calcular el sesgo individual $b_i$ para **cada** vector de soporte ($\alpha_i > 0$) y promediar $b_{\text{prom}}$. En planteo Dual $L_D$, expandir la matriz de Gram $K_{ij}$ respetando signos $y_i y_j$ y aplicar KKT. |
 | **3. Mapas Auto-Organizados (SOM)** | **Media** | • [Guía Paso a Paso 02](GUIAS_PASO_A_PASO/02_som_kohonen_paso_a_paso.md)<br>• [Variantes SOM](VARIANTES_PRACTICA/variantes_som.md) | Esquematizar la red. Calcular distancias euclidianas exactas para justificar la BMU. Si la vecindad es continua, actualizar **todas** las neuronas con $h > 0$. Para el patrón siguiente, medir distancias obligatoriamente contra $W(1)$. |
 | **4. Perceptrón Multicapa (MLP)** | **Muy Alta** | • [Guía Paso a Paso 03](GUIAS_PASO_A_PASO/03_mlp_backpropagation.md)<br>• [Estructura Tabulación MLP](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_backpropagation.md)<br>• [Variantes MLP](VARIANTES_PRACTICA/variantes_mlp.md) | Tabular el paso Forward ($Net$, $y$) y el paso Backward con gradientes $\delta$. Recordar $\delta_k = (d-y)f'$ y $\delta_j = f' \sum \delta_k w$. Incluir término de momento $\beta \Delta w(t-1)$. Mantener 4 decimales durante los cálculos. |
 | **5. Clustering Jerárquico Aglomerativo** | **Media** | • [Guía Paso a Paso 04](GUIAS_PASO_A_PASO/04_clustering_average_link.md)<br>• [Estructura Tabulación Clustering](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_clustering_link.md)<br>• [Variantes Clustering](VARIANTES_PRACTICA/variantes_clustering.md) | Reducir paso a paso las matrices simétricas $D_0 \dots D_{N-2}$. En Average Linkage, aplicar ponderación por cardinalidad ($\frac{\vert C_i\vert d_i + \vert C_j\vert d_j}{\vert C_i\vert+\vert C_j\vert}$). Dibujar dendrograma a escala con cotas métricas visibles. |
 | **6. Redes de Hopfield, Naïve Bayes y $K$-NN / $K$-Means** | **Media** | • [Guía Hopfield 05](GUIAS_PASO_A_PASO/05_redes_hopfield.md) · [Variantes Hopfield](VARIANTES_PRACTICA/variantes_hopfield.md)<br>• [Guía Naïve Bayes 06](GUIAS_PASO_A_PASO/06_naive_bayes_histogramas.md) · [Variantes Naïve Bayes](VARIANTES_PRACTICA/variantes_naive_bayes.md)<br>• [Guía KNN y K-Means 07](GUIAS_PASO_A_PASO/07_knn_leave_one_out.md) · [Variantes KNN y K-Means](VARIANTES_PRACTICA/variantes_knn_kmeans.md) | En Hopfield: verificar ortogonalidad y asegurar **diagonal nula** ($w_{ii}=0$). En Naïve Bayes: tablas de frecuencias relativas por clase o densidad Gaussiana continua. En KNN: distancias ponderadas $w = 1/d^2$ y LOOCV. En K-Means: equivalencia con Disk K-Means. |
-| **7. Banco Teórico, Tips y Multiple Choice** | **Media** | • [Banco Teórico Consolidado](BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md)<br>• [Preguntas 2024-2025 y Finales](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md)<br>• [Multiple Choice con Claves](BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md)<br>• [Preguntas de Desarrollo](BANCO_TEORIA_Y_MC/preguntas_desarrollo.md) | Dominar los 13 Tips Doctrinales de Cátedra, repasar las justificaciones canónicas de desarrollo (diferencias arquitecturales, término de momento negativo, Early Stopping) y fijar las respuestas del banco oficial de 52 Multiple Choice. |
-| **8. Ensayos Prácticos y Síntesis** | **Integradora** | • [Simulacro Tema A](SIMULACROS/SIMULACRO_TEMA_A.md)<br>• [Simulacro Tema B](SIMULACROS/SIMULACRO_TEMA_B.md)<br>• [Formulario Oficial de Cátedra](FORMULARIO_OFICIAL.md)<br>• [Machete Legal de 5–15 Minutos](MACHETE_LEGAL_5_MINUTOS.md) | Simular un examen real de 120 minutos en papel en blanco sin mirar soluciones. Autoevaluar con las rúbricas detalladas. Usar el Formulario Oficial para familiarizarse con las ecuaciones disponibles en mesa. |
+| **7. Banco Teórico, Tips y Multiple Choice** | **Media** | • [Banco Teórico Consolidado](BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md)<br>• [Preguntas Teóricas de Finales y Mesas](BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md)<br>• [Multiple Choice con Claves](BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md)<br>• [Preguntas de Desarrollo](BANCO_TEORIA_Y_MC/preguntas_desarrollo.md) | Dominar los 13 Tips Doctrinales de Cátedra, repasar las justificaciones canónicas de desarrollo (diferencias arquitecturales, término de momento negativo, Early Stopping) y fijar las respuestas del banco oficial de 59 Multiple Choice. |
+| **8. Ensayos Prácticos y Síntesis** | **Integradora** | • [Banco Práctico de Finales y Mesas](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_FINALES_Y_MESAS.md)<br>• [Simulacro Tema A](SIMULACROS/SIMULACRO_TEMA_A.md)<br>• [Simulacro Tema B](SIMULACROS/SIMULACRO_TEMA_B.md)<br>• [Formulario Oficial de Cátedra](FORMULARIO_OFICIAL.md)<br>• [Machete Legal de 5–15 Minutos](MACHETE_LEGAL_5_MINUTOS.md) | Simular un examen real de 120 minutos en papel en blanco sin mirar soluciones. Autoevaluar con las rúbricas detalladas. Usar el Formulario Oficial para familiarizarse con las ecuaciones disponibles en mesa. |
 
 ---
 
@@ -167,7 +194,7 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 ├── 📄 README.md                      <- Esta guía maestra de aterrizaje y estrategia
 ├── 📄 FORMULARIO_OFICIAL.md          <- Formulario canónico de 2 carillas exacto
 ├── 📄 MACHETE_LEGAL_5_MINUTOS.md      <- Hoja de emergencia para leer 5 a 15 min antes
-├── 📄 preguntas_quiz.json            <- Banco maestro de 52 preguntas únicas estructuradas
+├── 📄 preguntas_quiz.json            <- Banco maestro de 59 preguntas únicas estructuradas
 │
 ├── 📂 docs/                          <- 🎮 Web App Simulador Interactivo (GitHub Pages Ready)
 │   ├── index.html                    <- Interfaz SPA accesible offline y online
@@ -175,15 +202,15 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 │   ├── app.js                        <- Motor de examen, atajos de teclado, buscador QA y scoring Moodle
 │   ├── README_DEPLOY.md              <- Instrucciones en 2 clics para GitHub Pages
 │   └── 📂 data/
-│       └── preguntas.js              <- 52 preguntas únicas con KaTeX precargadas sin CORS
+│       └── preguntas.js              <- 59 preguntas únicas con KaTeX precargadas sin CORS
 │
 ├── 📂 tools/                         <- Herramientas de automatización y validación QA
 │   ├── extraer_preguntas.py          <- Extractor maestro sin spoilers ni duplicados
 │   └── validar_banco.py              <- Validador estricto de esquema, SHA-256, KaTeX y scoring
 │
-├── 📂 GUIAS_PASO_A_PASO/             <- 8 Guías algorítmicas + Guía Maestra de AG y Exámenes
+├── 📂 GUIAS_PASO_A_PASO/             <- 8 Guías algorítmicas + Guía Maestra de AG + Banco de Práctica
 │   ├── GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md <- Guía completa AG y Ponderaciones
-│   ├── BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md         <- Banco numérico completo resuelto en KaTeX
+│   ├── BANCO_EJERCICIOS_PRACTICOS_FINALES_Y_MESAS.md            <- Banco numérico completo resuelto en KaTeX
 │   ├── 01_svm_paso_a_paso.md         <- Support Vector Machines (w, b_prom, Dual KKT)
 │   ├── 02_som_kohonen_paso_a_paso.md  <- Mapas de Kohonen (BMU, vecindad continua, online W(1))
 │   ├── 03_mlp_backpropagation.md     <- Perceptrón Multicapa (Forward, Backward δ, momento β)
@@ -193,9 +220,9 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 │   ├── 07_knn_leave_one_out.md       <- KNN ponderado 1/d², LOOCV y K-Means / Disk K-Means
 │   └── 08_algoritmos_geneticos.md    <- Algoritmos Genéticos (Ruleta 00-99, Ranking, Temperatura)
 │
-├── 📂 BANCO_TEORIA_Y_MC/             <- Exámenes teóricos históricos y claves oficiales
+├── 📂 BANCO_TEORIA_Y_MC/             <- Compendios teóricos de finales, mesas y claves oficiales
 │   ├── BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md      <- Compendio total: 13 Tips, desarrollo y MC
-│   ├── BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md  <- Compendio teórico de exámenes 2024-2025 y finales
+│   ├── BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md    <- Compendio teórico de exámenes finales y mesas
 │   ├── multiple_choice_con_claves.md                  <- 14 preguntas MC oficiales corregidas en tinta roja
 │   └── preguntas_desarrollo.md                        <- Preguntas conceptuales explicadas con criterio docente
 │
@@ -220,12 +247,12 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 │
 ├── 📂 imagenes/                      <- 137 recortes de alta resolución de diagramas, tablas y redes reales
 │
-└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados, fotos y PDFs de exámenes
+└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados, fotos y PDFs de exámenes de cátedra
     ├── 📄 LEEME.txt                  <- Guía de orientación rápida sobre las carpetas
-    ├── 📂 1_PARCIALES_2DO_PARCIAL/   <- Enunciados y fotos auténticas de parciales del 2do Parcial
-    ├── 📂 2_FINALES/                 <- Exámenes finales presenciales y virtuales de mesas
-    ├── 📂 3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/ <- Cuestionarios oficiales de la Cátedra (U3 y U4)
-    └── 📂 4_GUIAS_PRACTICAS_CATEDRA/ <- Guías oficiales de Trabajos Prácticos de la Cátedra
+    ├── 📂 1_PARCIALES_2DO_PARCIAL/   <- Parciales presenciales y virtuales (ej. Oficial 19/11/2025, 2015, fotos)
+    ├── 📂 2_FINALES/                 <- Exámenes finales presenciales y virtuales de mesas (2021, enunciados)
+    ├── 📂 3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/ <- Cuestionarios online oficiales de plataforma virtual (U3 y U4)
+    └── 📂 4_GUIAS_PRACTICAS_CATEDRA/ <- Guías oficiales de TP, Hoja de Fórmulas y Solucionario Maestro (47 págs.)
 ```
 
 </details>

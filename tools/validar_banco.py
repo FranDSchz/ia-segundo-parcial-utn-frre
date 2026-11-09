@@ -90,11 +90,27 @@ def validar():
     assert os.path.exists(JSON_PATH), f"No existe {JSON_PATH}"
     assert os.path.exists(JS_PATH), f"No existe {JS_PATH}"
     
+    # 1. Verificación de archivos maestros renombrados
+    FILE_TEORIA = os.path.join(REPO_ROOT, "BANCO_TEORIA_Y_MC", "BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md")
+    FILE_PRACTICA = os.path.join(REPO_ROOT, "GUIAS_PASO_A_PASO", "BANCO_EJERCICIOS_PRACTICOS_FINALES_Y_MESAS.md")
+    assert os.path.exists(FILE_TEORIA), f"No existe archivo renombrado: {FILE_TEORIA}"
+    assert os.path.exists(FILE_PRACTICA), f"No existe archivo renombrado: {FILE_PRACTICA}"
+
     with open(JSON_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
         
     print(f"Total de preguntas en banco: {len(data)}")
-    assert len(data) >= 45, f"Se esperaban al menos 45 preguntas únicas, se encontraron {len(data)}"
+    assert len(data) >= 50, f"Se esperaban al menos 50 preguntas únicas, se encontraron {len(data)}"
+
+    # 2. Verificación de sincronización 100% idéntica con docs/data/preguntas.js
+    with open(JS_PATH, 'r', encoding='utf-8') as f:
+        js_text = f.read()
+    m_js = re.search(r'window\.PREGUNTAS\s*=\s*(\[[\s\S]*\])\s*;', js_text)
+    assert m_js, "No se encontró window.PREGUNTAS = [...] en preguntas.js"
+    js_data = json.loads(m_js.group(1))
+    assert len(js_data) == len(data), f"Desincronización en cantidad: json={len(data)}, js={len(js_data)}"
+    assert js_data == data, "Desincronización de contenido entre preguntas_quiz.json y docs/data/preguntas.js"
+    print("[OK] Sincronización 100% idéntica entre preguntas_quiz.json y docs/data/preguntas.js verificada.")
     
     ids = set()
     stems_vistos = set()
@@ -144,6 +160,23 @@ def validar():
             errores.append(f"Pregunta {qid}: Explicación doctrinal vacía")
         if not q.get('fuente', '').strip():
             errores.append(f"Pregunta {qid}: Fuente no informada")
+
+        # Validación de campos enriquecidos (pregunta, justificacion, multiple, origen)
+        if 'multiple' in q:
+            esperado_multi = len(correctas) > 1
+            if q['multiple'] != esperado_multi:
+                errores.append(f"Pregunta {qid}: 'multiple'={q['multiple']} no coincide con len(correctas)={len(correctas)}")
+        if not q.get('pregunta', '').strip():
+            errores.append(f"Pregunta {qid}: Campo 'pregunta' vacío")
+        if not q.get('justificacion', '').strip():
+            errores.append(f"Pregunta {qid}: Campo 'justificacion' vacío")
+        if not q.get('origen', '').strip():
+            errores.append(f"Pregunta {qid}: Campo 'origen' vacío")
+
+        # Verificación estricta de no presencia de años inventados
+        for bad_year in ['2024-2025', '2024–2025', '19/11/2025', 'Junio 2025']:
+            if bad_year in q.get('fuente', '') or bad_year in q.get('origen', '') or bad_year in q.get('enunciado', ''):
+                errores.append(f"Pregunta {qid}: Contiene metadato de año no verificado ('{bad_year}')")
             
         full_text = f"{titulo} {enunciado} {' '.join(opciones)} {q.get('explicacion', '')}"
         dolar_count = full_text.count('$')
@@ -171,6 +204,9 @@ def validar():
                     for bad in ['file:///', 'c:/dev', 'c:\\dev', 'c:/facultad', 'c:\\facultad', 'c:/users', 'c:\\users']:
                         if bad in txt.lower():
                             errores.append(f"Archivo {rel}: Contiene ruta absoluta o enlace local no portable ('{bad}')")
+                    for old_fn in ['BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md', 'BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md']:
+                        if old_fn in txt:
+                            errores.append(f"Archivo {rel}: Enlace a archivo antiguo no renombrado ('{old_fn}')")
                 ok_anon, tok = verificar_anonimato_sha256(txt)
                 if not ok_anon:
                     errores.append(f"Archivo {rel}: Violación de anonimato detectada ('{tok}')")

@@ -1,4 +1,4 @@
-# BANCO MAESTRO CONSOLIDADO TOTAL DE PREGUNTAS TEÓRICAS, EXÁMENES REALES (2020–2025), GUÍA DOCTRINARIA Y TIPS PARA EL EXAMEN PRÁCTICO
+# BANCO MAESTRO CONSOLIDADO TOTAL DE PREGUNTAS TEÓRICAS, EXÁMENES REALES, GUÍA DOCTRINARIA Y TIPS PARA EL EXAMEN PRÁCTICO
 
 **Materia:** Inteligencia Artificial  
 **Institución:** Universidad Tecnológica Nacional – Facultad Regional Resistencia (UTN FRRe)  
@@ -12,7 +12,7 @@ Este compendio representa el repositorio unificado, definitivo y oficial de prep
 
 El documento integra en un único cuerpo armónico:
 1. **Tips Metodológicos de la Cátedra para el Examen Práctico y Teórico:** Criterios formales de diagramación, construcción paso a paso de dendrogramas, tabulación de errores en MLP, cómo justificar condiciones de parada, cómo graficar arquitecturas de Hopfield y SOM, y cómo presentar soluciones formales en Perceptrón y SVM.
-2. **Banco Exhaustivo de Exámenes Reales Recientes (2024 – 2025):** Resoluciones integrales de las mesas de Junio 2025, Abril 2025, Febrero 2025 (Mesa 3 y Mesa Ordinaria), Diciembre 2024 y parciales presenciales.
+2. **Banco Exhaustivo de Exámenes Finales y Mesas de Examen de Cátedra:** Resoluciones integrales de mesas de examen de cátedra y parciales presenciales.
 3. **Exámenes Finales Históricos Rescatados (2020 – 2021) y Examen Escaneado Oficial (`teoria.jpg`).**
 4. **Banco Exhaustivo de 51 Preguntas de Multiple Choice Oficiales:** Cada opción clasificada como Verdadero o Falso con su correspondiente fundamentación doctrinal canónica.
 5. **Compendio Total de las 78 Preguntas de Desarrollo Reales de Segundo Parcial (`Preguntas_Parcial_2.pdf`) + 4 Preguntas Doctrinales (82 Preguntas en Total):** Cada pregunta desarrollada en profundidad con fórmulas en KaTeX, análisis dimensional y tablas comparativas tridimensionales completas (SOM vs Hopfield vs Perceptrón; $k$-NN vs $K$-Means vs Naïve Bayes).
@@ -37,7 +37,7 @@ El documento integra en un único cuerpo armónico:
   * [Tip 11: $K$-Means y Disk $K$-Means](#tip-11-k-means-y-disk-k-means)
   * [Tip 12: Clasificador Naive Bayes y $k$-NN](#tip-12-clasificador-naive-bayes-y-k-nn)
   * [Tip 13: Aprendizaje por Refuerzo ($Q$-Learning)](#tip-13-aprendizaje-por-refuerzo-q-learning)
-* [PARTE I: BANCO DE EXÁMENES FINALES Y PARCIALES RECIENTES (2024 – 2025)](#parte-i-banco-de-exámenes-finales-y-parciales-recientes-2024--2025)
+* [PARTE I: BANCO DE EXÁMENES FINALES Y MESAS DE EXAMEN DE CÁTEDRA](#parte-i-banco-de-exámenes-finales-y-mesas-de-examen-de-cátedra)
 * [PARTE II: EXÁMENES FINALES HISTÓRICOS RESCATADOS (2020 – 2021)](#parte-ii-exámenes-finales-históricos-rescatados-2020--2021)
 * [PARTE III: EXAMEN TEÓRICO OFICIAL ESCANEADO PRESENCIAL (`teoria.jpg`)](#parte-iii-examen-teórico-oficial-escaneado-presencial-teoriajpg)
 * [PARTE IV: BANCO EXHAUSTIVO DE 51 PREGUNTAS DE MULTIPLE CHOICE OFICIALES](#parte-iv-banco-exhaustivo-de-51-preguntas-de-multiple-choice-oficiales)
@@ -621,13 +621,13 @@ Q(s, a) \leftarrow Q(s, a) + \alpha \left[ R(s, a) + \gamma \max\_{a'} Q(s', a')
 $$
 
 
-# PARTE I: Banco de Exámenes Finales y Parciales Recientes (2024 – 2025)
+# PARTE I: Banco de Exámenes Finales y Mesas de Examen de Cátedra
 
-Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas reales evaluadas en las mesas de examen final y parciales entre 2024 y 2025 (fuente: `doc1_examenes_2025.md`), categorizadas y respondidas con el nivel de rigor formal exigido en la UTN FRRe.
+Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas reales evaluadas en las mesas de examen final y parciales de la cátedra, categorizadas y respondidas con el nivel de rigor formal exigido en la UTN FRRe.
 
 ---
 
-## Mesa: Junio – 2025
+## Mesa de Examen de Cátedra — Turno 1
 
 ### Pregunta 1: Aprendizaje Supervisado y No Supervisado (Definición y Ejemplos)
 * **Clasificación temática:** [TEMA_P2_TEORIA_GENERAL]
@@ -749,7 +749,7 @@ $$
 
 ---
 
-## Mesa: Abril – 2025
+## Mesa de Examen de Cátedra — Turno 2
 
 ### Pregunta 1: Errores de Entrenamiento y Validación (Diferencias, Comportamiento y Patrones)
 * **Clasificación temática:** [TEMA_P2_REDES_NEURONALES]
@@ -846,10 +846,10 @@ $$
 
 ---
 
-## Mesa: Febrero 2025 – Mesa 3
+## Mesa de Examen de Cátedra — Turno 3
 
 ### Pregunta 1: Término de Momento en MLP
-*(Ver desarrollo formal en [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*. El momento acelera en gradientes consistentes y frena oscilaciones en valles estrechos.
+*(Ver desarrollo formal en [Mesa de Examen — Turno 1, Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*. El momento acelera en gradientes consistentes y frena oscilaciones en valles estrechos.
 
 ---
 
@@ -945,10 +945,10 @@ $$
 
 ---
 
-## Mesa: Febrero 2025 – Mesa Ordinaria
+## Mesa de Examen de Cátedra — Turno 4
 
 ### Pregunta 1: Error de Validación y Entrenamiento (Fórmulas y Diferencias)
-*(Ver respuesta detallada en [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
+*(Ver respuesta detallada en [Mesa de Examen — Turno 2, Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
 
 ---
 
@@ -997,12 +997,12 @@ con una tasa de aprendizaje decreciente monótona: $\alpha(t) = \frac{\alpha\_0}
 ---
 
 ### Pregunta 3: Momento Negativo
-*(Ver desarrollo en [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
 
 ---
 
 ### Pregunta 4: Planning y Explosión Combinatoria `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Junio 2025 - Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
 
 ---
 
@@ -1046,7 +1046,7 @@ $$
 
 ---
 
-## Mesa: Diciembre – 2024
+## Mesa de Examen de Cátedra — Turno 5
 
 ### Pregunta 1: Algoritmo Disk $K$-Means
 * **Clasificación temática:** [TEMA_P2_CLUSTERING]
@@ -1122,7 +1122,7 @@ $$
 ---
 
 ### Pregunta 3: Downward Closure en Apriori `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Junio 2025 - Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
 
 ---
 
@@ -1171,54 +1171,54 @@ $$
 
 ---
 
-## Mesa: Noviembre – 2024
+## Mesa de Examen de Cátedra — Turno 6
 
 ### Preguntas Desarrolladas:
-1. **Principios para evitar la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
-2. **Qué significa y cómo se obtienen $d\_+$ y $d\_-$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
-3. **Explicar el funcionamiento de SOM:** *(Ver [Febrero 2025 - Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
-4. **Errores de validación y entrenamiento:** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
-5. **¿El término de momento puede ser negativo?:** *(Ver [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
+1. **Principios para evitar la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 1, Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
+2. **Qué significa y cómo se obtienen $d\_+$ y $d\_-$ en SVM:** *(Ver [Mesa de Examen — Turno 4, Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
+3. **Explicar el funcionamiento de SOM:** *(Ver [Mesa de Examen — Turno 4, Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
+4. **Errores de validación y entrenamiento:** *(Ver [Mesa de Examen — Turno 2, Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
+5. **¿El término de momento puede ser negativo?:** *(Ver [Mesa de Examen — Turno 1, Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
 
 ---
 
-## Mesa: Octubre – 2024
+## Mesa de Examen de Cátedra — Turno 7
 
 ### Preguntas Desarrolladas:
-1. **Disk $K$-Means:** *(Ver [Diciembre 2024 - Pregunta 1](#pregunta-1-algoritmo-disk-k-means))*.
-2. **Error de entrenamiento y validación:** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
-3. **Algoritmo de generación de reglas con $f\_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`:** *(Ver [Diciembre 2024 - Pregunta 2](#pregunta-2-generación-de-reglas-de-asociación-con-f_4--a-m-v-p-tema_p1_rendido))*.
-4. **Entrenamiento supervisado y no supervisado:** *(Ver [Junio 2025 - Pregunta 1](#pregunta-1-aprendizaje-supervisado-y-no-supervisado-definición-y-ejemplos))*.
-5. **Árboles de decisión con atributos continuos `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 5](#pregunta-5-algoritmo-c45-para-atributos-continuos-tema_p1_rendido))*.
+1. **Disk $K$-Means:** *(Ver [Mesa de Examen — Turno 5, Pregunta 1](#pregunta-1-algoritmo-disk-k-means))*.
+2. **Error de entrenamiento y validación:** *(Ver [Mesa de Examen — Turno 2, Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
+3. **Algoritmo de generación de reglas con $f\_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 5, Pregunta 2](#pregunta-2-generación-de-reglas-de-asociación-con-f_4--a-m-v-p-tema_p1_rendido))*.
+4. **Entrenamiento supervisado y no supervisado:** *(Ver [Mesa de Examen — Turno 1, Pregunta 1](#pregunta-1-aprendizaje-supervisado-y-no-supervisado-definición-y-ejemplos))*.
+5. **Árboles de decisión con atributos continuos `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 1, Pregunta 5](#pregunta-5-algoritmo-c45-para-atributos-continuos-tema_p1_rendido))*.
 
 ---
 
-## Mesa: Agosto – 2024
+## Mesa de Examen de Cátedra — Turno 8
 
 ### Preguntas Desarrolladas:
-1. **Set de entrenamiento y validación (Cálculo):** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
-2. **Cálculo de $d\_+$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
-3. **Principios contra la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
-4. **Término momento negativo y su efecto en el entrenamiento:** *(Ver [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
-5. **Algoritmo SOM:** *(Ver [Febrero 2025 - Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
+1. **Set de entrenamiento y validación (Cálculo):** *(Ver [Mesa de Examen — Turno 2, Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
+2. **Cálculo de $d\_+$ en SVM:** *(Ver [Mesa de Examen — Turno 4, Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
+3. **Principios contra la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 1, Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
+4. **Término momento negativo y su efecto en el entrenamiento:** *(Ver [Mesa de Examen — Turno 1, Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
+5. **Algoritmo SOM:** *(Ver [Mesa de Examen — Turno 4, Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
 
 ---
 
-## Mesa: Junio y Julio – 2024
+## Mesa de Examen de Cátedra — Turno 9
 
 ### Preguntas Desarrolladas:
-1. **Qué es momento y para qué se utiliza:** *(Ver [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
-2. **Cierre hacia abajo (Downward closure) en Apriori `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
-3. **Cálculo de $b$ y $\mathbf{w}$ en SVM tras obtener vectores de soporte:** *(Ver [Febrero 2025 M3 - Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
-4. **Ganancia vs Tasa de Ganancia `[TEMA_P1_RENDIDO]`:** *(Ver [Febrero 2025 M3 - Pregunta 5](#pregunta-5-entropía-ganancia-y-tasa-de-ganancia-tema_p1_rendido))*.
-5. **Definición y ejemplo de amenaza en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Febrero 2025 M3 - Pregunta 4](#pregunta-4-amenazas-en-planning-con-ejemplo-práctico-tema_p1_rendido))*.
+1. **Qué es momento y para qué se utiliza:** *(Ver [Mesa de Examen — Turno 1, Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
+2. **Cierre hacia abajo (Downward closure) en Apriori `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 1, Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
+3. **Cálculo de $b$ y $\mathbf{w}$ en SVM tras obtener vectores de soporte:** *(Ver [Mesa de Examen — Turno 3, Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
+4. **Ganancia vs Tasa de Ganancia `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 3, Pregunta 5](#pregunta-5-entropía-ganancia-y-tasa-de-ganancia-tema_p1_rendido))*.
+5. **Definición y ejemplo de amenaza en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Mesa de Examen — Turno 3, Pregunta 4](#pregunta-4-amenazas-en-planning-con-ejemplo-práctico-tema_p1_rendido))*.
 
 ---
 
-## Mesa: Febrero – 2024
+## Mesa de Examen de Cátedra — Turno 10
 
 ### Pregunta 1: Ganancia y Tasa de Ganancia `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Febrero 2025 M3 - Pregunta 5](#pregunta-5-entropía-ganancia-y-tasa-de-ganancia-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 3, Pregunta 5](#pregunta-5-entropía-ganancia-y-tasa-de-ganancia-tema_p1_rendido))*.
 
 ---
 
@@ -1263,7 +1263,7 @@ $$
 ---
 
 ### Pregunta 3: Aprendizaje Supervisado y No Supervisado
-*(Ver desarrollo en [Junio 2025 - Pregunta 1](#pregunta-1-aprendizaje-supervisado-y-no-supervisado-definición-y-ejemplos))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 1](#pregunta-1-aprendizaje-supervisado-y-no-supervisado-definición-y-ejemplos))*.
 
 ---
 
@@ -1377,12 +1377,12 @@ $$
 ---
 
 ### Pregunta 3: SVM — Obtención de $\mathbf{w}$ y $b$ tras Identificar los Vectores de Soporte
-*(Ver respuesta formal idéntica en [Febrero 2025 M3 - Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
+*(Ver respuesta formal idéntica en [Mesa de Examen — Turno 3, Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
 
 ---
 
 ### Pregunta 4: Redes SOM (Funcionamiento Completo)
-*(Ver respuesta formal idéntica en [Febrero 2025 - Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
+*(Ver respuesta formal idéntica en [Mesa de Examen — Turno 4, Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
 
 ---
 
@@ -1437,7 +1437,7 @@ $$
 ---
 
 ### Pregunta 7: Amenazas en Planificadores de Orden Parcial (POP) `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Abril 2025 - Pregunta 2](#pregunta-2-amenazas-en-planificación-y-algoritmo-de-detección-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 2, Pregunta 2](#pregunta-2-amenazas-en-planificación-y-algoritmo-de-detección-tema_p1_rendido))*.
 
 ---
 
@@ -1489,7 +1489,7 @@ $$
 ---
 
 ### Pregunta 3: Downward Closure en Apriori `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Junio 2025 - Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido))*.
 
 ---
 
@@ -1552,7 +1552,7 @@ $$
 ---
 
 ### Pregunta 3: Concepto de Amenaza en Planificación `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Abril 2025 - Pregunta 2](#pregunta-2-amenazas-en-planificación-y-algoritmo-de-detección-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 2, Pregunta 2](#pregunta-2-amenazas-en-planificación-y-algoritmo-de-detección-tema_p1_rendido))*.
 
 ---
 
@@ -1605,12 +1605,12 @@ $$
 ---
 
 ### Pregunta 3: Downward Closure e Implementación en Apriori `[TEMA_P1_RENDIDO]`
-*(Ver desarrollo en [Junio 2025 - Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido) y [Febrero 2025 M3 - Pregunta 3](#pregunta-3-downward-closure-y-su-ubicación-algorítmica-tema_p1_rendido))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 1, Pregunta 2](#pregunta-2-propiedad-downward-closure-en-reglas-de-asociación-tema_p1_rendido) y [Mesa de Examen — Turno 3, Pregunta 3](#pregunta-3-downward-closure-y-su-ubicación-algorítmica-tema_p1_rendido))*.
 
 ---
 
 ### Pregunta 4: SVM — Obtención de $\mathbf{w}$ y $b$ a Partir de los Multiplicadores de Lagrange
-*(Ver desarrollo en [Febrero 2025 M3 - Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
+*(Ver desarrollo en [Mesa de Examen — Turno 3, Pregunta 2](#pregunta-2-svm--términos-mathbfw-y-b))*.
 
 # PARTE III: Examen Teórico Oficial Escaneado Presencial (`teoria.jpg`)
 

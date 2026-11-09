@@ -183,3 +183,127 @@
 
 * **Justificación Oficial de Cátedra:**
   El término de momento $\beta \Delta w(t-1)$ añade una componente inercial al gradiente. Si los gradientes sucesivos apuntan en el mismo sentido, la velocidad de ajuste se incrementa (acelerando el cruce de mesetas llanas). Si los gradientes oscilan de signo (valles escarpados), las componentes consecutivas se cancelan parcialmente, estabilizando la trayectoria del descenso.
+
+---
+
+# PARTE II: Nuevos Hallazgos Teóricos de Alta Frecuencia (Auditoría de Exámenes Reales)
+
+## Pregunta MC 53 — Redes Neuronales Competitivas: Arquitectura SOM con Conexiones Laterales Inhibitorias
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En la arquitectura de una red neuronal autoorganizada competitiva (SOM de Kohonen) dotada de conexiones laterales recurrentes (modelo de Sombrero Mexicano):
+  - [x] **A) Las neuronas de la capa de salida compiten mediante autoexcitación positiva local (a corta distancia) y conexiones inhibitorias negativas hacia neuronas situadas a media y larga distancia en la grilla. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) La función de vecindad $h_{cj}(t)$ modula la magnitud del ajuste sináptico de las neuronas vecinas a la ganadora (BMU), contrayendo su radio de influencia con el avance de las iteraciones. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] C) El aprendizaje es supervisado y requiere conocer a priori la clase objetivo de cada vector de entrada para actualizar los pesos. **[FALSO]**
+  - [x] **D) La red preserva la topología del espacio de entrada, de modo que patrones con pequeña distancia euclídea activan neuronas contiguas en el mapa de salida. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+
+* **Justificación Oficial de Cátedra:**
+  En la red SOM de Kohonen con conexiones laterales:
+  * **Las opciones A, B y D son verdaderas:**
+    - El modelo biológico del Sombrero Mexicano implementa cooperación local mediante conexiones excitatorias de corto alcance e inhibición lateral a media/larga distancia para concentrar la respuesta en un único grupo ganador (*winner-take-all* suave).
+    - La función de vecindad $h_{cj}(t) = \exp\left(-\frac{\text{dist}^2(c, j)}{2\sigma(t)^2}\right)$ disminuye tanto con la distancia topológica a la BMU como con el tiempo, contrayendo $\sigma(t)$ para pasar de autoorganización global a ajuste fino local.
+    - La propiedad central de SOM es la preservación topológica (*topological ordering*): mapea relaciones de proximidad de $\mathbb{R}^N$ sobre una grilla bidimensional o unidimensional.
+  * **La opción C es falsa:** SOM es un modelo de aprendizaje estrictamente **no supervisado**; los vectores de entrada no poseen etiquetas de clase.
+
+---
+
+## Pregunta MC 54 — Aprendizaje Basado en Explicaciones (EBL): Rol Determinante de la Teoría del Dominio
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En el paradigma de Aprendizaje Basado en Explicaciones (EBL - Explanation-Based Learning), en contraste con los métodos de aprendizaje inductivo empírico:
+  - [x] **A) El factor determinante y excluyente para su funcionamiento es contar previamente con una Teoría del Dominio (Domain Theory) completa y consistente. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) Es un método analítico-deductivo capaz de aprender y generalizar un concepto a partir de un único ejemplo de entrenamiento (one-shot learning). <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] C) Requiere miles de instancias de entrenamiento para inferir hipótesis mediante correlación estadística y frecuencias relativas. **[FALSO]**
+  - [x] **D) Utiliza la teoría del dominio para construir una prueba formal que explica deductivamente por qué el ejemplo satisface el concepto meta, generalizándola mediante regresión de objetivos. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+
+* **Justificación Oficial de Cátedra:**
+  En el paradigma EBL:
+  * **Las opciones A, B y D son verdaderas:**
+    - La disponibilidad de una Teoría del Dominio previa (axiomas, reglas y relaciones causales) es el factor determinante indispensable; sin ella no es posible construir la explicación deductiva fundacional.
+    - Al apoyarse en razonamiento deductivo a partir de la teoría del dominio, el sistema puede extraer el concepto general a partir de un único ejemplo positivo (*one-shot learning*).
+    - El algoritmo EBL construye un árbol de demostración formal y luego sustituye las constantes específicas del ejemplo por variables generales mediante regresión de objetivos (*Goal Regression* / EBG), asegurando que la regla aprendida preserve validez deductiva.
+  * **La opción C es falsa:** La necesidad de grandes volúmenes de datos estadísticos caracteriza al aprendizaje inductivo empírico (como redes neuronales, árboles de decisión o Naive Bayes), no al aprendizaje deductivo EBL.
+
+---
+
+## Pregunta MC 55 — Clustering Jerárquico: Análisis Comparativo entre Single-Link, Complete-Link y Average-Link
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** Al evaluar las propiedades geométricas y de estabilidad de los métodos clásicos de enlace en clustering jerárquico aglomerativo:
+  - [x] **A) El método Single-Link (distancia mínima entre pares) sufre del efecto de encadenamiento (chaining effect), tendiendo a fusionar grupos distintos a través de puentes de puntos ruidosos. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) El método Complete-Link (distancia máxima entre pares) es más conservador y tiende a generar cúmulos compactos, esféricos y de diámetros homogéneos. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] C) El método Average-Link calcula la distancia inter-cluster evaluando exclusivamente la distancia euclídea entre los centroides de ambos grupos. **[FALSO]**
+  - [x] **D) El método Average-Link calcula la media aritmética de todas las distancias entre pares cruzados de instancias de ambos grupos, ofreciendo un compromiso equilibrado frente al ruido. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+
+* **Justificación Oficial de Cátedra:**
+  Análisis de métodos de enlace en clustering jerárquico:
+  * **Las opciones A, B y D son verdaderas:**
+    - Por definir la disimilitud como $d(A, B) = \min_{x \in A, y \in B} d(x, y)$, Single Link es vulnerable al efecto de encadenamiento (*chaining*), formando cadenas alargadas o serpenteantes si existen instancias intermedias dispersas.
+    - Complete Link define $d(A, B) = \max_{x \in A, y \in B} d(x, y)$, lo que exige que todos los puntos de ambos grupos estén próximos para fusionarse, produciendo cúmulos de diámetro reducido y formas compactas.
+    - Average Link (UPGMA) promedia todas las distancias punto a punto: $\frac{1}{|A||B|} \sum_{x \in A} \sum_{y \in B} d(x, y)$, logrando una mayor estabilidad estadística ante ruido.
+  * **La opción C es falsa:** Ninguno de los tres enlaces clásicos (Single, Complete ni Average) utiliza centroides; el uso de centroides define métodos distintos como *Centroid Linkage* (UPGMC) o *Ward*.
+
+---
+
+## Pregunta MC 56 — Clasificador $K$-NN Ponderado: Ponderación por Inversa al Cuadrado y Robustez ante Hiperparámetros
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En el clasificador $K$-NN ponderado por distancia inversa con pesos $w_i = \frac{1}{d(\mathbf{x}_q, \mathbf{x}_i)^2}$:
+  - [x] **A) Las instancias de entrenamiento más cercanas a la consulta adquieren un peso dominante, mientras que las instancias lejanas u outliers ejercen un impacto infinitesimal en la votación. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) Se mitiga sustancialmente la sensibilidad ante la elección de $k$, permitiendo incluso utilizar todo el dataset ($k = N$) sin que las regiones lejanas distorsionen la decisión local. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **C) Es imprescindible normalizar o estandarizar las variables continuas cuando poseen rangos de escala significativamente dispares para evitar distorsiones métricas. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] D) El algoritmo exige que las clases sean linealmente separables en el espacio de entrada para asegurar convergencia teórica. **[FALSO]**
+
+* **Justificación Oficial de Cátedra:**
+  Propiedades del algoritmo $K$-NN ponderado por distancia inversa:
+  * **Las opciones A, B y C son verdaderas:**
+    - La ponderación $w_i = \frac{1}{d^2}$ decae cuadráticamente con la distancia. Esto protege la decisión local frente a outliers alejados y hace que fijar $k = N$ sea viable sin que la clase mayoritaria global degrade el voto del entorno inmediato.
+    - Como cualquier método basado en distancias euclídeas, atributos con magnitudes numéricas grandes dominarían artificialmente el cálculo de distancia si no se normalizan al intervalo $[0, 1]$ o a media cero y varianza unitaria.
+  * **La opción D es falsa:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de Voronoi altamente no lineales; no asume ninguna hipótesis de separabilidad lineal.
+
+---
+
+## Pregunta MC 57 — Perceptrón Multicapa: Dinámica Física e Inercia del Término de Momento ($\beta$)
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En el entrenamiento de un Perceptrón Multicapa (MLP) mediante Backpropagation, la regla de actualización con término de momento es $\Delta w(t) = -\alpha \nabla E(t) + \beta \Delta w(t-1)$ con $\beta \in [0, 1)$. Respecto a su efecto físico y dinámico:
+  - [x] **A) Actúa como una masa inercial que acumula velocidad en zonas de pendiente consistente (mesetas llanas), acelerando la marcha del algoritmo hacia el mínimo. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) En valles estrechos con curvas de nivel alargadas donde el gradiente oscila abruptamente entre paredes opuestas, amortigua las componentes de alta frecuencia estabilizando el descenso. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **C) El término de momento $\beta \Delta w(t-1)$ es un vector que puede tomar valores numéricos negativos cuando el peso disminuyó en la iteración previa. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] D) El término de momento elimina la necesidad de fijar la tasa de aprendizaje $\alpha$, volviendo prescindible el cálculo del gradiente de error. **[FALSO]**
+
+* **Justificación Oficial de Cátedra:**
+  Dinámica del término de momento en MLP:
+  * **Las opciones A, B y C son verdaderas:**
+    - El parámetro inercial $\beta$ suma una fracción del desplazamiento anterior. Si los gradientes son coherentes en signo, la velocidad efectiva aumenta $\Delta w_{\max} \approx \frac{-\alpha \nabla E}{1-\beta}$ (atravesando mesetas llanas rápidamente). Si los gradientes alternan de signo, los términos sucesivos se contrarrestan, cancelando oscilaciones transversales estériles y conduciendo la actualización hacia el fondo del cañón.
+    - Aunque el coeficiente escalar $\beta \ge 0$ es no negativo, el término de momento $\beta \Delta w(t-1) = \beta (w(t) - w(t-1))$ adopta signo negativo siempre que $w(t) < w(t-1)$, siendo una trampa conceptual clásica de examen.
+  * **La opción D es falsa:** El momento complementa y modula el gradiente local guiado por $\alpha$, pero jamás sustituye al vector gradiente $\nabla E$ ni a la tasa de aprendizaje.
+
+---
+
+## Pregunta MC 58 — Support Vector Machines: Multiplicadores de Lagrange $\alpha_i$ y Condiciones KKT de Soporte
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\alpha_i [y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1] = 0$ con $\alpha_i \ge 0$. De acuerdo con esta doctrina:
+  - [x] **A) Los vectores de soporte son exclusivamente aquellos situados sobre los hiperplanos de margen ($y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$), para los cuales $\alpha_i > 0$. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) Para todas las instancias interiores que no son de soporte ($y_i(\mathbf{w}^T \mathbf{x}_i + b) > 1$), sus multiplicadores de Lagrange son idénticamente nulos ($\alpha_i = 0$). <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **C) El vector director normal del hiperplano depende de la suma de todo el dataset: $\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i$, pero solo los vectores de soporte con $\alpha_i > 0$ contribuyen activamente a su valor. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] D) Si se eliminara del conjunto de entrenamiento un vector interior (con $\alpha_i = 0$), el hiperplano óptimo y los márgenes variarían drásticamente. **[FALSO]**
+
+* **Justificación Oficial de Cátedra:**
+  Condiciones KKT y multiplicadores de Lagrange en SVM:
+  * **Las opciones A, B y C son verdaderas:**
+    - Por holgura complementaria KKT, el producto $\alpha_i [y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1]$ debe anularse para toda instancia $i$. Si el punto se sitúa estrictamente detrás del margen ($y_i(\mathbf{w}^T \mathbf{x}_i + b) > 1$), el corchete es estrictamente positivo, obligando a que $\alpha_i = 0$. Únicamente cuando la instancia descansa exactamente sobre el margen límite ($y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$), el multiplicador puede ser positivo ($\alpha_i > 0$), definiendo un vector de soporte.
+    - Como $\alpha_i = 0$ para todos los puntos no soporte, el vector de pesos $\mathbf{w} = \sum_{i \in \text{SV}} \alpha_i y_i \mathbf{x}_i$ es una combinación lineal dispersa (*sparse*) sustentada únicamente en los vectores de soporte.
+  * **La opción D es falsa:** La remoción o desplazamiento de cualquier punto interior que mantenga $\alpha_i = 0$ no produce alteración alguna en la frontera de separación ni en los márgenes de decisión.
+
+---
+
+## Pregunta MC 59 — Redes de Hopfield: Ortogonalidad Estricta de Patrones y Condición de Diagonal Nula ($w_{ii}=0$)
+* **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
+* **Consigna:** En el modelo autoasociativo discreto de Hopfield con estados bipolares $s_i \in \{-1, +1\}$ y matriz de pesos Hebbiana $\mathbf{W}$:
+  - [x] **A) La ortogonalidad estricta entre dos patrones memorizados $\mathbf{e}^{(k)}$ y $\mathbf{e}^{(m)}$ exige que su producto escalar sea nulo ($\sum_{i=1}^N e_i^{(k)} e_i^{(m)} = 0$), lo que significa que difieren exactamente en el 50% de sus componentes. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **B) La condición de diagonal nula ($w_{ii} = 0$) anula la auto-retroalimentación directa de cada neurona sobre sí misma, impidiendo dinámicas de autoexcitación desestabilizadoras. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [x] **C) La simetría $\mathbf{W} = \mathbf{W}^T$ junto con $w_{ii} = 0$ garantiza matemáticamente la convergencia monótona de la función de energía de Lyapunov ($E = -\frac{1}{2} \sum \sum w_{ij} s_i s_j$) hacia un atractor estable en actualización asincrónica. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
+  - [ ] D) Si los patrones a memorizar poseen alta correlación positiva entre sí (no ortogonales), la capacidad de almacenamiento efectivo aumenta debido al refuerzo sináptico mutuo. **[FALSO]**
+
+* **Justificación Oficial de Cátedra:**
+  Propiedades fundamentales de las redes de Hopfield:
+  * **Las opciones A, B y C son verdaderas:**
+    - La ortogonalidad en el espacio bipolar $\{-1, +1\}^N$ se define por $\mathbf{e}^{(k)} \cdot \mathbf{e}^{(m)} = 0$, requiriendo que exactamente la mitad ($N/2$) de las componentes coincidan (+1) y la otra mitad difiera (-1). Esto anula los términos de interferencia cruzada (*crosstalk*) en la regla Hebbiana.
+    - La fijación de $w_{ii} = 0$ elimina bucles reflexivos y, unida a la simetría $w_{ij} = w_{ji}$, asegura que ante la actualización asincrónica de la neurona $k$, el cambio de energía sea $\Delta E = -\Delta s_k \cdot \text{net}_k \le 0$, asegurando que la red descienda sin ciclos oscilatorios a un mínimo de Lyapunov.
+  * **La opción D es falsa:** La correlación cruzada entre patrones no ortogonales genera diafonía destructiva, degrada drásticamente la capacidad de recuperación libre de errores y genera mínimos espurios no deseados.

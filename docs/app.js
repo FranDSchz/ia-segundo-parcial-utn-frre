@@ -68,11 +68,30 @@
 
       // 3. Setup P1 checkbox
       const checkP1 = document.getElementById("check-include-p1");
+      const updatePresetCompletoCount = () => {
+        const poolCount = this.allQuestions.filter((q) => this.includeP1 || !q.es_p1).length;
+        const presetCompletoMeta = document.querySelector("#preset-completo .preset-meta span:nth-child(2)");
+        if (presetCompletoMeta) {
+          presetCompletoMeta.textContent = `📝 ${poolCount} Preguntas`;
+        }
+      };
       if (checkP1) {
         checkP1.checked = false;
         checkP1.addEventListener("change", (e) => {
           this.includeP1 = e.target.checked;
+          updatePresetCompletoCount();
         });
+      }
+      updatePresetCompletoCount();
+
+      // Update QA select count
+      const qaOptionAll = document.querySelector('#qa-topic-select option[value="ALL"]');
+      if (qaOptionAll) {
+        qaOptionAll.textContent = `Todos los Temas (${this.allQuestions.length})`;
+      }
+      const qaCountBadge = document.getElementById("qa-count-badge");
+      if (qaCountBadge) {
+        qaCountBadge.textContent = `${this.allQuestions.length} Preguntas Activas`;
       }
 
       // 4. Check for stored failed questions

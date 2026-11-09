@@ -34,7 +34,7 @@
    - 6.3 Desglose Teórico: ¿Por qué no se puede reemplazar cruza y mutación por dos métodos de selección?
 7. [PARTE VII: Banco de Ejercicios Prácticos Resueltos Paso a Paso](#parte-vii-banco-de-ejercicios-prácticos-resueltos)
    - 7.1 Examen Real del 19/11/2025 (Punto 4, 30% del Parcial Completo)
-   - 7.2 Exámenes 2023: Temperatura, Homogeneidad y Ranking
+   - 7.2 Ejercicios y Exámenes de Cátedra: Temperatura, Homogeneidad y Ranking
    - 7.3 Ejercicios Oficiales de la Guía Práctica de la Cátedra (Guía TP-AG)
 8. [PARTE VIII: Formulario Rápido y Checklist para el Examen](#parte-viii-formulario-rápido-y-checklist)
 
@@ -70,7 +70,7 @@ Es fundamental considerar que **todos los temas del programa oficial son evaluab
 
 ### 1.2 Las 4 estructuras reales implementadas por la Cátedra
 
-El relevamiento exhaustivo de evaluaciones parciales, recuperatorios y exámenes finales (2020 a 2025) demuestra que la Cátedra utiliza **cuatro formatos estructurales dinámicos**:
+El relevamiento exhaustivo de evaluaciones parciales, recuperatorios y exámenes finales de la Cátedra demuestra que la Cátedra utiliza **cuatro formatos estructurales dinámicos**:
 
 ```mermaid
 flowchart TD
@@ -80,8 +80,8 @@ flowchart TD
     A --> E["4. Estructura Mixta Teoría + Práctica<br/>(40% Teórico + 60% Práctico)"]
 
     B -.-> B1["Ej: Parcial 19/11/2025<br/>Clustering + SOM + MLP + AG"]
-    C -.-> C1["Ej: Modelos 2023-2024<br/>NB + Perceptrón + Hopfield + SVM + Búsqueda"]
-    D -.-> D1["Ej: Finales 2024-2025<br/>SOM + Apriori + A* / Jerárquico"]
+    C -.-> C1["Ej: Modelos de Examen y Parciales<br/>NB + Perceptrón + Hopfield + SVM + Búsqueda"]
+    D -.-> D1["Ej: Exámenes Finales y Mesas<br/>SOM + Apriori + A* / Jerárquico"]
     E -.-> E1["Ej: Evaluaciones Integrales<br/>MC & Desarrollo + 2 Problemas Prácticos"]
 ```
 
@@ -105,7 +105,7 @@ flowchart TD
 #### Estructura 3: Compacta de 3 Puntos (33% / 34%)
 - **Distribución de puntaje:** 3 problemas extensos de 33% o 34% cada uno.
 - **Ámbito usual:** Exámenes finales regulares y mesas libres / recuperatorios profundos.
-- **Ejemplo prototípico:** Turnos de examen 2024–2025:
+- **Ejemplo prototípico:** Exámenes Finales y Mesas de Examen:
   - Ejercicio 1 (34%): Redes Neuronales (MLP con momento y análisis de error de validación).
   - Ejercicio 2 (33%): Minería / Aprendizaje no supervisado (K-Means / Clustering Jerárquico / SOM).
   - Ejercicio 3 (33%): Algoritmos Genéticos aplicados a problemas combinatorios (Criptoaritmética, TSP, Asignación de recursos) o Reglas de Asociación Apriori.
@@ -476,7 +476,7 @@ xychart-beta
 - **Cota mínima $P_{min}$:** Debe ser estrictamente mayor a cero ($P_{min} > 0$); de lo contrario, si la mutación se anula, los alelos eliminados de la población nunca podrían recuperarse.
 
 > [!WARNING]
-> **PREGUNTA CLAVE DE EXAMEN (Finales y Parciales 2023-2024):**  
+> **PREGUNTA CLAVE DE EXAMEN (Finales y Parciales de Cátedra):**  
 > *¿El método de mutación por temperatura descendente tiene en cuenta la homogeneidad de la población para establecer la probabilidad de mutar?*  
 > **RESPUESTA ROTUNDA:** **NO.**  
 > **JUSTIFICACIÓN OFICIAL:** La mutación por temperatura es un esquema **temporal/paramétrico exógeno**: $P_m$ es exclusivamente función del contador de generaciones transcurridas ($t$) y de $\lambda$. No calcula la varianza fenotípica, ni la distancia genética, ni la homogeneidad de los cromosomas. Quien sí mide la homogeneidad es la **Mutación Adaptativa por Convergencia**.
@@ -739,9 +739,9 @@ Fórmula: $c_i = \frac{f_i}{\bar{f}}$
 
 ---
 
-### 7.2 Exámenes 2023: Temperatura, Homogeneidad y Ranking
+### 7.2 Ejercicios y Exámenes de Cátedra: Temperatura, Homogeneidad y Ranking
 
-#### Ejercicio 2023-A: Dinámica de Mutación Adaptativa por Temperatura (Guía TP-AG Ej. 05 y 06)
+#### Ejercicio de Cátedra A: Dinámica de Mutación Adaptativa por Temperatura (Guía TP-AG Ej. 05 y 06)
 > **Enunciado:**  
 > Dado un problema de optimización resuelto mediante Algoritmos Genéticos que halló la solución óptima en la generación 950:  
 > a) Determine la probabilidad de mutación en las generaciones $t = 300$ y $t = 400$ sabiendo que se utilizó **Mutación Adaptativa por Temperatura Ascendente** con $\lambda = 0.0001$, $P_{min} = 0.02$ y $P_{max} = 0.30$.  
@@ -766,7 +766,7 @@ Fórmula: $P_m(t) = \max(P_{min}, P_{max} - t \cdot \lambda)$
 
 ---
 
-#### Ejercicio 2023-B: Selección por Ranking con Ruleta Decimal (Slide 03-04 y Guía TP-AG Ej. 07)
+#### Ejercicio de Cátedra B: Selección por Ranking con Ruleta Decimal (Slide 03-04 y Guía TP-AG Ej. 07)
 > **Enunciado:**  
 > Dada la población de 10 individuos con aptitudes:  
 > $I_{01}: 24$, $I_{02}: 14$, $I_{03}: 33$, $I_{04}: 65$, $I_{05}: 35$, $I_{06}: 38$, $I_{07}: 43$, $I_{08}: 12$, $I_{09}: 16$, $I_{10}: 30$.  

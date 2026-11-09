@@ -5,7 +5,7 @@
 ---
 
 ## 1. Pregunta 01: El Término de Momento Negativo en MLP
-* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/2023/2023_teoria_desarrollo.jpeg)), Pregunta 1.
+* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg)), Pregunta 1.
 * **Consigna:** ¿El término de momento que se utiliza en redes MLP puede ser negativo? Justifique su respuesta y, en caso afirmativo, indique en qué circunstancias se obtendrían esos valores y cómo afecta al proceso de aprendizaje.
 
 ### Respuesta Modelo de Cátedra:
@@ -26,7 +26,7 @@
 ---
 
 ## 2. Pregunta 02: Definición y Cálculo de las Distancias $d(+)$ y $d(-)$ en SVM
-* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/2023/2023_teoria_desarrollo.jpeg)), Pregunta 2.
+* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg)), Pregunta 2.
 * **Consigna:** En Support Vector Machines (SVM), explique qué son geométricamente las distancias $d(+)$ y $d(-)$, cómo se calculan analíticamente y cuál es su relación con el margen de la red.
 
 ### Respuesta Modelo de Cátedra:
@@ -53,7 +53,7 @@
 ---
 
 ## 3. Pregunta 03: Sobreajuste en el Algoritmo $K$-Means y Estrategias de Mitigación
-* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_tema2.jpeg`](../MODELOS_ORIGINALES/2023/2023_teoria_tema2.jpeg)), Pregunta 2.
+* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_tema2.jpeg`](../MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg)), Pregunta 2.
 * **Consigna:** Explique por qué se produce el sobreajuste (*overfitting*) en el algoritmo de agrupamiento $K$-Means y describa los métodos para solucionarlo.
 
 ### Respuesta Modelo de Cátedra:
@@ -95,7 +95,7 @@
 ---
 
 ## 5. Pregunta 05: Modelo ADALINE vs. Perceptrón Simple
-* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_tema2.jpeg`](../MODELOS_ORIGINALES/2023/2023_teoria_tema2.jpeg)), Pregunta 1.
+* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_tema2.jpeg`](../MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg)), Pregunta 1.
 * **Consigna:** Explique el proceso de aprendizaje del modelo ADALINE y describa sus diferencias fundamentales con el modelo Perceptrón Simple.
 
 ### Respuesta Modelo de Cátedra:
@@ -159,7 +159,7 @@
 ---
 
 ## 8. Pregunta 08: Mutación en Algoritmos Genéticos: Temperatura vs. Convergencia
-* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/2023/2023_teoria_desarrollo.jpeg)), Pregunta 3.
+* **Fuente:** Parcial Teórico 2023 ([`2023_teoria_desarrollo.jpeg`](../MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg)), Pregunta 3.
 * **Consigna:** En Algoritmos Genéticos, ¿el método de mutación por temperatura descendente tiene en cuenta la homogeneidad de la población para establecer la probabilidad de mutar? Compare con otros esquemas adaptativos.
 
 ### Respuesta Modelo de Cátedra:

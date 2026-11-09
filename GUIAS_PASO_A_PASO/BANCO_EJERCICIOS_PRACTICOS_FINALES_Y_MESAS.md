@@ -1,9 +1,9 @@
-# BANCO MAESTRO DE EJERCICIOS PRÁCTICOS RESUELTOS (2024 - 2025 Y FINALES HISTÓRICOS)
+# BANCO MAESTRO DE EJERCICIOS PRÁCTICOS RESUELTOS (FINALES Y MESAS DE EXAMEN DE CÁTEDRA Y PARCIALES HISTÓRICOS)
 ## CÁTEDRA DE INTELIGENCIA ARTIFICIAL - UTN FRRe
 ### MÁXIMA RIGUROSIDAD NUMÉRICA, DESARROLLO PASO A PASO Y CRITERIOS OFICIALES DE EVALUACIÓN
 
 > [!NOTE]
-> Este documento compila y resuelve con máxima rigurosidad numérica y metodológica todos los ejercicios prácticos reales tomados en los exámenes de **2do Parcial, Recuperatorios y Exámenes Finales** de Inteligencia Artificial (UTN Facultad Regional Resistencia) durante el período **2024 - 2025**, complementado con ejercicios históricos clave (2020 - 2021).
+> Este documento compila y resuelve con máxima rigurosidad numérica y metodológica todos los ejercicios prácticos reales tomados en los exámenes de **2do Parcial, Recuperatorios y Exámenes Finales** de Inteligencia Artificial (UTN Facultad Regional Resistencia) correspondientes a Exámenes Finales y Mesas de Examen de Cátedra, complementado con ejercicios históricos clave.
 > 
 > **Convenciones de la Cátedra:**
 > 1. Todas las expresiones de cálculo se detallan explícitamente antes del reemplazo numérico.
@@ -26,7 +26,7 @@
    - [Tema 1.2: Perceptrón Multicapa (MLP) - Propagación, Backpropagation, Error Global y Momento](#tema-12-perceptrón-multicapa-mlp---propagación-backpropagation-error-global-y-momento)
      - [Ejercicio 1.2.1: 2do Parcial 19/11/2025 - MLP Sigmoidal Completa y Backprop](#ejercicio-121-2do-parcial-19112025---mlp-sigmoidal-completa-y-backprop)
      - [Ejercicio 1.2.2: img1 - MLP Profunda de 2 Capas Ocultas (2-2-2-1)](#ejercicio-122-img1---mlp-profunda-de-2-capas-ocultas-2-2-2-1)
-     - [Ejercicio 1.2.3: Octubre 2024 - Error Global y Criterio de Parada (ε = 0.02)](#ejercicio-123-octubre-2024---error-global-y-criterio-de-parada-ε--002)
+     - [Ejercicio 1.2.3: Examen Final / Mesa de Cátedra - Error Global y Criterio de Parada (ε = 0.02)](#ejercicio-123-examen-final--mesa-de-cátedra---error-global-y-criterio-de-parada-ε--002)
      - [Ejercicio 1.2.4: img2 - Error Global (6 patrones) y Detención por Curva de Validación](#ejercicio-124-img2---error-global-6-patrones-y-detención-por-curva-de-validación)
      - [Ejercicio 1.2.5: img5 e img6 - Error Global (10 patrones) y Cálculo Exacto del Término de Momento](#ejercicio-125-img5-e-img6---error-global-10-patrones-y-cálculo-exacto-del-término-de-momento)
      - [Ejercicio 1.2.6: Final Histórico 1 - Error Global (10 patrones, ε = 0.08)](#ejercicio-126-final-histórico-1---error-global-10-patrones-ε--008)
@@ -43,7 +43,7 @@
 
 3. [MÓDULO III: CLASIFICACIÓN PROBABILÍSTICA E INSTANCIAS (NAIVE BAYES & KNN)](#módulo-iii-clasificación-probabilística-e-instancias-naive-bayes--knn)
    - [Tema 3.1: Naive Bayes con Distribución Normal / Gaussiana](#tema-31-naive-bayes-con-distribución-normal--gaussiana)
-     - [Ejercicio 3.1.1: Octubre 2024 - Naive Bayes Gaussiano](#ejercicio-311-octubre-2024---naive-bayes-gaussiano)
+     - [Ejercicio 3.1.1: Examen Final / Mesa de Cátedra - Naive Bayes Gaussiano](#ejercicio-311-examen-final--mesa-de-cátedra---naive-bayes-gaussiano)
      - [Ejercicio 3.1.2: Final Histórico 1 - Naive Bayes Gaussiano](#ejercicio-312-final-histórico-1---naive-bayes-gaussiano)
    - [Tema 3.2: Naive Bayes con Histogramas Discretizados](#tema-32-naive-bayes-con-histogramas-discretizados)
      - [Ejercicio 3.2.1: img4 - Clasificación de Materiales NM1, NM2, NM3](#ejercicio-321-img4---clasificación-de-materiales-nm1-nm2-nm3)
@@ -56,7 +56,7 @@
 
 4. [MÓDULO IV: APRENDIZAJE NO SUPERVISADO (K-MEANS, CLUSTERING JERÁRQUICO, SOM)](#módulo-iv-aprendizaje-no-supervisado-k-means-clustering-jerárquico-som)
    - [Tema 4.1: Algoritmo K-Means](#tema-41-algoritmo-k-means)
-     - [Ejercicio 4.1.1: Octubre 2024 - K-Means 2 Iteraciones Completas](#ejercicio-411-octubre-2024---k-means-2-iteraciones-completas)
+     - [Ejercicio 4.1.1: Examen Final / Mesa de Cátedra - K-Means 2 Iteraciones Completas](#ejercicio-411-examen-final--mesa-de-cátedra---k-means-2-iteraciones-completas)
      - [Ejercicio 4.1.2: Final Histórico 2 - K-Means 1 Iteración](#ejercicio-412-final-histórico-2---k-means-1-iteración)
    - [Tema 4.2: Clustering Jerárquico Aglomerativo](#tema-42-clustering-jerárquico-aglomerativo)
      - [Ejercicio 4.2.1: 2do Parcial 19/11/2025 - Complete Link y Average Link](#ejercicio-421-2do-parcial-19112025---complete-link-y-average-link)
@@ -70,7 +70,7 @@
 
 5. [MÓDULO V: MODELOS ASOCIATIVOS Y OPTIMIZACIÓN (HOPFIELD Y GENÉTICOS)](#módulo-v-modelos-asociativos-y-optimización-hopfield-y-genéticos)
    - [Tema 5.1: Redes Neuronales de Hopfield](#tema-51-redes-neuronales-de-hopfield)
-     - [Ejercicio 5.1.1: Octubre 2024 - Matriz W, Ortogonalidad y Recuperabilidad](#ejercicio-511-octubre-2024---matriz-w-ortogonalidad-y-recuperabilidad)
+     - [Ejercicio 5.1.1: Examen Final / Mesa de Cátedra - Matriz W, Ortogonalidad y Recuperabilidad](#ejercicio-511-examen-final--mesa-de-cátedra---matriz-w-ortogonalidad-y-recuperabilidad)
      - [Ejercicio 5.1.2: img1 - Recuperación y Estabilización con Patrón Distorsionado](#ejercicio-512-img1---recuperación-y-estabilización-con-patrón-distorsionado)
      - [Ejercicio 5.1.3: img7 - Clasificador de Correo SPAM / NO-SPAM](#ejercicio-513-img7---clasificador-de-correo-spam--no-spam)
      - [Ejercicio 5.1.4: img4 - Clasificación de Tamaño de Empresas](#ejercicio-514-img4---clasificación-de-tamaño-de-empresas)
@@ -861,7 +861,7 @@ $$
 
 ---
 
-### Ejercicio 1.2.3: Octubre 2024 - Error Global y Criterio de Parada (ε = 0.02)
+### Ejercicio 1.2.3: Examen Final / Mesa de Cátedra - Error Global y Criterio de Parada (ε = 0.02)
 **Enunciado Real:**
 > Dado los siguientes $P\_i$ con salidas deseadas $S\_d = [S\_{d1}, S\_{d2}]$:
 > - $P\_1: [3.21, 4.78]$
@@ -1601,7 +1601,7 @@ $$
 
 ---
 
-### Ejercicio 3.1.1: Octubre 2024 - Naive Bayes Gaussiano
+### Ejercicio 3.1.1: Examen Final / Mesa de Cátedra - Naive Bayes Gaussiano
 **Enunciado Real:**
 > Dados los siguientes ejemplos en $\mathbb{R}^2$, calcule a qué clase pertenece la nueva instancia $N (x\_1 = -1.5, x\_2 = -0.5)$ utilizando Naive Bayes con distribución normal. Normalizar los resultados obtenidos. Considere $C\_1 = 0.1$ y $C\_2 = 0.6$ la probabilidad a priori.
 >
@@ -2299,7 +2299,7 @@ $$
 
 ---
 
-### Ejercicio 4.1.1: Octubre 2024 - K-Means 2 Iteraciones Completas
+### Ejercicio 4.1.1: Examen Final / Mesa de Cátedra - K-Means 2 Iteraciones Completas
 **Enunciado Real:**
 > Dado el siguiente conjunto en $t = 0$, realice dos iteraciones del algoritmo K-Means suponiendo que $D\_1, D\_4$ y $D\_6$ son las semillas iniciales.
 >
@@ -2855,7 +2855,7 @@ $$
 
 ---
 
-### Ejercicio 5.1.1: Octubre 2024 - Matriz W, Ortogonalidad y Recuperabilidad
+### Ejercicio 5.1.1: Examen Final / Mesa de Cátedra - Matriz W, Ortogonalidad y Recuperabilidad
 **Enunciado Real:**
 > $P\_1 = [1, 1, -1, -1, -1]$  
 > $P\_2 = [-1, 1, -1, 1, -1]$  
