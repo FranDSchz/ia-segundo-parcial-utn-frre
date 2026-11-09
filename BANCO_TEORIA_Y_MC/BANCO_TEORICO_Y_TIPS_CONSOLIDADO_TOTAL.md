@@ -447,7 +447,7 @@ $$
    
 
 $$
-M = \frac{2}{\\vert \mathbf{w}\ \vert}
+M = \frac{2}{\\|\mathbf{w}\|}
 $$
 
 4. **Vectores de Soporte ($SV$):** Son los puntos que satisfacen la igualdad $y\_i(\mathbf{w}^T \mathbf{x}\_i + b) = 1$. Poseen multiplicador de Lagrange $\alpha\_i > 0$.
@@ -838,7 +838,7 @@ $$
   1. *Proposición:* Los vectores de soporte son aquellos cuyos multiplicadores de Lagrange $\alpha\_i$ son estrictamente distintos de cero.  
      **VERDADERO.** Por las condiciones de complementariedad de Karush-Kuhn-Tucker (KKT), las instancias que no son de soporte se ubican fuera del margen y tienen $\alpha\_i = 0$.
   2. *Proposición:* Entre los hiperplanos $H\_+$ y $H\_-$ no existen instancias de entrenamiento en el caso linealmente separable.  
-     **VERDADERO.** La banda de margen máximo conforma una zona vacía de exclusión de ancho $\frac{2}{\\vert \mathbf{w}\ \vert}$.
+     **VERDADERO.** La banda de margen máximo conforma una zona vacía de exclusión de ancho $\frac{2}{\\|\mathbf{w}\|}$.
   3. *Proposición:* El vector normal $\mathbf{w}$ y el bias $b$ deben recalcularse si ingresa una nueva instancia de entrenamiento.  
      **VERDADERO.** SVM es un método global que requiere resolver nuevamente el problema de optimización cuadrática al incorporar nuevas instancias de entrenamiento que puedan alterar el margen.
   4. *Proposición:* Las SVM lineales sólo pueden aplicarse a problemas bidimensionales de dos dimensiones.  
@@ -1026,21 +1026,21 @@ Para cualquier vector de soporte positivo $\mathbf{x}\_+ \in H\_1$, se tiene $\m
      
 
 $$
-d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert} = \frac{1}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
+d\_+ = \frac{1}{\\|\mathbf{w}\|} = \frac{1}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
 $$
 
 Análogamente, para cualquier vector de soporte negativo $\mathbf{x}\_- \in H\_2$, se tiene $\mathbf{w}^T \mathbf{x}\_- + b = -1$, resultando:
      
 
 $$
-d\_- = \frac{|-1\vert }{\ \vert\mathbf{w}\|} = \frac{1}{\\vert \mathbf{w}\ \vert}
+d\_- = \frac{|-1\vert }{\ \vert\mathbf{w}\|} = \frac{1}{\\|\mathbf{w}\|}
 $$
 
      El ancho del margen separador total es:
      
 
 $$
-\text{Margen} = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert}
+\text{Margen} = d\_+ + d\_- = \frac{2}{\\|\mathbf{w}\|}
 $$
 
 
@@ -1243,7 +1243,7 @@ f'(n\_{sub}) = g(n\_{sub}) = V\_{sub} > V\_{opt}
 $$
 
   - Sea $n\_{opt}$ un nodo en la frontera de búsqueda (`ABIERTOS`) que pertenece a la ruta verdaderamente óptima.
-  - Si la heurística es admisible ($h'(n\_{opt}) \le h^{\ast}(n\_{opt})$), se cumple:
+  - Si la heurística es admisible ($h'(n\_{opt}) \le h^{\ast}(n\_{opt})$ ), se cumple:
        
 
 $$
@@ -1455,11 +1455,7 @@ $$
 | **c. Aprendizaje online / offline** | **Online:** Actualiza los pesos de la neurona ganadora (BMU) y su vecindario tras la presentación de cada patrón individual. | **Offline / Analítico:** Los pesos se calculan en un solo paso mediante suma exterior hebbiana: $W = \sum (E\_k^T E\_k - I)$. | **Online:** Actualiza el vector de pesos paso a paso cada vez que comete un error de clasificación ante un patrón. |
 | **d. Aprendizaje supervisado / no supervisado** | **No supervisado:** No requiere etiquetas; se autoorganiza descubriendo la topología y densidad del espacio de entrada. | **No supervisado (o autoasociativo):** Almacena patrones completos sin parejas de entrada-salida deseadas. | **Supervisado:** Requiere una señal de salida deseada explícita $d\_p \in \{-1, +1\}$ para calcular el error $d\_p - y\_p$. |
 | **e. Condición de finalización** | Finaliza al cumplirse un número prefijado de épocas $T\_{\max}$, o cuando la tasa de aprendizaje $\alpha(t) \to 0$ y los pesos se estabilizan. | La fase de entrenamiento es instantánea (fórmula Hebbiana). La recuperación finaliza al alcanzar un punto fijo / atractor estable ($s(t+1)=s(t)$) o mínimo de energía $\Delta E = 0$. | Finaliza cuando el conjunto de entrenamiento es clasificado al 100% sin cometer ningún error (convergencia finita), o por límite de iteraciones. |
-| **f. Función de transferencia** | **Competitiva / Ninguna no lineal:** Las neuronas compiten por mínima distancia euclídea; la neurona BMU se activa con 1 y las demás con 0 (*winner-take-all*). | **Escalón Bipolar (Signo):** $f(\text{net}_i) = \text{sign}(\text{net}_i) = \begin{cases}
-+1 & \text{si } \text{net}_i > 0 \\
--1 & \text{si } \text{net}_i < 0 \\
-s_i(t) & \text{si } \text{net}_i = 0 \end{cases}$ | **Escalón Discreto (Umbral / Heaviside):** $f(\text{net}) = \begin{cases} 1 & \text{si } \mathbf{w}^T \mathbf{x} \ge 0 \\
-0 \text{ (o } -1) & \text{si } \mathbf{w}^T \mathbf{x} < 0 \end{cases}$ |
+| **f. Función de transferencia** | **Competitiva / Ninguna no lineal:** Las neuronas compiten por mínima distancia euclídea; la neurona BMU se activa con 1 y las demás con 0 (*winner-take-all*). | **Escalón Bipolar (Signo):** $f(\text{net}\_i) = +1$ si $\text{net}\_i > 0$, $-1$ si $\text{net}\_i < 0$, $s\_i(t)$ si $\text{net}\_i = 0$. | **Escalón Discreto (Umbral / Heaviside):** $f(\text{net}) = 1$ si $\mathbf{w}^T \mathbf{x} \ge 0$, $0$ si $\mathbf{w}^T \mathbf{x} < 0$. |
 | **g. Limitaciones principales** | Sensible a la elección inicial de la cuadrícula y función de vecindad; no provee clasificación supervisada directa; convergencia no garantiza mínimo global. | **Capacidad de memoria reducida:** Sólo retiene hasta $M \le 0.138 N$ patrones (buena) o $\frac{N}{4 \ln N}$ (perfecta). Mínimos locales espurios y estados espurios invertidos ($-E\_k$). | **Frontera estrictamente lineal:** Incapaz de clasificar conjuntos que no sean linealmente separables (ej. problema del XOR). |
 | **h. Ejemplo de implementación** | Agrupamiento de documentos temáticos o reducción de colores RGB en compresión de imágenes. | Memoria asociativa de reconocimiento de dígitos ópticos pixelados o caracteres con ruido estocástico. | Compuerta lógica AND / OR lineal, o detección de fraude con una única frontera hiperplana. |
 
@@ -2020,7 +2016,7 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 * **Justificación Canónica de la Cátedra:**
   - Por KKT, las instancias fuera del margen satisfacen la restricción holgadamente y tienen multiplicadores $\alpha\_i = 0$.
   - Al ser un algoritmo global basado en programación cuadrática, la inserción de nuevos datos altera potencialmente las restricciones activas, exigiendo reoptimizar.
-  - La banda de margen máximo conforma una región vacía de exclusión de ancho $\frac{2}{\\vert \mathbf{w}\ \vert}$.
+  - La banda de margen máximo conforma una región vacía de exclusión de ancho $\frac{2}{\\|\mathbf{w}\|}$.
   - Es un método supervisado; requiere las etiquetas binarias $y\_i \in \{-1, +1\}$.
 
 ---
@@ -2272,9 +2268,9 @@ En clustering jerárquico, la distancia entre dos clusters:
 3. Se calcula utilizando el promedio de la distancia de sus centroides si se emplea el método average-link. **(V / F)**
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
-1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \max\_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
-2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \min\_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
-3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \frac{1}{\vert A \vert\vert B \vert} \sum\_{x \in A} \sum\_{y \in B} d(x, y)$). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.
+1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \max\_{x \in A, y \in B} d(x, y)$ ), **NO** entre sus centroides.
+2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \min\_{x \in A, y \in B} d(x, y)$ ), **NO** entre sus centroides.
+3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \frac{1}{|A| \cdot |B|} \sum\_{x \in A} \sum\_{y \in B} d(x, y)$ ). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.
 
 ---
 
@@ -2332,7 +2328,7 @@ En el modelo Hopfield, el concepto de ortogonalidad está asociado a:
 **Evaluación y Justificación Doctrinal de la Cátedra:**
 1. **VERDADERO.** Si los patrones almacenados son ortogonales entre sí, se minimiza la diafonía o interferencia (*crosstalk*) en la matriz de pesos Hebbiana, lo que permite a la red aproximarse a su cota máxima de memorización ($M \approx 0.138 N$).
 2. **VERDADERO.** En el espacio bipolar $\{-1, +1\}^N$, dos patrones $E\_k$ y $E\_m$ son ortogonales ($E\_k \cdot E\_m = 0$) si y solo si difieren en exactamente la mitad ($50\%$) de sus componentes vectoriales.
-3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \sum (E\_k E\_k^T - I)$) es $O(M \cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.
+3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \sum (E\_k E\_k^T - I)$ ) es $O(M \cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.
 
 ---
 
@@ -2712,7 +2708,7 @@ En los sistemas basados en ajuste de parámetros (como redes neuronales y algori
    * *En el Tiempo:* En problemas secuenciales, identificar qué acción o decisión tomada en instantes temporales previos condujo al fracaso o recompensa actual.
 2. **La Dinámica de Magnitud y Dirección del Ajuste:**
    * *Dirección del Cambio:* Saber con certeza cuándo y en qué sentido se debe incrementar o decrementar el valor de cada parámetro para garantizar el descenso hacia el mínimo de la superficie de error.
-   * *Magnitud del Paso (Tasa de Aprendizaje $\alpha$):* Un valor demasiado alto provoca sobreoscilaciones inestables y divergencia; un valor demasiado bajo produce un estancamiento en mínimos locales o tiempos de convergencia prohibitivos.
+   * Magnitud del Paso (Tasa de Aprendizaje $\alpha$): Un valor demasiado alto provoca sobreoscilaciones inestables y divergencia; un valor demasiado bajo produce un estancamiento en mínimos locales o tiempos de convergencia prohibitivos.
 
 ---
 
@@ -4215,7 +4211,7 @@ Dado $\mathcal{D} = \{(\mathbf{x}\_i, y\_i)\}\_{i=1}^N$ con $y\_i \in \{-1, +1\}
 
 
 $$
-\text{Minimizar: } \frac{1}{2} \\vert \mathbf{w}\ \vert^2 = \frac{1}{2} \mathbf{w}^T \mathbf{w}
+\text{Minimizar: } \frac{1}{2} \\|\mathbf{w}\|^2 = \frac{1}{2} \mathbf{w}^T \mathbf{w}
 $$
 
 
@@ -4272,13 +4268,13 @@ $$
   
 
 $$
-d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert}, \quad d\_- = \frac{1}{\\vert \mathbf{w}\ \vert}
+d\_+ = \frac{1}{\\|\mathbf{w}\|}, \quad d\_- = \frac{1}{\\|\mathbf{w}\|}
 $$
 
   
 
 $$
-\text{Margen Total} = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert} = \frac{2}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
+\text{Margen Total} = d\_+ + d\_- = \frac{2}{\\|\mathbf{w}\|} = \frac{2}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
 $$
 
 
@@ -4674,7 +4670,7 @@ En el tratamiento de atributos continuos mediante discretización en histogramas
 **Pregunta:** ¿La probabilidad conjunta puede ser expresada como $P(s\_1, s\_2, \dots, s\_n) = \prod\_{i=1}^n P(s\_i | \text{Padres}(s\_i))$?
 **Justificación:**
 **Sí, es estrictamente correcto.**
-En una Red Bayesiana estructurada mediante un Grafo Acíclico Dirigido (DAG), la propiedad de **Markov condicional** establece que cada variable $X\_i$ es condicionalmente independiente de sus no-descendientes, dados únicamente sus padres inmediatos en el grafo ($\text{Padres}(X\_i)$).
+En una Red Bayesiana estructurada mediante un Grafo Acíclico Dirigido (DAG), la propiedad de **Markov condicional** establece que cada variable $X\_i$ es condicionalmente independiente de sus no-descendientes, dados únicamente sus padres inmediatos en el grafo $\text{Padres}(X\_i)$.
 Aplicando la regla de la cadena de probabilidades e introduciendo estas independencias locales, la distribución conjunta completa de las $n$ variables se factoriza de forma exacta y no redundante como el producto directo de las probabilidades condicionales locales:
 
 
@@ -4733,15 +4729,15 @@ $$
 
 2. **Propósito de los Hiperplanos:**
    * Delimitan el **margen geométrico de separación**.
-   * La distancia perpendicular desde el hiperplano central a $H\_+$ es $d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert}$ y a $H\_-$ es $d\_- = \frac{1}{\\vert \mathbf{w}\ \vert}$.
+   * La distancia perpendicular desde el hiperplano central a $H\_+$ es $d\_+ = \frac{1}{\\|\mathbf{w}\|}$ y a $H\_-$ es $d\_- = \frac{1}{\\|\mathbf{w}\|}$.
    * El margen total de separación es el ancho de la banda vacía:
      
 
 $$
-M = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert}
+M = d\_+ + d\_- = \frac{2}{\\|\mathbf{w}\|}
 $$
 
-   * Maximizar el margen equivale directamente a minimizar $\\vert \mathbf{w}\ \vert$ sujeto a que ninguna instancia caiga dentro de la banda entre $H\_+$ y $H\_-$.
+   * Maximizar el margen equivale directamente a minimizar $\\|\mathbf{w}\|$ sujeto a que ninguna instancia caiga dentro de la banda entre $H\_+$ y $H\_-$.
 
 ---
 
