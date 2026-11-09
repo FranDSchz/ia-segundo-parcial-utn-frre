@@ -1,0 +1,48 @@
+name: 🐛 Reporte de Errata o Corrección de Pregunta
+description: Reportar una clave incorrecta, fórmula rota o redacción ambigua en el simulador
+title: "[Errata]: "
+labels: ["errata", "pregunta"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por contribuir a la precisión académica del simulador de Inteligencia Artificial (UTN FRRe)!
+  - type: input
+    id: question-id
+    attributes:
+      label: ID o Número de Pregunta
+      description: Ejemplo: MC-OFICIAL-01, P1-19, #14
+      placeholder: MC-OFICIAL-01
+    validations:
+      required: true
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Tema de la Pregunta
+      options:
+        - Support Vector Machines (SVM)
+        - Mapas Auto-organizados (SOM)
+        - Redes de Hopfield
+        - Clustering Jerárquico
+        - Algoritmos Genéticos
+        - Perceptrón Multicapa (MLP)
+        - Naïve Bayes
+        - K-Nearest Neighbors (KNN)
+        - K-Means & Particional
+        - Repaso 1er Parcial (P1)
+        - Evaluación y Generalización
+    validations:
+      required: true
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Descripción del Problema o Duda Doctrinal
+      description: Explicá claramente qué considerás incorrecto (clave, fórmula, cálculo a mano, enunciado o justificación). Podés arrastrar imágenes y fotos directamente aquí.
+      placeholder: En la opción B se indica que... sin embargo, según el apunte de cátedra...
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Propuesta de Corrección (Opcional)
+      description: ¿Cuál considerás que debería ser la clave correcta o la redacción precisa?

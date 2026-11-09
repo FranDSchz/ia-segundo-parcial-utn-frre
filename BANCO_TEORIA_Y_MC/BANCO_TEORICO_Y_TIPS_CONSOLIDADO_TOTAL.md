@@ -25,7 +25,7 @@ El documento integra en un único cuerpo armónico:
 
 * [SECCIÓN MAESTRA: TIPS Y CONSEJOS METODOLÓGICOS DE LA CÁTEDRA PARA EL EXAMEN PRÁCTICO Y TEÓRICO](#sección-maestra-tips-y-consejos-metodológicos-de-la-cátedra-para-el-examen-práctico-y-teórico)
   * [Tip 1: Búsqueda Sistemática (DFS y BFS)](#tip-1-búsqueda-sistemática-primero-en-profundidad---dfs-y-primero-en-amplitud---bfs)
-  * [Tip 2: Búsqueda Heurística ($A^*$, Escalada Simple y Máxima Pendiente)](#tip-2-búsqueda-heurística-a-escalada-simple-y-máxima-pendiente)
+  * [Tip 2: Búsqueda Heurística ($A^{\ast}$, Escalada Simple y Máxima Pendiente)](#tip-2-búsqueda-heurística-a-escalada-simple-y-máxima-pendiente)
   * [Tip 3: Algoritmos Genéticos (Resolución Práctica)](#tip-3-algoritmos-genéticos-resolución-práctica)
   * [Tip 4: Planificación de Orden Parcial (POP) `[TEMA_P1_RENDIDO]`](#tip-4-planificación-de-orden-parcial-pop-tema_p1_rendido)
   * [Tip 5: Perceptrón Simple y ADALINE (Cómo Presentar la Solución)](#tip-5-perceptrón-simple-y-adaline-cómo-presentar-la-solución)
@@ -85,10 +85,22 @@ Parámetros canónicos definidos por la Cátedra:
 
 #### Primero en Profundidad (DFS):
 * **Complejidad Temporal:**
-  $$\text{Tiempo Total} = \frac{b^{d+1} - 1}{b - 1} \quad \implies \quad O(b^d)$$
+  
+
+
+
+$$
+\text{Tiempo Total} = \frac{b^{d+1} - 1}{b - 1} \quad \implies \quad O(b^d)
+$$
+
   * *Tip de Examen:* Si el enunciado proporciona el tiempo de procesamiento unitario por nodo (ej. $2 \text{ ms}$), se multiplica el total de nodos por dicho valor y se expresa en segundos o minutos.
 * **Complejidad Espacial (Memoria):**
-  $$\text{Memoria Total} = ((b - 1) \cdot d) + 1 \quad \implies \quad O(b \cdot d)$$
+  
+
+$$
+\text{Memoria Total} = ((b - 1) \cdot d) + 1 \quad \implies \quad O(b \cdot d)
+$$
+
   * *Tip de Examen:* Si el enunciado da el tamaño de almacenamiento de cada nodo (ej. $128 \text{ bytes}$), se multiplica por este valor y se expresa en KiloBytes o MegaBytes.
 
 #### Primero en Amplitud (BFS):
@@ -97,7 +109,7 @@ Parámetros canónicos definidos por la Cátedra:
 
 ---
 
-## Tip 2: Búsqueda Heurística ($A^*$, Escalada Simple y Máxima Pendiente)
+## Tip 2: Búsqueda Heurística ($A^{\ast}$, Escalada Simple y Máxima Pendiente)
 
 ### 1. Escalada Simple vs Escalada por Máxima Pendiente
 * **Escalada Simple:** Se parte del estado inicial y se genera el primer sucesor. Si su heurística mejora al estado actual, se toma inmediatamente como estado actual sin evaluar a los demás hermanos. Si ninguno mejora, el algoritmo se paraliza.
@@ -107,12 +119,12 @@ Parámetros canónicos definidos por la Cátedra:
   2. *Meseta:* Zona plana del espacio de búsqueda donde todos los sucesores tienen igual heurística.
   3. *Cresta:* Forma de relieve con pendiente oblicua que la escalada ortogonal no puede ascender.
 
-### 2. Algoritmo $A^*$ y Evaluación de Función
+### 2. Algoritmo $A^{\ast}$ y Evaluación de Función
 * **Fórmula canónica:** $f'(n) = g(n) + h'(n)$
   * $g(n)$: Costo real acumulado desde el inicio hasta el nodo $n$.
   * $h'(n)$: Estimación heurística desde $n$ hasta la meta.
 * **Regla de Poda de Caminos Alternativos:** Si durante la expansión se alcanza un mismo nodo $N$ a través de dos caminos distintos, **se conserva aquel con menor valor de $f'(N)$ y se tacha definitivamente el camino con mayor $f'$**.
-* **Condición Formal de Fin de $A^*$:** El algoritmo **NO termina** cuando se genera un nodo meta, sino **únicamente cuando el nodo meta es extraído de la lista ABIERTA (Open List) para ser expandido**. Esto garantiza la optimalidad si $h'$ es admisible ($h'(n) \le h(n)$).
+* **Condición Formal de Fin de $A^{\ast}$:** El algoritmo **NO termina** cuando se genera un nodo meta, sino **únicamente cuando el nodo meta es extraído de la lista ABIERTA (Open List) para ser expandido**. Esto garantiza la optimalidad si $h'$ es admisible ($h'(n) \le h(n)$ ).
 
 ---
 
@@ -120,12 +132,12 @@ Parámetros canónicos definidos por la Cátedra:
 
 ### 1. Operadores de Selección
 * **Selección por Ruleta:**
-  1. Se calcula la aptitud de cada individuo $f_i$ y la aptitud total $F = \sum_{i=1}^N f_i$.
-  2. Se calcula la probabilidad proporcional de selección: $p_i = \frac{f_i}{F} \times 100\%$.
-  3. Se construyen los intervalos cerrados acumulados: $[0, p_1], [p_1, p_1 + p_2], \dots, [\sum_{j=1}^{N-1} p_j, 100\%]$.
+  1. Se calcula la aptitud de cada individuo $f\_i$ y la aptitud total $F = \sum\_{i=1}^N f\_i$.
+  2. Se calcula la probabilidad proporcional de selección: $p\_i = \frac{f\_i}{F} \times 100\%$.
+  3. Se construyen los intervalos cerrados acumulados: $[0, p\_1], [p\_1, p\_1 + p\_2], \dots, [\sum\_{j=1}^{N-1} p\_j, 100\%]$.
   4. Se simulan números pseudoaleatorios $r \in [0, 100]$; el intervalo donde caiga $r$ define al individuo seleccionado.
 * **Control de Copia Esperado:**
-  * Se calcula el número esperado de copias $c_i = \frac{f_i}{\bar{f}}$, donde $\bar{f} = \frac{F}{N}$ es la aptitud media. La parte entera $\lfloor c_i \rfloor$ garantiza copias deterministas, y la parte fraccionaria compite por ruleta.
+  * Se calcula el número esperado de copias $c\_i = \frac{f\_i}{\bar{f}}$, donde $\bar{f} = \frac{F}{N}$ es la aptitud media. La parte entera $\lfloor c\_i \rfloor$ garantiza copias deterministas, y la parte fraccionaria compite por ruleta.
 * **Selección Elitista:** Se ordenan los individuos de mayor a menor aptitud y pasan directamente a la siguiente generación los mejores (ej. el $10\%$ o $15\%$).
 * **Selección por Ranking:** Se ordenan de menor a mayor y se asigna una probabilidad proporcional a la posición en el orden (independiente de la escala de la aptitud), evitando que un super-individuo domine la población prematuramente.
 * **Selección por Torneo:** Se toman subgrupos de tamaño $k$ al azar y se selecciona al mejor de cada grupo.
@@ -141,10 +153,20 @@ La mutación mantiene la diversidad genética para evitar que el algoritmo quede
 #### Mutación Adaptativa por Temperatura:
 No depende de la homogeneidad de la población, sino del número de generaciones transcurridas (parámetro de tiempo).
 * **Temperatura Ascendente:**
-  $$P(gen_x) = P_{min} + \lambda \cdot (gen_x - 1)$$
+  
+
+$$
+P(gen\_x) = P\_{min} + \lambda \cdot (gen\_x - 1)
+$$
+
   * *Justificación de Cátedra:* Comienza con una probabilidad mínima y aumenta con las generaciones. Se utiliza porque en las primeras generaciones la población es diversa y heterogénea; al avanzar el tiempo y homogeneizarse la población, se eleva la mutación para forzar diversidad y evitar convergencia prematura.
 * **Temperatura Descendente:**
-  $$P(gen_x) = P_{max} - \lambda \cdot (gen_x - 1)$$
+  
+
+$$
+P(gen\_x) = P\_{max} - \lambda \cdot (gen\_x - 1)
+$$
+
   * *Justificación de Cátedra:* Comienza con mutación máxima y se reduce a medida que transcurren las generaciones. Se utiliza para fomentar una **exploración inicial exhaustiva** del espacio de búsqueda en las primeras etapas, reduciendo la perturbación al final para permitir la **explotación / ajuste fino** alrededor del óptimo.
 
 ---
@@ -156,10 +178,10 @@ No depende de la homogeneidad de la población, sino del número de generaciones
    * **Paso Final (`Terminar`):** Precondiciones: Las metas u objetivos del problema. Poscondiciones: $\emptyset$.
 2. **Encadenamiento Causal:** Se trabaja mediante **regresión de metas** (de atrás hacia adelante), resolviendo precondiciones abiertas con poscondiciones de operadores existentes o agregando nuevos operadores.
 3. **Detección y Manejo de Amenazas:**
-   * Una **amenaza** ocurre cuando la poscondición de un operador $O_k$ borra o contradice la precondición de un operador $O_j$ que está siendo sostenida por un vínculo causal $O_i \xrightarrow{c} O_j$.
+   * Una **amenaza** ocurre cuando la poscondición de un operador $O\_k$ borra o contradice la precondición de un operador $O\_j$ que está siendo sostenida por un vínculo causal $O\_i \xrightarrow{c} O\_j$.
    * **Resolución Formal:**
-     * **Promoción:** Ordenar que $O_k$ se ejecute antes de $O_i$ ($O_k < O_i$).
-     * **Degradación:** Ordenar que $O_k$ se ejecute después de $O_j$ ($O_j < O_k$).
+     * **Promoción:** Ordenar que $O\_k$ se ejecute antes de $O\_i$ ($O\_k < O\_i$).
+     * **Degradación:** Ordenar que $O\_k$ se ejecute después de $O\_j$ ($O\_j < O\_k$).
 
 ---
 
@@ -167,31 +189,67 @@ No depende de la homogeneidad de la población, sino del número de generaciones
 
 ### 1. Comprobación de Separabilidad Lineal
 * En $\mathbb{R}^2$: Se grafican los puntos positivos y negativos en un eje de coordenadas cartesiano y se traza una línea divisoria continua que separe estrictamente ambas clases.
-* En $\mathbb{R}^3$: Para evitar dibujar en perspectiva 3D, la Cátedra instruye hacer **cero de a una las variables** y graficar las proyecciones en los planos bidimensionales coordenados ($x_1 - x_2$, $x_2 - x_3$, $x_1 - x_3$), identificando los puntos de corte del plano separador con los ejes.
+* En $\mathbb{R}^3$: Para evitar dibujar en perspectiva 3D, la Cátedra instruye hacer **cero de a una las variables** y graficar las proyecciones en los planos bidimensionales coordenados ($x\_1 - x\_2$, $x\_2 - x\_3$, $x\_1 - x\_3$), identificando los puntos de corte del plano separador con los ejes.
 
 ### 2. Método Analítico de Obtención de Pesos
-Dada la ecuación del hiperplano separador $w_1 x_1 + w_2 x_2 - \theta = 0$:
+Dada la ecuación del hiperplano separador $w\_1 x\_1 + w\_2 x\_2 - \theta = 0$:
 1. Se eligen los puntos de intersección con los ejes coordenados:
-   * Con $x_2 = 0 \implies x_1 = c_1 \implies w_1 \cdot c_1 - \theta = 0 \implies w_1 = \frac{\theta}{c_1}$.
-   * Con $x_1 = 0 \implies x_2 = c_2 \implies w_2 \cdot c_2 - \theta = 0 \implies w_2 = \frac{\theta}{c_2}$.
-2. Se asigna un valor arbitrario al umbral (típicamente $\theta = 1$) y se despejan directamente los valores de $w_1$ y $w_2$.
+   * Con $x\_2 = 0 \implies x\_1 = c\_1 \implies w\_1 \cdot c\_1 - \theta = 0 \implies w\_1 = \frac{\theta}{c\_1}$.
+   * Con $x\_1 = 0 \implies x\_2 = c\_2 \implies w\_2 \cdot c\_2 - \theta = 0 \implies w\_2 = \frac{\theta}{c\_2}$.
+2. Se asigna un valor arbitrario al umbral (típicamente $\theta = 1$) y se despejan directamente los valores de $w\_1$ y $w\_2$.
 3. Se verifica algebraicamente que todos los patrones clasifiquen con el signo correcto.
 
 ### 3. Método Iterativo (Regla Delta del Perceptrón)
 1. Inicializar pesos aleatoriamente (o en ceros según indique la consigna).
 2. Para cada patrón $k$, calcular la salida de red:
-   $$net_k = \sum_{j=1}^n w_j x_{kj} - \theta$$
-   $$y_k = \begin{cases} 1 & \text{si } net_k \ge 0 \\ 0 \text{ (o } -1) & \text{si } net_k < 0 \end{cases}$$
-3. Si hay error ($S_d \ne S_o$), actualizar pesos:
-   $$w_j(t+1) = w_j(t) + \alpha \cdot (S_d - S_o) \cdot x_j$$
-   $$\theta(t+1) = \theta(t) - \alpha \cdot (S_d - S_o)$$
+   
+
+$$
+net\_k = \sum\_{j=1}^n w\_j x\_{kj} - \theta
+$$
+
+   
+
+$$
+y\_k = \begin{cases}
+1 & \text{si } net\_k \ge 0 \\
+0 \text{ (o } -1) & \text{si } net\_k < 0
+\end{cases}
+$$
+
+
+3. Si hay error ($S\_d \ne S\_o$), actualizar pesos:
+   
+
+
+
+$$
+w\_j(t+1) = w\_j(t) + \alpha \cdot (S\_d - S\_o) \cdot x\_j
+$$
+
+   
+
+$$
+\theta(t+1) = \theta(t) - \alpha \cdot (S\_d - S\_o)
+$$
+
 4. **Condición Formal de Parada:** El algoritmo termina **únicamente cuando se completa una ÉPOCA ENTERA (ciclo completo de presentación de todos los patrones de entrenamiento) sin cometer ningún error**.
 
 ### 4. Diferencia Fundamental con ADALINE
-* **ADALINE (Adaptive Linear Neuron):** Evalúa el error de entrenamiento sobre la **salida lineal neta** ($net = \sum w_i x_i$) **antes** de aplicar la función escalón, utilizando la regla Widrow-Hoff (mínimos cuadrados / LMS):
-  $$\Delta w_i = \alpha \cdot (S_d - net) \cdot x_i$$
+* **ADALINE (Adaptive Linear Neuron):** Evalúa el error de entrenamiento sobre la **salida lineal neta** ($net = \sum w\_i x\_i$) **antes** de aplicar la función escalón, utilizando la regla Widrow-Hoff (mínimos cuadrados / LMS):
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - net) \cdot x\_i
+$$
+
 * **Perceptrón Simple:** Evalúa el error sobre la **salida discreta/umbralizada** ($y = f(net)$):
-  $$\Delta w_i = \alpha \cdot (S_d - y) \cdot x_i$$
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - y) \cdot x\_i
+$$
+
 
 ---
 
@@ -200,34 +258,49 @@ Dada la ecuación del hiperplano separador $w_1 x_1 + w_2 x_2 - \theta = 0$:
 ### 1. Tabulación y Graficación de Curvas de Error
 En los ejercicios prácticos se debe presentar la evolución del entrenamiento en una tabla comparativa de errores:
 
-| Época ($t$) | $E_{entrenamiento}$ | $E_{validación}$ | $E_{test}$ | Decisión Metodológica |
+| Época ($t$) | $E\_{entrenamiento}$ | $E\_{validación}$ | $E\_{test}$ | Decisión Metodológica |
 | :---: | :---: | :---: | :---: | :--- |
 | 10 | 0.450 | 0.470 | — | Continúa entrenamiento (ambos errores descienden). |
 | 50 | 0.120 | 0.145 | — | Descenso sostenido. |
-| 100 | 0.040 | 0.080 | — | Mínimo de validación alcanzado ($E_{val}$ óptimo). |
-| 120 | 0.025 | 0.095 | — | **Alerta:** $E_{train}$ baja pero $E_{val}$ comienza a subir (**Sobreajuste**). |
-| **Parada** | **0.040** | **0.080** | **0.082** | **Early Stopping:** Se restauran los pesos de la época 100 y se evalúa $E_{test}$. |
+| 100 | 0.040 | 0.080 | — | Mínimo de validación alcanzado ($E\_{val}$ óptimo). |
+| 120 | 0.025 | 0.095 | — | **Alerta:** $E\_{train}$ baja pero $E\_{val}$ comienza a subir (**Sobreajuste**). |
+| **Parada** | **0.040** | **0.080** | **0.082** | **Early Stopping:** Se restauran los pesos de la época 100 y se evalúa $E\_{test}$. |
 
 ### 2. Qué Hacer según los Errores
-* **Si $E_{val}$ crece antes de alcanzar el error mínimo admisible:** Ocurre sobreajuste prematuro o la red quedó atrapada en oscilaciones. Soluciones:
+* **Si $E\_{val}$ crece antes de alcanzar el error mínimo admisible:** Ocurre sobreajuste prematuro o la red quedó atrapada en oscilaciones. Soluciones:
   1. Reducir la tasa de aprendizaje $\alpha$.
   2. Ajustar el término de momento $\beta$.
   3. Reducir la cantidad de neuronas en la capa oculta para limitar la capacidad de memorización.
   4. Incrementar el tamaño y la representatividad del conjunto de datos de entrenamiento.
-* **Si $E_{val} < E_{min}$ (menor al error tolerable):** La red convergió con éxito y posee capacidad de generalización demostrada. Se interrumpe el entrenamiento inmediatamente y se corre el conjunto de test para certificar la métrica final antes de su despliegue en producción.
+* **Si $E\_{val} < E\_{min}$ (menor al error tolerable):** La red convergió con éxito y posee capacidad de generalización demostrada. Se interrumpe el entrenamiento inmediatamente y se corre el conjunto de test para certificar la métrica final antes de su despliegue en producción.
 
 ### 3. Fórmulas de Backpropagation (Regla de la Cadena)
 * Para una neurona de salida $k$:
-  $$\delta_k = (y_k^d - y_k) \cdot f'(net_k)$$
+  
+
+$$
+\delta\_k = (y\_k^d - y\_k) \cdot f'(net\_k)
+$$
+
 * Para una neurona oculta $j$:
-  $$\delta_j = f'(net_j) \cdot \sum_{k} w_{kj} \delta_k$$
+  
+
+$$
+\delta\_j = f'(net\_j) \cdot \sum\_{k} w\_{kj} \delta\_k
+$$
+
 * Derivadas de funciones de activación:
   * Si $f$ es lineal: $f'(net) = 1$.
   * Si $f$ es sigmoidea logística: $f'(net) = y \cdot (1 - y)$.
   * Si $f$ es tangente hiperbólica: $f'(net) = 1 - y^2$.
 * Actualización con Término de Momento:
-  $$\Delta w_{ji}(t) = \alpha \cdot \delta_j \cdot x_i + \beta \cdot \Delta w_{ji}(t-1)$$
-  * *Momento Negativo ($-\beta$):* Se aplica para contrarrestar oscilaciones destructivas en valles de error muy estrechos con gradientes alternantes.
+  
+
+$$
+\Delta w\_{ji}(t) = \alpha \cdot \delta\_j \cdot x\_i + \beta \cdot \Delta w\_{ji}(t-1)
+$$
+
+  * Momento Negativo ($-\beta$): Se aplica para contrarrestar oscilaciones destructivas en valles de error muy estrechos con gradientes alternantes.
 
 ---
 
@@ -236,8 +309,8 @@ En los ejercicios prácticos se debe presentar la evolución del entrenamiento e
 ### 1. Cómo Graficar la Arquitectura de Hopfield
 1. Se dibuja una única capa con $N$ neuronas (numeradas de $1$ a $N$).
 2. Cada neurona $i$ proyecta una línea hacia un bus de retorno que se conecta a las entradas de **todas las demás neuronas $j \ne i$**.
-3. **Regla estricta:** No existen auto-conexiones ($w_{ii} = 0$).
-4. Las conexiones entre pares de neuronas son estrictamente simétricas ($w_{ij} = w_{ji}$).
+3. **Regla estricta:** No existen auto-conexiones ($w\_{ii} = 0$).
+4. Las conexiones entre pares de neuronas son estrictamente simétricas ($w\_{ij} = w\_{ji}$).
 
 ```
        +--- Neurona 1 <----+
@@ -250,24 +323,50 @@ Neurona 2 <------------> Neurona 3
 ```
 
 ### 2. Cálculo de la Matriz de Pesos Hebbiana
-Para $M$ patrones bipolares $E_k \in \{-1, +1\}^N$:
-$$W = \sum_{k=1}^M \left( E_k E_k^T - I \right)$$
+Para $M$ patrones bipolares $E\_k \in \{-1, +1\}^N$:
+
+
+$$
+W = \sum\_{k=1}^M \left( E\_k E\_k^T - I \right)
+$$
+
 O elemento a elemento:
-$$w_{ij} = \begin{cases} \sum_{k=1}^M E_{ki} E_{kj} & \text{si } i \ne j \\ 0 & \text{si } i = j \end{cases}$$
+
+
+$$
+w\_{ij} = \begin{cases}
+\sum\_{k=1}^M E\_{ki} E\_{kj} & \text{si } i \ne j \\
+0 & \text{si } i = j
+\end{cases}
+$$
+
+
 
 ### 3. Dinámica de Recuperación y Criterio de Parada
-1. Se aplica el vector de entrada distorsionado $e_d(0)$.
-2. Se multiplica: $net = e_d \cdot W$.
+1. Se aplica el vector de entrada distorsionado $e\_d(0)$.
+2. Se multiplica: $net = e\_d \cdot W$.
 3. Se aplica la función de activación bipolar:
-   $$e_d(t+1) = \text{signo}(net) = \begin{cases} +1 & \text{si } net_i > 0 \\ -1 & \text{si } net_i < 0 \\ e_d(t) & \text{si } net_i = 0 \end{cases}$$
+   
+
+
+
+$$
+e\_d(t+1) = \text{signo}(net) = \begin{cases}
++1 & \text{si } net\_i > 0 \\
+-1 & \text{si } net\_i < 0 \\
+e\_d(t) & \text{si } net\_i = 0
+\end{cases}
+$$
+
+
 4. **Condición de Fin:**
-   * **Convergencia Correcta:** Si $e_d(t+1) = e_d(t)$, la red alcanzó un estado estable (mínimo de energía). Se compara con los patrones almacenados.
-   * **Ciclo Límite:** Si $e_d(t+n) = e_d(t)$ con $n > 1$, la red entró en oscilación periódica y no se estabiliza.
+   * **Convergencia Correcta:** Si $e\_d(t+1) = e\_d(t)$, la red alcanzó un estado estable (mínimo de energía). Se compara con los patrones almacenados.
+   * **Ciclo Límite:** Si $e\_d(t+n) = e\_d(t)$ con $n > 1$, la red entró en oscilación periódica y no se estabiliza.
 
 ### 4. Capacidad de Almacenamiento y Ortogonalidad
 * **Recuperación Exacta:** $M \le \frac{N}{4 \ln N}$
 * **Con Error Tolerable ($< 1\%$):** $M \le 0.138 \cdot N$
-* **Condición de Ortogonalidad:** $E_k \cdot E_m = 0$. Los patrones deben diferir en al menos el $50\%$ de sus bits. Si $E_k \cdot E_m > 0$, existe correlación e interferencia (crosstalk).
+* **Condición de Ortogonalidad:** $E\_k \cdot E\_m = 0$. Los patrones deben diferir en al menos el $50\%$ de sus bits. Si $E\_k \cdot E\_m > 0$, existe correlación e interferencia (crosstalk).
 
 ---
 
@@ -276,7 +375,7 @@ $$w_{ij} = \begin{cases} \sum_{k=1}^M E_{ki} E_{kj} & \text{si } i \ne j \\ 0 & 
 ### 1. Cómo Graficar la Arquitectura de SOM
 1. Se dibuja una **capa de entrada** con $N$ nodos sensoriales (tantos como componentes del vector de entrada).
 2. Se dibuja una **capa de salida** constituida por una grilla discreta de neuronas (típicamente 2D en malla hexagonal o rectangular, o 1D en cadena).
-3. Cada nodo de entrada está conectado a **todas y cada una de las neuronas de salida** mediante un peso sináptico $w_{ji}$.
+3. Cada nodo de entrada está conectado a **todas y cada una de las neuronas de salida** mediante un peso sináptico $w\_{ji}$.
 4. **No existen conexiones físicas entre las neuronas de salida**, pero se dibuja una elipse o campana gaussiana punteada sobre la grilla para indicar la **función de vecindad topológica**.
 
 ```
@@ -292,13 +391,30 @@ Grilla Salida:  [N1] --- [N2] --- [N3]
 
 ### 2. Algoritmo Paso a Paso
 1. **Fase de Competencia:** Presentar patrón $x$. Calcular la distancia euclídea a los pesos de todas las neuronas de salida:
-   $$d_j = \|x - w_j\| = \sqrt{\sum_{i=1}^N (x_i - w_{ji})^2}$$
-   La neurona con menor distancia es la ganadora (Best Matching Unit - BMU) $c = \arg\min_j d_j$.
+   
+
+
+
+$$
+d\_j = \|x - w\_j\| = \sqrt{\sum\_{i=1}^N (x\_i - w\_{ji})^2}
+$$
+
+   La neurona con menor distancia es la ganadora (Best Matching Unit - BMU) $c = \arg\min\_j d\_j$.
 2. **Fase de Cooperación:** Calcular la función de vecindad centrada en la BMU:
-   $$h_{cj}(t) = \exp\left(-\frac{\|r_c - r_j\|^2}{2 \sigma(t)^2}\right)$$
+   
+
+$$
+h\_{cj}(t) = \exp\left(-\frac{\|r\_c - r\_j\|^2}{2 \sigma(t)^2}\right)
+$$
+
    El radio de vecindad $\sigma(t)$ decae exponencialmente en el tiempo.
 3. **Fase de Adaptación:** Actualizar los pesos de la BMU y de sus vecinas:
-   $$\Delta w_{ji} = \eta(t) \cdot h_{cj}(t) \cdot (x_i - w_{ji})$$
+   
+
+$$
+\Delta w\_{ji} = \eta(t) \cdot h\_{cj}(t) \cdot (x\_i - w\_{ji})
+$$
+
    La tasa de aprendizaje $\eta(t)$ también decae en el tiempo.
 4. **Condición de Parada:** El algoritmo termina cuando los pesos se estabilizan y el desplazamiento de los vectores $\Delta w$ es menor a un umbral infinitesimal preestablecido tras miles de épocas.
 
@@ -308,20 +424,50 @@ Grilla Salida:  [N1] --- [N2] --- [N3]
 
 ### 1. Elementos Obligatorios a Escribir en la Solución
 1. **Ecuación del Hiperplano Separador Óptimo:**
-   $$\mathbf{w}^T \mathbf{x} + b = 0$$
+   
+
+$$
+\mathbf{w}^T \mathbf{x} + b = 0
+$$
+
 2. **Hiperplanos Canónicos de Margen:**
-   $$H_1: \mathbf{w}^T \mathbf{x} + b = +1 \quad (\text{para } y_i = +1)$$
-   $$H_2: \mathbf{w}^T \mathbf{x} + b = -1 \quad (\text{para } y_i = -1)$$
+   
+
+$$
+H\_1: \mathbf{w}^T \mathbf{x} + b = +1 \quad (\text{para } y\_i = +1)
+$$
+
+   
+
+$$
+H\_2: \mathbf{w}^T \mathbf{x} + b = -1 \quad (\text{para } y\_i = -1)
+$$
+
 3. **Ancho del Margen Geométrico:**
-   $$M = \frac{2}{\|\mathbf{w}\|}$$
-4. **Vectores de Soporte ($SV$):** Son los puntos que satisfacen la igualdad $y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$. Poseen multiplicador de Lagrange $\alpha_i > 0$.
-5. **Vectores No de Soporte:** Poseen $\alpha_i = 0$ y no tienen ninguna influencia en el cálculo de $\mathbf{w}$ ni de $b$.
+   
+
+$$
+M = \frac{2}{\\vert \mathbf{w}\ \vert}
+$$
+
+4. **Vectores de Soporte ($SV$):** Son los puntos que satisfacen la igualdad $y\_i(\mathbf{w}^T \mathbf{x}\_i + b) = 1$. Poseen multiplicador de Lagrange $\alpha\_i > 0$.
+5. **Vectores No de Soporte:** Poseen $\alpha\_i = 0$ y no tienen ninguna influencia en el cálculo de $\mathbf{w}$ ni de $b$.
 
 ### 2. Fórmulas de Deducción Analítica
 * **Vector de Pesos $\mathbf{w}$:**
-  $$\mathbf{w} = \sum_{i \in SV} \alpha_i y_i \mathbf{x}_i$$
-* **Sesgo $b$:** Se evalúa a partir de cualquier vector de soporte $\mathbf{x}_s$ con $y_s(\mathbf{w}^T \mathbf{x}_s + b) = 1$:
-  $$b = y_s - \mathbf{w}^T \mathbf{x}_s$$
+  
+
+$$
+\mathbf{w} = \sum\_{i \in SV} \alpha\_i y\_i \mathbf{x}\_i
+$$
+
+* **Sesgo $b$:** Se evalúa a partir de cualquier vector de soporte $\mathbf{x}\_s$ con $y\_s(\mathbf{w}^T \mathbf{x}\_s + b) = 1$:
+  
+
+$$
+b = y\_s - \mathbf{w}^T \mathbf{x}\_s
+$$
+
   (Si hay múltiples vectores de soporte, la Cátedra recomienda calcular el promedio de $b$ sobre todos ellos para estabilidad numérica).
 
 ---
@@ -334,7 +480,7 @@ Grilla Salida:  [N1] --- [N2] --- [N3]
 3. **Trazado de Fusiones:**
    * Se trazan dos líneas verticales desde los elementos o clusters que se van a unir.
    * Se unen mediante una barra horizontal **a la altura exacta calculada en la matriz de distancias** (formando una estructura de "$U$ invertida").
-4. **Corte del Dendrograma:** Se traza una línea punteada horizontal a una distancia umbral $D_{corte}$. La cantidad de líneas verticales interceptadas determina exactamente la **cantidad de clusters ($k$)** generados.
+4. **Corte del Dendrograma:** Se traza una línea punteada horizontal a una distancia umbral $D\_{corte}$. La cantidad de líneas verticales interceptadas determina exactamente la **cantidad de clusters ($k$)** generados.
 
 ```
 Distancia (Y)
@@ -352,16 +498,31 @@ Distancia (Y)
 
 ### 2. Métodos de Enlace y Distancias Inter-Cluster
 * **Single Link (Vecino Más Próximo):**
-  $$d(C_1, C_2) = \min_{x \in C_1, y \in C_2} d(x, y)$$
+  
+
+$$
+d(C\_1, C\_2) = \min\_{x \in C\_1, y \in C\_2} d(x, y)
+$$
+
   *Tendencia:* Genera clusters alargados y en forma de cadena (*chaining effect*).
 * **Complete Link (Vecino Más Lejano):**
-  $$d(C_1, C_2) = \max_{x \in C_1, y \in C_2} d(x, y)$$
+  
+
+$$
+d(C\_1, C\_2) = \max\_{x \in C\_1, y \in C\_2} d(x, y)
+$$
+
   *Tendencia:* Genera clusters compactos, esféricos y de diámetros similares.
 * **Average Link (Promedio):**
-  $$d(C_1, C_2) = \frac{1}{|C_1| \cdot |C_2|} \sum_{x \in C_1} \sum_{y \in C_2} d(x, y)$$
+  
+
+$$
+d(C\_1, C\_2) = \frac{1}{\vert C\_1 \vert \cdot \vert C\_2 \vert} \sum\_{x \in C\_1} \sum\_{y \in C\_2} d(x, y)
+$$
+
 * **¡ALERTA CANÓNICA DE EXAMEN!**
   * **NINGUNO** de los tres métodos anteriores calcula la distancia entre los centroides de los clusters.
-  * La distancia entre centroides es un método independiente llamado **Centroid Linkage**, que solo mide $\|\mu_1 - \mu_2\|$ sin promediar los pares de instancias individuales como hace Average Link.
+  * La distancia entre centroides es un método independiente llamado **Centroid Linkage**, que solo mide $\|\mu\_1 - \mu\_2\|$ sin promediar los pares de instancias individuales como hace Average Link.
 
 ---
 
@@ -371,7 +532,12 @@ Distancia (Y)
 1. Seleccionar $k$ semillas iniciales como centroides.
 2. Asignar cada dato al centroide más cercano según distancia euclídea.
 3. Recalcular cada centroide como el promedio vectorial de las instancias asignadas:
-   $$\mu_j = \frac{1}{|C_j|} \sum_{x \in C_j} x$$
+   
+
+$$
+\mu\_j = \frac{1}{\vert C\_j \vert} \sum\_{x \in C\_j} x
+$$
+
 4. **Condición de Parada:** El algoritmo termina cuando las asignaciones no cambian o los centroides se repiten entre dos iteraciones sucesivas.
 
 ### 2. Manejo de Sobreajuste en $K$-Means
@@ -385,9 +551,9 @@ Distancia (Y)
 ### 3. Disk $K$-Means (Implementación Out-of-Core)
 * Diseñado para datasets masivos que no caben en memoria RAM.
 * En lugar de almacenar todas las instancias, almacena únicamente un buffer de acumulación en memoria primaria con:
-  1. Un contador de instancias por cluster: $N_j$.
-  2. Un vector acumulador de sumas: $\mathbf{S}_j = \sum_{x \in C_j} x$.
-* Lee los datos secuencialmente desde disco en bloques y actualiza el buffer. Al final del paso, calcula los centroides como $\mu_j = \mathbf{S}_j / N_j$.
+  1. Un contador de instancias por cluster: $N\_j$.
+  2. Un vector acumulador de sumas: $\mathbf{S}\_j = \sum\_{x \in C\_j} x$.
+* Lee los datos secuencialmente desde disco en bloques y actualiza el buffer. Al final del paso, calcula los centroides como $\mu\_j = \mathbf{S}\_j / N\_j$.
 * **Criterio Oficial:** Disk $K$-Means retorna **exactamente los mismos clusters** que $K$-Means estándar si se parte de las mismas semillas iniciales.
 
 ---
@@ -396,19 +562,34 @@ Distancia (Y)
 
 ### 1. Clasificador Naive Bayes
 * **Principio:** Teorema de Bayes asumiendo independencia condicional entre atributos dado el valor de la clase:
-  $$P(C_k | X) = \frac{P(C_k) \prod_{i=1}^d P(x_i | C_k)}{P(X)}$$
-* **Distribuciones Continuas (Gaussianas):** Se calculan la media $\mu_{ik}$ y varianza $\sigma_{ik}^2$ para cada atributo $i$ en cada clase $C_k$, y la verosimilitud se calcula como:
-  $$P(x_i | C_k) = \frac{1}{\sqrt{2\pi \sigma_{ik}^2}} \exp\left(-\frac{(x_i - \mu_{ik})^2}{2\sigma_{ik}^2}\right)$$
+  
+
+$$
+P(C\_k | X) = \frac{P(C\_k) \prod\_{i=1}^d P(x\_i | C\_k)}{P(X)}
+$$
+
+* **Distribuciones Continuas (Gaussianas):** Se calculan la media $\mu\_{ik}$ y varianza $\sigma\_{ik}^2$ para cada atributo $i$ en cada clase $C\_k$, y la verosimilitud se calcula como:
+  
+
+$$
+P(x\_i | C\_k) = \frac{1}{\sqrt{2\pi \sigma\_{ik}^2}} \exp\left(-\frac{(x\_i - \mu\_{ik})^2}{2\sigma\_{ik}^2}\right)
+$$
+
 * **Histogramas (Bins):** Se divide el rango de valores continuos en intervalos cerrados (*bins*). Se cuenta la frecuencia relativa de observaciones en cada bin para cada clase. La cantidad de bins define el balance sesgo-varianza.
 
 ### 2. $k$-NN y $k$-NN Ponderado
 * **Algoritmo Canónico:**
-  1. Calcular la distancia euclídea desde la nueva instancia $x_0$ a **todos** los puntos del conjunto de entrenamiento.
+  1. Calcular la distancia euclídea desde la nueva instancia $x\_0$ a **todos** los puntos del conjunto de entrenamiento.
   2. Ordenar las distancias de menor a mayor.
   3. Seleccionar las $k$ instancias más cercanas y realizar votación mayoritaria.
 * **$k$-NN Ponderado:**
   * Se asigna a cada vecino un peso inversamente proporcional al cuadrado de la distancia:
-    $$w_i = \frac{1}{1 + d(x_0, x_i)^2} \quad \text{o bien} \quad w_i = \frac{1}{d(x_0, x_i)^2}$$
+    
+
+$$
+w\_i = \frac{1}{1 + d(x\_0, x\_i)^2} \quad \text{o bien} \quad w\_i = \frac{1}{d(x\_0, x\_i)^2}
+$$
+
   * *Tip de Examen:* En $k$-NN ponderado **puede utilizarse todo el conjunto de datos ($k = N$)** para clasificar, ya que los puntos muy lejanos reciben un peso que tiende asintóticamente a 0, evitando que degraden la predicción.
 * **Determinación de $k$ Óptimo:** Se aplica **Leave-One-Out Cross Validation** (o $k$-fold cross validation) evaluando el porcentaje de clasificación correcta para diferentes valores de $k$ en una tabla de aciertos. Se elige el $k$ con mayor tasa de éxito.
 
@@ -426,9 +607,19 @@ Distancia (Y)
 ### 3. Selección de Acciones y Actualización de Bellman
 * **$\epsilon$-greedy:** Con probabilidad $1-\epsilon$ se explota (se elige la acción con mayor $Q(s, a)$); con probabilidad $\epsilon$ se explora al azar.
 * **Softmax (Distribución de Boltzmann):** Calcula la probabilidad de cada acción mediante ranuras proporcionales en ruleta:
-  $$P(a_i) = \frac{e^{Q(s, a_i)/\tau}}{\sum_j e^{Q(s, a_j)/\tau}}$$
+  
+
+$$
+P(a\_i) = \frac{e^{Q(s, a\_i)/\tau}}{\sum\_j e^{Q(s, a\_j)/\tau}}
+$$
+
 * **Ecuación de Actualización de Bellman:**
-  $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ R(s, a) + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$
+  
+
+$$
+Q(s, a) \leftarrow Q(s, a) + \alpha \left[ R(s, a) + \gamma \max\_{a'} Q(s', a') - Q(s, a) \right]
+$$
+
 
 # PARTE I: Banco de Exámenes Finales y Parciales Recientes (2024 – 2025)
 
@@ -443,15 +634,15 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *Explicar aprendizaje supervisado y no supervisado. Definición y ejemplos.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Aprendizaje Supervisado:**
-     - **Definición:** Es un paradigma de aprendizaje inductivo donde el algoritmo dispone durante su entrenamiento de un conjunto de pares de datos etiquetados $\mathcal{D} = \{(\mathbf{x}_p, \mathbf{d}_p)\}_{p=1}^P$, donde cada $\mathbf{x}_p \in \mathbb{R}^n$ es un vector de características (entradas) y $\mathbf{d}_p$ es la salida objetivo o deseada (*target*) suministrada por un "supervisor" externo.
-     - **Objetivo matemático:** Aprender una función de mapeo hipótesis $h: \mathcal{X} \to \mathcal{Y}$ que minimice una función de costo o pérdida $J(\mathbf{w})$, de modo que sea capaz de predecir con precisión la salida para vectores de entrada no observados previamente (capacidad de **generalización**).
-     - **Tipos de problemas y ejemplos:**
+  - **Definición:** Es un paradigma de aprendizaje inductivo donde el algoritmo dispone durante su entrenamiento de un conjunto de pares de datos etiquetados $\mathcal{D} = \{(\mathbf{x}\_p, \mathbf{d}\_p)\}\_{p=1}^P$, donde cada $\mathbf{x}\_p \in \mathbb{R}^n$ es un vector de características (entradas) y $\mathbf{d}\_p$ es la salida objetivo o deseada (*target*) suministrada por un "supervisor" externo.
+  - **Objetivo matemático:** Aprender una función de mapeo hipótesis $h: \mathcal{X} \to \mathcal{Y}$ que minimice una función de costo o pérdida $J(\mathbf{w})$, de modo que sea capaz de predecir con precisión la salida para vectores de entrada no observados previamente (capacidad de **generalización**).
+  - **Tipos de problemas y ejemplos:**
        - *Clasificación (salida discreta/categórica):* Predecir si un paciente padece una patología (Sí/No) o clasificar especies botánicas (Perceptrón Simple, Multicapa / MLP, Support Vector Machines / SVM, Clasificador Naïve Bayes, Árboles C4.5, $k$-NN).
        - *Regresión (salida continua):* Predecir el valor del consumo energético de una planta fabril en función de temperatura y nivel de producción (MLP con función de salida lineal, Regresión Lineal/Polinomial).
   2. **Aprendizaje No Supervisado:**
-     - **Definición:** Es un paradigma donde el conjunto de datos de entrenamiento carece por completo de etiquetas o valores objetivos: $\mathcal{D} = \{\mathbf{x}_p\}_{p=1}^P$. El sistema no recibe ninguna señal de retroalimentación, refuerzo ni corrección externa que indique si sus respuestas son válidas o erróneas.
-     - **Objetivo matemático:** Descubrir por sí mismo patrones ocultos, correlaciones, densidades de probabilidad o la estructura topológica y geométrica intrínseca de los datos. Se dice que estas redes o algoritmos son capaces de **autoorganizarse**.
-     - **Tipos de problemas y ejemplos:**
+  - **Definición:** Es un paradigma donde el conjunto de datos de entrenamiento carece por completo de etiquetas o valores objetivos: $\mathcal{D} = \{\mathbf{x}\_p\}\_{p=1}^P$. El sistema no recibe ninguna señal de retroalimentación, refuerzo ni corrección externa que indique si sus respuestas son válidas o erróneas.
+  - **Objetivo matemático:** Descubrir por sí mismo patrones ocultos, correlaciones, densidades de probabilidad o la estructura topológica y geométrica intrínseca de los datos. Se dice que estas redes o algoritmos son capaces de **autoorganizarse**.
+  - **Tipos de problemas y ejemplos:**
        - *Agrupamiento / Clustering:* Segmentar clientes en función de sus perfiles de consumo sin clases prefijadas ($K$-Means, Disk $K$-Means, Clustering Jerárquico Aglomerativo Single/Complete/Average Link).
        - *Reducción de Dimensionalidad y Mapas de Características:* Proyectar datos de alta dimensión sobre una cuadrícula bidimensional preservando relaciones de vecindad topológica (Mapas Autoorganizados de Kohonen / SOM, PCA).
        - *Memorización y Reconstrucción Autoasociativa:* Recuperar un patrón ruidoso o incompleto a partir de la memoria asociativa distribuida (Redes Recurrentes de Hopfield).
@@ -464,16 +655,31 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   1. **Definición y Enunciado Formal:**
      La propiedad de **Cierre hacia Abajo** (*Downward Closure* o propiedad antimonótona del soporte) establece que:  
-     $$\text{Si un conjunto de ítems } X \text{ es frecuente (es decir, } \text{soporte}(X) \ge \text{minsup}\text{), entonces todo subconjunto no vacío } Y \subseteq X \text{ también es frecuente (}\text{soporte}(Y) \ge \text{minsup}\text{).}$$
+     
+
+$$
+\text{Si un conjunto de ítems } X \text{ es frecuente (es decir, } \text{soporte}(X) \ge \text{minsup}\text{), entonces todo subconjunto no vacío } Y \subseteq X \text{ también es frecuente (}\text{soporte}(Y) \ge \text{minsup}\text{).}
+$$
+
      De forma contrapositiva equivalente:  
-     $$\text{Si un subconjunto } Y \text{ es infrecuente (}\text{soporte}(Y) < \text{minsup}\text{), entonces ningún superconjunto } X \supseteq Y \text{ puede ser frecuente.}$$
+     
+
+$$
+\text{Si un subconjunto } Y \text{ es infrecuente (}\text{soporte}(Y) < \text{minsup}\text{), entonces ningún superconjunto } X \supseteq Y \text{ puede ser frecuente.}
+$$
+
   2. **Fundamento Matemático:**
-     El soporte mide la frecuencia relativa de transacciones que contienen a un itemset: $\text{soporte}(X) = \frac{|\{t \in \mathcal{T} \mid X \subseteq t\}|}{|\mathcal{T}|}$. Dado que cualquier transacción que contiene a un conjunto $X$ necesariamente contiene a cualquier subconjunto $Y \subseteq X$, se cumple monótonamente que:
-     $$\{t \in \mathcal{T} \mid X \subseteq t\} \subseteq \{t \in \mathcal{T} \mid Y \subseteq t\} \implies \text{soporte}(X) \le \text{soporte}(Y)$$
+     El soporte mide la frecuencia relativa de transacciones que contienen a un itemset: $\text{soporte}(X) = \frac{|\{t \in \mathcal{T} \mid X \subseteq t\}\vert }{ \vert\mathcal{T}|}$. Dado que cualquier transacción que contiene a un conjunto $X$ necesariamente contiene a cualquier subconjunto $Y \subseteq X$, se cumple monótonamente que:
+     
+
+$$
+\{t \in \mathcal{T} \mid X \subseteq t\} \subseteq \{t \in \mathcal{T} \mid Y \subseteq t\} \implies \text{soporte}(X) \le \text{soporte}(Y)
+$$
+
   3. **Para qué sirve (Utilidad Práctica en Algoritmo Apriori):**
-     El espacio de búsqueda de posibles combinaciones de ítems escala exponencialmente ($2^{|I|} - 1$). La propiedad permite una **poda masiva del espacio de estados** durante la fase de generación de candidatos `candidate-gen`:
-     - Al construir los candidatos de tamaño $k$ ($C_k$) combinando pares de $(k-1)$-itemsets frecuentes en orden lexicográfico, se examinan todos sus subconjuntos de tamaño $k-1$.
-     - Si tan solo uno de esos subconjuntos no se encuentra en el conjunto de frecuentes $L_{k-1}$, el candidato se descarta de inmediato sin necesidad de consultar la base de datos de transacciones en disco.
+     El espacio de búsqueda de posibles combinaciones de ítems escala exponencialmente ($2^{\vert I \vert} - 1$). La propiedad permite una **poda masiva del espacio de estados** durante la fase de generación de candidatos `candidate-gen`:
+  - Al construir los candidatos de tamaño $k$ ($C\_k$) combinando pares de $(k-1)$-itemsets frecuentes en orden lexicográfico, se examinan todos sus subconjuntos de tamaño $k-1$.
+  - Si tan solo uno de esos subconjuntos no se encuentra en el conjunto de frecuentes $L\_{k-1}$, el candidato se descarta de inmediato sin necesidad de consultar la base de datos de transacciones en disco.
 
 ---
 
@@ -483,13 +689,13 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   Para evitar que el espacio de búsqueda crezca factorialmente al combinar posibles órdenes de acciones, los planificadores modernos (como POP / POT) utilizan **tres principios fundamentales**:
   1. **Apertura de la representación de estados, objetivos y acciones:**
-     - En lugar de modelar los estados como "cajas negras" opacas (átomos monolíticos como en búsqueda heurística tradicional), se representan mediante conjuntos lógicos estructurados de oraciones proposicionales o predicados de primer orden.
-     - Las acciones se definen formalmente mediante listas explícitas de **Precondiciones**, **Lista de Añadir (Add)** y **Lista de Eliminar (Delete)** (formato STRIPS). Esto permite al planificador razonar analíticamente hacia atrás (*goal regression*), seleccionando únicamente aquellas acciones cuyos efectos añadan directamente una condición requerida por el objetivo, ignorando las miles de acciones irrelevantes.
+  - En lugar de modelar los estados como "cajas negras" opacas (átomos monolíticos como en búsqueda heurística tradicional), se representan mediante conjuntos lógicos estructurados de oraciones proposicionales o predicados de primer orden.
+  - Las acciones se definen formalmente mediante listas explícitas de **Precondiciones**, **Lista de Añadir (Add)** y **Lista de Eliminar (Delete)** (formato STRIPS). Esto permite al planificador razonar analíticamente hacia atrás (*goal regression*), seleccionando únicamente aquellas acciones cuyos efectos añadan directamente una condición requerida por el objetivo, ignorando las miles de acciones irrelevantes.
   2. **Postergación de decisiones (Principio del Mínimo Compromiso / *Least Commitment*):**
-     - No comprometerse con un ordenamiento estricto ni instanciaciones tempranas de variables hasta que sea estrictamente necesario.
-     - En lugar de construir secuencias lineales rígidas de pasos ($S_1 \to S_2 \to S_3$), se genera un grafo de orden parcial donde dos pasos $S_i$ y $S_j$ sólo se ordenan temporalmente ($S_i \prec S_j$) si existe una amenaza destructiva o una dependencia causal directa entre ellos. Si son independientes, pueden ejecutarse en cualquier orden o en paralelo.
+  - No comprometerse con un ordenamiento estricto ni instanciaciones tempranas de variables hasta que sea estrictamente necesario.
+  - En lugar de construir secuencias lineales rígidas de pasos ($S\_1 \to S\_2 \to S\_3$), se genera un grafo de orden parcial donde dos pasos $S\_i$ y $S\_j$ sólo se ordenan temporalmente ($S\_i \prec S\_j$) si existe una amenaza destructiva o una dependencia causal directa entre ellos. Si son independientes, pueden ejecutarse en cualquier orden o en paralelo.
   3. **Descomposición de objetivos e independencia de submetas:**
-     - El objetivo global se divide en un conjunto de subobjetivos casi-independientes. El planificador resuelve cada submeta de forma desacoplada y luego integra los planes parciales mediante la resolución de conflictos (amenazas a vínculos causales).
+  - El objetivo global se divide en un conjunto de subobjetivos casi-independientes. El planificador resuelve cada submeta de forma desacoplada y luego integra los planes parciales mediante la resolución de conflictos (amenazas a vínculos causales).
 
 ---
 
@@ -498,21 +704,26 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *¿El término de momento puede ser negativo?. Justificar y explicar desde cuándo se puede aplicar.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Regla de Actualización con Término de Momento:**
-     $$\Delta w_{ji}(t+1) = \alpha \cdot \delta_{pj} \cdot y_{pi} + \beta \cdot \Delta w_{ji}(t)$$
-     donde:
-     - $\alpha \in (0, 1)$ es la tasa de aprendizaje (*learning rate*).
-     - $\beta \in [0, 1)$ es la constante o coeficiente de momento.
-     - $T_M = \beta \cdot \Delta w_{ji}(t)$ es el **término de momento**.
+     
+
+$$
+\Delta w\_{ji}(t+1) = \alpha \cdot \delta\_{pj} \cdot y\_{pi} + \beta \cdot \Delta w\_{ji}(t)
+$$
+
+  donde:
+  - $\alpha \in (0, 1)$ es la tasa de aprendizaje (*learning rate*).
+  - $\beta \in [0, 1)$ es la constante o coeficiente de momento.
+  - $T\_M = \beta \cdot \Delta w\_{ji}(t)$ es el **término de momento**.
   2. **¿Puede ser negativo? Justificación:**
-     - **Sí, el término de momento numéricamente SÍ puede ser negativo.**
-     - **Justificación:** Si bien el parámetro $\beta$ se configura como un escalar positivo ($0 \le \beta < 1$), el valor del término $T_M = \beta \cdot \Delta w_{ji}(t)$ adopta el signo algebraico que haya tenido el incremento de peso en la iteración inmediatamente previa $\Delta w_{ji}(t)$.
-     - Cuando en la iteración $t$ el peso se ajustó con un decremento (es decir, $\Delta w_{ji}(t) < 0$ porque la derivada del error respecto a ese peso fue positiva: $\frac{\partial E_p}{\partial w_{ji}} > 0$), el producto escalar $\beta \cdot \Delta w_{ji}(t)$ resulta estrictamente negativo.
+  - **Sí, el término de momento numéricamente SÍ puede ser negativo.**
+  - **Justificación:** Si bien el parámetro $\beta$ se configura como un escalar positivo ($0 \le \beta < 1$), el valor del término $T\_M = \beta \cdot \Delta w\_{ji}(t)$ adopta el signo algebraico que haya tenido el incremento de peso en la iteración inmediatamente previa $\Delta w\_{ji}(t)$.
+  - Cuando en la iteración $t$ el peso se ajustó con un decremento (es decir, $\Delta w\_{ji}(t) < 0$ porque la derivada del error respecto a ese peso fue positiva: $\frac{\partial E\_p}{\partial w\_{ji}} > 0$), el producto escalar $\beta \cdot \Delta w\_{ji}(t)$ resulta estrictamente negativo.
   3. **¿Desde cuándo se puede aplicar?:**
-     - Se puede aplicar **a partir de la segunda iteración ($t \ge 1$, considerando la primera iteración como $t=0$)**.
-     - **Razón técnica:** Para la primera actualización de pesos ($t=0$), no existe una iteración previa $t=-1$; convencionalmente se asume $\Delta w_{ji}(-1) = 0$. Por lo tanto, el término de momento se hace operativo y aporta inercia a partir de la segunda actualización en adelante.
+  - Se puede aplicar **a partir de la segunda iteración ($t \ge 1$, considerando la primera iteración como $t=0$)**.
+  - **Razón técnica:** Para la primera actualización de pesos ($t=0$), no existe una iteración previa $t=-1$; convencionalmente se asume $\Delta w\_{ji}(-1) = 0$. Por lo tanto, el término de momento se hace operativo y aporta inercia a partir de la segunda actualización en adelante.
   4. **Efecto en el proceso de entrenamiento:**
-     - *Si el gradiente actual mantiene la misma dirección negativa:* El momento negativo suma su magnitud a la corrección del paso actual, acelerando el descenso hacia el mínimo a lo largo de mesetas o pendientes llanas.
-     - *Si el gradiente actual cambió de signo (pasó a positivo):* Significa que la actualización dio un salto excesivo y se pasó del mínimo hacia la pared opuesta de un valle estrecho. En ese caso, el momento negativo amortigua el nuevo paso, actuando como filtro disipativo que previene oscilaciones divergentes.
+  - *Si el gradiente actual mantiene la misma dirección negativa:* El momento negativo suma su magnitud a la corrección del paso actual, acelerando el descenso hacia el mínimo a lo largo de mesetas o pendientes llanas.
+  - *Si el gradiente actual cambió de signo (pasó a positivo):* Significa que la actualización dio un salto excesivo y se pasó del mínimo hacia la pared opuesta de un valle estrecho. En ese caso, el momento negativo amortigua el nuevo paso, actuando como filtro disipativo que previene oscilaciones divergentes.
 
 ---
 
@@ -523,13 +734,18 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
   1. **¿Se puede aplicar tal cual?:**
      **NO se puede aplicar tal cual.** En atributos cualitativos discretos, el algoritmo genera una rama saliente por cada valor nominal distinto del atributo y luego elimina dicho atributo del conjunto de atributos disponibles para las ramas hijas. Con valores continuos numéricos, este procedimiento generaría tantas ramas como instancias existan, provocando un sobreajuste patológico (árbol univaluado con ramas de un solo elemento) y pérdida total de generalización.
   2. **Modificaciones que introduce C4.5:**
-     - **Discretización Dinámica en Línea:** Para un atributo continuo $A$, se ordenan de menor a mayor los valores observados en el nodo actual: $v_1 < v_2 < \dots < v_m$.
-     - **Generación de Puntos de Corte Medios:** Se evalúan como posibles umbrales de partición binaria (*thresholds*) los puntos medios entre pares adyacentes de valores consecutivos:
-       $$c_i = \frac{v_i + v_{i+1}}{2}, \quad i = 1, \dots, m-1$$
-       (Especialmente aquellos puntos donde cambia la clase observada entre $v_i$ y $v_{i+1}$).
-     - **Evaluación de Ganancia:** Cada umbral $c_i$ divide los datos en dos subconjuntos: $A \le c_i$ y $A > c_i$. Se calcula la Tasa de Ganancia de Información para cada umbral y se elige aquel $c^*$ que maximice la métrica.
-     - **Persistencia del Atributo:** A diferencia del caso discreto, el atributo continuo **NO se elimina** del conjunto de atributos candidatos en los nodos descendientes, ya que un subintervalo (por ejemplo $A > c^*$) puede requerir una nueva partición más adelante. Así, un mismo atributo continuo puede aparecer múltiples veces a lo largo de un mismo camino raíz-hoja.
-     - **Impacto Computacional:** La complejidad temporal por atributo pasa de ser lineal $\mathcal{O}(|D|)$ en el caso discreto a $\mathcal{O}(|D| \log |D|)$ debido al costo del ordenamiento.
+  - **Discretización Dinámica en Línea:** Para un atributo continuo $A$, se ordenan de menor a mayor los valores observados en el nodo actual: $v\_1 < v\_2 < \dots < v\_m$.
+  - **Generación de Puntos de Corte Medios:** Se evalúan como posibles umbrales de partición binaria (*thresholds*) los puntos medios entre pares adyacentes de valores consecutivos:
+       
+
+$$
+c\_i = \frac{v\_i + v\_{i+1}}{2}, \quad i = 1, \dots, m-1
+$$
+
+(Especialmente aquellos puntos donde cambia la clase observada entre $v\_i$ y $v\_{i+1}$).
+  - **Evaluación de Ganancia:** Cada umbral $c\_i$ divide los datos en dos subconjuntos: $A \le c\_i$ y $A > c\_i$. Se calcula la Tasa de Ganancia de Información para cada umbral y se elige aquel $c^{\ast}$ que maximice la métrica.
+  - **Persistencia del Atributo:** A diferencia del caso discreto, el atributo continuo **NO se elimina** del conjunto de atributos candidatos en los nodos descendientes, ya que un subintervalo (por ejemplo $A > c^{\ast}$) puede requerir una nueva partición más adelante. Así, un mismo atributo continuo puede aparecer múltiples veces a lo largo de un mismo camino raíz-hoja.
+  - **Impacto Computacional:** La complejidad temporal por atributo pasa de ser lineal $\mathcal{O}(\vert D \vert)$ en el caso discreto a $\mathcal{O}(\vert D \vert \log \vert D \vert)$ debido al costo del ordenamiento.
 
 ---
 
@@ -540,10 +756,20 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *Explicar errores de entrenamiento y validación, diferencias, comportamiento, relación y patrones.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Definiciones y Fórmulas:**
-     - **Error de Entrenamiento ($E_{ent}$):** Se calcula como el error cuadrático medio acumulado sobre las instancias que el algoritmo utiliza activamente para ajustar sus pesos sinápticos mediante gradiente:
-       $$E_{ent} = \frac{1}{2 P_{ent}} \sum_{p=1}^{P_{ent}} \sum_{k=1}^M (d_{pk} - y_{pk})^2$$
-     - **Error de Validación ($E_{val}$):** Se evalúa sobre un conjunto disjunto de muestras que **no interviene** en la modificación de los pesos, sirviendo como estimador no sesgado del error de generalización durante el aprendizaje:
-       $$E_{val} = \frac{1}{2 P_{val}} \sum_{p=1}^{P_{val}} \sum_{k=1}^M (d_{pk} - y_{pk})^2$$
+  - **Error de Entrenamiento ($E\_{ent}$):** Se calcula como el error cuadrático medio acumulado sobre las instancias que el algoritmo utiliza activamente para ajustar sus pesos sinápticos mediante gradiente:
+       
+
+$$
+E\_{ent} = \frac{1}{2 P\_{ent}} \sum\_{p=1}^{P\_{ent}} \sum\_{k=1}^M (d\_{pk} - y\_{pk})^2
+$$
+
+  - **Error de Validación ($E\_{val}$):** Se evalúa sobre un conjunto disjunto de muestras que **no interviene** en la modificación de los pesos, sirviendo como estimador no sesgado del error de generalización durante el aprendizaje:
+       
+
+$$
+E\_{val} = \frac{1}{2 P\_{val}} \sum\_{p=1}^{P\_{val}} \sum\_{k=1}^M (d\_{pk} - y\_{pk})^2
+$$
+
   2. **Diferencias Fundamentales de Rol:**
      | Criterio | Conjunto de Entrenamiento | Conjunto de Validación |
      | :--- | :--- | :--- |
@@ -551,9 +777,9 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
      | **Evolución esperada** | Decrece de forma monótona a medida que transcurren las épocas de cómputo. | Decrece al inicio, alcanza un mínimo global y luego comienza a ascender. |
      | **Criterio de corte** | Si el error cae por debajo de un umbral prefijado $\varepsilon$, se puede detener. | Su punto de inflexión mínimo marca la parada temprana (*Early Stopping*). |
   3. **Comportamiento, Relación y Patrones Dinámicos:**
-     - **Fase de Subajuste (*Underfitting*):** Al inicio del entrenamiento, ambos errores ($E_{ent}$ y $E_{val}$) son elevados y descienden a la par de forma pronunciada, ya que la red está capturando las regularidades macroscópicas dominantes del dominio.
-     - **Punto Óptimo (*Early Stopping*):** El error de validación alcanza su mínimo valor absoluto ($E_{val}^*$). En este instante la red ha maximizado su capacidad de generalización. Se debe detener el algoritmo y preservar la matriz de pesos de esta época.
-     - **Fase de Sobreentrenamiento (*Overfitting*):** Si se continúa iterando, $E_{ent}$ continúa descendiendo asintóticamente hacia cero (la red memoriza el ruido y particularidades individuales de la muestra), mientras que $E_{val}$ comienza a subir progresivamente. La divergencia creciente entre ambas curvas es el síntoma indiscutible de pérdida de generalización.
+  - **Fase de Subajuste (*Underfitting*):** Al inicio del entrenamiento, ambos errores ($E\_{ent}$ y $E\_{val}$) son elevados y descienden a la par de forma pronunciada, ya que la red está capturando las regularidades macroscópicas dominantes del dominio.
+  - **Punto Óptimo (*Early Stopping*):** El error de validación alcanza su mínimo valor absoluto ($E\_{val}^{\ast}$). En este instante la red ha maximizado su capacidad de generalización. Se debe detener el algoritmo y preservar la matriz de pesos de esta época.
+  - **Fase de Sobreentrenamiento (*Overfitting*):** Si se continúa iterando, $E\_{ent}$ continúa descendiendo asintóticamente hacia cero (la red memoriza el ruido y particularidades individuales de la muestra), mientras que $E\_{val}$ comienza a subir progresivamente. La divergencia creciente entre ambas curvas es el síntoma indiscutible de pérdida de generalización.
 
 ---
 
@@ -562,36 +788,46 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *Explicar amenazas y donde se analizan en planning, utilizando el algoritmo.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Definición Formal de Amenaza:**
-     En un plan de orden parcial, existe un **vínculo causal** $S_i \xrightarrow{c} S_j$ cuando el paso productor $S_i$ tiene la precondición $c$ en su lista de añadir (*Add-list*) para satisfacerla en el paso consumidor $S_j$, protegiendo dicha condición durante el intervalo temporal entre ambos.  
-     Una **amenaza** es un paso $S_{amenaza}$ perteneciente al plan que cumple simultáneamente dos condiciones:
-     - $S_{amenaza}$ incluye $\neg c$ en su lista de eliminar (*Delete-list*), destruyendo la condición protegida.
-     - El ordenamiento temporal actual es compatible con que $S_{amenaza}$ se ejecute entre $S_i$ y $S_j$ (es decir, no existe restricción que obligue a que ocurra antes de $S_i$ ni después de $S_j$).
+     En un plan de orden parcial, existe un **vínculo causal** $S\_i \xrightarrow{c} S\_j$ cuando el paso productor $S\_i$ tiene la precondición $c$ en su lista de añadir (*Add-list*) para satisfacerla en el paso consumidor $S\_j$, protegiendo dicha condición durante el intervalo temporal entre ambos.  
+     Una **amenaza** es un paso $S\_{amenaza}$ perteneciente al plan que cumple simultáneamente dos condiciones:
+  - $S\_{amenaza}$ incluye $\neg c$ en su lista de eliminar (*Delete-list*), destruyendo la condición protegida.
+  - El ordenamiento temporal actual es compatible con que $S\_{amenaza}$ se ejecute entre $S\_i$ y $S\_j$ (es decir, no existe restricción que obligue a que ocurra antes de $S\_i$ ni después de $S\_j$).
   2. **En qué parte del algoritmo POP se analizan:**
-     Se analizan en el procedimiento de verificación de consistencia del plan parcial, inmediatamente después de haber añadido un nuevo paso $S_{add}$ o un nuevo vínculo causal al plan.
+     Se analizan en el procedimiento de verificación de consistencia del plan parcial, inmediatamente después de haber añadido un nuevo paso $S\_{add}$ o un nuevo vínculo causal al plan.
   3. **Mecanismo de Resolución Algorítmica:**
      Para neutralizar la amenaza y preservar el plan, el algoritmo aplica restricciones de orden:
-     - **Democión / Degradación (*Demotion*):** Obligar a que el paso amenazante ocurra antes del paso productor:
-       $$S_{amenaza} \prec S_i$$
-     - **Promoción (*Promotion*):** Obligar a que el paso amenazante ocurra después del paso consumidor:
-       $$S_j \prec S_{amenaza}$$
-     Si ninguna de las dos ramas genera un ciclo en el grafo temporal, el plan sigue siendo viable; si ambas generan ciclos, el planificador retrocede (*backtracking*).
+  - **Democión / Degradación (*Demotion*):** Obligar a que el paso amenazante ocurra antes del paso productor:
+       
+
+$$
+S\_{amenaza} \prec S\_i
+$$
+
+  - **Promoción (*Promotion*):** Obligar a que el paso amenazante ocurra después del paso consumidor:
+       
+
+$$
+S\_j \prec S\_{amenaza}
+$$
+
+  Si ninguna de las dos ramas genera un ciclo en el grafo temporal, el plan sigue siendo viable; si ambas generan ciclos, el planificador retrocede (*backtracking*).
 
 ---
 
-### Pregunta 3: Batería Verdadero / Falso: Árboles de Decisión y Búsqueda Heurística $A^*$ `[TEMA_P1_RENDIDO]`
+### Pregunta 3: Batería Verdadero / Falso: Árboles de Decisión y Búsqueda Heurística $A^{\ast}$ `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
 * **Enunciado original:** *Verdaderos y falsos de: árboles de decisión, búsqueda heurística(A*)*
 * **Desarrollo y Respuestas Oficiales:**
   1. *Árboles de Decisión:*
-     - *Proposición:* Las hojas de un árbol de decisión pueden ser nodos impuros.  
+  - *Proposición:* Las hojas de un árbol de decisión pueden ser nodos impuros.  
        **VERDADERO.** Ocurre cuando se agotan los atributos disponibles o la ganancia es menor a un umbral prefijado, quedando instancias de diferentes clases en el nodo hoja.
-     - *Proposición:* Los caminos desde la raíz a las hojas no son mutuamente excluyentes.  
+  - *Proposición:* Los caminos desde la raíz a las hojas no son mutuamente excluyentes.  
        **FALSO.** Los caminos son estrictamente mutuamente excluyentes (ningún ejemplo puede seguir dos caminos distintos) y exhaustivos.
-  2. *Búsqueda Heurística $A^*$:*
-     - *Proposición:* Si $h'(n) = 0$ para todo $n$ y $g(n)$ es variable, el algoritmo encuentra el camino óptimo.  
+  2. *Búsqueda Heurística $A^{\ast}$:*
+  - *Proposición:* Si $h'(n) = 0$ para todo $n$ y $g(n)$ es variable, el algoritmo encuentra el camino óptimo.  
        **VERDADERO.** El algoritmo se reduce al algoritmo de Dijkstra de costo uniforme, garantizando el camino de menor costo real acumulado.
-     - *Proposición:* Si $h'(n) = 0$ y $g(n) = 1$ para todo $n$, encuentra el camino con menor cantidad de tramos.  
-       **VERDADERO.** Al ser los costos uniformes, $A^*$ se transforma exactamente en una Búsqueda Primero en Amplitud (BFS).
+  - *Proposición:* Si $h'(n) = 0$ y $g(n) = 1$ para todo $n$, encuentra el camino con menor cantidad de tramos.  
+       **VERDADERO.** Al ser los costos uniformes, $A^{\ast}$ se transforma exactamente en una Búsqueda Primero en Amplitud (BFS).
 
 ---
 
@@ -599,10 +835,10 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Clasificación temática:** [TEMA_P2_SVM]
 * **Enunciado original:** *SVM (20pts cada tema, 4 oraciones V/F cada una).*
 * **Desarrollo y Respuestas Oficiales:**
-  1. *Proposición:* Los vectores de soporte son aquellos cuyos multiplicadores de Lagrange $\alpha_i$ son estrictamente distintos de cero.  
-     **VERDADERO.** Por las condiciones de complementariedad de Karush-Kuhn-Tucker (KKT), las instancias que no son de soporte se ubican fuera del margen y tienen $\alpha_i = 0$.
-  2. *Proposición:* Entre los hiperplanos $H_+$ y $H_-$ no existen instancias de entrenamiento en el caso linealmente separable.  
-     **VERDADERO.** La banda de margen máximo conforma una zona vacía de exclusión de ancho $\frac{2}{\|\mathbf{w}\|}$.
+  1. *Proposición:* Los vectores de soporte son aquellos cuyos multiplicadores de Lagrange $\alpha\_i$ son estrictamente distintos de cero.  
+     **VERDADERO.** Por las condiciones de complementariedad de Karush-Kuhn-Tucker (KKT), las instancias que no son de soporte se ubican fuera del margen y tienen $\alpha\_i = 0$.
+  2. *Proposición:* Entre los hiperplanos $H\_+$ y $H\_-$ no existen instancias de entrenamiento en el caso linealmente separable.  
+     **VERDADERO.** La banda de margen máximo conforma una zona vacía de exclusión de ancho $\frac{2}{\\vert \mathbf{w}\ \vert}$.
   3. *Proposición:* El vector normal $\mathbf{w}$ y el bias $b$ deben recalcularse si ingresa una nueva instancia de entrenamiento.  
      **VERDADERO.** SVM es un método global que requiere resolver nuevamente el problema de optimización cuadrática al incorporar nuevas instancias de entrenamiento que puedan alterar el margen.
   4. *Proposición:* Las SVM lineales sólo pueden aplicarse a problemas bidimensionales de dos dimensiones.  
@@ -623,15 +859,35 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   1. **Obtención del Vector Normal de Pesos $\mathbf{w}$:**
      A partir de la condición de estacionariedad del Lagrangiano Primal respecto a $\mathbf{w}$ en las condiciones KKT:
-     $$\frac{\partial L_P}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N y_i \alpha_i \mathbf{x}_i = 0 \implies \mathbf{w} = \sum_{i=1}^N y_i \alpha_i \mathbf{x}_i = \sum_{s \in SV} y_s \alpha_s \mathbf{x}_s$$
-     El vector $\mathbf{w}$ queda expresado como una combinación lineal ponderada exclusivamente de los **vectores de soporte** ($SV$), ya que para los demás ejemplos $\alpha_i = 0$.
+     
+
+$$
+\frac{\partial L\_P}{\partial \mathbf{w}} = \mathbf{w} - \sum\_{i=1}^N y\_i \alpha\_i \mathbf{x}\_i = 0 \implies \mathbf{w} = \sum\_{i=1}^N y\_i \alpha\_i \mathbf{x}\_i = \sum\_{s \in SV} y\_s \alpha\_s \mathbf{x}\_s
+$$
+
+El vector $\mathbf{w}$ queda expresado como una combinación lineal ponderada exclusivamente de los **vectores de soporte** ($SV$), ya que para los demás ejemplos $\alpha\_i = 0$.
   2. **Obtención del Término Independiente $b$ (*bias* o sesgo):**
-     Para cualquier vector de soporte $\mathbf{x}_s$ que descansa exactamente sobre los hiperplanos de frontera marginal ($H_+$ o $H_-$), se satisface con igualdad la restricción:
-     $$y_s (\mathbf{w}^T \mathbf{x}_s + b) = 1$$
-     Multiplicando ambos miembros por $y_s$ (dado que $y_s^2 = 1$ para $y_s \in \{-1, +1\}$):
-     $$b = y_s - \mathbf{w}^T \mathbf{x}_s = \frac{1}{y_s} - \mathbf{w}^T \mathbf{x}_s$$
-     Para maximizar la estabilidad numérica frente a tolerancias de cálculo, la Cátedra indica promediar sobre todos los $|SV|$ vectores de soporte:
-     $$b = \frac{1}{|SV|} \sum_{s \in SV} \left( y_s - \mathbf{w}^T \mathbf{x}_s \right)$$
+     Para cualquier vector de soporte $\mathbf{x}\_s$ que descansa exactamente sobre los hiperplanos de frontera marginal ($H\_+$ o $H\_-$), se satisface con igualdad la restricción:
+     
+
+$$
+y\_s (\mathbf{w}^T \mathbf{x}\_s + b) = 1
+$$
+
+Multiplicando ambos miembros por $y\_s$ (dado que $y\_s^2 = 1$ para $y\_s \in \{-1, +1\}$):
+     
+
+$$
+b = y\_s - \mathbf{w}^T \mathbf{x}\_s = \frac{1}{y\_s} - \mathbf{w}^T \mathbf{x}\_s
+$$
+
+Para maximizar la estabilidad numérica frente a tolerancias de cálculo, la Cátedra indica promediar sobre todos los $\vert SV \vert$ vectores de soporte:
+     
+
+$$
+b = \frac{1}{\vert SV \vert} \sum\_{s \in SV} \left( y\_s - \mathbf{w}^T \mathbf{x}\_s \right)
+$$
+
 
 ---
 
@@ -639,7 +895,7 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
 * **Enunciado original:** *Downward closure y donde está el algoritmo.*
 * **Respuesta Canónica de la Cátedra:**
-  Se ubica en la función **`candidate-gen`** del algoritmo Apriori. Al construir los $k$-candidatos $C_k$ mediante la unión de pares de $L_{k-1}$ que comparten sus primeros $k-2$ elementos, se verifica que todos los subconjuntos de tamaño $k-1$ del candidato pertenezcan a $L_{k-1}$. Si alguno no pertenece, se poda inmediatamente.
+  Se ubica en la función **`candidate-gen`** del algoritmo Apriori. Al construir los $k$-candidatos $C\_k$ mediante la unión de pares de $L\_{k-1}$ que comparten sus primeros $k-2$ elementos, se verifica que todos los subconjuntos de tamaño $k-1$ del candidato pertenezcan a $L\_{k-1}$. Si alguno no pertenece, se poda inmediatamente.
 
 ---
 
@@ -649,12 +905,12 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   - **Ejemplo en el Mundo de los Bloques:**  
     Queremos lograr la meta final `Sobre(A, B)` y `Sobre(B, C)`.
-    Existe un vínculo causal entre el paso inicial $S_0$ que añade `Mesa(A)` y `Despejado(B)`, y el paso $S_1 = \text{Mover}(A, B)$ para poner $A$ sobre $B$.  
-    Si se planifica otro paso $S_2 = \text{Mover}(C, B)$, este paso añade `Sobre(C, B)` pero **elimina** `Despejado(B)` de su Delete-list.
-    $S_2$ constituye una **amenaza** al vínculo causal entre $S_0$ y $S_1$.
+    Existe un vínculo causal entre el paso inicial $S\_0$ que añade `Mesa(A)` y `Despejado(B)`, y el paso $S\_1 = \text{Mover}(A, B)$ para poner $A$ sobre $B$.  
+    Si se planifica otro paso $S\_2 = \text{Mover}(C, B)$, este paso añade `Sobre(C, B)` pero **elimina** `Despejado(B)` de su Delete-list.
+    $S\_2$ constituye una **amenaza** al vínculo causal entre $S\_0$ y $S\_1$.
   - **Resolución:**
-    - *Democión:* Ordenar $S_2 \prec S_1$ no resuelve el problema porque dejaría a $B$ ocupado cuando $S_1$ lo necesita despejado.
-    - *Promoción:* Se añade la restricción temporal $S_1 \prec S_2$, asegurando que $A$ se ubique sobre $B$ antes de que cualquier otra acción interactúe con el bloque.
+    - *Democión:* Ordenar $S\_2 \prec S\_1$ no resuelve el problema porque dejaría a $B$ ocupado cuando $S\_1$ lo necesita despejado.
+    - *Promoción:* Se añade la restricción temporal $S\_1 \prec S\_2$, asegurando que $A$ se ubique sobre $B$ antes de que cualquier otra acción interactúe con el bloque.
 
 ---
 
@@ -663,13 +919,28 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *Entropía, ganancias y Tasa Ganancia.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Entropía del Conjunto $D$:**
-     $$\text{Entropía}(D) = - \sum_{j=1}^{|C|} P(C_j) \log_2 P(C_j)$$
+     
+
+$$
+\text{Entropía}(D) = - \sum\_{j=1}^{\vert C \vert} P(C\_j) \log\_2 P(C\_j)
+$$
+
      Mide el grado de impureza o desorden de clases en una colección de datos.
   2. **Ganancia de Información (ID3):**
-     $$\text{Ganancia}(D, A_i) = \text{Entropía}(D) - \sum_{j=1}^m \frac{|D_j|}{|D|} \text{Entropía}(D_j)$$
-     Mide la reducción neta de impureza lograda al particionar según el atributo $A_i$. Presenta un sesgo perjudicial hacia atributos con muchos valores distintos.
+     
+
+$$
+\text{Ganancia}(D, A\_i) = \text{Entropía}(D) - \sum\_{j=1}^m \frac{\vert D\_j \vert}{\vert D \vert} \text{Entropía}(D\_j)
+$$
+
+Mide la reducción neta de impureza lograda al particionar según el atributo $A\_i$. Presenta un sesgo perjudicial hacia atributos con muchos valores distintos.
   3. **Tasa de Ganancia (*Gain Ratio* - C4.5):**
-     $$\text{TasaDeGanancia}(D, A_i) = \frac{\text{Ganancia}(D, A_i)}{\text{SplitInfo}(D, A_i)}, \quad \text{donde } \text{SplitInfo}(D, A_i) = - \sum_{j=1}^m \frac{|D_j|}{|D|} \log_2 \left( \frac{|D_j|}{|D|} \right)$$
+     
+
+$$
+\text{TasaDeGanancia}(D, A\_i) = \frac{\text{Ganancia}(D, A\_i)}{\text{SplitInfo}(D, A\_i)}, \quad \text{donde } \text{SplitInfo}(D, A\_i) = - \sum\_{j=1}^m \frac{\vert D\_j \vert}{\vert D \vert} \log\_2 \left( \frac{\vert D\_j \vert}{\vert D \vert} \right)
+$$
+
      Normaliza la ganancia dividiéndola por la información intrínseca de partición (*SplitInfo*), penalizando atributos que generen divisiones atomizadas.
 
 ---
@@ -686,22 +957,42 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Enunciado original:** *SOM completo.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Arquitectura:**
-     Red no supervisada compuesta por dos capas completamente interconectadas mediante pesos $\mathbf{w}_j$:
-     - *Capa de entrada:* $N$ neuronas pasivas correspondientes a las dimensiones del vector $\mathbf{x} \in \mathbb{R}^N$.
-     - *Capa de salida (Mapa):* Arreglo bidimensional de neuronas con conexiones laterales de competencia e inhibición (modelo de sombrero mexicano).
+     Red no supervisada compuesta por dos capas completamente interconectadas mediante pesos $\mathbf{w}\_j$:
+  - *Capa de entrada:* $N$ neuronas pasivas correspondientes a las dimensiones del vector $\mathbf{x} \in \mathbb{R}^N$.
+  - *Capa de salida (Mapa):* Arreglo bidimensional de neuronas con conexiones laterales de competencia e inhibición (modelo de sombrero mexicano).
   2. **Fase 1: Competencia:**
      Al recibir un patrón $\mathbf{x}$, cada neurona calcula su distancia euclídea:
-     $$d_j = \|\mathbf{x} - \mathbf{w}_j\| = \sqrt{\sum_{i=1}^N (x_i - w_{ji})^2}$$
+     
+
+$$
+d\_j = \|\mathbf{x} - \mathbf{w}\_j\| = \sqrt{\sum\_{i=1}^N (x\_i - w\_{ji})^2}
+$$
+
      Se proclama ganadora la neurona con menor distancia (**BMU** - *Best Matching Unit*):
-     $$c = \arg\min_j \|\mathbf{x} - \mathbf{w}_j\|$$
+     
+
+$$
+c = \arg\min\_j \|\mathbf{x} - \mathbf{w}\_j\|
+$$
+
   3. **Fase 2: Cooperación (Función de Vecindad):**
-     La neurona ganadora $c$ excita a sus vecinas topológicas en la cuadrícula mediante una función de vecindad $h_{cj}(t)$, tal como la función gaussiana o racional:
-     $$h_{cj}(t) = \exp\left( -\frac{\text{dist}^2(c, j)}{2 \sigma(t)^2} \right) \quad \text{o} \quad h_{cj}(t) = \frac{1}{1 + \text{dist}^2(c, j)}$$
-     El radio de vecindad $\sigma(t)$ decrece en el tiempo.
+     La neurona ganadora $c$ excita a sus vecinas topológicas en la cuadrícula mediante una función de vecindad $h\_{cj}(t)$, tal como la función gaussiana o racional:
+     
+
+$$
+h\_{cj}(t) = \exp\left( -\frac{\text{dist}^2(c, j)}{2 \sigma(t)^2} \right) \quad \text{o} \quad h\_{cj}(t) = \frac{1}{1 + \text{dist}^2(c, j)}
+$$
+
+El radio de vecindad $\sigma(t)$ decrece en el tiempo.
   4. **Fase 3: Adaptación (Actualización de Pesos):**
      Se modifican los pesos de la neurona ganadora y de sus vecinas para acercarlos al vector de entrada:
-     $$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) \cdot h_{cj}(t) \cdot (\mathbf{x} - \mathbf{w}_j(t))$$
-     con una tasa de aprendizaje decreciente monótona: $\alpha(t) = \frac{\alpha_0}{t}$ o $\frac{1}{t}$.
+     
+
+$$
+\mathbf{w}\_j(t+1) = \mathbf{w}\_j(t) + \alpha(t) \cdot h\_{cj}(t) \cdot (\mathbf{x} - \mathbf{w}\_j(t))
+$$
+
+con una tasa de aprendizaje decreciente monótona: $\alpha(t) = \frac{\alpha\_0}{t}$ o $\frac{1}{t}$.
 
 ---
 
@@ -715,23 +1006,43 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 
 ---
 
-### Pregunta 5: Obtención de las Distancias $d_+$ y $d_-$ en SVM
+### Pregunta 5: Obtención de las Distancias $d\_+$ y $d\_-$ en SVM
 * **Clasificación temática:** [TEMA_P2_SVM]
 * **Enunciado original:** *Explicar cómo se obtiene los d en svm.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Definición Geométrica:**
-     Son las distancias euclídeas perpendiculares más cortas desde el hiperplano óptimo de decisión $H_0: \mathbf{w}^T \mathbf{x} + b = 0$ hasta los hiperplanos de frontera marginal que contienen a los vectores de soporte:
-     - $H_1: \mathbf{w}^T \mathbf{x} + b = +1$ (para clase positiva $y_i = +1$, distancia $d_+$).
-     - $H_2: \mathbf{w}^T \mathbf{x} + b = -1$ (para clase negativa $y_i = -1$, distancia $d_-$).
+     Son las distancias euclídeas perpendiculares más cortas desde el hiperplano óptimo de decisión $H\_0: \mathbf{w}^T \mathbf{x} + b = 0$ hasta los hiperplanos de frontera marginal que contienen a los vectores de soporte:
+  - $H\_1: \mathbf{w}^T \mathbf{x} + b = +1$ (para clase positiva $y\_i = +1$, distancia $d\_+$).
+  - $H\_2: \mathbf{w}^T \mathbf{x} + b = -1$ (para clase negativa $y\_i = -1$, distancia $d\_-$).
   2. **Deducción Matemática:**
      La distancia ortogonal de un punto arbitrario $\mathbf{x}$ a un hiperplano $\mathbf{w}^T \mathbf{x} + b = 0$ viene dada por:
-     $$\text{dist}(\mathbf{x}, H_0) = \frac{|\mathbf{w}^T \mathbf{x} + b|}{\|\mathbf{w}\|}$$
-     Para cualquier vector de soporte positivo $\mathbf{x}_+ \in H_1$, se tiene $\mathbf{w}^T \mathbf{x}_+ + b = 1$, por lo tanto:
-     $$d_+ = \frac{1}{\|\mathbf{w}\|} = \frac{1}{\sqrt{w_1^2 + w_2^2 + \dots + w_n^2}}$$
-     Análogamente, para cualquier vector de soporte negativo $\mathbf{x}_- \in H_2$, se tiene $\mathbf{w}^T \mathbf{x}_- + b = -1$, resultando:
-     $$d_- = \frac{|-1|}{\|\mathbf{w}\|} = \frac{1}{\|\mathbf{w}\|}$$
+     
+
+$$
+\text{dist}(\mathbf{x}, H\_0) = \frac{|\mathbf{w}^T \mathbf{x} + b\vert }{\ \vert\mathbf{w}\|}
+$$
+
+Para cualquier vector de soporte positivo $\mathbf{x}\_+ \in H\_1$, se tiene $\mathbf{w}^T \mathbf{x}\_+ + b = 1$, por lo tanto:
+     
+
+$$
+d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert} = \frac{1}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
+$$
+
+Análogamente, para cualquier vector de soporte negativo $\mathbf{x}\_- \in H\_2$, se tiene $\mathbf{w}^T \mathbf{x}\_- + b = -1$, resultando:
+     
+
+$$
+d\_- = \frac{|-1\vert }{\ \vert\mathbf{w}\|} = \frac{1}{\\vert \mathbf{w}\ \vert}
+$$
+
      El ancho del margen separador total es:
-     $$\text{Margen} = d_+ + d_- = \frac{2}{\|\mathbf{w}\|}$$
+     
+
+$$
+\text{Margen} = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert}
+$$
+
 
 ---
 
@@ -745,42 +1056,67 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
      Diseñado para conjuntos de datos masivos que superan la capacidad de la memoria RAM. Evita cargar todo el dataset simultáneamente, procesando el archivo en disco mediante lecturas secuenciales en bloques.
   2. **Mecanismo de Acumulación Incremental:**
      En lugar de almacenar todas las asignaciones de cada punto, mantiene en memoria principal únicamente dos estructuras por cada cluster $j \in \{1, \dots, k\}$:
-     - Un acumulador vectorial $\mathbf{s}_j \in \mathbb{R}^n$, inicializado en $\mathbf{0}$.
-     - Un contador escalar de instancias $n_j \in \mathbb{N}$, inicializado en $0$.
+  - Un acumulador vectorial $\mathbf{s}\_j \in \mathbb{R}^n$, inicializado en $\mathbf{0}$.
+  - Un contador escalar de instancias $n\_j \in \mathbb{N}$, inicializado en $0$.
   3. **Pseudocódigo Operativo:**
-     - Se eligen $k$ centroides iniciales $\mathbf{m}_j$.
-     - Por cada pasada sobre el archivo en disco, para cada punto $\mathbf{x} \in \mathcal{D}$:
-       1. Se calcula la distancia a los centroides y se encuentra el más cercano: $j = \arg\min_i \text{dist}(\mathbf{x}, \mathbf{m}_i)$.
+  - Se eligen $k$ centroides iniciales $\mathbf{m}\_j$.
+  - Por cada pasada sobre el archivo en disco, para cada punto $\mathbf{x} \in \mathcal{D}$:
+       1. Se calcula la distancia a los centroides y se encuentra el más cercano: $j = \arg\min\_i \text{dist}(\mathbf{x}, \mathbf{m}\_i)$.
        2. Se actualizan incrementalmente en memoria:
-          $$\mathbf{s}_j \leftarrow \mathbf{s}_j + \mathbf{x}$$
-          $$n_j \leftarrow n_j + 1$$
-     - Finalizado el recorrido secuencial, se actualizan los centroides en un único paso:
-       $$\mathbf{m}_j \leftarrow \frac{\mathbf{s}_j}{n_j}$$
+          
+
+$$
+\mathbf{s}\_j \leftarrow \mathbf{s}\_j + \mathbf{x}
+$$
+
+          
+
+$$
+n\_j \leftarrow n\_j + 1
+$$
+
+  - Finalizado el recorrido secuencial, se actualizan los centroides en un único paso:
+       
+
+$$
+\mathbf{m}\_j \leftarrow \frac{\mathbf{s}\_j}{n\_j}
+$$
+
   4. **Propiedad Crítica de Equivalencia:**
-     Si se inicializan con las mismas semillas iniciales, **Disk $K$-Means genera exactamente los mismos clusters que la versión estándar en memoria**, dado que la media aritmética no sufre alteraciones por computarse secuencialmente.
+  Si se inicializan con las mismas semillas iniciales, **Disk $K$-Means genera exactamente los mismos clusters que la versión estándar en memoria**, dado que la media aritmética no sufre alteraciones por computarse secuencialmente.
 
 ---
 
-### Pregunta 2: Generación de Reglas de Asociación con $f_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`
+### Pregunta 2: Generación de Reglas de Asociación con $f\_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Reglas de Asociación / Apriori)
 * **Enunciado original:** *Explique el algoritmo de generación de reglas y use f4= (A, M, V, P) para ir explicando paso a paso.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Algoritmo General (`genRules` y `ap-genRules`):**
-     A partir de un $k$-itemset frecuente $f_k$, el soporte de cualquier regla derivada es constante: $\text{soporte}(X \to Y) = \text{soporte}(f_k)$. Por lo tanto, el algoritmo sólo debe verificar la confianza:
-     $$\text{confianza}(X \to Y) = \frac{\text{soporte}(f_k)}{\text{soporte}(X)} \ge \text{minconf}$$
-  2. **Paso 1: Generación de Reglas con 1 Consecuente ($H_1$):**
-     Para $f_4 = \{A, M, V, P\}$, se generan todas las reglas con un único ítem en el consecuente:
-     - $R_1: \{M, V, P\} \to \{A\}, \quad \text{conf} = \frac{\text{sop}(f_4)}{\text{sop}(\{M, V, P\})}$
-     - $R_2: \{A, V, P\} \to \{M\}, \quad \text{conf} = \frac{\text{sop}(f_4)}{\text{sop}(\{A, V, P\})}$
-     - $R_3: \{A, M, P\} \to \{V\}, \quad \text{conf} = \frac{\text{sop}(f_4)}{\text{sop}(\{A, M, P\})}$
-     - $R_4: \{A, M, V\} \to \{P\}, \quad \text{conf} = \frac{\text{sop}(f_4)}{\text{sop}(\{A, M, V\})}$
-     Las reglas cuya confianza sea $\ge \text{minconf}$ se emiten, y sus consecuentes conforman el conjunto de candidatos válidos $H_1$.
-  3. **Paso 2: Generación Recursiva con `ap-genRules(f_4, H_1)` ($H_2$):**
-     - Se combinan pares de $H_1$ para generar candidatos de 2 consecuentes $H_2 = \text{candidate-gen}(H_1)$.
-     - **Poda por Cierre hacia Abajo de la Confianza:** Si un consecuente de 1 elemento fue descartado en el paso anterior (por ejemplo $\{P\}$ no superó minconf), ningún consecuente de 2 elementos que contenga a $P$ (ej. $\{A, P\}$) puede generar una regla válida, ya que el soporte del antecedente aumentaría, haciendo que la confianza sea aún menor.
-     - Para los candidatos sobrevivientes (ej. $\{M, V\}$), se evalúa:
-       $$\{A, P\} \to \{M, V\}, \quad \text{conf} = \frac{\text{sop}(f_4)}{\text{sop}(\{A, P\})}$$
-  4. **Paso 3: Expansión a $H_3$ y Detención:**
+     A partir de un $k$-itemset frecuente $f\_k$, el soporte de cualquier regla derivada es constante: $\text{soporte}(X \to Y) = \text{soporte}(f\_k)$. Por lo tanto, el algoritmo sólo debe verificar la confianza:
+     
+
+$$
+\text{confianza}(X \to Y) = \frac{\text{soporte}(f\_k)}{\text{soporte}(X)} \ge \text{minconf}
+$$
+
+  2. **Paso 1: Generación de Reglas con 1 Consecuente ($H\_1$):**
+     Para $f\_4 = \{A, M, V, P\}$, se generan todas las reglas con un único ítem en el consecuente:
+  - $R\_1: \{M, V, P\} \to \{A\}, \quad \text{conf} = \frac{\text{sop}(f\_4)}{\text{sop}(\{M, V, P\})}$
+  - $R\_2: \{A, V, P\} \to \{M\}, \quad \text{conf} = \frac{\text{sop}(f\_4)}{\text{sop}(\{A, V, P\})}$
+  - $R\_3: \{A, M, P\} \to \{V\}, \quad \text{conf} = \frac{\text{sop}(f\_4)}{\text{sop}(\{A, M, P\})}$
+  - $R\_4: \{A, M, V\} \to \{P\}, \quad \text{conf} = \frac{\text{sop}(f\_4)}{\text{sop}(\{A, M, V\})}$
+     Las reglas cuya confianza sea $\ge \text{minconf}$ se emiten, y sus consecuentes conforman el conjunto de candidatos válidos $H\_1$.
+  3. **Paso 2: Generación Recursiva con `ap-genRules(f_4, H_1)` ($H\_2$):**
+  - Se combinan pares de $H\_1$ para generar candidatos de 2 consecuentes $H\_2 = \text{candidate-gen}(H\_1)$.
+  - **Poda por Cierre hacia Abajo de la Confianza:** Si un consecuente de 1 elemento fue descartado en el paso anterior (por ejemplo $\{P\}$ no superó minconf), ningún consecuente de 2 elementos que contenga a $P$ (ej. $\{A, P\}$) puede generar una regla válida, ya que el soporte del antecedente aumentaría, haciendo que la confianza sea aún menor.
+  - Para los candidatos sobrevivientes (ej. $\{M, V\}$), se evalúa:
+       
+
+$$
+\{A, P\} \to \{M, V\}, \quad \text{conf} = \frac{\text{sop}(f\_4)}{\text{sop}(\{A, P\})}
+$$
+
+  4. **Paso 3: Expansión a $H\_3$ y Detención:**
      El proceso continúa invocando recursivamente `ap-genRules` para generar reglas con 3 consecuentes (ej. $\{A\} \to \{M, V, P\}$) y se detiene cuando $k = m+1$ (pues no se permiten reglas con antecedente vacío).
 
 ---
@@ -807,16 +1143,31 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   1. **Concepto de Ortogonalidad:**
      Dos patrones bipolares $\mathbf{e}^{(k)}, \mathbf{e}^{(m)} \in \{-1, +1\}^N$ son ortogonales si su producto escalar es nulo:
-     $$\sum_{i=1}^N e_i^{(k)} \cdot e_i^{(m)} = 0 \quad (\forall k \ne m)$$
-     (La Cátedra acepta la condición de no interferencia constructiva: $\sum e_i^{(k)} e_i^{(m)} \le 0$).
-     - *Significado Físico:* Expresa el grado de independencia o diferencia que existe entre los patrones. Si los patrones son ortogonales, no interfieren entre sí durante el proceso dinámico de recuperación asociativa (el término de interferencia cruzada o *crosstalk* en la sumatoria de activación se anula por completo).
+     
+
+$$
+\sum\_{i=1}^N e\_i^{(k)} \cdot e\_i^{(m)} = 0 \quad (\forall k \ne m)
+$$
+
+(La Cátedra acepta la condición de no interferencia constructiva: $\sum e\_i^{(k)} e\_i^{(m)} \le 0$).
+  - *Significado Físico:* Expresa el grado de independencia o diferencia que existe entre los patrones. Si los patrones son ortogonales, no interfieren entre sí durante el proceso dinámico de recuperación asociativa (el término de interferencia cruzada o *crosstalk* en la sumatoria de activación se anula por completo).
   2. **Condiciones de Recuperabilidad:**
      Para una red de Hopfield de $N$ neuronas que memoriza $M$ patrones:
-     - **Recuperación Perfecta (sin ningún bit de error en ningún patrón):**
-       $$M \le \frac{N}{4 \ln(N)}$$
-     - **Recuperación Buena (tasa de error residual menor al 1% al 5%):**
-       $$M \le 0.138 \cdot N$$
-     Si el número de patrones almacenados supera $0.138 N$, la red entra en saturación catastrófica, emergiendo mínimos espurios y perdiendo la memoria asociativa.
+  - **Recuperación Perfecta (sin ningún bit de error en ningún patrón):**
+       
+
+$$
+M \le \frac{N}{4 \ln(N)}
+$$
+
+  - **Recuperación Buena (tasa de error residual menor al 1% al 5%):**
+       
+
+$$
+M \le 0.138 \cdot N
+$$
+
+  Si el número de patrones almacenados supera $0.138 N$, la red entra en saturación catastrófica, emergiendo mínimos espurios y perdiendo la memoria asociativa.
 
 ---
 
@@ -824,7 +1175,7 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 
 ### Preguntas Desarrolladas:
 1. **Principios para evitar la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
-2. **Qué significa y cómo se obtienen $d_+$ y $d_-$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
+2. **Qué significa y cómo se obtienen $d\_+$ y $d\_-$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
 3. **Explicar el funcionamiento de SOM:** *(Ver [Febrero 2025 - Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
 4. **Errores de validación y entrenamiento:** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
 5. **¿El término de momento puede ser negativo?:** *(Ver [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
@@ -836,7 +1187,7 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 ### Preguntas Desarrolladas:
 1. **Disk $K$-Means:** *(Ver [Diciembre 2024 - Pregunta 1](#pregunta-1-algoritmo-disk-k-means))*.
 2. **Error de entrenamiento y validación:** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
-3. **Algoritmo de generación de reglas con $f_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`:** *(Ver [Diciembre 2024 - Pregunta 2](#pregunta-2-generación-de-reglas-de-asociación-con-f_4--a-m-v-p-tema_p1_rendido))*.
+3. **Algoritmo de generación de reglas con $f\_4 = (A, M, V, P)$ `[TEMA_P1_RENDIDO]`:** *(Ver [Diciembre 2024 - Pregunta 2](#pregunta-2-generación-de-reglas-de-asociación-con-f_4--a-m-v-p-tema_p1_rendido))*.
 4. **Entrenamiento supervisado y no supervisado:** *(Ver [Junio 2025 - Pregunta 1](#pregunta-1-aprendizaje-supervisado-y-no-supervisado-definición-y-ejemplos))*.
 5. **Árboles de decisión con atributos continuos `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 5](#pregunta-5-algoritmo-c45-para-atributos-continuos-tema_p1_rendido))*.
 
@@ -846,7 +1197,7 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 
 ### Preguntas Desarrolladas:
 1. **Set de entrenamiento y validación (Cálculo):** *(Ver [Abril 2025 - Pregunta 1](#pregunta-1-errores-de-entrenamiento-y-validación-diferencias-comportamiento-y-patrones))*.
-2. **Cálculo de $d_+$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
+2. **Cálculo de $d\_+$ en SVM:** *(Ver [Febrero 2025 - Pregunta 5](#pregunta-5-obtención-de-las-distancias-d_-y-d_--en-svm))*.
 3. **Principios contra la explosión combinatoria en planning `[TEMA_P1_RENDIDO]`:** *(Ver [Junio 2025 - Pregunta 3](#pregunta-3-estrategias-de-planificación-para-evitar-la-explosión-combinatoria-tema_p1_rendido))*.
 4. **Término momento negativo y su efecto en el entrenamiento:** *(Ver [Junio 2025 - Pregunta 4](#pregunta-4-término-de-momento-negativo-en-mlp))*.
 5. **Algoritmo SOM:** *(Ver [Febrero 2025 - Pregunta 2](#pregunta-2-redes-som-completo-arquitectura-y-dinámica))*.
@@ -871,23 +1222,43 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 
 ---
 
-### Pregunta 2: Sobreestimación de $h$ en $A^*$ y Pérdida de Optimalidad `[TEMA_P1_RENDIDO]`
-* **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística / $A^*$)
+### Pregunta 2: Sobreestimación de $h$ en $A^{\ast}$ y Pérdida de Optimalidad `[TEMA_P1_RENDIDO]`
+* **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística / $A^{\ast}$)
 * **Enunciado original:** *Explique por qué al sobreestimar h no se garantiza el camino optimo en A*.*
 * **Respuesta Canónica de la Cátedra:**
   1. **Condición de Admisibilidad y Optimalidad:**
-     Para que el algoritmo $A^*$ garantice hallar la solución óptima, la función heurística $h'(n)$ debe ser **admisible**, es decir, nunca sobreestimar el costo real $h^*(n)$ desde el nodo $n$ hasta el objetivo más cercano:
-     $$h'(n) \le h^*(n), \quad \forall n$$
+     Para que el algoritmo $A^{\ast}$ garantice hallar la solución óptima, la función heurística $h'(n)$ debe ser **admisible**, es decir, nunca sobreestimar el costo real $h^{\ast}(n)$ desde el nodo $n$ hasta el objetivo más cercano:
+     
+
+$$
+h'(n) \le h^{\ast}(n), \quad \forall n
+$$
+
   2. **Demostración de por qué se quiebra la garantía al sobreestimar:**
-     - Sea $n_{sub}$ un nodo objetivo subóptimo alcanzado con costo real $V_{sub}$, tal que $V_{sub} > V_{opt}$ (donde $V_{opt}$ es el costo de la trayectoria verdaderamente óptima). Dado que es un nodo objetivo, su heurística remanente es nula: $h'(n_{sub}) = 0$, por lo que su costo de evaluación es:
-       $$f'(n_{sub}) = g(n_{sub}) = V_{sub} > V_{opt}$$
-     - Sea $n_{opt}$ un nodo en la frontera de búsqueda (`ABIERTOS`) que pertenece a la ruta verdaderamente óptima.
-     - Si la heurística es admisible ($h'(n_{opt}) \le h^*(n_{opt})$), se cumple:
-       $$f'(n_{opt}) = g(n_{opt}) + h'(n_{opt}) \le g(n_{opt}) + h^*(n_{opt}) = V_{opt} < V_{sub}$$
-       Dado que $f'(n_{opt}) < f'(n_{sub})$, $A^*$ siempre expandirá antes a $n_{opt}$ que a $n_{sub}$, garantizando encontrar la solución óptima.
-     - **Pero si $h'$ sobreestima:** Ocurre que $h'(n_{opt}) > h^*(n_{opt})$, con lo cual:
-       $$f'(n_{opt}) = g(n_{opt}) + h'(n_{opt}) > V_{opt}$$
-     - Si esta sobreestimación hace que $f'(n_{opt}) > V_{sub} = f'(n_{sub})$, el algoritmo $A^*$ extraerá de `ABIERTOS` y expandirá prematuramente al nodo meta subóptimo $n_{sub}$, terminando la ejecución y retornando un camino de mayor costo sin haber explorado la ruta óptima.
+  - Sea $n\_{sub}$ un nodo objetivo subóptimo alcanzado con costo real $V\_{sub}$, tal que $V\_{sub} > V\_{opt}$ (donde $V\_{opt}$ es el costo de la trayectoria verdaderamente óptima). Dado que es un nodo objetivo, su heurística remanente es nula: $h'(n\_{sub}) = 0$, por lo que su costo de evaluación es:
+       
+
+$$
+f'(n\_{sub}) = g(n\_{sub}) = V\_{sub} > V\_{opt}
+$$
+
+  - Sea $n\_{opt}$ un nodo en la frontera de búsqueda (`ABIERTOS`) que pertenece a la ruta verdaderamente óptima.
+  - Si la heurística es admisible ($h'(n\_{opt}) \le h^{\ast}(n\_{opt})$), se cumple:
+       
+
+$$
+f'(n\_{opt}) = g(n\_{opt}) + h'(n\_{opt}) \le g(n\_{opt}) + h^{\ast}(n\_{opt}) = V\_{opt} < V\_{sub}
+$$
+
+Dado que $f'(n\_{opt}) < f'(n\_{sub})$, $A^{\ast}$ siempre expandirá antes a $n\_{opt}$ que a $n\_{sub}$, garantizando encontrar la solución óptima.
+  - **Pero si $h'$ sobreestima:** Ocurre que $h'(n\_{opt}) > h^{\ast}(n\_{opt})$, con lo cual:
+       
+
+$$
+f'(n\_{opt}) = g(n\_{opt}) + h'(n\_{opt}) > V\_{opt}
+$$
+
+  - Si esta sobreestimación hace que $f'(n\_{opt}) > V\_{sub} = f'(n\_{sub})$, el algoritmo $A^{\ast}$ extraerá de `ABIERTOS` y expandirá prematuramente al nodo meta subóptimo $n\_{sub}$, terminando la ejecución y retornando un camino de mayor costo sin haber explorado la ruta óptima.
 
 ---
 
@@ -902,17 +1273,37 @@ Esta sección reúne y desarrolla exhaustivamente todas las consignas teóricas 
 * **Respuesta Canónica de la Cátedra:**
   1. **Estructura:** Red neuronal multicapa de propagación hacia adelante (*feedforward*), con conexiones unidireccionales completas entre capas sucesivas y sin conexiones recurrentes ni laterales.
   2. **Fase 1: Propagación Hacia Adelante (*Forward Pass*):**
-     - Para un patrón de entrada $\mathbf{x}_p$, se calcula la entrada neta a cada neurona $j$:
-       $$\text{net}_{pj} = \sum_i w_{ji} y_{pi} + \theta_j$$
-     - Se evalúa la función de activación continua y diferenciable (típicamente sigmoide logística $y_{pj} = \frac{1}{1 + e^{-\text{net}_{pj}}}$).
+  - Para un patrón de entrada $\mathbf{x}\_p$, se calcula la entrada neta a cada neurona $j$:
+       
+
+$$
+\text{net}\_{pj} = \sum\_i w\_{ji} y\_{pi} + \theta\_j
+$$
+
+  - Se evalúa la función de activación continua y diferenciable (típicamente sigmoide logística $y\_{pj} = \frac{1}{1 + e^{-\text{net}\_{pj}}}$).
   3. **Fase 2: Retropropagación del Error (*Backward Pass*):**
-     - *Para las neuronas de la capa de salida $k$:*
-       $$\delta_{pk} = f'_k(\text{net}_{pk}) \cdot (d_{pk} - y_{pk}) = y_{pk}(1 - y_{pk}) \cdot (d_{pk} - y_{pk})$$
-     - *Para las neuronas de las capas ocultas $j$:*
-       $$\delta_{pj} = f'_j(\text{net}_{pj}) \cdot \sum_k (\delta_{pk} \cdot w_{kj}) = y_{pj}(1 - y_{pj}) \cdot \sum_k (\delta_{pk} \cdot w_{kj})$$
+  - *Para las neuronas de la capa de salida $k$:*
+       
+
+$$
+\delta\_{pk} = f'\_k(\text{net}\_{pk}) \cdot (d\_{pk} - y\_{pk}) = y\_{pk}(1 - y\_{pk}) \cdot (d\_{pk} - y\_{pk})
+$$
+
+  - *Para las neuronas de las capas ocultas $j$:*
+       
+
+$$
+\delta\_{pj} = f'\_j(\text{net}\_{pj}) \cdot \sum\_k (\delta\_{pk} \cdot w\_{kj}) = y\_{pj}(1 - y\_{pj}) \cdot \sum\_k (\delta\_{pk} \cdot w\_{kj})
+$$
+
   4. **Fase 3: Actualización de Pesos Sinápticos:**
-     $$w_{ji}(t+1) = w_{ji}(t) + \alpha \cdot \delta_{pj} \cdot y_{pi} + \beta \cdot \Delta w_{ji}(t)$$
-     El proceso se repite por épocas completas hasta satisfacer el criterio de parada (error global de época $E_g < \varepsilon$ o parada temprana por error de validación).
+     
+
+$$
+w\_{ji}(t+1) = w\_{ji}(t) + \alpha \cdot \delta\_{pj} \cdot y\_{pi} + \beta \cdot \Delta w\_{ji}(t)
+$$
+
+El proceso se repite por épocas completas hasta satisfacer el criterio de parada (error global de época $E\_g < \varepsilon$ o parada temprana por error de validación).
 
 # PARTE II: Exámenes Finales Históricos Rescatados (2020 – 2021)
 
@@ -928,23 +1319,42 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 * **Respuesta Canónica de la Cátedra:**
   1. **Definición y Propósito:**
      El término de momento es una modificación introducida por Rumelhart a la regla delta generalizada del algoritmo *Backpropagation*. Añade un término inercial dependiente de la modificación de pesos realizada en la iteración previa. Se utiliza fundamentalmente para:
-     - **Acelerar la convergencia:** En regiones llanas de la superficie de error (mesetas) o a lo largo de fondos de cañones con pendiente suave, acumula velocidad de descenso.
-     - **Amortiguar oscilaciones:** En valles estrechos y empinados con curvatura pronunciada, donde el gradiente oscila violentamente de un lado a otro, filtra las fluctuaciones permitiendo utilizar tasas de aprendizaje mayores sin divergir.
-     - **Superar mínimos locales someros:** Otorga inercia cinética al vector de pesos para atravesar pequeñas irregularidades o fosas poco profundas en la superficie de error.
+  - **Acelerar la convergencia:** En regiones llanas de la superficie de error (mesetas) o a lo largo de fondos de cañones con pendiente suave, acumula velocidad de descenso.
+  - **Amortiguar oscilaciones:** En valles estrechos y empinados con curvatura pronunciada, donde el gradiente oscila violentamente de un lado a otro, filtra las fluctuaciones permitiendo utilizar tasas de aprendizaje mayores sin divergir.
+  - **Superar mínimos locales someros:** Otorga inercia cinética al vector de pesos para atravesar pequeñas irregularidades o fosas poco profundas en la superficie de error.
   2. **Ecuación Formal Completa con Índices:**
-     $$w_{ji}(t+1) = w_{ji}(t) + \alpha \cdot \delta_{pj} \cdot y_{pi} + \beta \cdot \left( w_{ji}(t) - w_{ji}(t-1) \right)$$
+     
+
+$$
+w\_{ji}(t+1) = w\_{ji}(t) + \alpha \cdot \delta\_{pj} \cdot y\_{pi} + \beta \cdot \left( w\_{ji}(t) - w\_{ji}(t-1) \right)
+$$
+
      o expresada en función del incremento de pesos:
-     $$\Delta w_{ji}(t+1) = \alpha \cdot \delta_{pj} \cdot y_{pi} + \beta \cdot \Delta w_{ji}(t)$$
+     
+
+$$
+\Delta w\_{ji}(t+1) = \alpha \cdot \delta\_{pj} \cdot y\_{pi} + \beta \cdot \Delta w\_{ji}(t)
+$$
+
   3. **Desglose Riguroso de Cada Componente e Índice:**
-     - $t \in \mathbb{N}_0$: Índice temporal que representa el paso o ciclo discreto de actualización de pesos.
-     - $w_{ji}(t)$: Valor del peso sináptico que conecta la neurona emisora $i$ con la neurona receptora $j$ en el instante $t$.
-     - $\alpha \in (0, 1)$: Tasa de aprendizaje (*learning rate*), escalar positivo que regula la magnitud del paso en la dirección del gradiente.
-     - $p$: Identificador del patrón de entrenamiento actual presentado a la red ($p \in \{1, \dots, P\}$).
-     - $y_{pi}$: Señal de salida emitida por la neurona $i$ de la capa anterior ante la presentación del patrón $p$.
-     - $\delta_{pj}$: Término de error local de la neurona receptora $j$ para el patrón $p$:
-       $$\delta_{pj} = \begin{cases} f'_j(\text{net}_{pj}) \cdot (d_{pj} - y_{pj}) & \text{si } j \text{ pertenece a la capa de salida} \\ f'_j(\text{net}_{pj}) \cdot \sum_k \delta_{pk} w_{kj} & \text{si } j \text{ pertenece a una capa oculta} \end{cases}$$
-     - $\beta \in [0, 1)$: Coeficiente de momento (*momentum parameter*), constante empírica positiva que determina la fracción de inercia transferida del paso previo.
-     - $\Delta w_{ji}(t) = w_{ji}(t) - w_{ji}(t-1)$: Modificación neta que experimentó el peso en la iteración previa. Para $t=0$, convencionalmente se define $\Delta w_{ji}(-1) = 0$.
+  - $t \in \mathbb{N}\_0$: Índice temporal que representa el paso o ciclo discreto de actualización de pesos.
+  - $w\_{ji}(t)$: Valor del peso sináptico que conecta la neurona emisora $i$ con la neurona receptora $j$ en el instante $t$.
+  - $\alpha \in (0, 1)$: Tasa de aprendizaje (*learning rate*), escalar positivo que regula la magnitud del paso en la dirección del gradiente.
+  - $p$: Identificador del patrón de entrenamiento actual presentado a la red ($p \in \{1, \dots, P\}$).
+  - $y\_{pi}$: Señal de salida emitida por la neurona $i$ de la capa anterior ante la presentación del patrón $p$.
+  - $\delta\_{pj}$: Término de error local de la neurona receptora $j$ para el patrón $p$:
+       
+
+$$
+\delta\_{pj} = \begin{cases}
+f'\_j(\text{net}\_{pj}) \cdot (d\_{pj} - y\_{pj}) & \text{si } j \text{ pertenece a la capa de salida} \\
+f'\_j(\text{net}\_{pj}) \cdot \sum\_k \delta\_{pk} w\_{kj} & \text{si } j \text{ pertenece a una capa oculta}
+\end{cases}
+$$
+
+
+  - $\beta \in [0, 1)$: Coeficiente de momento (*momentum parameter*), constante empírica positiva que determina la fracción de inercia transferida del paso previo.
+  - $\Delta w\_{ji}(t) = w\_{ji}(t) - w\_{ji}(t-1)$: Modificación neta que experimentó el peso en la iteración previa. Para $t=0$, convencionalmente se define $\Delta w\_{ji}(-1) = 0$.
 
 ---
 
@@ -955,9 +1365,9 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
   1. **Definición de Agente Reactivo Simple:**
      Es una arquitectura de agente inteligente basada exclusivamente en el paradigma de condición-acción (*Reglas Si-Entonces*). Su función de toma de decisiones se fundamenta únicamente en la **percepción sensorial actual**, ignorando por completo el historial de percepciones pasadas y careciendo de un modelo interno del estado del mundo. Su comportamiento sólo es eficaz en entornos **totalmente accesibles / observables**.
   2. **Ejemplo Original: Sistema Automático de Presurización y Alarma en Cabina de Aeronave:**
-     - *Sensores:* Transductor barométrico de presión absoluta en cabina ($P_{cab}$) y sensor diferencial de flujo de aire en válvulas de descarga ($F$).
-     - *Actuadores:* Servoválvula moduladora de flujo de oxígeno de emergencia, compresor neumático y sirena acústica/lumínica de advertencia al piloto.
-     - *Reglas Condición-Acción:*
+  - *Sensores:* Transductor barométrico de presión absoluta en cabina ($P\_{cab}$) y sensor diferencial de flujo de aire en válvulas de descarga ($F$).
+  - *Actuadores:* Servoválvula moduladora de flujo de oxígeno de emergencia, compresor neumático y sirena acústica/lumínica de advertencia al piloto.
+  - *Reglas Condición-Acción:*
        - **Regla 1:** `SI (P_cab < 75 kPa Y Variación_P < -5 kPa/s) ENTONCES (Desplegar Máscaras de Oxígeno Y Disparar Alarma Sonora Máxima)`.
        - **Regla 2:** `SI (75 kPa <= P_cab < 85 kPa) ENTONCES (Activar Compresor de Respaldo al 100% Y Cerrar Válvulas de Descarga)`.
        - **Regla 3:** `SI (P_cab >= 85 kPa) ENTONCES (Mantener Modo Crucero Normal)`.
@@ -982,13 +1392,13 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 * **Respuesta Canónica de la Cátedra:**
   1. **Paradigma General:** Algoritmo recursivo de inducción de árboles de decisión estructurado bajo el enfoque de división y conquista (*divide and conquer*), que extiende al algoritmo ID3 introduciendo el manejo de atributos continuos, datos faltantes y normalización mediante Tasa de Ganancia.
   2. **Ciclo Recursivo de Construcción:**
-     - Si todas las instancias en el nodo pertenecen a la misma clase $C_k$, el nodo se convierte en **hoja** etiquetado con $C_k$.
-     - Si el conjunto de atributos candidatos está vacío o la reducción de impureza es menor al umbral, el nodo se convierte en **hoja** etiquetado con la clase mayoritaria en dicho nodo.
-     - De lo contrario, para cada atributo disponible $A_i$:
-       - Si $A_i$ es discreto, evalúa la Tasa de Ganancia: $\text{TasaDeGanancia}(D, A_i) = \frac{\text{Ganancia}(D, A_i)}{\text{SplitInfo}(D, A_i)}$.
-       - Si $A_i$ es continuo, ordena los valores, calcula los umbrales medios $c = \frac{v_j + v_{j+1}}{2}$, particiona binariamente ($A_i \le c$ y $A_i > c$) y selecciona el corte de máxima tasa de ganancia.
-     - Se selecciona el atributo $A^*$ con la mayor tasa de ganancia como nodo de decisión.
-     - Se particiona el dataset en subconjuntos $D_1, \dots, D_m$ según las ramas generadas y se invoca recursivamente C4.5 sobre cada subconjunto.
+  - Si todas las instancias en el nodo pertenecen a la misma clase $C\_k$, el nodo se convierte en **hoja** etiquetado con $C\_k$.
+  - Si el conjunto de atributos candidatos está vacío o la reducción de impureza es menor al umbral, el nodo se convierte en **hoja** etiquetado con la clase mayoritaria en dicho nodo.
+  - De lo contrario, para cada atributo disponible $A\_i$:
+       - Si $A\_i$ es discreto, evalúa la Tasa de Ganancia: $\text{TasaDeGanancia}(D, A\_i) = \frac{\text{Ganancia}(D, A\_i)}{\text{SplitInfo}(D, A\_i)}$.
+       - Si $A\_i$ es continuo, ordena los valores, calcula los umbrales medios $c = \frac{v\_j + v\_{j+1}}{2}$, particiona binariamente ($A\_i \le c$ y $A\_i > c$) y selecciona el corte de máxima tasa de ganancia.
+  - Se selecciona el atributo $A^{\ast}$ con la mayor tasa de ganancia como nodo de decisión.
+  - Se particiona el dataset en subconjuntos $D\_1, \dots, D\_m$ según las ramas generadas y se invoca recursivamente C4.5 sobre cada subconjunto.
   3. **Poda Posterior (*Post-Pruning*):**
      C4.5 incorpora una fase de poda basada en estimaciones de error pesimista con distribución binomial, transformando ramas sobreajustadas en nodos hoja simples para optimizar la generalización sobre datos de test.
 
@@ -1005,16 +1415,23 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
      | **Dirección del proceso** | En cada paso se fusionan (*merge*) los dos clusters más cercanos según una métrica de enlace. | En cada paso se particiona (*split*) sucesivamente un cluster en dos subgrupos disjuntos. |
      | **Complejidad computacional** | $\mathcal{O}(N^2)$ a $\mathcal{O}(N^3)$, altamente eficiente y estándar en la literatura. | $\mathcal{O}(2^N)$ en división exhaustiva, requiriendo heurísticas (como sub-$k$-means) para ser viable. |
   2. **Algoritmo Jerárquico Aglomerativo (Pasos Canónicos):**
-     1. Iniciar con $N$ clusters singleton: $C_i = \{\mathbf{x}_i\}, \; \forall i=1, \dots, N$.
-     2. Calcular la matriz de distancias simétrica inicial $D \in \mathbb{R}^{N \times N}$, evaluando la distancia entre cada par de puntos $d(\mathbf{x}_i, \mathbf{x}_j)$.
+     1. Iniciar con $N$ clusters singleton: $C\_i = \{\mathbf{x}\_i\}, \; \forall i=1, \dots, N$.
+     2. Calcular la matriz de distancias simétrica inicial $D \in \mathbb{R}^{N \times N}$, evaluando la distancia entre cada par de puntos $d(\mathbf{x}\_i, \mathbf{x}\_j)$.
      3. **Repetir:**
         - Buscar en la matriz $D$ el par de clusters $(A, B)$ que tengan la **mínima distancia**:
-          $$(A^*, B^*) = \arg\min_{A, B} \text{Dist}(A, B)$$
-        - Fusionar los dos clusters en uno nuevo: $C_{nuevo} = A^* \cup B^*$.
-        - Actualizar la matriz de distancias eliminando las filas/columnas de $A^*$ y $B^*$ e insertando la distancia entre $C_{nuevo}$ y todos los restantes clusters $K$, utilizando la estrategia de enlace elegida:
-          - *Single Link:* $\text{Dist}(C_{nuevo}, K) = \min(d(A^*, K), d(B^*, K))$.
-          - *Complete Link:* $\text{Dist}(C_{nuevo}, K) = \max(d(A^*, K), d(B^*, K))$.
-          - *Average Link:* $\text{Dist}(C_{nuevo}, K) = \frac{|A^*| \cdot d(A^*, K) + |B^*| \cdot d(B^*, K)}{|A^*| + |B^*|}$.
+          
+
+
+
+$$
+(A^{\ast}, B^{\ast}) = \arg\min\_{A, B} \text{Dist}(A, B)
+$$
+
+- Fusionar los dos clusters en uno nuevo: $C\_{nuevo} = A^{\ast} \cup B^{\ast}$.
+        - Actualizar la matriz de distancias eliminando las filas/columnas de $A^{\ast}$ y $B^{\ast}$ e insertando la distancia entre $C\_{nuevo}$ y todos los restantes clusters $K$, utilizando la estrategia de enlace elegida:
+          - *Single Link:* $\text{Dist}(C\_{nuevo}, K) = \min(d(A^{\ast}, K), d(B^{\ast}, K))$.
+          - *Complete Link:* $\text{Dist}(C\_{nuevo}, K) = \max(d(A^{\ast}, K), d(B^{\ast}, K))$.
+          - *Average Link:* $\text{Dist}(C\_{nuevo}, K) = \frac{|A^{\ast}| \cdot d(A^{\ast}, K) + |B^{\ast}| \cdot d(B^{\ast}, K)}{|A^{\ast}| + |B^{\ast}|}$.
      4. **Detención:** Cuando todos los puntos queden agrupados en un único cluster raíz de tamaño $N$, o al alcanzar un umbral de distancia prefijado. El proceso completo queda representado en el **dendrograma**.
 
 ---
@@ -1033,35 +1450,44 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 
 | Aspecto Evaluado | Red de Kohonen (SOM) | Red de Hopfield | Perceptrón Simple |
 | :--- | :--- | :--- | :--- |
-| **a. Cantidad de entradas** | $N$ entradas continuas en $\mathbb{R}^N$ (coincide con la dimensionalidad del vector de características de entrada). | $N$ entradas bipolares $x_i \in \{-1, +1\}$ (o binarias $\{0, 1\}$), coincidentes con el vector de memorización. | $N$ entradas continuas o discretas $x_i \in \mathbb{R}^N$, más un término de polarización o *bias* $x_0 = 1$. |
-| **b. Cantidad de salidas** | $M$ neuronas dispuestas en una grilla o mapa topológico (usualmente bidimensional de dimensiones $m_1 \times m_2$). | $N$ salidas bipolares $s_i \in \{-1, +1\}$ (las neuronas actúan simultáneamente como entradas y salidas). | Una única salida $y \in \{0, 1\}$ o bipolar $y \in \{-1, +1\}$ (o $M$ salidas para $M$ clases linealmente separables desacopladas). |
-| **c. Aprendizaje online / offline** | **Online:** Actualiza los pesos de la neurona ganadora (BMU) y su vecindario tras la presentación de cada patrón individual. | **Offline / Analítico:** Los pesos se calculan en un solo paso mediante suma exterior hebbiana: $W = \sum (E_k^T E_k - I)$. | **Online:** Actualiza el vector de pesos paso a paso cada vez que comete un error de clasificación ante un patrón. |
-| **d. Aprendizaje supervisado / no supervisado** | **No supervisado:** No requiere etiquetas; se autoorganiza descubriendo la topología y densidad del espacio de entrada. | **No supervisado (o autoasociativo):** Almacena patrones completos sin parejas de entrada-salida deseadas. | **Supervisado:** Requiere una señal de salida deseada explícita $d_p \in \{-1, +1\}$ para calcular el error $d_p - y_p$. |
-| **e. Condición de finalización** | Finaliza al cumplirse un número prefijado de épocas $T_{\max}$, o cuando la tasa de aprendizaje $\alpha(t) \to 0$ y los pesos se estabilizan. | La fase de entrenamiento es instantánea (fórmula Hebbiana). La recuperación finaliza al alcanzar un punto fijo / atractor estable ($s(t+1)=s(t)$) o mínimo de energía $\Delta E = 0$. | Finaliza cuando el conjunto de entrenamiento es clasificado al 100% sin cometer ningún error (convergencia finita), o por límite de iteraciones. |
-| **f. Función de transferencia** | **Competitiva / Ninguna no lineal:** Las neuronas compiten por mínima distancia euclídea; la neurona BMU se activa con 1 y las demás con 0 (*winner-take-all*). | **Escalón Bipolar (Signo):** $f(\text{net}_i) = \text{sign}(\text{net}_i) = \begin{cases} +1 & \text{si } \text{net}_i > 0 \\ -1 & \text{si } \text{net}_i < 0 \\ s_i(t) & \text{si } \text{net}_i = 0 \end{cases}$ | **Escalón Discreto (Umbral / Heaviside):** $f(\text{net}) = \begin{cases} 1 & \text{si } \mathbf{w}^T \mathbf{x} \ge 0 \\ 0 \text{ (o } -1) & \text{si } \mathbf{w}^T \mathbf{x} < 0 \end{cases}$ |
-| **g. Limitaciones principales** | Sensible a la elección inicial de la cuadrícula y función de vecindad; no provee clasificación supervisada directa; convergencia no garantiza mínimo global. | **Capacidad de memoria reducida:** Sólo retiene hasta $M \le 0.138 N$ patrones (buena) o $\frac{N}{4 \ln N}$ (perfecta). Mínimos locales espurios y estados espurios invertidos ($-E_k$). | **Frontera estrictamente lineal:** Incapaz de clasificar conjuntos que no sean linealmente separables (ej. problema del XOR). |
+| **a. Cantidad de entradas** | $N$ entradas continuas en $\mathbb{R}^N$ (coincide con la dimensionalidad del vector de características de entrada). | $N$ entradas bipolares $x\_i \in \{-1, +1\}$ (o binarias $\{0, 1\}$), coincidentes con el vector de memorización. | $N$ entradas continuas o discretas $x\_i \in \mathbb{R}^N$, más un término de polarización o *bias* $x\_0 = 1$. |
+| **b. Cantidad de salidas** | $M$ neuronas dispuestas en una grilla o mapa topológico (usualmente bidimensional de dimensiones $m\_1 \times m\_2$). | $N$ salidas bipolares $s\_i \in \{-1, +1\}$ (las neuronas actúan simultáneamente como entradas y salidas). | Una única salida $y \in \{0, 1\}$ o bipolar $y \in \{-1, +1\}$ (o $M$ salidas para $M$ clases linealmente separables desacopladas). |
+| **c. Aprendizaje online / offline** | **Online:** Actualiza los pesos de la neurona ganadora (BMU) y su vecindario tras la presentación de cada patrón individual. | **Offline / Analítico:** Los pesos se calculan en un solo paso mediante suma exterior hebbiana: $W = \sum (E\_k^T E\_k - I)$. | **Online:** Actualiza el vector de pesos paso a paso cada vez que comete un error de clasificación ante un patrón. |
+| **d. Aprendizaje supervisado / no supervisado** | **No supervisado:** No requiere etiquetas; se autoorganiza descubriendo la topología y densidad del espacio de entrada. | **No supervisado (o autoasociativo):** Almacena patrones completos sin parejas de entrada-salida deseadas. | **Supervisado:** Requiere una señal de salida deseada explícita $d\_p \in \{-1, +1\}$ para calcular el error $d\_p - y\_p$. |
+| **e. Condición de finalización** | Finaliza al cumplirse un número prefijado de épocas $T\_{\max}$, o cuando la tasa de aprendizaje $\alpha(t) \to 0$ y los pesos se estabilizan. | La fase de entrenamiento es instantánea (fórmula Hebbiana). La recuperación finaliza al alcanzar un punto fijo / atractor estable ($s(t+1)=s(t)$) o mínimo de energía $\Delta E = 0$. | Finaliza cuando el conjunto de entrenamiento es clasificado al 100% sin cometer ningún error (convergencia finita), o por límite de iteraciones. |
+| **f. Función de transferencia** | **Competitiva / Ninguna no lineal:** Las neuronas compiten por mínima distancia euclídea; la neurona BMU se activa con 1 y las demás con 0 (*winner-take-all*). | **Escalón Bipolar (Signo):** $f(\text{net}_i) = \text{sign}(\text{net}_i) = \begin{cases}
++1 & \text{si } \text{net}_i > 0 \\
+-1 & \text{si } \text{net}_i < 0 \\
+s_i(t) & \text{si } \text{net}_i = 0 \end{cases}$ | **Escalón Discreto (Umbral / Heaviside):** $f(\text{net}) = \begin{cases} 1 & \text{si } \mathbf{w}^T \mathbf{x} \ge 0 \\
+0 \text{ (o } -1) & \text{si } \mathbf{w}^T \mathbf{x} < 0 \end{cases}$ |
+| **g. Limitaciones principales** | Sensible a la elección inicial de la cuadrícula y función de vecindad; no provee clasificación supervisada directa; convergencia no garantiza mínimo global. | **Capacidad de memoria reducida:** Sólo retiene hasta $M \le 0.138 N$ patrones (buena) o $\frac{N}{4 \ln N}$ (perfecta). Mínimos locales espurios y estados espurios invertidos ($-E\_k$). | **Frontera estrictamente lineal:** Incapaz de clasificar conjuntos que no sean linealmente separables (ej. problema del XOR). |
 | **h. Ejemplo de implementación** | Agrupamiento de documentos temáticos o reducción de colores RGB en compresión de imágenes. | Memoria asociativa de reconocimiento de dígitos ópticos pixelados o caracteres con ruido estocástico. | Compuerta lógica AND / OR lineal, o detección de fraude con una única frontera hiperplana. |
 
 ---
 
 ### Pregunta 2: Solución para Red MLP que Interrumpe Entrenamiento por Error de Validación Creciente (Puntaje: 20%)
 * **Clasificación temática:** [TEMA_P2_REDES_NEURONALES]
-* **Enunciado original:** *(20%) Proponga una solución para una red MLP que finaliza el entrenamiento porque el error de validación crece antes de alcanzar el mínimo aceptable.*
+* **Enunciado original:** (20%) Proponga una solución para una red MLP que finaliza el entrenamiento porque el error de validación crece antes de alcanzar el mínimo aceptable.
 * **Respuesta Canónica de la Cátedra:**
   1. **Diagnóstico Técnico:**
-     Cuando el error de validación comienza a incrementarse tempranamente antes de que el error de entrenamiento alcance la tolerancia mínima aceptable ($E_{ent} \le \varepsilon$), el fenómeno se debe a un **sobreajuste prematuro (*early overfitting*) o mala convergencia**, donde la red comienza a memorizar las instancias de entrenamiento o no logra generalizar por deficiencias de diseño hiperparamétrico.
+     Cuando el error de validación comienza a incrementarse tempranamente antes de que el error de entrenamiento alcance la tolerancia mínima aceptable ($E\_{ent} \le \varepsilon$), el fenómeno se debe a un **sobreajuste prematuro (*early overfitting*) o mala convergencia**, donde la red comienza a memorizar las instancias de entrenamiento o no logra generalizar por deficiencias de diseño hiperparamétrico.
   2. **Propuesta Exhaustiva de Soluciones Técnicas (Cátedra):**
-     - **1. Disminución de la Capacidad / Complejidad de la Red (Arquitectura):**  
+  - **1. Disminución de la Capacidad / Complejidad de la Red (Arquitectura):**  
        La red posee demasiados grados de libertad (exceso de neuronas en la capa oculta o demasiadas capas ocultas). Se debe aplicar el principio de parsimonia (*Navaja de Ockham*), podando o reduciendo la cantidad de neuronas ocultas para restringir la capacidad de memorización espuria y forzar el aprendizaje de rasgos invariantes.
-     - **2. Incorporación de Regularización de Pesos (*Weight Decay* / Penalización $L_2$):**  
+  - **2. Incorporación de Regularización de Pesos (*Weight Decay* / Penalización $L\_2$):**  
        Modificar la función de costo global agregando una penalización por pesos de gran magnitud:
-       $$J(\mathbf{w}) = E_{global} + \frac{\lambda}{2} \sum_{i, j} w_{ji}^2$$
+       
+
+$$
+J(\mathbf{w}) = E\_{global} + \frac{\lambda}{2} \sum\_{i, j} w\_{ji}^2
+$$
+
        Esto previene que los pesos adquieran valores extremos que provocan transiciones abruptas y saturación sigmoidal, suavizando la superficie de decisión.
-     - **3. Reducción de la Tasa de Aprendizaje ($\alpha$) y Ajuste del Momento ($\beta$):**  
-       Si $\alpha$ es excesivamente grande, los pesos saltan caóticamente entre mínimos locales provocando inestabilidad en la generalización. Reducir $\alpha$ o incorporar una tasa de aprendizaje adaptativa (como decaimiento exponencial $\alpha(t) = \alpha_0 e^{-t/\tau}$) permite un descenso gradual y fino.
-     - **4. Aumento y Acondicionamiento de Datos (*Data Augmentation* y Limpieza):**  
+  - **3. Reducción de la Tasa de Aprendizaje ($\alpha$) y Ajuste del Momento ($\beta$):**  
+       Si $\alpha$ es excesivamente grande, los pesos saltan caóticamente entre mínimos locales provocando inestabilidad en la generalización. Reducir $\alpha$ o incorporar una tasa de aprendizaje adaptativa (como decaimiento exponencial $\alpha(t) = \alpha\_0 e^{-t/\tau}$) permite un descenso gradual y fino.
+  - **4. Aumento y Acondicionamiento de Datos (*Data Augmentation* y Limpieza):**  
        Si el conjunto de entrenamiento es muy pequeño en comparación con la dimensionalidad del espacio, la red sobreajusta rápidamente. Se debe enriquecer la muestra de entrenamiento mediante técnicas de aumento de datos (inyecciones controladas de ruido gaussiano, perturbaciones) y verificar que no existan contradicciones de etiquetas o sesgos entre el conjunto de entrenamiento y el de validación.
-     - **5. Normalización Rigurosa de Entradas:**  
+  - **5. Normalización Rigurosa de Entradas:**  
        Escalar todas las características continuas al rango $[0, 1]$ o normalizarlas con media cero y varianza unitaria (Z-Score) para evitar que variables de gran escala dominen los gradientes y desestabilicen el entrenamiento.
 
 ---
@@ -1073,14 +1499,14 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 
 ### Pregunta 4: C4.5 Nodos Hojas Impuros y Árbol Univaluado `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Árboles de Decisión)
-* **Enunciado original:** *(20%) Al finalizar la ejecución del algoritmo C4.5: (a) ¿Pueden quedar nodos hojas impuros? Justifique su respuesta. (b) ¿El árbol generado puede solamente tener un nodo (el raíz)? Justifique su respuesta.*
+* **Enunciado original:** (20%) Al finalizar la ejecución del algoritmo C4.5: (a) ¿Pueden quedar nodos hojas impuros? Justifique su respuesta. (b) ¿El árbol generado puede solamente tener un nodo (el raíz)? Justifique su respuesta.
 * **Respuesta Canónica de la Cátedra:**
   - **(a) ¿Pueden quedar nodos hojas impuros?**  
     **SÍ.** Ocurre en dos circunstancias bien definidas:
     1. Cuando se agotan los atributos disponibles ($A = \emptyset$) y las instancias en dicho nodo poseen clases diferentes (datos contradictorios o ruido en la muestra).
     2. Cuando la reducción de impureza (Tasa de Ganancia) es menor al umbral de corte prefijado (*threshold*). En ambos casos, el nodo se etiqueta con la clase mayoritaria.
   - **(b) ¿El árbol generado puede solamente tener un nodo (el raíz)?**  
-    **SÍ.** Ocurre cuando se presenta la primera condición base de detención del algoritmo: si todas las instancias del conjunto de entrenamiento inicial pertenecen a una única y misma clase $C_k$, el algoritmo no realiza ninguna partición, creando directamente un único nodo raíz etiquetado con la clase $C_k$ y deteniendo la ejecución.
+    **SÍ.** Ocurre cuando se presenta la primera condición base de detención del algoritmo: si todas las instancias del conjunto de entrenamiento inicial pertenecen a una única y misma clase $C\_k$, el algoritmo no realiza ninguna partición, creando directamente un único nodo raíz etiquetado con la clase $C\_k$ y deteniendo la ejecución.
 
 ---
 
@@ -1093,34 +1519,39 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 
 | Criterio Evaluado | Perceptrón Multicapa (MLP) | Máquinas de Vectores de Soporte (SVM) | Red Recurrente de Hopfield |
 | :--- | :--- | :--- | :--- |
-| **a. Cantidad de entradas** | $N$ entradas continuas en $\mathbb{R}^N$ más nodo de polarización fija (*bias* $x_0 = 1$). | $N$ entradas continuas en $\mathbb{R}^N$ (vector de atributos $\mathbf{x}_i$). | $N$ entradas bipolares discretas $x_i \in \{-1, +1\}$. |
-| **b. Cantidad de salidas** | $M$ salidas continuas o discretas (permite clasificación multiclase 1-hot o regresión múltiple). | Una única salida escalar $\hat{y} \in \{-1, +1\}$ en la formulación canónica (dos clases). | $N$ salidas bipolares $s_i \in \{-1, +1\}$ (las neuronas son bidireccionales). |
+| **a. Cantidad de entradas** | $N$ entradas continuas en $\mathbb{R}^N$ más nodo de polarización fija (*bias* $x\_0 = 1$). | $N$ entradas continuas en $\mathbb{R}^N$ (vector de atributos $\mathbf{x}\_i$). | $N$ entradas bipolares discretas $x\_i \in \{-1, +1\}$. |
+| **b. Cantidad de salidas** | $M$ salidas continuas o discretas (permite clasificación multiclase 1-hot o regresión múltiple). | Una única salida escalar $\hat{y} \in \{-1, +1\}$ en la formulación canónica (dos clases). | $N$ salidas bipolares $s\_i \in \{-1, +1\}$ (las neuronas son bidireccionales). |
 | **c. Aprendizaje online / offline** | **Ambos viables:** Típicamente *online* (patrón a patrón) o *batch* (por lote/época) mediante gradiente descendente. | **Offline / Batch:** Requiere resolver un problema global de Programación Cuadrática (QP) con todo el dataset. | **Offline / Analítico:** Asignación directa de pesos mediante sumatoria Hebbiana en una sola pasada. |
-| **d. Aprendizaje supervisado / no supervisado** | **Supervisado:** Requiere vectores de salida deseada $\mathbf{d}_p$ para computar los errores locales $\delta$. | **Supervisado:** Requiere etiquetas de clase $y_i \in \{-1, +1\}$ en las restricciones de margen. | **No supervisado / Autoasociativo:** Almacena los patrones sin parejas de salida externas. |
-| **e. Condición de finalización** | $E_{global} \le \varepsilon$, número máximo de épocas, o punto de inflexión mínimo de $E_{val}$ (*Early Stopping*). | Cumplimiento de las condiciones de Karush-Kuhn-Tucker (KKT) en el óptimo global del problema dual cuadrático. | Matriz construida analíticamente. En recuperación: estado atractor estable $s_i(t+1)=s_i(t)$ o $\Delta E = 0$. |
-| **f. Función de transferencia** | **No lineal continua y derivable:** Sigmoide $\frac{1}{1+e^{-\text{net}}}$, $\tanh$, o lineal en regresión. | **Signo del producto interno hiperplano:** $\hat{y} = \text{sign}(\mathbf{w}^T \mathbf{x} + b)$ (o función kernel implícita en espacio $\mathcal{H}$). | **Escalón Bipolar (Signo):** $\text{sign}\left(\sum w_{ij} s_j - \theta_i\right)$. |
+| **d. Aprendizaje supervisado / no supervisado** | **Supervisado:** Requiere vectores de salida deseada $\mathbf{d}\_p$ para computar los errores locales $\delta$. | **Supervisado:** Requiere etiquetas de clase $y\_i \in \{-1, +1\}$ en las restricciones de margen. | **No supervisado / Autoasociativo:** Almacena los patrones sin parejas de salida externas. |
+| **e. Condición de finalización** | $E\_{global} \le \varepsilon$, número máximo de épocas, o punto de inflexión mínimo de $E\_{val}$ (*Early Stopping*). | Cumplimiento de las condiciones de Karush-Kuhn-Tucker (KKT) en el óptimo global del problema dual cuadrático. | Matriz construida analíticamente. En recuperación: estado atractor estable $s\_i(t+1)=s\_i(t)$ o $\Delta E = 0$. |
+| **f. Función de transferencia** | **No lineal continua y derivable:** Sigmoide $\frac{1}{1+e^{-\text{net}}}$, $\tanh$, o lineal en regresión. | **Signo del producto interno hiperplano:** $\hat{y} = \text{sign}(\mathbf{w}^T \mathbf{x} + b)$ (o función kernel implícita en espacio $\mathcal{H}$). | **Escalón Bipolar (Signo):** $\text{sign}\left(\sum w\_{ij} s\_j - \theta\_i\right)$. |
 | **g. Limitaciones principales** | Caja negra; propenso a mínimos locales del error; sobreajuste; costo computacional de retropropagación. | Costo computacional cúbico $\mathcal{O}(N^3)$ en grandes volúmenes de datos; sensible a la elección del kernel y parámetro $C$. | Capacidad de memoria severamente acotada ($0.138 N$ patrones); mínima tolerancia a patrones correlacionados (no ortogonales). |
 
 ---
 
 ### Pregunta 2: Consideraciones de Diseño de Red MLP para $f(x, y) = \sin(xy) - 0.5$ (Puntaje: 20%)
 * **Clasificación temática:** [TEMA_P2_REDES_NEURONALES]
-* **Enunciado original:** *(20%) Explique las consideraciones que debería tener en el diseño de una red MLP para que pueda aprender la siguiente función: $f(x, y) = \text{sen}(xy) - 0.5$.*
+* **Enunciado original:** (20%) Explique las consideraciones que debería tener en el diseño de una red MLP para que pueda aprender la siguiente función: $f(x, y) = \text{sen}(xy) - 0.5$.
 * **Respuesta Canónica de la Cátedra:**
   1. **Análisis Funcional del Problema:**
-     - La función objetivo $f(x, y) = \sin(xy) - 0.5$ es una tarea de **aproximación de funciones continuas / regresión no lineal** en dos variables independientes continuas $(x, y) \in \mathbb{R}^2$.
-     - Dado que $-1 \le \sin(u) \le 1$, el rango de variación analítico de la salida es estrictamente acotado:
-       $$\text{Rango}(f) = [-1 - 0.5, \; 1 - 0.5] = [-1.5, \; +0.5]$$
+  - La función objetivo $f(x, y) = \sin(xy) - 0.5$ es una tarea de **aproximación de funciones continuas / regresión no lineal** en dos variables independientes continuas $(x, y) \in \mathbb{R}^2$.
+  - Dado que $-1 \le \sin(u) \le 1$, el rango de variación analítico de la salida es estrictamente acotado:
+       
+
+$$
+\text{Rango}(f) = [-1 - 0.5, \; 1 - 0.5] = [-1.5, \; +0.5]
+$$
+
   2. **Definición de la Topología y Arquitectura:**
-     - **Capa de Entrada:** 2 neuronas receptoras pasivas asociadas a las coordenadas continuas $(x, y)$, más un nodo de polarización constante (*bias* $x_0 = 1$).
-     - **Capas Ocultas:** Por el Teorema de Aproximación Universal de Cybenko-Hornik, una red con **una capa oculta** (o dos capas ocultas para modelar la periodicidad rápida del producto $xy$) con funciones de activación continuas no lineales es suficiente. Se recomienda entre 8 y 16 neuronas en la capa oculta.
-     - **Funciones de Activación en Capa Oculta:** Se debe emplear la función **Tangente Hiperbólica** ($\tanh(net) \in [-1, 1]$) o Sigmoide Logística. La función $\tanh$ es óptima por su antisimetría respecto al origen, acelerando el aprendizaje de funciones sinusoidales.
-     - **Capa de Salida:** **Una única neurona de salida**.
+  - **Capa de Entrada:** 2 neuronas receptoras pasivas asociadas a las coordenadas continuas $(x, y)$, más un nodo de polarización constante (*bias* $x\_0 = 1$).
+  - **Capas Ocultas:** Por el Teorema de Aproximación Universal de Cybenko-Hornik, una red con **una capa oculta** (o dos capas ocultas para modelar la periodicidad rápida del producto $xy$) con funciones de activación continuas no lineales es suficiente. Se recomienda entre 8 y 16 neuronas en la capa oculta.
+  - **Funciones de Activación en Capa Oculta:** Se debe emplear la función **Tangente Hiperbólica** ($\tanh(net) \in [-1, 1]$) o Sigmoide Logística. La función $\tanh$ es óptima por su antisimetría respecto al origen, acelerando el aprendizaje de funciones sinusoidales.
+  - **Capa de Salida:** **Una única neurona de salida**.
        - *Función de Activación de Salida:* **Debe ser una función Lineal / Identidad ($f(net) = net$)**.  
          *Justificación crítica de Cátedra:* Si se colocara una función sigmoide tradicional en la salida ($[0, 1]$), sería **imposible** aprender los valores negativos de la función (cuyo mínimo es $-1.5$). Si se usara $\tanh$ ($[-1, 1]$), tampoco alcanzaría el valor $-1.5$. Por lo tanto, la capa de salida debe ser lineal, o bien se debe normalizar linealmente la salida objetivo hacia el intervalo $[-0.8, 0.8]$.
   3. **Función de Pérdida y Algoritmo de Entrenamiento:**
-     - Se define el error cuadrático medio como función de costo: $E = \frac{1}{2 P} \sum_{p=1}^P (f(x_p, y_p) - y_{out, p})^2$.
-     - Algoritmo de entrenamiento: *Backpropagation* con término de momento para evitar estancamientos en las ondulaciones del producto $xy$, y parada temprana monitoreando un conjunto de validación.
+  - Se define el error cuadrático medio como función de costo: $E = \frac{1}{2 P} \sum\_{p=1}^P (f(x\_p, y\_p) - y\_{out, p})^2$.
+  - Algoritmo de entrenamiento: *Backpropagation* con término de momento para evitar estancamientos en las ondulaciones del producto $xy$, y parada temprana monitoreando un conjunto de validación.
 
 ---
 
@@ -1131,7 +1562,7 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 
 ### Pregunta 4: Conjunto de Reglas Vacío en Apriori en Condiciones Normales `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Reglas de Asociación)
-* **Enunciado original:** *(20%) Al finalizar la ejecución del algoritmo a priori, ¿el conjunto de reglas encontradas puede estar vacío? (realice el análisis en base a situaciones normales, es decir, no considere casos excepcionales como ser que la base de transacciones esté vacía, que contenga solo un elemento, etc).*
+* **Enunciado original:** (20%) Al finalizar la ejecución del algoritmo a priori, ¿el conjunto de reglas encontradas puede estar vacío? (realice el análisis en base a situaciones normales, es decir, no considere casos excepcionales como ser que la base de transacciones esté vacía, que contenga solo un elemento, etc).
 * **Respuesta Canónica de la Cátedra:**
   **SÍ, el conjunto final de reglas encontradas puede resultar completamente vacío**, incluso en condiciones plenamente normales y operativas de la base de transacciones. Esto ocurre debido a dos causas fundamentales:
   1. **Inexistencia de itemsets frecuentes:** Si el usuario fija un umbral de soporte mínimo (`minsup`) excesivamente restrictivo (o si los ítems en la base se compran de forma atomizada e inconexa), ningún $k$-itemset (o ninguno con $k \ge 2$) alcanza el soporte mínimo requerido. Sin itemsets frecuentes de tamaño $\ge 2$, no es posible generar ninguna regla de asociación.
@@ -1151,7 +1582,7 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 | **a. Dimensionalidad** | **Baja a moderada:** Sufre fuertemente la *maldición de la dimensionalidad* (en dimensiones elevadas, las distancias euclídeas entre puntos tienden a igualarse). | **Moderada a alta:** Puede operar en dimensiones medianas o elevadas, aunque la distancia entre centroides pierde contraste en altísima dimensión. | **Muy alta:** Excelente escalabilidad en cientos o miles de atributos (típico en clasificación de texto y minería web). |
 | **b. Clases o clusters** | Número arbitrario de $C$ clases supervisadas previamente presentes en las etiquetas de los datos. | Exactamente $K$ clusters disjuntos, especificados a priori por el usuario antes de iniciar la ejecución. | Número arbitrario de $C$ clases supervisadas discretas prefijadas en el conjunto de entrenamiento. |
 | **c. Aprendizaje online / offline** | **Online / Lazy puro:** No realiza cómputos de aprendizaje previo; almacena los datos y calcula las distancias en tiempo de consulta. | **Offline / Por pasadas iterativas:** Requiere iterar sobre la muestra completa hasta recalcular centroides estables. | **Ambos viables (fácilmente online):** Las probabilidades a priori y verosimilitudes se actualizan incrementalmente contando frecuencias. |
-| **d. Supervisado / no supervisado** | **Supervisado:** Requiere etiquetas de clase asociadas a cada instancia almacenada. | **No supervisado:** Agrupa datos según similitud geométrica sin requerir ninguna etiqueta. | **Supervisado:** Requiere etiquetas de clase para estimar las distribuciones condicionales $P(x_i \mid C_k)$. |
+| **d. Supervisado / no supervisado** | **Supervisado:** Requiere etiquetas de clase asociadas a cada instancia almacenada. | **No supervisado:** Agrupa datos según similitud geométrica sin requerir ninguna etiqueta. | **Supervisado:** Requiere etiquetas de clase para estimar las distribuciones condicionales $P(x\_i \mid C\_k)$. |
 | **e. Condición de finalización** | Finaliza instantáneamente la memorización. Para clasificar una consulta, finaliza al calcular distancias y ordenar los $k$ vecinos. | Finaliza cuando los centroides convergen (su desplazamiento es menor a un umbral $\varepsilon$) o cuando ninguna instancia cambia de cluster. | Finaliza en una sola pasada de conteo estadístico sobre la tabla de entrenamiento (estimación de medias/varianzas o frecuencias relativas). |
 | **f. Limitaciones principales** | Costo de predicción elevado $\mathcal{O}(N \cdot d)$; requiere almacenar todo el dataset; sensible a atributos irrelevantes y ruido. | Sensible a la selección de semillas iniciales (puede caer en mínimos locales); asume clusters esféricos e isótropos de tamaño similar. | **Supuesto de independencia condicional:** Asume independencia total de atributos dada la clase, lo cual es teóricamente irreal en problemas complejos. |
 
@@ -1159,21 +1590,21 @@ Esta sección rescata, documenta y desarrolla de manera exhaustiva las evaluacio
 
 ### Pregunta 2: Consideraciones de Diseño de MLP para $f(x, y, z) = (x \text{ XOR } y) \text{ XOR } z$ (Puntaje: 18%)
 * **Clasificación temática:** [TEMA_P2_REDES_NEURONALES]
-* **Enunciado original:** *(18%) Explique las consideraciones que debería tener en el diseño de una red MLP para que pueda aprender la siguiente función de variables binarias x, y, z: $f(x, y, z) = (x \text{ XOR } y) \text{ XOR } z$.*
+* **Enunciado original:** (18%) Explique las consideraciones que debería tener en el diseño de una red MLP para que pueda aprender la siguiente función de variables binarias x, y, z: $f(x, y, z) = (x \text{ XOR } y) \text{ XOR } z$.
 * **Respuesta Canónica de la Cátedra:**
   1. **Análisis Funcional y Separabilidad en $\mathbb{R}^3$:**
-     - La función representa la compuerta de **paridad impar de 3 variables** (XOR ternario) sobre los 8 vértices del hipercubo binario $\{0, 1\}^3$.
-     - La salida es $1$ si la cantidad de variables en $1$ es impar (vértices $(1,0,0), (0,1,0), (0,0,1)$ y $(1,1,1)$); y es $0$ si la suma de unos es par ($(0,0,0), (1,1,0), (1,0,1), (0,1,1)$).
-     - Las cuatro instancias con clase $1$ están intercaladas geométricamente con las cuatro instancias de clase $0$. Esta función **NO es linealmente separable**; requiere al menos **3 planos de corte hiperplanos** en el espacio tridimensional para aislar los vértices de paridad impar de los de paridad par.
+  - La función representa la compuerta de **paridad impar de 3 variables** (XOR ternario) sobre los 8 vértices del hipercubo binario $\{0, 1\}^3$.
+  - La salida es $1$ si la cantidad de variables en $1$ es impar (vértices $(1,0,0), (0,1,0), (0,0,1)$ y $(1,1,1)$); y es $0$ si la suma de unos es par ($(0,0,0), (1,1,0), (1,0,1), (0,1,1)$).
+  - Las cuatro instancias con clase $1$ están intercaladas geométricamente con las cuatro instancias de clase $0$. Esta función **NO es linealmente separable**; requiere al menos **3 planos de corte hiperplanos** en el espacio tridimensional para aislar los vértices de paridad impar de los de paridad par.
   2. **Diseño de la Arquitectura de la Red:**
-     - **Capa de Entrada:** 3 neuronas de entrada receptoras asociadas a las variables binarias $(x, y, z)$, más un nodo de polarización fija (*bias* $x_0 = 1$).
-     - **Capa Oculta:**
+  - **Capa de Entrada:** 3 neuronas de entrada receptoras asociadas a las variables binarias $(x, y, z)$, más un nodo de polarización fija (*bias* $x\_0 = 1$).
+  - **Capa Oculta:**
        - *Enfoque en cascada modular:* Una capa oculta con **4 neuronas** es la configuración mínima canónica más estable para aislar las 4 regiones hiperplanas de activación (o alternativamente dos capas ocultas en cascada de 2 neuronas cada una, computando primero $u = x \oplus y$ y luego $u \oplus z$).
        - *Funciones de Activación:* Deben ser funciones continuas y derivables **sigmoideas** ($y = \frac{1}{1 + e^{-net}}$) o tangente hiperbólica (si se codifica en variables bipolares $\{-1, +1\}$).
-     - **Capa de Salida:** 1 neurona de salida única, con función de activación sigmoidea logística acotada en $[0, 1]$, interpretando la salida como probabilidad de clase $1$ con umbral de decisión en $0.5$.
+  - **Capa de Salida:** 1 neurona de salida única, con función de activación sigmoidea logística acotada en $[0, 1]$, interpretando la salida como probabilidad de clase $1$ con umbral de decisión en $0.5$.
   3. **Entrenamiento y Convergencia:**
-     - Se entrena mediante *Backpropagation* sobre los 8 patrones exactos.
-     - Dada la alta simetría y las múltiples crestas de error del problema de paridad, es mandatorio utilizar el **término de momento ($\beta \approx 0.8$)** y pesos iniciales aleatorios pequeños no nulos para romper la simetría y evitar atascarse en sillas de montar o mínimos locales someros.
+  - Se entrena mediante *Backpropagation* sobre los 8 patrones exactos.
+  - Dada la alta simetría y las múltiples crestas de error del problema de paridad, es mandatorio utilizar el **término de momento ($\beta \approx 0.8$)** y pesos iniciales aleatorios pequeños no nulos para romper la simetría y evitar atascarse en sillas de montar o mínimos locales someros.
 
 ---
 
@@ -1198,46 +1629,96 @@ Esta sección documenta y resuelve con rigor exhaustivo el examen teórico ofici
 - **1.a. (15%) Una red del tipo MLP.**
 - **1.b. (15%) Un clasificador basado en NB.**
 
-*(El gráfico original presenta tres agrupamientos continuos de puntos en el plano $(x_1, x_2)$ que representan tres clases no linealmente separables entre sí: $C_1$ en el sector inferior izquierdo, $C_2$ en el sector superior derecho y $C_3$ en el sector inferior derecho).*
+*(El gráfico original presenta tres agrupamientos continuos de puntos en el plano $(x\_1, x\_2)$ que representan tres clases no linealmente separables entre sí: $C\_1$ en el sector inferior izquierdo, $C\_2$ en el sector superior derecho y $C\_3$ en el sector inferior derecho).*
 
 ### Resolución 1.a: Implementación de Red Neuronal MLP
 1. **Definición de la Topología y Arquitectura:**
-   - **Capa de entrada:** 2 neuronas de entrada pasivas correspondientes a las coordenadas espaciales $[x_1, x_2]^T$, más un nodo de polarización fija (*bias* $x_0 = 1$).
+   - **Capa de entrada:** 2 neuronas de entrada pasivas correspondientes a las coordenadas espaciales $[x\_1, x\_2]^T$, más un nodo de polarización fija (*bias* $x\_0 = 1$).
    - **Capa oculta:** Dado que las 3 regiones forman convexidades separadas en el plano no linealmente separables con hiperplanos simples, se requiere **al menos una capa oculta con 4 a 6 neuronas** (o dos capas ocultas en cascada de 3 neuronas cada una) dotadas de funciones de activación sigmoideas continuas y derivables:
-     $$y_{pj} = f(\text{net}_{pj}) = \frac{1}{1 + e^{-\text{net}_{pj}}} \quad \text{o} \quad y_{pj} = \tanh(\text{net}_{pj})$$
+     
+
+$$
+y\_{pj} = f(\text{net}\_{pj}) = \frac{1}{1 + e^{-\text{net}\_{pj}}} \quad \text{o} \quad y\_{pj} = \tanh(\text{net}\_{pj})
+$$
+
    - **Capa de salida:** Se diseñan **3 neuronas de salida** estructuradas bajo codificación *One-Hot*:
-     - Clase $C_1$: $\mathbf{d} = [1, 0, 0]^T$
-     - Clase $C_2$: $\mathbf{d} = [0, 1, 0]^T$
-     - Clase $C_3$: $\mathbf{d} = [0, 0, 1]^T$
-     - *Función de activación de salida:* Sigmoide logística con interpretación de pseudo-probabilidad, o función *Softmax* para forzar una distribución estocástica normalizada $\sum_{k=1}^3 y_{pk} = 1$:
-       $$P(C_k \mid \mathbf{x}) = \frac{e^{\text{net}_k}}{\sum_{j=1}^3 e^{\text{net}_j}}$$
+  - Clase $C\_1$: $\mathbf{d} = [1, 0, 0]^T$
+  - Clase $C\_2$: $\mathbf{d} = [0, 1, 0]^T$
+  - Clase $C\_3$: $\mathbf{d} = [0, 0, 1]^T$
+  - *Función de activación de salida:* Sigmoide logística con interpretación de pseudo-probabilidad, o función *Softmax* para forzar una distribución estocástica normalizada $\sum\_{k=1}^3 y\_{pk} = 1$:
+       
+
+$$
+P(C\_k \mid \mathbf{x}) = \frac{e^{\text{net}\_k}}{\sum\_{j=1}^3 e^{\text{net}\_j}}
+$$
+
 2. **Algoritmo de Aprendizaje y Optimización:**
    - Se emplea el algoritmo de retropropagación del gradiente (*Backpropagation*) minimizando el error global:
-     $$E_{global} = \frac{1}{2 P} \sum_{p=1}^P \sum_{k=1}^3 (d_{pk} - y_{pk})^2$$
+     
+
+$$
+E\_{global} = \frac{1}{2 P} \sum\_{p=1}^P \sum\_{k=1}^3 (d\_{pk} - y\_{pk})^2
+$$
+
    - Para acelerar la convergencia y filtrar oscilaciones entre las tres regiones convexas, se incorpora el **término de momento ($\beta \approx 0.8$)** y pesos iniciales aleatorios pequeños cercanos a cero.
 3. **Regla de Clasificación Final:**
-   Ante una nueva instancia $\mathbf{x}^*$, se evalúa la propagación hacia adelante y se asigna a la clase cuya neurona de salida active el valor máximo:
-   $$\text{Clase}(\mathbf{x}^*) = \arg\max_{k \in \{1, 2, 3\}} y_k(\mathbf{x}^*)$$
+   Ante una nueva instancia $\mathbf{x}^{\ast}$, se evalúa la propagación hacia adelante y se asigna a la clase cuya neurona de salida active el valor máximo:
+   
+
+$$
+\text{Clase}(\mathbf{x}^{\ast}) = \arg\max\_{k \in \{1, 2, 3\}} y\_k(\mathbf{x}^{\ast})
+$$
+
 
 ---
 
 ### Resolución 1.b: Implementación de Clasificador Naïve Bayes Gaussiano
 1. **Modelado Estadístico y Suposición Fundamental:**
-   - Se asume la hipótesis fundamental de Naïve Bayes: **independencia condicional de las variables $x_1$ y $x_2$ dada la clase $C_k$**:
-     $$P(x_1, x_2 \mid C_k) = P(x_1 \mid C_k) \cdot P(x_2 \mid C_k)$$
+   - Se asume la hipótesis fundamental de Naïve Bayes: **independencia condicional de las variables $x\_1$ y $x\_2$ dada la clase $C\_k$**:
+     
+
+$$
+P(x\_1, x\_2 \mid C\_k) = P(x\_1 \mid C\_k) \cdot P(x\_2 \mid C\_k)
+$$
+
    - Dado que los atributos son continuos en $\mathbb{R}^2$ y forman clusters agrupados, se modela cada atributo condicional como una **Distribución Normal (Gaussiana)**:
-     $$P(x_i \mid C_k) = \frac{1}{\sigma_{ki} \sqrt{2\pi}} \exp\left( -\frac{(x_i - \mu_{ki})^2}{2 \sigma_{ki}^2} \right), \quad i \in \{1, 2\}$$
+     
+
+$$
+P(x\_i \mid C\_k) = \frac{1}{\sigma\_{ki} \sqrt{2\pi}} \exp\left( -\frac{(x\_i - \mu\_{ki})^2}{2 \sigma\_{ki}^2} \right), \quad i \in \{1, 2\}
+$$
+
 2. **Fase de Estimación de Parámetros (Entrenamiento):**
-   A partir de la muestra de datos de cada clase $C_k$ (con $N_k$ instancias):
+   A partir de la muestra de datos de cada clase $C\_k$ (con $N\_k$ instancias):
    - **Probabilidades a priori de clase:**
-     $$P(C_k) = \frac{N_k}{N_{total}}$$
+     
+
+$$
+P(C\_k) = \frac{N\_k}{N\_{total}}
+$$
+
    - **Vector de Medias:**
-     $$\mu_{ki} = \frac{1}{N_k} \sum_{\mathbf{x} \in C_k} x_i$$
+     
+
+$$
+\mu\_{ki} = \frac{1}{N\_k} \sum\_{\mathbf{x} \in C\_k} x\_i
+$$
+
    - **Varianza Muestral:**
-     $$\sigma_{ki}^2 = \frac{1}{N_k} \sum_{\mathbf{x} \in C_k} (x_i - \mu_{ki})^2$$
+     
+
+$$
+\sigma\_{ki}^2 = \frac{1}{N\_k} \sum\_{\mathbf{x} \in C\_k} (x\_i - \mu\_{ki})^2
+$$
+
 3. **Regla de Decisión Máxima a Posteriori (MAP):**
-   Para clasificar una nueva coordenada $\mathbf{x}^* = [x_1^*, x_2^*]^T$, se calcula el numerador del Teorema de Bayes para cada una de las 3 clases y se elige la mayor:
-   $$\text{Clase}(\mathbf{x}^*) = \arg\max_{k \in \{1, 2, 3\}} \left[ P(C_k) \cdot P(x_1^* \mid C_k) \cdot P(x_2^* \mid C_k) \right]$$
+   Para clasificar una nueva coordenada $\mathbf{x}^{\ast} = [x\_1^{\ast}, x\_2^{\ast}]^T$, se calcula el numerador del Teorema de Bayes para cada una de las 3 clases y se elige la mayor:
+   
+
+$$
+\text{Clase}(\mathbf{x}^{\ast}) = \arg\max\_{k \in \{1, 2, 3\}} \left[ P(C\_k) \cdot P(x\_1^{\ast} \mid C\_k) \cdot P(x\_2^{\ast} \mid C\_k) \right]
+$$
+
 
 ---
 
@@ -1267,24 +1748,44 @@ En los modelos conexionistas y estadísticos donde el aprendizaje consiste en la
 ### Enunciado Oficial
 **03.- (20%) ¿A qué modelo corresponde la siguiente arquitectura de red neuronal? Explique el funcionamiento del algoritmo de aprendizaje de este modelo indicando las características principales.**
 
-*(El diagrama exhibe una capa de Neuronas de Entrada $e_1, \dots, e_j, \dots, e_N$ conectadas completamente hacia adelante con una capa de Neuronas de Salida $S_1, \dots, S_i, \dots, S_M$ mediante pesos $w_{ij}$. Crucialmente, entre las neuronas de salida existen flechas recurrentes laterales con bucles de autoexcitación positiva local y conexiones inhibitorias negativas hacia neuronas adyacentes).*
+*(El diagrama exhibe una capa de Neuronas de Entrada $e\_1, \dots, e\_j, \dots, e\_N$ conectadas completamente hacia adelante con una capa de Neuronas de Salida $S\_1, \dots, S\_i, \dots, S\_M$ mediante pesos $w\_{ij}$. Crucialmente, entre las neuronas de salida existen flechas recurrentes laterales con bucles de autoexcitación positiva local y conexiones inhibitorias negativas hacia neuronas adyacentes).*
 
 ### Respuesta Canónica de la Cátedra
 1. **Identificación de la Arquitectura:**
    - Corresponde a una **Red Neuronal Autoorganizada Competitiva de Kohonen (SOM - *Self-Organizing Map*)** con interacciones laterales basadas en el modelo biológico del **"Sombrero Mexicano" (*Mexican-Hat Interconnection*)**.
    - *Fundamento de las conexiones laterales:* Cada neurona de salida posee una autoexcitación positiva local sobre sí misma y sus vecinas inmediatas (cooperación a corta distancia), mientras que envía señales inhibitorias negativas a las neuronas situadas a media y larga distancia en la grilla (competencia global).
 2. **Fases del Algoritmo de Aprendizaje:**
-   - **1. Inicialización:** Se inicializan los vectores de pesos $\mathbf{w}_j \in \mathbb{R}^N$ con valores aleatorios pequeños y se fija el radio de vecindad inicial $\sigma_0$ y la tasa de aprendizaje $\alpha_0$.
-   - **2. Fase de Competencia:** Al presentarse un vector de entrada continuo $\mathbf{e} = [e_1, e_2, \dots, e_N]^T$, todas las neuronas de salida compiten calculando su distancia euclídea:
-     $$d_j = \|\mathbf{e} - \mathbf{w}_j\| = \sqrt{\sum_{i=1}^N (e_i - w_{ji})^2}$$
-     La neurona cuyo vector de pesos sea más cercano al patrón de entrada es declarada **Neurona Ganadora (BMU - *Best Matching Unit*)**, denotada por el índice $c$:
-     $$c = \arg\min_j \|\mathbf{e} - \mathbf{w}_j\|$$
+   - **1. Inicialización:** Se inicializan los vectores de pesos $\mathbf{w}\_j \in \mathbb{R}^N$ con valores aleatorios pequeños y se fija el radio de vecindad inicial $\sigma\_0$ y la tasa de aprendizaje $\alpha\_0$.
+   - **2. Fase de Competencia:** Al presentarse un vector de entrada continuo $\mathbf{e} = [e\_1, e\_2, \dots, e\_N]^T$, todas las neuronas de salida compiten calculando su distancia euclídea:
+     
+
+$$
+d\_j = \|\mathbf{e} - \mathbf{w}\_j\| = \sqrt{\sum\_{i=1}^N (e\_i - w\_{ji})^2}
+$$
+
+La neurona cuyo vector de pesos sea más cercano al patrón de entrada es declarada **Neurona Ganadora (BMU - *Best Matching Unit*)**, denotada por el índice $c$:
+     
+
+$$
+c = \arg\min\_j \|\mathbf{e} - \mathbf{w}\_j\|
+$$
+
    - **3. Fase de Cooperación (Topología de Vecindad):** La neurona ganadora $c$ define el centro de excitación en el mapa topológico. Las neuronas cercanas se activan en función de una función de vecindad decreciente:
-     $$h_{cj}(t) = \exp\left( -\frac{\text{dist}_{mapa}^2(c, j)}{2 \sigma(t)^2} \right)$$
-     donde $\text{dist}_{mapa}(c, j)$ es la distancia física en la grilla del mapa entre la neurona $c$ y la neurona $j$. El radio de vecindad se contrae con el tiempo: $\sigma(t) = \sigma_0 \exp(-t / \tau_1)$.
+     
+
+$$
+h\_{cj}(t) = \exp\left( -\frac{\text{dist}\_{mapa}^2(c, j)}{2 \sigma(t)^2} \right)
+$$
+
+donde $\text{dist}\_{mapa}(c, j)$ es la distancia física en la grilla del mapa entre la neurona $c$ y la neurona $j$. El radio de vecindad se contrae con el tiempo: $\sigma(t) = \sigma\_0 \exp(-t / \tau\_1)$.
    - **4. Fase de Adaptación (Ajuste Sináptico):** Los pesos de la neurona ganadora y de todas las neuronas que caen dentro de su radio de vecindad se desplazan hacia el vector de entrada:
-     $$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) \cdot h_{cj}(t) \cdot (\mathbf{e} - \mathbf{w}_j(t))$$
-     con $\alpha(t)$ decreciendo monótonamente (ej. $\alpha(t) = \alpha_0 (1 - t/T_{\max})$).
+     
+
+$$
+\mathbf{w}\_j(t+1) = \mathbf{w}\_j(t) + \alpha(t) \cdot h\_{cj}(t) \cdot (\mathbf{e} - \mathbf{w}\_j(t))
+$$
+
+con $\alpha(t)$ decreciendo monótonamente (ej. $\alpha(t) = \alpha\_0 (1 - t/T\_{\max})$ ).
 3. **Propiedad Característica Principal:**
    **Preservación Topológica:** Los patrones que son cercanos geométricamente en el espacio continuo de entrada de alta dimensión $\mathbb{R}^N$ activan neuronas que están espacialmente contiguas en la cuadrícula de salida bidimensional.
 
@@ -1308,11 +1809,11 @@ En los modelos conexionistas y estadísticos donde el aprendizaje consiste en la
 
 ## Ejercicios 5 a 8: Baterías Multiple Choice Oficiales con Corrección Docente
 
-### Ejercicio 5: Algoritmo $A^*$ `[TEMA_P1_RENDIDO]`
+### Ejercicio 5: Algoritmo $A^{\ast}$ `[TEMA_P1_RENDIDO]`
 * **Enunciado Oficial:** *05. (05%) Utilizando el algoritmo A\*:*
   - **• Se encuentra el camino de menor costo si el valor de la heurística se considera igual a cero $\forall$ los nodos.**  
     **Opción Oficial: VERDADERO (V)**  
-    *Justificación Cátedra:* Si $h'(n) = 0$ para todo $n$, la función de costo se reduce a $f'(n) = g(n)$ (costo real acumulado desde el inicio). El algoritmo $A^*$ se transforma exactamente en el algoritmo de Dijkstra de camino de costo uniforme, el cual garantiza encontrar la solución de menor costo total acumulado.
+    *Justificación Cátedra:* Si $h'(n) = 0$ para todo $n$, la función de costo se reduce a $f'(n) = g(n)$ (costo real acumulado desde el inicio). El algoritmo $A^{\ast}$ se transforma exactamente en el algoritmo de Dijkstra de camino de costo uniforme, el cual garantiza encontrar la solución de menor costo total acumulado.
   - **• La búsqueda se transforma en primero en amplitud con $g'(n) = 0$, $h'(n) \ne 0$ y $h'(n)$ no cte., $\forall n$.**  
     **Opción Oficial: FALSO (F)**  
     *Justificación Cátedra:* Cuando $g'(n) = 0$ y la función heurística $h'(n)$ varía libremente orientando la expansión hacia el objetivo, el algoritmo se transforma en una Búsqueda Voraz (*Greedy Best-First Search*), la cual se guía únicamente por la heurística local y difiere por completo de la Búsqueda Primero en Amplitud (BFS).
@@ -1327,17 +1828,32 @@ En los modelos conexionistas y estadísticos donde el aprendizaje consiste en la
   - **• Se calcula utilizando la máxima distancia de sus centroides si se emplea el método complete-link.**  
     **Opción Oficial: FALSO (F)**  
     *Justificación Cátedra:* El método de enlace completo (*complete-link*) se define formalmente como la distancia euclídea máxima entre **pares individuales de instancias pertenecientes a ambos clusters**:
-    $$D_{complete}(A, B) = \max_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+    
+
+$$
+D\_{complete}(A, B) = \max\_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
     No calcula centroides ni distancias entre ellos.
   - **• Se calcula utilizando la mínima distancia de sus centroides si se emplea el método single-link.**  
     **Opción Oficial: FALSO (F)**  
     *Justificación Cátedra:* El método de enlace simple (*single-link*) se define como la distancia mínima entre **pares individuales de instancias**:
-    $$D_{single}(A, B) = \min_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+    
+
+$$
+D\_{single}(A, B) = \min\_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
     No intervienen centroides.
   - **• Se calcula utilizando el promedio de las distancias de sus centroides si se emplea el método average-link.**  
     **Opción Oficial: FALSO (F)**  
     *Justificación Cátedra:* El método de enlace promedio (*average-link*) evalúa la **media aritmética de todas las distancias cruzadas entre todos los pares individuales de instancias**:
-    $$D_{average}(A, B) = \frac{1}{|A| \cdot |B|} \sum_{\mathbf{x} \in A} \sum_{\mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+    
+
+$$
+D\_{average}(A, B) = \frac{1}{\vert A \vert \cdot \vert B \vert} \sum\_{\mathbf{x} \in A} \sum\_{\mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
     Esta distancia difiere matemática y conceptualmente de la distancia euclídea entre los baricentros/centroides de los grupos.
   > [!NOTE]
   > Las tres opciones de este bloque son **FALSAS**, ya que los métodos clásicos jerárquicos de enlace se definen a nivel de puntos individuales, no de centroides.
@@ -1354,7 +1870,7 @@ En los modelos conexionistas y estadísticos donde el aprendizaje consiste en la
     *Justificación Cátedra:* El valor óptimo de $k$ es desconocido a priori y debe ajustarse mediante validación empírica (ej. validación cruzada). Más aún, en la variante ponderada por distancia, es perfectamente viable prescindir de la búsqueda de un $k$ pequeño asignando $k = N$.
   - **• Pueden utilizarse todo el conjunto de datos para estimar la clase de una nueva instancia.**  
     **Opción Oficial: VERDADERO (V)**  
-    *Justificación Cátedra:* En el algoritmo $k$-NN ponderado por el inverso de la distancia ($w_i = \frac{1}{d^2}$ o $\frac{1}{1+d^2}$), se puede tomar $k = N$ (la totalidad de la base de entrenamiento), dado que las instancias lejanas reciben un factor de ponderación infinitesimalmente pequeño que no distorsiona la decisión local.
+    *Justificación Cátedra:* En el algoritmo $k$-NN ponderado por el inverso de la distancia ($w\_i = \frac{1}{d^2}$ o $\frac{1}{1+d^2}$), se puede tomar $k = N$ (la totalidad de la base de entrenamiento), dado que las instancias lejanas reciben un factor de ponderación infinitesimalmente pequeño que no distorsiona la decisión local.
 
 ---
 
@@ -1430,17 +1946,17 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 
 ---
 
-### Pregunta 05: Comparación entre Búsqueda en Amplitud y $A^*$ con Heurística Perfecta `[TEMA_P1_RENDIDO]`
+### Pregunta 05: Comparación entre Búsqueda en Amplitud y $A^{\ast}$ con Heurística Perfecta `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística)
-* **Enunciado:** Comparación entre búsqueda primero en amplitud y $A^*$ con $h'$ realizando estimación perfecta de $h$ ($h'=h^*$) y costo por paso $g=1$:
-  - a) $A^*$ encuentra el camino de menor costo.
+* **Enunciado:** Comparación entre búsqueda primero en amplitud y $A^{\ast}$ con $h'$ realizando estimación perfecta de $h$ ($h'=h^{\ast}$) y costo por paso $g=1$:
+  - a) $A^{\ast}$ encuentra el camino de menor costo.
   - b) Primero en amplitud encuentra el camino de menor costo.
-  - c) $A^*$ encuentra el camino de menor longitud en cantidad de tramos.
+  - c) $A^{\ast}$ encuentra el camino de menor longitud en cantidad de tramos.
   - d) Primero en amplitud encuentra el camino de menor longitud en cantidad de tramos.
   - e) Todas son correctas.
 * **Opción Oficial Correcta:** **e) Todas son correctas.**
 * **Justificación Canónica de la Cátedra:**
-  Si el costo de cada arista es unitario ($g=1$), el costo total coincide exactamente con la cantidad de tramos. Dado que tanto BFS como $A^*$ admisible garantizan optimalidad bajo costos uniformes, ambos algoritmos hallan el camino de menor costo y de menor cantidad de tramos (son equivalentes semánticamente).
+  Si el costo de cada arista es unitario ($g=1$), el costo total coincide exactamente con la cantidad de tramos. Dado que tanto BFS como $A^{\ast}$ admisible garantizan optimalidad bajo costos uniformes, ambos algoritmos hallan el camino de menor costo y de menor cantidad de tramos (son equivalentes semánticamente).
 
 ---
 
@@ -1453,13 +1969,13 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
   - d) Ninguna de las anteriores.
 * **Opción Oficial Correcta:** **c) Se encuentra el camino óptimo.**
 * **Justificación Canónica de la Cátedra:**
-  Al anular la heurística ($h'=0$), la función de evaluación es $f'(n) = g(n)$ (costo real acumulado). El algoritmo $A^*$ degenera en el algoritmo de Dijkstra (búsqueda de costo uniforme), el cual garantiza encontrar el camino de costo mínimo global, aunque no necesariamente tenga la menor cantidad de tramos.
+  Al anular la heurística ($h'=0$), la función de evaluación es $f'(n) = g(n)$ (costo real acumulado). El algoritmo $A^{\ast}$ degenera en el algoritmo de Dijkstra (búsqueda de costo uniforme), el cual garantiza encontrar el camino de costo mínimo global, aunque no necesariamente tenga la menor cantidad de tramos.
 
 ---
 
-### Pregunta 07: $A^*$ con $h'=0$ y $g=1$ `[TEMA_P1_RENDIDO]`
+### Pregunta 07: $A^{\ast}$ con $h'=0$ y $g=1$ `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística)
-* **Enunciado:** $A^*$ con $h'(n)=0$ y $g(n)=1$ para todo nodo:
+* **Enunciado:** $A^{\ast}$ con $h'(n)=0$ y $g(n)=1$ para todo nodo:
   - a) No se puede asegurar que encuentre la solución en menor cantidad de tramos.
   - b) Encuentra la solución en menor cantidad de tramos/pasos.
   - c) Se comporta como escalada simple.
@@ -1470,25 +1986,25 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 
 ---
 
-### Pregunta 08: $A^*$ con $h'=0$ y $g=3$ (Costo Constante Arbitrario) `[TEMA_P1_RENDIDO]`
+### Pregunta 08: $A^{\ast}$ con $h'=0$ y $g=3$ (Costo Constante Arbitrario) `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística)
-* **Enunciado:** $A^*$ con $h'=0$ y $g=3$ (costo uniforme por tramo):
+* **Enunciado:** $A^{\ast}$ con $h'=0$ y $g=3$ (costo uniforme por tramo):
 * **Opción Oficial Correcta:** **Encuentra la solución en menor cantidad de tramos.**
 * **Justificación Canónica de la Cátedra:**
   Al ser el costo constante para cualquier arista ($g = 3 \cdot k$), la minimización de $f'(n)$ es monotónicamente equivalente a minimizar el número de aristas $k$. Se comporta como BFS.
 
 ---
 
-### Pregunta 09: $A^*$ con $h'=0$ y $g \ne 0$ No Constante `[TEMA_P1_RENDIDO]`
+### Pregunta 09: $A^{\ast}$ con $h'=0$ y $g \ne 0$ No Constante `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]` (Búsqueda Heurística)
-* **Enunciado:** $A^*$ con $h'=0$ y $g \ne 0$ (variable entre aristas):
+* **Enunciado:** $A^{\ast}$ con $h'=0$ y $g \ne 0$ (variable entre aristas):
 * **Opción Oficial Correcta:** **Se encuentra la solución con el menor costo.** (No garantiza la menor cantidad de tramos).
 
 ---
 
-### Pregunta 10: Costo en $A^*$ con $h'=0$ y $g=1$ `[TEMA_P1_RENDIDO]`
+### Pregunta 10: Costo en $A^{\ast}$ con $h'=0$ y $g=1$ `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
-* **Enunciado:** En un problema de búsqueda con múltiples soluciones, si se utiliza $A^*$ con $h'=0$ y $g=1$:
+* **Enunciado:** En un problema de búsqueda con múltiples soluciones, si se utiliza $A^{\ast}$ con $h'=0$ y $g=1$:
 * **Opción Oficial Correcta:** **El costo total del camino solución será igual a la cantidad de tramos.**
 
 ---
@@ -1497,15 +2013,15 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 * **Clasificación temática:** [TEMA_P2_SVM]
 * **Enunciado y Opciones:**
   En Support Vector Machines (SVM):
-  - a) Los vectores de soporte son aquellos cuyo $\alpha_i$ es distinto de cero. $\to$ **CORRECTO.**
+  - a) Los vectores de soporte son aquellos cuyo $\alpha\_i$ es distinto de cero. $\to$ **CORRECTO.**
   - b) Se recalcula el método cuando ingresa una nueva instancia de entrenamiento. $\to$ **CORRECTO.**
-  - c) Entre $H_+$ y $H_-$ no existen instancias de entrenamiento en el caso separable. $\to$ **CORRECTO.**
+  - c) Entre $H\_+$ y $H\_-$ no existen instancias de entrenamiento en el caso separable. $\to$ **CORRECTO.**
   - d) Se debe conocer la clase de la instancia antes de comenzar el entrenamiento. $\to$ **CORRECTO.**
 * **Justificación Canónica de la Cátedra:**
-  - Por KKT, las instancias fuera del margen satisfacen la restricción holgadamente y tienen multiplicadores $\alpha_i = 0$.
+  - Por KKT, las instancias fuera del margen satisfacen la restricción holgadamente y tienen multiplicadores $\alpha\_i = 0$.
   - Al ser un algoritmo global basado en programación cuadrática, la inserción de nuevos datos altera potencialmente las restricciones activas, exigiendo reoptimizar.
-  - La banda de margen máximo conforma una región vacía de exclusión de ancho $\frac{2}{\|\mathbf{w}\|}$.
-  - Es un método supervisado; requiere las etiquetas binarias $y_i \in \{-1, +1\}$.
+  - La banda de margen máximo conforma una región vacía de exclusión de ancho $\frac{2}{\\vert \mathbf{w}\ \vert}$.
+  - Es un método supervisado; requiere las etiquetas binarias $y\_i \in \{-1, +1\}$.
 
 ---
 
@@ -1517,7 +2033,7 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
   - c) A la complejidad de los cálculos en el proceso de entrenamiento.
 * **Opción Oficial Correcta:** **b) Al grado de diferencia que hay entre los patrones de entrenamiento.**
 * **Justificación Canónica de la Cátedra:**
-  La ortogonalidad matemática ($\sum e_i^{(k)} e_i^{(m)} = 0$) significa que dos vectores son perpendiculares en el hiperespacio bipolar, lo cual indica que la correlación o similitud entre ellos es nula (máxima diferenciación). Esto elimina la diafonía o interferencia destructiva en la memoria asociativa.
+  La ortogonalidad matemática ($\sum e\_i^{(k)} e\_i^{(m)} = 0$) significa que dos vectores son perpendiculares en el hiperespacio bipolar, lo cual indica que la correlación o similitud entre ellos es nula (máxima diferenciación). Esto elimina la diafonía o interferencia destructiva en la memoria asociativa.
 
 ---
 
@@ -1656,9 +2172,9 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 
 ---
 
-### Pregunta 26: $A^*$ con $h'(n)=0$ Conduce la Búsqueda `[TEMA_P1_RENDIDO]`
+### Pregunta 26: $A^{\ast}$ con $h'(n)=0$ Conduce la Búsqueda `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
-* **Enunciado:** Si en el algoritmo $A^*$ se toma $h'(n) = 0$ (para todo $n$):
+* **Enunciado:** Si en el algoritmo $A^{\ast}$ se toma $h'(n) = 0$ (para todo $n$):
 * **Opción Oficial Correcta:** **El costo real acumulado conduce la búsqueda.**
 
 ---
@@ -1673,14 +2189,14 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 ### Pregunta 28: Memoria en Búsqueda Sistemática `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
 * **Enunciado:** Respecto a la utilización de memoria:
-* **Opción Oficial Correcta:** **El algoritmo primero en profundidad requiere menos cantidad de memoria que el algoritmo primero en amplitud.** (Profundidad escala linealmente con la profundidad $\mathcal{O}(b \cdot d)$, mientras que amplitud escala exponencialmente $\mathcal{O}(b^d)$).
+* **Opción Oficial Correcta:** **El algoritmo primero en profundidad requiere menos cantidad de memoria que el algoritmo primero en amplitud.** (Profundidad escala linealmente con la profundidad $\mathcal{O}(b \cdot d)$, mientras que amplitud escala exponencialmente $\mathcal{O}(b^d)$ ).
 
 ---
 
 ### Pregunta 29: Multiplicadores de Lagrange en Vectores No de Soporte
 * **Clasificación temática:** [TEMA_P2_SVM]
 * **Enunciado:** En una SVM, los vectores que no son de soporte tienen asociados multiplicadores de Lagrange cuyos valores son:
-* **Opción Oficial Correcta:** **Cero ($\alpha_i = 0$).**
+* **Opción Oficial Correcta:** **Cero ($\alpha\_i = 0$).**
 
 ---
 
@@ -1714,9 +2230,9 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 
 ---
 
-### Pregunta 34: Optimalidad en $A^*$ `[TEMA_P1_RENDIDO]`
+### Pregunta 34: Optimalidad en $A^{\ast}$ `[TEMA_P1_RENDIDO]`
 * **Clasificación temática:** `[TEMA_P1_RENDIDO]`
-* **Enunciado:** Utilizando el algoritmo $A^*$:
+* **Enunciado:** Utilizando el algoritmo $A^{\ast}$:
 * **Opción Oficial Correcta:** **Se encuentra el camino de menor costo si el valor de la heurística se considera igual a cero para todos los nodos.**
 
 ---
@@ -1756,9 +2272,9 @@ En clustering jerárquico, la distancia entre dos clusters:
 3. Se calcula utilizando el promedio de la distancia de sus centroides si se emplea el método average-link. **(V / F)**
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
-1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \max_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
-2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \min_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
-3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \frac{1}{|A||B|} \sum_{x \in A} \sum_{y \in B} d(x, y)$). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.
+1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \max\_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
+2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \min\_{x \in A, y \in B} d(x, y)$), **NO** entre sus centroides.
+3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \frac{1}{\vert A \vert\vert B \vert} \sum\_{x \in A} \sum\_{y \in B} d(x, y)$). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.
 
 ---
 
@@ -1772,7 +2288,7 @@ Para utilizar el algoritmo $k$-NN ponderado:
 **Evaluación y Justificación Doctrinal de la Cátedra:**
 1. **VERDADERO.** $k$-NN es un algoritmo de aprendizaje no paramétrico y basado en instancias (local), capaz de modelar fronteras de decisión arbitrariamente complejas, cóncavas o no lineales sin requerir separabilidad lineal.
 2. **FALSO.** No es estrictamente obligatorio conocer el $k$-óptimo antes de ejecutar; puede emplearse un valor empírico predeterminado o estimarse iterativamente mediante técnicas de validación cruzada (*Leave-One-Out*).
-3. **VERDADERO.** En $k$-NN ponderado con función de peso por distancia inversa ($w_i = \frac{1}{1 + d(x_0, x_i)^2}$ o $w_i = \frac{1}{d^2}$), los puntos situados a gran distancia reciben una ponderación infinitesimalmente cercana a cero. Por ende, puede fijarse $k = N$ (todo el dataset) sin que las instancias remotas distorsionen negativamente la clasificación.
+3. **VERDADERO.** En $k$-NN ponderado con función de peso por distancia inversa ($w\_i = \frac{1}{1 + d(x\_0, x\_i)^2}$ o $w\_i = \frac{1}{d^2}$), los puntos situados a gran distancia reciben una ponderación infinitesimalmente cercana a cero. Por ende, puede fijarse $k = N$ (todo el dataset) sin que las instancias remotas distorsionen negativamente la clasificación.
 
 ---
 
@@ -1790,18 +2306,18 @@ El algoritmo Disk $K$-Means:
 
 ---
 
-### Pregunta 41: Support Vector Machines (SVM): Vectores de Soporte ($\alpha_i > 0$), Recálculo y Banda $H_+$ / $H_-$
+### Pregunta 41: Support Vector Machines (SVM): Vectores de Soporte ($\alpha\_i > 0$), Recálculo y Banda $H\_+$ / $H\_-$
 **Enunciado Oficial:**
 En SVM (caso lineal separable canónico):
 1. Los vectores de soporte son aquellos cuyo $\alpha$ es distinto de 0. **(V / F)**
 2. Se recalcula el método cuando ingresa una nueva instancia de entrenamiento. **(V / F)**
-3. Entre $H_+$ y $H_-$ no existen instancias de entrenamiento. **(V / F)**
+3. Entre $H\_+$ y $H\_-$ no existen instancias de entrenamiento. **(V / F)**
 4. Ninguna de las anteriores. **(V / F)**
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
-1. **VERDADERO.** De acuerdo con las condiciones de Karush-Kuhn-Tucker (KKT), los puntos de datos que no están sobre el margen tienen $\alpha_i = 0$, mientras que los puntos situados exactamente sobre los hiperplanos de margen ($H_1$ y $H_2$) son los únicos con multiplicadores de Lagrange $\alpha_i > 0$.
+1. **VERDADERO.** De acuerdo con las condiciones de Karush-Kuhn-Tucker (KKT), los puntos de datos que no están sobre el margen tienen $\alpha\_i = 0$, mientras que los puntos situados exactamente sobre los hiperplanos de margen ($H\_1$ y $H\_2$) son los únicos con multiplicadores de Lagrange $\alpha\_i > 0$.
 2. **VERDADERO.** En el aprendizaje supervisado por lotes (*batch*), la incorporación de una nueva instancia puede alterar la envolvente convexa y la posición del hiperplano de soporte óptimo, requiriendo un reentrenamiento del modelo.
-3. **VERDADERO.** En la formulación de margen duro (*Hard Margin*), por definición analítica estricta, la región comprendida entre $H_+$ ($\mathbf{w}^T \mathbf{x} + b = +1$) y $H_-$ ($\mathbf{w}^T \mathbf{x} + b = -1$) constituye una zona de margen vacía donde no puede residir ninguna instancia de entrenamiento.
+3. **VERDADERO.** En la formulación de margen duro (*Hard Margin*), por definición analítica estricta, la región comprendida entre $H\_+$ ($\mathbf{w}^T \mathbf{x} + b = +1$) y $H\_-$ ($\mathbf{w}^T \mathbf{x} + b = -1$) constituye una zona de margen vacía donde no puede residir ninguna instancia de entrenamiento.
 4. **FALSO.** Las afirmaciones 1, 2 y 3 son correctas.
 
 ---
@@ -1815,8 +2331,8 @@ En el modelo Hopfield, el concepto de ortogonalidad está asociado a:
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
 1. **VERDADERO.** Si los patrones almacenados son ortogonales entre sí, se minimiza la diafonía o interferencia (*crosstalk*) en la matriz de pesos Hebbiana, lo que permite a la red aproximarse a su cota máxima de memorización ($M \approx 0.138 N$).
-2. **VERDADERO.** En el espacio bipolar $\{-1, +1\}^N$, dos patrones $E_k$ y $E_m$ son ortogonales ($E_k \cdot E_m = 0$) si y solo si difieren en exactamente la mitad ($50\%$) de sus componentes vectoriales.
-3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \sum (E_k E_k^T - I)$) es $O(M \cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.
+2. **VERDADERO.** En el espacio bipolar $\{-1, +1\}^N$, dos patrones $E\_k$ y $E\_m$ son ortogonales ($E\_k \cdot E\_m = 0$) si y solo si difieren en exactamente la mitad ($50\%$) de sus componentes vectoriales.
+3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \sum (E\_k E\_k^T - I)$) es $O(M \cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.
 
 ---
 
@@ -1874,13 +2390,13 @@ En clustering jerárquico:
 3. En average link la distancia entre dos clusters es la distancia promedio entre sus centroides. **(V / F)**
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
-1. **FALSO.** La distancia de enlace simple es la distancia mínima entre cualquier par de instancias $x \in C_1, y \in C_2$.
-2. **FALSO.** La distancia de enlace completo es la distancia máxima entre cualquier par de instancias $x \in C_1, y \in C_2$.
+1. **FALSO.** La distancia de enlace simple es la distancia mínima entre cualquier par de instancias $x \in C\_1, y \in C\_2$.
+2. **FALSO.** La distancia de enlace completo es la distancia máxima entre cualquier par de instancias $x \in C\_1, y \in C\_2$.
 3. **FALSO.** La distancia de enlace promedio es la media aritmética de todas las distancias entre pares de puntos. Ninguna de las tres utiliza centroides.
 
 ---
 
-### Pregunta 47: SVM: Valores de los Multiplicadores de Lagrange $\alpha_i$ en Vectores No de Soporte
+### Pregunta 47: SVM: Valores de los Multiplicadores de Lagrange $\alpha\_i$ en Vectores No de Soporte
 **Enunciado Oficial:**
 En una SVM, los vectores que no son de soporte tienen asociados multiplicadores de Lagrange cuyos valores son:
 1. Positivos. **(V / F)**
@@ -1888,9 +2404,9 @@ En una SVM, los vectores que no son de soporte tienen asociados multiplicadores 
 3. Negativos. **(V / F)**
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
-1. **FALSO.** Los multiplicadores estrictamente positivos ($\alpha_i > 0$) pertenecen con exclusividad a los vectores de soporte.
-2. **VERDADERO.** La condición de holgura complementaria KKT establece que $\alpha_i [y_i (\mathbf{w}^T \mathbf{x}_i + b) - 1] = 0$. Como para los vectores no de soporte la distancia al margen es mayor a cero ($y_i (\mathbf{w}^T \mathbf{x}_i + b) > 1$), obligatoriamente debe cumplirse $\alpha_i = 0$.
-3. **FALSO.** Por restricción primal-dual de optimización convexa, los multiplicadores de Lagrange en SVM están acotados inferiormente por cero ($\alpha_i \ge 0$). Nunca pueden ser negativos.
+1. **FALSO.** Los multiplicadores estrictamente positivos ($\alpha\_i > 0$) pertenecen con exclusividad a los vectores de soporte.
+2. **VERDADERO.** La condición de holgura complementaria KKT establece que $\alpha\_i [y\_i (\mathbf{w}^T \mathbf{x}\_i + b) - 1] = 0$. Como para los vectores no de soporte la distancia al margen es mayor a cero ($y\_i (\mathbf{w}^T \mathbf{x}\_i + b) > 1$), obligatoriamente debe cumplirse $\alpha\_i = 0$.
+3. **FALSO.** Por restricción primal-dual de optimización convexa, los multiplicadores de Lagrange en SVM están acotados inferiormente por cero ($\alpha\_i \ge 0$). Nunca pueden ser negativos.
 
 ---
 
@@ -1952,7 +2468,7 @@ Las SVM (caso lineal estándar) realizan separaciones lineales:
 
 **Evaluación y Justificación Doctrinal de la Cátedra:**
 1. **FALSO.** Las SVM lineales operan en espacios vectoriales $\mathbb{R}^d$ de cualquier dimensionalidad arbitraria ($d \ge 2$), definiendo hiperplanos de dimensión $d-1$.
-2. **VERDADERO.** La formulación matemática canónica de SVM es estrictamente binaria ($y_i \in \{-1, +1\}$), separando exactamente dos clases mediante un único hiperplano de soporte óptimo.
+2. **VERDADERO.** La formulación matemática canónica de SVM es estrictamente binaria ($y\_i \in \{-1, +1\}$), separando exactamente dos clases mediante un único hiperplano de soporte óptimo.
 3. **FALSO.** La SVM estándar no es directamente multiclase; para resolver problemas con más de dos clases requiere acoplar múltiples clasificadores binarios mediante estrategias heurísticas externas como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).
 4. **VERDADERO.** Las SVM lineales operan naturalmente en espacios multidimensionales de alta dimensión mediante hiperplanos $\mathbf{w}^T \mathbf{x} + b = 0$.
 
@@ -1966,22 +2482,37 @@ Las SVM (caso lineal estándar) realizan separaciones lineales:
 *"¿Cuál es el principio en el cual se basa el modelo Naives Bayes?"*
 
 **Respuesta Canónica de la Cátedra:**
-El modelo Naïve Bayes se fundamenta en el **Teorema de Bayes** de la probabilidad condicional, el cual establece una metodología formal para estimar la probabilidad a posteriori de que ocurra una hipótesis o clase $C_k$, habiendo observado un vector de atributos o evidencias $X = (x_1, x_2, \dots, x_d)$:
+El modelo Naïve Bayes se fundamenta en el **Teorema de Bayes** de la probabilidad condicional, el cual establece una metodología formal para estimar la probabilidad a posteriori de que ocurra una hipótesis o clase $C\_k$, habiendo observado un vector de atributos o evidencias $X = (x\_1, x\_2, \dots, x\_d)$:
 
-$$P(C_k | X) = \frac{P(X | C_k) \cdot P(C_k)}{P(X)}$$
+
+
+$$
+P(C\_k | X) = \frac{P(X | C\_k) \cdot P(C\_k)}{P(X)}
+$$
+
 
 Donde:
-* $P(C_k | X)$: Probabilidad a posteriori de que la instancia pertenezca a la clase $C_k$.
-* $P(C_k)$: Probabilidad a priori de la clase $C_k$, estimada como la frecuencia relativa de la clase en el dataset de entrenamiento ($N_k / N$).
-* $P(X | C_k)$: Verosimilitud (*likelihood*) de observar el patrón de características $X$ dado que la clase es $C_k$.
-* $P(X)$: Evidencia marginal (factor de normalización), calculada como $P(X) = \sum_j P(X | C_j) P(C_j)$.
+* $P(C\_k | X)$: Probabilidad a posteriori de que la instancia pertenezca a la clase $C\_k$.
+* $P(C\_k)$: Probabilidad a priori de la clase $C\_k$, estimada como la frecuencia relativa de la clase en el dataset de entrenamiento ($N\_k / N$).
+* $P(X | C\_k)$: Verosimilitud (*likelihood*) de observar el patrón de características $X$ dado que la clase es $C\_k$.
+* $P(X)$: Evidencia marginal (factor de normalización), calculada como $P(X) = \sum\_j P(X | C\_j) P(C\_j)$.
 
 **La Asunción "Naïve" (Ingenua):**
 El principio clave que define a este modelo es la **asunción de independencia condicional entre todos los atributos dado el valor de la clase**:
-$$P(X | C_k) = P(x_1, x_2, \dots, x_d | C_k) = \prod_{i=1}^d P(x_i | C_k)$$
 
-Esta simplificación reduce drásticamente el espacio muestral y la cantidad de parámetros a estimar: de una complejidad exponencial $O(|V|^d)$ a una lineal $O(d \cdot |V|)$, posibilitando la inferencia estadística eficiente mediante la regla MAP (Máximo a Posteriori):
-$$C_{MAP} = \arg\max_{C_k} P(C_k) \prod_{i=1}^d P(x_i | C_k)$$
+
+$$
+P(X | C\_k) = P(x\_1, x\_2, \dots, x\_d | C\_k) = \prod\_{i=1}^d P(x\_i | C\_k)
+$$
+
+
+Esta simplificación reduce drásticamente el espacio muestral y la cantidad de parámetros a estimar: de una complejidad exponencial $O(\vert V \vert^d)$ a una lineal $O(d \cdot \vert V \vert)$, posibilitando la inferencia estadística eficiente mediante la regla MAP (Máximo a Posteriori):
+
+
+$$
+C\_{MAP} = \arg\max\_{C\_k} P(C\_k) \prod\_{i=1}^d P(x\_i | C\_k)
+$$
+
 
 ---
 
@@ -1995,7 +2526,7 @@ Cuando el error de validación comienza a crecer sostenidamente mientras que el 
 **1. Soluciones Metodológicas Recomendadas por la Cátedra:**
 * **Parada Temprana (*Early Stopping*):** Interrumpir el entrenamiento en el instante en que el error de validación alcanza su valor mínimo y comienza a ascender de forma consecutiva durante un número prefijado de épocas (*patience*). Se restauran los pesos sinápticos correspondientes a dicha época mínima.
 * **Reducción de la Capacidad de la Red:** Disminuir la cantidad de neuronas en la capa oculta o la cantidad de capas ocultas para restringir el número de parámetros libres.
-* **Regularización:** Aplicar decaimiento de pesos (*weight decay* / regularización $L_2$) para penalizar pesos excesivamente grandes.
+* **Regularización:** Aplicar decaimiento de pesos (*weight decay* / regularización $L\_2$) para penalizar pesos excesivamente grandes.
 * **Ampliación del Conjunto de Entrenamiento:** Incorporar más instancias representativas o aplicar técnicas de aumento de datos (*data augmentation*).
 * **Ajuste de la Tasa de Aprendizaje:** Reducir $\alpha$ si la red está oscilando alrededor de un mínimo.
 
@@ -2017,7 +2548,7 @@ Para implementar una red perceptrón multicapa (MLP) capaz de aprender la funci�
    * **Capas Ocultas:** 1 o 2 capas intermedias con neuronas no lineales. Se recomiendan entre 6 y 12 neuronas ocultas con función de activación sigmoidea logística o preferentemente **tangente hiperbólica ($\tanh$)**, dado que la función posee simetría respecto al origen y oscila en el rango $[-1.5, +0.5]$.
    * **Capa de Salida:** 1 neurona de salida. Como el rango de la función es $[-1.5, +0.5]$, la función de activación de la neurona de salida debe ser **lineal ($f(net) = net$)**, o bien, si se emplea $\tanh$ (cuyo rango es $[-1, +1]$), se debe normalizar linealmente la salida deseada al intervalo $[-0.8, +0.8]$.
 2. **Generación del Dataset:**
-   * Muestrear exhaustivamente el dominio de interés en $\mathbb{R}^2$ formando una grilla homogénea de pares $(x_i, y_i)$ y calcular su salida objetivo $z_i = \sin(x_i y_i) - 0.5$.
+   * Muestrear exhaustivamente el dominio de interés en $\mathbb{R}^2$ formando una grilla homogénea de pares $(x\_i, y\_i)$ y calcular su salida objetivo $z\_i = \sin(x\_i y\_i) - 0.5$.
    * Dividir el conjunto total en: $70\%$ Entrenamiento, $15\%$ Validación y $15\%$ Test.
 3. **Dinámica de Aprendizaje:**
    * Algoritmo de retropropagación del error (*Backpropagation*) con regla delta generalizada.
@@ -2033,7 +2564,7 @@ Para implementar una red perceptrón multicapa (MLP) capaz de aprender la funci�
 **Respuesta Canónica de la Cátedra:**
 En el clustering jerárquico clásico (tanto aglomerativo como divisivo) que utiliza métodos de enlace como **Single Link, Complete Link o Average Link**, **los centroides NO intervienen en la métrica de fusión**. Por lo tanto, cualquier modificación en la forma de calcular centroides **no produce ningún impacto** en el dendrograma resultante.
 
-A diferencia del algoritmo $K$-Means (que depende exclusivamente de la posición de los centroides $\mu_k$ para asignar instancias y recalcular medias), los algoritmos jerárquicos basados en enlaces operan directamente sobre la **matriz de distancias por pares** entre los elementos individuales del dataset. Únicamente si se implementara la variante específica de *Centroid Linkage* (enlace por centroides) afectaría la topología del árbol.
+A diferencia del algoritmo $K$-Means (que depende exclusivamente de la posición de los centroides $\mu\_k$ para asignar instancias y recalcular medias), los algoritmos jerárquicos basados en enlaces operan directamente sobre la **matriz de distancias por pares** entre los elementos individuales del dataset. Únicamente si se implementara la variante específica de *Centroid Linkage* (enlace por centroides) afectaría la topología del árbol.
 
 ---
 
@@ -2042,11 +2573,11 @@ A diferencia del algoritmo $K$-Means (que depende exclusivamente de la posición
 *"Dado el siguiente conjunto de datos en R^2 explique las características que debe tener en cuenta para implementarla en una red MLP. Tenga en cuenta la descripción de las etapas de entrenamiento y funcionamiento."*
 
 **Respuesta Canónica de la Cátedra:**
-Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x_1, x_2)$ y etiquetas de clase $C_k$:
+Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x\_1, x\_2)$ y etiquetas de clase $C\_k$:
 
 ### a. Implementación con Red MLP
 1. **Arquitectura:**
-   * Capa de entrada con 2 neuronas sensoriales ($x_1, x_2$).
+   * Capa de entrada con 2 neuronas sensoriales ($x\_1, x\_2$).
    * Una capa oculta con neuronas con activación sigmoide o ReLU para modelar la frontera de decisión no lineal. La cantidad de neuronas dependerá de la concavidad de la frontera (típicamente entre 4 y 8 neuronas).
    * Capa de salida: 1 neurona con activación sigmoide (si es clasificación binaria $0/1$), o bien $K$ neuronas con activación Softmax si son múltiples clases.
 2. **Etapa de Entrenamiento:**
@@ -2054,15 +2585,20 @@ Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entra
    * Se presentan los patrones secuencialmente, se calcula el error cuadrático medio y se propagan los gradientes hacia atrás mediante la regla delta generalizada ajustando pesos y sesgos.
    * Se evalúa el error de validación para aplicar parada temprana.
 3. **Etapa de Funcionamiento (Inferencia):**
-   * Se congelan los pesos sinápticos. Ante un nuevo vector $(x_1, x_2)$, la red realiza un único paso hacia adelante (*forward pass*) y clasifica según el umbral de decisión (ej. clase 1 si $y \ge 0.5$, clase 0 si $y < 0.5$).
+   * Se congelan los pesos sinápticos. Ante un nuevo vector $(x\_1, x\_2)$, la red realiza un único paso hacia adelante (*forward pass*) y clasifica según el umbral de decisión (ej. clase 1 si $y \ge 0.5$, clase 0 si $y < 0.5$).
 
 ### b. Implementación con Clasificador Naïve Bayes
 1. **Modelado Estadístico:**
    * Al tratarse de variables continuas en $\mathbb{R}^2$, se utiliza **Naïve Bayes Gaussiano**.
-   * Para cada clase $C_k$, se estiman los parámetros muestrales de cada atributo: media $\mu_{1k}, \mu_{2k}$ y varianza $\sigma_{1k}^2, \sigma_{2k}^2$.
+   * Para cada clase $C\_k$, se estiman los parámetros muestrales de cada atributo: media $\mu\_{1k}, \mu\_{2k}$ y varianza $\sigma\_{1k}^2, \sigma\_{2k}^2$.
 2. **Regla de Clasificación MAP:**
-   * Para clasificar una nueva instancia $(x_1, x_2)$:
-   $$P(C_k | x_1, x_2) \propto P(C_k) \cdot \mathcal{N}(x_1; \mu_{1k}, \sigma_{1k}^2) \cdot \mathcal{N}(x_2; \mu_{2k}, \sigma_{2k}^2)$$
+   * Para clasificar una nueva instancia $(x\_1, x\_2)$:
+   
+
+$$
+P(C\_k | x\_1, x\_2) \propto P(C\_k) \cdot \mathcal{N}(x\_1; \mu\_{1k}, \sigma\_{1k}^2) \cdot \mathcal{N}(x\_2; \mu\_{2k}, \sigma\_{2k}^2)
+$$
+
    * Se asigna a la clase que maximice el producto de las verosimilitudes gaussianas y la probabilidad a priori.
 
 ---
@@ -2074,13 +2610,23 @@ Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entra
 **Respuesta Canónica de la Cátedra:**
 **No, no es equivalente.** Existe una diferencia matemática y conceptual determinante:
 * **Average Link (Enlace Promedio):** Calcula la media aritmética de **todas las distancias euclídeas individuales entre cada punto del clúster A y cada punto del clúster B**:
-  $$d_{Avg}(A, B) = \frac{1}{|A| \cdot |B|} \sum_{x \in A} \sum_{y \in B} \|x - y\|$$
+  
+
+$$
+d\_{Avg}(A, B) = \frac{1}{\vert A \vert \cdot \vert B \vert} \sum\_{x \in A} \sum\_{y \in B} \|x - y\|
+$$
+
   Toma en cuenta la dispersión interna, forma y densidad completa de todos los pares de datos.
 * **Distancia entre Centroides (*Centroid Linkage*):** Calcula únicamente la distancia euclídea entre los vectores promedio de cada grupo:
-  $$d_{Centroid}(A, B) = \|\mu_A - \mu_B\|$$
-  Donde $\mu_A = \frac{1}{|A|} \sum_{x \in A} x$ y $\mu_B = \frac{1}{|B|} \sum_{y \in B} y$.
+  
 
-Matemáticamente, $\frac{1}{|A||B|} \sum \sum \|x - y\| \ne \|\mu_A - \mu_B\|$. La distancia centroidal ignora la varianza geométrica interna de los clusters y puede provocar inversiones topológicas en el dendrograma (donde dos clusters se fusionan a una distancia menor que sus subclusters constituyentes), anomalía que Average Link nunca genera.
+$$
+d\_{Centroid}(A, B) = \|\mu\_A - \mu\_B\|
+$$
+
+  Donde $\mu\_A = \frac{1}{\vert A \vert} \sum\_{x \in A} x$ y $\mu\_B = \frac{1}{\vert B \vert} \sum\_{y \in B} y$.
+
+Matemáticamente, $\frac{1}{\vert A \vert\vert B \vert} \sum \sum \|x - y\| \ne \|\mu\_A - \mu\_B\|$. La distancia centroidal ignora la varianza geométrica interna de los clusters y puede provocar inversiones topológicas en el dendrograma (donde dos clusters se fusionan a una distancia menor que sus subclusters constituyentes), anomalía que Average Link nunca genera.
 
 ---
 
@@ -2090,16 +2636,31 @@ Matemáticamente, $\frac{1}{|A||B|} \sum \sum \|x - y\| \ne \|\mu_A - \mu_B\|$. 
 
 **Respuesta Canónica de la Cátedra:**
 En la etapa de cooperación del algoritmo SOM de Kohonen:
-1. **Medición de la Distancia:** La distancia **no** se mide en el espacio de entrada, sino en el **espacio topológico de la grilla de salida**. Si la neurona ganadora (BMU) ocupa la coordenada discreta $r_c$ en la grilla y otra neurona ocupa la posición $r_j$, la distancia topológica es:
-   $$d_{top} = \|r_c - r_j\|$$
+1. **Medición de la Distancia:** La distancia **no** se mide en el espacio de entrada, sino en el **espacio topológico de la grilla de salida**. Si la neurona ganadora (BMU) ocupa la coordenada discreta $r\_c$ en la grilla y otra neurona ocupa la posición $r\_j$, la distancia topológica es:
+   
+
+$$
+d\_{top} = \|r\_c - r\_j\|
+$$
+
 2. **Efecto en la Actualización de Pesos:**
    La influencia de la ganadora decae con la distancia según una **función de vecindad topológica** (típicamente Gaussiana):
-   $$h_{cj}(t) = \exp\left(-\frac{\|r_c - r_j\|^2}{2 \sigma(t)^2}\right)$$
+   
+
+$$
+h\_{cj}(t) = \exp\left(-\frac{\|r\_c - r\_j\|^2}{2 \sigma(t)^2}\right)
+$$
+
    Los pesos se actualizan como:
-   $$\Delta w_{ji} = \eta(t) \cdot h_{cj}(t) \cdot (x_i - w_{ji})$$
-   * La neurona ganadora ($r_j = r_c$) tiene $h_{cc} = 1$ y recibe la máxima actualización.
+   
+
+$$
+\Delta w\_{ji} = \eta(t) \cdot h\_{cj}(t) \cdot (x\_i - w\_{ji})
+$$
+
+   * La neurona ganadora ($r\_j = r\_c$) tiene $h\_{cc} = 1$ y recibe la máxima actualización.
    * Las neuronas vecinas cercanas reciben una actualización proporcional a su proximidad topológica.
-   * Las neuronas fuera del radio $\sigma(t)$ tienen $h_{cj} \approx 0$ y no alteran sus pesos.
+   * Las neuronas fuera del radio $\sigma(t)$ tienen $h\_{cj} \approx 0$ y no alteran sus pesos.
    * Con el transcurso de las épocas, el radio $\sigma(t)$ y la tasa $\eta(t)$ decaen exponencialmente, transformando el proceso de ordenamiento global inicial en un ajuste fino local final.
 
 ---
@@ -2109,11 +2670,11 @@ En la etapa de cooperación del algoritmo SOM de Kohonen:
 *"Dado el siguiente conjunto de datos en R^2 explique cómo implementar:"*
 
 **Respuesta Canónica de la Cátedra:**
-Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x_1, x_2)$ y etiquetas de clase $C_k$:
+Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x\_1, x\_2)$ y etiquetas de clase $C\_k$:
 
 ### a. Implementación con Red MLP
 1. **Arquitectura:**
-   * Capa de entrada con 2 neuronas sensoriales ($x_1, x_2$).
+   * Capa de entrada con 2 neuronas sensoriales ($x\_1, x\_2$).
    * Una capa oculta con neuronas con activación sigmoide o ReLU para modelar la frontera de decisión no lineal. La cantidad de neuronas dependerá de la concavidad de la frontera (típicamente entre 4 y 8 neuronas).
    * Capa de salida: 1 neurona con activación sigmoide (si es clasificación binaria $0/1$), o bien $K$ neuronas con activación Softmax si son múltiples clases.
 2. **Etapa de Entrenamiento:**
@@ -2121,15 +2682,20 @@ Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entra
    * Se presentan los patrones secuencialmente, se calcula el error cuadrático medio y se propagan los gradientes hacia atrás mediante la regla delta generalizada ajustando pesos y sesgos.
    * Se evalúa el error de validación para aplicar parada temprana.
 3. **Etapa de Funcionamiento (Inferencia):**
-   * Se congelan los pesos sinápticos. Ante un nuevo vector $(x_1, x_2)$, la red realiza un único paso hacia adelante (*forward pass*) y clasifica según el umbral de decisión (ej. clase 1 si $y \ge 0.5$, clase 0 si $y < 0.5$).
+   * Se congelan los pesos sinápticos. Ante un nuevo vector $(x\_1, x\_2)$, la red realiza un único paso hacia adelante (*forward pass*) y clasifica según el umbral de decisión (ej. clase 1 si $y \ge 0.5$, clase 0 si $y < 0.5$).
 
 ### b. Implementación con Clasificador Naïve Bayes
 1. **Modelado Estadístico:**
    * Al tratarse de variables continuas en $\mathbb{R}^2$, se utiliza **Naïve Bayes Gaussiano**.
-   * Para cada clase $C_k$, se estiman los parámetros muestrales de cada atributo: media $\mu_{1k}, \mu_{2k}$ y varianza $\sigma_{1k}^2, \sigma_{2k}^2$.
+   * Para cada clase $C\_k$, se estiman los parámetros muestrales de cada atributo: media $\mu\_{1k}, \mu\_{2k}$ y varianza $\sigma\_{1k}^2, \sigma\_{2k}^2$.
 2. **Regla de Clasificación MAP:**
-   * Para clasificar una nueva instancia $(x_1, x_2)$:
-   $$P(C_k | x_1, x_2) \propto P(C_k) \cdot \mathcal{N}(x_1; \mu_{1k}, \sigma_{1k}^2) \cdot \mathcal{N}(x_2; \mu_{2k}, \sigma_{2k}^2)$$
+   * Para clasificar una nueva instancia $(x\_1, x\_2)$:
+   
+
+$$
+P(C\_k | x\_1, x\_2) \propto P(C\_k) \cdot \mathcal{N}(x\_1; \mu\_{1k}, \sigma\_{1k}^2) \cdot \mathcal{N}(x\_2; \mu\_{2k}, \sigma\_{2k}^2)
+$$
+
    * Se asigna a la clase que maximice el producto de las verosimilitudes gaussianas y la probabilidad a priori.
 
 ---
@@ -2158,19 +2724,29 @@ En los sistemas basados en ajuste de parámetros (como redes neuronales y algori
 Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
 
 ### 1. Arquitectura de la Red:
-* **Capa de Entrada:** $N$ nodos dimensionales que reciben el vector continuo $X = (x_1, \dots, x_N)$.
+* **Capa de Entrada:** $N$ nodos dimensionales que reciben el vector continuo $X = (x\_1, \dots, x\_N)$.
 * **Capa de Salida:** Grilla topológica discreta (unidimensional o bidimensional, generalmente cuadrada o hexagonal) de $M$ neuronas.
-* **Conexiones:** Cada nodo de entrada está completamente conectado a todas las neuronas de la grilla de salida mediante un vector de pesos sinápticos $W_j = (w_{j1}, \dots, w_{jN})$. No existen conexiones físicas inter-neuronales en la salida, pero interactúan mediante vecindades topológicas.
+* **Conexiones:** Cada nodo de entrada está completamente conectado a todas las neuronas de la grilla de salida mediante un vector de pesos sinápticos $W\_j = (w\_{j1}, \dots, w\_{jN})$. No existen conexiones físicas inter-neuronales en la salida, pero interactúan mediante vecindades topológicas.
 
 ### 2. Algoritmo de Aprendizaje (No Supervisado y Competitivo):
-1. **Inicialización:** Inicializar los vectores de pesos con valores aleatorios pequeños y definir el radio de vecindad inicial $\sigma_0$ y la tasa de aprendizaje inicial $\eta_0$.
-2. **Presentación del Patrón:** Presentar un vector de entrada $X_k$.
-3. **Fase de Competencia:** Calcular la distancia euclídea entre $X_k$ y los pesos de todas las neuronas de salida:
-   $$d_j = \|X_k - W_j\| = \sqrt{\sum_{i=1}^N (x_i - w_{ji})^2}$$
-   Se determina la neurona ganadora o *Best Matching Unit* (BMU) $c$ tal que $c = \arg\min_j d_j$.
-4. **Fase de Cooperación:** Evaluar la función de vecindad $h_{cj}(t)$ sobre la grilla alrededor de la BMU.
+1. **Inicialización:** Inicializar los vectores de pesos con valores aleatorios pequeños y definir el radio de vecindad inicial $\sigma\_0$ y la tasa de aprendizaje inicial $\eta\_0$.
+2. **Presentación del Patrón:** Presentar un vector de entrada $X\_k$.
+3. **Fase de Competencia:** Calcular la distancia euclídea entre $X\_k$ y los pesos de todas las neuronas de salida:
+   
+
+$$
+d\_j = \|X\_k - W\_j\| = \sqrt{\sum\_{i=1}^N (x\_i - w\_{ji})^2}
+$$
+
+   Se determina la neurona ganadora o *Best Matching Unit* (BMU) $c$ tal que $c = \arg\min\_j d\_j$.
+4. **Fase de Cooperación:** Evaluar la función de vecindad $h\_{cj}(t)$ sobre la grilla alrededor de la BMU.
 5. **Fase de Adaptación:** Actualizar los vectores de pesos de la ganadora y sus vecinas:
-   $$W_j(t+1) = W_j(t) + \eta(t) \cdot h_{cj}(t) \cdot [X_k - W_j(t)]$$
+   
+
+$$
+W\_j(t+1) = W\_j(t) + \eta(t) \cdot h\_{cj}(t) \cdot [X\_k - W\_j(t)]
+$$
+
 6. **Criterio de Parada:** El entrenamiento culmina cuando los pesos sinápticos se estabilizan topológicamente y el desplazamiento global de los pesos desciende por debajo de un umbral infinitesimal preestablecido.
 
 ---
@@ -2198,13 +2774,23 @@ A diferencia del aprendizaje inductivo empírico (que requiere cientos o miles d
 El **término de momento** es una modificación de la regla delta generalizada introducida por Rumelhart, Hinton y Williams para acelerar la convergencia del descenso de gradiente y evitar que la red quede atrapada en oscilaciones locales en valles estrechos de la superficie de error.
 
 **Ecuación de Actualización:**
-$$\Delta w_{ji}(t) = \alpha \cdot \delta_j \cdot x_i + \beta \cdot \Delta w_{ji}(t-1)$$
-$$w_{ji}(t+1) = w_{ji}(t) + \Delta w_{ji}(t)$$
+
+
+$$
+\Delta w\_{ji}(t) = \alpha \cdot \delta\_j \cdot x\_i + \beta \cdot \Delta w\_{ji}(t-1)
+$$
+
+
+
+$$
+w\_{ji}(t+1) = w\_{ji}(t) + \Delta w\_{ji}(t)
+$$
+
 
 Donde:
 * $\alpha \in (0, 1]$: Tasa o factor de aprendizaje.
 * $\beta \in [0, 1)$: Coeficiente de momento.
-* $\Delta w_{ji}(t-1)$: Modificación de peso efectuada en la iteración inmediatamente anterior.
+* $\Delta w\_{ji}(t-1)$: Modificación de peso efectuada en la iteración inmediatamente anterior.
 
 **Mecanismo Físico de Funcionamiento:**
 Actúa como un filtro de inercia mecánica (análogo al momento lineal de una esfera rodando en una superficie):
@@ -2220,9 +2806,9 @@ Actúa como un filtro de inercia mecánica (análogo al momento lineal de una es
 **Respuesta Canónica de la Cátedra:**
 Si la red finaliza o debe finalizar su entrenamiento porque el error de validación comienza a crecer antes de que el error de entrenamiento alcance el valor admisible, se debe diagnosticar y resolver el sobreajuste temprano:
 
-1. **Parada Temprana (*Early Stopping*):** El error de validación creciente indica que la red comenzó a memorizar particularidades irrelevantes del set de entrenamiento. La solución óptima inmediata es detener el entrenamiento y **recuperar los pesos sinápticos de la época donde $E_{val}$ alcanzó su mínimo absoluto**.
+1. **Parada Temprana (*Early Stopping*):** El error de validación creciente indica que la red comenzó a memorizar particularidades irrelevantes del set de entrenamiento. La solución óptima inmediata es detener el entrenamiento y **recuperar los pesos sinápticos de la época donde $E\_{val}$ alcanzó su mínimo absoluto**.
 2. **Reducción de Complejidad Arquitectónica:** Si el mínimo de validación alcanzado sigue siendo inaceptablemente alto, significa que la red tiene exceso de grados de libertad. Se debe reducir la cantidad de capas ocultas o neuronas intermedias.
-3. **Aumento de la Tasa de Regularización:** Añadir penalización de pesos (*Weight Decay* $L_2$ o Dropout) para obligar a las neuronas a mantener representaciones distribuidas y pesos pequeños.
+3. **Aumento de la Tasa de Regularización:** Añadir penalización de pesos (*Weight Decay* $L\_2$ o Dropout) para obligar a las neuronas a mantener representaciones distribuidas y pesos pequeños.
 4. **Revisión de la Tasa de Aprendizaje y Momento:** Reducir $\alpha$ para evitar saltos destructivos alrededor del mínimo.
 
 ---
@@ -2235,19 +2821,29 @@ Si la red finaliza o debe finalizar su entrenamiento porque el error de validaci
 Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
 
 ### 1. Arquitectura de la Red:
-* **Capa de Entrada:** $N$ nodos dimensionales que reciben el vector continuo $X = (x_1, \dots, x_N)$.
+* **Capa de Entrada:** $N$ nodos dimensionales que reciben el vector continuo $X = (x\_1, \dots, x\_N)$.
 * **Capa de Salida:** Grilla topológica discreta (unidimensional o bidimensional, generalmente cuadrada o hexagonal) de $M$ neuronas.
-* **Conexiones:** Cada nodo de entrada está completamente conectado a todas las neuronas de la grilla de salida mediante un vector de pesos sinápticos $W_j = (w_{j1}, \dots, w_{jN})$. No existen conexiones físicas inter-neuronales en la salida, pero interactúan mediante vecindades topológicas.
+* **Conexiones:** Cada nodo de entrada está completamente conectado a todas las neuronas de la grilla de salida mediante un vector de pesos sinápticos $W\_j = (w\_{j1}, \dots, w\_{jN})$. No existen conexiones físicas inter-neuronales en la salida, pero interactúan mediante vecindades topológicas.
 
 ### 2. Algoritmo de Aprendizaje (No Supervisado y Competitivo):
-1. **Inicialización:** Inicializar los vectores de pesos con valores aleatorios pequeños y definir el radio de vecindad inicial $\sigma_0$ y la tasa de aprendizaje inicial $\eta_0$.
-2. **Presentación del Patrón:** Presentar un vector de entrada $X_k$.
-3. **Fase de Competencia:** Calcular la distancia euclídea entre $X_k$ y los pesos de todas las neuronas de salida:
-   $$d_j = \|X_k - W_j\| = \sqrt{\sum_{i=1}^N (x_i - w_{ji})^2}$$
-   Se determina la neurona ganadora o *Best Matching Unit* (BMU) $c$ tal que $c = \arg\min_j d_j$.
-4. **Fase de Cooperación:** Evaluar la función de vecindad $h_{cj}(t)$ sobre la grilla alrededor de la BMU.
+1. **Inicialización:** Inicializar los vectores de pesos con valores aleatorios pequeños y definir el radio de vecindad inicial $\sigma\_0$ y la tasa de aprendizaje inicial $\eta\_0$.
+2. **Presentación del Patrón:** Presentar un vector de entrada $X\_k$.
+3. **Fase de Competencia:** Calcular la distancia euclídea entre $X\_k$ y los pesos de todas las neuronas de salida:
+   
+
+$$
+d\_j = \|X\_k - W\_j\| = \sqrt{\sum\_{i=1}^N (x\_i - w\_{ji})^2}
+$$
+
+   Se determina la neurona ganadora o *Best Matching Unit* (BMU) $c$ tal que $c = \arg\min\_j d\_j$.
+4. **Fase de Cooperación:** Evaluar la función de vecindad $h\_{cj}(t)$ sobre la grilla alrededor de la BMU.
 5. **Fase de Adaptación:** Actualizar los vectores de pesos de la ganadora y sus vecinas:
-   $$W_j(t+1) = W_j(t) + \eta(t) \cdot h_{cj}(t) \cdot [X_k - W_j(t)]$$
+   
+
+$$
+W\_j(t+1) = W\_j(t) + \eta(t) \cdot h\_{cj}(t) \cdot [X\_k - W\_j(t)]
+$$
+
 6. **Criterio de Parada:** El entrenamiento culmina cuando los pesos sinápticos se estabilizan topológicamente y el desplazamiento global de los pesos desciende por debajo de un umbral infinitesimal preestablecido.
 
 ---
@@ -2265,7 +2861,7 @@ Tabla comparativa exigida por la Cátedra evaluando los tres modelos neuronales 
 | **b. Cantidad de Salidas** | $M$ salidas (grilla 1D/2D) | $N$ salidas (igual a entradas) | $1$ salida binaria / bipolar |
 | **c. Aprendizaje Online / Offline** | Offline (entrenamiento por épocas) | Offline (cálculo directo en un paso) | Online / Iterativo patrón por patrón |
 | **d. Supervisado / No Supervisado** | **No Supervisado** (competitivo) | **No Supervisado** (asociativo/Hebbiano) | **Supervisado** (con etiqueta deseada) |
-| **e. Condición de Finalización** | Estabilización de pesos sinápticos ($\Delta w \to 0$) | Estado estable atractor: $S(t+1) = S(t)$ | Época completa con $0$ errores ($S_d = S_o$) |
+| **e. Condición de Finalización** | Estabilización de pesos sinápticos ($\Delta w \to 0$) | Estado estable atractor: $S(t+1) = S(t)$ | Época completa con $0$ errores ($S\_d = S\_o$) |
 | **f. Función de Transferencia** | Continua / Lineal en distancias | Escalón bipolar ($\text{signo}$) | Escalón binario $[0, 1]$ o bipolar $[-1, 1]$ |
 | **g. Limitaciones Principales** | Alto costo computacional; sensible a topología inicial | Capacidad acotada ($0.138N$); requiere ortogonalidad | Solo resuelve problemas linealmente separables |
 | **h. Ejemplo de Aplicación** | Clustering visual; reducción de dimensionalidad | Memoria asociativa; recuperación de patrones con ruido | Clasificador binario lineal (ej. Compuerta AND/OR) |
@@ -2297,20 +2893,55 @@ Tabla comparativa exigida por la Cátedra evaluando los modelos de aprendizaje a
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Modelo ADALINE (Adaptive Linear Neuron)
-* **Arquitectura:** Red de una sola capa con una neurona que calcula la suma ponderada $net = \sum_{i=1}^n w_i x_i - \theta$.
+* **Arquitectura:** Red de una sola capa con una neurona que calcula la suma ponderada $net = \sum\_{i=1}^n w\_i x\_i - \theta$.
 * **Mecanismo de Aprendizaje (Regla Widrow-Hoff / LMS):**
   Minimiza el **error cuadrático medio** evaluando el error directamente sobre la **salida lineal neta** antes de aplicar la función de activación:
-  $$e = S_d - net$$
-  $$\Delta w_i = \alpha \cdot (S_d - net) \cdot x_i$$
-  $$\theta(t+1) = \theta(t) - \alpha \cdot (S_d - net)$$
+  
+
+$$
+e = S\_d - net
+$$
+
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - net) \cdot x\_i
+$$
+
+  
+
+$$
+\theta(t+1) = \theta(t) - \alpha \cdot (S\_d - net)
+$$
+
   El descenso de gradiente es suave y continuo, permitiendo converger incluso si las clases no son estrictamente separables en el sentido de que minimiza la varianza del error residual.
 
 ### 2. Modelo Perceptrón Simple (Rosenblatt)
 * **Mecanismo de Aprendizaje (Regla Delta del Perceptrón):**
   Evalúa el error **únicamente sobre la salida binaria o bipolar umbralizada**:
-  $$y = f(net) = \begin{cases} +1 & \text{si } net \ge 0 \\ -1 & \text{si } net < 0 \end{cases}$$
-  $$e = S_d - y$$
-  $$\Delta w_i = \alpha \cdot (S_d - y) \cdot x_i$$
+  
+
+$$
+y = f(net) = \begin{cases} +1 & \text{si } net \ge 0 \\
+-1 & \text{si } net < 0
+\end{cases}
+$$
+
+
+  
+
+
+
+$$
+e = S\_d - y
+$$
+
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - y) \cdot x\_i
+$$
+
 * **Diferencias Críticas Exigidas en Examen:**
   1. *Punto de Cálculo del Error:* ADALINE evalúa en la señal continua $net$; Perceptrón evalúa en la señal discreta umbralizada $y$.
   2. *Superficie de Error:* ADALINE se desplaza sobre un paraboloide cuadrático continuo sin mínimos locales; Perceptrón tiene saltos abruptos debido a la función escalón.
@@ -2329,7 +2960,7 @@ El sobreajuste en $K$-Means ocurre cuando se asigna un valor de $k$ artificialme
 1. **Método del Codo (*Elbow Method*):** Graficar la suma de errores cuadráticos intra-cluster ($SSE$) en función de $k$. Elegir el valor donde la curva experimenta una inflexión abrupta (el codo), a partir del cual agregar más clusters no aporta una ganancia significativa de compacidad.
 2. **Análisis del Coeficiente de Silueta:** Medir cuán similar es cada punto a su propio cluster en comparación con los clusters vecinos. Seleccionar el $k$ que maximice la silueta media global.
 3. **Criterios de Penalización de Complejidad (AIC / BIC):** Aplicar criterios de información que penalicen el número excesivo de parámetros libres ($k \cdot d$).
-4. **Poda y Fusión de Clusters:** Si tras la convergencia se observan clusters con muy pocas instancias o cuya distancia inter-centroides sea inferior a un umbral $\delta_{min}$, fusionarlos iterativamente.
+4. **Poda y Fusión de Clusters:** Si tras la convergencia se observan clusters con muy pocas instancias o cuya distancia inter-centroides sea inferior a un umbral $\delta\_{min}$, fusionarlos iterativamente.
 
 ---
 
@@ -2338,38 +2969,63 @@ El sobreajuste en $K$-Means ocurre cuando se asigna un valor de $k$ artificialme
 *"Explique cómo se implementa el algoritmo NB con distribuciones continuas. El algoritmo NB con distribuciones continuas funciona asumiendo que las verosimilitudes de cada atributo de cada dato del dataset sigue un tipo de distribución, de esta manera reemplaza la verosimilitud por la distribución de probabilidad asumida."*
 
 **Respuesta Canónica de la Cátedra:**
-Cuando los atributos del vector $X = (x_1, \dots, x_d)$ son continuos en lugar de discretos, no se pueden construir tablas de conteo de frecuencias. Se implementa el **Naïve Bayes Gaussiano**:
+Cuando los atributos del vector $X = (x\_1, \dots, x\_d)$ son continuos en lugar de discretos, no se pueden construir tablas de conteo de frecuencias. Se implementa el **Naïve Bayes Gaussiano**:
 
-1. **Supuesto de Densidad:** Se asume que dentro de cada clase $C_k$, cada atributo continuo $x_i$ se distribuye según una distribución Normal o Gaussiana $\mathcal{N}(\mu_{ik}, \sigma_{ik}^2)$.
+1. **Supuesto de Densidad:** Se asume que dentro de cada clase $C\_k$, cada atributo continuo $x\_i$ se distribuye según una distribución Normal o Gaussiana $\mathcal{N}(\mu\_{ik}, \sigma\_{ik}^2)$.
 2. **Estimación Paramétrica en Entrenamiento:**
-   Para cada clase $C_k$ y para cada atributo $i$, se calculan la media muestral y la varianza muestral:
-   $$\mu_{ik} = \frac{1}{N_k} \sum_{j \in C_k} x_{ji}$$
-   $$\sigma_{ik}^2 = \frac{1}{N_k - 1} \sum_{j \in C_k} (x_{ji} - \mu_{ik})^2$$
+   Para cada clase $C\_k$ y para cada atributo $i$, se calculan la media muestral y la varianza muestral:
+   
+
+$$
+\mu\_{ik} = \frac{1}{N\_k} \sum\_{j \in C\_k} x\_{ji}
+$$
+
+   
+
+$$
+\sigma\_{ik}^2 = \frac{1}{N\_k - 1} \sum\_{j \in C\_k} (x\_{ji} - \mu\_{ik})^2
+$$
+
 3. **Cálculo de Verosimilitudes Continuas:**
    Ante una nueva instancia de prueba, la verosimilitud se evalúa con la función de densidad de probabilidad gaussiana:
-   $$P(x_i | C_k) = \frac{1}{\sqrt{2\pi \sigma_{ik}^2}} \exp\left(-\frac{(x_i - \mu_{ik})^2}{2\sigma_{ik}^2}\right)$$
+   
+
+$$
+P(x\_i | C\_k) = \frac{1}{\sqrt{2\pi \sigma\_{ik}^2}} \exp\left(-\frac{(x\_i - \mu\_{ik})^2}{2\sigma\_{ik}^2}\right)
+$$
+
 4. **Regla de Clasificación Final:**
-   $$C_{opt} = \arg\max_{C_k} \left[ P(C_k) \prod_{i=1}^d \frac{1}{\sqrt{2\pi \sigma_{ik}^2}} \exp\left(-\frac{(x_i - \mu_{ik})^2}{2\sigma_{ik}^2}\right) \right]$$
+   
+
+$$
+C\_{opt} = \arg\max\_{C\_k} \left[ P(C\_k) \prod\_{i=1}^d \frac{1}{\sqrt{2\pi \sigma\_{ik}^2}} \exp\left(-\frac{(x\_i - \mu\_{ik})^2}{2\sigma\_{ik}^2}\right) \right]
+$$
+
 
 ---
 
-### Pregunta 20: $k$-NN Ponderado con $w_i = 1 / (1 + d^2)$ y $k = m + n$
+### Pregunta 20: $k$-NN Ponderado con $w\_i = 1 / (1 + d^2)$ y $k = m + n$
 **Enunciado Oficial de la Cátedra:**
 *"En un problema de clasificación donde se utiliza k-nn ponderado, con pesos wi= 1/ (1+ [d(x0,xi)^2]), se tienen dos clases A con m instancias y B con n instancias. Evalúe qué sucede si se utiliza k =m+n, suponga que m>n, m=n y m<n."*
 
 **Respuesta Canónica de la Cátedra:**
-En un problema con dos clases $A$ ($m$ instancias) y $B$ ($n$ instancias), si se utiliza **$k$-NN ponderado** con pesos $w_i = \frac{1}{1 + d(x_0, x_i)^2}$ y se fija $k = m + n$ (todo el conjunto de datos):
+En un problema con dos clases $A$ ($m$ instancias) y $B$ ($n$ instancias), si se utiliza **$k$-NN ponderado** con pesos $w\_i = \frac{1}{1 + d(x\_0, x\_i)^2}$ y se fija $k = m + n$ (todo el conjunto de datos):
 
 **Análisis de la Regla de Ponderación:**
 A diferencia de $k$-NN simple (donde cada instancia aporta $1$ voto y ganaría siempre la clase con más elementos), en $k$-NN ponderado cada instancia aporta un voto modulado por su distancia inversa al cuadrado:
-$$V_A = \sum_{x_i \in A} \frac{1}{1 + d(x_0, x_i)^2} \qquad V_B = \sum_{x_j \in B} \frac{1}{1 + d(x_0, x_j)^2}$$
+
+
+$$
+V\_A = \sum\_{x\_i \in A} \frac{1}{1 + d(x\_0, x\_i)^2} \qquad V\_B = \sum\_{x\_j \in B} \frac{1}{1 + d(x\_0, x\_j)^2}
+$$
+
 
 * **Caso 1: $m > n$ (Clase A mayoritaria)**
-  Aunque la clase A posee mayor cantidad de instancias, si la consulta $x_0$ se encuentra ubicada en una región densa de la clase B (a distancias muy pequeñas de instancias de B), los pesos de esas pocas instancias de B serán cercanos a $1.0$, mientras que las muchas instancias de A (si están alejadas) tendrán pesos infinitesimales ($w \to 0$). Por ende, **puede clasificar como B a pesar de que $m > n$**. La proximidad local domina sobre la masa global.
+  Aunque la clase A posee mayor cantidad de instancias, si la consulta $x\_0$ se encuentra ubicada en una región densa de la clase B (a distancias muy pequeñas de instancias de B), los pesos de esas pocas instancias de B serán cercanos a $1.0$, mientras que las muchas instancias de A (si están alejadas) tendrán pesos infinitesimales ($w \to 0$). Por ende, **puede clasificar como B a pesar de que $m > n$**. La proximidad local domina sobre la masa global.
 * **Caso 2: $m = n$ (Clases perfectamente balanceadas)**
-  La decisión depende con absoluta pureza de la distribución espacial: ganará la clase que tenga los puntos más cercanos a $x_0$.
+  La decisión depende con absoluta pureza de la distribución espacial: ganará la clase que tenga los puntos más cercanos a $x\_0$.
 * **Caso 3: $m < n$ (Clase A minoritaria)**
-  Análogo al caso 1: la clase minoritaria A puede vencer si sus puntos rodean de cerca a la consulta $x_0$.
+  Análogo al caso 1: la clase minoritaria A puede vencer si sus puntos rodean de cerca a la consulta $x\_0$.
 
 ---
 
@@ -2379,18 +3035,45 @@ $$V_A = \sum_{x_i \in A} \frac{1}{1 + d(x_0, x_i)^2} \qquad V_B = \sum_{x_j \in 
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Dinámica Operativa
-1. **Tiempo $t = 0$:** Se aplica el vector de entrada distorsionado o incompleto $e_d(0) \in \{-1, +1\}^N$.
+1. **Tiempo $t = 0$:** Se aplica el vector de entrada distorsionado o incompleto $e\_d(0) \in \{-1, +1\}^N$.
 2. **Propagación:** Se calcula el potencial neto de cada neurona multiplicando por la matriz de pesos Hebbiana simétrica $W$:
-   $$net_i(t) = \sum_{j=1}^N w_{ij} \cdot e_{d, j}(t)$$
+   
+
+$$
+net\_i(t) = \sum\_{j=1}^N w\_{ij} \cdot e\_{d, j}(t)
+$$
+
 3. **Actualización Bipolar:**
-   $$e_{d, i}(t+1) = \text{signo}(net_i(t)) = \begin{cases} +1 & \text{si } net_i(t) > 0 \\ -1 & \text{si } net_i(t) < 0 \\ e_{d, i}(t) & \text{si } net_i(t) = 0 \end{cases}$$
+   
+
+$$
+e\_{d, i}(t+1) = \text{signo}(net\_i(t)) = \begin{cases}
++1 & \text{si } net\_i(t) > 0 \\
+-1 & \text{si } net\_i(t) < 0 \\
+e\_{d, i}(t) & \text{si } net\_i(t) = 0
+\end{cases}
+$$
+
+
 
 ### 2. Condiciones de Cierre / Finalización
 * **Estabilización en Atractor Estable (Mínimo de Energía):**
-  $$e_d(t+1) = e_d(t)$$
+  
+
+
+
+$$
+e\_d(t+1) = e\_d(t)
+$$
+
   Si el vector no experimenta cambios entre dos pasos sucesivos, la red alcanzó un punto fijo. Si dicho punto coincide con uno de los patrones memorizados, la recuperación fue exitosa. Si no coincide, convergió a un **estado espurio o mínimo local falso**.
 * **Ciclo Límite Oscilatorio:**
-  $$e_d(t+n) = e_d(t) \quad (\text{con } n > 1)$$
+  
+
+$$
+e\_d(t+n) = e\_d(t) \quad (\text{con } n > 1)
+$$
+
   Si el estado se repite periódicamente en bucle, la red no se estabiliza. Ocurre típicamente ante dinámicas asíncronas no convergentes o patrones no ortogonales.
 
 ---
@@ -2403,15 +3086,15 @@ $$V_A = \sum_{x_i \in A} \frac{1}{1 + d(x_0, x_i)^2} \qquad V_B = \sum_{x_j \in 
 Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el método de validación cruzada **$k$-Fold Cross Validation** o en su versión canónica **Leave-One-Out (LOOCV)**:
 
 1. **Procedimiento Metodológico:**
-   * Dado un conjunto de $N$ instancias, se itera sobre cada instancia individual $x_i$, utilizándola como conjunto de prueba unitario y empleando las restantes $N-1$ instancias como conjunto de entrenamiento.
-   * Se clasifica $x_i$ utilizando diferentes valores de $k$ candidatos (típicamente $k = 1, 3, 5, 7, \dots$ impares para evitar empates).
+   * Dado un conjunto de $N$ instancias, se itera sobre cada instancia individual $x\_i$, utilizándola como conjunto de prueba unitario y empleando las restantes $N-1$ instancias como conjunto de entrenamiento.
+   * Se clasifica $x\_i$ utilizando diferentes valores de $k$ candidatos (típicamente $k = 1, 3, 5, 7, \dots$ impares para evitar empates).
 2. **Construcción de la Tabla de Éxitos:**
    Se construye una tabla donde se registra si cada punto clasificó bien o mal para cada $k$:
 
 | Instancia | $k=1$ | $k=3$ | $k=5$ | $k=7$ |
 | :---: | :---: | :---: | :---: | :---: |
-| $E_1$ | Acierto | Acierto | Error | Error |
-| $E_2$ | Acierto | Acierto | Acierto | Error |
+| $E\_1$ | Acierto | Acierto | Error | Error |
+| $E\_2$ | Acierto | Acierto | Acierto | Error |
 | $\dots$ | $\dots$ | $\dots$ | $\dots$ | $\dots$ |
 | **Total Aciertos** | **$N-3$** | **$N-1$ (Máximo)** | **$N-4$** | **$N-6$** |
 
@@ -2424,7 +3107,7 @@ Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el mét
 *"Explicar qué hacer cuando el Error de validación < Error mínimo aceptable. Cuando el error de validación es menor que el error mínimo aceptable, significa que la red ha logrado un buen rendimiento en la tarea de generalización y se ha ajustado correctamente a los datos de entrenamiento y validación. En este caso, se puede detener el proceso de entrenamiento ya que no se espera una mejora significativa en el rendimiento de la red."*
 
 **Respuesta Canónica de la Cátedra:**
-Cuando el error de validación desciende por debajo del umbral del error mínimo admisible ($E_{val} < \epsilon_{min}$):
+Cuando el error de validación desciende por debajo del umbral del error mínimo admisible ($E\_{val} < \epsilon\_{min}$):
 
 1. **Detención Inmediata del Entrenamiento:** La red ha satisfecho rigurosamente los dos requisitos de convergencia: ha minimizado el error y ha demostrado poseer capacidad de generalización sobre datos no vistos durante el cálculo de gradientes. Continuar entrenando solo aumentará el riesgo de sobreajuste.
 2. **Evaluación en el Conjunto de Test:** Se congelan todos los pesos sinápticos y se evalúa la red **una única vez sobre el conjunto de test independiente**. Esto valida que el modelo no esté sesgado por la selección de hiperparámetros.
@@ -2437,7 +3120,7 @@ Cuando el error de validación desciende por debajo del umbral del error mínimo
 *"¿Cuál es la diferencia entre el aprendizaje supervisado y aprendizaje por refuerzo?"*
 
 **Respuesta Canónica de la Cátedra:**
-* **Aprendizaje Supervisado:** Existe un "maestro" o supervisor externo que proporciona explícitamente para cada entrada $X_k$ su **etiqueta o salida deseada exacta $y_k$**. El sistema calcula inmediatamente el error direccional ($S_d - S_o$) y ajusta los parámetros mediante descenso de gradiente guiado.
+* **Aprendizaje Supervisado:** Existe un "maestro" o supervisor externo que proporciona explícitamente para cada entrada $X\_k$ su **etiqueta o salida deseada exacta $y\_k$**. El sistema calcula inmediatamente el error direccional ($S\_d - S\_o$) y ajusta los parámetros mediante descenso de gradiente guiado.
 * **Aprendizaje por Refuerzo:** **No existe salida deseada ni supervisor**. El agente interactúa dinámicamente con un entorno mediante ensayo y error: ejecuta una acción y recibe del entorno una **señal de recompensa o castigo escalar demorada en el tiempo**. El agente debe resolver por sí mismo el problema de asignación de crédito temporal y descubrir qué secuencia de acciones maximiza el retorno acumulado a largo plazo.
 
 ---
@@ -2454,11 +3137,11 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
    * Con una tasa de error menor al $1\%$: $M \le 0.138 \cdot N$.
    *(Ejemplo: 100 neuronas solo pueden memorizar de forma confiable 13 patrones).* Si se supera esta cota, la red experimenta saturación catastrófica y recupera basura.
 2. **Requisito de Ortogonalidad Estricta:**
-   Si los patrones almacenados no son ortogonales ($E_k \cdot E_m \ne 0$), se produce interferencia destructiva (*crosstalk*) en la matriz Hebbiana, fusionando atractores y degradando la recuperación.
+   Si los patrones almacenados no son ortogonales ($E\_k \cdot E\_m \ne 0$), se produce interferencia destructiva (*crosstalk*) en la matriz Hebbiana, fusionando atractores y degradando la recuperación.
 3. **Convergencia a Mínimos Locales Falsos (Estados Espurios):**
    La función de energía de Liapunov posee mínimos locales que no corresponden a ningún patrón aprendido, atrapando a la red en estados artificiales.
 4. **Inversión de Patrones Complementarios:**
-   Por la simetría de la regla Hebbiana, si un patrón $E_k$ es un atractor estable, su complemento bipolar $-E_k$ también es un atractor con idéntica energía.
+   Por la simetría de la regla Hebbiana, si un patrón $E\_k$ es un atractor estable, su complemento bipolar $-E\_k$ también es un atractor con idéntica energía.
 
 ---
 
@@ -2467,7 +3150,7 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
 *"¿Cuál es la razón de iniciar los valores optimistas en el proceso de aprendizaje por refuerzo?"*
 
 **Respuesta Canónica de la Cátedra:**
-Inicializar la matriz de valores $Q(s, a)$ con **valores optimistas artificialmente altos** (ej. $Q_0 = +10$ cuando las recompensas reales oscilan en $[0, 1]$) tiene como propósito **incentivar una exploración exhaustiva y sistemática de todo el espacio de estados y acciones**.
+Inicializar la matriz de valores $Q(s, a)$ con **valores optimistas artificialmente altos** (ej. $Q\_0 = +10$ cuando las recompensas reales oscilan en $[0, 1]$) tiene como propósito **incentivar una exploración exhaustiva y sistemática de todo el espacio de estados y acciones**.
 
 **Mecanismo:** Al inicio, cualquier acción seleccionada por primera vez devolverá una recompensa real menor a $+10$, reduciendo su valor $Q$. Como consecuencia, las restantes acciones no exploradas mantendrán un valor optimista mayor ($+10$), forzando al algoritmo codicioso a probar todas las alternativas antes de repetir una acción previamente ensayada. Garantiza que ninguna política óptima quede ignorada por una mala experiencia inicial.
 
@@ -2510,7 +3193,7 @@ Para aproximar la función trigonométrica multivariable no lineal $f(x, y, z) =
 1. **Capa de Entrada:** 3 neuronas lineales correspondientes a las variables $x, y, z$.
 2. **Capas Ocultas:** 1 o 2 capas ocultas con neuronas con activación **tangente hiperbólica ($\tanh$)**, dado que modela con mayor rapidez las alternancias de signo de las funciones seno. Se recomiendan entre 8 y 16 neuronas en la primera capa oculta.
 3. **Capa de Salida:** 1 neurona con activación lineal o $\tanh$ (cuyo codominio natural es $[-1, +1]$, coincidente con el recorrido de la función seno).
-4. **Consideración Crítica de Dominio:** El dominio de entrenamiento debe restringirse para evitar la asíntota vertical en $z = 0$, acotando $z \in [\epsilon, z_{max}]$ para impedir divisiones por cero e inestabilidad en el gradiente.
+4. **Consideración Crítica de Dominio:** El dominio de entrenamiento debe restringirse para evitar la asíntota vertical en $z = 0$, acotando $z \in [\epsilon, z\_{max}]$ para impedir divisiones por cero e inestabilidad en el gradiente.
 
 ---
 
@@ -2524,21 +3207,56 @@ El algoritmo de aprendizaje de una red perceptrón multicapa mediante retropropa
 1. **Inicialización:** Inicializar pesos y sesgos con valores aleatorios pequeños uniformemente distribuidos en $[-\epsilon, +\epsilon]$.
 2. **Propagación hacia Adelante (*Forward Pass*):**
    * Calcular la entrada neta a cada neurona oculta y su salida:
-     $$net_j = \sum_i w_{ji} x_i + \theta_j \implies y_j = f(net_j)$$
+     
+
+$$
+net\_j = \sum\_i w\_{ji} x\_i + \theta\_j \implies y\_j = f(net\_j)
+$$
+
    * Calcular la entrada neta y salida de cada neurona de salida:
-     $$net_k = \sum_j w_{kj} y_j + \theta_k \implies y_k = f(net_k)$$
+     
+
+$$
+net\_k = \sum\_j w\_{kj} y\_j + \theta\_k \implies y\_k = f(net\_k)
+$$
+
 3. **Cálculo del Error Global Cuadrático:**
-   $$E_p = \frac{1}{2} \sum_k (y_k^d - y_k)^2 \qquad E_{global} = \frac{1}{P} \sum_{p=1}^P E_p$$
+   
+
+$$
+E\_p = \frac{1}{2} \sum\_k (y\_k^d - y\_k)^2 \qquad E\_{global} = \frac{1}{P} \sum\_{p=1}^P E\_p
+$$
+
 4. **Propagación hacia Atrás (*Backward Pass*):**
    * Calcular gradientes locales de error para las neuronas de salida:
-     $$\delta_k = (y_k^d - y_k) \cdot f'(net_k)$$
+     
+
+$$
+\delta\_k = (y\_k^d - y\_k) \cdot f'(net\_k)
+$$
+
    * Calcular gradientes para las neuronas ocultas:
-     $$\delta_j = f'(net_j) \cdot \sum_k w_{kj} \delta_k$$
+     
+
+$$
+\delta\_j = f'(net\_j) \cdot \sum\_k w\_{kj} \delta\_k
+$$
+
 5. **Actualización de Pesos:**
-   $$w_{kj}(t+1) = w_{kj}(t) + \alpha \cdot \delta_k \cdot y_j + \beta \cdot \Delta w_{kj}(t-1)$$
-   $$w_{ji}(t+1) = w_{ji}(t) + \alpha \cdot \delta_j \cdot x_i + \beta \cdot \Delta w_{ji}(t-1)$$
+   
+
+$$
+w\_{kj}(t+1) = w\_{kj}(t) + \alpha \cdot \delta\_k \cdot y\_j + \beta \cdot \Delta w\_{kj}(t-1)
+$$
+
+   
+
+$$
+w\_{ji}(t+1) = w\_{ji}(t) + \alpha \cdot \delta\_j \cdot x\_i + \beta \cdot \Delta w\_{ji}(t-1)
+$$
+
 6. **Condiciones de Parada:**
-   * El error de entrenamiento desciende por debajo de la tolerancia admisible: $E_{global} < \epsilon$.
+   * El error de entrenamiento desciende por debajo de la tolerancia admisible: $E\_{global} < \epsilon$.
    * Se alcanza el número máximo de épocas fijado.
    * **Criterio de Validación (Early Stopping):** El error sobre el conjunto de validación comienza a crecer durante $k$ épocas consecutivas.
 
@@ -2570,23 +3288,23 @@ La función de paridad de 3 variables $f(x, y, z) = (x \oplus y) \oplus z$ es un
 * **Clustering Divisivo (*Top-Down*):** Comienza con todas las instancias contenidas dentro de un único gran clúster raíz. En cada paso, divide iterativamente los clusters más heterogéneos hasta que cada dato constituye un clúster unitario.
 
 ### 2. Algoritmo Aglomerativo Paso a Paso:
-1. Asignar cada dato a su propio clúster unitario $C_1, C_2, \dots, C_N$.
+1. Asignar cada dato a su propio clúster unitario $C\_1, C\_2, \dots, C\_N$.
 2. Calcular la matriz de distancias por pares $D$ de dimensión $N \times N$ utilizando una función métrica (ej. distancia euclídea).
-3. Encontrar en la matriz $D$ el par de clusters $(C_i, C_j)$ con menor distancia inter-cluster $d(C_i, C_j)$ según el método de enlace elegido (*Single, Complete o Average Link*).
-4. Fusionar $C_i$ y $C_j$ en un nuevo clúster $C_{nuevo}$ y registrar la altura de la unión en el dendrograma.
-5. Actualizar la matriz de distancias recalculando las distancias entre $C_{nuevo}$ y los restantes clusters.
+3. Encontrar en la matriz $D$ el par de clusters $(C\_i, C\_j)$ con menor distancia inter-cluster $d(C\_i, C\_j)$ según el método de enlace elegido (*Single, Complete o Average Link*).
+4. Fusionar $C\_i$ y $C\_j$ en un nuevo clúster $C\_{nuevo}$ y registrar la altura de la unión en el dendrograma.
+5. Actualizar la matriz de distancias recalculando las distancias entre $C\_{nuevo}$ y los restantes clusters.
 6. Repetir desde el paso 3 hasta que todos los clusters queden unificados en uno solo.
 
 ---
 
-### Pregunta 33: En Hopfield: Significado de la Condición $E_k \cdot E_m > 0$
+### Pregunta 33: En Hopfield: Significado de la Condición $E\_k \cdot E\_m > 0$
 **Enunciado Oficial de la Cátedra:**
 *"En Hopfield: ¿Qué significa ek * em>0?"*
 
 **Respuesta Canónica de la Cátedra:**
-En el modelo de Hopfield bipolar ($E_k \in \{-1, +1\}^N$), el producto escalar entre dos patrones de entrenamiento $E_k \cdot E_m$ mide su grado de correlación:
-* Si $E_k \cdot E_m = 0$, los patrones son **ortogonales** (difieren en exactamente el $50\%$ de sus bits), lo que garantiza que no generen interferencia en la matriz Hebbiana.
-* Si **$E_k \cdot E_m > 0$**, significa que los patrones **NO son ortogonales**: comparten más del $50\%$ de bits idénticos, existiendo correlación positiva entre ellos. Esto produce diafonía (*crosstalk*), reduciendo la profundidad de los valles de energía de los atractores y provocando que la red confunda un patrón con otro o converja a estados espurios.
+En el modelo de Hopfield bipolar ($E\_k \in \{-1, +1\}^N$), el producto escalar entre dos patrones de entrenamiento $E\_k \cdot E\_m$ mide su grado de correlación:
+* Si $E\_k \cdot E\_m = 0$, los patrones son **ortogonales** (difieren en exactamente el $50\%$ de sus bits), lo que garantiza que no generen interferencia en la matriz Hebbiana.
+* Si **$E\_k \cdot E\_m > 0$**, significa que los patrones **NO son ortogonales**: comparten más del $50\%$ de bits idénticos, existiendo correlación positiva entre ellos. Esto produce diafonía (*crosstalk*), reduciendo la profundidad de los valles de energía de los atractores y provocando que la red confunda un patrón con otro o converja a estados espurios.
 
 ---
 
@@ -2613,11 +3331,11 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
    * Con una tasa de error menor al $1\%$: $M \le 0.138 \cdot N$.
    *(Ejemplo: 100 neuronas solo pueden memorizar de forma confiable 13 patrones).* Si se supera esta cota, la red experimenta saturación catastrófica y recupera basura.
 2. **Requisito de Ortogonalidad Estricta:**
-   Si los patrones almacenados no son ortogonales ($E_k \cdot E_m \ne 0$), se produce interferencia destructiva (*crosstalk*) en la matriz Hebbiana, fusionando atractores y degradando la recuperación.
+   Si los patrones almacenados no son ortogonales ($E\_k \cdot E\_m \ne 0$), se produce interferencia destructiva (*crosstalk*) en la matriz Hebbiana, fusionando atractores y degradando la recuperación.
 3. **Convergencia a Mínimos Locales Falsos (Estados Espurios):**
    La función de energía de Liapunov posee mínimos locales que no corresponden a ningún patrón aprendido, atrapando a la red en estados artificiales.
 4. **Inversión de Patrones Complementarios:**
-   Por la simetría de la regla Hebbiana, si un patrón $E_k$ es un atractor estable, su complemento bipolar $-E_k$ también es un atractor con idéntica energía.
+   Por la simetría de la regla Hebbiana, si un patrón $E\_k$ es un atractor estable, su complemento bipolar $-E\_k$ también es un atractor con idéntica energía.
 
 ---
 
@@ -2629,9 +3347,19 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
 La arquitectura de la red de Hopfield es **monocapa recurrente y auto-asociativa**:
 * Posee $N$ neuronas que actúan simultáneamente como entradas y salidas.
 * **Topología de Interconexión Total:** Cada neurona $i$ está conectada con todas las demás neuronas $j \ne i$ de la red mediante una conexión bidireccional con peso sináptico simétrico:
-  $$w_{ij} = w_{ji}$$
+  
+
+$$
+w\_{ij} = w\_{ji}
+$$
+
 * **Ausencia de Auto-Conexiones:** No existen bucles auto-recurrentes sobre la misma neurona:
-  $$w_{ii} = 0 \quad (\text{diagonal nula de la matriz } W)$$
+  
+
+$$
+w\_{ii} = 0 \quad (\text{diagonal nula de la matriz } W)
+$$
+
 
 ---
 
@@ -2660,9 +3388,14 @@ En el **aprendizaje por analogía transformacional**, el sistema resuelve un pro
 
 **Respuesta Canónica de la Cátedra:**
 El Teorema de Bayes es una regla formal de probabilidad condicional que permite invertir el orden de las dependencias estadísticas:
-$$P(C_k | X) = \frac{P(X | C_k) \cdot P(C_k)}{P(X)}$$
 
-En los sistemas de clasificación supervisada, permite determinar de forma probabilísticamente óptima la clase $C_k$ a la que pertenece un vector de atributos $X$, seleccionando aquella clase que posea la **máxima probabilidad a posteriori (regla MAP)**, minimizando el riesgo de error Bayesiano.
+
+$$
+P(C\_k | X) = \frac{P(X | C\_k) \cdot P(C\_k)}{P(X)}
+$$
+
+
+En los sistemas de clasificación supervisada, permite determinar de forma probabilísticamente óptima la clase $C\_k$ a la que pertenece un vector de atributos $X$, seleccionando aquella clase que posea la **máxima probabilidad a posteriori (regla MAP)**, minimizando el riesgo de error Bayesiano.
 
 ---
 
@@ -2685,15 +3418,35 @@ Naïve Bayes realiza un aprendizaje:
 
 **Respuesta Canónica de la Cátedra:**
 En la formulación del Teorema de Bayes:
-$$P(C_k | X) = \frac{P(X | C_k) P(C_k)}{P(X)}$$
+
+
+$$
+P(C\_k | X) = \frac{P(X | C\_k) P(C\_k)}{P(X)}
+$$
+
 
 El término denominador $P(X)$ representa la **probabilidad marginal total de la evidencia observada $X$**.
 * **Fórmula canónica:** Por el teorema de la probabilidad total:
-  $$P(X) = \sum_{j=1}^K P(X | C_j) \cdot P(C_j)$$
+  
+
+$$
+P(X) = \sum\_{j=1}^K P(X | C\_j) \cdot P(C\_j)
+$$
+
 * **Función Conceptual:** Actúa como una **constante de normalización** independiente de la clase. Garantiza que la suma de las probabilidades a posteriori sobre todas las clases posibles sea exactamente igual a $1$:
-  $$\sum_{k=1}^K P(C_k | X) = 1$$
+  
+
+$$
+\sum\_{k=1}^K P(C\_k | X) = 1
+$$
+
 * **Rol en Clasificación:** Dado que $P(X)$ es idéntico y positivo para todas las hipótesis que compiten, suele omitirse al maximizar:
-  $$C_{MAP} = \arg\max_{C_k} \left[ P(X | C_k) \cdot P(C_k) \right]$$
+  
+
+$$
+C\_{MAP} = \arg\max\_{C\_k} \left[ P(X | C\_k) \cdot P(C\_k) \right]
+$$
+
 
 ---
 
@@ -2712,8 +3465,8 @@ En el mundo real, esta condición casi nunca se cumple (los síntomas médicos, 
 *"Explique que son las probabilidades a priori y las verosimilitudes. - Probabilidad a priori: Son las probabilidades iniciales de las clases antes de observar cualquier evidencia, basadas en conocimiento previo (P(C)."*
 
 **Respuesta Canónica de la Cátedra:**
-* **Probabilidad a Priori $P(C_k)$:** Es la probabilidad asignada a la hipótesis o clase $C_k$ antes de observar la evidencia o atributos de la nueva instancia. Refleja el conocimiento histórico de la prevalencia o proporción de cada clase en el universo de estudio.
-* **Verosimilitud (*Likelihood*) $P(X | C_k)$:** Es la probabilidad condicional de observar el conjunto específico de características $X$, bajo la suposición de que la hipótesis o clase $C_k$ es verdadera. Mide cuán compatible o factible es la evidencia empírica observada con la clase postulada.
+* **Probabilidad a Priori $P(C\_k)$:** Es la probabilidad asignada a la hipótesis o clase $C\_k$ antes de observar la evidencia o atributos de la nueva instancia. Refleja el conocimiento histórico de la prevalencia o proporción de cada clase en el universo de estudio.
+* **Verosimilitud (*Likelihood*) $P(X | C\_k)$:** Es la probabilidad condicional de observar el conjunto específico de características $X$, bajo la suposición de que la hipótesis o clase $C\_k$ es verdadera. Mide cuán compatible o factible es la evidencia empírica observada con la clase postulada.
 
 ---
 
@@ -2734,8 +3487,8 @@ Se utilizan porque:
 
 **Respuesta Canónica de la Cátedra:**
 El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilidades**, constituida físicamente por:
-1. Una tabla de **probabilidades a priori** para cada clase: $P(C_1), \dots, P(C_K)$.
-2. Las tablas de **verosimilitudes condicionales** discretas $P(x_i | C_k)$, o bien los **vectores de parámetros estadísticos continuos** (medias $\mu_{ik}$ y varianzas $\sigma_{ik}^2$) calculados para cada atributo y clase.
+1. Una tabla de **probabilidades a priori** para cada clase: $P(C\_1), \dots, P(C\_K)$.
+2. Las tablas de **verosimilitudes condicionales** discretas $P(x\_i | C\_k)$, o bien los **vectores de parámetros estadísticos continuos** (medias $\mu\_{ik}$ y varianzas $\sigma\_{ik}^2$) calculados para cada atributo y clase.
 
 ---
 
@@ -2754,9 +3507,9 @@ El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilid
 *"Explique qué son los errores de entrenamiento, validación y test utilizados en el aprendizaje del modelo MLP."*
 
 **Respuesta Canónica de la Cátedra:**
-1. **Error de Entrenamiento ($E_{train}$):** Se calcula sobre el lote de datos utilizado activamente por la regla delta para ajustar y actualizar los pesos sinápticos. Mide la capacidad de aprendizaje o ajuste del modelo. Desciende de forma monótona durante el entrenamiento.
-2. **Error de Validación ($E_{val}$):** Se calcula sobre un conjunto de datos independiente al que la red no tiene acceso directo para actualizar pesos. Se evalúa al final de cada época para monitorear la capacidad de generalización y detectar el inicio del sobreajuste mediante *Early Stopping*.
-3. **Error de Test ($E_{test}$):** Se evalúa **una única vez** al finalizar por completo el proceso de entrenamiento y selección de hiperparámetros. Proporciona una estimación insesgada de la verdadera tasa de error del modelo antes de su implementación en producción.
+1. **Error de Entrenamiento ($E\_{train}$):** Se calcula sobre el lote de datos utilizado activamente por la regla delta para ajustar y actualizar los pesos sinápticos. Mide la capacidad de aprendizaje o ajuste del modelo. Desciende de forma monótona durante el entrenamiento.
+2. **Error de Validación ($E\_{val}$):** Se calcula sobre un conjunto de datos independiente al que la red no tiene acceso directo para actualizar pesos. Se evalúa al final de cada época para monitorear la capacidad de generalización y detectar el inicio del sobreajuste mediante *Early Stopping*.
+3. **Error de Test ($E\_{test}$):** Se evalúa **una única vez** al finalizar por completo el proceso de entrenamiento y selección de hiperparámetros. Proporciona una estimación insesgada de la verdadera tasa de error del modelo antes de su implementación en producción.
 
 ---
 
@@ -2767,7 +3520,12 @@ El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilid
 **Respuesta Canónica de la Cátedra:**
 **Sí, el término de momento puede ser negativo.**
 En la formulación canónica:
-$$\Delta w(t) = \alpha \cdot \delta \cdot x + \beta \cdot \Delta w(t-1)$$
+
+
+$$
+\Delta w(t) = \alpha \cdot \delta \cdot x + \beta \cdot \Delta w(t-1)
+$$
+
 
 Normalmente $\beta \in (0, 1)$ actúa como inercia positiva para acelerar en pendientes suaves. Sin embargo, cuando la superficie de error presenta un **valle muy estrecho y abrupto con curvaturas extremas**, el gradiente salta fuertemente de una pared a otra con cambios de signo alternantes:
 * Si $\beta > 0$, la inercia acumula energía y produce sobreoscilaciones violentas que pueden provocar divergencia o hacer que la red escape del mínimo óptimo.
@@ -2795,10 +3553,15 @@ Entradas (x_i)     Pesos (w_i)
 ```
 
 **Componentes Constitutivos Fundamentales:**
-1. **Entradas sensoriales ($x_1, \dots, x_n$):** Señales numéricas provenientes del exterior u otras neuronas.
-2. **Pesos sinápticos ($w_1, \dots, w_n$):** Factores de ponderación que modulan la intensidad de cada enlace.
+1. **Entradas sensoriales ($x\_1, \dots, x\_n$):** Señales numéricas provenientes del exterior u otras neuronas.
+2. **Pesos sinápticos ($w\_1, \dots, w\_n$):** Factores de ponderación que modulan la intensidad de cada enlace.
 3. **Regla de Propagación / Función de Entrada Neta:**
-   $$net = \sum_{i=1}^n w_i x_i - \theta \quad \text{o en notación aumentada} \quad net = \sum_{i=0}^n w_i x_i \text{ con } x_0 = -1, w_0 = \theta$$
+   
+
+$$
+net = \sum\_{i=1}^n w\_i x\_i - \theta \quad \text{o en notación aumentada} \quad net = \sum\_{i=0}^n w\_i x\_i \text{ con } x\_0 = -1, w\_0 = \theta
+$$
+
 4. **Función de Activación / Transferencia $f(net)$:** Función matemática que determina el estado de salida final $y = f(net)$.
 
 ---
@@ -2825,10 +3588,20 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 1. **Escalón Bipolar o Umbral:** $f(net) = +1$ si $net \ge 0$, $-1$ si $net < 0$. No derivable en el origen.
 2. **Lineal / Identidad:** $f(net) = net$. Derivada constante $f' = 1$. Utilizada en capas de salida de regresores.
 3. **Sigmoidea Logística:**
-   $$f(net) = \frac{1}{1 + e^{-net}} \implies f'(net) = f(net) \cdot (1 - f(net))$$
+   
+
+$$
+f(net) = \frac{1}{1 + e^{-net}} \implies f'(net) = f(net) \cdot (1 - f(net))
+$$
+
    Codominio en $(0, 1)$, continuamente derivable.
 4. **Tangente Hiperbólica:**
-   $$f(net) = \tanh(net) = \frac{e^{net} - e^{-net}}{e^{net} + e^{-net}} \implies f'(net) = 1 - f(net)^2$$
+   
+
+$$
+f(net) = \tanh(net) = \frac{e^{net} - e^{-net}}{e^{net} + e^{-net}} \implies f'(net) = 1 - f(net)^2
+$$
+
    Codominio simétrico en $(-1, +1)$, ideal para acelerar el aprendizaje alrededor del origen.
 
 ---
@@ -2849,20 +3622,56 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Modelo ADALINE (Adaptive Linear Neuron)
-* **Arquitectura:** Red de una sola capa con una neurona que calcula la suma ponderada $net = \sum_{i=1}^n w_i x_i - \theta$.
+* **Arquitectura:** Red de una sola capa con una neurona que calcula la suma ponderada $net = \sum\_{i=1}^n w\_i x\_i - \theta$.
 * **Mecanismo de Aprendizaje (Regla Widrow-Hoff / LMS):**
   Minimiza el **error cuadrático medio** evaluando el error directamente sobre la **salida lineal neta** antes de aplicar la función de activación:
-  $$e = S_d - net$$
-  $$\Delta w_i = \alpha \cdot (S_d - net) \cdot x_i$$
-  $$\theta(t+1) = \theta(t) - \alpha \cdot (S_d - net)$$
+  
+
+$$
+e = S\_d - net
+$$
+
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - net) \cdot x\_i
+$$
+
+  
+
+$$
+\theta(t+1) = \theta(t) - \alpha \cdot (S\_d - net)
+$$
+
   El descenso de gradiente es suave y continuo, permitiendo converger incluso si las clases no son estrictamente separables en el sentido de que minimiza la varianza del error residual.
 
 ### 2. Modelo Perceptrón Simple (Rosenblatt)
 * **Mecanismo de Aprendizaje (Regla Delta del Perceptrón):**
   Evalúa el error **únicamente sobre la salida binaria o bipolar umbralizada**:
-  $$y = f(net) = \begin{cases} +1 & \text{si } net \ge 0 \\ -1 & \text{si } net < 0 \end{cases}$$
-  $$e = S_d - y$$
-  $$\Delta w_i = \alpha \cdot (S_d - y) \cdot x_i$$
+  
+
+$$
+y = f(net) = \begin{cases}
++1 & \text{si } net \ge 0 \\
+-1 & \text{si } net < 0
+\end{cases}
+$$
+
+
+  
+
+
+
+$$
+e = S\_d - y
+$$
+
+  
+
+$$
+\Delta w\_i = \alpha \cdot (S\_d - y) \cdot x\_i
+$$
+
 * **Diferencias Críticas Exigidas en Examen:**
   1. *Punto de Cálculo del Error:* ADALINE evalúa en la señal continua $net$; Perceptrón evalúa en la señal discreta umbralizada $y$.
   2. *Superficie de Error:* ADALINE se desplaza sobre un paraboloide cuadrático continuo sin mínimos locales; Perceptrón tiene saltos abruptos debido a la función escalón.
@@ -2877,13 +3686,28 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 **Respuesta Canónica de la Cátedra:**
 La Regla Delta Generalizada (Rumelhart, Hinton, Williams) es una extensión de la regla delta de Widrow-Hoff para redes multicapa con capas ocultas y funciones de activación continuas derivables.
 Minimiza el error cuadrático medio mediante descenso de gradiente estocástico:
-$$\Delta w_{ji} = -\alpha \frac{\partial E}{\partial w_{ji}} = \alpha \cdot \delta_j \cdot o_i$$
 
-Donde el gradiente local $\delta_j$ se calcula por la regla de la cadena:
+
+$$
+\Delta w\_{ji} = -\alpha \frac{\partial E}{\partial w\_{ji}} = \alpha \cdot \delta\_j \cdot o\_i
+$$
+
+
+Donde el gradiente local $\delta\_j$ se calcula por la regla de la cadena:
 * Si $j$ es una **neurona de la capa de salida**:
-  $$\delta_j = (y_j^d - y_j) \cdot f'(net_j)$$
+  
+
+$$
+\delta\_j = (y\_j^d - y\_j) \cdot f'(net\_j)
+$$
+
 * Si $j$ es una **neurona de una capa oculta**:
-  $$\delta_j = f'(net_j) \cdot \sum_k w_{kj} \delta_k$$
+  
+
+$$
+\delta\_j = f'(net\_j) \cdot \sum\_k w\_{kj} \delta\_k
+$$
+
 (donde la suma recorre todas las neuronas $k$ de la capa inmediata posterior a las que $j$ proyecta su salida).
 
 ---
@@ -2907,8 +3731,13 @@ El **sobreajuste (*Overfitting*)** es el fenómeno patológico donde un modelo d
 El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estrictamente offline**:
 * **Cálculo Directo en un Solo Paso:** No existe un proceso iterativo de descenso de gradiente ni ajuste progresivo de pesos.
 * **Fórmula de Construcción Hebbiana:**
-  $$W = \sum_{k=1}^M (E_k E_k^T - I)$$
-  Los pesos sinápticos se fijan algebraicamente sumando los productos externos de los $M$ vectores de entrenamiento bipolares y restando la matriz identidad para anular la diagonal principal ($w_{ii} = 0$). Una vez fijados los pesos, la fase de aprendizaje concluye definitivamente.
+  
+
+$$
+W = \sum\_{k=1}^M (E\_k E\_k^T - I)
+$$
+
+  Los pesos sinápticos se fijan algebraicamente sumando los productos externos de los $M$ vectores de entrenamiento bipolares y restando la matriz identidad para anular la diagonal principal ($w\_{ii} = 0$). Una vez fijados los pesos, la fase de aprendizaje concluye definitivamente.
 
 ---
 
@@ -2926,7 +3755,7 @@ Significa que la red almacena internamente patrones de información y es capaz d
 *"¿Cómo debe representarse la información que recibe el modelo de Hopfield?"*
 
 **Respuesta Canónica de la Cátedra:**
-La información debe codificarse obligatoriamente en forma de **vectores discretos bipolares $\{-1, +1\}^N$** (o binarios $\{0, 1\}^N$, requiriendo transformación matemática). La representación bipolar es la preferida por la Cátedra porque cancela términos cruzados espurios en el producto externo $E_k E_k^T$ y facilita la condición de ortogonalidad simétrica.
+La información debe codificarse obligatoriamente en forma de **vectores discretos bipolares $\{-1, +1\}^N$** (o binarios $\{0, 1\}^N$, requiriendo transformación matemática). La representación bipolar es la preferida por la Cátedra porque cancela términos cruzados espurios en el producto externo $E\_k E\_k^T$ y facilita la condición de ortogonalidad simétrica.
 
 ---
 
@@ -2938,8 +3767,13 @@ La información debe codificarse obligatoriamente en forma de **vectores discret
 El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estrictamente offline**:
 * **Cálculo Directo en un Solo Paso:** No existe un proceso iterativo de descenso de gradiente ni ajuste progresivo de pesos.
 * **Fórmula de Construcción Hebbiana:**
-  $$W = \sum_{k=1}^M (E_k E_k^T - I)$$
-  Los pesos sinápticos se fijan algebraicamente sumando los productos externos de los $M$ vectores de entrenamiento bipolares y restando la matriz identidad para anular la diagonal principal ($w_{ii} = 0$). Una vez fijados los pesos, la fase de aprendizaje concluye definitivamente.
+  
+
+$$
+W = \sum\_{k=1}^M (E\_k E\_k^T - I)
+$$
+
+  Los pesos sinápticos se fijan algebraicamente sumando los productos externos de los $M$ vectores de entrenamiento bipolares y restando la matriz identidad para anular la diagonal principal ($w\_{ii} = 0$). Una vez fijados los pesos, la fase de aprendizaje concluye definitivamente.
 
 ---
 
@@ -2957,7 +3791,7 @@ Según sus conexiones sinápticas físicas, el modelo SOM es una red **Feedforwa
 *"¿Cómo se modela la influencia de las neuronas entre sí en los SOM?"*
 
 **Respuesta Canónica de la Cátedra:**
-La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h_{cj}(t)$ (campana Gaussiana o ventana rectangular).
+La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h\_{cj}(t)$ (campana Gaussiana o ventana rectangular).
 **Objetivo Fundamental:**
 Preservar la **topología del espacio de entrada**: garantiza que patrones de entrada que sean cercanos en el espacio multidimensional $\mathbb{R}^d$ queden mapeados en neuronas contiguas en la grilla bidimensional de salida, logrando una reducción no lineal de dimensionalidad preservando la vecindad topológica.
 
@@ -2968,9 +3802,9 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 *"Describa la etapa de aprendizaje del modelo SOM, especificando claramente las fases de competencia y cooperación."*
 
 **Respuesta Canónica de la Cátedra:**
-1. **Fase de Competencia:** Ante un vector de entrada $X$, todas las neuronas de salida calculan su distancia euclídea $\|X - W_j\|$. La neurona con menor distancia es declarada ganadora (BMU $c$).
-2. **Fase de Cooperación:** La BMU determina una vecindad topológica a su alrededor regida por $h_{cj}(t)$.
-3. **Fase de Adaptación:** La ganadora y sus vecinas ajustan sus pesos hacia el vector de entrada: $\Delta W_j = \eta(t) h_{cj}(t) [X - W_j]$, mientras que las neuronas fuera del radio no sufren alteraciones.
+1. **Fase de Competencia:** Ante un vector de entrada $X$, todas las neuronas de salida calculan su distancia euclídea $\|X - W\_j\|$. La neurona con menor distancia es declarada ganadora (BMU $c$).
+2. **Fase de Cooperación:** La BMU determina una vecindad topológica a su alrededor regida por $h\_{cj}(t)$.
+3. **Fase de Adaptación:** La ganadora y sus vecinas ajustan sus pesos hacia el vector de entrada: $\Delta W\_j = \eta(t) h\_{cj}(t) [X - W\_j]$, mientras que las neuronas fuera del radio no sufren alteraciones.
 
 ---
 
@@ -2979,7 +3813,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 *"¿Qué objetivo tiene la función de vecindad utilizada en los SOM?"*
 
 **Respuesta Canónica de la Cátedra:**
-La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h_{cj}(t)$ (campana Gaussiana o ventana rectangular).
+La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h\_{cj}(t)$ (campana Gaussiana o ventana rectangular).
 **Objetivo Fundamental:**
 Preservar la **topología del espacio de entrada**: garantiza que patrones de entrada que sean cercanos en el espacio multidimensional $\mathbb{R}^d$ queden mapeados en neuronas contiguas en la grilla bidimensional de salida, logrando una reducción no lineal de dimensionalidad preservando la vecindad topológica.
 
@@ -3099,15 +3933,15 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el método de validación cruzada **$k$-Fold Cross Validation** o en su versión canónica **Leave-One-Out (LOOCV)**:
 
 1. **Procedimiento Metodológico:**
-   * Dado un conjunto de $N$ instancias, se itera sobre cada instancia individual $x_i$, utilizándola como conjunto de prueba unitario y empleando las restantes $N-1$ instancias como conjunto de entrenamiento.
-   * Se clasifica $x_i$ utilizando diferentes valores de $k$ candidatos (típicamente $k = 1, 3, 5, 7, \dots$ impares para evitar empates).
+   * Dado un conjunto de $N$ instancias, se itera sobre cada instancia individual $x\_i$, utilizándola como conjunto de prueba unitario y empleando las restantes $N-1$ instancias como conjunto de entrenamiento.
+   * Se clasifica $x\_i$ utilizando diferentes valores de $k$ candidatos (típicamente $k = 1, 3, 5, 7, \dots$ impares para evitar empates).
 2. **Construcción de la Tabla de Éxitos:**
    Se construye una tabla donde se registra si cada punto clasificó bien o mal para cada $k$:
 
 | Instancia | $k=1$ | $k=3$ | $k=5$ | $k=7$ |
 | :---: | :---: | :---: | :---: | :---: |
-| $E_1$ | Acierto | Acierto | Error | Error |
-| $E_2$ | Acierto | Acierto | Acierto | Error |
+| $E\_1$ | Acierto | Acierto | Error | Error |
+| $E\_2$ | Acierto | Acierto | Acierto | Error |
 | $\dots$ | $\dots$ | $\dots$ | $\dots$ | $\dots$ |
 | **Total Aciertos** | **$N-3$** | **$N-1$ (Máximo)** | **$N-4$** | **$N-6$** |
 
@@ -3121,8 +3955,8 @@ Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el mét
 
 **Respuesta Canónica de la Cátedra:**
 Son aquellos donde la probabilidad de reproducción de un individuo es directamente proporcional a su valor de aptitud respecto al total de la población:
-* **Selección por Ruleta:** $p_i = \frac{f_i}{\sum f_j}$. Se arman ranuras acumuladas y se tiran números aleatorios.
-* **Control de Copia Esperado:** Calcula $c_i = f_i / \bar{f}$.
+* **Selección por Ruleta:** $p\_i = \frac{f\_i}{\sum f\_j}$. Se arman ranuras acumuladas y se tiran números aleatorios.
+* **Control de Copia Esperado:** Calcula $c\_i = f\_i / \bar{f}$.
 * **Limitación Crítica:** Suelen sufrir de convergencia prematura si aparece un individuo super-dotado al inicio que monopoliza la ruleta.
 
 ---
@@ -3170,11 +4004,21 @@ Modula la probabilidad de mutación en función del **grado de heterogeneidad o 
 La mutación adaptativa por temperatura modula la probabilidad de mutación en función del **tiempo evolutivo transcurrido (número de generaciones)**:
 
 1. **Temperatura Ascendente:**
-   $$P(gen_x) = P_{min} + \lambda \cdot (gen_x - 1)$$
+   
+
+$$
+P(gen\_x) = P\_{min} + \lambda \cdot (gen\_x - 1)
+$$
+
    *Comienza en un valor mínimo y aumenta linealmente con las generaciones.*
    *Ventaja:* Evita perturbar al individuo más apto en las etapas iniciales cuando la población ya es diversa, elevando la mutación al final para evitar la convergencia prematura.
 2. **Temperatura Descendente (*Simulated Annealing*):**
-   $$P(gen_x) = P_{max} - \lambda \cdot (gen_x - 1)$$
+   
+
+$$
+P(gen\_x) = P\_{max} - \lambda \cdot (gen\_x - 1)
+$$
+
    *Comienza en un valor máximo y disminuye con el avance de las generaciones.*
    *Ventaja:* Fomenta una exploración exhaustiva y global del espacio de búsqueda en las primeras etapas, reduciendo la perturbación al final para consolidar la explotación y convergencia en el óptimo.
 
@@ -3186,7 +4030,12 @@ El término de momento se utiliza para acelerar la convergencia de la red durant
 
 **Respuesta Canónica de la Cátedra:**
 El término de momento añade un componente inercial a la ecuación de actualización de pesos:
-$$\Delta w_{ji}(t) = \alpha \cdot \delta_j \cdot x_i + \beta \cdot (w_{ji}(t) - w_{ji}(t-1))$$
+
+
+$$
+\Delta w\_{ji}(t) = \alpha \cdot \delta\_j \cdot x\_i + \beta \cdot (w\_{ji}(t) - w\_{ji}(t-1))
+$$
+
 Donde $\beta \in [0, 1)$ es una constante que determina el efecto en $t+1$ del cambio de pesos en $t$, teniendo en cuenta la dirección del paso anterior para definir el nuevo incremento. Si el descenso sigue la misma dirección, la velocidad aumenta; si el gradiente oscila, el término amortigua las fluctuaciones.
 
 ---
@@ -3217,9 +4066,14 @@ A. Número de informaciones que pueden ser aprendidas en Hopfield. B. Ortogonali
 
 **Respuesta Canónica de la Cátedra:**
 * **A. Número de Informaciones:** Si se almacenan demasiadas informaciones, la red recupera resultados incorrectos. Para una **recuperación perfecta**, la cantidad de informaciones debe satisfacer:
-  $$M \le \frac{N}{4 \ln N}$$
+  
+
+$$
+M \le \frac{N}{4 \ln N}
+$$
+
   Donde $N$ es el número de neuronas. Aceptando un pequeño margen de error tolerable ($<1\%$), la capacidad se suaviza a la cota práctica $M \le 0.138 \cdot N$. En síntesis, se requiere un número elevado de neuronas para almacenar un número reducido de patrones (100 neuronas almacenan apenas 13 patrones).
-* **B. Ortogonalidad de las Informaciones:** Aunque se respete la cota numérica de capacidad, no puede garantizarse la recuperación correcta si los patrones no son **ortogonales** entre sí. En el espacio bipolar, deben **diferenciarse en al menos un 50% de sus componentes** ($E_k \cdot E_m = 0$). De lo contrario, se produce interferencia destructiva y la red converge a patrones incorrectos.
+* **B. Ortogonalidad de las Informaciones:** Aunque se respete la cota numérica de capacidad, no puede garantizarse la recuperación correcta si los patrones no son **ortogonales** entre sí. En el espacio bipolar, deben **diferenciarse en al menos un 50% de sus componentes** ($E\_k \cdot E\_m = 0$). De lo contrario, se produce interferencia destructiva y la red converge a patrones incorrectos.
 
 ---
 
@@ -3236,92 +4090,197 @@ Esta sección sintetiza el marco teórico formal unificado de la Cátedra para t
 
 ### 1.1. Arquitectura y Propagación Hacia Adelante (*Forward Pass*)
 Una red MLP está estructurada en capas sucesivas de neuronas interconectadas por pesos sinápticos unidireccionales. Para una neurona $j$ en una capa dada, ante el patrón de entrada $p$:
-$$\text{net}_{pj} = \sum_{i=1}^n w_{ji} y_{pi} + \theta_j$$
-donde $\theta_j$ es el sesgo (*bias*) que actúa como un peso conectado a una entrada constante $x_0 = 1$.  
+
+
+$$
+\text{net}\_{pj} = \sum\_{i=1}^n w\_{ji} y\_{pi} + \theta\_j
+$$
+
+donde $\theta\_j$ es el sesgo (*bias*) que actúa como un peso conectado a una entrada constante $x\_0 = 1$.  
 La activación de la neurona se obtiene aplicando la función de transferencia:
-$$y_{pj} = f_j(\text{net}_{pj})$$
+
+
+$$
+y\_{pj} = f\_j(\text{net}\_{pj})
+$$
+
 
 #### Funciones de Transferencia Típicas y sus Derivadas:
 1. **Sigmoide Logística (Rango $(0, 1)$):**
-   $$y = \frac{1}{1 + e^{-\text{net}}} \implies f'(\text{net}) = y \cdot (1 - y)$$
-   - *Con parámetro de pendiente $\beta$:*
-     $$y = \frac{1}{1 + e^{-2\beta \cdot \text{net}}} \implies f'(\text{net}) = 2\beta \cdot y \cdot (1 - y)$$
+   
+
+$$
+y = \frac{1}{1 + e^{-\text{net}}} \implies f'(\text{net}) = y \cdot (1 - y)
+$$
+
+   - Con parámetro de pendiente $\beta$:
+     
+
+$$
+y = \frac{1}{1 + e^{-2\beta \cdot \text{net}}} \implies f'(\text{net}) = 2\beta \cdot y \cdot (1 - y)
+$$
+
 2. **Tangente Hiperbólica (Rango $(-1, 1)$):**
-   $$y = \tanh(\text{net}) = \frac{e^{\text{net}} - e^{-\text{net}}}{e^{\text{net}} + e^{-\text{net}}} \implies f'(\text{net}) = 1 - y^2$$
-   - *Con parámetro de escala $\beta$:*
-     $$y = \frac{e^{\beta \cdot \text{net}} - e^{-\beta \cdot \text{net}}}{e^{\beta \cdot \text{net}} + e^{-\beta \cdot \text{net}}} \implies f'(\text{net}) = \beta \cdot (1 - y^2)$$
+   
+
+$$
+y = \tanh(\text{net}) = \frac{e^{\text{net}} - e^{-\text{net}}}{e^{\text{net}} + e^{-\text{net}}} \implies f'(\text{net}) = 1 - y^2
+$$
+
+   - Con parámetro de escala $\beta$:
+     
+
+$$
+y = \frac{e^{\beta \cdot \text{net}} - e^{-\beta \cdot \text{net}}}{e^{\beta \cdot \text{net}} + e^{-\beta \cdot \text{net}}} \implies f'(\text{net}) = \beta \cdot (1 - y^2)
+$$
+
 
 ---
 
 ### 1.2. Retropropagación del Error (*Backpropagation* y Regla de la Cadena)
 El objetivo es minimizar el error cuadrático acumulado para el patrón $p$:
-$$E_p = \frac{1}{2} \sum_{k=1}^M (d_{pk} - y_{pk})^2$$
-Aplicando la regla de la cadena para calcular el gradiente respecto al peso $w_{ji}$:
-$$\frac{\partial E_p}{\partial w_{ji}} = \frac{\partial E_p}{\partial y_{pj}} \cdot \frac{\partial y_{pj}}{\partial \text{net}_{pj}} \cdot \frac{\partial \text{net}_{pj}}{\partial w_{ji}} = -\delta_{pj} \cdot y_{pi}$$
-donde el término de error local $\delta_{pj}$ se calcula como:
+
+
+$$
+E\_p = \frac{1}{2} \sum\_{k=1}^M (d\_{pk} - y\_{pk})^2
+$$
+
+Aplicando la regla de la cadena para calcular el gradiente respecto al peso $w\_{ji}$:
+
+
+$$
+\frac{\partial E\_p}{\partial w\_{ji}} = \frac{\partial E\_p}{\partial y\_{pj}} \cdot \frac{\partial y\_{pj}}{\partial \text{net}\_{pj}} \cdot \frac{\partial \text{net}\_{pj}}{\partial w\_{ji}} = -\delta\_{pj} \cdot y\_{pi}
+$$
+
+donde el término de error local $\delta\_{pj}$ se calcula como:
 - **Capa de Salida (Neurona $k$):**
-  $$\delta_{pk} = - \frac{\partial E_p}{\partial \text{net}_{pk}} = f'_k(\text{net}_{pk}) \cdot (d_{pk} - y_{pk})$$
+  
+
+$$
+\delta\_{pk} = - \frac{\partial E\_p}{\partial \text{net}\_{pk}} = f'\_k(\text{net}\_{pk}) \cdot (d\_{pk} - y\_{pk})
+$$
+
 - **Capa Oculta (Neurona $j$):**
-  $$\delta_{pj} = f'_j(\text{net}_{pj}) \cdot \sum_{k} (\delta_{pk} \cdot w_{kj})$$
+  
+
+$$
+\delta\_{pj} = f'\_j(\text{net}\_{pj}) \cdot \sum\_{k} (\delta\_{pk} \cdot w\_{kj})
+$$
+
 
 ---
 
 ### 1.3. Regla de Actualización con Término de Momento
-$$\Delta w_{ji}(t+1) = \alpha \cdot \delta_{pj} \cdot y_{pi} + \beta \cdot \Delta w_{ji}(t)$$
-$$w_{ji}(t+1) = w_{ji}(t) + \Delta w_{ji}(t+1)$$
-- **Interpretación Física y Mecánica:** El término $\beta \Delta w_{ji}(t)$ actúa como la masa o inercia de una partícula rodando por la superficie del error.
-- **Signo Negativo del Momento:** Ocurre cuando en la iteración previa $\Delta w_{ji}(t) < 0$.
+
+
+$$
+\Delta w\_{ji}(t+1) = \alpha \cdot \delta\_{pj} \cdot y\_{pi} + \beta \cdot \Delta w\_{ji}(t)
+$$
+
+
+
+$$
+w\_{ji}(t+1) = w\_{ji}(t) + \Delta w\_{ji}(t+1)
+$$
+
+- **Interpretación Física y Mecánica:** El término $\beta \Delta w\_{ji}(t)$ actúa como la masa o inercia de una partícula rodando por la superficie del error.
+- **Signo Negativo del Momento:** Ocurre cuando en la iteración previa $\Delta w\_{ji}(t) < 0$.
   - Si el gradiente actual también es negativo, se suman en magnitud acelerando el descenso en mesetas.
   - Si el gradiente actual cambia a positivo, se restan amortiguando oscilaciones en valles estrechos.
-- **Aplicabilidad Temporal:** Operativo a partir de $t \ge 1$, asumiendo $\Delta w_{ji}(-1) = 0$.
+- **Aplicabilidad Temporal:** Operativo a partir de $t \ge 1$, asumiendo $\Delta w\_{ji}(-1) = 0$.
 
 ---
 
 ### 1.4. Curvas de Error, Sobreajuste y Parada Temprana (*Early Stopping*)
-$$E_{global} = \frac{1}{2 P} \sum_{p=1}^P \sum_{k=1}^M (d_{pk} - y_{pk})^2$$
+
+
+$$
+E\_{global} = \frac{1}{2 P} \sum\_{p=1}^P \sum\_{k=1}^M (d\_{pk} - y\_{pk})^2
+$$
+
 ```mermaid
 flowchart TD
     A["Época 0<br>Error Alto"] --> B["Fase Underfitting<br>E_ent y E_val descienden"]
     B --> C["Early Stopping<br>Mínimo de E_val"]
     C --> D["Fase Overfitting<br>E_ent desciende a 0<br>E_val asciende divergentemente"]
 ```
-- **Procedimiento Canónico de Early Stopping:** Monitorear $E_{val}$ al cierre de cada época; si no mejora durante una ventana de paciencia (*patience* de 5 a 10 épocas), se corta el entrenamiento y se restituyen los pesos de la época con $E_{val}^*$ mínimo.
+- **Procedimiento Canónico de Early Stopping:** Monitorear $E\_{val}$ al cierre de cada época; si no mejora durante una ventana de paciencia (*patience* de 5 a 10 épocas), se corta el entrenamiento y se restituyen los pesos de la época con $E\_{val}^{\ast}$ mínimo.
 
 ---
 
 ## 2. Máquinas de Vectores de Soporte (SVM)
 
 ### 2.1. Formulación Primal Canónica (Caso Linealmente Separable)
-Dado $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N$ con $y_i \in \{-1, +1\}$:
-$$\text{Minimizar: } \frac{1}{2} \|\mathbf{w}\|^2 = \frac{1}{2} \mathbf{w}^T \mathbf{w}$$
-$$\text{Sujeto a: } y_i (\mathbf{w}^T \mathbf{x}_i + b) \ge 1, \quad i = 1, \dots, N$$
+Dado $\mathcal{D} = \{(\mathbf{x}\_i, y\_i)\}\_{i=1}^N$ con $y\_i \in \{-1, +1\}$:
+
+
+$$
+\text{Minimizar: } \frac{1}{2} \\vert \mathbf{w}\ \vert^2 = \frac{1}{2} \mathbf{w}^T \mathbf{w}
+$$
+
+
+
+$$
+\text{Sujeto a: } y\_i (\mathbf{w}^T \mathbf{x}\_i + b) \ge 1, \quad i = 1, \dots, N
+$$
+
 
 ### 2.2. Formulación Dual de Wolfe
-Introduciendo los multiplicadores de Lagrange $\alpha_i \ge 0$:
-$$\text{Maximizar: } L_D(\boldsymbol{\alpha}) = \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N y_i y_j \alpha_i \alpha_j \mathbf{x}_i^T \mathbf{x}_j$$
-$$\text{Sujeto a: } \sum_{i=1}^N y_i \alpha_i = 0 \quad \text{y} \quad \alpha_i \ge 0, \; \forall i$$
+Introduciendo los multiplicadores de Lagrange $\alpha\_i \ge 0$:
+
+
+$$
+\text{Maximizar: } L\_D(\boldsymbol{\alpha}) = \sum\_{i=1}^N \alpha\_i - \frac{1}{2} \sum\_{i=1}^N \sum\_{j=1}^N y\_i y\_j \alpha\_i \alpha\_j \mathbf{x}\_i^T \mathbf{x}\_j
+$$
+
+
+
+$$
+\text{Sujeto a: } \sum\_{i=1}^N y\_i \alpha\_i = 0 \quad \text{y} \quad \alpha\_i \ge 0, \; \forall i
+$$
+
 
 ### 2.3. Condiciones de Karush-Kuhn-Tucker (KKT) y Vectores de Soporte
 Las condiciones KKT exigen:
-1. $\alpha_i \ge 0$
-2. $y_i (\mathbf{w}^T \mathbf{x}_i + b) - 1 \ge 0$
-3. **Holgura complementaria:** $\alpha_i \cdot [y_i (\mathbf{w}^T \mathbf{x}_i + b) - 1] = 0$
+1. $\alpha\_i \ge 0$
+2. $y\_i (\mathbf{w}^T \mathbf{x}\_i + b) - 1 \ge 0$
+3. **Holgura complementaria:** $\alpha\_i \cdot [y\_i (\mathbf{w}^T \mathbf{x}\_i + b) - 1] = 0$
 - **Consecuencia directa:**
-  - Si una instancia está fuera del margen: $y_i (\mathbf{w}^T \mathbf{x}_i + b) > 1 \implies \alpha_i = 0$.
-  - Si una instancia descansa exactamente sobre el margen: $y_i (\mathbf{w}^T \mathbf{x}_i + b) = 1 \implies \alpha_i > 0$. Éstos son los **Vectores de Soporte (SV)**.
+  - Si una instancia está fuera del margen: $y\_i (\mathbf{w}^T \mathbf{x}\_i + b) > 1 \implies \alpha\_i = 0$.
+  - Si una instancia descansa exactamente sobre el margen: $y\_i (\mathbf{w}^T \mathbf{x}\_i + b) = 1 \implies \alpha\_i > 0$. Éstos son los **Vectores de Soporte (SV)**.
 
 ### 2.4. Deducción Analítica de $\mathbf{w}$ y $b$
-$$\mathbf{w} = \sum_{i=1}^N y_i \alpha_i \mathbf{x}_i = \sum_{s \in SV} y_s \alpha_s \mathbf{x}_s$$
-Para cualquier vector de soporte $\mathbf{x}_s$ con $y_s \in \{-1, +1\}$:
-$$b = y_s - \mathbf{w}^T \mathbf{x}_s \implies b = \frac{1}{|SV|} \sum_{s \in SV} \left( y_s - \mathbf{w}^T \mathbf{x}_s \right)$$
+
+
+$$
+\mathbf{w} = \sum\_{i=1}^N y\_i \alpha\_i \mathbf{x}\_i = \sum\_{s \in SV} y\_s \alpha\_s \mathbf{x}\_s
+$$
+
+Para cualquier vector de soporte $\mathbf{x}\_s$ con $y\_s \in \{-1, +1\}$:
+
+
+$$
+b = y\_s - \mathbf{w}^T \mathbf{x}\_s \implies b = \frac{1}{\vert SV \vert} \sum\_{s \in SV} \left( y\_s - \mathbf{w}^T \mathbf{x}\_s \right)
+$$
+
 
 ### 2.5. Geometría de Hiperplanos y Márgenes
-- Hiperplano Central: $H_0: \mathbf{w}^T \mathbf{x} + b = 0$
-- Hiperplano Marginal Positivo: $H_1: \mathbf{w}^T \mathbf{x} + b = +1$
-- Hiperplano Marginal Negativo: $H_2: \mathbf{w}^T \mathbf{x} + b = -1$
+- Hiperplano Central: $H\_0: \mathbf{w}^T \mathbf{x} + b = 0$
+- Hiperplano Marginal Positivo: $H\_1: \mathbf{w}^T \mathbf{x} + b = +1$
+- Hiperplano Marginal Negativo: $H\_2: \mathbf{w}^T \mathbf{x} + b = -1$
 - Distancias Marginales:
-  $$d_+ = \frac{1}{\|\mathbf{w}\|}, \quad d_- = \frac{1}{\|\mathbf{w}\|}$$
-  $$\text{Margen Total} = d_+ + d_- = \frac{2}{\|\mathbf{w}\|} = \frac{2}{\sqrt{w_1^2 + w_2^2 + \dots + w_n^2}}$$
+  
+
+$$
+d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert}, \quad d\_- = \frac{1}{\\vert \mathbf{w}\ \vert}
+$$
+
+  
+
+$$
+\text{Margen Total} = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert} = \frac{2}{\sqrt{w\_1^2 + w\_2^2 + \dots + w\_n^2}}
+$$
+
 
 ---
 
@@ -3332,25 +4291,71 @@ $$b = y_s - \mathbf{w}^T \mathbf{x}_s \implies b = \frac{1}{|SV|} \sum_{s \in SV
 
 ### 3.2. Fases del Algoritmo SOM
 1. **Competencia:**
-   $$d_j = \|\mathbf{x} - \mathbf{w}_j\| = \sqrt{\sum_{i=1}^N (x_i - w_{ji})^2} \implies c = \arg\min_j d_j$$
+   
+
+$$
+d\_j = \|\mathbf{x} - \mathbf{w}\_j\| = \sqrt{\sum\_{i=1}^N (x\_i - w\_{ji})^2} \implies c = \arg\min\_j d\_j
+$$
+
 2. **Cooperación (Función de Vecindad):**
-   $$h_{cj}(t) = \exp\left( -\frac{\text{dist}^2(c, j)}{2 \sigma(t)^2} \right) \quad \text{o} \quad h_{cj}(t) = \frac{1}{1 + \text{dist}^2(c, j)}$$
-   $$\sigma(t) = \sigma_0 \exp(-t / \tau_1)$$
+   
+
+$$
+h\_{cj}(t) = \exp\left( -\frac{\text{dist}^2(c, j)}{2 \sigma(t)^2} \right) \quad \text{o} \quad h\_{cj}(t) = \frac{1}{1 + \text{dist}^2(c, j)}
+$$
+
+   
+
+$$
+\sigma(t) = \sigma\_0 \exp(-t / \tau\_1)
+$$
+
 3. **Adaptación de Pesos:**
-   $$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) \cdot h_{cj}(t) \cdot (\mathbf{x} - \mathbf{w}_j(t))$$
-   $$\alpha(t) = \alpha_0 \left(1 - \frac{t}{T_{\max}}\right) \quad \text{o} \quad \alpha(t) = \frac{\alpha_0}{t}$$
+   
+
+$$
+\mathbf{w}\_j(t+1) = \mathbf{w}\_j(t) + \alpha(t) \cdot h\_{cj}(t) \cdot (\mathbf{x} - \mathbf{w}\_j(t))
+$$
+
+   
+
+$$
+\alpha(t) = \alpha\_0 \left(1 - \frac{t}{T\_{\max}}\right) \quad \text{o} \quad \alpha(t) = \frac{\alpha\_0}{t}
+$$
+
 
 ---
 
 ## 4. Redes Asociativas Recurrentes de Hopfield
 
 ### 4.1. Topología y Matriz de Pesos Hebbiana
-Red autoasociativa monocapa simétrica ($w_{ij} = w_{ji}$) y sin autoconexiones ($w_{ii} = 0$). Para almacenar $M$ patrones bipolares $\{E_k\}_{k=1}^M$ de dimensión $N$ con $E_k \in \{-1, +1\}^N$:
-$$W = \sum_{k=1}^M (E_k^T E_k - I)$$
-$$w_{ij} = \begin{cases} \sum_{k=1}^M e_i^{(k)} e_j^{(k)} & \text{si } i \ne j \\ 0 & \text{si } i = j \end{cases}$$
+Red autoasociativa monocapa simétrica ($w\_{ij} = w\_{ji}$) y sin autoconexiones ($w\_{ii} = 0$). Para almacenar $M$ patrones bipolares $\{E\_k\}\_{k=1}^M$ de dimensión $N$ con $E\_k \in \{-1, +1\}^N$:
+
+
+$$
+W = \sum\_{k=1}^M (E\_k^T E\_k - I)
+$$
+
+
+
+$$
+w\_{ij} = \begin{cases}
+\sum\_{k=1}^M e\_i^{(k)} e\_j^{(k)} & \text{si } i \ne j \\
+0 & \text{si } i = j
+\end{cases}
+$$
+
+
 
 ### 4.2. Condición de Ortogonalidad
-$$\sum_{i=1}^N e_i^{(k)} \cdot e_i^{(m)} \le 0, \quad \forall k \ne m$$
+
+
+
+
+$$
+\sum\_{i=1}^N e\_i^{(k)} \cdot e\_i^{(m)} \le 0, \quad \forall k \ne m
+$$
+
 Mide la independencia de los patrones. Si son estrictamente ortogonales, el producto cruzado se anula y la recuperación es inmune al ruido de diafonía.
 
 ### 4.3. Condiciones de Recuperabilidad
@@ -3359,21 +4364,41 @@ Mide la independencia de los patrones. Si son estrictamente ortogonales, el prod
 
 ### 4.4. Dinámica de Recuperación y Función de Liapunov
 Actualización asíncrona:
-$$s_i(t+1) = \text{sign}\left( \sum_{j=1}^N w_{ij} s_j(t) - \theta_i \right)$$
+
+
+$$
+s\_i(t+1) = \text{sign}\left( \sum\_{j=1}^N w\_{ij} s\_j(t) - \theta\_i \right)
+$$
+
 Función de Energía de Liapunov (garantiza convergencia monótona $\Delta E \le 0$):
-$$E = -\frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N w_{ij} s_i s_j + \sum_{i=1}^N \theta_i s_i$$
-La dinámica se detiene cuando $\Delta E = 0$ o $s_i(t+1) = s_i(t), \; \forall i$.
+
+
+$$
+E = -\frac{1}{2} \sum\_{i=1}^N \sum\_{j=1}^N w\_{ij} s\_i s\_j + \sum\_{i=1}^N \theta\_i s\_i
+$$
+
+La dinámica se detiene cuando $\Delta E = 0$ o $s\_i(t+1) = s\_i(t), \; \forall i$.
 
 ---
 
 ## 5. Clustering Particional: $K$-Means y Disk $K$-Means
 
 ### 5.1. $K$-Means Estándar
-1. Elegir $k$ centroides iniciales $\mathbf{m}_j$.
-2. Asignar cada punto $\mathbf{x}_i \in \mathcal{D}$ al cluster más cercano:
-   $$j = \arg\min_{l \in \{1, \dots, k\}} \|\mathbf{x}_i - \mathbf{m}_l\|^2$$
+1. Elegir $k$ centroides iniciales $\mathbf{m}\_j$.
+2. Asignar cada punto $\mathbf{x}\_i \in \mathcal{D}$ al cluster más cercano:
+   
+
+$$
+j = \arg\min\_{l \in \{1, \dots, k\}} \|\mathbf{x}\_i - \mathbf{m}\_l\|^2
+$$
+
 3. Recalcular cada centroide como el baricentro del grupo:
-   $$\mathbf{m}_j = \frac{1}{|C_j|} \sum_{\mathbf{x} \in C_j} \mathbf{x}$$
+   
+
+$$
+\mathbf{m}\_j = \frac{1}{\vert C\_j \vert} \sum\_{\mathbf{x} \in C\_j} \mathbf{x}
+$$
+
 4. Repetir hasta convergencia de centroides.
 
 ### 5.2. Disk $K$-Means (Acumulación Incremental Out-of-Core)
@@ -3401,13 +4426,28 @@ Diferenciación crítica exigida por la Cátedra: **Las distancias inter-cluster
 
 ### 6.1. Métodos de Enlace Canónicos
 - **Single Link (Vecino Más Cercano):**
-  $$D(A, B) = \min_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+  
+
+$$
+D(A, B) = \min\_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
   *(Tiende al efecto de encadenamiento o "chaining", formando clusters alargados).*
 - **Complete Link (Vecino Más Lejano):**
-  $$D(A, B) = \max_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+  
+
+$$
+D(A, B) = \max\_{\mathbf{x} \in A, \mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
   *(Tiende a generar clusters compactos y esféricos de diámetro similar).*
 - **Average Link (Enlace Promedio):**
-  $$D(A, B) = \frac{1}{|A| \cdot |B|} \sum_{\mathbf{x} \in A} \sum_{\mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})$$
+  
+
+$$
+D(A, B) = \frac{1}{\vert A \vert \cdot \vert B \vert} \sum\_{\mathbf{x} \in A} \sum\_{\mathbf{y} \in B} d(\mathbf{x}, \mathbf{y})
+$$
+
   *(Excelente balance frente a ruido y agrupamientos de diversas densidades).*
 
 ---
@@ -3420,8 +4460,18 @@ Diferenciación crítica exigida por la Cátedra: **Las distancias inter-cluster
 
 ### 7.2. $k$-NN Ponderado por Distancia Inversa
 En lugar de votación por mayoría simple, pondera el voto de cada instancia por el inverso de su distancia al cuadrado:
-$$w_i = \frac{1}{d(\mathbf{x}_q, \mathbf{x}_i)^2} \quad \text{o} \quad w_i = \frac{1}{1 + d(\mathbf{x}_q, \mathbf{x}_i)^2}$$
-$$\hat{y}(\mathbf{x}_q) = \arg\max_{c \in C} \sum_{i=1}^K w_i \cdot \delta(c, y_i)$$
+
+
+$$
+w\_i = \frac{1}{d(\mathbf{x}\_q, \mathbf{x}\_i)^2} \quad \text{o} \quad w\_i = \frac{1}{1 + d(\mathbf{x}\_q, \mathbf{x}\_i)^2}
+$$
+
+
+
+$$
+\hat{y}(\mathbf{x}\_q) = \arg\max\_{c \in C} \sum\_{i=1}^K w\_i \cdot \delta(c, y\_i)
+$$
+
 - **Propiedad Fundamental:** Permite asignar $K = N$ (utilizar todo el conjunto de entrenamiento), dado que el peso decae asintóticamente a cero con la distancia, eliminando la influencia de puntos remotos.
 - **Sintonización de $k$ Óptimo:** Se realiza mediante validación cruzada ($k$-fold CV o Leave-One-Out).
 
@@ -3431,21 +4481,41 @@ $$\hat{y}(\mathbf{x}_q) = \arg\max_{c \in C} \sum_{i=1}^K w_i \cdot \delta(c, y_
 
 ### 8.1. Métodos de Selección
 1. **Selección por Ruleta Proporcional:**
-   $$P_i = \frac{\text{aptitud}_i}{\sum_{j=1}^N \text{aptitud}_j} \times 100$$
+   
+
+$$
+P\_i = \frac{\text{aptitud}\_i}{\sum\_{j=1}^N \text{aptitud}\_j} \times 100
+$$
+
 2. **Selección con Control sobre el Número Esperado de Copias:**
-   $$c_i = \frac{\text{aptitud}_i}{\overline{\text{aptitud}}}$$
-   (Asigna $\lfloor c_i \rfloor$ copias enteras garantizadas y compite por la parte decimal).
+   
+
+$$
+c\_i = \frac{\text{aptitud}\_i}{\overline{\text{aptitud}}}
+$$
+
+   (Asigna $\lfloor c\_i \rfloor$ copias enteras garantizadas y compite por la parte decimal).
 3. **Selección por Ranking Lineal:**
-   $$c_i = R_{\min} + 2 \cdot \frac{(n - i) \cdot (1 - R_{\min})}{n - 1}$$
+   
+
+$$
+c\_i = R\_{\min} + 2 \cdot \frac{(n - i) \cdot (1 - R\_{\min})}{n - 1}
+$$
+
 4. **Elitismo:** Preserva intactos los mejores individuos de la generación anterior en la nueva población.
 
 ### 8.2. Métodos de Cruza (*Crossover*)
-- **Cruza Simple:** Un único punto de corte $G_k$; se intercambian los segmentos posteriores.
-- **Cruza Multipunto:** Múltiples puntos de corte ($G_2, G_5, G_7$); se alternan los segmentos entre progenitores.
+- **Cruza Simple:** Un único punto de corte $G\_k$; se intercambian los segmentos posteriores.
+- **Cruza Multipunto:** Múltiples puntos de corte ($G\_2, G\_5, G\_7$); se alternan los segmentos entre progenitores.
 - **Cruza Uniforme / Binomial:** Cada gen se hereda de uno u otro progenitor según una probabilidad $p$.
 
 ### 8.3. Mutación Adaptativa por Temperatura Descendente (*Simulated Annealing*)
-$$P_m(t+1) = P_m(t) \pm \lambda, \quad P_{\min} \le P_m(t) \le P_{\max}$$
+
+
+$$
+P\_m(t+1) = P\_m(t) \pm \lambda, \quad P\_{\min} \le P\_m(t) \le P\_{\max}
+$$
+
 - **Axioma de Examen:** Este esquema de mutación **NO tiene en cuenta la homogeneidad interna de la población**. Su decaimiento es estrictamente paramétrico-temporal exógeno (función del número de generaciones transcurridas), promoviendo exploración global al inicio y explotación refinada al final.
 
 ---
@@ -3471,45 +4541,60 @@ En ambos casos, si existe una solución, ambos algoritmos la encuentran (suponie
 
 ---
 
-### Pregunta 03: Algoritmo $A^*$ con $h'(n) = 0$ y Costo de Paso Constante $g(n) = 3$ `[TEMA_P1_RENDIDO]`
+### Pregunta 03: Algoritmo $A^{\ast}$ con $h'(n) = 0$ y Costo de Paso Constante $g(n) = 3$ `[TEMA_P1_RENDIDO]`
 **Respuesta Canónica de la Cátedra:**
-Cuando en el algoritmo $A^*$ la función heurística es nula en todos los nodos ($h'(n) = 0$) y el costo de transición entre estados es constante (por ejemplo $c(n, a, n') = 3$ o cualquier constante $k > 0$):
+Cuando en el algoritmo $A^{\ast}$ la función heurística es nula en todos los nodos ($h'(n) = 0$) y el costo de transición entre estados es constante (por ejemplo $c(n, a, n') = 3$ o cualquier constante $k > 0$):
 * La función de evaluación degenera en:
-  $$f'(n) = g(n) + h'(n) = g(n) + 0 = 3 \cdot \text{profundidad}(n)$$
-* **Comportamiento Idéntico a Primero en Amplitud (BFS):** Dado que el costo $g(n)$ crece de manera monótona y estrictamente proporcional a la profundidad del nodo en el árbol ($g = 3, 6, 9, \dots$), $A^*$ expande siempre todos los nodos de menor costo acumulado antes de pasar a los de mayor costo. Esto equivale exactamente a expandir nivel por nivel.
+  
+
+$$
+f'(n) = g(n) + h'(n) = g(n) + 0 = 3 \cdot \text{profundidad}(n)
+$$
+
+* **Comportamiento Idéntico a Primero en Amplitud (BFS):** Dado que el costo $g(n)$ crece de manera monótona y estrictamente proporcional a la profundidad del nodo en el árbol ($g = 3, 6, 9, \dots$), $A^{\ast}$ expande siempre todos los nodos de menor costo acumulado antes de pasar a los de mayor costo. Esto equivale exactamente a expandir nivel por nivel.
 * **Resultado:** **Encuentra la solución en la menor cantidad de tramos (pasos)** y garantiza encontrar el camino de menor costo.
 
 ---
 
-### Pregunta 04: ¿Qué Sucede si Todos los Nodos Están Sobreestimados en $A^*$? `[TEMA_P1_RENDIDO]`
+### Pregunta 04: ¿Qué Sucede si Todos los Nodos Están Sobreestimados en $A^{\ast}$? `[TEMA_P1_RENDIDO]`
 **Respuesta Canónica de la Cátedra:**
 Si la función heurística $h'(n)$ sobreestima el costo real restante hacia la meta ($h'(n) > h(n)$):
 1. **Pérdida de la Garantía de Admisibilidad y Optimalidad:** **No se garantiza que el algoritmo devuelva el camino óptimo (de menor costo)**. Al estar sobreestimados los nodos, un camino óptimo prometedor puede recibir un valor $f'$ artificialmente alto, haciendo que el algoritmo lo postergue en la lista ABIERTA y termine extrayendo primero un nodo meta a través de un camino subóptimo de menor longitud aparente.
-2. **Conservación de la Completitud:** El algoritmo **sigue siendo completo**: si existe un camino a la solución, $A^*$ lo encontrará indefectiblemente; lo que pierde es la certeza de que el camino encontrado sea el de mínimo costo.
+2. **Conservación de la Completitud:** El algoritmo **sigue siendo completo**: si existe un camino a la solución, $A^{\ast}$ lo encontrará indefectiblemente; lo que pierde es la certeza de que el camino encontrado sea el de mínimo costo.
 
 ---
 
-### Pregunta 05: Si $h'$ Sobreestima a $h$, ¿Es Posible que $A^*$ No Encuentre un Camino a la Solución? `[TEMA_P1_RENDIDO]`
+### Pregunta 05: Si $h'$ Sobreestima a $h$, ¿Es Posible que $A^{\ast}$ No Encuentre un Camino a la Solución? `[TEMA_P1_RENDIDO]`
 **Respuesta Canónica de la Cátedra:**
 **No, eso no es posible.**
-Si existe al menos un camino factible entre el estado inicial y el estado meta, el algoritmo $A^*$ **siempre encontrará una solución** (asumiendo factores de ramificación finitos y costos de paso acotados inferiormente por $\epsilon > 0$).
+Si existe al menos un camino factible entre el estado inicial y el estado meta, el algoritmo $A^{\ast}$ **siempre encontrará una solución** (asumiendo factores de ramificación finitos y costos de paso acotados inferiormente por $\epsilon > 0$).
 La sobreestimación de la heurística perjudica la calidad del camino retornado (pérdida de optimalidad) y puede alterar el orden de expansión de los nodos, pero nunca impide que el algoritmo explore el grafo hasta alcanzar un estado final.
 
 ---
 
-### Pregunta 06: Demostración Formal de la Condición de Fin de $A^*$ y Admisibilidad `[TEMA_P1_RENDIDO]`
+### Pregunta 06: Demostración Formal de la Condición de Fin de $A^{\ast}$ y Admisibilidad `[TEMA_P1_RENDIDO]`
 **Respuesta Canónica de la Cátedra:**
-Para garantizar la optimalidad de $A^*$, se debe cumplir:
+Para garantizar la optimalidad de $A^{\ast}$, se debe cumplir:
 1. **Admisibilidad:** $h'(n) \le h(n)$ para todo nodo $n$, con $h'(Meta) = 0$.
 2. **Condición de Fin:** El algoritmo debe detenerse **únicamente cuando el nodo meta es extraído de la lista ABIERTA para ser expandido**, jamás cuando es generado e insertado.
 
 **Demostración:**
-Supóngase que existe un camino óptimo con costo real $C^*$ que conduce a la meta óptima $G_1$, y que un nodo meta subóptimo $G_2$ se encuentra en la lista ABIERTA con costo $f'(G_2) = g(G_2) > C^*$.
-Sea $n$ un nodo no expandido perteneciente al camino óptimo hacia $G_1$. Por admisibilidad:
-$$f'(n) = g(n) + h'(n) \le g(n) + h(n) = C^*$$
-Dado que $C^* < g(G_2) = f'(G_2)$, se tiene estrictamente:
-$$f'(n) \le C^* < f'(G_2)$$
-Por lo tanto, el nodo $n$ del camino óptimo siempre tendrá un valor $f'$ estrictamente menor que el del nodo meta subóptimo $G_2$. Como $A^*$ extrae siempre el nodo con menor $f'$, el nodo $n$ (y todos sus sucesores del camino óptimo) será extraído antes que $G_2$, alcanzando y expandiendo a $G_1$ antes de que $G_2$ pueda ser seleccionado para fin de búsqueda.
+Supóngase que existe un camino óptimo con costo real $C^{\ast}$ que conduce a la meta óptima $G\_1$, y que un nodo meta subóptimo $G\_2$ se encuentra en la lista ABIERTA con costo $f'(G\_2) = g(G\_2) > C^{\ast}$.
+Sea $n$ un nodo no expandido perteneciente al camino óptimo hacia $G\_1$. Por admisibilidad:
+
+
+$$
+f'(n) = g(n) + h'(n) \le g(n) + h(n) = C^{\ast}
+$$
+
+Dado que $C^{\ast} < g(G\_2) = f'(G\_2)$, se tiene estrictamente:
+
+
+$$
+f'(n) \le C^{\ast} < f'(G\_2)
+$$
+
+Por lo tanto, el nodo $n$ del camino óptimo siempre tendrá un valor $f'$ estrictamente menor que el del nodo meta subóptimo $G\_2$. Como $A^{\ast}$ extrae siempre el nodo con menor $f'$, el nodo $n$ (y todos sus sucesores del camino óptimo) será extraído antes que $G\_2$, alcanzando y expandiendo a $G\_1$ antes de que $G\_2$ pueda ser seleccionado para fin de búsqueda.
 
 ---
 
@@ -3546,16 +4631,31 @@ El **aprendizaje por analogía** consiste en transferir conocimiento o métodos 
 **Respuesta Canónica de la Cátedra:**
 Para aplicar Naïve Bayes con distribución Gaussiana a variables continuas se requiere:
 1. **Elementos Necesarios:**
-   * Un conjunto de entrenamiento supervisado con etiquetas de clase $C_k \in \{C_1, \dots, C_K\}$.
-   * Vectores de características continuas $X = (x_1, \dots, x_d) \in \mathbb{R}^d$.
+   * Un conjunto de entrenamiento supervisado con etiquetas de clase $C\_k \in \{C\_1, \dots, C\_K\}$.
+   * Vectores de características continuas $X = (x\_1, \dots, x\_d) \in \mathbb{R}^d$.
    * Asunción de distribución Normal para cada atributo condicionado a la clase.
 2. **Fórmulas de Cálculo:**
    * **Media Muestral por Clase:**
-     $$\mu_{ik} = \frac{1}{N_k} \sum_{j=1}^{N_k} x_{ji}^{(k)}$$
+     
+
+$$
+\mu\_{ik} = \frac{1}{N\_k} \sum\_{j=1}^{N\_k} x\_{ji}^{(k)}
+$$
+
    * **Varianza Muestral por Clase:**
-     $$\sigma_{ik}^2 = \frac{1}{N_k - 1} \sum_{j=1}^{N_k} (x_{ji}^{(k)} - \mu_{ik})^2$$
+     
+
+$$
+\sigma\_{ik}^2 = \frac{1}{N\_k - 1} \sum\_{j=1}^{N\_k} (x\_{ji}^{(k)} - \mu\_{ik})^2
+$$
+
    * **Función de Densidad / Verosimilitud:**
-     $$P(x_i | C_k) = \frac{1}{\sqrt{2\pi \sigma_{ik}^2}} \exp\left(-\frac{(x_i - \mu_{ik})^2}{2\sigma_{ik}^2}\right)$$
+     
+
+$$
+P(x\_i | C\_k) = \frac{1}{\sqrt{2\pi \sigma\_{ik}^2}} \exp\left(-\frac{(x\_i - \mu\_{ik})^2}{2\sigma\_{ik}^2}\right)
+$$
+
 
 ---
 
@@ -3565,83 +4665,147 @@ En el tratamiento de atributos continuos mediante discretización en histogramas
 * **No existe un número universalmente fijo a priori**; depende del compromiso clásico entre sesgo y varianza:
   * Si la cantidad de bins es **demasiado pequeña**, los intervalos son muy anchos, promediando datos disímiles y provocando un elevado **sesgo de subajuste (*underfitting*)**.
   * Si la cantidad de bins es **demasiado grande**, los intervalos son muy estrechos, resultando en muchos bins vacíos o con una única instancia, provocando alta **varianza y sobreajuste (*overfitting*)**.
-* **Criterio de Cátedra:** Se seleccionan heurísticas estadísticas formales (como la regla de Sturges: $k = 1 + \log_2(N)$, o la regla de Freedman-Diaconis basada en el rango intercuartílico), o bien se determina evaluando el desempeño de clasificación mediante validación cruzada.
+* **Criterio de Cátedra:** Se seleccionan heurísticas estadísticas formales (como la regla de Sturges: $k = 1 + \log\_2(N)$, o la regla de Freedman-Diaconis basada en el rango intercuartílico), o bien se determina evaluando el desempeño de clasificación mediante validación cruzada.
 
 ---
 
 ### Pregunta 12: Factorización de Probabilidad Conjunta en Redes de Creencias Bayesianas
 **Respuesta Canónica de la Cátedra:**
-**Pregunta:** ¿La probabilidad conjunta puede ser expresada como $P(s_1, s_2, \dots, s_n) = \prod_{i=1}^n P(s_i | \text{Padres}(s_i))$?
+**Pregunta:** ¿La probabilidad conjunta puede ser expresada como $P(s\_1, s\_2, \dots, s\_n) = \prod\_{i=1}^n P(s\_i | \text{Padres}(s\_i))$?
 **Justificación:**
 **Sí, es estrictamente correcto.**
-En una Red Bayesiana estructurada mediante un Grafo Acíclico Dirigido (DAG), la propiedad de **Markov condicional** establece que cada variable $X_i$ es condicionalmente independiente de sus no-descendientes, dados únicamente sus padres inmediatos en el grafo ($\text{Padres}(X_i)$).
+En una Red Bayesiana estructurada mediante un Grafo Acíclico Dirigido (DAG), la propiedad de **Markov condicional** establece que cada variable $X\_i$ es condicionalmente independiente de sus no-descendientes, dados únicamente sus padres inmediatos en el grafo ($\text{Padres}(X\_i)$).
 Aplicando la regla de la cadena de probabilidades e introduciendo estas independencias locales, la distribución conjunta completa de las $n$ variables se factoriza de forma exacta y no redundante como el producto directo de las probabilidades condicionales locales:
-$$P(x_1, x_2, \dots, x_n) = \prod_{i=1}^n P(x_i | \text{Padres}(x_i))$$
+
+
+$$
+P(x\_1, x\_2, \dots, x\_n) = \prod\_{i=1}^n P(x\_i | \text{Padres}(x\_i))
+$$
+
 Esto reduce la complejidad de almacenamiento de $O(2^n)$ a $O(n \cdot 2^k)$, donde $k$ es el número máximo de padres por nodo.
 
 ---
 
-### Pregunta 13: Perceptrón con Función Escalón $[0, 1]$ y Umbral $\theta = -3$ con Entrada Ficticia $-w_0 = \theta$
+### Pregunta 13: Perceptrón con Función Escalón $[0, 1]$ y Umbral $\theta = -3$ con Entrada Ficticia $-w\_0 = \theta$
 **Respuesta Canónica de la Cátedra:**
-**Pregunta:** Un Perceptrón con función escalón $[0, 1]$ y un umbral $\theta = -3$. Se tiene una entrada ficticia con $-w_0 = \theta$. ¿Es correcta la $F_{net}$?
+**Pregunta:** Un Perceptrón con función escalón $[0, 1]$ y un umbral $\theta = -3$. Se tiene una entrada ficticia con $-w\_0 = \theta$. ¿Es correcta la $F\_{net}$?
 **Análisis y Justificación:**
 La formulación analítica de activación del perceptrón con umbral explícito es:
-$$net = \sum_{i=1}^n w_i x_i - \theta$$
-$$y = f(net) = \begin{cases} 1 & \text{si } net \ge 0 \implies \sum_{i=1}^n w_i x_i \ge \theta \\ 0 & \text{si } net < 0 \implies \sum_{i=1}^n w_i x_i < \theta \end{cases}$$
-Al convertir el umbral en un peso sináptico asociado a una entrada ficticia $x_0$, la Cátedra establece la convención:
-* Si $x_0 = -1$, entonces $w_0 \cdot x_0 = w_0 \cdot (-1) = -w_0$. Para que coincida con $-\theta$, debe definirse $-w_0 = -\theta \implies w_0 = \theta = -3$.
-* Si la convención adoptada define entrada $x_0 = +1$ y peso $w_0$, entonces para que el potencial sea $\sum_{i=1}^n w_i x_i - \theta$, debe cumplirse $w_0 = -\theta = -(-3) = +3$.
-Por ende, la formulación $-w_0 = \theta$ es formalmente coherente con la convención de entrada ficticia $x_0 = -1$, trasladando el hiperplano al semi-espacio $\sum w_i x_i \ge -3$.
+
+
+$$
+net = \sum\_{i=1}^n w\_i x\_i - \theta
+$$
+
+
+
+$$
+y = f(net) = \begin{cases}
+1 & \text{si } net \ge 0 \implies \sum\_{i=1}^n w\_i x\_i \ge \theta \\
+0 & \text{si } net < 0 \implies \sum\_{i=1}^n w\_i x\_i < \theta
+\end{cases}
+$$
+
+
+Al convertir el umbral en un peso sináptico asociado a una entrada ficticia $x\_0$, la Cátedra establece la convención:
+* Si $x\_0 = -1$, entonces $w\_0 \cdot x\_0 = w\_0 \cdot (-1) = -w\_0$. Para que coincida con $-\theta$, debe definirse $-w\_0 = -\theta \implies w\_0 = \theta = -3$.
+* Si la convención adoptada define entrada $x\_0 = +1$ y peso $w\_0$, entonces para que el potencial sea $\sum\_{i=1}^n w\_i x\_i - \theta$, debe cumplirse $w\_0 = -\theta = -(-3) = +3$.
+Por ende, la formulación $-w\_0 = \theta$ es formalmente coherente con la convención de entrada ficticia $x\_0 = -1$, trasladando el hiperplano al semi-espacio $\sum w\_i x\_i \ge -3$.
 
 ---
 
-### Pregunta 14: Hiperplanos $H_+$ y $H_-$ en Support Vector Machines (SVM)
+### Pregunta 14: Hiperplanos $H\_+$ y $H\_-$ en Support Vector Machines (SVM)
 **Respuesta Canónica de la Cátedra:**
 1. **Definición Geométrica y Analítica:**
    En una SVM linealmente separable, el hiperplano separador óptimo es $\mathbf{w}^T \mathbf{x} + b = 0$.
-   Los hiperplanos $H_+$ y $H_-$ son los dos hiperplanos canónicos paralelos al separador que pasan exactamente por los puntos más cercanos de cada clase (**vectores de soporte**):
-   $$H_+: \mathbf{w}^T \mathbf{x} + b = +1 \quad (\text{para instancias con etiqueta } y_i = +1)$$
-   $$H_-: \mathbf{w}^T \mathbf{x} + b = -1 \quad (\text{para instancias con etiqueta } y_i = -1)$$
+   Los hiperplanos $H\_+$ y $H\_-$ son los dos hiperplanos canónicos paralelos al separador que pasan exactamente por los puntos más cercanos de cada clase (**vectores de soporte**):
+   
+
+$$
+H\_+: \mathbf{w}^T \mathbf{x} + b = +1 \quad (\text{para instancias con etiqueta } y\_i = +1)
+$$
+
+   
+
+$$
+H\_-: \mathbf{w}^T \mathbf{x} + b = -1 \quad (\text{para instancias con etiqueta } y\_i = -1)
+$$
+
 2. **Propósito de los Hiperplanos:**
    * Delimitan el **margen geométrico de separación**.
-   * La distancia perpendicular desde el hiperplano central a $H_+$ es $d_+ = \frac{1}{\|\mathbf{w}\|}$ y a $H_-$ es $d_- = \frac{1}{\|\mathbf{w}\|}$.
+   * La distancia perpendicular desde el hiperplano central a $H\_+$ es $d\_+ = \frac{1}{\\vert \mathbf{w}\ \vert}$ y a $H\_-$ es $d\_- = \frac{1}{\\vert \mathbf{w}\ \vert}$.
    * El margen total de separación es el ancho de la banda vacía:
-     $$M = d_+ + d_- = \frac{2}{\|\mathbf{w}\|}$$
-   * Maximizar el margen equivale directamente a minimizar $\|\mathbf{w}\|$ sujeto a que ninguna instancia caiga dentro de la banda entre $H_+$ y $H_-$.
+     
+
+$$
+M = d\_+ + d\_- = \frac{2}{\\vert \mathbf{w}\ \vert}
+$$
+
+   * Maximizar el margen equivale directamente a minimizar $\\vert \mathbf{w}\ \vert$ sujeto a que ninguna instancia caiga dentro de la banda entre $H\_+$ y $H\_-$.
 
 ---
 
 ### Pregunta 15: Deducción Formal de $\mathbf{w}$ y $b$ a partir del Lagrangiano Dual en SVM
 **Respuesta Canónica de la Cátedra:**
-Una vez resuelto el problema de optimización dual de Wolfe mediante multiplicadores de Lagrange $\alpha_i \ge 0$:
-$$\max_{\alpha} \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j (\mathbf{x}_i^T \mathbf{x}_j)$$
-Sujeto a $\sum_{i=1}^N \alpha_i y_i = 0$ y $\alpha_i \ge 0$.
+Una vez resuelto el problema de optimización dual de Wolfe mediante multiplicadores de Lagrange $\alpha\_i \ge 0$:
+
+
+$$
+\max\_{\alpha} \sum\_{i=1}^N \alpha\_i - \frac{1}{2} \sum\_{i=1}^N \sum\_{j=1}^N \alpha\_i \alpha\_j y\_i y\_j (\mathbf{x}\_i^T \mathbf{x}\_j)
+$$
+
+Sujeto a $\sum\_{i=1}^N \alpha\_i y\_i = 0$ y $\alpha\_i \ge 0$.
 
 1. **Obtención del Vector de Pesos $\mathbf{w}$:**
    De la derivada del Lagrangiano primal respecto a $\mathbf{w}$ igualada a cero:
-   $$\frac{\partial L_P}{\partial \mathbf{w}} = \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 \implies \mathbf{w} = \sum_{i \in SV} \alpha_i y_i \mathbf{x}_i$$
-   (Solo intervienen los vectores de soporte con $\alpha_i > 0$).
+   
+
+$$
+\frac{\partial L\_P}{\partial \mathbf{w}} = \mathbf{w} - \sum\_{i=1}^N \alpha\_i y\_i \mathbf{x}\_i = 0 \implies \mathbf{w} = \sum\_{i \in SV} \alpha\_i y\_i \mathbf{x}\_i
+$$
+
+   (Solo intervienen los vectores de soporte con $\alpha\_i > 0$).
 2. **Obtención del Sesgo $b$:**
-   Por la condición de holgura complementaria KKT, para cualquier vector de soporte $\mathbf{x}_s$ se cumple estrictamente $y_s (\mathbf{w}^T \mathbf{x}_s + b) = 1$. Multiplicando por $y_s$ (dado que $y_s^2 = 1$):
-   $$\mathbf{w}^T \mathbf{x}_s + b = y_s \implies b = y_s - \mathbf{w}^T \mathbf{x}_s$$
-   Para asegurar estabilidad numérica contra posibles errores de redondeo computacional, la Cátedra indica promediar sobre todos los vectores de soporte $N_{SV}$:
-   $$b = \frac{1}{N_{SV}} \sum_{s \in SV} \left( y_s - \mathbf{w}^T \mathbf{x}_s \right)$$
+   Por la condición de holgura complementaria KKT, para cualquier vector de soporte $\mathbf{x}\_s$ se cumple estrictamente $y\_s (\mathbf{w}^T \mathbf{x}\_s + b) = 1$. Multiplicando por $y\_s$ (dado que $y\_s^2 = 1$):
+   
+
+$$
+\mathbf{w}^T \mathbf{x}\_s + b = y\_s \implies b = y\_s - \mathbf{w}^T \mathbf{x}\_s
+$$
+
+   Para asegurar estabilidad numérica contra posibles errores de redondeo computacional, la Cátedra indica promediar sobre todos los vectores de soporte $N\_{SV}$:
+   
+
+$$
+b = \frac{1}{N\_{SV}} \sum\_{s \in SV} \left( y\_s - \mathbf{w}^T \mathbf{x}\_s \right)
+$$
+
 
 ---
 
 ### Pregunta 16: Función de Energía de Liapunov en Redes de Hopfield
 **Respuesta Canónica de la Cátedra:**
 La estabilidad asintótica de las redes recurrentes de Hopfield se fundamenta en la existencia de una función escalar de energía acotada inferiormente (función de Liapunov):
-$$E = -\frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N w_{ij} s_i s_j - \sum_{i=1}^N I_i s_i + \sum_{i=1}^N \theta_i s_i$$
-Donde $s_i \in \{-1, +1\}$ es el estado de la neurona $i$, $w_{ij} = w_{ji}$ y $w_{ii} = 0$.
+
+
+$$
+E = -\frac{1}{2} \sum\_{i=1}^N \sum\_{j=1}^N w\_{ij} s\_i s\_j - \sum\_{i=1}^N I\_i s\_i + \sum\_{i=1}^N \theta\_i s\_i
+$$
+
+Donde $s\_i \in \{-1, +1\}$ es el estado de la neurona $i$, $w\_{ij} = w\_{ji}$ y $w\_{ii} = 0$.
 
 **Demostración de Convergencia:**
-Sea $\Delta s_i = s_i(t+1) - s_i(t)$ la actualización de una neurona individual. La variación de energía inducida es:
-$$\Delta E = -\left( \sum_{j=1}^N w_{ij} s_j - \theta_i \right) \Delta s_i = -net_i \cdot \Delta s_i$$
-* Si $net_i > 0$, la regla de actualización fija $s_i(t+1) = +1$, de modo que $\Delta s_i \ge 0 \implies \Delta E \le 0$.
-* Si $net_i < 0$, la regla fija $s_i(t+1) = -1$, de modo que $\Delta s_i \le 0 \implies \Delta E \le 0$.
-* Si $net_i = 0$, el estado no cambia $\Delta s_i = 0 \implies \Delta E = 0$.
-Como $\Delta E \le 0$ en toda transición y la energía $E$ está acotada inferiormente por $-\frac{1}{2} \sum \sum |w_{ij}|$, la red está matemáticamente obligada a converger a un **mínimo local de energía (atractor estable)** en un número finito de pasos.
+Sea $\Delta s\_i = s\_i(t+1) - s\_i(t)$ la actualización de una neurona individual. La variación de energía inducida es:
+
+
+$$
+\Delta E = -\left( \sum\_{j=1}^N w\_{ij} s\_j - \theta\_i \right) \Delta s\_i = -net\_i \cdot \Delta s\_i
+$$
+
+* Si $net\_i > 0$, la regla de actualización fija $s\_i(t+1) = +1$, de modo que $\Delta s\_i \ge 0 \implies \Delta E \le 0$.
+* Si $net\_i < 0$, la regla fija $s\_i(t+1) = -1$, de modo que $\Delta s\_i \le 0 \implies \Delta E \le 0$.
+* Si $net\_i = 0$, el estado no cambia $\Delta s\_i = 0 \implies \Delta E = 0$.
+Como $\Delta E \le 0$ en toda transición y la energía $E$ está acotada inferiormente por $-\frac{1}{2} \sum \sum \vert w\_{ij} \vert$, la red está matemáticamente obligada a converger a un **mínimo local de energía (atractor estable)** en un número finito de pasos.
 
 ---
 
@@ -3650,8 +4814,8 @@ Como $\Delta E \le 0$ en toda transición y la energía $E$ está acotada inferi
 En el algoritmo $k$-NN estándar:
 * **Sesgo hacia la Clase Mayoritaria:** Si una clase $A$ posee un número abrumadoramente superior de instancias respecto a la clase $B$ ($m \gg n$), la densidad global de $A$ satura el espacio. Ante una nueva consulta, la probabilidad matemática de que la mayoría de los $k$ vecinos pertenezca a la clase mayoritaria $A$ es muy elevada, incluso si la consulta está físicamente ubicada en las inmediaciones de una pequeña concentración de la clase minoritaria $B$.
 * **Mecanismos Correctores:**
-  1. Utilizar **$k$-NN Ponderado por Distancia Inversa** ($w_i = \frac{1}{1 + d^2}$), donde la proximidad geométrica inmediata puede vencer al recuento de instancias remotas.
-  2. Aplicar factores de normalización por tamaño de clase: $w_i' = \frac{w_i}{N_{clase}}$.
+  1. Utilizar **$k$-NN Ponderado por Distancia Inversa** ($w\_i = \frac{1}{1 + d^2}$), donde la proximidad geométrica inmediata puede vencer al recuento de instancias remotas.
+  2. Aplicar factores de normalización por tamaño de clase: $w\_i' = \frac{w\_i}{N\_{clase}}$.
   3. Técnicas de re-muestreo (sub-muestreo de la mayoritaria o sobre-muestreo SMOTE de la minoritaria).
 
 ---
@@ -3680,22 +4844,32 @@ Esta sección contiene el desarrollo doctrinal exhaustivo de los contenidos de l
 1. **Apertura de la representación de estados, objetivos y acciones:**
    Los estados se representan como conjuntos de oraciones proposicionales o literales de primer orden, y las acciones mediante esquemas de operadores con **Precondiciones**, **Add-list** y **Delete-list** (formato STRIPS). Esto permite razonar analíticamente hacia atrás (*goal regression*), seleccionando únicamente aquellas acciones cuyos efectos añadan directamente una condición requerida por el objetivo, ignorando las miles de acciones irrelevantes.
 2. **Postergación de decisiones (Principio del Mínimo Compromiso / *Least Commitment*):**
-   No comprometerse con un ordenamiento estricto ni instanciaciones tempranas de variables hasta que sea estrictamente necesario. Se construye un grafo de orden parcial donde dos pasos $S_i$ y $S_j$ sólo se ordenan temporalmente ($S_i \prec S_j$) si existe una amenaza destructiva o una dependencia causal directa entre ellos.
+   No comprometerse con un ordenamiento estricto ni instanciaciones tempranas de variables hasta que sea estrictamente necesario. Se construye un grafo de orden parcial donde dos pasos $S\_i$ y $S\_j$ sólo se ordenan temporalmente ($S\_i \prec S\_j$) si existe una amenaza destructiva o una dependencia causal directa entre ellos.
 3. **Descomposición de objetivos e independencia de submetas:**
    El objetivo global se divide en un conjunto de subobjetivos casi-independientes. El planificador resuelve cada submeta de forma desacoplada y luego integra los planes parciales mediante la resolución de conflictos (amenazas a vínculos causales).
 
 ---
 
 ### 1.2. Vínculos Causales y Manejo Formal de Amenazas
-- **Vínculo Causal:** Denotado como $S_i \xrightarrow{c} S_j$, expresa que el paso productor $S_i$ tiene la precondición $c$ en su lista de añadir para satisfacerla en el paso consumidor $S_j$, protegiendo la condición $c$ en el intervalo $[S_i, S_j]$.
-- **Amenaza:** Existe cuando un paso $S_k$ pertenece al plan tal que:
-  - $\neg c \in \text{Delete-list}(S_k)$ (el paso destruye la condición protegida).
-  - El ordenamiento temporal no impide que $S_k$ ocurra entre $S_i$ y $S_j$.
+- **Vínculo Causal:** Denotado como $S\_i \xrightarrow{c} S\_j$, expresa que el paso productor $S\_i$ tiene la precondición $c$ en su lista de añadir para satisfacerla en el paso consumidor $S\_j$, protegiendo la condición $c$ en el intervalo $[S\_i, S\_j]$.
+- **Amenaza:** Existe cuando un paso $S\_k$ pertenece al plan tal que:
+  - $\neg c \in \text{Delete-list}(S\_k)$ (el paso destruye la condición protegida).
+  - El ordenamiento temporal no impide que $S\_k$ ocurra entre $S\_i$ y $S\_j$.
 - **Mecanismos de Resolución:**
   - **Democión (*Demotion*):** Obligar a que la amenaza ocurra antes del paso productor:
-    $$S_k \prec S_i$$
+    
+
+$$
+S\_k \prec S\_i
+$$
+
   - **Promoción (*Promotion*):** Obligar a que la amenaza ocurra después del paso consumidor:
-    $$S_j \prec S_k$$
+    
+
+$$
+S\_j \prec S\_k
+$$
+
 
 ```mermaid
 flowchart LR
@@ -3714,12 +4888,17 @@ flowchart LR
 
 ### 2.1. Tratamiento Dinámico de Atributos Continuos
 En atributos continuos numéricos $A$, C4.5 realiza una discretización dinámica en línea:
-1. Se ordenan los valores únicos observados en el nodo: $v_1 < v_2 < \dots < v_m$.
+1. Se ordenan los valores únicos observados en el nodo: $v\_1 < v\_2 < \dots < v\_m$.
 2. Se generan los puntos medios adyacentes como posibles umbrales de partición binaria:
-   $$c_i = \frac{v_i + v_{i+1}}{2}, \quad i = 1, \dots, m-1$$
-3. Cada corte divide los datos en dos ramas: $A \le c_i$ y $A > c_i$. Se calcula la Tasa de Ganancia para cada corte y se selecciona el corte óptimo $c^*$.
+   
+
+$$
+c\_i = \frac{v\_i + v\_{i+1}}{2}, \quad i = 1, \dots, m-1
+$$
+
+3. Cada corte divide los datos en dos ramas: $A \le c\_i$ y $A > c\_i$. Se calcula la Tasa de Ganancia para cada corte y se selecciona el corte óptimo $c^{\ast}$.
 4. **Persistencia:** A diferencia de los atributos discretos, el atributo continuo **NO se elimina** del conjunto de candidatos en los nodos descendientes, ya que los subintervalos pueden requerir cortes adicionales más adelante.
-5. **Costo Computacional:** La complejidad temporal por atributo pasa de lineal $\mathcal{O}(|D|)$ a $\mathcal{O}(|D| \log |D|)$ por el ordenamiento previo.
+5. **Costo Computacional:** La complejidad temporal por atributo pasa de lineal $\mathcal{O}(\vert D \vert)$ a $\mathcal{O}(\vert D \vert \log \vert D \vert)$ por el ordenamiento previo.
 
 ---
 
@@ -3728,15 +4907,35 @@ En atributos continuos numéricos $A$, C4.5 realiza una discretización dinámic
   1. Agotamiento de atributos disponibles ($A = \emptyset$) con datos contradictorios en las etiquetas de clase.
   2. Reducción de impureza menor al umbral de corte preestablecido (*threshold*).
   - *Etiquetado:* El nodo hoja se etiqueta con la clase mayoritaria de los datos que llegaron a él.
-- **Árbol de un solo nodo (el raíz):** Ocurre si todas las instancias del dataset inicial pertenecen a una misma clase $C_k$; el algoritmo se detiene inmediatamente etiquetando la raíz con $C_k$.
+- **Árbol de un solo nodo (el raíz):** Ocurre si todas las instancias del dataset inicial pertenecen a una misma clase $C\_k$; el algoritmo se detiene inmediatamente etiquetando la raíz con $C\_k$.
 
 ---
 
 ### 2.3. Entropía, Ganancia de Información y Tasa de Ganancia
-$$\text{Entropía}(D) = - \sum_{j=1}^{|C|} P(C_j) \log_2 P(C_j)$$
-$$\text{Ganancia}(D, A_i) = \text{Entropía}(D) - \sum_{j=1}^m \frac{|D_j|}{|D|} \text{Entropía}(D_j)$$
-$$\text{TasaDeGanancia}(D, A_i) = \frac{\text{Ganancia}(D, A_i)}{\text{SplitInfo}(D, A_i)}$$
-$$\text{SplitInfo}(D, A_i) = - \sum_{j=1}^m \frac{|D_j|}{|D|} \log_2 \left( \frac{|D_j|}{|D|} \right)$$
+
+
+$$
+\text{Entropía}(D) = - \sum\_{j=1}^{\vert C \vert} P(C\_j) \log\_2 P(C\_j)
+$$
+
+
+
+$$
+\text{Ganancia}(D, A\_i) = \text{Entropía}(D) - \sum\_{j=1}^m \frac{\vert D\_j \vert}{\vert D \vert} \text{Entropía}(D\_j)
+$$
+
+
+
+$$
+\text{TasaDeGanancia}(D, A\_i) = \frac{\text{Ganancia}(D, A\_i)}{\text{SplitInfo}(D, A\_i)}
+$$
+
+
+
+$$
+\text{SplitInfo}(D, A\_i) = - \sum\_{j=1}^m \frac{\vert D\_j \vert}{\vert D \vert} \log\_2 \left( \frac{\vert D\_j \vert}{\vert D \vert} \right)
+$$
+
 - *Rol del SplitInfo:* Penaliza fuertemente a los atributos que generan una gran cantidad de ramas con pocos ejemplos (como números de DNI o identificadores unívocos), corrigiendo el sesgo de la ganancia pura de ID3.
 
 ---
@@ -3746,54 +4945,94 @@ $$\text{SplitInfo}(D, A_i) = - \sum_{j=1}^m \frac{|D_j|}{|D|} \log_2 \left( \fra
 ### 3.1. Propiedad de Cierre hacia Abajo (*Downward Closure*)
 - **Enunciado:** Todo subconjunto no vacío de un conjunto de ítems frecuente es también frecuente. De forma equivalente: si un itemset es infrecuente, ninguno de sus superconjuntos puede ser frecuente.
 - **Fundamento Matemático:**
-  $$\text{soporte}(X) = \frac{|\{t \in \mathcal{T} \mid X \subseteq t\}|}{|\mathcal{T}|} \implies \forall Y \subseteq X, \; \text{soporte}(X) \le \text{soporte}(Y)$$
-- **Ubicación en Apriori:** Se ejecuta en la rutina `candidate-gen` al generar $C_k$ a partir de $L_{k-1}$: si cualquier $(k-1)$-subconjunto del candidato no pertenece a $L_{k-1}$, se poda de inmediato.
+  
+
+$$
+\text{soporte}(X) = \frac{|\{t \in \mathcal{T} \mid X \subseteq t\}\vert }{ \vert\mathcal{T}|} \implies \forall Y \subseteq X, \; \text{soporte}(X) \le \text{soporte}(Y)
+$$
+
+- **Ubicación en Apriori:** Se ejecuta en la rutina `candidate-gen` al generar $C\_k$ a partir de $L\_{k-1}$: si cualquier $(k-1)$-subconjunto del candidato no pertenece a $L\_{k-1}$, se poda de inmediato.
 
 ---
 
-### 3.2. Generación Paso a Paso de Reglas desde $f_4 = (A, M, V, P)$
-A partir del 4-itemset frecuente $f_4 = \{A, M, V, P\}$:
-1. **Nivel 1 ($H_1$ - Reglas con 1 consecuente):**
+### 3.2. Generación Paso a Paso de Reglas desde $f\_4 = (A, M, V, P)$
+A partir del 4-itemset frecuente $f\_4 = \{A, M, V, P\}$:
+1. **Nivel 1 ($H\_1$ - Reglas con 1 consecuente):**
    - Evaluar:
-     $$\{M, V, P\} \to \{A\}, \quad \{A, V, P\} \to \{M\}, \quad \{A, M, P\} \to \{V\}, \quad \{A, M, V\} \to \{P\}$$
-     $$\text{confianza}(X \to Y) = \frac{\text{soporte}(f_4)}{\text{soporte}(X)}$$
-   - Se emiten aquellas con $\text{conf} \ge \text{minconf}$. Sus consecuentes forman el conjunto $H_1$.
-2. **Nivel 2 ($H_2$ - Reglas con 2 consecuentes):**
-   - Se combinan los elementos sobrevivientes de $H_1$ mediante `candidate-gen(H_1)`.
-   - **Poda por Cierre hacia Abajo de la Confianza:** Si $\{P\}$ fue descartado en $H_1$, ningún candidato de $H_2$ que contenga a $P$ (ej. $\{M, P\}$) es evaluado, pues:
-     $$\text{conf}(\{A, V\} \to \{M, P\}) = \frac{\text{sop}(f_4)}{\text{sop}(\{A, V\})} \le \frac{\text{sop}(f_4)}{\text{sop}(\{A, M, V\})} = \text{conf}(\{A, M, V\} \to \{P\}) < \text{minconf}$$
+     
+
+$$
+\{M, V, P\} \to \{A\}, \quad \{A, V, P\} \to \{M\}, \quad \{A, M, P\} \to \{V\}, \quad \{A, M, V\} \to \{P\}
+$$
+
+     
+
+$$
+\text{confianza}(X \to Y) = \frac{\text{soporte}(f\_4)}{\text{soporte}(X)}
+$$
+
+   - Se emiten aquellas con $\text{conf} \ge \text{minconf}$. Sus consecuentes forman el conjunto $H\_1$.
+2. **Nivel 2 ($H\_2$ - Reglas con 2 consecuentes):**
+   - Se combinan los elementos sobrevivientes de $H\_1$ mediante `candidate-gen(H_1)`.
+   - **Poda por Cierre hacia Abajo de la Confianza:** Si $\{P\}$ fue descartado en $H\_1$, ningún candidato de $H\_2$ que contenga a $P$ (ej. $\{M, P\}$) es evaluado, pues:
+     
+
+$$
+\text{conf}(\{A, V\} \to \{M, P\}) = \frac{\text{sop}(f\_4)}{\text{sop}(\{A, V\})} \le \frac{\text{sop}(f\_4)}{\text{sop}(\{A, M, V\})} = \text{conf}(\{A, M, V\} \to \{P\}) < \text{minconf}
+$$
+
    - Para los pares válidos (ej. $\{M, V\}$), se evalúa $\{A, P\} \to \{M, V\}$.
-3. **Nivel 3 ($H_3$ - Reglas con 3 consecuentes):**
+3. **Nivel 3 ($H\_3$ - Reglas con 3 consecuentes):**
    - Genera reglas con antecedentes unitarios: $\{A\} \to \{M, V, P\}$, etc.
    - El proceso se detiene cuando $k = m + 1$ (no hay reglas con antecedente vacío).
 
 ---
 
-## 4. Búsqueda Heurística: Algoritmo $A^*$ `[TEMA_P1_RENDIDO]`
+## 4. Búsqueda Heurística: Algoritmo $A^{\ast}$ `[TEMA_P1_RENDIDO]`
 
 ### 4.1. Función de Evaluación y Admisibilidad
-$$f'(n) = g(n) + h'(n)$$
+
+
+$$
+f'(n) = g(n) + h'(n)
+$$
+
 - $g(n)$: Costo real acumulado desde el estado inicial hasta el nodo $n$.
 - $h'(n)$: Estimación heurística del costo restante desde $n$ hasta el objetivo.
-- **Admisibilidad:** $h'(n) \le h^*(n)$ para todo $n$ (nunca sobreestima el costo real).
+- **Admisibilidad:** $h'(n) \le h^{\ast}(n)$ para todo $n$ (nunca sobreestima el costo real).
 
 ---
 
 ### 4.2. Demostración Rigurosa de Optimalidad y Sobreestimación
-1. **Caso Admisible ($h' \le h^*$):**
-   - Sea $n_{sub}$ un nodo objetivo subóptimo con costo real $V_{sub} > V_{opt}$. Como es objetivo, $h'(n_{sub}) = 0$, resultando:
-     $$f'(n_{sub}) = g(n_{sub}) = V_{sub} > V_{opt}$$
-   - Sea $n_{opt}$ un nodo en `ABIERTOS` perteneciente a la trayectoria óptima. Al no sobreestimar:
-     $$f'(n_{opt}) = g(n_{opt}) + h'(n_{opt}) \le g(n_{opt}) + h^*(n_{opt}) = V_{opt} < V_{sub}$$
-   - Como $f'(n_{opt}) < f'(n_{sub})$, $A^*$ siempre expandirá $n_{opt}$ antes que $n_{sub}$, alcanzando primero la meta óptima.
-2. **Consecuencias de Sobreestimar ($h' > h^*$):**
-   - Si para el nodo $n_{opt}$ la heurística sobreestima en exceso:
-     $$f'(n_{opt}) = g(n_{opt}) + h'(n_{opt}) > V_{opt}$$
-   - Puede suceder que $f'(n_{opt}) > V_{sub} = f'(n_{sub})$. En ese caso, $A^*$ seleccionará y expandirá prematuramente a $n_{sub}$, terminando la búsqueda con una solución subóptima antes de haber considerado la rama verdaderamente óptima.
+1. **Caso Admisible ($h' \le h^{\ast}$):**
+   - Sea $n\_{sub}$ un nodo objetivo subóptimo con costo real $V\_{sub} > V\_{opt}$. Como es objetivo, $h'(n\_{sub}) = 0$, resultando:
+     
+
+$$
+f'(n\_{sub}) = g(n\_{sub}) = V\_{sub} > V\_{opt}
+$$
+
+   - Sea $n\_{opt}$ un nodo en `ABIERTOS` perteneciente a la trayectoria óptima. Al no sobreestimar:
+     
+
+$$
+f'(n\_{opt}) = g(n\_{opt}) + h'(n\_{opt}) \le g(n\_{opt}) + h^{\ast}(n\_{opt}) = V\_{opt} < V\_{sub}
+$$
+
+   - Como $f'(n\_{opt}) < f'(n\_{sub})$, $A^{\ast}$ siempre expandirá $n\_{opt}$ antes que $n\_{sub}$, alcanzando primero la meta óptima.
+2. **Consecuencias de Sobreestimar ($h' > h^{\ast}$):**
+   - Si para el nodo $n\_{opt}$ la heurística sobreestima en exceso:
+     
+
+$$
+f'(n\_{opt}) = g(n\_{opt}) + h'(n\_{opt}) > V\_{opt}
+$$
+
+   - Puede suceder que $f'(n\_{opt}) > V\_{sub} = f'(n\_{sub})$. En ese caso, $A^{\ast}$ seleccionará y expandirá prematuramente a $n\_{sub}$, terminando la búsqueda con una solución subóptima antes de haber considerado la rama verdaderamente óptima.
 
 ---
 
-### 4.3. Casos Degenerados de $A^*$
+### 4.3. Casos Degenerados de $A^{\ast}$
 - **Caso 1: $h'(n) = 0$ y $g(n)$ variable:**  
   $f'(n) = g(n)$. El algoritmo se transforma en la **Búsqueda de Costo Uniforme (Dijkstra)**, garantizando el camino de menor costo real acumulado.
 - **Caso 2: $h'(n) = 0$ y $g(n) = 1$ (o constante):**  

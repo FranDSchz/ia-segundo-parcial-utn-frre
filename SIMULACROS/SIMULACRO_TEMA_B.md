@@ -42,9 +42,9 @@ flowchart TD
 
 ### Enunciado
 Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ constituido por los siguientes tres puntos de entrenamiento:
-* $P_1 = \begin{bmatrix} -2.0 \\ 1.0 \end{bmatrix}$ con etiqueta de clase $y_1 = +1$
-* $P_2 = \begin{bmatrix} 1.0 \\ 2.0 \end{bmatrix}$ con etiqueta de clase $y_2 = +1$
-* $P_3 = \begin{bmatrix} 2.0 \\ -2.0 \end{bmatrix}$ con etiqueta de clase $y_3 = -1$
+* $P_1 = [-2.0, 1.0]^T$ con etiqueta de clase $y_1 = +1$
+* $P_2 = [1.0, 2.0]^T$ con etiqueta de clase $y_2 = +1$
+* $P_3 = [2.0, -2.0]^T$ con etiqueta de clase $y_3 = -1$
 
 **Se solicita:**
 1. Construir la **Matriz de Gram** (matriz de productos internos $K_{ij} = P_i^T P_j$) para todos los pares de datos.
@@ -52,7 +52,7 @@ Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ cons
    $$L_D(\boldsymbol{\alpha}) = \sum_{i=1}^3 \alpha_i - \frac{1}{2} \sum_{i=1}^3 \sum_{j=1}^3 \alpha_i \alpha_j y_i y_j (P_i^T P_j)$$
    expandiendo algebraicamente todos los términos cuadráticos y cruzados.
 3. Enunciar el sistema completo de **restricciones Karush-Kuhn-Tucker (KKT)** aplicable a este problema.
-4. Despejar $\alpha_3$ a partir de la restricción de igualdad KKT ($\sum \alpha_i y_i = 0$), sustituirla en $L_D$ para obtener una función en dos variables $L_D(\alpha_1, \alpha_2)$, y hallar analíticamente el punto óptimo $(\alpha_1^*, \alpha_2^*, \alpha_3^*)$ mediante el gradiente $\nabla L_D = \mathbf{0}$.
+4. Despejar $\alpha_3$ a partir de la restricción de igualdad KKT ($\sum \alpha_i y_i = 0$), sustituirla en $L_D$ para obtener una función en dos variables $L_D(\alpha_1, \alpha_2)$, y hallar analíticamente el punto óptimo $(\alpha_1^{\ast}, \alpha_2^{\ast}, \alpha_3^{\ast})$ mediante el gradiente $\nabla L_D = \mathbf{0}$.
 5. Comprobar que todos los multiplicadores satisfacen $\alpha_i \ge 0$, deducir el vector de pesos $\mathbf{w}$ y el sesgo $b$, y escribir la ecuación del hiperplano óptimo.
 
 ---
@@ -77,7 +77,15 @@ Considere un problema de clasificación binaria separable en $\mathbb{R}^2$ cons
 * $K_{33} = P_3 \cdot P_3 = (2.0)^2 + (-2.0)^2 = 4.0 + 4.0 = \mathbf{8.0}$
 
 Por simetría, la Matriz de Gram es:
-$$K = \begin{bmatrix} 5.0 & 0.0 & -6.0 \\ 0.0 & 5.0 & -2.0 \\ -6.0 & -2.0 & 8.0 \end{bmatrix}$$
+
+$$
+K = \begin{bmatrix}
+5.0 & 0.0 & -6.0 \\
+0.0 & 5.0 & -2.0 \\
+-6.0 & -2.0 & 8.0
+\end{bmatrix}
+$$
+
 
 #### 2. Formulación Dual Lagrangiana $L_D(\alpha_1, \alpha_2, \alpha_3)$
 $$L_D = \sum_{i=1}^3 \alpha_i - \frac{1}{2} \sum_{i=1}^3 \sum_{j=1}^3 \alpha_i \alpha_j y_i y_j K_{ij}$$
@@ -131,17 +139,17 @@ $$\frac{\partial L_D}{\partial \alpha_2} = 2 - 16.0 \alpha_1 - 17.0 \alpha_2 = 0
 Restando la segunda ecuación de la primera:
 $$(25.0 - 16.0)\alpha_1 + (16.0 - 17.0)\alpha_2 = 2.0 - 2.0 \implies 9.0 \alpha_1 - \alpha_2 = 0 \implies \alpha_2 = 9 \alpha_1$$
 Sustituyendo $\alpha_2 = 9 \alpha_1$ en la primera ecuación:
-$$25.0 \alpha_1 + 16.0(9 \alpha_1) = 2.0 \implies 25.0 \alpha_1 + 144.0 \alpha_1 = 2.0 \implies 169 \alpha_1 = 2 \implies \alpha_1^* = \frac{2}{169} \approx \mathbf{0.0118}$$
-$$\alpha_2^* = 9 \alpha_1^* = 9 \left(\frac{2}{169}\right) = \frac{18}{169} \approx \mathbf{0.1065}$$
-$$\alpha_3^* = \alpha_1^* + \alpha_2^* = \frac{2}{169} + \frac{18}{169} = \frac{20}{169} \approx \mathbf{0.1183}$$
-Dado que $\alpha_1^* > 0, \alpha_2^* > 0, \alpha_3^* > 0$, **los tres puntos son vectores de soporte activos**.
+$$25.0 \alpha_1 + 16.0(9 \alpha_1) = 2.0 \implies 25.0 \alpha_1 + 144.0 \alpha_1 = 2.0 \implies 169 \alpha_1 = 2 \implies \alpha_1^{\ast} = \frac{2}{169} \approx \mathbf{0.0118}$$
+$$\alpha_2^{\ast} = 9 \alpha_1^{\ast} = 9 \left(\frac{2}{169}\right) = \frac{18}{169} \approx \mathbf{0.1065}$$
+$$\alpha_3^{\ast} = \alpha_1^{\ast} + \alpha_2^{\ast} = \frac{2}{169} + \frac{18}{169} = \frac{20}{169} \approx \mathbf{0.1183}$$
+Dado que $\alpha_1^{\ast} > 0, \alpha_2^{\ast} > 0, \alpha_3^{\ast} > 0$, **los tres puntos son vectores de soporte activos**.
 
 #### 5. Deducción de $\mathbf{w}$ y Sesgo $b$
 $$\mathbf{w} = \alpha_1 y_1 P_1 + \alpha_2 y_2 P_2 + \alpha_3 y_3 P_3$$
-$$\mathbf{w} = \frac{2}{169}(+1)\begin{bmatrix} -2 \\ 1 \end{bmatrix} + \frac{18}{169}(+1)\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \frac{20}{169}(-1)\begin{bmatrix} 2 \\ -2 \end{bmatrix}$$
+$$\mathbf{w} = \frac{2}{169}(+1)[-2, 1]^T + \frac{18}{169}(+1)[1, 2]^T + \frac{20}{169}(-1)[2, -2]^T$$
 $$\mathbf{w} = \frac{1}{169}\left( \begin{bmatrix} -4 \\ 2 \end{bmatrix} + \begin{bmatrix} 18 \\ 36 \end{bmatrix} - \begin{bmatrix} 40 \\ -40 \end{bmatrix} \right) = \frac{1}{169} \begin{bmatrix} -4 + 18 - 40 \\ 2 + 36 + 40 \end{bmatrix} = \frac{1}{169} \begin{bmatrix} -26 \\ 78 \end{bmatrix} = \begin{bmatrix} -2/13 \\ 6/13 \end{bmatrix} \approx \begin{bmatrix} \mathbf{-0.154} \\ \mathbf{+0.462} \end{bmatrix}$$
 
-*Cálculo de sesgo $b = y_i - \mathbf{w}^T P_i$ (verificando en cada vector):*
+Cálculo de sesgo $b = y_i - \mathbf{w}^T P_i$ (verificando en cada vector):
 * En $P_1$: $b_1 = 1 - [(-2/13)(-2) + (6/13)(1)] = 1 - [4/13 + 6/13] = 1 - 10/13 = \mathbf{3/13} \approx 0.231$
 * En $P_2$: $b_2 = 1 - [(-2/13)(1) + (6/13)(2)] = 1 - [-2/13 + 12/13] = 1 - 10/13 = \mathbf{3/13} \approx 0.231$
 * En $P_3$: $b_3 = -1 - [(-2/13)(2) + (6/13)(-2)] = -1 - [-4/13 - 12/13] = -1 - (-16/13) = \mathbf{3/13} \approx 0.231$
@@ -156,7 +164,7 @@ $$-\frac{2}{13} x_1 + \frac{6}{13} x_2 + \frac{3}{13} = 0 \iff -2 x_1 + 6 x_2 + 
 
 ### Enunciado
 Se diseña una memoria asociativa auto-recurrente de Hopfield de $N = 4$ neuronas bipolares ($s_i \in \{-1, +1\}$) para almacenar los siguientes dos patrones fundamentales de memoria:
-$$P^{(1)} = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix}, \quad P^{(2)} = \begin{bmatrix} -1 \\ +1 \\ +1 \\ -1 \end{bmatrix}$$
+$$P^{(1)} = [+1, +1, -1, -1]^T, \quad P^{(2)} = [-1, +1, +1, -1]^T$$
 
 **Se solicita:**
 1. Demostrar analíticamente que los dos patrones son **ortogonales** mediante su producto interno.
@@ -164,7 +172,7 @@ $$P^{(1)} = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix}, \quad P^{(2)} = 
    $$W = \sum_{k=1}^M \left( P^{(k)} (P^{(k)})^T - I \right)$$
 3. Verificar formalmente que ambos patrones son **puntos fijos estables** (atractores) calculando el campo local inducido $net = P^{(k)} W$ y aplicando la función de activación signo $\operatorname{sgn}(net)$.
 4. Se presenta a la red un patrón de prueba distorsionado con un bit invertido en la posición 4:
-   $$X(0) = \begin{bmatrix} +1 \\ +1 \\ -1 \\ +1 \end{bmatrix}$$
+   $$X(0) = [+1, +1, -1, +1]^T$$
    Ejecutar la dinámica de **actualización síncrona** $X(t+1) = \operatorname{sgn}(X(t) W)$ durante 2 pasos e indicar si la red converge a un atractor o entra en un ciclo límite.
 5. Contrastar con la **actualización asíncrona** secuencial (actualizando la neurona 4 en primer lugar) y explicar por qué la función de energía de Lyapunov garantiza la estabilidad en el régimen asíncrono pero no siempre en el síncrono.
 
@@ -187,20 +195,65 @@ Al ser el producto interno exactamente cero, los patrones son **estrictamente or
 
 #### 2. Construcción de la Matriz de Pesos Sinápticos $W$
 * Producto exterior de $P^{(1)}$:
-  $$P^{(1)} (P^{(1)})^T = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix} \begin{bmatrix} +1 & +1 & -1 & -1 \end{bmatrix} = \begin{bmatrix} 1 & 1 & -1 & -1 \\ 1 & 1 & -1 & -1 \\ -1 & -1 & 1 & 1 \\ -1 & -1 & 1 & 1 \end{bmatrix}$$
+  
+$$
+P^{(1)} (P^{(1)})^T = [+1, +1, -1, -1]^T [+1, +1, -1, -1] = \begin{bmatrix}
+1 & 1 & -1 & -1 \\
+1 & 1 & -1 & -1 \\
+-1 & -1 & 1 & 1 \\
+-1 & -1 & 1 & 1
+\end{bmatrix}
+$$
+
 
 * Producto exterior de $P^{(2)}$:
-  $$P^{(2)} (P^{(2)})^T = \begin{bmatrix} -1 \\ +1 \\ +1 \\ -1 \end{bmatrix} \begin{bmatrix} -1 & +1 & +1 & -1 \end{bmatrix} = \begin{bmatrix} 1 & -1 & -1 & 1 \\ -1 & 1 & 1 & -1 \\ -1 & 1 & 1 & -1 \\ 1 & -1 & -1 & 1 \end{bmatrix}$$
+  
+$$
+P^{(2)} (P^{(2)})^T = [-1, +1, +1, -1]^T [-1, +1, +1, -1] = \begin{bmatrix}
+1 & -1 & -1 & 1 \\
+-1 & 1 & 1 & -1 \\
+-1 & 1 & 1 & -1 \\
+1 & -1 & -1 & 1
+\end{bmatrix}
+$$
+
 
 * Suma Hebbiana de correlaciones:
-  $$W_{\text{raw}} = P^{(1)} (P^{(1)})^T + P^{(2)} (P^{(2)})^T = \begin{bmatrix} 2 & 0 & -2 & 0 \\ 0 & 2 & 0 & -2 \\ -2 & 0 & 2 & 0 \\ 0 & -2 & 0 & 2 \end{bmatrix}$$
+  
+$$
+W_{\text{raw}} = P^{(1)} (P^{(1)})^T + P^{(2)} (P^{(2)})^T = \begin{bmatrix}
+2 & 0 & -2 & 0 \\
+0 & 2 & 0 & -2 \\
+-2 & 0 & 2 & 0 \\
+0 & -2 & 0 & 2
+\end{bmatrix}
+$$
+
 
 * Anulación estricta de la diagonal principal ($w_{ii} = 0$):
-  $$W = W_{\text{raw}} - 2 I = \begin{bmatrix} \mathbf{0} & \mathbf{0} & \mathbf{-2} & \mathbf{0} \\ \mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{-2} \\ \mathbf{-2} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\ \mathbf{0} & \mathbf{-2} & \mathbf{0} & \mathbf{0} \end{bmatrix}$$
+  
+$$
+W = W_{\text{raw}} - 2 I = \begin{bmatrix}
+\mathbf{0} & \mathbf{0} & \mathbf{-2} & \mathbf{0} \\
+\mathbf{0} & \mathbf{0} & \mathbf{0} & \mathbf{-2} \\
+\mathbf{-2} & \mathbf{0} & \mathbf{0} & \mathbf{0} \\
+\mathbf{0} & \mathbf{-2} & \mathbf{0} & \mathbf{0}
+\end{bmatrix}
+$$
+
 
 #### 3. Verificación de Puntos Fijos (Estabilidad de $P^{(1)}$ y $P^{(2)}$)
 * **Para $P^{(1)} = [+1, +1, -1, -1]$:**
-  $$net = P^{(1)} W = \begin{bmatrix} 1 & 1 & -1 & -1 \end{bmatrix} \begin{bmatrix} 0 & 0 & -2 & 0 \\ 0 & 0 & 0 & -2 \\ -2 & 0 & 0 & 0 \\ 0 & -2 & 0 & 0 \end{bmatrix}$$
+  
+$$
+net = P^{(1)} W = [1, 1, -1, -1] \begin{bmatrix}
+0 & 0 & -2 & 0 \\
+0 & 0 & 0 & -2 \\
+-2 & 0 & 0 & 0 \\
+0 & -2 & 0 & 0
+\end{bmatrix} = [+2, +2, -2, -2]
+$$
+
   * $net_1 = (1)(0) + (1)(0) + (-1)(-2) + (-1)(0) = +2$
   * $net_2 = (1)(0) + (1)(0) + (-1)(0) + (-1)(-2) = +2$
   * $net_3 = (1)(-2) + (1)(0) + (-1)(0) + (-1)(0) = -2$
@@ -212,20 +265,29 @@ Al ser el producto interno exactamente cero, los patrones son **estrictamente or
 
 #### 4. Dinámica de Recuperación Síncrona con $X(0) = [+1, +1, -1, +1]$
 * **Paso 1 ($t=0 \to t=1$):**
-  $$net(0) = X(0) W = \begin{bmatrix} 1 & 1 & -1 & 1 \end{bmatrix} \begin{bmatrix} 0 & 0 & -2 & 0 \\ 0 & 0 & 0 & -2 \\ -2 & 0 & 0 & 0 \\ 0 & -2 & 0 & 0 \end{bmatrix}$$
+  
+$$
+net(0) = X(0) W = [1, 1, -1, 1] \begin{bmatrix}
+0 & 0 & -2 & 0 \\
+0 & 0 & 0 & -2 \\
+-2 & 0 & 0 & 0 \\
+0 & -2 & 0 & 0
+\end{bmatrix} = [+2, -2, -2, -2]
+$$
+
   * $net_1 = (-1)(-2) = +2$
   * $net_2 = (1)(-2) = -2$
   * $net_3 = (1)(-2) = -2$
   * $net_4 = (1)(-2) = -2$
-  $$net(0) = [ +2, -2, -2, -2 ] \implies X(1) = \operatorname{sgn}(net(0)) = \begin{bmatrix} +1 \\ -1 \\ -1 \\ -1 \end{bmatrix}$$
+  $$net(0) = [ +2, -2, -2, -2 ] \implies X(1) = \operatorname{sgn}(net(0)) = [+1, -1, -1, -1]^T$$
 
 * **Paso 2 ($t=1 \to t=2$):**
-  $$net(1) = X(1) W = \begin{bmatrix} 1 & -1 & -1 & -1 \end{bmatrix} W$$
+  $$net(1) = X(1) W = [1, -1, -1, -1] W$$
   * $net_1 = (-1)(-2) = +2$
   * $net_2 = (-1)(-2) = +2$
   * $net_3 = (1)(-2) = -2$
   * $net_4 = (-1)(-2) = +2$
-  $$net(1) = [ +2, +2, -2, +2 ] \implies X(2) = \operatorname{sgn}(net(1)) = \begin{bmatrix} +1 \\ +1 \\ -1 \\ +1 \end{bmatrix} = X(0)$$
+  $$net(1) = [ +2, +2, -2, +2 ] \implies X(2) = \operatorname{sgn}(net(1)) = [+1, +1, -1, +1]^T = X(0)$$
 
 **Diagnóstico:** En modo síncrono, el estado entra en una oscilación o ciclo límite de período 2: $X(0) \longleftrightarrow X(1)$.
 
@@ -234,7 +296,7 @@ Si se actualiza de manera **asíncrona** (una neurona por vez), evaluamos la neu
 $$net_4 = \sum_{j \ne 4} w_{j4} X_j(0) = w_{14}(1) + w_{24}(1) + w_{34}(-1) = (0)(1) + (-2)(1) + (0)(-1) = -2$$
 $$X_4^{\text{nuevo}} = \operatorname{sgn}(net_4) = \operatorname{sgn}(-2) = \mathbf{-1}$$
 El vector de estado pasa inmediatamente a:
-$$X = \begin{bmatrix} +1 \\ +1 \\ -1 \\ -1 \end{bmatrix} = P^{(1)}$$
+$$X = [+1, +1, -1, -1]^T = P^{(1)}$$
 Al verificar las demás neuronas, ninguna cambia, logrando la **convergencia exacta al patrón $P^{(1)}$**.
 
 *Justificación formal:* La función de energía de Lyapunov $E = -\frac{1}{2} \mathbf{s}^T W \mathbf{s}$ satisface $\Delta E = -\Delta s_i \cdot net_i \le 0$ en cada paso asíncrono, garantizando el descenso monótono a un mínimo local. En la actualización síncrona en paralelo, $\Delta E$ puede ser positivo, permitiendo la existencia de ciclos límite de período 2.

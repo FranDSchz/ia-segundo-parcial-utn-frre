@@ -49,6 +49,10 @@
     qaSearchQuery: "",
     qaSelectedTopic: "ALL",
 
+    // Community & Feedback State
+    currentFeedbackQuestion: null,
+    _giscusLoaded: false,
+
     // Init
     init() {
       // 1. Load questions from window.PREGUNTAS
@@ -81,11 +85,23 @@
       // 6. Bind keyboard shortcuts for active exam
       this.bindKeyboardShortcuts();
 
-      // 7. Check URL hash for direct routing (#qa, #practice, #history)
-      const hash = window.location.hash.replace("#", "").toLowerCase();
-      if (["home", "practice", "history", "qa"].includes(hash)) {
-        this.navigate(hash);
-      } else {
+      // 7. Check URL hash for direct routing and listen to back/forward/hash changes
+      const handleHashRoute = () => {
+        const hash = window.location.hash.replace("#", "").toLowerCase();
+        if (["home", "practice", "history", "qa", "community"].includes(hash)) {
+          if (this.currentView !== hash) {
+            this.navigate(hash);
+          }
+        } else if (!window.location.hash) {
+          if (this.currentView !== "home") {
+            this.navigate("home");
+          }
+        }
+      };
+
+      window.addEventListener("hashchange", handleHashRoute);
+      handleHashRoute();
+      if (!window.location.hash) {
         this.navigate("home");
       }
 
@@ -303,6 +319,15 @@
       const current = document.documentElement.getAttribute("data-theme") || "dark";
       const next = current === "dark" ? "light" : "dark";
       this.setTheme(next);
+
+      // Sincronizar tema con el iframe de Giscus si está presente
+      const iframe = document.querySelector("iframe.giscus-frame");
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: next === "dark" ? "dark_dimmed" : "light" } } },
+          "https://giscus.app"
+        );
+      }
     },
 
     // -------------------------------------------------------------
@@ -343,6 +368,8 @@
         this.renderQAMode();
       } else if (viewName === "practice") {
         this.renderPracticeQuestion();
+      } else if (viewName === "community") {
+        this.initCommunityView();
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -713,6 +740,11 @@
       if (modal) modal.classList.add("open");
     },
 
+    openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add("open");
+    },
+
     closeModal(modalId) {
       const modal = document.getElementById(modalId);
       if (modal) modal.classList.remove("open");
@@ -960,6 +992,15 @@
               <strong>Fuente Oficial:</strong> ${q.fuente}
             </div>
           </div>
+
+          <div class="question-footer-toolbar">
+            <button class="btn btn-outline btn-sm" onclick="app.openQuestionFeedback('${q.id}')">
+              💬 Debatir / Reportar
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="app.copyQuestionToClipboard('${q.id}')" title="Copiar pregunta formateada">
+              📋 Copiar
+            </button>
+          </div>
         `;
 
         container.appendChild(card);
@@ -1118,7 +1159,16 @@
 
           ${justificationHtml}
 
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+          <div class="question-footer-toolbar">
+            <button class="btn btn-outline btn-sm" onclick="app.openQuestionFeedback('${q.id}')">
+              💬 Debatir / Reportar
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="app.copyQuestionToClipboard('${q.id}')" title="Copiar pregunta formateada">
+              📋 Copiar
+            </button>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
             <button class="btn btn-outline" ${this.practiceIndex === 0 ? "disabled" : ""} onclick="app.prevPracticeQuestion()">
               ← Anterior
             </button>
@@ -1333,11 +1383,212 @@
             <div class="justification-title">📖 Justificación Oficial:</div>
             <div>${this.formatRichText(q.explicacion)}</div>
           </div>
+
+          <div class="question-footer-toolbar">
+            <button class="btn btn-outline btn-sm" onclick="app.openQuestionFeedback('${q.id}')">
+              💬 Debatir / Reportar
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="app.copyQuestionToClipboard('${q.id}')" title="Copiar pregunta formateada">
+              📋 Copiar
+            </button>
+          </div>
         `;
 
         container.appendChild(card);
         this.renderMath(card);
       });
+    },
+
+    // -------------------------------------------------------------
+    // Community, Giscus & Feedback Engine
+    // -------------------------------------------------------------
+    initCommunityView() {
+      this.loadGiscus(false);
+    },
+
+    loadGiscus(forceReload = false) {
+      const container = document.getElementById("giscus-thread-container");
+      if (!container) return;
+
+      if (!forceReload && this._giscusLoaded && container.querySelector("iframe.giscus-frame")) {
+        return;
+      }
+
+      container.innerHTML = `
+        <div id="giscus-loader-placeholder" style="text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); background: var(--bg-subtle); border-radius: var(--radius-md);">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+          <p style="margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Foro de Debate en Vivo</p>
+          <p style="font-size: 0.88rem; max-width: 520px; margin: 0 auto 1.25rem; line-height: 1.45;">
+            Cargando el hilo de comentarios de GitHub... Podés iniciar sesión con tu cuenta de GitHub para dejar preguntas, responder a tus compañeros y subir capturas de pantalla.
+          </p>
+          <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none;">
+            Abrir GitHub Discussions en pestaña nueva ↗
+          </a>
+        </div>
+      `;
+
+      const theme = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark_dimmed";
+      const script = document.createElement("script");
+      script.src = "https://giscus.app/client.js";
+      script.setAttribute("data-repo", "FranDSchz/ia-segundo-parcial-utn-frre");
+      script.setAttribute("data-repo-id", "R_kgDON6rV1A");
+      script.setAttribute("data-category", "General");
+      script.setAttribute("data-category-id", "DIC_kwDON6rV1M4Cn-oM");
+      script.setAttribute("data-mapping", "pathname");
+      script.setAttribute("data-strict", "0");
+      script.setAttribute("data-reactions-enabled", "1");
+      script.setAttribute("data-emit-metadata", "0");
+      script.setAttribute("data-input-position", "top");
+      script.setAttribute("data-theme", theme);
+      script.setAttribute("data-lang", "es");
+      script.crossOrigin = "anonymous";
+      script.async = true;
+
+      container.appendChild(script);
+      this._giscusLoaded = true;
+    },
+
+    showToast(message) {
+      const toast = document.getElementById("toast-notification");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      if (this._toastTimer) clearTimeout(this._toastTimer);
+      this._toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    },
+
+    openQuestionFeedback(qId) {
+      const q = this.allQuestions.find((item) => item.id === qId);
+      if (!q) return;
+
+      this.currentFeedbackQuestion = q;
+      const topicName = TOPIC_NAMES[q.tema] || q.tema;
+
+      const topicBadge = document.getElementById("fb-modal-topic");
+      if (topicBadge) topicBadge.textContent = topicName;
+
+      const titleEl = document.getElementById("fb-modal-title");
+      if (titleEl) titleEl.textContent = `Pregunta #${q.nro || q.id} (${q.id})`;
+
+      const previewBox = document.getElementById("fb-modal-prompt-preview");
+      if (previewBox) {
+        previewBox.innerHTML = `
+          <div style="font-weight: 700; margin-bottom: 0.35rem;">${q.titulo}</div>
+          <div style="margin-bottom: 0.5rem;">${this.formatRichText(q.enunciado)}</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.35rem;">
+            <strong>Fuente Oficial:</strong> ${q.fuente}
+          </div>
+        `;
+        this.renderMath(previewBox);
+      }
+
+      // 1. Issue URL (Reportar Errata)
+      const repoBase = "https://github.com/FranDSchz/ia-segundo-parcial-utn-frre";
+      const issueTitle = `[Errata #${q.nro || q.id}] ${q.titulo}`;
+      const letters = ["A", "B", "C", "D", "E", "F"];
+      const formattedOptions = q.opciones
+        .map((opt, i) => `${letters[i] || i + 1}) ${opt}${q.correctas.includes(i) ? " *(Clave Actual)*" : ""}`)
+        .join("\n");
+
+      const issueBody = `### 🐛 Reporte de Errata en Pregunta del Simulador
+
+**ID de la Pregunta:** \`${q.id}\`
+**Tema:** ${topicName}
+**Fuente Oficial:** ${q.fuente}
+
+---
+
+#### ❓ Enunciado:
+${q.enunciado}
+
+#### 📋 Opciones Actuales:
+${formattedOptions}
+
+---
+
+### 🔍 Descripción del Problema o Corrección Propuesta:
+*(Explicá qué considerás incorrecto, confuso o qué opción genera dudas. Si tenés una foto o apunte, podés arrastrar la imagen aquí abajo).*
+
+`;
+      const issueUrl = `${repoBase}/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}&labels=errata,pregunta`;
+      const issueBtn = document.getElementById("fb-btn-github-issue");
+      if (issueBtn) issueBtn.href = issueUrl;
+
+      // 2. Discussion URL (Debatir Pregunta)
+      const discTitle = `[Debate #${q.nro || q.id}] ${q.titulo}`;
+      const discBody = `### 💬 Debate sobre Pregunta: ${q.id} — ${topicName}
+
+**Enunciado:**
+> ${q.enunciado.split("\n").join("\n> ")}
+
+**Justificación Doctrinal Oficial:**
+> ${q.explicacion.split("\n").join("\n> ")}
+
+---
+
+### 🤔 Mi Consulta o Planteo:
+*(Escribí acá tu duda, interpretación de cátedra o cálculo a mano. Podés arrastrar capturas de pantalla).*
+`;
+      const discUrl = `${repoBase}/discussions/new?category=q-a&title=${encodeURIComponent(discTitle)}&body=${encodeURIComponent(discBody)}`;
+      const discBtn = document.getElementById("fb-btn-github-discussion");
+      if (discBtn) discBtn.href = discUrl;
+
+      // 3. Reset Copy Button Label
+      const statusSpan = document.getElementById("fb-btn-copy-status");
+      if (statusSpan) statusSpan.textContent = "Copiar texto";
+
+      this.openModal("modal-question-feedback");
+    },
+
+    copyQuestionToClipboard(qId) {
+      const q = this.allQuestions.find((item) => item.id === qId);
+      if (!q) return;
+
+      const letters = ["A", "B", "C", "D", "E", "F"];
+      const optionsText = q.opciones.map((opt, i) => `${letters[i] || i + 1}) ${opt}`).join("\n");
+      const textToCopy = `*Pregunta [${q.id}] — ${TOPIC_NAMES[q.tema] || q.tema}*
+${q.enunciado}
+
+*Opciones:*
+${optionsText}
+
+---
+Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          this.showToast("¡Pregunta copiada al portapapeles! 📋 Lista para WhatsApp o Discord");
+        }).catch(() => {
+          this.fallbackCopyToClipboard(textToCopy);
+        });
+      } else {
+        this.fallbackCopyToClipboard(textToCopy);
+      }
+    },
+
+    copyCurrentModalQuestion() {
+      if (!this.currentFeedbackQuestion) return;
+      this.copyQuestionToClipboard(this.currentFeedbackQuestion.id);
+      const statusSpan = document.getElementById("fb-btn-copy-status");
+      if (statusSpan) statusSpan.textContent = "¡Copiado! ✅";
+    },
+
+    fallbackCopyToClipboard(text) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        this.showToast("¡Pregunta copiada al portapapeles! 📋");
+      } catch (err) {
+        alert("No se pudo copiar automáticamente. Por favor seleccioná el texto manualmente.");
+      }
+      document.body.removeChild(ta);
     }
   };
 

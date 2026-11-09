@@ -239,7 +239,7 @@ flowchart LR
   $$w_{h2, x1} = -0.300, \quad w_{h2, x2} = 0.100, \quad \theta_{h2} = b_{h2} = +0.200$$
 * **Pesos Capa de Salida:**
   $$w_{y, h1} = 0.500, \quad w_{y, h2} = -0.400, \quad \theta_y = b_y = +0.100$$
-* **Término de Inercia / Momento previo al paso $t-1$ ($\Delta w(t-1)$):**
+* **Término de Inercia / Momento previo al paso $t-1$ con valor** $\Delta w(t-1)$:
   $$\Delta w_{y, h1}(t-1) = +0.030, \quad \Delta w_{y, h2}(t-1) = -0.020, \quad \Delta b_y(t-1) = +0.010$$
   $$\Delta w_{h1, x1}(t-1) = +0.020, \quad \Delta w_{h1, x2}(t-1) = +0.010, \quad \Delta b_{h1}(t-1) = +0.010$$
   $$\Delta w_{h2, x1}(t-1) = -0.010, \quad \Delta w_{h2, x2}(t-1) = +0.020, \quad \Delta b_{h2}(t-1) = -0.010$$
