@@ -78,6 +78,19 @@
           </div>
         </div>
 
+        <div class="card preset-card" id="preset-2025" onclick="app.selectPreset('2025')">
+          <span class="preset-tag" style="background: linear-gradient(135deg, #2563eb, #3b82f6); color: white;">Oficial 2025</span>
+          <div>
+            <div class="preset-title">⭐ Parcial Moodle 2025</div>
+            <div class="preset-desc">Las 20 preguntas auténticas del examen oficial del 19/11/2025 completas en su orden real.</div>
+          </div>
+          <div class="preset-meta">
+            <span>⏱ 20 Minutos</span>
+            <span>📝 20 Preguntas</span>
+            <span>🔥 100% Oficial</span>
+          </div>
+        </div>
+
         <div class="card preset-card" id="preset-rapido" onclick="app.selectPreset('rapido')">
           <div>
             <div class="preset-title">Simulacro Rápido</div>
@@ -97,7 +110,7 @@
           </div>
           <div class="preset-meta">
             <span>⏱ 60 Minutos</span>
-            <span>📝 49 Preguntas</span>
+            <span>📝 69 Preguntas</span>
             <span>🎯 Cobertura 100%</span>
           </div>
         </div>
@@ -296,9 +309,9 @@
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem;">
         <div>
           <h1>Auditoría Completa del Banco (Modo QA)</h1>
-          <p class="subtitle">Inspección de las 59 preguntas únicas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
+          <p class="subtitle">Inspección de las 79 preguntas únicas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
         </div>
-        <span class="badge badge-topic" id="qa-count-badge">59 Preguntas Activas</span>
+        <span class="badge badge-topic" id="qa-count-badge">79 Preguntas Activas</span>
       </div>
 
       <div class="qa-controls-bar">
@@ -306,11 +319,11 @@
           type="search"
           id="qa-search-input"
           class="qa-search-input"
-          placeholder="🔍 Buscar por palabra clave, fórmula, ID o tema (ej. Hopfield, KKT, momento, ruleta)..."
+          placeholder="🔍 Buscar por palabra clave, fórmula, ID, año o tema (ej. Hopfield, 2025, KKT, momento, ruleta)..."
           oninput="app.setQASearch(this.value)"
         />
         <select id="qa-topic-select" class="qa-topic-select" onchange="app.setQATopic(this.value)">
-          <option value="ALL">Todos los Temas (59)</option>
+          <option value="ALL">Todos los Temas (79)</option>
           <option value="ALGORITMOS_GENETICOS">Algoritmos Genéticos</option>
           <option value="SVM">Support Vector Machines (SVM)</option>
           <option value="SOM">Mapas Auto-organizados (SOM)</option>
@@ -322,6 +335,13 @@
           <option value="NAIVE_BAYES">Naïve Bayes</option>
           <option value="GENERAL_IA">Evaluación y Generalización</option>
           <option value="P1_REPASO">Repaso 1er Parcial (P1)</option>
+        </select>
+        <select id="qa-year-select" class="qa-topic-select" onchange="app.setQAYear(this.value)">
+          <option value="ALL">📅 Todos los Años / Tags</option>
+          <option value="2025">⭐ 2025 Oficial (20 preguntas)</option>
+          <option value="2023">📅 2023 Oficial (14 preguntas)</option>
+          <option value="HISTORICO">📜 Históricos / Cátedra</option>
+          <option value="P1_REPASO">📘 Repaso P1</option>
         </select>
       </div>
 

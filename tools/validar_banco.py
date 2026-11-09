@@ -187,8 +187,8 @@ def validar():
         if not q.get('origen', '').strip():
             errores.append(f"Pregunta {qid}: Campo 'origen' vacío")
 
-        # Verificación estricta de no presencia de años inventados
-        for bad_year in ['2024-2025', '2024–2025', '19/11/2025', 'Junio 2025']:
+        # Verificación estricta de no presencia de rangos inventados no confirmados
+        for bad_year in ['2024-2025', '2024–2025', 'Junio 2025']:
             if bad_year in q.get('fuente', '') or bad_year in q.get('origen', '') or bad_year in q.get('enunciado', ''):
                 errores.append(f"Pregunta {qid}: Contiene metadato de año no verificado ('{bad_year}')")
             

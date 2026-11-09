@@ -48,6 +48,7 @@
     // QA Mode State
     qaSearchQuery: "",
     qaSelectedTopic: "ALL",
+    qaSelectedYear: "ALL",
 
     // Community & Feedback State
     currentFeedbackQuestion: null,
@@ -431,17 +432,23 @@
       let count = 25;
       let durationMinutes = 40;
 
-      if (this.selectedPreset === "rapido") {
-        count = 15;
-        durationMinutes = 20;
-      } else if (this.selectedPreset === "completo") {
+      if (this.selectedPreset === "2025") {
+        pool = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025"));
         count = pool.length;
-        durationMinutes = 60;
+        durationMinutes = 20;
+        this.examQuestions = [...pool];
+      } else {
+        if (this.selectedPreset === "rapido") {
+          count = 15;
+          durationMinutes = 20;
+        } else if (this.selectedPreset === "completo") {
+          count = pool.length;
+          durationMinutes = 60;
+        }
+        // Shuffle pool
+        const shuffled = [...pool].sort(() => 0.5 - Math.random());
+        this.examQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
       }
-
-      // Shuffle pool
-      const shuffled = [...pool].sort(() => 0.5 - Math.random());
-      this.examQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
 
       // Reset exam state
       this.currentIndex = 0;
@@ -979,6 +986,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <div>
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
+              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
               <span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem;">Pregunta ${idx + 1} (${q.id})</span>
             </div>
             <span style="font-weight: 800; font-family: var(--font-mono);">${statusLabel}</span>
@@ -1041,6 +1049,19 @@
       allBtn.onclick = () => this.filterPracticeTopic("ALL");
       filterBar.appendChild(allBtn);
 
+      // Botón especial Oficial 2025
+      const count2025 = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025")).length;
+      if (count2025 > 0) {
+        const btn2025 = document.createElement("button");
+        btn2025.className = "filter-btn";
+        btn2025.id = "practice-btn-YEAR_2025";
+        btn2025.style.borderColor = "var(--primary)";
+        btn2025.style.fontWeight = "700";
+        btn2025.textContent = `⭐ Oficial 2025 (${count2025})`;
+        btn2025.onclick = () => this.filterPracticeTopic("YEAR_2025");
+        filterBar.appendChild(btn2025);
+      }
+
       // Buttons for each topic
       Object.keys(TOPIC_NAMES).forEach((tKey) => {
         if (!counts[tKey]) return;
@@ -1064,6 +1085,8 @@
 
       if (topicKey === "ALL") {
         this.practiceQuestions = [...this.allQuestions];
+      } else if (topicKey === "YEAR_2025") {
+        this.practiceQuestions = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025"));
       } else {
         this.practiceQuestions = this.allQuestions.filter((q) => q.tema === topicKey);
       }
@@ -1147,6 +1170,7 @@
           <div class="question-header">
             <div>
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
+              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
               <span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem;">
                 Pregunta ${this.practiceIndex + 1} de ${this.practiceQuestions.length}
               </span>
@@ -1321,6 +1345,11 @@
       this.renderQAMode();
     },
 
+    setQAYear(year) {
+      this.qaSelectedYear = year || "ALL";
+      this.renderQAMode();
+    },
+
     renderQAMode() {
       const container = document.getElementById("qa-questions-container");
       if (!container) return;
@@ -1328,11 +1357,18 @@
       container.innerHTML = "";
       const query = this.qaSearchQuery;
       const topicFilter = this.qaSelectedTopic;
+      const yearFilter = this.qaSelectedYear;
 
       const filtered = this.allQuestions.filter((q) => {
         if (topicFilter !== "ALL" && q.tema !== topicFilter) return false;
+        if (yearFilter !== "ALL") {
+          if (yearFilter === "2025" && q.anio !== "2025" && !(q.tags || []).includes("2025")) return false;
+          if (yearFilter === "2023" && q.anio !== "2023" && !(q.tags || []).includes("2023")) return false;
+          if (yearFilter === "P1_REPASO" && !q.es_p1 && !(q.tags || []).includes("P1_REPASO")) return false;
+          if (yearFilter === "HISTORICO" && (q.anio === "2025" || q.anio === "2023" || q.es_p1)) return false;
+        }
         if (!query) return true;
-        const haystack = `${q.id} ${q.tema} ${TOPIC_NAMES[q.tema] || ""} ${q.titulo} ${q.enunciado} ${q.opciones.join(" ")} ${q.explicacion}`.toLowerCase();
+        const haystack = `${q.id} ${q.tema} ${TOPIC_NAMES[q.tema] || ""} ${q.titulo} ${q.enunciado} ${(q.tags || []).join(" ")} ${q.anio || ""} ${q.opciones.join(" ")} ${q.explicacion}`.toLowerCase();
         return haystack.includes(query);
       });
 
@@ -1375,6 +1411,7 @@
             <div>
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
               <span style="font-weight: 700; margin-left: 0.5rem;">#${idx + 1} — ${q.id}</span>
+              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
               ${q.es_p1 ? `<span class="badge" style="background: var(--warning-bg); color: var(--warning); margin-left: 0.5rem;">P1</span>` : ""}
             </div>
             <span style="font-size: 0.78rem; color: var(--text-muted);">${q.fuente}</span>
