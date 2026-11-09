@@ -182,7 +182,8 @@ header {
   box-shadow: var(--shadow-sm);
 }
 
-.theme-toggle-btn {
+.theme-toggle-btn,
+.icon-link-btn {
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-muted);
@@ -194,11 +195,14 @@ header {
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
-.theme-toggle-btn:hover {
+.theme-toggle-btn:hover,
+.icon-link-btn:hover {
   color: var(--text-main);
   border-color: var(--text-muted);
+  background-color: var(--bg-subtle);
 }
 
 /* ==========================================================================
