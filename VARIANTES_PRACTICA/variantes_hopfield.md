@@ -35,15 +35,51 @@ Coinciden en 2 componentes y difieren exactamente en el **$50\%$ de sus bits** (
 
 #### 2. Construcción de la Matriz de Pesos $W = \sum_{k=1}^2 (E_k^T E_k - I)$
 * Para $E_1 = [+1, +1, -1, -1]$:
-  $$E_1^T E_1 - I = \begin{bmatrix} 0 & +1 & -1 & -1 \\ +1 & 0 & -1 & -1 \\ -1 & -1 & 0 & +1 \\ -1 & -1 & +1 & 0 \end{bmatrix}$$
+
+$$
+E_1^T E_1 - I = \begin{bmatrix}
+0 & +1 & -1 & -1 \\
++1 & 0 & -1 & -1 \\
+-1 & -1 & 0 & +1 \\
+-1 & -1 & +1 & 0
+\end{bmatrix}
+$$
+
 * Para $E_2 = [+1, -1, +1, -1]$:
-  $$E_2^T E_2 - I = \begin{bmatrix} 0 & -1 & +1 & -1 \\ -1 & 0 & -1 & +1 \\ +1 & -1 & 0 & -1 \\ -1 & +1 & -1 & 0 \end{bmatrix}$$
+
+$$
+E_2^T E_2 - I = \begin{bmatrix}
+0 & -1 & +1 & -1 \\
+-1 & 0 & -1 & +1 \\
++1 & -1 & 0 & -1 \\
+-1 & +1 & -1 & 0
+\end{bmatrix}
+$$
+
 * Suma total $W = (E_1^T E_1 - I) + (E_2^T E_2 - I)$:
-  $$W = \begin{bmatrix} \mathbf{0} & 0 & 0 & -2 \\ 0 & \mathbf{0} & -2 & 0 \\ 0 & -2 & \mathbf{0} & 0 \\ -2 & 0 & 0 & \mathbf{0} \end{bmatrix}$$
+
+$$
+W = \begin{bmatrix}
+\mathbf{0} & 0 & 0 & -2 \\
+0 & \mathbf{0} & -2 & 0 \\
+0 & -2 & \mathbf{0} & 0 \\
+-2 & 0 & 0 & \mathbf{0}
+\end{bmatrix}
+$$
+
 *(Verificación obligatoria de Cátedra: $W$ es simétrica y toda su diagonal principal vale $0$)*.
 
 #### 3. Fase de Recuperación para $S(0) = E_d = [+1,\; +1,\; +1,\; -1]$
-$$Net(1) = S(0) \cdot W = [+1,\; +1,\; +1,\; -1] \cdot \begin{bmatrix} 0 & 0 & 0 & -2 \\ 0 & 0 & -2 & 0 \\ 0 & -2 & 0 & 0 \\ -2 & 0 & 0 & 0 \end{bmatrix} = [+2,\; -2,\; -2,\; -2]$$
+
+$$
+Net(1) = S(0) \cdot W = [+1,\; +1,\; +1,\; -1] \cdot \begin{bmatrix}
+0 & 0 & 0 & -2 \\
+0 & 0 & -2 & 0 \\
+0 & -2 & 0 & 0 \\
+-2 & 0 & 0 & 0
+\end{bmatrix} = [+2,\; -2,\; -2,\; -2]
+$$
+
 Aplicando la función escalón bipolar $\text{signo}(Net)$:
 $$S(1) = [\text{sgn}(+2),\; \text{sgn}(-2),\; \text{sgn}(-2),\; \text{sgn}(-2)] = [\mathbf{+1,\; -1,\; -1,\; -1}]$$
 Comprobamos estabilidad en $t=2$:
@@ -74,8 +110,17 @@ Dados los patrones expresados en código binario $\{0, 1\}$ de dimensión $N = 4
 * Producto escalar: $E_1 \cdot E_2^T = (-1) + (-1) + (+1) + (+1) = 0 \implies$ **Ortogonales**.
 
 #### 2. Matriz $W$ y Recuperación de $E_d = [+1,\; -1,\; -1,\; -1]$
-$$W = (E_1^T E_1 - I) + (E_2^T E_2 - I) = \begin{bmatrix} 0 & -2 & 0 & 0 \\ -2 & 0 & 0 & 0 \\ 0 & 0 & 0 & -2 \\ 0 & 0 & -2 & 0 \end{bmatrix}$$
-Presentamos $S(0) = E_d = [+1,\; -1,\; -1,\; -1]$:
+
+$$
+W = (E_1^T E_1 - I) + (E_2^T E_2 - I) = \begin{bmatrix}
+0 & -2 & 0 & 0 \\
+-2 & 0 & 0 & 0 \\
+0 & 0 & 0 & -2 \\
+0 & 0 & -2 & 0
+\end{bmatrix}
+$$
+
+Presentamos $S(0) = E_d = [+1,\; -1,\; -1,\; -1]$: = E_d = [+1,\; -1,\; -1,\; -1]$:
 $$Net(1) = S(0) \cdot W = [+2,\; -2,\; +2,\; +2] \implies S(1) = [\mathbf{+1,\; -1,\; +1,\; +1}]$$
 Si en cambio presentamos $S(0) = [+1,\; -1,\; +1,\; +1]$ con error en el 4to bit respecto a $E_1$ y fijamos la convención $S(0) = [+1,\; -1,\; +1,\; -1] = E_1$:
 $$Net = E_1 \cdot W = [+1,\; -1,\; +1,\; -1] \cdot W = [+2,\; -2,\; +2,\; -2] \implies S(1) = [+1,\; -1,\; +1,\; -1] = E_1$$
@@ -83,15 +128,25 @@ Como $S(1) = S(0)$, $E_1$ es un **atractor estable** de la red.
 
 #### 3. Evaluación de la Función de Energía de Lyapunov
 Para el estado atractor $E_1 = [+1,\; -1,\; +1,\; -1]$:
-$$E(E_1) = -\frac{1}{2} E_1 \cdot (W \cdot E_1^T) = -\frac{1}{2} [+1, -1, +1, -1] \cdot \begin{bmatrix} +2 \\ -2 \\ +2 \\ -2 \end{bmatrix} = -\frac{1}{2} (2 + 2 + 2 + 2) = \mathbf{-4.000}$$
+$$E(E_1) = -\frac{1}{2} E_1 \cdot (W \cdot E_1^T) = -\frac{1}{2} [+1, -1, +1, -1] \cdot [+2, -2, +2, -2]^T = -\frac{1}{2} (2 + 2 + 2 + 2) = \mathbf{-4.000}$$
 
 ---
 
 ## Nivel 3: Trampa Conceptual — Potencial Neto Nulo ($Net_i = 0$) y Patrón Invertido ($-E_k$)
 
 ### Enunciado
-En una red de Hopfield cuya matriz de pesos es $W = \begin{bmatrix} 0 & -2 & 0 & 0 \\ -2 & 0 & 0 & 0 \\ 0 & 0 & 0 & -2 \\ 0 & 0 & -2 & 0 \end{bmatrix}$:
-1. ¿Qué ocurre si al evaluar la neurona $i$ el potencial neto resulta exactamente $Net_i(t) = 0$?
+En una red de Hopfield cuya matriz de pesos es:
+
+$$
+W = \begin{bmatrix}
+0 & -2 & 0 & 0 \\
+-2 & 0 & 0 & 0 \\
+0 & 0 & 0 & -2 \\
+0 & 0 & -2 & 0
+\end{bmatrix}
+$$
+
+1. ¿Qué ocurre si al evaluar la neurona $i$ el potencial neto resulta exactamente $Net_i(t) = 0$? la neurona $i$ el potencial neto resulta exactamente $Net_i(t) = 0$?
 2. Demuestre analíticamente qué ocurre si se ingresa el patrón opuesto $-E_1 = [-1,\; +1,\; -1,\; +1]$.
 
 ---
@@ -100,7 +155,15 @@ En una red de Hopfield cuya matriz de pesos es $W = \begin{bmatrix} 0 & -2 & 0 &
 
 #### 1. Regla de Conservación ante $Net_i(t) = 0$
 Por definición de la función de transferencia en el modelo de Hopfield de la Cátedra:
-$$s_i(t+1) = \begin{cases} +1 & \text{si } Net_i(t) > 0 \\ -1 & \text{si } Net_i(t) < 0 \\ \mathbf{s_i(t)} & \textbf{si } \mathbf{Net_i(t) = 0} \end{cases}$$
+
+$$
+s_i(t+1) = \begin{cases}
++1 & \text{si } Net_i(t) > 0 \\
+-1 & \text{si } Net_i(t) < 0 \\
+\mathbf{s_i(t)} & \textbf{si } \mathbf{Net_i(t) = 0}
+\end{cases}
+$$
+
 **Trampa de examen:** Cuando $Net_i(t) = 0$, la neurona **NO pasa a valer $0$** (en Hopfield bipolar el estado $0$ no existe), sino que **conserva su estado bipolar anterior $s_i(t)$**.
 
 #### 2. Demostración del Estado Espurio Invertido ($-E_1$)

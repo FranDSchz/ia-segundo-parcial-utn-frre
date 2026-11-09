@@ -16,7 +16,7 @@ window.PREGUNTAS = [
     "correctas": [
       3
     ],
-    "explicacion": "Ninguno de los métodos de enlace canónicos (Single, Complete o Average) calcula distancias entre centroides:\n  * **Single Link** utiliza la distancia mínima entre pares de elementos individuales: $\\min_{x \\in A, y \\in B} d(x, y)$.\n  * **Complete Link** utiliza la distancia máxima entre pares de elementos individuales: $\\max_{x \\in A, y \\in B} d(x, y)$.\n  * **Average Link** utiliza la media aritmética de todas las distancias entre pares cruzados: $\\frac{1}{\\|A\\|\\|B\\|} \\sum \\sum d(x, y)$.\n  El cálculo explícito de centroides ($\\mu = \\frac{1}{\\|C\\|} \\sum x_i$) corresponde a métodos ajenos a los enlaces clásicos, tales como *Centroid Linkage* (UPGMC) o *Ward*.",
+    "explicacion": "Ninguno de los métodos de enlace canónicos (Single, Complete o Average) calcula distancias entre centroides:\n  * **Single Link** utiliza la distancia mínima entre pares de elementos individuales: $\\min_{x \\in A, y \\in B} d(x, y)$.\n  * **Complete Link** utiliza la distancia máxima entre pares de elementos individuales: $\\max_{x \\in A, y \\in B} d(x, y)$.\n  * **Average Link** utiliza la media aritmética de todas las distancias entre pares cruzados: $\\frac{1}{\\\\|A\\\\|\\\\|B\\\\|} \\sum \\sum d(x, y)$.\n  El cálculo explícito de centroides ($\\mu = \\frac{1}{\\\\|C\\\\|} \\sum x_i$) corresponde a métodos ajenos a los enlaces clásicos, tales como *Centroid Linkage* (UPGMC) o *Ward*.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
@@ -68,7 +68,7 @@ window.PREGUNTAS = [
     "titulo": "Vectores y Márgenes en Support Vector Machines (SVM)",
     "enunciado": "En una Support Vector Machine (caso lineal separable):",
     "opciones": [
-      "1. Los vectores de soporte son aquellos cuyo multiplicador de Lagrange $\\alpha_i$ es estrictamente positivo ($\\alpha_i > 0$).",
+      "1. Los vectores de soporte son aquellos cuyo multiplicador de Lagrange $\\alpha_i$ es estrictamente positivo ($\\alpha_i \\gt 0$).",
       "2. Se debe recalcular todo el método cuando ingresa una nueva instancia de prueba para clasificarla.",
       "3. Entre los hiperplanos de margen $H_+$ y $H_-$ no existen instancias del conjunto de entrenamiento.",
       "4. Ninguna de las anteriores."
@@ -148,15 +148,15 @@ window.PREGUNTAS = [
     "titulo": "Desbalance y Tamaño de Vecindad en $K$-NN ($K = p + q$)",
     "enunciado": "En un dataset con dos clases ($p$ instancias de $A$ y $q$ instancias de $B$), se clasifica una nueva consulta fijando $K = p + q$ (la totalidad de los ejemplos) con votación mayoritaria simple:",
     "opciones": [
-      "1. Se clasifica como $A$ si $p > q$.",
-      "2. Se clasifica como $B$ si $p < q$.",
+      "1. Se clasifica como $A$ si $p \\gt q$.",
+      "2. Se clasifica como $B$ si $p \\lt q$.",
       "3. No se puede determinar de antemano sin haber calculado las distancias con la nueva instancia."
     ],
     "correctas": [
       0,
       1
     ],
-    "explicacion": "Si $K$ abarca todo el dataset y la votación es **no ponderada** (recuento plano), la clase mayoritaria tendrá inexorablemente más votos ($p > q \\implies A$, $q > p \\implies B$) sin importar dónde esté ubicada la consulta en el espacio. Solo si existe ponderación por distancia inversa ($w_i = \\frac{1}{1+d^2}$) la ubicación espacial podría potencialmente revertir el predominio de la clase mayoritaria.",
+    "explicacion": "Si $K$ abarca todo el dataset y la votación es **no ponderada** (recuento plano), la clase mayoritaria tendrá inexorablemente más votos ($p \\gt q \\implies A$, $q \\gt p \\implies B$) sin importar dónde esté ubicada la consulta en el espacio. Solo si existe ponderación por distancia inversa ($w_i = \\frac{1}{1+d^2}$) la ubicación espacial podría potencialmente revertir el predominio de la clase mayoritaria.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
@@ -168,14 +168,14 @@ window.PREGUNTAS = [
     "titulo": "Multiplicadores de Lagrange para Puntos No Soporte en SVM",
     "enunciado": "En una Máquina de Vectores de Soporte lineal, los vectores de entrenamiento que **no son de soporte** tienen asociados multiplicadores de Lagrange cuyos valores son:",
     "opciones": [
-      "A) Estrictamente positivos ($\\alpha_i > 0$).",
+      "A) Estrictamente positivos ($\\alpha_i \\gt 0$).",
       "B) Ceros ($\\alpha_i = 0$).",
-      "C) Estrictamente negativos ($\\alpha_i < 0$)."
+      "C) Estrictamente negativos ($\\alpha_i \\lt 0$)."
     ],
     "correctas": [
       1
     ],
-    "explicacion": "Por la condición de holgura complementaria de Karush-Kuhn-Tucker (KKT):\n  $$\\alpha_i \\cdot [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$$\n  Para cualquier punto que no pertenezca al borde del margen, se tiene $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) > 1$. Para que el producto sea nulo, **necesariamente $\\alpha_i = 0$**.",
+    "explicacion": "Por la condición de holgura complementaria de Karush-Kuhn-Tucker (KKT):\n  $$\\alpha_i \\cdot [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$$\n  Para cualquier punto que no pertenezca al borde del margen, se tiene $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$. Para que el producto sea nulo, **necesariamente $\\alpha_i = 0$**.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
@@ -255,7 +255,7 @@ window.PREGUNTAS = [
     "correctas": [
       2
     ],
-    "explicacion": "SVM lineal está formulado nativamente como un clasificador binario ($y_i \\in \\{-1, +1\\}$), pero su formulación opera en espacios euclidianos de cualquier dimensión $\\mathbb{R}^D$ mediante hiperplanos de dimensión $D-1$. Para problemas multiclase ($K > 2$), se deben aplicar esquemas de descomposición externa como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).",
+    "explicacion": "SVM lineal está formulado nativamente como un clasificador binario ($y_i \\in \\{-1, +1\\}$), pero su formulación opera en espacios euclidianos de cualquier dimensión $\\mathbb{R}^D$ mediante hiperplanos de dimensión $D-1$. Para problemas multiclase ($K \\gt 2$), se deben aplicar esquemas de descomposición externa como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
@@ -531,14 +531,14 @@ window.PREGUNTAS = [
       "El número esperado de copias se calcula como $c_i = f_i / \\bar{f}$, donde $\\bar{f}$ es la aptitud media de la población.",
       "La parte entera $\\lfloor c_i \\rfloor$ garantiza copias determinísticas directas en la población de apareamiento.",
       "Las vacantes restantes se completan utilizando la parte decimal o fraccionaria de $c_i$ en orden decreciente.",
-      "Todos los individuos con $c_i < 1.0$ son eliminados automáticamente sin ninguna chance de pasar a la siguiente generación."
+      "Todos los individuos con $c_i \\lt 1.0$ son eliminados automáticamente sin ninguna chance de pasar a la siguiente generación."
     ],
     "correctas": [
       0,
       1,
       2
     ],
-    "explicacion": "La opción 4 es falsa: los individuos con $c_i < 1.0$ tienen parte entera 0 pero conservan su parte decimal (ej. $0.93$), la cual compite por las vacantes remanentes.",
+    "explicacion": "La opción 4 es falsa: los individuos con $c_i \\lt 1.0$ tienen parte entera 0 pero conservan su parte decimal (ej. $0.93$), la cual compite por las vacantes remanentes.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Segundo Parcial Presencial Oficial (19/11/2025, Punto 4)",
@@ -737,7 +737,7 @@ window.PREGUNTAS = [
       1,
       2
     ],
-    "explicacion": "La opción 4 es falsa: entrenar hasta error cero sin validación agrava el sobreajuste. La Cátedra exige detener el entrenamiento por Early Stopping o cuando $E_{val} < E_{\\min}$.",
+    "explicacion": "La opción 4 es falsa: entrenar hasta error cero sin validación agrava el sobreajuste. La Cátedra exige detener el entrenamiento por Early Stopping o cuando $E_{val} \\lt E_{\\min}$.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Final Junio 2025 y Preguntas 2, 13 y 23 del Compendio",
@@ -759,7 +759,7 @@ window.PREGUNTAS = [
       1,
       2
     ],
-    "explicacion": "Trampa clásica de examen final (Junio 2025): el coeficiente escalar $\\beta \\in [0, 1)$ es positivo, pero el **término de momento** $\\beta (w(t) - w(t-1))$ **SÍ puede ser negativo** cuando $w(t) < w(t-1)$ (es decir, cuando el peso disminuyó en el paso anterior).",
+    "explicacion": "Trampa clásica de examen final (Junio 2025): el coeficiente escalar $\\beta \\in [0, 1)$ es positivo, pero el **término de momento** $\\beta (w(t) - w(t-1))$ **SÍ puede ser negativo** cuando $w(t) \\lt w(t-1)$ (es decir, cuando el peso disminuyó en el paso anterior).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "Examen Final Junio 2025 (Pregunta 4) y Pregunta 1 de Desarrollo",
@@ -837,7 +837,7 @@ window.PREGUNTAS = [
     "titulo": "Redes de Hopfield: Limitaciones, Estados Espurios y Patrones Inversos",
     "enunciado": "¿Cuáles de los siguientes son problemas o limitaciones intrínsecas de reconocimiento en una red neuronal de Hopfield según la Cátedra?",
     "opciones": [
-      "Capacidad de almacenamiento severamente acotada ($M \\le \\frac{N}{4 \\ln N}$ para recuperación perfecta y $M \\le 0.138 N$ para error $<1\\%$).",
+      "Capacidad de almacenamiento severamente acotada ($M \\le \\frac{N}{4 \\ln N}$ para recuperación perfecta y $M \\le 0.138 N$ para error $\\lt 1\\%$).",
       "Interferencia destructiva (*crosstalk*) cuando los patrones memorizados no cumplen la condición de ortogonalidad.",
       "Convergencia a estados espurios (mínimos locales falsos que no corresponden a ningún patrón entrenado) o a ciclos límite oscilatorios.",
       "Atracción hacia patrones invertidos ($-E_k$), dado que tienen exactamente la misma energía que el patrón original $E_k$."
@@ -861,7 +861,7 @@ window.PREGUNTAS = [
     "enunciado": "En el entrenamiento de una red SOM de Kohonen (como en el Punto 2 del Segundo Parcial del 19/11/2025) con función de vecindad continua $h = \\frac{1}{1 + \\text{dist}(S_i, S_j)^2}$:",
     "opciones": [
       "Para la neurona ganadora (BMU), la distancia topológica consigo misma es $\\text{dist}(S_i, S_i) = 0$, por lo que su factor de vecindad es máximo ($h = 1$).",
-      "Las neuronas vecinas con $h > 0$ también actualizan sus vectores de pesos acercándose al patrón presentado, aunque con menor intensidad que la BMU.",
+      "Las neuronas vecinas con $h \\gt 0$ también actualizan sus vectores de pesos acercándose al patrón presentado, aunque con menor intensidad que la BMU.",
       "La regla de adaptación es $w_{ji}(t+1) = w_{ji}(t) + \\alpha(t) \\cdot h \\cdot (e_i - w_{ji}(t))$.",
       "La condición de parada del algoritmo SOM consiste en detenerse apenas una neurona gana por primera vez en la primera iteración."
     ],
@@ -1060,7 +1060,7 @@ window.PREGUNTAS = [
     "titulo": "k-NN Ponderado con $k = m + n$ y Selección de $k$-Óptimo por Validación Cruzada",
     "enunciado": "En el clasificador $k$-NN ponderado por distancia ($w_i = \\frac{1}{1 + d(x_0, x_i)^2}$ o $w_i = \\frac{1}{d(x_q, x_i)^2}$):",
     "opciones": [
-      "Si se fija $k = m + n$ (todo el dataset) con $m > n$, una consulta $x_0$ muy cercana a puntos de la clase minoritaria $B$ puede clasificarse como $B$ porque los pesos cercanos dominan sobre los lejanos.",
+      "Si se fija $k = m + n$ (todo el dataset) con $m \\gt n$, una consulta $x_0$ muy cercana a puntos de la clase minoritaria $B$ puede clasificarse como $B$ porque los pesos cercanos dominan sobre los lejanos.",
       "Para hallar el $k$-óptimo de manera empírica, la Cátedra emplea validación cruzada *Leave-One-Out* (evaluando qué valor de $k$ maximiza la cantidad total de aciertos).",
       "En problemas de clasificación binaria con votación simple, suele preferirse un valor de $k$ impar para evitar empates.",
       "En $k$-NN ponderado, las instancias más alejadas de la consulta reciben el peso más alto."

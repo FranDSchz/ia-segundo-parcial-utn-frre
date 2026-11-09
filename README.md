@@ -40,7 +40,7 @@
 > - **Fórmula Moodle de Cátedra:** Penalización proporcional por opciones incorrectas marcadas:
 >   $$\text{puntaje} = \max\!\left(0,\; 100 \cdot \left(\frac{a}{C} - \frac{e}{I}\right)\right)$$
 > - **Umbrales Oficiales:** Promoción ($\ge 80\%$) · Aprobación / Regularidad ($\ge 60\%$) · No alcanzado ($< 60\%$).
-> - **3 Modos Integrados + Atajos de Teclado:** **Simulacro Oficial** (40 min / 25 preguntas, atajos `<kbd>1-6</kbd>`, `<kbd>←</kbd><kbd>→</kbd>`, `<kbd>F</kbd>`), **Práctica Libre por Tema** con feedback inmediato y justificación doctrinal de cátedra, y **Modo QA** (`#qa`) con buscador en vivo sobre las 52 preguntas únicas y sus respuestas oficiales.
+> - **3 Modos Integrados + Atajos de Teclado:** **Simulacro Oficial** (40 min / 25 preguntas, atajos <kbd>1-6</kbd>, <kbd>←</kbd><kbd>→</kbd>, <kbd>F</kbd>), **Práctica Libre por Tema** con feedback inmediato y justificación doctrinal de cátedra, y **Modo QA** (`#qa`) con buscador en vivo sobre las 52 preguntas únicas y sus respuestas oficiales.
 > - *Instrucciones de publicación:* [Guía de Activación en GitHub Pages en 2 Clics](docs/README_DEPLOY.md).
 
 ---
@@ -108,7 +108,7 @@ El relevamiento de las evaluaciones presenciales contemporáneas demuestra que l
 > [!CAUTION]
 > ### AISLAMIENTO CURRICULAR DE PRIMER PARCIAL (`[TEMA_P1_RENDIDO]`)
 > Al revisar archivos históricos viejos (período 2012–2018), aparecen ejercicios de:
-> * **Búsqueda Sistemática y Heurística:** Primero en Profundidad (DFS), Primero en Amplitud (BFS), Algoritmo $A^*$ y Escalada Simple.
+> * **Búsqueda Sistemática y Heurística:** Primero en Profundidad (DFS), Primero en Amplitud (BFS), Algoritmo $A^{\ast}$ y Escalada Simple.
 > * **Planificación:** Planificación de Orden Parcial (POP) en grillas y bloques.
 > * **Sistemas Basados en Reglas, Reglas de Asociación (Apriori) y Árboles C4.5.**
 > 
@@ -136,7 +136,7 @@ graph TD
 3. **Trampa 3 (SOM Aprendizaje Online):** Al presentar el segundo patrón ($p_2$), las distancias euclidianas deben medirse contra la matriz de pesos **$W(1)$ recién actualizada**, jamás contra $W(0)$.
 4. **Trampa 4 (Hopfield y Autolazos):** La matriz Hebbiana debe tener **estrictamente ceros en toda la diagonal principal ($w_{ii} = 0$)**. De lo contrario, se viola la función de energía de Lyapunov y la cátedra anula el ejercicio.
 5. **Trampa 5 (Average Link vs Centroides):** En *Average Linkage*, la distancia inter-cluster es el promedio de **todos los pares cruzados de puntos**. La distancia entre centroides es una técnica diferente (*Centroid Linkage*).
-6. **Trampa 6 (Sesgo en SVM):** Despejar $b$ usando un solo vector tiene descuentos por falta de rigor. La cátedra exige calcular $b_i = \frac{1}{y_i} - \mathbf{w}^T \mathbf{x}_i$ para **cada** vector de soporte ($\alpha_i > 0$) y reportar el promedio $b_{prom} = \frac{1}{|SV|} \sum b_i$.
+6. **Trampa 6 (Sesgo en SVM):** Despejar $b$ usando un solo vector tiene descuentos por falta de rigor. La cátedra exige calcular $b_i = \frac{1}{y_i} - \mathbf{w}^T \mathbf{x}\_i$ para **cada** vector de soporte ($\alpha_i > 0$) y reportar el promedio $b\_{\text{prom}} = \frac{1}{|SV|} \sum b_i$.
 
 ---
 
@@ -147,7 +147,7 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 | Módulo Temático | Complejidad | Guía, Plantilla y Variantes | Enfoque de Resolución en Hoja en Blanco |
 | :--- | :---: | :--- | :--- |
 | **1. Algoritmos Genéticos (AG)** | **Media - Alta** | • [Guía Maestra de AG y Examen](GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md)<br>• [Guía Paso a Paso 08](GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md)<br>• [Estructura Tabulación Ruleta](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_ruleta_geneticos.md)<br>• [Variantes AG](VARIANTES_PRACTICA/variantes_geneticos.md) | **Peso del 20% al 30%** en parciales presenciales recientes (ej. 19/11/2025). Mecanizar: Ruleta acumulada con ranuras [00–99], copias esperadas enteras $\lfloor c_i \rfloor$ con residuo fraccionario, cruces simples/multipunto y mutación por temperatura. |
-| **2. Support Vector Machines (SVM)** | **Alta** | • [Guía Paso a Paso 01](GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md)<br>• [Variantes SVM](VARIANTES_PRACTICA/variantes_svm.md) | Escribir la sumatoria $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$, calcular el sesgo individual $b_i$ para **cada** vector de soporte ($\alpha_i > 0$) y promediar $b_{prom}$. En planteo Dual $L_D$, expandir la matriz de Gram $K_{ij}$ respetando signos $y_i y_j$ y aplicar KKT. |
+| **2. Support Vector Machines (SVM)** | **Alta** | • [Guía Paso a Paso 01](GUIAS_PASO_A_PASO/01_svm_paso_a_paso.md)<br>• [Variantes SVM](VARIANTES_PRACTICA/variantes_svm.md) | Escribir la sumatoria $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}\_i$, calcular el sesgo individual $b\_i$ para **cada** vector de soporte ($\alpha_i > 0$) y promediar $b\_{\text{prom}}$. En planteo Dual $L\_D$, expandir la matriz de Gram $K\_{ij}$ respetando signos $y\_i y\_j$ y aplicar KKT. |
 | **3. Mapas Auto-Organizados (SOM)** | **Media** | • [Guía Paso a Paso 02](GUIAS_PASO_A_PASO/02_som_kohonen_paso_a_paso.md)<br>• [Variantes SOM](VARIANTES_PRACTICA/variantes_som.md) | Esquematizar la red. Calcular distancias euclidianas exactas para justificar la BMU. Si la vecindad es continua, actualizar **todas** las neuronas con $h > 0$. Para el patrón siguiente, medir distancias obligatoriamente contra $W(1)$. |
 | **4. Perceptrón Multicapa (MLP)** | **Muy Alta** | • [Guía Paso a Paso 03](GUIAS_PASO_A_PASO/03_mlp_backpropagation.md)<br>• [Estructura Tabulación MLP](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_backpropagation.md)<br>• [Variantes MLP](VARIANTES_PRACTICA/variantes_mlp.md) | Tabular el paso Forward ($Net$, $y$) y el paso Backward con gradientes $\delta$. Recordar $\delta_k = (d-y)f'$ y $\delta_j = f' \sum \delta_k w$. Incluir término de momento $\beta \Delta w(t-1)$. Mantener 4 decimales durante los cálculos. |
 | **5. Clustering Jerárquico Aglomerativo** | **Media** | • [Guía Paso a Paso 04](GUIAS_PASO_A_PASO/04_clustering_average_link.md)<br>• [Estructura Tabulación Clustering](ESTRUCTURAS_Y_TABLAS_DE_RESOLUCION/estructura_clustering_link.md)<br>• [Variantes Clustering](VARIANTES_PRACTICA/variantes_clustering.md) | Reducir paso a paso las matrices simétricas $D_0 \dots D_{N-2}$. En Average Linkage, aplicar ponderación por cardinalidad ($\frac{\vert C_i\vert d_i + \vert C_j\vert d_j}{\vert C_i\vert+\vert C_j\vert}$). Dibujar dendrograma a escala con cotas métricas visibles. |
@@ -240,7 +240,7 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 ## 📝 Consejos de Presentación para el Día del Examen (Criterios de Cátedra)
 
 1. **Nunca pongas números sueltos:** Escribí primero la fórmula general ($\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$), luego reemplazá los valores numéricos y por último calculá el resultado.
-2. **Justificá cada paso con una línea ingenieril:** *"La neurona 2 es la ganadora por presentar menor distancia euclidiana ($d_2 = 1.476 < d_1 = 1.700$)"*. Demuestra solidez conceptual ante la corrección manual.
+2. **Justificá cada paso con una línea ingenieril:** *"La neurona 2 es la ganadora por presentar menor distancia euclidiana"* ($d_2 = 1.476 < d_1 = 1.700$). Demuestra solidez conceptual ante la corrección manual.
 3. **Cuidá los decimales en la calculadora:** Truncar bruscamente en los pasos intermedios de Backpropagation propaga errores en cascada. Mantené al menos 3 o 4 decimales durante los cálculos.
 4. **Dibujá las redes:** En ejercicios de SOM y MLP, hacer un esquema prolijo con nodos de entrada, nodos de salida y flechas con nombres de pesos suma claridad visual y ordena tu desarrollo.
 

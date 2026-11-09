@@ -23,19 +23,26 @@ flowchart TD
 ### 1.1 Ecuaciones Clave de Cátedra
 
 1. **Fase de Competencia (Distancia Euclidiana):**
-   $$d_j = \|\mathbf{x} - \mathbf{w}_j\| = \sqrt{\sum_{k=1}^D (x_k - w_{jk})^2}$$
-   *Para comparar distancias en calculadora, basta con comparar la distancia cuadrática $d_j^2 = \sum (x_k - w_{jk})^2$, pero la cátedra exige escribir la raíz cuadrada explícita.*
+   $$d_j = \|\mathbf{x} - \mathbf{w}\_j\| = \sqrt{\sum\_{k=1}^D (x\_k - w\_{jk})^2}$$
+   Para comparar distancias en calculadora, basta con comparar la distancia cuadrática $d_j^2 = \sum (x_k - w_{jk})^2$, pero la cátedra exige escribir la raíz cuadrada explícita.
 2. **Neurona Ganadora (BMU - Best Matching Unit):**
-   $$j^* = \arg\min_j d_j$$
+   $$j^{\ast} = \arg\min_j d_j$$
 3. **Fase de Cooperación (Función de Vecindad Topológica):**
    * **Caso A (Vecindad Continua con distancia entre pesos):**
-     $$h(i, j^*) = \frac{1}{1 + \text{dist}(W_i, W_{j^*})} \quad \text{o bien} \quad h(i, j^*) = \frac{1}{2 + \text{dist}(W_i, W_{j^*})}$$
-     *Para la ganadora:* $\text{dist}(W_{j^*}, W_{j^*}) = 0 \implies h(j^*, j^*) = 1 \text{ (o } 0.50 \text{ si el denominador base es 2)}$.
-     *Para las vecinas:* Se calcula la distancia euclidiana entre sus vectores de pesos $\text{dist}(W_i, W_{j^*}) > 0$.
+     $$h(i, j^{\ast}) = \frac{1}{1 + \text{dist}(W_i, W_{j^{\ast}})} \quad \text{o bien} \quad h(i, j^{\ast}) = \frac{1}{2 + \text{dist}(W_i, W_{j^{\ast}})}$$
+     *Para la ganadora:* $\text{dist}(W_{j^{\ast}}, W_{j^{\ast}}) = 0 \implies h(j^{\ast}, j^{\ast}) = 1 \text{ (o } 0.50 \text{ si el denominador base es 2)}$.
+     *Para las vecinas:* Se calcula la distancia euclidiana entre sus vectores de pesos $\text{dist}(W_i, W_{j^{\ast}}) > 0$.
    * **Caso B (Vecindad Nula / Ganadora única):**
-     $$h(i, j^*) = \begin{cases} 1 & \text{si } i = j^* \\ 0 & \text{si } i \ne j^* \end{cases}$$
+
+$$
+h(i, j^{\ast}) = \begin{cases}
+1 & \text{si } i = j^{\ast} \\
+0 & \text{si } i \ne j^{\ast}
+\end{cases}
+$$
+
 4. **Fase de Adaptación (Actualización de Pesos Sinápticos):**
-   $$\mathbf{w}_i(t+1) = \mathbf{w}_i(t) + \alpha \cdot h(i, j^*) \cdot (\mathbf{x} - \mathbf{w}_i(t))$$
+   $$\mathbf{w}_i(t+1) = \mathbf{w}_i(t) + \alpha \cdot h(i, j^{\ast}) \cdot (\mathbf{x} - \mathbf{w}_i(t))$$
 
 ---
 
@@ -43,7 +50,7 @@ flowchart TD
 
 > [!CAUTION]
 > ### TRAMPA 2: La Vecindad Nula vs. Continua
-> Si el enunciado define una función como $h(i) = \frac{1}{2 + \text{dist}(i, j^*)}$, **NO actualices solamente la neurona ganadora**. Si hacés eso, la cátedra anula el ejercicio completo (0/25).  
+> Si el enunciado define una función como $h(i) = \frac{1}{2 + \text{dist}(i, j^{\ast})}$, **NO actualices solamente la neurona ganadora**. Si hacés eso, la cátedra anula el ejercicio completo (0/25).  
 > **Regla:** Se evalúa $h$ para la ganadora Y para todas las neuronas del mapa. Todas las neuronas con $h > 0$ actualizan sus pesos.
 
 > [!CAUTION]
@@ -56,7 +63,7 @@ flowchart TD
 
 ### Enunciado Oficial:
 De acuerdo al conjunto de datos mostrado en la siguiente tabla, presentar el patrón $p_2$ y actualizar los pesos correspondientes a las neuronas de salida. Considere factor de aprendizaje $\alpha = 0.70$ y la función de vecindad:
-$$h(i) = \frac{1}{2 + \text{dist}(W_i, W_{j^*})}$$
+$$h(i) = \frac{1}{2 + \text{dist}(W_i, W_{j^{\ast}})}$$
 Grafique la arquitectura de la red.
 
 *Pesos iniciales:*
@@ -90,7 +97,7 @@ La red tiene:
 ---
 
 #### Paso 2: Fase de Competencia — Cálculo de Distancias Euclidianas
-Patrón a presentar: $p_2 = \begin{bmatrix} -0.80 \\ -0.90 \end{bmatrix}$.
+Patrón a presentar: $p_2 = [-0.80, -0.90]^T$.
 
 1. **Distancia a la Neurona 1 ($W_1 = [+0.70, -0.10]$):**
    $$d_1^2 = (x_1 - w_{11})^2 + (x_2 - w_{12})^2$$
@@ -105,13 +112,13 @@ Patrón a presentar: $p_2 = \begin{bmatrix} -0.80 \\ -0.90 \end{bmatrix}$.
    *Calculadora:* `(-0.8 - (-0.1)) x² + (-0.9 - 0.4) x² = 2.18` $\to$ `√2.18 = 1.47648...`
 
 3. **Determinación de la BMU:**
-   $$\text{Como } d_2 = 1.476 < d_1 = 1.700 \implies \mathbf{\text{La Neurona Ganadora es }} j^* = 2$$
+   $$\text{Como } d_2 = 1.476 < d_1 = 1.700 \implies \mathbf{\text{La Neurona Ganadora es }} j^{\ast} = 2$$
    *Frase obligatoria en hoja:* *"La neurona 2 resulta ganadora (BMU) por presentar la menor distancia euclidiana al patrón $p_2$."*
 
 ---
 
 #### Paso 3: Fase de Cooperación — Cálculo de Factores de Vecindad $h(i)$
-La función provista es $h(i) = \frac{1}{2 + \text{dist}(W_i, W_{j^*})}$.
+La función provista es $h(i) = \frac{1}{2 + \text{dist}(W_i, W_{j^{\ast}})}$.
 
 1. **Para la neurona ganadora ($i = 2$):**
    La distancia de la ganadora a sí misma en el espacio de pesos es cero: $\text{dist}(W_2, W_2) = 0$.
@@ -136,7 +143,7 @@ Fórmula canónica: $\mathbf{w}_i(t+1) = \mathbf{w}_i(t) + \alpha \cdot h(i) \cd
    * Componente 2:
      $$w_{22}(1) = w_{22}(0) + 0.350 \cdot (x_2 - w_{22}(0))$$
      $$w_{22}(1) = 0.40 + 0.350 \cdot (-0.90 - 0.40) = 0.40 + 0.350 \cdot (-1.30) = 0.40 - 0.455 = -0.055$$
-   $$\mathbf{W}_2(1) = \begin{bmatrix} -0.345 \\ -0.055 \end{bmatrix}$$
+   $$\mathbf{W}_2(1) = [-0.345, -0.055]^T$$
 
 2. **Actualización de la Neurona Vecina 1 ($h(1) = 0.340$, $\alpha \cdot h(1) = 0.70 \times 0.340 = 0.238$):**
    * Componente 1:
@@ -145,12 +152,17 @@ Fórmula canónica: $\mathbf{w}_i(t+1) = \mathbf{w}_i(t) + \alpha \cdot h(i) \cd
    * Componente 2:
      $$w_{12}(1) = w_{12}(0) + 0.238 \cdot (x_2 - w_{12}(0))$$
      $$w_{12}(1) = -0.10 + 0.238 \cdot (-0.90 - (-0.10)) = -0.10 + 0.238 \cdot (-0.80) = -0.10 - 0.190 = -0.290$$
-   $$\mathbf{W}_1(1) = \begin{bmatrix} +0.343 \\ -0.290 \end{bmatrix}$$
+   $$\mathbf{W}_1(1) = [+0.343, -0.290]^T$$
 
 ---
 
 #### Paso 5: Resumen Final de Pesos tras Presentar $p_2$
-$$\mathbf{W}(1) = \begin{bmatrix} W_1(1) \\ W_2(1) \end{bmatrix} = \begin{bmatrix} +0.343 & -0.290 \\ -0.345 & -0.055 \end{bmatrix}$$
+$$
+\mathbf{W}(1) = \begin{bmatrix}
++0.343 & -0.290 \\
+-0.345 & -0.055
+\end{bmatrix}
+$$
 
 > [!TIP]
 > **Interpretación Física del Movimiento:**  

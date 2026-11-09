@@ -247,7 +247,7 @@ $$\text{Ranuras}_i = \text{round}\left( P_i \cdot 100 \right) = \text{round}\lef
 3. Ajustar el redondeo para asegurar que $\sum \text{Ranuras}_i = 100$.
 4. Construir los rangos cerrados $[R_{desde}, R_{hasta}]$ acumulando ranuras en el intervalo $[00, 99]$:
    - Primer individuo: $[00, \text{Ranuras}_1 - 1]$.
-   - Individuo siguiente: $[\text{Anterior}_{hasta} + 1, \text{Anterior}_{hasta} + \text{Ranuras}_i]$.
+   - Individuo siguiente: $[\text{Anterior}\_{hasta} + 1, \; \text{Anterior}\_{hasta} + \text{Ranuras}\_i]$.
 5. Muestreo estocástico: Para seleccionar $M$ individuos, se extraen $M$ números pseudo-aleatorios uniformes $r \in [00, 99]$. El individuo cuyo intervalo contenga a $r$ es seleccionado e ingresa a la población intermedia.
 
 ```
@@ -287,7 +287,7 @@ $$N_{fijas} = \sum_{i=1}^N \lfloor c_i \rfloor$$
 
 Los cupos vacantes por asignar son:
 $$\Delta N = M_{objetivo} - N_{fijas}$$
-*(donde $M_{objetivo} = N$ si se completa la población, o $M_{objetivo} = \alpha \cdot N$ si se selecciona un porcentaje, como el 50%).*
+(donde $M\_{objetivo} = N$ si se completa la población, o $M\_{objetivo} = \alpha \cdot N$ si se selecciona un porcentaje, como el 50%).
 
 Existen dos criterios exactos de resolución según el enunciado del examen:
 
@@ -423,7 +423,7 @@ Caso particular donde ambos progenitores tienen exactamente la misma probabilida
 
 #### Métodos de Obtención del Segundo Hijo en Cruza Binomial (Guía TP-AG Ejercicio 02-c):
 1. **Por Genes No Seleccionados:** En cada posición $k$, el Hijo 2 recibe el alelo del padre que **no** fue elegido para el Hijo 1 (herencia complementaria de fuentes progenitoras).
-2. **Por Complemento Binario Directo:** El Hijo 2 es la inversión lógica negada bit a bit del Hijo 1 ($\text{NOT}(\text{Hijo 1})$).
+2. **Por Complemento Binario Directo:** El Hijo 2 es la inversión lógica negada bit a bit del Hijo 1 ($\text{NOT}(\text{Hijo 1})$ ).
 
 ---
 
@@ -561,7 +561,16 @@ Con el índice $H \in [0, 1]$ calculado en cada generación, la probabilidad de 
 $$P_m(H) = P_{min} + (P_{max} - P_{min}) \cdot H$$
 
 O mediante una regla de control por umbral crítico $H_{crit}$ (e.g., $0.80$):
-$$P_m(t+1) = \begin{cases} \min(P_{max}, P_m(t) + \lambda) & \text{si } H > H_{crit} \quad \text{(alerta de homogeneidad, forzar mutación)} \\ \max(P_{min}, P_m(t) - \lambda) & \text{si } H \le H_{crit} \quad \text{(diversidad saludable, reducir mutación)} \end{cases}$$
+
+
+$$
+P_m(t+1) = \begin{cases}
+\min(P_{max}, P_m(t) + \lambda) & \text{si } H > H_{crit} \quad \text{(alerta de homogeneidad, forzar mutación)} \\
+\max(P_{min}, P_m(t) - \lambda) & \text{si } H \le H_{crit} \quad \text{(diversidad saludable, reducir mutación)}
+\end{cases}
+$$
+
+
 
 ---
 
@@ -726,7 +735,7 @@ Fórmula: $c_i = \frac{f_i}{\bar{f}}$
 3. **$I_{04}$** (`00011110`) — 1 copia (asignada por mayor residuo decimal).
 4. **$I_{03}$** (`00001001`) — 1 copia (asignada por segundo mayor residuo decimal).
 
-*(Alternativa equivalente si el cálculo se escala directamente sobre el tamaño meta $M=4$: $c_i' = 4 \cdot \frac{f_i}{188} = \frac{f_i}{47}$. Las partes enteras son todas 0, y los cuatro mayores restos decimales son exactamente $I_{06} (0.9362)$, $I_{07} (0.8723)$, $I_{04} (0.4681)$ e $I_{03} (0.4468)$, seleccionando exactamente el mismo conjunto idéntico de 4 individuos).*
+(Alternativa equivalente si el cálculo se escala directamente sobre el tamaño meta $M=4$: $c\_i' = 4 \cdot \frac{f\_i}{188} = \frac{f\_i}{47}$. Las partes enteras son todas 0, y los cuatro mayores restos decimales son exactamente $I_{06} (0.9362)$, $I_{07} (0.8723)$, $I_{04} (0.4681)$ e $I_{03} (0.4468)$, seleccionando exactamente el mismo conjunto idéntico de 4 individuos).
 
 ---
 
@@ -746,7 +755,7 @@ Fórmula: $P_m(t) = \min(P_{max}, P_{min} + t \cdot \lambda)$
   $$P_m(300) = 0.02 + 300 \cdot 0.0001 = 0.02 + 0.0300 = \mathbf{0.0500} \quad (5.00\%)$$
 - Para $t = 400$:
   $$P_m(400) = 0.02 + 400 \cdot 0.0001 = 0.02 + 0.0400 = \mathbf{0.0600} \quad (6.00\%)$$
-  *(Nota de saturación: alcanzaría el tope $P_{max} = 0.30$ en la generación $t = \frac{0.30 - 0.02}{0.0001} = 2800$).*
+  (Nota de saturación: alcanzaría el tope $P_{max} = 0.30$ en la generación $t = \frac{0.30 - 0.02}{0.0001} = 2800$).
 
 **b) Temperatura Descendente:**
 Fórmula: $P_m(t) = \max(P_{min}, P_{max} - t \cdot \lambda)$
@@ -841,7 +850,7 @@ Se ordenan los 3 mejores por aptitud absoluta:
 **Seleccionados elitistas:** **$I_{06}, I_{07}, I_{01}$**.
 
 ##### b) Selección por Ruleta del 40% (4 individuos) con aleatorios: $99, 02, 15, 21$:
-Tabla de ruleta ($\text{Ranuras}_i = \text{round}(f_i / 310 \cdot 100)$):
+Tabla de ruleta ($\text{Ranuras}\_i = \text{round}(f\_i / 310 \cdot 100)$ ):
 - $I_{01}$ (38): 12 ranuras $\to [00 - 11]$
 - $I_{02}$ (14): 5 ranuras $\to [12 - 16]$
 - $I_{03}$ (35): 11 ranuras $\to [17 - 27]$
@@ -887,7 +896,7 @@ Evaluación de los 4 aleatorios:
   (Toma Padre en loci 1,3,4,5,6,7 y Madre en loci 2,8):
   - Loci: P1(`1`), M2(`0`), P3(`0`), P4(`0`), P5(`1`), P6(`1`), P7(`0`), M8(`0`) $\implies$ **`10001100`**
 - **Hijo 2 por Complemento Binario:**  
-  $\text{NOT}(`11101010`) \implies$ **`00010101`**
+  $\text{NOT}(11101010) \implies$ **`00010101`**
 
 ---
 

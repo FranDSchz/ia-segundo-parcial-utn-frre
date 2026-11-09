@@ -200,7 +200,7 @@ Se fusiona $P_3$ ($|P_3|=1$) con $(P_4 P_5)$ ($|P_4 P_5|=2$) para formar $\mathb
 > * **Cálculo canónico obligatorio de cátedra (Ponderado por cardinales):**
 >   $$d((P_1 P_2), P_3 \cup (P_4 P_5)) = \frac{|P_3| \cdot d((P_1 P_2), P_3) + |P_4 P_5| \cdot d((P_1 P_2), (P_4 P_5))}{|P_3| + |P_4 P_5|}$$
 >   $$d((P_1 P_2), (P_3 P_4 P_5)) = \frac{1 \cdot (4.250) + 2 \cdot (7.250)}{1 + 2} = \frac{4.250 + 14.500}{3} = \frac{18.750}{3} = \mathbf{6.250}$$
->   *(Comprobación directa sumando los $2 \times 3 = 6$ pares cruzados de $D_0$: $\frac{4.0 + 4.5 + 7.0 + 6.5 + 8.0 + 7.5}{6} = \frac{37.5}{6} = \mathbf{6.250}$)*.
+>   (Comprobación directa sumando los $2 \times 3 = 6$ pares cruzados de $D_0$: $\frac{4.0 + 4.5 + 7.0 + 6.5 + 8.0 + 7.5}{6} = \frac{37.5}{6} = \mathbf{6.250}$).
 
 **Matriz Reducida $D_3$ ($2 \times 2$):**
 | | $(P_1 P_2)$ | $(P_3 P_4 P_5)$ |

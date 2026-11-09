@@ -39,7 +39,7 @@ flowchart TD
 > $$d \ne \frac{d((AN), (SP)) + d(R, (SP))}{2} \quad \text{¡ERROR GRAVE!}$$
 > **La regla de oro:** Average Linkage exige el **promedio de todas las distancias entre pares cruzados originales**, o bien utilizar la ponderación de Lance-Williams por la cantidad de elementos:
 > $$d((A \cup B), C) = \frac{|A|}{|A| + |B|} d(A, C) + \frac{|B|}{|A| + |B|} d(B, C)$$
-> *Si el nuevo cluster tiene 3 elementos (2 de $AN$ y 1 de $R$), la distancia a otro grupo es $\frac{2 \cdot d(AN, \cdot) + 1 \cdot d(R, \cdot)}{3}$.*
+> Si el nuevo cluster tiene 3 elementos (2 de $AN$ y 1 de $R$), la distancia a otro grupo es $\frac{2 \cdot d(AN, \cdot) + 1 \cdot d(R, \cdot)}{3}$.
 
 ---
 
@@ -108,7 +108,7 @@ Dada la siguiente matriz de distancias, aplique el algoritmo de clustering jerá
   * Hacia $(AN)$ (promedio de los 4 pares cruzados originales $2 \times 2 = 4$):
     $$d((SP), (AN)) = \frac{d(S, A) + d(S, N) + d(P, A) + d(P, N)}{4}$$
     $$d((SP), (AN)) = \frac{6.32 + 6.12 + 2.25 + 4.73}{4} = \frac{19.42}{4} = \mathbf{4.855}$$
-    *(Alternativamente usando $D_1$: $\frac{d(S, (AN)) + d(P, (AN))}{2} = \frac{6.220 + 3.490}{2} = \frac{9.710}{2} = 4.855 \quad \checkmark$)*
+    (Alternativamente usando $D_1$: $\frac{d(S, (AN)) + d(P, (AN))}{2} = \frac{6.220 + 3.490}{2} = \frac{9.710}{2} = 4.855 \quad \checkmark$)
 
 #### Matriz Reducida $D_2$ ($3 \times 3$):
 | | **(AN)** | **R** | **(SP)** |

@@ -21,7 +21,7 @@ Pesos sinápticos actuales:
 $$w_1 = 0.800, \quad w_2 = -0.500, \quad b = 0.200$$
 
 Se presenta el patrón de entrada:
-$$\mathbf{x} = \begin{bmatrix} 1.500 \\ 2.000 \end{bmatrix} \quad \text{con valor objetivo deseado } d = 1.000$$
+$$\mathbf{x} = [1.500, 2.000]^T \quad \text{con valor objetivo deseado } d = 1.000$$
 
 **Se solicita:**
 1. Calcular el potencial post-sináptico $net$ y la salida activada de la red $o$.

@@ -24,7 +24,7 @@ En 60 segundos, GitHub Pages compilará la entrega y la web quedará en vivo par
 
 Para usarlo en tu computadora sin necesidad de levantar ningún servidor web ni instalar Node.js:
 - Simplemente hacé **doble clic** en:
-  `C:\dev\ia-segundo-parcial-utn-frre\docs\index.html`
+  `C:\dev\ia-segundo-parcial-utn-frre\docs/index.html`
 - El simulador abre directamente en Chrome, Edge o Firefox (`file:///C:/dev/ia-segundo-parcial-utn-frre/docs/index.html`).
 - Los datos cargan de inmediato sin errores de CORS porque `preguntas.js` se inyecta como script global.
 - El almacenamiento de historial y preguntas falladas se guarda de forma persistente en el `localStorage` de tu navegador.

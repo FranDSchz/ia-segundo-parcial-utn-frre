@@ -28,7 +28,7 @@ flowchart TD
    $$P(C_k \mid \mathbf{x}) = \frac{P(C_k) \cdot P(\mathbf{x} \mid C_k)}{P(\mathbf{x})} = \frac{P(C_k) \prod_{i=1}^D P(x_i \mid C_k)}{\sum_{j} P(C_j) \prod_{i=1}^D P(x_i \mid C_j)}$$
 2. **Regla de Clasificación (MAP - Maximum A Posteriori):**
    $$C^* = \arg\max_{C_k} \left[ P(C_k) \cdot \prod_{i=1}^D P(x_i \mid C_k) \right]$$
-   *(El denominador $P(\mathbf{x})$ es una constante normalizadora idéntica para todas las clases, por lo que no altera el orden del $\arg\max$)*.
+   (El denominador $P(\mathbf{x})$ es una constante normalizadora idéntica para todas las clases, por lo que no altera el orden del $\arg\max$).
 
 3. **Verosimilitudes en Naïve Bayes con Histogramas (Bins Discretizados):**
    $$P(x_i \in \text{Bin}_m \mid C_k) = \frac{\text{Cantidad de muestras de clase } C_k \text{ en el } \text{Bin}_m}{N_k}$$
@@ -36,7 +36,7 @@ flowchart TD
 
 4. **Verosimilitudes en Naïve Bayes Continuo Gaussiano:**
    $$P(x_i \mid C_k) = \frac{1}{\sqrt{2\pi} \sigma_{ik}} \exp\left( -\frac{(x_i - \mu_{ik})^2}{2 \sigma_{ik}^2} \right)$$
-   *Donde $\mu_{ik}$ es la media y $\sigma_{ik}^2$ la varianza muestral del atributo $i$ en la clase $k$.*
+   Donde $\mu_{ik}$ es la media y $\sigma_{ik}^2$ la varianza muestral del atributo $i$ en la clase $k$.
 
 ---
 
@@ -122,7 +122,7 @@ $$\sum \text{Score} = 0.07551 + 0.01704 + 0.00409 = 0.09664$$
   $$P(NM_3 \mid \mathbf{X}) = \frac{0.00409}{0.09664} \approx \mathbf{4.23\%}$$
 
 * **Conclusión formal en hoja:**  
-  *"La muestra $\mathbf{X}_{\text{nueva}} = (-0.12; -22.25)$ se clasifica como perteneciente al material **$NM_1$** con una probabilidad a posteriori del **$78.13\%$**, superando ampliamente a $NM_2$ y $NM_3$."*
+  "La muestra $\mathbf{X}_{\text{nueva}} = (-0.12; -22.25)$ se clasifica como perteneciente al material **$NM_1$** con una probabilidad a posteriori del **$78.13\%$**, superando ampliamente a $NM_2$ y $NM_3$."*
 
 ---
 

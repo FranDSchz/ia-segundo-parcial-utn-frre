@@ -25,16 +25,31 @@ flowchart TD
 ### 1.1 Ecuaciones Clave de Cátedra
 
 1. **Matriz de Pesos Hebbiana:**
-   $$W = \sum_{k=1}^M \left( \mathbf{e}_k^T \mathbf{e}_k - I \right) \quad \text{con } w_{ii} = 0$$
-   *Donde $\mathbf{e}_k$ es el vector fila del $k$-ésimo patrón, $\mathbf{e}_k^T \mathbf{e}_k$ es su producto exterior (matriz $N \times N$) e $I$ es la matriz identidad.*
-   *Por componentes:*
-   $$w_{ij} = \begin{cases} \sum_{k=1}^M e_{ki} \cdot e_{kj} & \text{si } i \ne j \\ 0 & \text{si } i = j \end{cases}$$
+
+$$
+W = \sum_{k=1}^M \left( \mathbf{e}_k^T \mathbf{e}_k - I \right) \quad \text{con } w_{ii} = 0
+$$
+
+Donde $\mathbf{e}_k$ es el vector fila del $k$-ésimo patrón, $\mathbf{e}_k^T \mathbf{e}_k$ es su producto exterior (matriz $N \times N$) e $I$ es la matriz identidad.
+
+*Por componentes:*
+
+$$
+w_{ij} = \begin{cases} \sum_{k=1}^M e_{ki} \cdot e_{kj} & \text{si } i \ne j \\ 0 & \text{si } i = j \end{cases}
+$$
+
 2. **Propiedades de la Matriz $W$:**
    * **Simetría:** $w_{ij} = w_{ji}$.
    * **Diagonal nula:** $w_{ii} = 0$ (sin autolazos neuronales).
 3. **Dinámica de Recuperación (Función de Transferencia Bipolar):**
-   $$net_i(t) = \sum_{j=1}^N w_{ij} x_j(t) = \mathbf{x}(t) \cdot W_{*, i}$$
-   $$x_i(t+1) = \text{sgn}(net_i(t)) = \begin{cases} +1 & \text{si } net_i(t) > 0 \\ -1 & \text{si } net_i(t) < 0 \\ x_i(t) & \text{si } net_i(t) = 0 \text{ (mantiene estado previo)} \end{cases}$$
+
+$$
+net_i(t) = \sum_{j=1}^N w_{ij} x_j(t) = \mathbf{x}(t) \cdot W_{\ast, i}
+$$
+
+$$
+x_i(t+1) = \text{sgn}(net_i(t)) = \begin{cases} +1 & \text{si } net_i(t) > 0 \\ -1 & \text{si } net_i(t) < 0 \\ x_i(t) & \text{si } net_i(t) = 0 \text{ (mantiene estado previo)} \end{cases}
+$$
 
 ---
 
@@ -42,15 +57,15 @@ flowchart TD
 
 > [!CAUTION]
 > ### TRAMPA 4: La Diagonal Principal NO Nula
-> **El error del alumno:** Sumar los productos exteriores $\mathbf{e}_1^T \mathbf{e}_1 + \mathbf{e}_2^T \mathbf{e}_2$ y dejar en la diagonal el valor $M$ (número de patrones).  
+> **El error del alumno:** Sumar los productos exteriores $\mathbf{e}\_1^T \mathbf{e}\_1 + \mathbf{e}\_2^T \mathbf{e}\_2$ y dejar en la diagonal el valor $M$ (número de patrones).  
 > **Consecuencia:** Cero automático en el ejercicio.  
 > **Justificación física/matemática:** Los autolazos ($w_{ii} > 0$) violan las hipótesis del teorema de convergencia de Hopfield basado en la función de energía de Lyapunov:
-> $$E = -\frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N w_{ij} x_i x_j$$
+> $$E = -\frac{1}{2} \sum\_{i=1}^N \sum\_{j=1}^N w\_{ij} x\_i x\_j$$
 > Si $w_{ii} \ne 0$, la energía no decrece monotónicamente y la red puede entrar en ciclos infinitos o atascarse en la misma entrada ruidosa sin corregirla.
 
 ### 2.1 Ortogonalidad y Capacidad de Almacenamiento
 * **Condición de Ortogonalidad:** Dos patrones bipolares de longitud $N$ son ortogonales si su producto escalar es nulo:
-  $$\mathbf{e}_k \cdot \mathbf{e}_m = \sum_{i=1}^N e_{ki} e_{mi} = 0$$
+  $$\mathbf{e}\_k \cdot \mathbf{e}\_m = \sum\_{i=1}^N e\_{ki} e\_{mi} = 0$$
   En el espacio bipolar, esto significa que los patrones deben **diferir exactamente en el 50% de sus componentes** ($N/2$).
 * **Límites de Capacidad Máxima:**
   * **Recuperación Perfecta:** $M \le \frac{N}{4 \ln N}$
@@ -78,30 +93,36 @@ $$\mathbf{E}_d = [+1, -1, +1, -1, -1]$$
 #### Paso 1: Análisis de Ortogonalidad Previo
 Calculamos el producto escalar entre $\mathbf{E}_1$ y $\mathbf{E}_2$:
 $$\mathbf{E}_1 \cdot \mathbf{E}_2 = (+1)(+1) + (+1)(-1) + (+1)(-1) + (-1)(-1) + (-1)(+1) = 1 - 1 - 1 + 1 - 1 = -1$$
-*Comentario para la Cátedra:* *"El producto escalar es $\mathbf{E}_1 \cdot \mathbf{E}_2 = -1 \approx 0$. Presentan un alto grado de cuasi-ortogonalidad sobre $N=5$, lo que minimiza la diafonía o crosstalk."*
+*Comentario para la Cátedra:* *"El producto escalar es* $\mathbf{E}\_1 \cdot \mathbf{E}\_2 = -1 \approx 0$. *Presentan un alto grado de cuasi-ortogonalidad sobre $N=5$, lo que minimiza la diafonía o crosstalk."*
 
 ---
 
 #### Paso 2: Cálculo de Matrices de Productos Exteriores
 
 1. **Producto exterior para $\mathbf{E}_1 = [+1, +1, +1, -1, -1]$:**
-   Cada elemento es $(E_1^T E_1)_{ij} = E_{1i} \cdot E_{1j}$:
-   $$W^{(1)} = \begin{bmatrix}
-   +1 & +1 & +1 & -1 & -1 \\
-   +1 & +1 & +1 & -1 & -1 \\
-   +1 & +1 & +1 & -1 & -1 \\
-   -1 & -1 & -1 & +1 & +1 \\
-   -1 & -1 & -1 & +1 & +1
-   \end{bmatrix}$$
+   Cada elemento es $(E\_1^T E\_1)\_{ij} = E\_{1i} \cdot E\_{1j}$:
+
+$$
+W^{(1)} = \begin{bmatrix}
++1 & +1 & +1 & -1 & -1 \\
++1 & +1 & +1 & -1 & -1 \\
++1 & +1 & +1 & -1 & -1 \\
+-1 & -1 & -1 & +1 & +1 \\
+-1 & -1 & -1 & +1 & +1
+\end{bmatrix}
+$$
 
 2. **Producto exterior para $\mathbf{E}_2 = [+1, -1, -1, -1, +1]$:**
-   $$W^{(2)} = \begin{bmatrix}
-   +1 & -1 & -1 & -1 & +1 \\
-   -1 & +1 & +1 & +1 & -1 \\
-   -1 & +1 & +1 & +1 & -1 \\
-   -1 & +1 & +1 & +1 & -1 \\
-   +1 & -1 & -1 & -1 & +1
-   \end{bmatrix}$$
+
+$$
+W^{(2)} = \begin{bmatrix}
++1 & -1 & -1 & -1 & +1 \\
+-1 & +1 & +1 & +1 & -1 \\
+-1 & +1 & +1 & +1 & -1 \\
+-1 & +1 & +1 & +1 & -1 \\
++1 & -1 & -1 & -1 & +1
+\end{bmatrix}
+$$
 
 ---
 
@@ -116,13 +137,16 @@ Sumamos $W^{(1)} + W^{(2)}$ y colocamos $0$ en toda la diagonal principal ($w_{i
   * Fila 5: $[-1+1, -1-1, -1-1, 1-1, 1+1] = [0, -2, -2, 0, 2]$
 
 * **Matriz Final de Hopfield $W$ (con $w_{ii} = 0$):**
-  $$W = \begin{bmatrix}
-  \mathbf{0} & 0 & 0 & -2 & 0 \\
-  0 & \mathbf{0} & 2 & 0 & -2 \\
-  0 & 2 & \mathbf{0} & 0 & -2 \\
-  -2 & 0 & 0 & \mathbf{0} & 0 \\
-  0 & -2 & -2 & 0 & \mathbf{0}
-  \end{bmatrix}$$
+
+$$
+W = \begin{bmatrix}
+\mathbf{0} & 0 & 0 & -2 & 0 \\
+0 & \mathbf{0} & 2 & 0 & -2 \\
+0 & 2 & \mathbf{0} & 0 & -2 \\
+-2 & 0 & 0 & \mathbf{0} & 0 \\
+0 & -2 & -2 & 0 & \mathbf{0}
+\end{bmatrix}
+$$
 
 ---
 
@@ -166,7 +190,7 @@ $$\mathbf{x}(1) = [+1, +1, +1, -1, -1]$$
   $$\mathbf{x}(2) = [+1, +1, +1, -1, -1] = \mathbf{x}(1)$$
 
 * **Conclusión formal en hoja:**  
-  *"La red de Hopfield se estabiliza de forma monótona en una sola iteración ($t=1$), recuperando de manera exacta el patrón aprendido $\mathbf{E}_1$ y corrigiendo la distorsión que presentaba en la segunda componente."*
+  *"La red de Hopfield se estabiliza de forma monótona en una sola iteración"* ($t=1$), *"recuperando de manera exacta el patrón aprendido"* $\mathbf{E}\_1$ *"y corrigiendo la distorsión que presentaba en la segunda componente."*
 
 ---
 

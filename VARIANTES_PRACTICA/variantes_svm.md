@@ -16,8 +16,8 @@
 
 ### Enunciado
 En un espacio bidimensional $\mathbb{R}^2$, se tienen dos vectores de soporte aislados obtenidos tras el entrenamiento de un clasificador SVM de margen estricto:
-* $p_1 = \begin{bmatrix} 2.0 \\ 2.0 \end{bmatrix}$ perteneciente a la clase positiva $y_1 = +1$, con multiplicador $\alpha_1 = 0.50$.
-* $p_2 = \begin{bmatrix} -2.0 \\ -2.0 \end{bmatrix}$ perteneciente a la clase negativa $y_2 = -1$, con multiplicador $\alpha_2 = 0.50$.
+* $p_1 = [2.0, 2.0]^T$ perteneciente a la clase positiva $y_1 = +1$, con multiplicador $\alpha_1 = 0.50$.
+* $p_2 = [-2.0, -2.0]^T$ perteneciente a la clase negativa $y_2 = -1$, con multiplicador $\alpha_2 = 0.50$.
 
 **Se solicita:**
 1. Verificar la condición de equilibrio KKT $\sum \alpha_i y_i = 0$.
@@ -33,8 +33,8 @@ En un espacio bidimensional $\mathbb{R}^2$, se tienen dos vectores de soporte ai
 $$\sum_{i=1}^2 \alpha_i y_i = \alpha_1 y_1 + \alpha_2 y_2 = (0.50)(+1) + (0.50)(-1) = 0.50 - 0.50 = 0 \quad \text{(Satisfecho)}$$
 
 #### 2. Cálculo del Vector $\mathbf{w}$
-$$\mathbf{w} = \alpha_1 y_1 p_1 + \alpha_2 y_2 p_2 = (0.50)(+1)\begin{bmatrix} 2.0 \\ 2.0 \end{bmatrix} + (0.50)(-1)\begin{bmatrix} -2.0 \\ -2.0 \end{bmatrix}$$
-$$\mathbf{w} = \begin{bmatrix} 1.0 \\ 1.0 \end{bmatrix} + \begin{bmatrix} 1.0 \\ 1.0 \end{bmatrix} = \begin{bmatrix} \mathbf{2.000} \\ \mathbf{2.000} \end{bmatrix}$$
+$$\mathbf{w} = \alpha_1 y_1 p_1 + \alpha_2 y_2 p_2 = (0.50)(+1)[2.0, 2.0]^T + (0.50)(-1)[-2.0, -2.0]^T$$
+$$\mathbf{w} = [1.0, 1.0]^T + [1.0, 1.0]^T = [\mathbf{2.000}, \mathbf{2.000}]^T$$
 
 #### 3. Cálculo de Sesgos $b_i = y_i - \mathbf{w}^T p_i$
 * Para $p_1$:
@@ -73,8 +73,8 @@ Dadas las 4 muestras en $\mathbb{R}^2$:
 #### 1. Cálculo de $\mathbf{w}$
 Como $\alpha_4 = 0$, $p_4$ es un punto interior descartable.  
 Comprobación KKT: $\sum \alpha_i y_i = 0.50(+1) + 0.25(+1) + 0.75(-1) = 0.75 - 0.75 = 0$.
-$$\mathbf{w} = (0.50)(+1)\begin{bmatrix} 0 \\ 4 \end{bmatrix} + (0.25)(+1)\begin{bmatrix} 3 \\ 0 \end{bmatrix} + (0.75)(-1)\begin{bmatrix} -2 \\ 0 \end{bmatrix}$$
-$$\mathbf{w} = \begin{bmatrix} 0.00 \\ 2.00 \end{bmatrix} + \begin{bmatrix} 0.75 \\ 0.00 \end{bmatrix} + \begin{bmatrix} 1.50 \\ 0.00 \end{bmatrix} = \begin{bmatrix} 0.75 + 1.50 \\ 2.00 \end{bmatrix} = \begin{bmatrix} \mathbf{2.250} \\ \mathbf{2.000} \end{bmatrix}$$
+$$\mathbf{w} = (0.50)(+1)[0, 4]^T + (0.25)(+1)[3, 0]^T + (0.75)(-1)[-2, 0]^T$$
+$$\mathbf{w} = [0.00, 2.00]^T + [0.75, 0.00]^T + [1.50, 0.00]^T = [0.75 + 1.50, 2.00]^T = [\mathbf{2.250}, \mathbf{2.000}]^T$$
 
 #### 2. Cálculo de los Sesgos Individuales y Promedio
 * **Para $p_1 = [0, 4]^T$ ($y_1 = +1$):**
@@ -116,7 +116,15 @@ Plantear la formulación dual $L_D$, construir la matriz de Gram, resolver anal�
 * $K_{23} = (2)(0) + (1)(0) = 0.0$
 * $K_{33} = 0^2 + 0^2 = 0.0$
 
-$$K = \begin{bmatrix} 5.0 & 4.0 & 0.0 \\ 4.0 & 5.0 & 0.0 \\ 0.0 & 0.0 & 0.0 \end{bmatrix}$$
+
+$$
+K = \begin{bmatrix}
+5.0 & 4.0 & 0.0 \\
+4.0 & 5.0 & 0.0 \\
+0.0 & 0.0 & 0.0
+\end{bmatrix}
+$$
+
 
 #### 2. Formulación Dual $L_D$
 Restricción KKT de igualdad:
@@ -138,7 +146,7 @@ $$\alpha_1^* = \alpha_2^* = \frac{2.0}{5.0 + 4.0} = \frac{2}{9} \approx \mathbf{
 $$\alpha_3^* = \alpha_1^* + \alpha_2^* = \frac{2}{9} + \frac{2}{9} = \frac{4}{9} \approx \mathbf{0.444}$$
 
 #### 4. Vector de Pesos $\mathbf{w}$ y Sesgo $b$
-$$\mathbf{w} = \frac{2}{9}(+1)\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \frac{2}{9}(+1)\begin{bmatrix} 2 \\ 1 \end{bmatrix} + \frac{4}{9}(-1)\begin{bmatrix} 0 \\ 0 \end{bmatrix} = \frac{2}{9}\begin{bmatrix} 3 \\ 3 \end{bmatrix} = \begin{bmatrix} \mathbf{2/3} \\ \mathbf{2/3} \end{bmatrix} \approx \begin{bmatrix} 0.667 \\ 0.667 \end{bmatrix}$$
+$$\mathbf{w} = \frac{2}{9}(+1)[1, 2]^T + \frac{2}{9}(+1)[2, 1]^T + \frac{4}{9}(-1)[0, 0]^T = \frac{2}{9}[3, 3]^T = [\mathbf{2/3}, \mathbf{2/3}]^T \approx [0.667, 0.667]^T$$
 
 *Verificación de sesgos:*
 * En $P_1$: $b_1 = 1 - [(2/3)(1) + (2/3)(2)] = 1 - [2/3 + 4/3] = 1 - 2 = \mathbf{-1.000}$

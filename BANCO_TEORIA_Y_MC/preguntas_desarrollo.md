@@ -10,7 +10,7 @@
 
 ### Respuesta Modelo de Cátedra:
 1. **Conclusión Técnica Directa:**
-   **SÍ, el término de momento puede ser negativo.** Es fundamental distinguir entre el parámetro o coeficiente de momento $\beta$ (que por definición es un escalar positivo, $\beta \in [0, 1)$) y el **término de momento compuesto**, definido como:
+   **SÍ, el término de momento puede ser negativo.** Es fundamental distinguir entre el parámetro o coeficiente de momento $\beta$ (que por definición es un escalar positivo, $0 \le \beta < 1$) y el **término de momento compuesto**, definido como:
    $$\text{Término de Momento} = \beta \cdot \Delta w_{ji}(t-1)$$
    Si en la iteración anterior el peso sináptico disminuyó su valor (es decir, experimentó un incremento neto negativo $\Delta w_{ji}(t-1) < 0$), el producto completo será estrictamente **negativo**.
 
@@ -38,9 +38,9 @@
 2. **Deducción y Cálculo Analítico:**
    La distancia de cualquier punto $\mathbf{x}$ a un hiperplano $\mathbf{w}^T \mathbf{x} + b = 0$ viene dada por la proyección ortogonal normalizada:
    $$\text{dist}(\mathbf{x}, H_0) = \frac{|\mathbf{w}^T \mathbf{x} + b|}{\|\mathbf{w}\|}$$
-   Para un vector de soporte positivo $\mathbf{x}_+$, el hiperplano canónico impone $\mathbf{w}^T \mathbf{x}_+ + b = +1$. Sustituyendo:
+   Para un vector de soporte positivo $\mathbf{x}\_+$, el hiperplano canónico impone $\mathbf{w}^T \mathbf{x}\_+ + b = +1$. Sustituyendo:
    $$d(+) = \frac{|+1|}{\|\mathbf{w}\|} = \frac{1}{\|\mathbf{w}\|}$$
-   Para un vector de soporte negativo $\mathbf{x}_-$, el hiperplano canónico impone $\mathbf{w}^T \mathbf{x}_- + b = -1$. Sustituyendo:
+   Para un vector de soporte negativo $\mathbf{x}\_-$, el hiperplano canónico impone $\mathbf{w}^T \mathbf{x}\_- + b = -1$. Sustituyendo:
    $$d(-) = \frac{|-1|}{\|\mathbf{w}\|} = \frac{1}{\|\mathbf{w}\|}$$
 
 3. **Relación con el Margen Geométrico:**
@@ -152,7 +152,7 @@
 3. **Mínimos Espurios (Estados Falsos o Fantasmas):**
    La función de energía de Lyapunov genera mínimos locales adicionales que no corresponden a ninguno de los patrones aprendidos por el usuario:
    * **Estados Invertidos:** Si $\mathbf{E}_k$ es un mínimo local, su complemento $-\mathbf{E}_k$ es también un mínimo estable por simetría energética.
-   * **Estados de Mezcla (Quimeras):** Combinaciones lineales impares de patrones aprendidos (por ejemplo, combinaciones de 3 patrones: $\text{sgn}(\mathbf{E}_1 + \mathbf{E}_2 + \mathbf{E}_3)$).
+   * **Estados de Mezcla (Quimeras):** Combinaciones lineales impares de patrones aprendidos —por ejemplo, combinaciones de 3 patrones: $\text{sgn}(\mathbf{E}\_1 + \mathbf{E}\_2 + \mathbf{E}\_3)$—.
 4. **Ciclos Límite en Actualización Síncrona:**
    Si la red se actualiza de forma síncrona (todas las neuronas al mismo tiempo), la red puede oscilar indefinidamente entre dos estados con período 2 en lugar de estabilizarse en un punto fijo.
 

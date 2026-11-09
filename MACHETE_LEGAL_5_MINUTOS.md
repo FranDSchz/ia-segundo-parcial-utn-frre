@@ -9,7 +9,7 @@
 ```
 ┌───────────────────────────────────────┬───────────────────────────────────────┐
 │ Mod. 1: SVM (Soporte Vectorial)       │ Mod. 2: SOM de Kohonen                │
-│ • w = Σ α_i y_i x_i (¡Sólo con α > 0!)│ • Ganadora j*: menor dist euclídea    │
+│ • w = Σ α_i y_i x_i (¡Sólo con α > 0!)│ • Ganadora j^{\ast}: menor dist euclídea    │
 │ • b = y_i - w^T x_i (Promediar SVs)   │ • Vecindad continua h: ¡actualizar    │
 │ • Margen: M = 2 / ||w||               │   TODAS las neuronas con h > 0!       │
 │ • KKT: Σ α_i y_i = 0, α_i >= 0        │ • p2: ¡USAR PESOS NUEVOS W(1)!        │
@@ -42,10 +42,10 @@
 ## 🚨 Las 6 Trampas Clásicas de Cátedra (Checklist Anticaída)
 
 1. **¿SVM te dio varios valores de $b$?**  
-   $\to$ Reportá $b_{prom} = \frac{1}{|SV|} \sum b_i$ indicando que promediás por tolerancia numérica.
+   $\to$ Reportá $b\_{prom} = \frac{1}{|SV|} \sum b\_i$ indicando que promediás por tolerancia numérica.
 2. **¿SOM tiene función $h = 1 / (2 + \text{dist})$?**  
    $\to$ Calculá la distancia entre los pesos de la ganadora y la vecina. ¡Actualizá las DOS neuronas!
-3. **¿SOM te pide presentar dos patrones ($p_1$ y luego $p_2$)?**  
+3. **¿SOM te pide presentar dos patrones ($p\_1$ y luego $p\_2$)?**  
    $\to$ Al calcular distancias para $p_2$, **usá la matriz de pesos $W(1)$**, NO los iniciales.
 4. **¿Matriz de Hopfield armada?**  
    $\to$ Pasá un lápiz por la diagonal principal: **TODOS DEBEN SER CEROS**.
@@ -59,7 +59,7 @@
 ## ✅ Checklist de 6 Puntos Antes de Entregar la Hoja
 
 - [ ] **1. Fórmulas Generales Escritas:** ¿Pusiste la fórmula con letras antes de reemplazar con números en cada ejercicio? (La cátedra descuenta si ponés resultados directos).
-- [ ] **2. Frases Justificativas:** ¿Acompañaste los pasos con frases breves? (*"La neurona 2 es BMU por tener menor distancia"*, *"El punto 4 no influye por tener $\alpha=0$"*).
+- [ ] **2. Frases Justificativas:** ¿Acompañaste los pasos con frases breves? (*"La neurona 2 es BMU por tener menor distancia"*, *"El punto 4 no influye por tener"* $\alpha=0$).
 - [ ] **3. Diagrama de Red Dibujado:** ¿Dibujaste la arquitectura con entradas, salidas y nombres de conexiones en SOM y MLP?
 - [ ] **4. Redondeo Uniforme:** ¿Usaste 3 o 4 decimales prolijos en todos los términos $\delta$ y distancias?
 - [ ] **5. Dendrograma a Escala:** ¿El gráfico del árbol de clustering tiene el eje vertical con los números exactos de fusión marcados?

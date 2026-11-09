@@ -50,7 +50,7 @@ flowchart TD
 
 ### Enunciado Tipo Examen (Fuente: Parcial 2023 Tema 2 `IA-H0075`)
 Dados los siguientes vectores en $\mathbb{R}^2$:
-$$p_1 = \begin{bmatrix} 0 \\ 4 \end{bmatrix}, \quad p_2 = \begin{bmatrix} 3 \\ 0 \end{bmatrix}, \quad p_3 = \begin{bmatrix} -2 \\ 0 \end{bmatrix}, \quad p_4 = \begin{bmatrix} -3 \\ -3 \end{bmatrix}$$
+$$p_1 = [0, 4]^T, \quad p_2 = [3, 0]^T, \quad p_3 = [-2, 0]^T, \quad p_4 = [-3, -3]^T$$
 con etiquetas de clase:
 $$y_1 = +1, \quad y_2 = +1, \quad y_3 = -1, \quad y_4 = -1$$
 y los multiplicadores de Lagrange obtenidos tras la optimización:
@@ -83,8 +83,8 @@ $$\mathbf{w} = \sum_{i \in SV} \alpha_i y_i \mathbf{x}_i$$
 
 *Sustitución explícita por componentes:*
 $$\mathbf{w} = \alpha_1 y_1 p_1 + \alpha_2 y_2 p_2 + \alpha_3 y_3 p_3$$
-$$\mathbf{w} = (0.5)(+1)\begin{bmatrix} 0 \\ 4 \end{bmatrix} + (0.25)(+1)\begin{bmatrix} 3 \\ 0 \end{bmatrix} + (0.75)(-1)\begin{bmatrix} -2 \\ 0 \end{bmatrix}$$
-$$\mathbf{w} = \begin{bmatrix} 0 \\ 2.0 \end{bmatrix} + \begin{bmatrix} 0.75 \\ 0 \end{bmatrix} + \begin{bmatrix} 1.50 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 + 0.75 + 1.50 \\ 2.0 + 0 + 0 \end{bmatrix} = \begin{bmatrix} 2.25 \\ 2.00 \end{bmatrix}$$
+$$\mathbf{w} = (0.5)(+1)[0, 4]^T + (0.25)(+1)[3, 0]^T + (0.75)(-1)[-2, 0]^T$$
+$$\mathbf{w} = [0, 2.0]^T + [0.75, 0]^T + [1.50, 0]^T = [0 + 0.75 + 1.50, 2.0 + 0 + 0]^T = [2.25, 2.00]^T$$
 
 *Secuencia en calculadora estándar:*
 1. Componente $w_1$: `0.5 * 1 * 0 + 0.25 * 1 * 3 + 0.75 * (-1) * (-2) =` $\to$ **2.25**
@@ -132,7 +132,7 @@ $$y_i (\mathbf{w}^T \mathbf{x}_i + b) = 1 \implies \mathbf{w}^T \mathbf{x}_i + b
 
 ### Enunciado Tipo Examen (Fuente: `IA-H0122-EJ02` / `IA-H0125-EJ05`)
 Dados los siguientes puntos de entrenamiento en $\mathbb{R}^2$:
-$$P_1 = \begin{bmatrix} -3 \\ 1 \end{bmatrix} (y_1 = +1), \quad P_2 = \begin{bmatrix} 0 \\ 1 \end{bmatrix} (y_2 = +1), \quad P_3 = \begin{bmatrix} 3 \\ -3 \end{bmatrix} (y_3 = -1)$$
+$$P_1 = [-3, 1]^T \ (y_1 = +1), \quad P_2 = [0, 1]^T \ (y_2 = +1), \quad P_3 = [3, -3]^T \ (y_3 = -1)$$
 plantee formalmente el problema Dual de Lagrange $L_D(\alpha_1, \alpha_2, \alpha_3)$ y las restricciones KKT necesarias para resolverlo.
 
 ---
@@ -149,7 +149,15 @@ Calculamos los 6 productos escalares independientes:
 * $K_{33} = P_3^T P_3 = 3^2 + (-3)^2 = 9 + 9 = 18$
 
 Matriz simétrica $K$:
-$$K = \begin{bmatrix} 10 & 1 & -12 \\ 1 & 1 & -3 \\ -12 & -3 & 18 \end{bmatrix}$$
+
+$$
+K = \begin{bmatrix}
+10 & 1 & -12 \\
+1 & 1 & -3 \\
+-12 & -3 & 18
+\end{bmatrix}
+$$
+
 
 ---
 

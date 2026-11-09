@@ -25,10 +25,10 @@ flowchart TD
 ### 1.1 Fórmulas Canónicas de Cátedra
 
 1. **Distancia Euclidiana en $\mathbb{R}^D$:**
-   $$d(\mathbf{x}_0, \mathbf{x}_i) = \sqrt{\sum_{j=1}^D (x_{0j} - x_{ij})^2}$$
+   $$d(\mathbf{x}\_0, \mathbf{x}\_i) = \sqrt{\sum\_{j=1}^D (x\_{0j} - x\_{ij})^2}$$
 2. **Ponderación por Inversa del Cuadrado de la Distancia:**
-   $$w_i = \frac{1}{d(\mathbf{x}_0, \mathbf{x}_i)^2} \quad \text{o bien} \quad w_i = \frac{1}{1 + d(\mathbf{x}_0, \mathbf{x}_i)^2}$$
-   *(La cátedra utiliza preferentemente $w_i = \frac{1}{1 + d^2}$ cuando un punto coincide exactamente con un dato de entrenamiento, evitando la indeterminación por división por cero).*
+   $$w_i = \frac{1}{d(\mathbf{x}\_0, \mathbf{x}\_i)^2} \quad \text{o bien} \quad w_i = \frac{1}{1 + d(\mathbf{x}\_0, \mathbf{x}\_i)^2}$$
+   (La cátedra utiliza preferentemente $w_i = \frac{1}{1 + d^2}$ cuando un punto coincide exactamente con un dato de entrenamiento, evitando la indeterminación por división por cero).
 3. **Puntuación Ponderada de Clase:**
    $$\text{Score}(C_k) = \sum_{i \in \text{Vecinos}, y_i = C_k} w_i$$
    $$\text{Clase Predicha: } C^* = \arg\max_{C_k} \text{Score}(C_k)$$

@@ -17,12 +17,12 @@
 ### Enunciado
 Considere una red autoorganizada de Kohonen con 2 neuronas de salida y 2 entradas.  
 Pesos iniciales al paso $t=0$:
-$$W_1(0) = \begin{bmatrix} 0.800 \\ 0.100 \end{bmatrix}, \quad W_2(0) = \begin{bmatrix} 0.100 \\ 0.700 \end{bmatrix}$$
+$$W_1(0) = [0.800, 0.100]^T, \quad W_2(0) = [0.100, 0.700]^T$$
 Tasa de aprendizaje: $\alpha = 0.60$.  
 Función de vecindad nula: $h(j^*, j^*) = 1.0$ (únicamente para la neurona ganadora) y $h(i, j^*) = 0.0$ para toda neurona vecina.
 
 Se presenta el patrón:
-$$X = \begin{bmatrix} 0.200 \\ 0.900 \end{bmatrix}$$
+$$X = [0.200, 0.900]^T$$
 
 **Se solicita:**
 1. Calcular la distancia euclídea de ambas neuronas al patrón $X$.
@@ -47,11 +47,11 @@ Como $d_2 = 0.224 < d_1 = 1.000$, la neurona ganadora es **$j^* = 2$**.
 
 #### 3. Actualización de Pesos Sinápticos
 * **Neurona 2 (Ganadora, $h=1.0$):**
-  $$W_2(1) = W_2(0) + \alpha \cdot (X - W_2(0)) = \begin{bmatrix} 0.100 \\ 0.700 \end{bmatrix} + 0.60 \begin{bmatrix} 0.200 - 0.100 \\ 0.900 - 0.700 \end{bmatrix}$$
-  $$W_2(1) = \begin{bmatrix} 0.100 \\ 0.700 \end{bmatrix} + 0.60 \begin{bmatrix} 0.100 \\ 0.200 \end{bmatrix} = \begin{bmatrix} 0.100 + 0.060 \\ 0.700 + 0.120 \end{bmatrix} = \begin{bmatrix} \mathbf{0.160} \\ \mathbf{0.820} \end{bmatrix}$$
+  $$W_2(1) = W_2(0) + \alpha \cdot (X - W_2(0)) = [0.100, 0.700]^T + 0.60 [0.200 - 0.100, 0.900 - 0.700]^T$$
+  $$W_2(1) = [0.100, 0.700]^T + 0.60 [0.100, 0.200]^T = [0.100 + 0.060, 0.700 + 0.120]^T = [\mathbf{0.160}, \mathbf{0.820}]^T$$
 
 * **Neurona 1 (Vecina inactiva, $h=0.0$):**
-  $$W_1(1) = W_1(0) + 0 = \begin{bmatrix} \mathbf{0.800} \\ \mathbf{0.100} \end{bmatrix}$$
+  $$W_1(1) = W_1(0) + 0 = [\mathbf{0.800}, \mathbf{0.100}]^T$$
 
 ---
 
@@ -59,7 +59,7 @@ Como $d_2 = 0.224 < d_1 = 1.000$, la neurona ganadora es **$j^* = 2$**.
 
 ### Enunciado
 Dada una red SOM de 2 entradas y 2 neuronas de salida con:
-$$W_1(0) = \begin{bmatrix} +0.700 \\ -0.100 \end{bmatrix}, \quad W_2(0) = \begin{bmatrix} -0.100 \\ +0.400 \end{bmatrix}$$
+$$W_1(0) = [+0.700, -0.100]^T, \quad W_2(0) = [-0.100, +0.400]^T$$
 Parámetros: $\alpha = 0.70$ y función de vecindad continua evaluada en la distancia entre vectores de pesos:
 $$h(i) = \frac{1}{2 + \operatorname{dist}(W_i(0), W_{j^*}(0))}$$
 
@@ -95,14 +95,14 @@ Como $d_2 = 1.476 < d_1 = 1.700$, la neurona ganadora es **$j^* = 2$**.
 Fórmula: $W_i(1) = W_i(0) + \alpha \cdot h(i) \cdot (p_2 - W_i(0))$
 
 * **Neurona 2 (Ganadora):**
-  $$p_2 - W_2(0) = \begin{bmatrix} -0.800 - (-0.100) \\ -0.900 - 0.400 \end{bmatrix} = \begin{bmatrix} -0.700 \\ -1.300 \end{bmatrix}$$
-  $$\Delta W_2 = (0.70)(0.500)\begin{bmatrix} -0.700 \\ -1.300 \end{bmatrix} = 0.350 \begin{bmatrix} -0.700 \\ -1.300 \end{bmatrix} = \begin{bmatrix} -0.245 \\ -0.455 \end{bmatrix}$$
-  $$W_2(1) = \begin{bmatrix} -0.100 - 0.245 \\ 0.400 - 0.455 \end{bmatrix} = \begin{bmatrix} \mathbf{-0.345} \\ \mathbf{-0.055} \end{bmatrix}$$
+  $$p_2 - W_2(0) = [-0.800 - (-0.100), -0.900 - 0.400]^T = [-0.700, -1.300]^T$$
+  $$\Delta W_2 = (0.70)(0.500)[-0.700, -1.300]^T = 0.350 [-0.700, -1.300]^T = [-0.245, -0.455]^T$$
+  $$W_2(1) = [-0.100 - 0.245, 0.400 - 0.455]^T = [\mathbf{-0.345}, \mathbf{-0.055}]^T$$
 
 * **Neurona 1 (Vecina):**
-  $$p_2 - W_1(0) = \begin{bmatrix} -0.800 - 0.700 \\ -0.900 - (-0.100) \end{bmatrix} = \begin{bmatrix} -1.500 \\ -0.800 \end{bmatrix}$$
-  $$\Delta W_1 = (0.70)(0.340)\begin{bmatrix} -1.500 \\ -0.800 \end{bmatrix} = 0.238 \begin{bmatrix} -1.500 \\ -0.800 \end{bmatrix} = \begin{bmatrix} -0.357 \\ -0.190 \end{bmatrix}$$
-  $$W_1(1) = \begin{bmatrix} 0.700 - 0.357 \\ -0.100 - 0.190 \end{bmatrix} = \begin{bmatrix} \mathbf{0.343} \\ \mathbf{-0.290} \end{bmatrix}$$
+  $$p_2 - W_1(0) = [-0.800 - 0.700, -0.900 - (-0.100)]^T = [-1.500, -0.800]^T$$
+  $$\Delta W_1 = (0.70)(0.340)[-1.500, -0.800]^T = 0.238 [-1.500, -0.800]^T = [-0.357, -0.190]^T$$
+  $$W_1(1) = [0.700 - 0.357, -0.100 - 0.190]^T = [\mathbf{0.343}, \mathbf{-0.290}]^T$$
 
 ---
 
@@ -110,7 +110,7 @@ Fórmula: $W_i(1) = W_i(0) + \alpha \cdot h(i) \cdot (p_2 - W_i(0))$
 
 ### Enunciado
 Considere una red SOM con 2 entradas y 2 neuronas competitivas con pesos iniciales al tiempo $t=0$:
-$$W_1(0) = \begin{bmatrix} 0.200 \\ 0.600 \end{bmatrix}, \quad W_2(0) = \begin{bmatrix} 0.700 \\ 0.300 \end{bmatrix}$$
+$$W_1(0) = [0.200, 0.600]^T, \quad W_2(0) = [0.700, 0.300]^T$$
 Parámetros: $\alpha = 0.50$, vecindad nula.
 
 Se presenta secuencialmente una secuencia de dos patrones:
@@ -132,8 +132,8 @@ Se presenta secuencialmente una secuencia de dos patrones:
   $$d_2^2(p_1, W_2(0)) = (0.400 - 0.700)^2 + (0.800 - 0.300)^2 = 0.090 + 0.250 = \mathbf{0.340} \implies d_2 \approx 0.583$$
 * Como $d_1 < d_2$, **la neurona ganadora para $p_1$ es $N_1$**.
 * Actualización al paso $t=1$:
-  $$W_1(1) = W_1(0) + 0.50 \begin{bmatrix} 0.400 - 0.200 \\ 0.800 - 0.600 \end{bmatrix} = \begin{bmatrix} 0.200 + 0.100 \\ 0.600 + 0.100 \end{bmatrix} = \begin{bmatrix} \mathbf{0.300} \\ \mathbf{0.700} \end{bmatrix}$$
-  $$W_2(1) = W_2(0) = \begin{bmatrix} \mathbf{0.700} \\ \mathbf{0.300} \end{bmatrix}$$
+  $$W_1(1) = W_1(0) + 0.50 [0.400 - 0.200, 0.800 - 0.600]^T = [0.200 + 0.100, 0.600 + 0.100]^T = [\mathbf{0.300}, \mathbf{0.700}]^T$$
+  $$W_2(1) = W_2(0) = [\mathbf{0.700}, \mathbf{0.300}]^T$$
 
 #### 2. Presentación Correcta de $p_2 = [0.500, 0.520]^T$ (Algoritmo Online Persistente)
 Se deben calcular las distancias obligatoriamente contra **$W(1)$**:
@@ -147,8 +147,8 @@ Se deben calcular las distancias obligatoriamente contra **$W(1)$**:
 
 * **Resultado Legítimo:**
   Como $d_1 = 0.269 < d_2 = 0.297$, **la neurona ganadora para $p_2$ es nuevamente $N_1$**.
-  $$W_1(2) = W_1(1) + 0.50 \begin{bmatrix} 0.500 - 0.300 \\ 0.520 - 0.700 \end{bmatrix} = \begin{bmatrix} 0.300 + 0.100 \\ 0.700 - 0.090 \end{bmatrix} = \begin{bmatrix} \mathbf{0.400} \\ \mathbf{0.610} \end{bmatrix}$$
-  $$W_2(2) = W_2(1) = \begin{bmatrix} \mathbf{0.700} \\ \mathbf{0.300} \end{bmatrix}$$
+  $$W_1(2) = W_1(1) + 0.50 [0.500 - 0.300, 0.520 - 0.700]^T = [0.300 + 0.100, 0.700 - 0.090]^T = [\mathbf{0.400}, \mathbf{0.610}]^T$$
+  $$W_2(2) = W_2(1) = [\mathbf{0.700}, \mathbf{0.300}]^T$$
 
 #### 3. Demostración Forense de la Trampa 3 de Cátedra
 Si el alumno ignora la persistencia online y calcula las distancias de $p_2$ contra los pesos obsoletos $W(0)$:
@@ -156,5 +156,5 @@ Si el alumno ignora la persistencia online y calcula las distancias de $p_2$ con
 * $d_2^2(p_2, W_2(0)) = (0.500 - 0.700)^2 + (0.520 - 0.300)^2 = 0.0400 + 0.0484 = \mathbf{0.0884} \implies d_2 \approx 0.297$
 
 El alumno concluye erróneamente que $d_2 < d_1$ e indica que la ganadora es $N_2$, actualizando la neurona equivocada:
-$$W_2^{\text{erróneo}} = \begin{bmatrix} 0.700 \\ 0.300 \end{bmatrix} + 0.50 \begin{bmatrix} 0.500 - 0.700 \\ 0.520 - 0.300 \end{bmatrix} = \begin{bmatrix} 0.600 \\ 0.410 \end{bmatrix} \quad (\mathbf{\text{Calificación docente: 0 / 25 pts}})$$
+$$W_2^{\text{erróneo}} = [0.700, 0.300]^T + 0.50 [0.500 - 0.700, 0.520 - 0.300]^T = [0.600, 0.410]^T \quad (\mathbf{\text{Calificación docente: 0 / 25 pts}})$$
 **Conclusión formativa:** En el examen de la UTN FRRe, la red SOM opera en modo online: cada patrón modifica de inmediato la topología del espacio de pesos para los estímulos futuros.

@@ -53,16 +53,16 @@ Se entrena un clasificador de vectores de soporte con margen estricto (*hard mar
 **Se solicita:**
 1. Identificar analíticamente cuáles puntos constituyen *Vectores de Soporte* (Support Vectors) y cuáles son puntos interiores descartables para la definición de la frontera.
 2. Calcular el vector ortogonal de pesos $\mathbf{w} = [w_1, w_2]^T$.
-3. Determinar el sesgo individual $b_i$ para **cada uno** de los vectores de soporte y calcular el sesgo representativo promediado $b_{prom}$.
+3. Determinar el sesgo individual $b_i$ para **cada uno** de los vectores de soporte y calcular el sesgo representativo promediado $b\_{prom}$.
 4. Escribir la ecuación explícita del hiperplano de decisión óptimo $f(\mathbf{x}) = 0$ y calcular el ancho geométrico del margen de separación $M = \frac{2}{\|\mathbf{w}\|}$.
-5. Clasificar la nueva muestra de consulta $\mathbf{z}_{test} = [0.0, 2.0]^T$ e indicar a qué distancia orientada se encuentra de la frontera.
+5. Clasificar la nueva muestra de consulta $\mathbf{z}\_{test} = [0.0, 2.0]^T$ e indicar a qué distancia orientada se encuentra de la frontera.
 
 ---
 
 ### Rúbrica de Corrección Detallada (Ejercicio 1: 25 puntos)
 * **[3 pts] Discriminación de Vectores de Soporte:** Identificación formal basada en la condición KKT $\alpha_i > 0$ versus $\alpha_4 = 0$.
-* **[7 pts] Cálculo del Vector $\mathbf{w}$:** Planteo de la sumatoria $\sum \alpha_i y_i \mathbf{x}_i$, sustitución vectorial exacta y cálculo de $w_1$ y $w_2$.
-* **[7 pts] Cálculo del Sesgo Promediado $b_{prom}$:** Despeje de la condición $y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$ para cada SV y promedio aritmético final. *(Nota docente: Si el alumno utiliza un único vector sin justificar o promediar, se descuentan 4 puntos por Trampa 6)*.
+* **[7 pts] Cálculo del Vector $\mathbf{w}$:** Planteo de la sumatoria $\sum \alpha_i y_i \mathbf{x}\_i$, sustitución vectorial exacta y cálculo de $w_1$ y $w_2$.
+* **[7 pts] Cálculo del Sesgo Promediado $b\_{prom}$:** Despeje de la condición $y_i(\mathbf{w}^T \mathbf{x}\_i + b) = 1$ para cada SV y promedio aritmético final. *(Nota docente: Si el alumno utiliza un único vector sin justificar o promediar, se descuentan 4 puntos por Trampa 6)*.
 * **[4 pts] Hiperplano y Margen $M$:** Formulación analítica de la recta divisoria y cálculo normativo de la distancia entre planos de margen.
 * **[4 pts] Clasificación de Muestra Test:** Evaluación en el hiperplano y deducción de clase $\operatorname{sgn}(f(\mathbf{z}))$.
 
@@ -81,16 +81,16 @@ De acuerdo con las condiciones Karush-Kuhn-Tucker (KKT), solo aquellas muestras 
 $$\sum_{i=1}^4 \alpha_i y_i = 0.40(+1) + 0.60(+1) + 1.00(-1) + 0(-1) = 0.40 + 0.60 - 1.00 = 0 \quad \text{(Verificado)}$$
 
 #### 2. Cálculo del Vector de Pesos $\mathbf{w}$
-$$\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = \alpha_1 y_1 p_1 + \alpha_2 y_2 p_2 + \alpha_3 y_3 p_3$$
+$$\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}\_i = \alpha_1 y_1 p_1 + \alpha_2 y_2 p_2 + \alpha_3 y_3 p_3$$
 Sustituyendo los valores:
-$$\mathbf{w} = (0.40)(+1)\begin{bmatrix} 1.0 \\ 5.0 \end{bmatrix} + (0.60)(+1)\begin{bmatrix} 2.0 \\ 1.0 \end{bmatrix} + (1.00)(-1)\begin{bmatrix} -1.0 \\ 1.0 \end{bmatrix}$$
-$$\mathbf{w} = \begin{bmatrix} 0.40 \\ 2.00 \end{bmatrix} + \begin{bmatrix} 1.20 \\ 0.60 \end{bmatrix} + \begin{bmatrix} 1.00 \\ -1.00 \end{bmatrix} = \begin{bmatrix} 0.40 + 1.20 + 1.00 \\ 2.00 + 0.60 - 1.00 \end{bmatrix} = \begin{bmatrix} 2.600 \\ 1.600 \end{bmatrix}$$
+$$\mathbf{w} = (0.40)(+1)[1.0, 5.0]^T + (0.60)(+1)[2.0, 1.0]^T + (1.00)(-1)[-1.0, 1.0]^T$$
+$$\mathbf{w} = [0.40, 2.00]^T + [1.20, 0.60]^T + [1.00, -1.00]^T = [0.40 + 1.20 + 1.00, 2.00 + 0.60 - 1.00]^T = [2.600, 1.600]^T$$
 Por lo tanto:
-$$\mathbf{w} = \begin{bmatrix} 2.600 \\ 1.600 \end{bmatrix}$$
+$$\mathbf{w} = [2.600, 1.600]^T$$
 
-#### 3. Determinación de Sesgos Individuales y Sesgo Promediado $b_{prom}$
-Para todo vector de soporte se cumple $y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$. Multiplicando por $y_i \in \{-1, +1\}$:
-$$b_i = y_i - \mathbf{w}^T \mathbf{x}_i = y_i - (w_1 x_{i1} + w_2 x_{i2})$$
+#### 3. Determinación de Sesgos Individuales y Sesgo Promediado $b\_{prom}$
+Para todo vector de soporte se cumple $y_i(\mathbf{w}^T \mathbf{x}\_i + b) = 1$. Multiplicando por $y_i \in \{-1, +1\}$:
+$$b_i = y_i - \mathbf{w}^T \mathbf{x}\_i = y_i - (w_1 x\_{i1} + w_2 x\_{i2})$$
 
 * **Para $p_1 = [1, 5]^T$ ($y_1 = +1$):**
   $$\mathbf{w}^T p_1 = (2.600)(1.0) + (1.600)(5.0) = 2.600 + 8.000 = 10.600$$
@@ -105,21 +105,21 @@ $$b_i = y_i - \mathbf{w}^T \mathbf{x}_i = y_i - (w_1 x_{i1} + w_2 x_{i2})$$
   $$b_3 = -1 - (-1.000) = 0.000$$
 
 * **Sesgo Promediado Oficial de Cátedra:**
-  $$b_{prom} = \frac{1}{|SV|} \sum_{i \in SV} b_i = \frac{b_1 + b_2 + b_3}{3} = \frac{-9.600 - 5.800 + 0.000}{3} = \frac{-15.400}{3} \approx -5.133$$
+  $$b\_{prom} = \frac{1}{|SV|} \sum_{i \in SV} b_i = \frac{b_1 + b_2 + b_3}{3} = \frac{-9.600 - 5.800 + 0.000}{3} = \frac{-15.400}{3} \approx -5.133$$
 
 #### 4. Ecuación del Hiperplano y Ancho de Margen
 * **Ecuación del hiperplano de decisión:**
-  $$\mathbf{w}^T \mathbf{x} + b_{prom} = 0 \iff 2.600 x_1 + 1.600 x_2 - 5.133 = 0$$
+  $$\mathbf{w}^T \mathbf{x} + b\_{prom} = 0 \iff 2.600 x_1 + 1.600 x_2 - 5.133 = 0$$
 * **Norma euclídea del vector de pesos:**
   $$\|\mathbf{w}\| = \sqrt{w_1^2 + w_2^2} = \sqrt{(2.600)^2 + (1.600)^2} = \sqrt{6.760 + 2.560} = \sqrt{9.320} \approx 3.053$$
 * **Ancho del margen geométrico total:**
   $$M = \frac{2}{\|\mathbf{w}\|} = \frac{2}{3.053} \approx 0.655 \quad \left(\text{margen semi-espacio: } \gamma = \frac{1}{\|\mathbf{w}\|} \approx 0.328\right)$$
 
-#### 5. Clasificación de la Muestra Test $\mathbf{z}_{test} = [0, 2]^T$
-$$f(\mathbf{z}_{test}) = \mathbf{w}^T \mathbf{z}_{test} + b_{prom} = (2.600)(0.0) + (1.600)(2.0) - 5.133 = 3.200 - 5.133 = -1.933$$
-$$\hat{y} = \operatorname{sgn}(f(\mathbf{z}_{test})) = \operatorname{sgn}(-1.933) = -1$$
+#### 5. Clasificación de la Muestra Test $\mathbf{z}\_{test} = [0, 2]^T$
+$$f(\mathbf{z}\_{test}) = \mathbf{w}^T \mathbf{z}\_{test} + b\_{prom} = (2.600)(0.0) + (1.600)(2.0) - 5.133 = 3.200 - 5.133 = -1.933$$
+$$\hat{y} = \operatorname{sgn}(f(\mathbf{z}\_{test})) = \operatorname{sgn}(-1.933) = -1$$
 *Distancia perpendicular orientada al hiperplano:*
-$$d(\mathbf{z}_{test}, \mathcal{H}) = \frac{f(\mathbf{z}_{test})}{\|\mathbf{w}\|} = \frac{-1.933}{3.053} \approx -0.633$$
+$$d(\mathbf{z}\_{test}, \mathcal{H}) = \frac{f(\mathbf{z}\_{test})}{\|\mathbf{w}\|} = \frac{-1.933}{3.053} \approx -0.633$$
 **Conclusión:** La muestra pertenece a la **Clase $-1$** y se sitúa en el lado negativo del espacio, más allá del hiperplano canónico de soporte.
 
 ---
@@ -128,21 +128,21 @@ $$d(\mathbf{z}_{test}, \mathcal{H}) = \frac{f(\mathbf{z}_{test})}{\|\mathbf{w}\|
 
 ### Enunciado
 Considere una red neuronal autoorganizada de Kohonen constituida por una capa de entrada de 2 dimensiones y una grilla unidimensional de 3 neuronas de salida ($N_1, N_2, N_3$). Los vectores de pesos sinápticos iniciales al instante $t=0$ son:
-$$W_1(0) = \begin{bmatrix} 0.200 \\ 0.800 \end{bmatrix}, \quad W_2(0) = \begin{bmatrix} 0.600 \\ 0.400 \end{bmatrix}, \quad W_3(0) = \begin{bmatrix} 0.900 \\ 0.100 \end{bmatrix}$$
+$$W_1(0) = [0.200, 0.800]^T, \quad W_2(0) = [0.600, 0.400]^T, \quad W_3(0) = [0.900, 0.100]^T$$
 
 Se define una tasa de aprendizaje constante $\alpha = 0.50$ y una función de vecindad continua y topológica definida en el **espacio de pesos**:
-$$h(i, j^*) = \frac{1}{1 + \operatorname{dist}(W_i(0), W_{j^*}(0))}$$
-donde $\operatorname{dist}(W_i, W_{j^*}) = \|W_i - W_{j^*}\|_2$ representa la distancia euclídea entre el vector de pesos de la neurona $i$ y el vector de pesos de la neurona ganadora $j^*$.
+$$h(i, j^{\ast}) = \frac{1}{1 + \operatorname{dist}(W_i(0), W_{j^{\ast}}(0))}$$
+donde $\operatorname{dist}(W_i, W_{j^{\ast}}) = \|W_i - W_{j^{\ast}}\|_2$ representa la distancia euclídea entre el vector de pesos de la neurona $i$ y el vector de pesos de la neurona ganadora $j^{\ast}$.
 
 **Se presenta el patrón de entrada:**
-$$X = \begin{bmatrix} 0.500 \\ 0.500 \end{bmatrix}$$
+$$X = [0.500, 0.500]^T$$
 
 **Se solicita:**
 1. Dibujar el esquema arquitectural de la red SOM indicando entradas, conexiones sinápticas y neuronas competitivas.
-2. Calcular la distancia euclídea de cada una de las 3 neuronas al vector de entrada $X$ e identificar analíticamente la neurona ganadora (Best Matching Unit, BMU $j^*$).
-3. Calcular los factores de vecindad $h(1, j^*)$, $h(2, j^*)$ y $h(3, j^*)$ correspondientes.
+2. Calcular la distancia euclídea de cada una de las 3 neuronas al vector de entrada $X$ e identificar analíticamente la neurona ganadora (Best Matching Unit, BMU $j^{\ast}$).
+3. Calcular los factores de vecindad $h(1, j^{\ast})$, $h(2, j^{\ast})$ y $h(3, j^{\ast})$ correspondientes.
 4. Aplicar la regla de actualización de Kohonen para actualizar los vectores de pesos de **todas** las neuronas de la red al paso $t=1$:
-   $$W_i(1) = W_i(0) + \alpha \cdot h(i, j^*) \cdot [X - W_i(0)]$$
+   $$W_i(1) = W_i(0) + \alpha \cdot h(i, j^{\ast}) \cdot [X - W_i(0)]$$
 5. Justificar conceptualmente por qué se actualizan las neuronas no ganadoras y qué efecto geométrico produce sobre el mapa.
 
 ---
@@ -150,7 +150,7 @@ $$X = \begin{bmatrix} 0.500 \\ 0.500 \end{bmatrix}$$
 ### Rúbrica de Corrección Detallada (Ejercicio 2: 25 puntos)
 * **[3 pts] Diagrama de Arquitectura:** Red bi-dimensional de entrada conectada a las 3 neuronas de salida.
 * **[6 pts] Distancias Euclídeas y Determinación de la Ganadora:** Cálculo cuadrático exacto y justificación por mínimo global.
-* **[6 pts] Cálculo de Factores de Vecindad Topológica:** Aplicación estricta de la fórmula $h(i, j^*)$ en el espacio de pesos. *(Si el alumno aplica vecindad nula $h=0$ para las vecinas, pierde 10 pts por Trampa 2)*.
+* **[6 pts] Cálculo de Factores de Vecindad Topológica:** Aplicación estricta de la fórmula $h(i, j^{\ast})$ en el espacio de pesos. *(Si el alumno aplica vecindad nula $h=0$ para las vecinas, pierde 10 pts por Trampa 2)*.
 * **[8 pts] Actualización Sináptica Completa:** Actualización explícita de componentes para $W_1(1), W_2(1), W_3(1)$.
 * **[2 pts] Justificación Teórica:** Explicación del principio de cooperación topológica de Kohonen.
 
@@ -176,9 +176,9 @@ Cada neurona $i$ posee conexiones con pesos $[w_{i1}, w_{i2}]^T$ hacia ambas ent
   $$d_3 = \sqrt{0.320} \approx 0.566$$
 
 * **Determinación de la Ganadora (BMU):**
-  $$j^* = \arg\min_i \{d_1, d_2, d_3\} = \arg\min \{0.424, 0.141, 0.566\} = 2 \implies \text{Neurona Ganadora: } N_2$$
+  $$j^{\ast} = \arg\min_i \{d_1, d_2, d_3\} = \arg\min \{0.424, 0.141, 0.566\} = 2 \implies \text{Neurona Ganadora: } N_2$$
 
-#### 3. Cálculo de los Factores de Vecindad $h(i, j^*=2)$
+#### 3. Cálculo de los Factores de Vecindad $h(i, j^{\ast}=2)$
 La distancia entre neuronas se mide en el espacio de pesos respecto a $W_2(0)$:
 * **Para Neurona 2 (Ganadora):**
   $$\operatorname{dist}(W_2, W_2) = 0.000 \implies h(2, 2) = \frac{1}{1 + 0.000} = 1.000$$
@@ -196,19 +196,19 @@ Utilizando $\alpha = 0.50$ y $X = [0.5, 0.5]^T$:
 $$\Delta W_i = \alpha \cdot h(i, 2) \cdot (X - W_i(0))$$
 
 * **Actualización Neurona 2 (Ganadora, $h(2,2)=1.000$):**
-  $$X - W_2(0) = \begin{bmatrix} 0.500 - 0.600 \\ 0.500 - 0.400 \end{bmatrix} = \begin{bmatrix} -0.100 \\ +0.100 \end{bmatrix}$$
-  $$\Delta W_2 = (0.50)(1.000)\begin{bmatrix} -0.100 \\ 0.100 \end{bmatrix} = \begin{bmatrix} -0.050 \\ +0.050 \end{bmatrix}$$
-  $$W_2(1) = \begin{bmatrix} 0.600 - 0.050 \\ 0.400 + 0.050 \end{bmatrix} = \begin{bmatrix} \mathbf{0.550} \\ \mathbf{0.450} \end{bmatrix}$$
+  $$X - W_2(0) = [0.500 - 0.600, 0.500 - 0.400]^T = [-0.100, +0.100]^T$$
+  $$\Delta W_2 = (0.50)(1.000)[-0.100, 0.100]^T = [-0.050, +0.050]^T$$
+  $$W_2(1) = [0.600 - 0.050, 0.400 + 0.050]^T = [\mathbf{0.550}, \mathbf{0.450}]^T$$
 
 * **Actualización Neurona 1 (Vecina, $h(1,2)=0.639$):**
-  $$X - W_1(0) = \begin{bmatrix} 0.500 - 0.200 \\ 0.500 - 0.800 \end{bmatrix} = \begin{bmatrix} +0.300 \\ -0.300 \end{bmatrix}$$
-  $$\Delta W_1 = (0.50)(0.639)\begin{bmatrix} 0.300 \\ -0.300 \end{bmatrix} = 0.3195 \begin{bmatrix} 0.300 \\ -0.300 \end{bmatrix} = \begin{bmatrix} +0.096 \\ -0.096 \end{bmatrix}$$
-  $$W_1(1) = \begin{bmatrix} 0.200 + 0.096 \\ 0.800 - 0.096 \end{bmatrix} = \begin{bmatrix} \mathbf{0.296} \\ \mathbf{0.704} \end{bmatrix}$$
+  $$X - W_1(0) = [0.500 - 0.200, 0.500 - 0.800]^T = [+0.300, -0.300]^T$$
+  $$\Delta W_1 = (0.50)(0.639)[0.300, -0.300]^T = 0.3195 [0.300, -0.300]^T = [+0.096, -0.096]^T$$
+  $$W_1(1) = [0.200 + 0.096, 0.800 - 0.096]^T = [\mathbf{0.296}, \mathbf{0.704}]^T$$
 
 * **Actualización Neurona 3 (Vecina, $h(3,2)=0.702$):**
-  $$X - W_3(0) = \begin{bmatrix} 0.500 - 0.900 \\ 0.500 - 0.100 \end{bmatrix} = \begin{bmatrix} -0.400 \\ +0.400 \end{bmatrix}$$
-  $$\Delta W_3 = (0.50)(0.702)\begin{bmatrix} -0.400 \\ 0.400 \end{bmatrix} = 0.3510 \begin{bmatrix} -0.400 \\ 0.400 \end{bmatrix} = \begin{bmatrix} -0.140 \\ +0.140 \end{bmatrix}$$
-  $$W_3(1) = \begin{bmatrix} 0.900 - 0.140 \\ 0.100 + 0.140 \end{bmatrix} = \begin{bmatrix} \mathbf{0.760} \\ \mathbf{0.240} \end{bmatrix}$$
+  $$X - W_3(0) = [0.500 - 0.900, 0.500 - 0.100]^T = [-0.400, +0.400]^T$$
+  $$\Delta W_3 = (0.50)(0.702)[-0.400, 0.400]^T = 0.3510 [-0.400, 0.400]^T = [-0.140, +0.140]^T$$
+  $$W_3(1) = [0.900 - 0.140, 0.100 + 0.140]^T = [\mathbf{0.760}, \mathbf{0.240}]^T$$
 
 #### 5. Justificación Conceptual Docente
 En la fase cooperativa del algoritmo SOM, las neuronas que se encuentran en el vecindario topológico de la ganadora son arrastradas en dirección al patrón presentado en proporción inversa a su distancia relativa. Esto preserva las relaciones métricas del espacio de entrada, permitiendo que la red ordene su malla de pesos de forma autoorganizada y suave.

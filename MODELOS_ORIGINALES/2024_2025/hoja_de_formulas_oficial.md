@@ -20,7 +20,7 @@ $$TasaDeGanancia(D, A_i) = \frac{Ganancia(D, A_i)}{-\sum_{j=1}^{m} \left(\frac{|
 
 ### Búsqueda `[TEMA_P1_RENDIDO]`
 
-* **Algoritmo $A^*$:** $f'(X) = g(X) + h'(X)$
+* **Algoritmo $A^{\ast}$:** $f'(X) = g(X) + h'(X)$
 
 ---
 
@@ -51,24 +51,24 @@ $$w_i(t+1) = w_i(t) + \alpha \cdot [d(t) - y(t)] \cdot x_i$$
 
 ### MLP: Perceptrón Multicapa (Backpropagation)
 
-$$Net_{pj} = \sum_{i} w_{ji} \cdot x_{pi}$$
+$$Net\_{pj} = \sum_{i} w_{ji} \cdot x_{pi}$$
 
 * **Sigmoidal estándar:**
-  $$y_{pj} = \frac{1}{1 + e^{-Net_{pj}}} \qquad f'_j(Net_{pj}) = y_{pj} \cdot (1 - y_{pj})$$
+  $$y\_{pj} = \frac{1}{1 + e^{-Net\_{pj}}} \qquad f'\_j(Net\_{pj}) = y\_{pj} \cdot (1 - y\_{pj})$$
 * **Tangente hiperbólica estándar:**
-  $$y_{pj} = \frac{e^{Net} - e^{-Net}}{e^{Net} + e^{-Net}} \qquad f'_j(Net_{pj}) = 1 - y_{pj}^2$$
+  $$y\_{pj} = \frac{e^{Net} - e^{-Net}}{e^{Net} + e^{-Net}} \qquad f'\_j(Net\_{pj}) = 1 - y\_{pj}^2$$
 * **Sigmoidal parametrizada ($\beta$):**
-  $$y_{pj} = \frac{1}{1 + e^{-2\beta Net_{pj}}} \qquad f'_j(Net_{pj}) = 2\beta \cdot y_{pj} \cdot (1 - y_{pj})$$
+  $$y\_{pj} = \frac{1}{1 + e^{-2\beta Net\_{pj}}} \qquad f'\_j(Net\_{pj}) = 2\beta \cdot y\_{pj} \cdot (1 - y\_{pj})$$
 * **Tangente hiperbólica parametrizada ($\beta$):**
-  $$y_{pj} = \frac{e^{\beta Net} - e^{-\beta Net}}{e^{\beta Net} + e^{-\beta Net}} \qquad f'_j(Net_{pj}) = \beta \cdot (1 - y_{pj}^2)$$
+  $$y\_{pj} = \frac{e^{\beta Net} - e^{-\beta Net}}{e^{\beta Net} + e^{-\beta Net}} \qquad f'\_j(Net\_{pj}) = \beta \cdot (1 - y\_{pj}^2)$$
 * **Gradiente en Capa de Salida:**
-  $$\delta_{pk} = f'_k(Net_{pk}) \cdot (d_{pk} - y_{pk})$$
+  $$\delta\_{pk} = f'\_k(Net\_{pk}) \cdot (d\_{pk} - y\_{pk})$$
 * **Gradiente en Capa Oculta:**
-  $$\delta_{pj} = f'_j(Net_{pj}) \cdot \sum_{k} (\delta_{pk} \cdot w_{kj})$$
+  $$\delta\_{pj} = f'\_j(Net\_{pj}) \cdot \sum\_{k} (\delta\_{pk} \cdot w\_{kj})$$
 * **Actualización de Pesos (con Momento):**
-  $$w_{kj}(t+1) = w_{kj}(t) + \alpha \cdot \delta_{pk} \cdot y_{pj} + \beta \cdot (w_{kj}(t) - w_{kj}(t-1))$$
+  $$w\_{kj}(t+1) = w\_{kj}(t) + \alpha \cdot \delta\_{pk} \cdot y\_{pj} + \beta \cdot (w\_{kj}(t) - w\_{kj}(t-1))$$
 * **Error por Patrón y Error Global:**
-  $$E_p = \frac{1}{2} \sum_{k=1}^{M} (d_{pk} - y_{pk})^2 \qquad E_g = \frac{1}{L} \sum_{p=1}^{L} E_p$$
+  $$E_p = \frac{1}{2} \sum_{k=1}^{M} (d\_{pk} - y\_{pk})^2 \qquad E_g = \frac{1}{L} \sum_{p=1}^{L} E_p$$
 
 ### SVM: Máquinas de Vectores de Soporte
 
@@ -81,7 +81,7 @@ $$\frac{\partial L_P}{\partial \overline{w}} = \overline{w} - \sum_{i=1}^{N} y_i
 $$b = \frac{1}{y_i} - \overline{w}^T \overline{x}_i$$
 
 * **Hiperplano de separación en $\mathbb{R}^2$:** $\text{Pendiente} = -\frac{w_1}{w_2}$, $\quad \text{Ordenada al origen} = -\frac{b}{w_2}$
-* **Clasificar nuevas instancias:** $\overline{w}^T \overline{x}_i + b > 0 \implies c = +1 \quad \vert \quad < 0 \implies c = -1$
+* **Clasificar nuevas instancias:** $\overline{w}^T \overline{x}\_i + b > 0 \implies c = +1 \quad \vert \quad \overline{w}^T \overline{x}\_i + b < 0 \implies c = -1$
 * **Margen geométrico:**
   $$Margen = d_+ + d_- = \frac{2}{\|\overline{w}\|} = \frac{2}{\sqrt{w_1^2 + w_2^2 + \dots + w_r^2}}$$
 
@@ -91,7 +91,7 @@ $$W = \sum_{k=1}^{M} (E_k^T \cdot E_k - I)$$
 
 $$S(t+1) = \text{signo}(S(t) \cdot W) \qquad \text{siendo } S(t=0) = E_d$$
 
-* **Capacidad de recuperación perfecta:** $\#\text{patrones} \le \frac{N}{4 \cdot \ln(N)} \qquad \text{Buena } (<1\% \text{ error}): \#\text{patrones} \le 0.138 \cdot N$
+* **Capacidad de recuperación perfecta:** $M \le \frac{N}{4 \cdot \ln(N)}$ · **Buena** ($E < 1\%$): $M \le 0.138 \cdot N$$
 * **Condición de ortogonalidad:** $\sum_{i=1}^{N} e_i^{(k)} \cdot e_i^{(m)} \le 0 \quad \forall k \ne m$
 
 ### SOM: Self-Organizing Map (Kohonen)

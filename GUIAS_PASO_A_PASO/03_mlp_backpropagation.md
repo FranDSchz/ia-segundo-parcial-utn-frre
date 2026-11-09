@@ -45,7 +45,7 @@ flowchart TD
    * $\alpha$: Tasa o coeficiente de aprendizaje ($\alpha \in (0, 1]$).
    * $\delta_j$: Gradiente local de la neurona de **destino**.
    * $y_i$: Señal de activación proveniente de la neurona de **origen** (puede ser una entrada $x_i$ o la salida oculta $f(net_{oj})$).
-   * $\beta$: Término de momento ($\beta \in [0, 1)$).
+   * $\beta$: Término de momento ($0 \le \beta < 1$).
 
 5. **Error Cuadrático Global Medio de Época:**
    $$E_{\text{época}} = \frac{1}{2 L} \sum_{p=1}^L \sum_{k=1}^M (d_{pk} - y_{pk})^2$$

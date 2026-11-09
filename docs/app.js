@@ -88,6 +88,9 @@
       } else {
         this.navigate("home");
       }
+
+      // 8. Render static math on initial load (e.g. checkbox label $A^*$)
+      this.renderStaticMath();
     },
 
     bindKeyboardShortcuts() {
@@ -119,10 +122,96 @@
     },
 
     // -------------------------------------------------------------
-    // KaTeX Math Rendering Helper (with Offline Unicode Fallback)
+    // Rich Text Formatter (Markdown + KaTeX Math Protection)
+    // -------------------------------------------------------------
+    formatRichText(rawStr) {
+      if (!rawStr) return "";
+      let str = String(rawStr);
+
+      // 1. Proteger bloques matemáticos ($$...$$ y $...$) con placeholders seguros
+      const mathPlaceholders = [];
+      const saveMath = (match) => {
+        const token = `@@MATH_BLOCK_${mathPlaceholders.length}@@`;
+        mathPlaceholders.push(match);
+        return token;
+      };
+
+      // Display math ($$...$$) primero, luego inline math ($...$)
+      str = str.replace(/\$\$([\s\S]+?)\$\$/g, saveMath);
+      str = str.replace(/\$([^\$\n]+?)\$/g, saveMath);
+
+      // 2. Convertir código inline `codigo`
+      str = str.replace(/`([^`\n]+?)`/g, "<code>$1</code>");
+
+      // 3. Procesar líneas y viñetas (Markdown lists y saltos de línea)
+      const lines = str.split("\n");
+      const processedLines = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (!line) {
+          processedLines.push("");
+          continue;
+        }
+
+        // Detectar si la línea comienza con viñeta (* o -)
+        const bulletMatch = line.match(/^[\*\-]\s+(.*)$/);
+        if (bulletMatch) {
+          let content = bulletMatch[1];
+          // Negritas **texto**
+          content = content.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
+          // Cursivas *texto* (un solo asterisco)
+          content = content.replace(/(^|[^*])\*([^*]+?)\*([^*]|$)/g, "$1<em>$2</em>$3");
+          processedLines.push(`<div class="rich-bullet-item"><span class="bullet-dot">•</span><span class="bullet-text">${content}</span></div>`);
+        } else {
+          // Línea regular
+          let lineContent = line;
+          lineContent = lineContent.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
+          lineContent = lineContent.replace(/(^|[^*])\*([^*]+?)\*([^*]|$)/g, "$1<em>$2</em>$3");
+          processedLines.push(lineContent);
+        }
+      }
+
+      // Unir líneas respetando saltos de línea limpios
+      let htmlResult = "";
+      for (let i = 0; i < processedLines.length; i++) {
+        const line = processedLines[i];
+        if (!line) {
+          if (htmlResult && !htmlResult.endsWith("</div>") && !htmlResult.endsWith("<br>")) {
+            htmlResult += "<br>";
+          }
+          continue;
+        }
+
+        if (line.startsWith('<div class="rich-bullet-item">')) {
+          htmlResult += (htmlResult && !htmlResult.endsWith("</div>") ? "<br>" : "") + line;
+        } else {
+          if (htmlResult && !htmlResult.endsWith("</div>") && !htmlResult.endsWith("<br>")) {
+            htmlResult += "<br>" + line;
+          } else {
+            htmlResult += line;
+          }
+        }
+      }
+
+      // 4. Restaurar bloques matemáticos asegurando que < y > no rompan el DOM
+      for (let idx = 0; idx < mathPlaceholders.length; idx++) {
+        let mathText = mathPlaceholders[idx];
+        mathText = mathText.replace(/<(?=[a-zA-Z0-9\s\\=\-])/g, "\\lt ");
+        mathText = mathText.replace(/>(?=[a-zA-Z0-9\s\\=\-])/g, "\\gt ");
+        const token = `@@MATH_BLOCK_${idx}@@`;
+        htmlResult = htmlResult.replace(token, mathText);
+      }
+
+      return htmlResult;
+    },
+
+    // -------------------------------------------------------------
+    // KaTeX Math Rendering Helper (with Safe Retry and Offline Fallback)
     // -------------------------------------------------------------
     renderMath(targetElement) {
       if (!targetElement) return;
+
       if (window.renderMathInElement) {
         try {
           window.renderMathInElement(targetElement, {
@@ -139,7 +228,45 @@
           console.warn("KaTeX error:", err);
         }
       }
-      // Fallback cuando se abre 100% sin Internet ni caché CDN de KaTeX
+
+      // Reintento seguro si los scripts de KaTeX están en proceso de descarga
+      if (!this._mathRetryScheduled) {
+        this._mathRetryScheduled = true;
+        let retries = 0;
+        const interval = setInterval(() => {
+          retries++;
+          if (window.renderMathInElement) {
+            clearInterval(interval);
+            this._mathRetryScheduled = false;
+            // Re-renderizar la vista activa para aplicar KaTeX completo
+            if (this.currentView === "qa") {
+              this.renderQAMode();
+            } else if (this.currentView === "practice") {
+              this.renderPracticeQuestion();
+            } else if (this.currentView === "exam") {
+              this.renderQuestion(this.currentIndex);
+            } else if (this.currentView === "results") {
+              this.renderResults();
+            }
+            this.renderStaticMath();
+          } else if (retries > 50) { // 5 segundos sin CDN
+            clearInterval(interval);
+            this._mathRetryScheduled = false;
+            this.applyOfflineMathFallback(targetElement);
+          }
+        }, 100);
+      }
+    },
+
+    renderStaticMath() {
+      const homeSection = document.getElementById("view-home");
+      if (homeSection) {
+        this.renderMath(homeSection);
+      }
+    },
+
+    applyOfflineMathFallback(targetElement) {
+      if (!targetElement) return;
       const symMap = {
         "\\alpha": "α", "\\beta": "β", "\\gamma": "γ", "\\delta": "δ",
         "\\epsilon": "ε", "\\eta": "η", "\\theta": "θ", "\\lambda": "λ",
@@ -147,15 +274,16 @@
         "\\prod": "∏", "\\le": "≤", "\\ge": "≥", "\\ne": "≠",
         "\\to": "→", "\\implies": "⇒", "\\iff": "⇔", "\\cdot": "·",
         "\\times": "×", "\\pm": "±", "\\infty": "∞", "\\in": "∈",
-        "\\forall": "∀", "\\mid": "|", "\\vert": "|", "\\|": "‖"
+        "\\forall": "∀", "\\mid": "|", "\\vert": "|", "\\|": "‖",
+        "\\lt": "<", "\\gt": ">"
       };
-      targetElement.innerHTML = targetElement.innerHTML.replace(/\$\$([\s\S]+?)\$\$|\$([^$]+?)\$/g, (_, dMath, iMath) => {
+      targetElement.innerHTML = targetElement.innerHTML.replace(/\$\$([\s\S]+?)\$\$|\$([^$]+?)\$/g, (fullMatch, dMath, iMath) => {
         let expr = (dMath || iMath || "").trim();
         Object.keys(symMap).forEach((k) => {
           expr = expr.split(k).join(symMap[k]);
         });
         expr = expr.replace(/\\(?:text|mathbf|overline|bar|lfloor|rfloor)\{([^}]*)\}/g, "$1");
-        return `<code class="math-offline">${expr}</code>`;
+        return `<code class="math-offline" data-raw-math="${encodeURIComponent(fullMatch)}">${expr}</code>`;
       });
     },
 
@@ -207,7 +335,9 @@
       }
 
       // View-specific initializers
-      if (viewName === "history") {
+      if (viewName === "home") {
+        this.renderStaticMath();
+      } else if (viewName === "history") {
         this.renderHistory();
       } else if (viewName === "qa") {
         this.renderQAMode();
@@ -374,10 +504,15 @@
 
       // Title & Enunciado
       const titleEl = document.getElementById("exam-question-title");
-      if (titleEl) titleEl.textContent = q.titulo;
+      if (titleEl) {
+        titleEl.innerHTML = this.formatRichText(q.titulo);
+        this.renderMath(titleEl);
+      }
 
       const promptEl = document.getElementById("exam-question-prompt");
-      if (promptEl) promptEl.innerHTML = q.enunciado;
+      if (promptEl) {
+        promptEl.innerHTML = this.formatRichText(q.enunciado);
+      }
 
       // Multi-select hint
       const multiHint = document.getElementById("exam-multi-hint");
@@ -417,7 +552,7 @@
 
           optDiv.innerHTML = `
             <input type="checkbox" class="option-checkbox" ${isSelected ? "checked" : ""} onchange="app.toggleOption(${optIdx})">
-            <div class="option-text">${optText}</div>
+            <div class="option-text">${this.formatRichText(optText)}</div>
           `;
           optionsList.appendChild(optDiv);
         });
@@ -796,7 +931,7 @@
           optionsHtml += `
             <div class="option-review ${optClass}">
               <span>${icon}</span>
-              <div>${optText}</div>
+              <div>${this.formatRichText(optText)}</div>
             </div>
           `;
         });
@@ -810,7 +945,7 @@
             <span style="font-weight: 800; font-family: var(--font-mono);">${statusLabel}</span>
           </div>
 
-          <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem;">${q.enunciado}</div>
+          <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem;">${this.formatRichText(q.enunciado)}</div>
 
           <div style="margin-bottom: 1rem;">
             ${optionsHtml}
@@ -820,7 +955,7 @@
             <div class="justification-title">
               <span>📖 Justificación Doctrinal Oficial de Cátedra:</span>
             </div>
-            <div>${q.explicacion}</div>
+            <div>${this.formatRichText(q.explicacion)}</div>
             <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.4rem;">
               <strong>Fuente Oficial:</strong> ${q.fuente}
             </div>
@@ -934,7 +1069,7 @@
         optionsHtml += `
           <div class="option-item ${optClass}" onclick="app.togglePracticeOption(${oIdx})">
             <input type="checkbox" class="option-checkbox" ${isSelected ? "checked" : ""} ${isChecked ? "disabled" : ""}>
-            <div class="option-text">${optText}</div>
+            <div class="option-text">${this.formatRichText(optText)}</div>
             ${feedbackBadge}
           </div>
         `;
@@ -951,7 +1086,7 @@
               Puntaje: ${score} / 100
             </span>
           </div>
-          <div>${q.explicacion}</div>
+          <div>${this.formatRichText(q.explicacion)}</div>
           <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.4rem;">
             <strong>Fuente:</strong> ${q.fuente}
           </div>
@@ -974,7 +1109,7 @@
           </div>
 
           <div class="question-prompt" id="practice-prompt">
-            ${q.enunciado}
+            ${this.formatRichText(q.enunciado)}
           </div>
 
           <div class="options-list" id="practice-options">
@@ -1173,7 +1308,7 @@
               isCorrect ? "var(--success-bg)" : "var(--bg-subtle)"
             }; border: 1px solid ${isCorrect ? "var(--success)" : "transparent"};">
               <span>${isCorrect ? "✅ [CLAVE]" : "⚪"}</span>
-              <div style="flex: 1;">${optText}</div>
+              <div style="flex: 1;">${this.formatRichText(optText)}</div>
             </div>
           `;
         });
@@ -1188,7 +1323,7 @@
             <span style="font-size: 0.78rem; color: var(--text-muted);">${q.fuente}</span>
           </div>
 
-          <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 0.85rem;">${q.enunciado}</div>
+          <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 0.85rem;">${this.formatRichText(q.enunciado)}</div>
 
           <div style="margin-bottom: 1rem;">
             ${optionsHtml}
@@ -1196,7 +1331,7 @@
 
           <div class="justification-box">
             <div class="justification-title">📖 Justificación Oficial:</div>
-            <div>${q.explicacion}</div>
+            <div>${this.formatRichText(q.explicacion)}</div>
           </div>
         `;
 

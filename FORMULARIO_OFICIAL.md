@@ -23,7 +23,7 @@ $$net_{j} = \sum_{i} w_{ji} \cdot y_{i} - \theta_j, \qquad y_j = f(net_j)$$
 ### Regla Delta Generalizada con Término de Momento $\beta$:
 $$w_{ji}(t+1) = w_{ji}(t) + \Delta w_{ji}(t)$$
 $$\Delta w_{ji}(t) = \alpha \cdot \delta_j \cdot y_i + \beta \cdot \Delta w_{ji}(t-1)$$
-*Donde $\alpha \in (0, 1]$ es el factor de aprendizaje y $\beta \in [0, 1)$ es el coeficiente de momento.*
+Donde $\alpha \in (0, 1]$ es el factor de aprendizaje y $\beta \in [0, 1)$ es el coeficiente de momento.
 
 ### Error Cuadrático Medio de Época:
 $$E_{\text{época}} = \frac{1}{2 L} \sum_{p=1}^L \sum_{k=1}^M (d_{pk} - y_{pk})^2$$
@@ -34,18 +34,18 @@ $$E_{\text{época}} = \frac{1}{2 L} \sum_{p=1}^L \sum_{k=1}^M (d_{pk} - y_{pk})^
 
 ### Fase 1: Competencia (Distancia Euclidiana a Pesos):
 $$d_j = \|\mathbf{x} - \mathbf{w}_j\| = \sqrt{\sum_{k=1}^D (x_k - w_{jk})^2}$$
-$$\text{Neurona Ganadora (BMU): } j^* = \arg\min_j d_j$$
+$$\text{Neurona Ganadora (BMU): } j^{\ast} = \arg\min_j d_j$$
 
 ### Fase 2: Cooperación (Función de Vecindad Topológica):
 * **Vecindad Continua con Distancia en el Espacio de Pesos:**
-  $$h(i, j^*) = \frac{1}{1 + \text{dist}(W_i, W_{j^*})} \quad \text{o bien} \quad h(i, j^*) = \frac{1}{2 + \text{dist}(W_i, W_{j^*})}$$
-  *(Para la ganadora $j^*$: $\text{dist}(W_{j^*}, W_{j^*}) = 0 \implies h(j^*, j^*) = 1 \text{ ó } 0.50$)*
+  $$h(i, j^{\ast}) = \frac{1}{1 + \text{dist}(W_i, W_{j^{\ast}})} \quad \text{o bien} \quad h(i, j^{\ast}) = \frac{1}{2 + \text{dist}(W_i, W_{j^{\ast}})}$$
+  (Para la ganadora $j^{\ast}$: $\text{dist}(W_{j^{\ast}}, W_{j^{\ast}}) = 0 \implies h(j^{\ast}, j^{\ast}) = 1 \text{ ó } 0.50$)
 * **Vecindad Nula:**
-  $$h(i, j^*) = 1 \text{ si } i = j^*, \quad h(i, j^*) = 0 \text{ si } i \ne j^*$$
+  $$h(i, j^{\ast}) = 1 \text{ si } i = j^{\ast}, \quad h(i, j^{\ast}) = 0 \text{ si } i \ne j^{\ast}$$
 
 ### Fase 3: Adaptación (Actualización Secuencial Online):
-$$\mathbf{w}_i(t+1) = \mathbf{w}_i(t) + \alpha \cdot h(i, j^*) \cdot (\mathbf{x} - \mathbf{w}_i(t))$$
-*¡Regla de examen! Para el patrón $p_{k+1}$, utilizar la matriz de pesos $\mathbf{W}(t+1)$ recién actualizada.*
+$$\mathbf{w}\_i(t+1) = \mathbf{w}\_i(t) + \alpha \cdot h(i, j^{\ast}) \cdot (\mathbf{x} - \mathbf{w}\_i(t))$$
+**¡Regla de examen!** Para el patrón $p_{k+1}$, utilizar la matriz de pesos $\mathbf{W}(t+1)$ recién actualizada.
 
 ---
 
@@ -56,8 +56,14 @@ $$W = \sum_{k=1}^M \left( \mathbf{e}_k^T \mathbf{e}_k - I \right) \implies w_{ii
 $$w_{ij} = \sum_{k=1}^M e_{ki} e_{kj} \quad (\text{para } i \ne j), \qquad w_{ij} = w_{ji}$$
 
 ### Dinámica de Recuperación (Bipolar $\{-1, +1\}$):
-$$net_i(t) = \sum_{j=1}^N w_{ij} x_j(t) = \mathbf{x}(t) \cdot W_{*, i}$$
-$$x_i(t+1) = \text{sgn}(net_i(t)) = \begin{cases} +1 & \text{si } net_i(t) > 0 \\ -1 & \text{si } net_i(t) < 0 \\ x_i(t) & \text{si } net_i(t) = 0 \end{cases}$$
+$$net_i(t) = \sum_{j=1}^N w_{ij} x_j(t) = \mathbf{x}(t) \cdot W_{\ast, i}$$
+$$
+x_i(t+1) = \text{sgn}(net_i(t)) = \begin{cases}
++1 & \text{si } net_i(t) > 0 \\
+-1 & \text{si } net_i(t) < 0 \\
+x_i(t) & \text{si } net_i(t) = 0
+\end{cases}
+$$
 
 ### Condiciones de Capacidad y Ortogonalidad:
 * Ortogonalidad Bipolar: $\mathbf{e}_k \cdot \mathbf{e}_m = 0 \iff$ Difieren en el $50\%$ de bits ($N/2$).
@@ -107,7 +113,7 @@ $$L_D(\boldsymbol{\alpha}) = \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i=1}^N \s
 
 ### Teorema de Bayes con Hipótesis Ingenua de Independencia:
 $$P(C_k \mid \mathbf{x}) \propto P(C_k) \cdot \prod_{i=1}^D P(x_i \mid C_k)$$
-$$\text{Regla de Decisión MAP: } C^* = \arg\max_{C_k} \left[ P(C_k) \cdot \prod_{i=1}^D P(x_i \mid C_k) \right]$$
+$$\text{Regla de Decisión MAP: } C^{\ast} = \arg\max_{C_k} \left[ P(C_k) \cdot \prod_{i=1}^D P(x_i \mid C_k) \right]$$
 
 ### Probabilidades a Priori:
 $$P(C_k) = \frac{N_k}{N_{\text{total}}}$$

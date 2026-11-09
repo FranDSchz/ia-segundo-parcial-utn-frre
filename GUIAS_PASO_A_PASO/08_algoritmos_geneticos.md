@@ -30,11 +30,11 @@ flowchart TD
 1. **Aptitud Relativa y Ruleta Proporcional:**
    $$p_i = \frac{f_i}{\sum_{j=1}^N f_j}, \qquad q_i = \sum_{k=1}^i p_k \quad (\text{con } q_N = 1.00)$$
    *Mapeo a la ruleta $[00, 99]$:*
-   $$\text{Rango}_i = [\text{Rango}_{i-1}^{\text{fin}} + 1, \; \text{round}(100 \cdot q_i) - 1]$$
+   $$\text{Rango}\_i = [\text{Rango}\_{i-1}^{\text{fin}} + 1, \; \text{round}(100 \cdot q\_i) - 1]$$
 2. **Selección por Ranking Lineal (Ordenamiento por Aptitud):**
    Los individuos se ordenan decrecientemente según su fitness ($i = 1$ es el más apto, $i = N$ el menos apto):
    $$P(i) = \frac{1}{N} \left[ R_{\min} + 2(1 - R_{\min}) \frac{N - i}{N - 1} \right]$$
-   *Donde $R_{\min} \in [0, 1]$ es la probabilidad base asignada al peor individuo (típicamente $R_{\min} = 0.30$ en la UTN).*
+   Donde $R_{\min} \in [0, 1]$ es la probabilidad base asignada al peor individuo (típicamente $R_{\min} = 0.30$ en la UTN).
 3. **Control del Número Esperado de Copias (Muestreo Estocástico con Resto):**
    $$\text{Valor Esperado: } \eta_i = N \cdot p_i$$
    * **Asignación determinista:** El individuo recibe $c_i = \lfloor \eta_i \rfloor$ copias directas.

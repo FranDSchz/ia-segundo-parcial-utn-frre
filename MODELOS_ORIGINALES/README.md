@@ -84,10 +84,10 @@ Todos los archivos han sido:
 - **Estructura y Ponderación:**
   1. **Ejercicio 1 (25%): Support Vector Machines (SVM)**  
      *Temario P2 Activo:* **SÍ**.  
-     *Enunciado:* Dados 4 vectores $p_1=[0, 4]^T, p_2=[3, 0]^T, p_3=[-2, 0]^T, p_4=[-3, -3]^T$ con clases $y \in \{+1, -1\}$ y multiplicadores de Lagrange $\alpha_i$, calcular el vector de pesos $\mathbf{w}$ y el sesgo promediado $b_{prom}$.  
+     *Enunciado:* Dados 4 vectores $p_1=[0, 4]^T, p_2=[3, 0]^T, p_3=[-2, 0]^T, p_4=[-3, -3]^T$ con clases $y \in \{+1, -1\}$ y multiplicadores de Lagrange $\alpha_i$, calcular el vector de pesos $\mathbf{w}$ y el sesgo promediado $b\_{prom}$.  
   2. **Ejercicio 2 (25%): Mapas Autoorganizados de Kohonen (SOM)**  
      *Temario P2 Activo:* **SÍ**.  
-     *Enunciado:* Red SOM lineal de 3 neuronas, tasa $\alpha=0.5$, función de vecindad continua $h(i, j^*) = \frac{1}{1 + \text{dist}(W_i, W_{j^*})}$. Presentación del patrón $p_3 = [0.8, 0.4]^T$. Determinar neurona ganadora ($BMU$) y actualizar todos los pesos sinápticos.  
+     *Enunciado:* Red SOM lineal de 3 neuronas, tasa $\alpha=0.5$, función de vecindad continua $h(i, j^{\ast}) = \frac{1}{1 + \text{dist}(W_i, W_{j^{\ast}})}$. Presentación del patrón $p_3 = [0.8, 0.4]^T$. Determinar neurona ganadora ($BMU$) y actualizar todos los pesos sinápticos.  
   3. **Ejercicio 3 (25%): Perceptrón Multicapa (MLP) – Backpropagation**  
      *Temario P2 Activo:* **SÍ**.  
      *Enunciado:* Red $3 \times 2 \times 3$ con funciones de activación sigmoideas logísticas $\sigma(net)$. Para un patrón con salida deseada $do_1 = 1, do_2 = 0, do_3 = 0$, calcular la salida de la red, los gradientes locales de error $\delta$ para cada capa y la corrección de pesos considerando momento $\beta$.  
@@ -318,7 +318,7 @@ Todos los archivos han sido:
 ### 3.5. Carpeta `compilaciones_tematicas/` (Dossiers Prácticos Oficiales de la Cátedra)
 
 Contiene las guías oficiales de ejercicios resueltos paso a paso por tema para preparar el examen (deduplicadas y normalizadas):
-1. **`SVM.pdf`** (9 págs.): Formulación Dual $L_D$, matriz de productos escalares, condiciones KKT, cálculo de $\mathbf{w}$ y sesgo promediado $b_{prom}$.
+1. **`SVM.pdf`** (9 págs.): Formulación Dual $L_D$, matriz de productos escalares, condiciones KKT, cálculo de $\mathbf{w}$ y sesgo promediado $b\_{prom}$.
 2. **`MLP.pdf`** (7 págs.): Algoritmo Backpropagation completo, regla de la cadena para capas ocultas, término de momento $\beta$ y función de error global.
 3. **`SOM.pdf`** (6 págs.): Mapas de Kohonen, cálculo de distancias euclidianas, neurona ganadora ($BMU$), actualización con vecindad nula y vecindad continua.
 4. **`Clustering.pdf`** (7 págs.): Algoritmos de agrupamiento aglomerativo (Single-Link, Complete-Link, Average-Link) y K-Means con dendrogramas.
@@ -350,7 +350,7 @@ Del análisis forense de las correcciones docentes de la cátedra en los exámen
    - *Solución obligatoria:* Evaluar siempre un punto testigo en $f(Net)$. Si da signo opuesto al deseado, **invertir los signos de todos los pesos y del umbral** ($w_1 \leftarrow -w_1, w_2 \leftarrow -w_2, \theta \leftarrow -\theta$).
 
 2. **Vecindad Continua vs Nula en SOM:**
-   - *Error típico:* Cuando el enunciado define una función de vecindad $h(i, j^*) = \frac{1}{1 + \text{dist}}$, el alumno actualiza únicamente la ganadora.
+   - *Error típico:* Cuando el enunciado define una función de vecindad $h(i, j^{\ast}) = \frac{1}{1 + \text{dist}}$, el alumno actualiza únicamente la ganadora.
    - *Consecuencia:* Cátedra anula el ejercicio (0 / 25%).
    - *Solución obligatoria:* Calcular el factor $h$ para cada neurona de la red y actualizar todos los vectores de pesos sinápticos.
 
@@ -365,11 +365,11 @@ Del análisis forense de las correcciones docentes de la cátedra en los exámen
 5. **El Error de Promediado en Average Linkage:**
    - *Error típico:* Al fusionar el cluster $\{A, B\}$ con el punto $\{C\}$, promediar la distancia previa con la nueva: $\frac{d(\{A,B\}, C)}{2}$.
    - *Solución obligatoria:* Average Linkage exige la media aritmética exacta de **todos los pares cruzados**:
-     $$d(C_1, C_2) = \frac{1}{|C_1| \cdot |C_2|} \sum_{x \in C_1} \sum_{y \in C_2} d(x, y)$$
+     $$d(C_1, C_2) = \frac{1}{|C_1| \cdot |C_2|} \sum\_{x \in C_1} \sum\_{y \in C_2} d(x, y)$$
 
 6. **El Sesgo $b$ en Support Vector Machines (SVM):**
    - *Error típico:* Despejar $b$ utilizando un solo vector de soporte arbitrario.
-   - *Solución obligatoria:* Despejar $b_i = y_i - \mathbf{w}^T x_i$ para cada uno de los vectores de soporte $(\alpha_i > 0)$ y reportar formalmente el promedio aritmético $b_{prom}$.
+   - *Solución obligatoria:* Despejar $b_i = y_i - \mathbf{w}^T x_i$ para cada uno de los vectores de soporte $(\alpha_i > 0)$ y reportar formalmente el promedio aritmético $b\_{prom}$.
 
 ---
 

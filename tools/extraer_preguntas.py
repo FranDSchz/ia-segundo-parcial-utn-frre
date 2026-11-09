@@ -19,7 +19,18 @@ def normalizar_latex(texto):
     # Reemplazar normas |w| por \|w\|
     texto = re.sub(r'\|([a-zA-Z\\]+)\|', r'\\|\1\\|', texto)
     # Evitar dobles barras accidentales
-    texto = re.sub(r'\\\\(frac|alpha|beta|sigma|mathbf|sum|prod|in|ne|le|ge|cdot|vert|mid|lambda)', r'\\\1', texto)
+    texto = re.sub(r'\\\\(frac|alpha|beta|sigma|mathbf|sum|prod|in|ne|le|ge|cdot|vert|mid|lambda|lt|gt)', r'\\\1', texto)
+    
+    # Normalizar < y > dentro de bloques matemáticos ($$...$$ y $...$) a \lt y \gt
+    # para evitar colisiones con el parser HTML del navegador (ej: $p < q$ -> <q>)
+    def fix_math(m):
+        block = m.group(0)
+        block = re.sub(r'<(?!=)', r'\\lt ', block)
+        block = re.sub(r'>(?!=)', r'\\gt ', block)
+        block = re.sub(r'[ \t]+', ' ', block)
+        return block
+
+    texto = re.sub(r'\$\$[\s\S]+?\$\$|\$[^\$]+?\$', fix_math, texto)
     return texto.strip()
 
 def limpiar_opcion_spoilers(texto):
@@ -685,6 +696,10 @@ print(f"\nExtracción y curación completada. Total de preguntas consolidadas: {
 # Recalcular y ordenar preguntas
 for i, q in enumerate(preguntas, 1):
     q['nro'] = i
+    q['titulo'] = normalizar_latex(q.get('titulo', ''))
+    q['enunciado'] = normalizar_latex(q.get('enunciado', ''))
+    q['opciones'] = [normalizar_latex(opt) for opt in q.get('opciones', [])]
+    q['explicacion'] = normalizar_latex(q.get('explicacion', ''))
 
 # Estadísticas por tema
 temas_count = {}
