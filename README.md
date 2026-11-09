@@ -220,17 +220,12 @@ El examen se rinde en **hojas en blanco**: la clave del éxito radica en mecaniz
 │
 ├── 📂 imagenes/                      <- 137 recortes de alta resolución de diagramas, tablas y redes reales
 │
-└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados, fotos de parciales y auditoría SHA-256
-    ├── README.md                     <- Catálogo forense y fichas técnicas de cada modelo de examen
-    ├── CATALOGO_HASHES_SHA256_Y_DEDUPLICACION.md <- Auditoría forense de 193 hashes SHA-256 únicos
-    ├── catalogo_hashes_forense.json  <- Base estructurada completa de metadatos criptográficos
-    ├── 2024_2025/                    <- Segundo Parcial 19/11/2025, Hoja de Fórmulas y Finales 2024-2025
-    ├── 2023/                         <- Parciales presenciales contemporáneos (Temas 1 y 2) y Teoría
-    ├── 2022/                         <- Evaluaciones presenciales 2022
-    ├── 2020_2021_virtuales/          <- Evaluaciones virtuales y recuperatorios resueltos
-    ├── 2015_2019/                    <- Exámenes históricos de consulta (2012 a 2019)
-    ├── finales_historicos/           <- Mesas de examen final adicionales
-    └── compilaciones_tematicas/      <- Cuadernillos oficiales en PDF deduplicados por unidad
+└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados, fotos y PDFs de exámenes
+    ├── 📄 LEEME.txt                  <- Guía de orientación rápida sobre las carpetas
+    ├── 📂 1_PARCIALES_2DO_PARCIAL/   <- Enunciados y fotos auténticas de parciales del 2do Parcial
+    ├── 📂 2_FINALES/                 <- Exámenes finales presenciales y virtuales de mesas
+    ├── 📂 3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/ <- Cuestionarios oficiales de la Cátedra (U3 y U4)
+    └── 📂 4_GUIAS_PRACTICAS_CATEDRA/ <- Guías oficiales de Trabajos Prácticos de la Cátedra
 ```
 
 </details>
