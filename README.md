@@ -32,7 +32,9 @@
 ├── 📄 FORMULARIO_OFICIAL.md          <- Formulario canónico de 2 carillas exacto
 ├── 📄 MACHETE_LEGAL_5_MINUTOS.md      <- Hoja de emergencia para leer 15 min antes
 │
-├── 📂 GUIAS_PASO_A_PASO/             <- 8 Guías algorítmicas con calculadora y ejercicios reales
+├── 📂 GUIAS_PASO_A_PASO/             <- 8 Guías algorítmicas + Guía Maestra de AG y Estructura Real
+│   ├── GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md <- Guía completa AG + Fin del mito 4 cuadrantes
+│   ├── BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md         <- Banco numérico completo resuelto en KaTeX
 │   ├── 01_svm_paso_a_paso.md         <- Support Vector Machines (w, b_prom, Dual KKT)
 │   ├── 02_som_kohonen_paso_a_paso.md  <- Mapas de Kohonen (BMU, vecindad continua, online)
 │   ├── 03_mlp_backpropagation.md     <- Perceptrón Multicapa (Forward, Backward δ, momento β)
@@ -43,6 +45,8 @@
 │   └── 08_algoritmos_geneticos.md    <- Algoritmos Genéticos (Ruleta 00-99, Ranking, Temp)
 │
 ├── 📂 BANCO_TEORIA_Y_MC/             <- Exámenes teóricos históricos y claves oficiales
+│   ├── BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md <- Compendio total: 13 Tips, 198 preguntas de desarrollo, 51 MC (339 KB)
+│   ├── BANCO_PREGUNTAS_TEORICAS_2024_2025_FINALES.md <- Compendio teórico de exámenes 2024-2025 y finales
 │   ├── multiple_choice_con_claves.md <- 14 preguntas MC oficiales corregidas en tinta roja
 │   └── preguntas_desarrollo.md       <- Preguntas conceptuales explicadas con criterio docente
 │
@@ -58,7 +62,9 @@
 ├── 📂 VARIANTES_PRACTICA/            <- Ejercicios adicionales clasificados por tipología
 │   └── variantes_svm.md              <- Variaciones analíticas y geométricas de SVM
 │
-└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados y fotos de parciales
+└── 📂 MODELOS_ORIGINALES/            <- Archivos originales escaneados, fotos de parciales y auditoría SHA-256
+    ├── CATALOGO_HASHES_SHA256_Y_DEDUPLICACION.md <- Auditoría forense de 193 hashes SHA-256 únicos y deduplicación
+    ├── catalogo_hashes_forense.json  <- Base estructurada completa de metadatos criptográficos
     ├── 2012_clasico/                 <- Exámenes históricos del plan antiguo
     ├── 2015_2019/                    <- Exámenes de consolidación de 4 cuadrantes
     ├── 2020_2021_virtuales/          <- Evaluaciones virtuales manuscritas (COVID)
@@ -69,20 +75,40 @@
 
 ---
 
-## 🎯 La Estructura del Examen: El Modelo de los 4 Cuadrantes
+## 🎯 La Estructura Real del Examen: Desmitificación de los "4 Cuadrantes Fijos"
 
-El examen práctico presencial de la cátedra se resuelve en papel y lápiz en un tiempo de **2 horas**. La hoja se divide estrictamente en **4 ejercicios independientes valorados en 25% cada uno**:
+> [!WARNING]
+> ### ⚠️ ALERTA METODOLÓGICA: NO ASUMIR UNA PLANTILLA RÍGIDA DE 4 CUADRANTES AL 25%
+> Durante años circuló entre alumnos la creencia de que todo segundo parcial se compone estrictamente de 4 ejercicios de 25% (SVM, SOM, MLP y un rotativo).  
+> **La auditoría forense sobre los exámenes reales (2012–2025) demuestra que la Cátedra NO utiliza una plantilla fija.**  
+> Para un análisis exhaustivo y modelos resueltos, consultar la [GUÍA MAESTRA DE ALGORITMOS GENÉTICOS Y ESTRUCTURA REAL DE EXAMEN](GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md).
 
-| Cuadrante | Tema Evaluado | Frecuencia | Probabilidad 2026 | Enfoque Canónico de Cátedra |
-| :---: | :--- | :---: | :---: | :--- |
-| **Q1** | **Support Vector Machines (SVM)** | **100%** | **100% (Fijo)** | Dados multiplicadores $\alpha_i$, calcular $\mathbf{w}$ y sesgo promediado $b_{prom}$, o plantear el Dual $L_D$ con KKT. |
-| **Q2** | **Mapas de Kohonen (SOM)** | **85%** | **85% (Fijo)** | Distancia euclídea al vector de pesos, BMU, vecindad continua $h(i)$ y actualización en línea (*online*). |
-| **Q3** | **Perceptrón Multicapa (MLP)** | **90%** | **90% (Fijo)** | Paso backward con gradientes $\delta$ en salida y capas ocultas, actualización de pesos con momento $\beta$ y parada temprana. |
-| **Q4** | **Clustering / Hopfield / KNN / Bayes** | **100%** | **Rotativo** | **Var A (55%):** Clustering jerárquico con Average Linkage y dendrograma.<br>**Var B (25%):** KNN ponderado por $1/d^2$ o Leave-One-Out CV.<br>**Var C (20%):** Red de Hopfield con matriz Hebbiana de diagonal nula. |
+### Las 4 Estructuras Reales Implementadas por la Cátedra:
 
-> [!IMPORTANT]
-> **Criterio de Aprobación Docente:**  
-> Se requiere alcanzar un **mínimo de 60% en la parte práctica** y un **60% en la parte teórica** de manera independiente. En la práctica, resolver 3 de los 4 cuadrantes sin fallas matemáticas garantiza 75 puntos y la aprobación directa.
+1. **Estructura Heterogénea de 4 Puntos (20% – 30% – 30% – 20%):**  
+   *Es el formato oficial más reciente* (constatado en el examen del **19/11/2025**):
+   * **Punto 1 (20%):** Clustering Jerárquico Complete Link (matriz de distancias $D_0 \dots D_3$ y dendrograma).
+   * **Punto 2 (30%):** Perceptrón Multicapa (MLP) analítico / Backpropagation con derivadas y función sigmoidal.
+   * **Punto 3 (20%):** Mapas Auto-Organizados (SOM de Kohonen) con función de vecindad no nula y actualización online.
+   * **Punto 4 (30%):** **Algoritmos Genéticos (AG)**: Cruza simple (corte $k$), cruza multipunto y control de copias esperadas al 50%.
+2. **Estructura Equitativa de 5 Ejercicios de 20%:**  
+   Frecuente en parciales presenciales y finales históricos (ej. evaluación presencial `img4.jpg`):
+   * 5 ejercicios ponderados al 20% cada uno: Naïve Bayes por histogramas, Perceptrón simple analítico con verificación del vector normal, Red de Hopfield con matriz Hebbiana de diagonal nula, SVM planteo Dual $L_D$ con KKT, y Búsqueda/Reglas.
+3. **Estructura Compacta de 3 Puntos (33% / 34% o 40% – 30% – 30%):**  
+   Habitual en mesas de examen final y turnos de recuperatorio con menor disponibilidad horaria:
+   * Ejercicios integradores de mayor profundidad que fusionan teoría y cálculo en una misma consigna.
+4. **Estructura Mixta Teórico-Práctica (40% Teoría + 60% Práctica):**  
+   Evaluaciones combinadas donde la teoría se acredita mediante batería de Multiple Choice (51 preguntas oficiales) y preguntas conceptuales de desarrollo, complementada con 2 o 3 problemas prácticos numéricos.
+
+---
+
+### 🧬 El Papel Crítico de Algoritmos Genéticos en el Segundo Parcial
+Históricamente, algunos resúmenes estudiantiles omitían **Algoritmos Genéticos (AG)** considerándolo un tema secundario.  
+**Evidencia empírica irrefutable:**
+* En el examen presencial del **19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 30% de la nota final**.
+* En evaluaciones de 2023 se exigió **Mutación adaptativa por temperatura** (ascendente y descendente) y **Selección por Ranking**.
+* En el compendio oficial de la Cátedra, la **Guía Práctica Nº 6** está íntegramente dedicada a AG.
+* Se debe dominar: Selección por Ruleta acumulada (rangos porcentuales 00–99), Control de Copias Esperadas ($c_i = f_i / \bar{f}$), Cruza simple, Cruza multipunto, Cruza binomial, Mutación por temperatura y Diversidad poblacional.
 
 ---
 

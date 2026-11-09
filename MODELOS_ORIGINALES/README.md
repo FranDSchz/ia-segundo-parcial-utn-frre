@@ -9,6 +9,15 @@
 
 ---
 
+
+> [!IMPORTANT]
+> ### 🛡️ Auditoría Forense de Integridad y Deduplicación SHA-256
+> Se ha ejecutado un análisis criptográfico exhaustivo sobre los 860 ítems de Google Drive y 803 archivos locales:
+> - **Catálogo Maestro:** [CATALOGO_HASHES_SHA256_Y_DEDUPLICACION.md](CATALOGO_HASHES_SHA256_Y_DEDUPLICACION.md) documenta los **193 archivos únicos** con su hash SHA-256 de 64 caracteres, tamaño y tag unívoco.
+> - **Base de Datos Forense:** [catalogo_hashes_forense.json](catalogo_hashes_forense.json) almacena la matriz completa de ocurrencias cruzadas y flags de duplicación (detectando un 92.2% de redundancia inter-carpetas).
+> - **Nuevo Examen Rescatado:** Se incorporó el examen presencial en formato PDF original `2020_2021_virtuales/2_parcial_practica_T1_2021_11_17.pdf` (SVM analítico, SOM vecindad rectangular y Clustering Average Link con dendrograma).
+
+
 ## 1. Presentación y Propósito de este Repositorio
 
 Este directorio reúne la **totalidad de los exámenes parciales, recuperatorios y compilaciones prácticas originales** recopilados a lo largo de más de una década de evaluaciones de la cátedra de Inteligencia Artificial de la UTN FRRe.
