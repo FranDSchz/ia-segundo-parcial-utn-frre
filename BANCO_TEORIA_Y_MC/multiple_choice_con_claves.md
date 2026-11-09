@@ -1,6 +1,5 @@
 # Banco de Multiple Choice con Claves Docentes Confirmadas
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Fuentes Documentales:** Exámenes teóricos oficiales impresos (2019 con corrección en tinta roja `CIN_teoria_IA2019.jpg`, 2020, 2021, 2023).
 
 > [!IMPORTANT]
@@ -30,23 +29,25 @@
 * **Fuente Oficial:** Examen Teórico Oficial 2019, Pregunta 2.
 * **Consigna:** Para utilizar el algoritmo $K$-NN ponderado:
   - [x] **A) No es necesario que las clases sean linealmente separables. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA - VALIDADA EN ROJO]</span>**
-  - [ ] B) Es necesario establecer previamente el valor del $K$ óptimo en forma analítica.
-  - [ ] C) Puede utilizarse todo el conjunto de datos para estimar la clase de una nueva instancia obligatoriamente.
+  - [ ] B) Es necesario establecer previamente el valor del $K$ óptimo. **[FALSO]**
+  - [x] **C) Puede utilizarse todo el conjunto de datos ($K = N$) para estimar la clase de una nueva instancia. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA - VALIDADA EN ROJO]</span>**
 
 * **Justificación Oficial de Cátedra:**
-  $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de decisión de forma no lineal (mosaicos de Voronoi suaves), por lo que no impone ningún requisito de separabilidad lineal en el espacio de características. La opción B es falsa porque $K$ es un hiperparámetro empírico ajustado por validación cruzada.
+  * **A es verdadera:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de decisión de forma no lineal (mosaicos de Voronoi suaves), por lo que no impone ningún requisito de separabilidad lineal en el espacio de características.
+  * **B es falsa:** El valor óptimo de $K$ no se conoce a priori; es un hiperparámetro empírico ajustado mediante validación cruzada (*Leave-One-Out*).
+  * **C es verdadera:** En $K$-NN **ponderado** por distancia inversa ($w_i = \frac{1}{d^2}$ o $w_i = \frac{1}{1+d^2}$), es válido emplear todo el conjunto de entrenamiento ($K = N$) dado que las instancias lejanas reciben un peso infinitesimalmente pequeño y no distorsionan la decisión local.
 
 ---
 
 ## Pregunta MC 03 — Algoritmo Disk $K$-Means
 * **Fuente Oficial:** Examen Teórico Oficial 2019, Pregunta 3.
 * **Consigna:** El algoritmo Disk $K$-Means:
-  - [ ] A) Retorna los mismos clusters que la versión $K$-Means si las semillas utilizadas en ambos casos son las mismas.
-  - [ ] B) Requiere establecer la cantidad de clusters al inicio de la ejecución de forma fija e inmutable.
-  - [x] **C) Permite analizar distintas configuraciones de clusters para seleccionar la adecuada. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA - VALIDADA EN ROJO]</span>**
+  - [x] **A) Retorna los mismos clusters que la versión $K$-Means estándar si las semillas utilizadas en ambos casos son las mismas. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA - VALIDADA EN ROJO]</span>**
+  - [x] **B) Requiere establecer la cantidad de clusters $K$ al inicio de la ejecución. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA - VALIDADA EN ROJO]</span>**
+  - [ ] C) Determina automáticamente el número óptimo de clusters en una única pasada sin intervención del usuario. **[FALSO]**
 
 * **Justificación Oficial de Cátedra:**
-  La variante Disk $K$-Means fue concebida para manejar grandes volúmenes de datos almacenados en memoria secundaria (disco) y evaluar dinámicamente configuraciones competitivas de centroides reduciendo el número de accesos a disco, permitiendo comparar índices de validez de múltiples particiones.
+  La variante Disk $K$-Means fue concebida para manejar grandes volúmenes de datos almacenados en memoria secundaria (disco) reduciendo las operaciones de I/O a una lectura secuencial por iteración, pero acumula las sumas y calcula exactamente la misma media aritmética por grupo que $K$-Means clásico; por lo tanto, **bajo idénticas semillas iniciales converge exactamente a los mismos centroides y clusters**. Asimismo, exige definir el hiperparámetro $K$ al inicio de la corrida.
 
 ---
 
@@ -60,7 +61,7 @@
 
 * **Justificación Oficial de Cátedra:**
   * La afirmación 1 es la definición axiomática de Karush-Kuhn-Tucker: si $\alpha_i = 0$, el punto no ejerce fuerza sobre el margen.
-  * La afirmación 2 es falsa porque SVM realiza aprendizaje *eager* y *offline*: clasificar una nueva muestra cuesta un producto escalar directo $\text{sgn}(\mathbf{w}^T \mathbf{x} + b)$ sin reentrenar.
+  * La afirmación 2 es falsa porque SVM realiza aprendizaje *eager* y *offline*: clasificar una nueva instancia de prueba cuesta un producto escalar directo $\text{sgn}(\mathbf{w}^T \mathbf{x} + b)$ sin reentrenar (sólo se recalcularía si ingresara una nueva instancia de *entrenamiento* que violase el margen).
   * La afirmación 3 es verdadera por definición de margen estricto (*hard margin*): las restricciones exigen $y_i(\mathbf{w}^T \mathbf{x}_i + b) \ge 1$, dejando la banda de ancho $\frac{2}{\|\mathbf{w}\|}$ totalmente vacía de puntos.
 
 ---
@@ -93,7 +94,7 @@
 * **Consigna:** El algoritmo $K$-NN:
   - [x] **1. Es lazy (vago / perezoso). <span style="color:red; font-weight:bold;">[VERDADERO]</span>**
   - [x] **2. Es un método local. <span style="color:red; font-weight:bold;">[VERDADERO]</span>**
-  - [ ] 3. Requiere obligatoriamente que las clases tengan cantidades iguales o muy parecidas de instancias. **[FALSO]**
+  - [ ] 3. Requiere obligatoriamente que las clases tengan cantidades iguales o muy parecidas de instancias para poder ejecutarse. **[FALSO]**
 
 * **Justificación Oficial de Cátedra:**
   * Es *lazy* porque no procesa una función de hipótesis en la fase de entrenamiento: almacena los datos y calcula distancias sólo ante una consulta.

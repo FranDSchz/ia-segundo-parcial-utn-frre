@@ -1,101 +1,111 @@
-**Reglas de asociación**
+# Hoja de Fórmulas Oficial (Transcripción Normalizada de Cátedra)
 
-**$Soporte=\frac{\left({X\ U\ Y}\right).count}{n}$** 		$Confianza=\frac{\left({X\ U\ Y}\right).count}{X.count}$ 
+**Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)
 
-**Árboles de decisión**
+---
 
-**$$Entropía\left({D}\right)=-\ \sum\limits_{j=1}^{|C|}P\left({{C}_{j}}\right)\ .\ {log}_{2}\left({P\left({{C}_{j}}\right)}\right)$$**
+### Reglas de Asociación `[TEMA_P1_RENDIDO]`
 
-$${Entropía}_{{A}_{i}}\left({D}\right)=\sum\limits_{j=1}^{m}\frac{{|D}_{j}|}{|D|}\ .\ Entropía({D}_{j})$$
+$$Soporte = \frac{(X \cup Y).count}{n} \qquad Confianza = \frac{(X \cup Y).count}{X.count}$$
 
-$Ganancia\left({D,\ {A}_{i}}\right)=Entropía\left({D}\right)-{Entropía}_{{A}_{i}}\left({D}\right)$ 
+### Árboles de Decisión `[TEMA_P1_RENDIDO]`
 
-**$$TasaDeGanancia\left({D,\ {A}_{i}}\right)=\frac{Ganancia\left({D,\ {A}_{i}}\right)}{-\ \sum\limits_{j=1}^{m}(\frac{\left|{{D}_{j}}\right|}{\left|{D}\right|}\ .\ \ {log}_{2}(\frac{\left|{{D}_{j}}\right|}{\left|{D}\right|})}$$**
+$$Entrop\acute{\imath}a(D) = -\sum_{j=1}^{|C|} P(C_j) \cdot \log_2(P(C_j))$$
 
-**Búsqueda**
+$$Entrop\acute{\imath}a_{A_i}(D) = \sum_{j=1}^{m} \frac{|D_j|}{|D|} \cdot Entrop\acute{\imath}a(D_j)$$
 
-A\*: f'(X) \= g(X) \+ h’(X)
+$$Ganancia(D, A_i) = Entrop\acute{\imath}a(D) - Entrop\acute{\imath}a_{A_i}(D)$$
 
-**Algoritmos genéticos**
+$$TasaDeGanancia(D, A_i) = \frac{Ganancia(D, A_i)}{-\sum_{j=1}^{m} \left(\frac{|D_j|}{|D|} \cdot \log_2\left(\frac{|D_j|}{|D|}\right)\right)}$$
 
-Selección por ruleta: ${Ranuras}_{i}={(aptitud}_{i}\ /\ \sum\limits_{i=1}^{N}{aptitud}_{i})\ .\ 100$
+### Búsqueda `[TEMA_P1_RENDIDO]`
 
-Selección con control de copias esperadas: ${c}_{i}={aptitud}_{i}\ /\ \overline{aptitud}$
+* **Algoritmo $A^*$:** $f'(X) = g(X) + h'(X)$
 
-Selección por ranking: ${c}_{i}={R}_{min}+2\ .\ \frac{\left({n-i}\right)\ .\ \ (1-{R}_{min})}{n-1}$
+---
 
-Mutación adaptativa: $Pm\left({t+1}\right)=Pm(t)±λ$		$Pmin≤Pm(t)≤Pmax$
+### Algoritmos Genéticos
 
-**Naive Bayes**
+* **Selección por ruleta:**
+  $$Ranuras_i = \left(\frac{aptitud_i}{\sum_{i=1}^{N} aptitud_i}\right) \cdot 100$$
+* **Selección con control de copias esperadas:**
+  $$c_i = \frac{aptitud_i}{\overline{aptitud}}$$
+* **Selección por ranking:**
+  $$c_i = R_{\min} + 2 \cdot \frac{(n - i) \cdot (1 - R_{\min})}{n - 1}$$
+* **Mutación adaptativa:**
+  $$P_m(t+1) = P_m(t) \pm \lambda \qquad (P_{\min} \le P_m(t) \le P_{\max})$$
 
-**$$P\left({{a}_{1},…,\ {a}_{m}}\right)∝P\left({{c}_{i}}\right)\ .\ \prod\limits_{j=1}^{m}P\left({{c}_{i}}\right)$$**
+### Naïve Bayes
 
-$μ=\frac{1}{N}\ \sum\limits_{i=1}^{N}{x}_{i}$	$\sqrt{{\sigma }^{2}}=\sqrt{\frac{\sum\limits_{i=1}^{N}\ {({x}_{i}-\ μ)}^{2}}{N}}$	$P\left({{c}_{i}}\right)=\frac{1}{σ\ \sqrt{2π}}\ .\ {e}^{\frac{-\ {({a}_{j}-μ)}^{2}}{2\ .\ \ {\sigma }^{2}}}$
+$$P(c_i \mid a_1, \dots, a_m) \propto P(c_i) \cdot \prod_{j=1}^{m} P(a_j \mid c_i)$$
 
-**Perceptrón**
+$$\mu = \frac{1}{N} \sum_{i=1}^{N} x_i \qquad \sigma = \sqrt{\frac{\sum_{i=1}^{N} (x_i - \mu)^2}{N}} \qquad P(a_j \mid c_i) = \frac{1}{\sigma \sqrt{2\pi}} \cdot e^{-\frac{(a_j - \mu)^2}{2\sigma^2}}$$
 
-**$$Net=\sum\limits_{i=0}^{N}{w}_{i}\ .\ {x}_{i}$$**
+### Perceptrón Simple
 
-$${w}_{i}\left({t+1}\right)={w}_{i}\left({t}\right)+α.\left[{d\left({t}\right)-y\left({t}\right)}\right]\ .\ \ {x}_{i}$$
+$$Net = \sum_{i=0}^{N} w_i \cdot x_i$$
 
-${w}_{1}\ .\ {x}_{1}+{w}_{2}\ .\ {x}_{2}=\ θ$		Método analítico
+$$w_i(t+1) = w_i(t) + \alpha \cdot [d(t) - y(t)] \cdot x_i$$
 
-**MLP: Perceptrón multicapa**
+* **Método analítico (recta de separación en $\mathbb{R}^2$):** $w_1 \cdot x_1 + w_2 \cdot x_2 = \theta$
 
-**$${Net}_{pj}=\sum\limits_{i}^{}{w}_{ji}\ .\ \ {x}_{pi}$$**
+### MLP: Perceptrón Multicapa (Backpropagation)
 
-Sigmoidal: ${y}_{pj}=\frac{1}{1+{e}^{-{Net}_{pj}}}$  			          ${f}_{j}^{'}\left({{Net}_{pj}}\right)={y}_{pj}\ \left({1-{y}_{pj}}\right)$
+$$Net_{pj} = \sum_{i} w_{ji} \cdot x_{pi}$$
 
-Tangente hiperbólica: ${y}_{pj}=\frac{{e}^{Net}-{e}^{-Net}}{{e}^{Net}+{e}^{-Net}}$	     	          ${f}_{j}^{'}\left({{Net}_{pj}}\right)=1-{y}_{pj}^{2}{\ }$
+* **Sigmoidal estándar:**
+  $$y_{pj} = \frac{1}{1 + e^{-Net_{pj}}} \qquad f'_j(Net_{pj}) = y_{pj} \cdot (1 - y_{pj})$$
+* **Tangente hiperbólica estándar:**
+  $$y_{pj} = \frac{e^{Net} - e^{-Net}}{e^{Net} + e^{-Net}} \qquad f'_j(Net_{pj}) = 1 - y_{pj}^2$$
+* **Sigmoidal parametrizada ($\beta$):**
+  $$y_{pj} = \frac{1}{1 + e^{-2\beta Net_{pj}}} \qquad f'_j(Net_{pj}) = 2\beta \cdot y_{pj} \cdot (1 - y_{pj})$$
+* **Tangente hiperbólica parametrizada ($\beta$):**
+  $$y_{pj} = \frac{e^{\beta Net} - e^{-\beta Net}}{e^{\beta Net} + e^{-\beta Net}} \qquad f'_j(Net_{pj}) = \beta \cdot (1 - y_{pj}^2)$$
+* **Gradiente en Capa de Salida:**
+  $$\delta_{pk} = f'_k(Net_{pk}) \cdot (d_{pk} - y_{pk})$$
+* **Gradiente en Capa Oculta:**
+  $$\delta_{pj} = f'_j(Net_{pj}) \cdot \sum_{k} (\delta_{pk} \cdot w_{kj})$$
+* **Actualización de Pesos (con Momento):**
+  $$w_{kj}(t+1) = w_{kj}(t) + \alpha \cdot \delta_{pk} \cdot y_{pj} + \beta \cdot (w_{kj}(t) - w_{kj}(t-1))$$
+* **Error por Patrón y Error Global:**
+  $$E_p = \frac{1}{2} \sum_{k=1}^{M} (d_{pk} - y_{pk})^2 \qquad E_g = \frac{1}{L} \sum_{p=1}^{L} E_p$$
 
-Sigmoidal: ${y}_{pj}=\frac{1}{1+{e}^{-2β{Net}_{pj}}}$  	     		          ${f}_{j}^{'}\left({{Net}_{pj}}\right)=2β\ .{y}_{j}\ .\ \left({1-{y}_{pj}}\right)$
+### SVM: Máquinas de Vectores de Soporte
 
-Tangente hiperbólica: ${y}_{pj}=\frac{{e}^{βNet}-{e}^{-βNet}}{{e}^{βNet}+{e}^{-βNet}}$ 	          ${f}_{j}^{'}\left({{Net}_{pj}}\right)=β\left({1-{y}_{pj}^{2}\ }\right)$
+$$\text{Maximizar } L_D = \sum_{i=1}^{N} \alpha_i - \frac{1}{2} \sum_{i,j=1}^{N} y_i \cdot y_j \cdot \alpha_i \cdot \alpha_j \cdot (\overline{x}_i^T \cdot \overline{x}_j)$$
 
-Salida: ${\delta }_{pk}={f}_{k}^{'}\left({{Net}_{pk}}\right)\ .\ \left({{d}_{pk}-{y}_{pk}}\right)$		          Oculta: ${\delta }_{pj}={f}_{j}^{'}\left({{Net}_{pj}}\right)\ .\ \sum\limits_{k}^{}{(δ}_{pk}\ .\ {w}_{kj})$
+$$\text{Sujeto a: } \sum_{i=1}^{N} y_i \cdot \alpha_i = 0 \quad \text{y} \quad \alpha_i \ge 0$$
 
-$${w}_{kj}\left({t+1}\right)={w}_{kj}\left({t}\right)+α\ .\ {\delta }_{pk}\ .\ {y}_{pj}+β\left({{w}_{kj}\left({t}\right)-{w}_{kj}\left({t-1}\right)}\right)$$
+$$\frac{\partial L_P}{\partial \overline{w}} = \overline{w} - \sum_{i=1}^{N} y_i \cdot \alpha_i \cdot \overline{x}_i = 0 \implies \overline{w} = \sum_{i=1}^{N} y_i \cdot \alpha_i \cdot \overline{x}_i$$
 
-$${E}_{p}=\frac{1}{2}\sum\limits_{k=1}^{M}{\left({{d}_{pk}-{y}_{pk}}\right)}^{2}\ \ \ \ \ \ \ \ \ \ \ \ {E}_{g}=\frac{1}{L}\ \sum\limits_{p=1}^{L}{E}_{p}$$
+$$b = \frac{1}{y_i} - \overline{w}^T \overline{x}_i$$
 
-**SVM: Máquinas de vectores de soporte**
+* **Hiperplano de separación en $\mathbb{R}^2$:** $\text{Pendiente} = -\frac{w_1}{w_2}$, $\quad \text{Ordenada al origen} = -\frac{b}{w_2}$
+* **Clasificar nuevas instancias:** $\overline{w}^T \overline{x}_i + b > 0 \implies c = +1 \quad \vert \quad < 0 \implies c = -1$
+* **Margen geométrico:**
+  $$Margen = d_+ + d_- = \frac{2}{\|\overline{w}\|} = \frac{2}{\sqrt{w_1^2 + w_2^2 + \dots + w_r^2}}$$
 
-**$$Maximizar\ {L}_{D}=-\frac{1}{2}\sum\limits_{i,j=1}^{N}{y}_{i}.{y}_{j}.{\alpha }_{i}.{\alpha }_{j}.{\overline{x}}_{i}^{T}.{\overline{x}}_{j}$$**
+### Red de Hopfield
 
-$$Sujeto\ a:\ \sum\limits_{i=1}^{N}{y}_{i}.{\alpha }_{i}=0\ \ \ \ \ \ y\ \ \ \ \ {\alpha }_{i}≥0$$
+$$W = \sum_{k=1}^{M} (E_k^T \cdot E_k - I)$$
 
-$$\frac{\partial {L}_{p}}{\partial \overline{w}}=\overline{w}-\sum\limits_{i=1}^{N}{y}_{i}.{\alpha }_{i}.{\overline{x}}_{i}=0\ \ \ →\ \ \ \overline{w}=\sum\limits_{i=1}^{N}{y}_{i}.{\alpha }_{i}.{\overline{x}}_{i}$$
+$$S(t+1) = \text{signo}(S(t) \cdot W) \qquad \text{siendo } S(t=0) = E_d$$
 
-$$b=\frac{1}{{y}_{i}}-{\overline{w}}^{T}{\overline{x}}_{i}$$
+* **Capacidad de recuperación perfecta:** $\#\text{patrones} \le \frac{N}{4 \cdot \ln(N)} \qquad \text{Buena } (<1\% \text{ error}): \#\text{patrones} \le 0.138 \cdot N$
+* **Condición de ortogonalidad:** $\sum_{i=1}^{N} e_i^{(k)} \cdot e_i^{(m)} \le 0 \quad \forall k \ne m$
 
-Hiperplano de separación: Pendiente \= \- w1/w2	Ordenada al origen \= \-b/w2
+### SOM: Self-Organizing Map (Kohonen)
 
-Clasificar nuevas instancias: ${\overline{w}}^{T}{\overline{x}}_{i}+b\ \ \ \ \ >0→c=1\ \ \ \ \ <0→c=-1$
+$$d_j = \sqrt{\sum_{i=1}^{N} \left(w_{ji} - e_i^{(k)}\right)^2}$$
 
-$$Margen={d}_{+}+{d}_{-}=\frac{2}{‖\overline{w}‖}=\frac{2}{\sqrt{{w}_{1}^{2}+{w}_{2}^{2}+...+{w}_{r}^{2}}}$$
+$$w_{ji}(t+1) = w_{ji}(t) + \alpha(t) \cdot h \cdot (e_i - w_{ji}) \qquad \left(\alpha(t) = \frac{1}{t}\right)$$
 
-**Hopfield**
+### K-Means
 
-**$$W=\sum\limits_{k=1}^{M}{(E}_{k}^{T}\ .\ \ {E}_{k}-I)$$**
+$$dist(\overline{x}_i, \overline{m}_j) = \sqrt{(x_{i1} - m_{j1})^2 + \dots + (x_{ir} - m_{jr})^2}$$
 
-S(t+1) \= S(t) . W 	siendo S(t=0) \= E
+$$\overline{m}_j = \frac{1}{|C_j|} \sum_{\overline{x}_i \in C_j} \overline{x}_i$$
 
-Recuperación perfecta: $#patrones≤\frac{N}{4\ .\ \ ln⁡(N)}$		Buena: $#patrones≤0,138N$
+### KNN: K-Nearest Neighbors (Ponderado por Distancia)
 
-Ortogonalidad: $\sum\limits_{i=1}^{N}{\ e}_{i}^{(k)}\ .\ {e}_{i}^{(m)}\ ≤0\ \ \ \ ∀\ k≠m$
-
-**SOM: Self Organizing Map**
-
-**$$d=\sqrt{\sum\limits_{i=1}^{N}{\left({{w}_{ji}-{e}_{i}^{\left({k}\right)}}\right)}^{2}}$$**
-
-${w}_{ji}\left({t+1}\right)={w}_{ji}\left({t}\right)\ +\ α\left({t}\right)\ .\ h\ .\ ({e}_{i}-{w}_{ji})$		$α=\frac{1}{t}$
-
-**K-Means**
-
-**$$dist\left({{\overline{x}}_{i},\ {\overline{m}}_{j}}\right)=\sqrt{{({x}_{i1}-{m}_{j1})}^{2}+...+{({x}_{ir}-{m}_{jr})}^{2}}$$**
-
-$${\overline{m}}_{j}=\frac{1}{|{C}_{j}|}\ \sum\limits_{{\overline{x}}_{i}\ ∈\ {C}_{j}}^{}{\overline{x}}_{i}$$
-
-**KNN: K Nearest Neighbors**
-
-**$$f({x}_{q})←{argmax}_{c\ ∈\ C}\sum\limits_{i=1}^{K}\ \ \frac{\delta \left({c,\ f\left({{x}_{q}}\right)}\right)}{{d({x}_{q},\ {x}_{i})}^{2}}$$**
+$$f(x_q) \leftarrow \arg\max_{c \in C} \sum_{i=1}^{K} \frac{\delta(c, f(x_i))}{d(x_q, x_i)^2}$$

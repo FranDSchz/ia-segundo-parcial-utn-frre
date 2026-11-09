@@ -62,9 +62,9 @@ Es fundamental considerar que **todos los temas del programa oficial son evaluab
 > - **Punto 1 (20%):** Clustering Jerárquico Aglomerativo (*complete-link* y *average-link* con dendrogramas).
 > - **Punto 2 (30%):** Red SOM con **función de vecindad no nula** ($h(t) = \frac{1}{1 + \text{dist}^2}$), actualización del patrón P4 y arquitectura.
 > - **Punto 3 (30%):** Red MLP con cálculo analítico de errores sigmoidales y actualización de pesos.
-> - **Punto 4 (20% / 30%):** **ALGORITMOS GENÉTICOS COMPLETO**, evaluando Cruza Simple (G4), Cruza Multipunto (G2, G5, G7) y Control de Copias al 50%.
+> - **Punto 4 (20%):** **ALGORITMOS GENÉTICOS COMPLETO**, evaluando Cruza Simple (G4), Cruza Multipunto (G2, G5, G7) y Control de Copias al 50%.
 >
-> Como demuestra este modelo reciente, el ejercicio de Algoritmos Genéticos representó hasta el **30% de la nota final**, confirmando que dominar todos los ejes temáticos es indispensable para la regularidad y la promoción.
+> Como demuestra este modelo reciente, el ejercicio de Algoritmos Genéticos representó entre el **20% y el 30% de la nota final** según el tema, confirmando que dominar todos los ejes temáticos es indispensable para la regularidad y la promoción.
 
 ---
 
@@ -172,11 +172,11 @@ El algoritmo evolutivo sigue un flujo de control riguroso definido por la Cáted
 
 ```mermaid
 flowchart TD
-    Inicio(["Inicio"]) --> Gen0["Generación Aleatoria de la Población Inicial t = 0<br/>(N individuos de longitud fija L)"]
+    Inicio["Inicio"] --> Gen0["Generación Aleatoria de la Población Inicial t = 0<br/>(N individuos de longitud fija L)"]
     Gen0 --> Eval["Evaluación de Aptitud (Fitness)<br/>Cálculo de f(xi) para todo individuo"]
     Eval --> Check{"¿Cumple condición de parada?<br/>- Aptitud deseada alcanzada<br/>- Generación máxima t_max<br/>- Toda la población homogénea"}
-    Check -- Sí --> Fin(["Fin del Algoritmo<br/>Retornar mejor individuo encontrado"])
-    Check -- No --> Sel["Operador de Selección<br/>Asigna copias proporcionales o por orden<br/>(Ruleta, Control de Copias, Ranking, Elitismo)"]
+    Check -->|"Sí"| Fin["Fin del Algoritmo<br/>Retornar mejor individuo encontrado"]
+    Check -->|"No"| Sel["Operador de Selección<br/>Asigna copias proporcionales o por orden<br/>(Ruleta, Control de Copias, Ranking, Elitismo)"]
     Sel --> Cruce["Operador de Cruce (Recombinación)<br/>Participan pares de padres con prob. Pc<br/>(Cruza Simple, Multipunto, Binomial)"]
     Cruce --> Mut["Operador de Mutación<br/>Altera alelos con baja probabilidad Pm<br/>(Simple, Temperatura, Convergencia)"]
     Mut --> NewPop["Nueva Generación t = t + 1<br/>Reemplazo generacional total o parcial (G_gap)"]

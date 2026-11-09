@@ -1,7 +1,6 @@
 # Guía Paso a Paso: Algoritmos Genéticos (Selección, Cruce y Mutación)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
-**Tiempo estimado en examen:** 25 minutos | **Ponderación:** Cierre de Brecha Curricular (Teoría / Práctica Especial)
+**Tiempo estimado en examen:** 25 minutos | **Ponderación:** 20% - 30% del Examen Práctico (1 Ejercicio Completo) + Teoría
 
 ---
 

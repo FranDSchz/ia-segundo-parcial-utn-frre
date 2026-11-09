@@ -47,6 +47,7 @@
 
     // QA Mode State
     qaSearchQuery: "",
+    qaSelectedTopic: "ALL",
 
     // Init
     init() {
@@ -77,7 +78,10 @@
       // 5. Build practice topics
       this.initPracticeMode();
 
-      // 6. Check URL hash for direct routing (#qa, #practice, #history)
+      // 6. Bind keyboard shortcuts for active exam
+      this.bindKeyboardShortcuts();
+
+      // 7. Check URL hash for direct routing (#qa, #practice, #history)
       const hash = window.location.hash.replace("#", "").toLowerCase();
       if (["home", "practice", "history", "qa"].includes(hash)) {
         this.navigate(hash);
@@ -86,8 +90,36 @@
       }
     },
 
+    bindKeyboardShortcuts() {
+      document.addEventListener("keydown", (e) => {
+        if (this.currentView !== "exam") return;
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        const modal = document.getElementById("modal-finish");
+        if (modal && modal.classList.contains("open")) return;
+
+        if (e.key >= "1" && e.key <= "6") {
+          const optIdx = parseInt(e.key, 10) - 1;
+          const q = this.examQuestions[this.currentIndex];
+          if (q && optIdx < q.opciones.length) {
+            e.preventDefault();
+            this.toggleOption(optIdx);
+          }
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          this.nextQuestion();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          this.prevQuestion();
+        } else if (e.key === "f" || e.key === "F") {
+          e.preventDefault();
+          this.toggleCurrentFlag();
+        }
+      });
+    },
+
     // -------------------------------------------------------------
-    // KaTeX Math Rendering Helper
+    // KaTeX Math Rendering Helper (with Offline Unicode Fallback)
     // -------------------------------------------------------------
     renderMath(targetElement) {
       if (!targetElement) return;
@@ -102,10 +134,29 @@
             ],
             throwOnError: false
           });
+          return;
         } catch (err) {
           console.warn("KaTeX error:", err);
         }
       }
+      // Fallback cuando se abre 100% sin Internet ni caché CDN de KaTeX
+      const symMap = {
+        "\\alpha": "α", "\\beta": "β", "\\gamma": "γ", "\\delta": "δ",
+        "\\epsilon": "ε", "\\eta": "η", "\\theta": "θ", "\\lambda": "λ",
+        "\\mu": "μ", "\\pi": "π", "\\sigma": "σ", "\\sum": "∑",
+        "\\prod": "∏", "\\le": "≤", "\\ge": "≥", "\\ne": "≠",
+        "\\to": "→", "\\implies": "⇒", "\\iff": "⇔", "\\cdot": "·",
+        "\\times": "×", "\\pm": "±", "\\infty": "∞", "\\in": "∈",
+        "\\forall": "∀", "\\mid": "|", "\\vert": "|", "\\|": "‖"
+      };
+      targetElement.innerHTML = targetElement.innerHTML.replace(/\$\$([\s\S]+?)\$\$|\$([^$]+?)\$/g, (_, dMath, iMath) => {
+        let expr = (dMath || iMath || "").trim();
+        Object.keys(symMap).forEach((k) => {
+          expr = expr.split(k).join(symMap[k]);
+        });
+        expr = expr.replace(/\\(?:text|mathbf|overline|bar|lfloor|rfloor)\{([^}]*)\}/g, "$1");
+        return `<code class="math-offline">${expr}</code>`;
+      });
     },
 
     // -------------------------------------------------------------
@@ -1066,15 +1117,49 @@
     },
 
     // -------------------------------------------------------------
-    // QA Mode (Full Bank Inspection)
+    // QA Mode (Full Bank Inspection + Live Search & Topic Filter)
     // -------------------------------------------------------------
+    setQASearch(query) {
+      this.qaSearchQuery = (query || "").trim().toLowerCase();
+      this.renderQAMode();
+    },
+
+    setQATopic(topic) {
+      this.qaSelectedTopic = topic || "ALL";
+      this.renderQAMode();
+    },
+
     renderQAMode() {
       const container = document.getElementById("qa-questions-container");
       if (!container) return;
 
       container.innerHTML = "";
+      const query = this.qaSearchQuery;
+      const topicFilter = this.qaSelectedTopic;
 
-      this.allQuestions.forEach((q, idx) => {
+      const filtered = this.allQuestions.filter((q) => {
+        if (topicFilter !== "ALL" && q.tema !== topicFilter) return false;
+        if (!query) return true;
+        const haystack = `${q.id} ${q.tema} ${TOPIC_NAMES[q.tema] || ""} ${q.titulo} ${q.enunciado} ${q.opciones.join(" ")} ${q.explicacion}`.toLowerCase();
+        return haystack.includes(query);
+      });
+
+      const countBadge = document.getElementById("qa-count-badge");
+      if (countBadge) {
+        countBadge.textContent = `${filtered.length} de ${this.allQuestions.length} Preguntas`;
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+            No se encontraron preguntas que coincidan con el filtro actual.
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach((q) => {
+        const idx = q.nro ? q.nro - 1 : this.allQuestions.indexOf(q);
         const correctSet = new Set(q.correctas);
         const card = document.createElement("div");
         card.className = "card";

@@ -1,123 +1,123 @@
-# **Junio 2025**
+# Compendio de Exámenes Finales Prácticos (2024 – 2025)
 
-1. # K-means
+**Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
+**Nota Curricular:** Los puntos correspondientes a Búsqueda ($A^*$), Planificación (POP), Árboles de Decisión (C4.5) y Reglas de Asociación (Apriori) están rotulados con `[TEMA_P1_RENDIDO]` por pertenecer al Primer Parcial.
 
-2. # A\*
+> [!TIP]
+> **Resoluciones Analíticas Completas Paso a Paso:** Todos los ejercicios de este compendio se encuentran íntegramente desarrollados en [`BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md`](../../GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md).
 
-3. # Clustering jerárquico: single link y average link
+---
 
-4. # SOM
+## Mesa Junio 2025
+1. **Agrupamiento Particional:** Algoritmo $K$-Means.
+2. **Búsqueda Heurística:** Algoritmo $A^*$ `[TEMA_P1_RENDIDO]`.
+3. **Clustering Jerárquico Aglomerativo:** Estrategias *Single Link* y *Average Link* con trazado de dendrogramas.
+4. **Redes Neuronales Competitivas:** Mapa Auto-Organizado de Kohonen (SOM).
 
-## **Abril 2025**
+---
 
-1. # Calcular error global y responder si es necesario seguir el entrenamiento o no
+## Mesa Abril 2025
+1. **Perceptrón Multicapa (MLP):** Calcular el error global $E_g$ y responder justificadamente si es necesario continuar el entrenamiento o detenerlo.
+2. **Agrupamiento Particional:** Algoritmo $K$-Means.
+3. **Reglas de Asociación:** Generación de reglas dado un ítem frecuente específico `[TEMA_P1_RENDIDO]`.
+4. **Búsqueda Heurística:** Algoritmo $A^*$ `[TEMA_P1_RENDIDO]`.
 
-2. # K-means
+---
 
-3. # Generación de reglas dado un item específico.
+## Mesa Febrero 2025
+1. **Redes de Hopfield:** Análisis de ortogonalidad y cotas de recuperabilidad buena y perfecta con $3$ patrones bipolares.
+2. **Árboles de Decisión:** Determinación del nodo raíz sobre tabla de $7$ instancias `[TEMA_P1_RENDIDO]`.
+3. **Reglas de Asociación:** Generación de conjuntos de ítems frecuentes (Apriori) `[TEMA_P1_RENDIDO]`.
+4. **Redes Neuronales (MLP / Perceptrón):** Propagación hacia adelante (*Forward Pass*) con múltiples entradas.
+5. **Planificación:** Algoritmo POP `[TEMA_P1_RENDIDO]`.
 
-4. # A\*
+---
 
-## **Febrero 2025**
+## Mesa Diciembre 2024
+1. **Clustering Jerárquico Aglomerativo:** Reducción matricial y dendrograma.
+2. **Clasificación Basada en Instancias:** Algoritmo $K$-NN ponderado por distancia inversa ($w_i = 1/d^2$).
+3. **Árboles de Decisión:** Construcción e impureza de nodos `[TEMA_P1_RENDIDO]`.
+4. **Perceptrón Multicapa (MLP):** Propagación hacia adelante, cálculo del error del patrón $E_p$ y actualización de pesos con Backpropagation.
 
-1. # Ortogonalidad y recuperabilidad con 3 patrones
+---
 
-2. # Árbol raíz (eran solo 7 filas)
+## Mesa Noviembre 2024
+1. **Planificación:** Problema del mundo de bloques (POP) `[TEMA_P1_RENDIDO]`.
+2. **Árboles de Decisión:** Determinación del atributo nodo raíz por ganancia `[TEMA_P1_RENDIDO]`.
+3. **Perceptrón Multicapa (MLP):** Propagación hacia adelante, gradientes de error $\delta$ y actualización de pesos.
+4. **Redes de Hopfield:** Dinámica de recuperación de patrones y verificación de ortogonalidad.
+5. **Reglas de Asociación:** Generación de itemsets frecuentes `[TEMA_P1_RENDIDO]`.
 
-3. # Items frecuentes
+---
 
-4. # Uno de mlp propagación para adelante (no tenía capa oculta, pero varias entradas)
+## Mesa Octubre 2024
 
-5. # Planning
+### Ejercicio 1 — Clasificador Naïve Bayes con Distribución Normal Continua
+Dados los siguientes parámetros en $\mathbb{R}^2$, calcular a qué clase pertenece la nueva instancia $N = (x_1 = -1.5,\; x_2 = -0.5)$ utilizando **Naïve Bayes con distribución normal (Gaussiana)**. Normalizar los resultados obtenidos considerando las probabilidades a priori $P(C_1) = 0.1$ y $P(C_2) = 0.6$ (o su proporción relativa).
 
-## **Diciembre 2024**
+| Clase | $X_1$: Desvío ($\sigma$) | $X_1$: Media ($\mu$) | $X_2$: Desvío ($\sigma$) | $X_2$: Media ($\mu$) |
+| :---: | :---: | :---: | :---: | :---: |
+| **$C_1$** | $1.01$ | $5.20$ | $1.71$ | $-4.22$ |
+| **$C_2$** | $1.25$ | $7.31$ | $2.45$ | $-4.31$ |
 
-1. Clustering aglomerativo jerárquico  
-2. Knn-ponderado  
-3. Arboles de decisión  
-4. MLP: propagación, error del patrón y actualización de pesos.
+### Ejercicio 2 — Agrupamiento $K$-Means ($K = 3$)
+Dado el siguiente conjunto de datos en $t = 0$, realizar **dos iteraciones completas** del algoritmo $K$-Means suponiendo que $D_1$, $D_4$ y $D_6$ son las semillas iniciales:
 
-## **Noviembre 2024**
+| Instancia | $X_1$ | $X_2$ | Semilla Inicial |
+| :---: | :---: | :---: | :---: |
+| **$D_1$** | $21.20$ | $55.20$ | Centroide $m_1^{(0)}$ |
+| **$D_2$** | $32.70$ | $76.90$ | — |
+| **$D_3$** | $46.70$ | $55.80$ | — |
+| **$D_4$** | $86.70$ | $13.11$ | Centroide $m_2^{(0)}$ |
+| **$D_5$** | $43.00$ | $26.60$ | — |
+| **$D_6$** | $13.00$ | $66.60$ | Centroide $m_3^{(0)}$ |
 
-5. Planning cubitos  
-6. Tree armar nodo raíz  
-7. Mlp propagación, errores y actualizar pesos  
-8. Hopfield recuperación y ortogonalidad  
-9. Generar ítems frecuentes
+### Ejercicio 3 — Perceptrón Multicapa (MLP): Error Global y Condición de Parada
+Dados los siguientes 4 patrones con sus salidas deseadas $E_p = [d_{p1},\; d_{p2}]$ y las salidas obtenidas por la red $Y_p = [y_{p1},\; y_{p2}]$:
 
-## **Octubre 2024**
+| Patrón | Salida Deseada $[d_{p1},\; d_{p2}]$ | Salida Obtenida $[y_{p1},\; y_{p2}]$ |
+| :---: | :---: | :---: |
+| **$P_1$** | $[3.21;\; 4.78]$ | $[3.02;\; 4.99]$ |
+| **$P_2$** | $[3.52;\; 5.89]$ | $[3.52;\; 5.86]$ |
+| **$P_3$** | $[3.00;\; 5.23]$ | $[3.13;\; 5.22]$ |
+| **$P_4$** | $[3.89;\; 4.99]$ | $[3.15;\; 5.43]$ |
 
-1. Dado los siguientes ejemplos R2 calcule a que clase pertenece la nueva instancia N (x1= \-1.5, x2=- 0.5) utilizando Naive Bayes con distribución normal. Normalizar los resultados obtenidos. Considere c1= 0.1, y c2=0.6 la probabilidad a priori. 
+Si el error mínimo aceptable de entrenamiento es $\epsilon = 0.02$ (sin considerar error de validación), ¿el algoritmo debería seguir iterando? Calcular $E_p = \frac{1}{2}\sum_{k=1}^2 (d_{pk} - y_{pk})^2$ y $E_g = \frac{1}{4}\sum_{p=1}^4 E_p$ y justificar la respuesta.
 
-|  | X1 |  | X2 |  |
-| :---- | :---- | :---- | :---- | :---- |
-|  | Tita | Mu | Tita | Mu |
-| C1 | 1.01 | 5.2 | 1.71 | \-4.22 |
-| C2 | 1.25 | 7.31 | 2.45 | \-4.31 |
+### Ejercicio 4 — Redes de Hopfield ($N = 5$)
+Dados los patrones bipolares:
+* $P_1 = [+1,\; +1,\; -1,\; -1,\; -1]$
+* $P_2 = [-1,\; +1,\; -1,\; +1,\; -1]$
 
-   
+Determinar las condiciones de recuperabilidad buena ($M \le 0.138 N$) y perfecta ($M \le \frac{N}{4\ln N}$), verificar si cumplen con la condición de ortogonalidad ($\sum_{i=1}^N e_i^{(1)} e_i^{(2)} \le 0$), realizar todos los cálculos necesarios (incluyendo la matriz $W$) y graficar la arquitectura.
 
-2. Dado el siguiente conjunto en t=0 realice dos iteraciones del algoritmo k-means suponiendo d1, d4 y d6 son las semillas iniciales. 
+---
 
-|  | X1 | X2 |
-| :---- | :---- | :---- |
-| D1 | 21.2 | 55.2 |
-| D2 | 32.7 | 76.9 |
-| D3 | 46.7 | 55.8 |
-| D4 | 86.7 | 13.11 |
-| D5 | 43 | 26.6 |
-| D6 | 13 | 66.6 |
+## Mesa Agosto 2024
+1. **Mapas Auto-Organizados (SOM):** Competencia y actualización de pesos.
+2. **Reglas de Asociación:** Generación de reglas `[TEMA_P1_RENDIDO]`.
+3. **Búsqueda Heurística:** Algoritmo $A^*$ `[TEMA_P1_RENDIDO]`.
 
-   
+---
 
-3. MLP. Dado los siguientes Pi: (Ei\[Sdi1, sdi2\])
+## Mesa Julio 2024
+1. **Reglas de Asociación:** Algoritmo Apriori `[TEMA_P1_RENDIDO]`.
+2. **Clustering Jerárquico Aglomerativo:** Estrategia *Average Link*.
+3. **Mapas Auto-Organizados (SOM):** Actualización online.
+4. **Perceptrón Simple:** Obtención de la recta de separación mediante método analítico ($w_1 x_1 + w_2 x_2 = \theta$).
 
-| P1 | E1 \[3.21; 4.78\] |
-| :---- | :---- |
-| P2 | E2 \[3.52; 5.89\] |
-| P3 | E3 \[3; 5.23\] |
-| P4 | E4 \[3.89; 4.99\] |
+---
 
-   Se ha realizado el entrenamiento de la red obteniendo salidas para cada patrón 
+## Mesa Junio 2024
+1. **Clasificador Naïve Bayes:** Atributos continuos con distribución Normal.
+2. **Perceptrón Multicapa (MLP):** Cálculo del error global $E_g$ y verificación de condición de parada frente a error mínimo aceptable.
+3. **Búsqueda:** Algoritmo $A^*$ y Primero en Profundidad (DFS) `[TEMA_P1_RENDIDO]`.
+4. **Clustering Jerárquico Aglomerativo:** Estrategias *Single Link* y *Average Link*.
 
-| P1 | \[3.02; 4.99\] |
-| :---- | :---- |
-| P2 | \[3.52; 5.86\] |
-| P3 | \[3.13; 5.22\] |
-| P4 | \[3.15; 5.43\] |
+---
 
-   Si el error mínimo aceptable de entrenamiento es 0.02 (no se considere el error de validación) el algoritmo debería seguir iterando? Justificar la respuesta.
-
-4. Hopfield  
-   P1= \[1, 1, \-1, \-1, \-1\]  
-   P2= \[-1, 1, \-1, 1, \-1\]  
-   Determinar las condiciones de recuperabilidad buena y perfecta y si cumple con la condición de ortogonalidad. Realice todos los cálculos necesarios y explique brevemente el significado de los resultados obtenidos. Graficar la arquitectura.
-
-## **Agosto 2024**
-
-1. SOM.  
-2. Generar reglas  
-3. A\* 
-
-## **Julio 2024**
-
-1. Algoritmo a priori  
-2. Clustering: average link.   
-3. SOM  
-4. Perceptrón: método analítico.
-
-## **Junio 2024**
-
-1. Naive Bayes con distribución normal.   
-2. MLP: Cálculo del error global y dado un error mínimo aceptable, verificar si se debe detener o no el entrenamiento.   
-3. Búsqueda A\* y en profundidad.   
-4. Clustering: single link y average link. 
-
-## **Febrero 2024**
-
-1. MLP: Cálculo del error global y dado un error mínimo aceptable, verificar si se debe detener o no el entrenamiento. Calcular momento.   
-2. SOM: una iteración y ajuste de pesos.   
-3. Reglas de asociación para un conjunto frecuente.   
-4. ¿K??  
-   
-
+## Mesa Febrero 2024
+1. **Perceptrón Multicapa (MLP):** Cálculo del error global $E_g$, verificación de condición de parada y cálculo del término de momento $\beta \Delta w(t-1)$.
+2. **Mapas Auto-Organizados (SOM):** Ejecución de una iteración y ajuste de pesos.
+3. **Reglas de Asociación:** Generación de reglas para un conjunto frecuente `[TEMA_P1_RENDIDO]`.
+4. **Clasificación / Agrupamiento:** Selección de $K$ en $K$-NN / $K$-Means.

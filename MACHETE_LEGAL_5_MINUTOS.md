@@ -1,4 +1,4 @@
-# Machete Legal de Emergencia (Repaso 15 Minutos Antes de Rendir)
+# Machete Legal de Emergencia (Repaso de 5 a 15 Minutos Antes de Rendir)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
 **Instrucción:** Leé esta síntesis conceptual en el pasillo del aula Magna antes de que la Cátedra reparta los enunciados.
 
@@ -51,8 +51,8 @@
    $\to$ Pasá un lápiz por la diagonal principal: **TODOS DEBEN SER CEROS**.
 5. **¿Fusión en Clustering?**  
    $\to$ Ponderá por el tamaño de cada cluster antes de promediar distancias.
-6. **¿Preguntan si el momento $\beta$ puede ser negativo?**  
-   $\to$ **SÍ**: el término $\beta \Delta w(t-1)$ es negativo cuando el peso decreció en el paso anterior.
+6. **¿Preguntan si el término de momento puede ser negativo?**  
+   $\to$ **SÍ**: aunque el coeficiente $\beta \in [0, 1)$ es positivo, el **término de momento** $\beta \cdot \Delta w(t-1)$ es negativo cuando el peso decreció en el paso anterior ($\Delta w(t-1) < 0$).
 
 ---
 

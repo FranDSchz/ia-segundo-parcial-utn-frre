@@ -1,6 +1,5 @@
 # Guía Paso a Paso: Clustering Jerárquico Aglomerativo (Average Linkage)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 20 - 25 minutos | **Ponderación:** 25% (Patrón de alta frecuencia histórica)
 
 ---

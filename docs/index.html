@@ -165,6 +165,15 @@
         </button>
       </div>
 
+      <div class="kbd-hint-bar">
+        <span>Atajos de teclado:</span>
+        <span><kbd>1</kbd>–<kbd>6</kbd> Marcar opción</span>
+        <span>·</span>
+        <span><kbd>←</kbd> <kbd>→</kbd> Navegar</span>
+        <span>·</span>
+        <span><kbd>F</kbd> Bandera 🚩</span>
+      </div>
+
       <!-- Question Palette -->
       <div class="palette-box">
         <div class="palette-title">
@@ -270,12 +279,36 @@
 
     <!-- VIEW 6: BANCO QA / AUDITORÍA COMPLETA -->
     <section id="view-qa" class="view-section">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem;">
         <div>
           <h1>Auditoría Completa del Banco (Modo QA)</h1>
-          <p class="subtitle">Inspección de las 52 preguntas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
+          <p class="subtitle">Inspección de las 52 preguntas únicas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
         </div>
-        <span class="badge badge-topic">52 Preguntas Activas</span>
+        <span class="badge badge-topic" id="qa-count-badge">52 Preguntas Activas</span>
+      </div>
+
+      <div class="qa-controls-bar">
+        <input
+          type="search"
+          id="qa-search-input"
+          class="qa-search-input"
+          placeholder="🔍 Buscar por palabra clave, fórmula, ID o tema (ej. Hopfield, KKT, momento, ruleta)..."
+          oninput="app.setQASearch(this.value)"
+        />
+        <select id="qa-topic-select" class="qa-topic-select" onchange="app.setQATopic(this.value)">
+          <option value="ALL">Todos los Temas (52)</option>
+          <option value="ALGORITMOS_GENETICOS">Algoritmos Genéticos</option>
+          <option value="SVM">Support Vector Machines (SVM)</option>
+          <option value="SOM">Mapas Auto-organizados (SOM)</option>
+          <option value="MLP">Perceptrón Multicapa (MLP)</option>
+          <option value="CLUSTERING">Clustering Jerárquico</option>
+          <option value="HOPFIELD">Redes de Hopfield</option>
+          <option value="KMEANS">K-Means &amp; Disk K-Means</option>
+          <option value="KNN">K-Nearest Neighbors (KNN)</option>
+          <option value="NAIVE_BAYES">Naïve Bayes</option>
+          <option value="GENERAL_IA">Evaluación y Generalización</option>
+          <option value="P1_REPASO">Repaso 1er Parcial (P1)</option>
+        </select>
       </div>
 
       <div id="qa-questions-container">

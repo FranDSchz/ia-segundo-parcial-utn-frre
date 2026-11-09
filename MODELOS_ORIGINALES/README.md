@@ -317,15 +317,16 @@ Todos los archivos han sido:
 
 ### 3.5. Carpeta `compilaciones_tematicas/` (Dossiers Prácticos Oficiales de la Cátedra)
 
-Contiene las guías oficiales de ejercicios resueltos paso a paso por tema para preparar el examen:
+Contiene las guías oficiales de ejercicios resueltos paso a paso por tema para preparar el examen (deduplicadas y normalizadas):
 1. **`SVM.pdf`** (9 págs.): Formulación Dual $L_D$, matriz de productos escalares, condiciones KKT, cálculo de $\mathbf{w}$ y sesgo promediado $b_{prom}$.
-2. **`MLP.pdf`** / **`6. MLP.pdf`** (7 págs.): Algoritmo Backpropagation completo, regla de la cadena para capas ocultas, término de momento $\beta$ y función de error global.
-3. **`SOM.pdf`** / **`7. SOM.pdf`** (6 págs.): Mapas de Kohonen, cálculo de distancias euclidianas, neurona ganadora ($BMU$), actualización con vecindad nula y vecindad continua.
-4. **`Clustering.pdf`** / **`9. Clustering.pdf`** (7 págs.): Algoritmos de agrupamiento aglomerativo (Single-Link, Complete-Link, Average-Link) y K-Means con dendrogramas.
+2. **`MLP.pdf`** (7 págs.): Algoritmo Backpropagation completo, regla de la cadena para capas ocultas, término de momento $\beta$ y función de error global.
+3. **`SOM.pdf`** (6 págs.): Mapas de Kohonen, cálculo de distancias euclidianas, neurona ganadora ($BMU$), actualización con vecindad nula y vecindad continua.
+4. **`Clustering.pdf`** (7 págs.): Algoritmos de agrupamiento aglomerativo (Single-Link, Complete-Link, Average-Link) y K-Means con dendrogramas.
 5. **`Hopfield.pdf`** (7 págs.): Redes autoasociativas, regla de Hebb, matriz simétrica con diagonal en cero y dinámica de recuperación de patrones bipolares.
-6. **`4. Naive Bayes.pdf`** / **`Naive_Bayes.pdf`** (5 págs.): Clasificador Bayesiano ingenuo mediante histogramas de frecuencias relativas y densidades continuas Gaussianas.
-7. **`8. KNN.pdf`** / **`KNN.pdf`** (10 págs.): Algoritmo $k$-Vecinos Más Cercanos, ponderación por inverso de distancia al cuadrado ($1/d^2$), Leave-One-Out CV y $k$-fold CV.
-8. **`5. perceptron simple.pdf`** / **`Perceptron_Simple.pdf`** (11 págs.): Método analítico de obtención de pesos y umbral, orientación del vector normal y algoritmo iterativo de Rosenblatt.
+6. **`Naive_Bayes.pdf`** (5 págs.): Clasificador Bayesiano ingenuo mediante histogramas de frecuencias relativas y densidades continuas Gaussianas.
+7. **`KNN.pdf`** (10 págs.): Algoritmo $k$-Vecinos Más Cercanos, ponderación por inverso de distancia al cuadrado ($1/d^2$), Leave-One-Out CV y $k$-fold CV.
+8. **`Perceptron_Simple.pdf`** (11 págs.): Método analítico de obtención de pesos y umbral, orientación del vector normal y algoritmo iterativo de Rosenblatt.
+9. **Cuadernillos de Repaso P1 (`[TEMA_P1_RENDIDO]`):** `1. Busqueda.pdf`, `2. Arboles de decision.pdf`, `3. Reglas de asociacion.pdf`.
 
 ---
 
@@ -377,7 +378,7 @@ Del análisis forense de las correcciones docentes de la cátedra en los exámen
 > [!IMPORTANT]
 > ### 🧬 Algoritmos Genéticos: Ponderación Numérica y Enfoque de Examen
 > En las evaluaciones presenciales de la Cátedra, Algoritmos Genéticos (AG) tiene un peso formal decisivo tanto en la práctica escrita como en el cuestionario teórico:
-> - En el examen presencial oficial del **Segundo Parcial del 19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 30% de la nota final** del examen práctico.
+> - En el examen presencial oficial del **Segundo Parcial del 19/11/2025**, el ejercicio de **Algoritmos Genéticos representó el 20% de la nota final** del examen práctico (junto a Clustering 20%, SOM 30% y MLP 30%).
 > - La consigna evaluó destrezas numéricas y genéticas directas: **Cruza simple (corte en gen 4)**, **Cruza multipunto (genes 2, 5 y 7)** y **Control de copias esperadas al 50%** con residuo decimal y sorteo.
 > - Asimismo, en exámenes teóricos y de desarrollo se exige **Mutación adaptativa por temperatura** (ascendente y descendente con ciclos de reinicio), **Selección por Ruleta acumulada (intervalos [00–99])** y **Selección por Ranking lineal**.
 > 

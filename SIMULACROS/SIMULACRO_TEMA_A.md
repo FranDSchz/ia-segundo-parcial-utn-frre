@@ -2,7 +2,6 @@
 **Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
 **Carrera:** Ingeniería en Sistemas de Información (5to Nivel)  
 **Cátedra:** Inteligencia Artificial  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 > [!NOTE]
 > ### 📋 Marco Metodológico y Formato de Evaluación
 > Este examen simulacro adopta un formato **representativo de 4 ejercicios prácticos (25% cada uno)**, constituyendo uno de los esquemas frecuentes de evaluación presencial.  

@@ -415,7 +415,7 @@ Para una red MLP con capas de entrada, oculta y salida:
   $$\sum_k \delta_{Ok} W_{Ok-H2} = \delta_{O1} W_{O1-H2} + \delta_{O2} W_{O2-H2} = 0.003167(1.80) + (-0.023321)(2.30) = 0.005701 - 0.053638 = -0.047937$$
   $$\delta_{H2} = f'(Net_{H2}) \cdot (-0.047937) = 0.004476 \cdot (-0.047937) = -0.000215$$
 
-**Paso 5: Actualización de Pesos ($lpha = 0.8$)**
+**Paso 5: Actualización de Pesos ($\alpha = 0.8$)**
 - **Capa de Salida:**
   - $W_{O1-H1}^{(t+1)} = W_{O1-H1}^{(t)} + \alpha \delta_{O1} y_{H1} = 1.00 + 0.8(0.003167)(0.995930) = 1.00 + 0.002524 = \mathbf{1.002524}$
   - $W_{O1-H2}^{(t+1)} = W_{O1-H2}^{(t)} + \alpha \delta_{O1} y_{H2} = 1.80 + 0.8(0.003167)(0.995504) = 1.80 + 0.002522 = \mathbf{1.802522}$
@@ -489,7 +489,7 @@ Para una red MLP con capas de entrada, oculta y salida:
   $$\sum = \delta_3 w_{3,2} + \delta_4 w_{4,2} = (-0.017788)(0.55) + (-0.006261)(0.10) = -0.009783 - 0.000626 = -0.010410$$
   $$\delta_2 = 0.158685 \cdot (-0.010410) = \mathbf{-0.001652}$$
 
-**3. Actualización de Pesos ($lpha = 0.45$):**
+**3. Actualización de Pesos ($\alpha = 0.45$):**
 - **Pesos a la Salida:**
   - $w_{Y,3}^{(t+1)} = 0.80 + 0.45(-0.126031)(0.771247) = 0.80 - 0.043741 = \mathbf{0.756259}$
   - $w_{Y,4}^{(t+1)} = 0.20 + 0.45(-0.126031)(0.459661) = 0.20 - 0.026069 = \mathbf{0.173931}$
@@ -1639,7 +1639,7 @@ En la disposición lineal 1D de 3 neuronas ($S_1 \leftrightarrow S_2 \leftrighta
 - Para la neurona vecina $S_1$: $\text{dist}(S_2, S_1) = |2 - 1| = 1 \implies h_1 = \frac{1}{1 + 1^2} = \frac{1}{2} = \mathbf{0.5}$
 - Para la neurona vecina $S_3$: $\text{dist}(S_2, S_3) = |2 - 3| = 1 \implies h_3 = \frac{1}{1 + 1^2} = \frac{1}{2} = \mathbf{0.5}$
 
-**3. Actualización de Pesos de TODAS las Neuronas ($lpha = 0.8$):**
+**3. Actualización de Pesos de TODAS las Neuronas ($\alpha = 0.8$):**
 - **Neurona 1 ($S_1$):**
   $$W_1^{(new)} = W_1 + \alpha \cdot h_1 \cdot (P_4 - W_1) = \begin{bmatrix} -3.20 \\ -4.40 \end{bmatrix} + 0.8(0.5) \left( \begin{bmatrix} 0.15 \\ 0.88 \end{bmatrix} - \begin{bmatrix} -3.20 \\ -4.40 \end{bmatrix} \right)$$
   $$W_1^{(new)} = \begin{bmatrix} -3.20 \\ -4.40 \end{bmatrix} + 0.4 \begin{bmatrix} 3.35 \\ 5.28 \end{bmatrix} = \begin{bmatrix} -3.20 + 1.34 \\ -4.40 + 2.112 \end{bmatrix} = \mathbf{[-1.8600, -2.2880]}$$
@@ -1663,8 +1663,8 @@ flowchart LR
         S1["S1: W1"]
         S2["S2: W2 (Ganadora)"]
         S3["S3: W3"]
-        S1 <-->|Vecindad h=0.5| S2
-        S2 <-->|Vecindad h=0.5| S3
+        S1 <-->|"Vecindad h = 0.5"| S2
+        S2 <-->|"Vecindad h = 0.5"| S3
     end
     X1 --> S1
     X1 --> S2
@@ -1782,10 +1782,10 @@ flowchart TD
         N3["Neurona 3"]
         N4["Neurona 4"]
         N5["Neurona 5"]
-        N1 <-->|w14 = -2| N4
-        N2 <-->|w23 = -2| N3
-        N2 <-->|w25 = -2| N5
-        N3 <-->|w35 = +2| N5
+        N1 <-->|"w14 = -2"| N4
+        N2 <-->|"w23 = -2"| N3
+        N2 <-->|"w25 = -2"| N5
+        N3 <-->|"w35 = +2"| N5
     end
 ```
 

@@ -1,6 +1,5 @@
 # Guía Paso a Paso: K-Nearest Neighbors (KNN) Ponderado y Leave-One-Out CV
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 20 - 25 minutos | **Ponderación:** 20% - 25% (Alternante en Q4)
 
 ---

@@ -1,6 +1,5 @@
 # Guía Paso a Paso: Perceptrón Multicapa (MLP) y Backpropagation
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 25 - 30 minutos | **Ponderación:** 25% (Patrón de alta frecuencia histórica)
 
 ---

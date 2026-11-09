@@ -1,6 +1,5 @@
 # Guía Paso a Paso: Naïve Bayes con Histogramas y Continuo Gaussiano
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 20 minutos | **Ponderación:** 20% - 25% (Alternante en Q4)
 
 ---

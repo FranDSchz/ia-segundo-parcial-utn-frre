@@ -1963,7 +1963,7 @@ Las SVM (caso lineal estándar) realizan separaciones lineales:
 
 ### Pregunta 01: Principio Fundamental del Modelo Naïve Bayes
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó óeóló ópóróiónócóiópóióoó óeónó óeóló ócóuóaóló ósóeó óbóaósóaó óeóló ómóoódóeólóoó óNóaóióvóeósó óBóaóyóeósó?ó
+*"¿Cuál es el principio en el cual se basa el modelo Naives Bayes?"*
 
 **Respuesta Canónica de la Cátedra:**
 El modelo Naïve Bayes se fundamenta en el **Teorema de Bayes** de la probabilidad condicional, el cual establece una metodología formal para estimar la probabilidad a posteriori de que ocurra una hipótesis o clase $C_k$, habiendo observado un vector de atributos o evidencias $X = (x_1, x_2, \dots, x_d)$:
@@ -1987,7 +1987,7 @@ $$C_{MAP} = \arg\max_{C_k} P(C_k) \prod_{i=1}^d P(x_i | C_k)$$
 
 ### Pregunta 02: Red MLP con Error de Validación Creciente y Rol del Término de Momento
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóóómóoó ósóeó ópóoódóróíóaó ósóoólóuócóióoónóaóró óuónóaó óróeódó óMóLóPó ócóuóyóoó óeóróróoóró ódóeó óvóaólóiódóaócóióóónó ócóróeócóeó óaónótóeósó ódóeó ólólóeógóaóró óaóló ómóíónóiómóoó óaócóeópótóaóbólóeó?ó ó¿óPóoódóróíóaó ósóeóró óaógóróeógóaódóoó óeóló ótóéórómóiónóoó ómóoómóeónótóoó ópóaóróaó ófóiólótóróaóró óeósótóeó ótóiópóoó ódóeó óoósócóiólóaócóióoónóeósó?ó
+*"¿Cómo se podría solucionar una red MLP cuyo error de validación crece antes de llegar al mínimo aceptable? ¿Podría ser agregado el término momento para filtrar este tipo de oscilaciones?"*
 
 **Respuesta Canónica de la Cátedra:**
 Cuando el error de validación comienza a crecer sostenidamente mientras que el error de entrenamiento sigue descendiendo, la red está entrando en **sobreajuste (*overfitting*)**, memorizando el ruido del conjunto de entrenamiento y perdiendo su capacidad de generalización.
@@ -2007,7 +2007,7 @@ Sin embargo, **el término de momento NO soluciona el sobreajuste**. De hecho, s
 
 ### Pregunta 03: Implementación de Red MLP para Aproximar $f(x, y) = \sin(xy) - 0.5$
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóóómóoó ósóeó óiómópólóeómóeónótóaóróíóaó óuónóaó óróeódó óMóLóPó ópóaóróaó óqóuóeó óróeócóoónóoózócóaó óuónóaó ófóuónócóióóónó ófó(óxó,óyó)ó=ósóeónó(óxóyó)ó-ó0ó,ó5ó?ó
+*"¿Cómo se implementaría una red MLP para que reconozca una función f(x,y)=sen(xy)-0,5?"*
 
 **Respuesta Canónica de la Cátedra:**
 Para implementar una red perceptrón multicapa (MLP) capaz de aprender la función no lineal continua $f(x, y) = \sin(xy) - 0.5$, la Cátedra establece las siguientes pautas de diseño:
@@ -2028,7 +2028,7 @@ Para implementar una red perceptrón multicapa (MLP) capaz de aprender la funci�
 
 ### Pregunta 04: Clustering Jerárquico: Impacto del Cálculo Distinto de Centroides
 **Enunciado Oficial de la Cátedra:**
-óEónó ócólóuósótóeóró ójóeóróáóróqóuóiócóoó,ó ó¿óqóuóéó óoócóuóróróeó ósóió ósóeó ócóaólócóuólóaó ódóeó ómóaónóeóróaó ódóiósótóiónótóaó ólóoósó ócóeónótóróoóiódóeósó?ó
+*"En cluster jerárquico, ¿qué ocurre si se calcula de manera distinta los centroides?"*
 
 **Respuesta Canónica de la Cátedra:**
 En el clustering jerárquico clásico (tanto aglomerativo como divisivo) que utiliza métodos de enlace como **Single Link, Complete Link o Average Link**, **los centroides NO intervienen en la métrica de fusión**. Por lo tanto, cualquier modificación en la forma de calcular centroides **no produce ningún impacto** en el dendrograma resultante.
@@ -2039,7 +2039,7 @@ A diferencia del algoritmo $K$-Means (que depende exclusivamente de la posición
 
 ### Pregunta 05: Diseño de Red MLP y Clasificador Naïve Bayes para Dataset en $\mathbb{R}^2$
 **Enunciado Oficial de la Cátedra:**
-óDóaódóoó óeóló ósóiógóuóióeónótóeó ócóoónójóuónótóoó ódóeó ódóaótóoósó óeónó óRó^ó2ó óeóxópólóióqóuóeó ólóaósó ócóaóróaócótóeóróíósótóiócóaósó óqóuóeó ódóeóbóeó ótóeónóeóró óeónó ócóuóeónótóaó ópóaóróaó óiómópólóeómóeónótóaórólóaó óeónó óuónóaó óróeódó óMóLóPó.ó óTóeónógóaó óeónó ócóuóeónótóaó ólóaó ódóeósócóróiópócóióóónó ódóeó ólóaósó óeótóaópóaósó ódóeó óeónótóróeónóaómóióeónótóoó óyó ófóuónócóióoónóaómóióeónótóoó.ó
+*"Dado el siguiente conjunto de datos en R^2 explique las características que debe tener en cuenta para implementarla en una red MLP. Tenga en cuenta la descripción de las etapas de entrenamiento y funcionamiento."*
 
 **Respuesta Canónica de la Cátedra:**
 Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x_1, x_2)$ y etiquetas de clase $C_k$:
@@ -2069,7 +2069,7 @@ Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entra
 
 ### Pregunta 06: Average Link en Clustering Jerárquico vs Distancia entre Centroides
 **Enunciado Oficial de la Cátedra:**
-óCóuóaónódóoó ósóeó óuótóiólóiózóaó ólóaó óAóvóeóróaógóeó óLóiónókó óeónó ócólóuósótóeóróiónógó ójóeóróáóróqóuóiócóoó,ó ólóaó ódóiósótóaónócóióaó óeónótóróeó ódóoósó ócólóuósótóeórósó ósóeó óoóbótóióeónóeó ócóoómóoó ópóróoómóeódóióoó ódóeó ótóoódóaósó ólóaósó ódóiósótóaónócóióaósó óeónótóróeó ólóoósó óeólóeómóeónótóoósó ódóeó ócóaódóaó ócólóúósótóeóró.ó ó¿óEósótóoó óeósó óeóqóuóióvóaólóeónótóeó óaó ócóaólócóuólóaóró ólóaó ódóiósótóaónócóióaó óeónótóróeó ólóoósó ócóeónótóróoóiódóeósó ódóeó ólóoósó ódóoósó ócólóuósótóeórósó?ó
+*"Cuando se utiliza la Average Link en clustering jerárquico, la distancia entre dos clusters se obtiene como promedio de todas las distancias entre los elementos de cada clúster. ¿Esto es equivalente a calcular la distancia entre los centroides de los dos clusters?"*
 
 **Respuesta Canónica de la Cátedra:**
 **No, no es equivalente.** Existe una diferencia matemática y conceptual determinante:
@@ -2086,7 +2086,7 @@ Matemáticamente, $\frac{1}{|A||B|} \sum \sum \|x - y\| \ne \|\mu_A - \mu_B\|$. 
 
 ### Pregunta 07: Etapa de Cooperación en Redes SOM y Función de Vecindad
 **Enunciado Oficial de la Cátedra:**
-óEónó ólóaó óeótóaópóaó ódóeó ócóoóoópóeóróaócóióóónó ódóeóló óaólógóoóróiótómóoó ódóeó óeónótóróeónóaómóióeónótóoó ódóeó ólóoósó óSóOóMó ósóeó óeósótóaóbólóeócóeó óqóuóeó ólóoósó ópóeósóoósó óaósóoócóióaódóoósó óaó ólóaósó ónóeóuóróoónóaósó ódóeó ósóaólóiódóaó ósóeó óaócótóuóaólóiózóaónó óeónó ófóuónócóióóónó ódóeó ólóaó ódóiósótóaónócóióaó óaó ólóaó óqóuóeó óeósótóaósó ósóeó óeónócóuóeónótóróaónó ódóeó ólóaó ónóeóuóróoónóaó ógóaónóaódóoóróaó.ó ó¿óCóóómóoó ósóeó ómóiódóeó óeósóaó ódóiósótóaónócóióaó óyó ócóóómóoó óaófóeócótóaó óaó ólóaó óaócótóuóaólóiózóaócóióóónó ódóeó ólóoósó ópóeósóoósó ódóeó ólóaó óróeódó?ó
+*"En la etapa de cooperación del algoritmo de entrenamiento de los SOM se establece que los pesos asociados a las neuronas de salida se actualizan en función de la distancia a la que estas se encuentran de la neurona ganadora. ¿Cómo se mide esa distancia y cómo afecta a la actualización de los pesos de la red?"*
 
 **Respuesta Canónica de la Cátedra:**
 En la etapa de cooperación del algoritmo SOM de Kohonen:
@@ -2106,7 +2106,7 @@ En la etapa de cooperación del algoritmo SOM de Kohonen:
 
 ### Pregunta 08: Diseño de Red MLP y Clasificador Naïve Bayes para Dataset en $\mathbb{R}^2$
 **Enunciado Oficial de la Cátedra:**
-óDóaódóoó óeóló ósóiógóuóióeónótóeó ócóoónójóuónótóoó ódóeó ódóaótóoósó óeónó óRó^ó2ó óeóxópólóióqóuóeó ócóóómóoó óiómópólóeómóeónótóaóró:ó
+*"Dado el siguiente conjunto de datos en R^2 explique cómo implementar:"*
 
 **Respuesta Canónica de la Cátedra:**
 Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entrada continuas $(x_1, x_2)$ y etiquetas de clase $C_k$:
@@ -2136,7 +2136,7 @@ Dado un conjunto de datos en $\mathbb{R}^2$ compuesto por dos variables de entra
 
 ### Pregunta 09: Factores Principales en el Aprendizaje Basado en Ajuste de Parámetros
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáólóeósó ósóoónó ólóoósó ófóaócótóoóróeósó ópóróiónócóiópóaólóeósó ópóaóróaó ócóoónósóiódóeóróaóró óeónó óeóló óaópóróeónódóiózóaójóeó óbóaósóaódóoó óeónó óaójóuósótóeó ódóeó ópóaóróáómóeótóróoósó?ó
+*"¿Cuáles son los factores principales para considerar en el aprendizaje basado en ajuste de parámetros?"*
 
 **Respuesta Canónica de la Cátedra:**
 En los sistemas basados en ajuste de parámetros (como redes neuronales y algoritmos de control de pesos), un programa debe considerar dos factores críticos para converger y estabilizarse:
@@ -2152,7 +2152,7 @@ En los sistemas basados en ajuste de parámetros (como redes neuronales y algori
 
 ### Pregunta 10: Arquitectura y Dinámica de Aprendizaje de los Mapas Auto-Organizados (SOM)
 **Enunciado Oficial de la Cátedra:**
-ó¿óAó óqóuóéó ómóoódóeólóoó ócóoóróróeósópóoónódóeó ólóaó ósóiógóuóióeónótóeó óaóróqóuóiótóeócótóuóróaó ódóeó óróeódó ónóeóuóróoónóaóló?ó óEóxópólóióqóuóeó óeóló ófóuónócóióoónóaómóióeónótóoó ódóeóló óaólógóoóróiótómóoó ódóeó óaópóróeónódóiózóaójóeó ódóeó óeósótóeó ómóoódóeólóoó óiónódóiócóaónódóoó ólóaósó ócóaóróaócótóeóróíósótóiócóaósó ópóróiónócóiópóaólóeósó.ó
+*"¿A qué modelo corresponde la siguiente arquitectura de red neuronal? Explique el funcionamiento del algoritmo de aprendizaje de este modelo indicando las características principales."*
 
 **Respuesta Canónica de la Cátedra:**
 Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
@@ -2177,7 +2177,7 @@ Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
 
 ### Pregunta 11: Factor Determinante en el Aprendizaje Basado en Explicaciones (EBL)
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó óeóló ófóaócótóoóró ódóeótóeórómóiónóaónótóeó óeónó óeóló óaópóróeónódóiózóaójóeó óbóaósóaódóoó óeónó óeóxópólóiócóaócóióoónóeósó?ó óJóuósótóiófóióqóuóeó ólóaó óróeósópóuóeósótóaó.ó
+*"¿Cuál es el factor determinante en el aprendizaje basado en explicaciones? Justifique la respuesta."*
 
 **Respuesta Canónica de la Cátedra:**
 El factor determinante en el **Aprendizaje Basado en Explicaciones (EBL - *Explanation-Based Learning*)** es la disponibilidad de una **Teoría del Dominio (*Domain Theory*) completa y correcta** previamente cargada en el sistema.
@@ -2192,7 +2192,7 @@ A diferencia del aprendizaje inductivo empírico (que requiere cientos o miles d
 
 ### Pregunta 12: Término de Momento en Redes MLP: Fundamento y Ecuación
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó óeósó óyó ópóaóróaó óqóuóéó ósóeó óuótóiólóiózóaó óeóló ótóéórómóiónóoó ódóeó ómóoómóeónótóoó óeónó óróeódóeósó óMóLóPó?ó
+*"¿Qué es y para qué se utiliza el término de momento en redes MLP?"*
 
 **Respuesta Canónica de la Cátedra:**
 El **término de momento** es una modificación de la regla delta generalizada introducida por Rumelhart, Hinton y Williams para acelerar la convergencia del descenso de gradiente y evitar que la red quede atrapada en oscilaciones locales en valles estrechos de la superficie de error.
@@ -2215,7 +2215,7 @@ Actúa como un filtro de inercia mecánica (análogo al momento lineal de una es
 
 ### Pregunta 13: Solución a Red MLP que Interrumpe Entrenamiento por Error de Validación Creciente
 **Enunciado Oficial de la Cátedra:**
-óPóróoópóoónógóaó óuónóaó ósóoólóuócóióóónó ópóaóróaó óuónóaó óróeódó óMóLóPó óqóuóeó ófóiónóaólóiózóaó óeóló óeónótóróeónóaómóióeónótóoó ópóoóróqóuóeó óeóló óeóróróoóró ódóeó óvóaólóiódóaócóióóónó ócóróeócóeó óaónótóeósó ódóeó óaólócóaónózóaóró óeóló ómóíónóiómóoó óaócóeópótóaóbólóeó.ó
+*"Proponga una solución para una red MLP que finaliza el entrenamiento porque el error de validación crece antes de alcanzar el mínimo aceptable."*
 
 **Respuesta Canónica de la Cátedra:**
 Si la red finaliza o debe finalizar su entrenamiento porque el error de validación comienza a crecer antes de que el error de entrenamiento alcance el valor admisible, se debe diagnosticar y resolver el sobreajuste temprano:
@@ -2229,7 +2229,7 @@ Si la red finaliza o debe finalizar su entrenamiento porque el error de validaci
 
 ### Pregunta 14: Arquitectura y Dinámica de Aprendizaje de los Mapas Auto-Organizados (SOM)
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ófóuónócóióoónóaómóióeónótóoó ódóeó óSóOóMó ó ó óRóeósópóuóeósótóaó óeónó óPóróeógóuónótóaó ó1ó0ó
+*"Explique el funcionamiento de SOM — Respuesta en Pregunta 10"*
 
 **Respuesta Canónica de la Cátedra:**
 Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
@@ -2254,7 +2254,7 @@ Corresponde al modelo **SOM (*Self-Organizing Map*) de Teuvo Kohonen**.
 
 ### Pregunta 15: Tabla Comparativa Tridimensional Canónica: SOM vs Hopfield vs Perceptrón
 **Enunciado Oficial de la Cátedra:**
-óCóoómópóaóróeó ólóoósó ómóoódóeólóoósó ódóeó óSóOóMó,ó óHóoópófóióeólódó óyó ódóeó óPóeórócóeópótóróóónó,ó ótóeónóióeónódóoó óeónó ócóuóeónótóaó ólóoósó ósóiógóuóióeónótóeósó óaósópóeócótóoósó:ó
+*"Compare los modelos de SOM, Hopfield y de Perceptrón, teniendo en cuenta los siguientes aspectos:"*
 
 **Respuesta Canónica de la Cátedra:**
 Tabla comparativa exigida por la Cátedra evaluando los tres modelos neuronales bajo los criterios oficiales:
@@ -2274,7 +2274,7 @@ Tabla comparativa exigida por la Cátedra evaluando los tres modelos neuronales 
 
 ### Pregunta 16: Tabla Comparativa Tridimensional Canónica: $k$-NN vs $K$-Means vs Naïve Bayes
 **Enunciado Oficial de la Cátedra:**
-óCóoómópóaóróeó ólóoósó ómóoódóeólóoósó ókónónó,ó ókó-ómóeóaónósó óyó óNóBó,ó ótóeónóióeónódóoó óeónó ócóuóeónótóaó ólóoósó ósóiógóuóióeónótóeósó óaósópóeócótóoósó:ó
+*"Compare los modelos knn, k-means y NB, teniendo en cuenta los siguientes aspectos:"*
 
 **Respuesta Canónica de la Cátedra:**
 Tabla comparativa exigida por la Cátedra evaluando los modelos de aprendizaje automático:
@@ -2293,7 +2293,7 @@ Tabla comparativa exigida por la Cátedra evaluando los modelos de aprendizaje a
 
 ### Pregunta 17: Proceso de Aprendizaje de ADALINE vs Perceptrón Simple
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ópóróoócóeósóoó ódóeó óaópóróeónódóiózóaójóeó ódóeóló ómóoódóeólóoó óAóDóAóLóIóNóAó óyó ólóaósó ódóiófóeóróeónócóióaósó ócóoónó óeóló ómóoódóeólóoó óPóEóRóCóEóPóTóRóÓóNó ósóiómópólóeó.ó
+*"Explique el proceso de aprendizaje del modelo ADALINA y las diferencias con el modelo PERCEPTRÓN simple."*
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Modelo ADALINE (Adaptive Linear Neuron)
@@ -2320,7 +2320,7 @@ Tabla comparativa exigida por la Cátedra evaluando los modelos de aprendizaje a
 
 ### Pregunta 18: Estrategias para Solucionar el Sobreajuste en $K$-Means
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ócóóómóoó ósóoólóuócóióoónóaóró óeóló ópóróoóbólóeómóaó ódóeó ósóoóbóróeóaójóuósótóeó óeónó óeóló óaólógóoóróiótómóoó ókó-ómóeóaónósó.ó óPóaóróaó óaóbóoóródóaóró óeóló ópóróoóbólóeómóaó ódóeó ósóoóbóróeóaójóuósótóeó óeónó óeóló óaólógóoóróiótómóoó ókó-ómóeóaónósó,ó ósóeó ópóuóeódóeónó óaópólóiócóaóró ólóaósó ósóiógóuóióeónótóeósó óeósótóróaótóeógóióaósó:ó
+*"Explique cómo solucionar el problema de sobreajuste en el algoritmo k-means. Para abordar el problema de sobreajuste en el algoritmo k-means, se pueden aplicar las siguientes estrategias:"*
 
 **Respuesta Canónica de la Cátedra:**
 El sobreajuste en $K$-Means ocurre cuando se asigna un valor de $k$ artificialmente grande, alcanzando el extremo trivial de fijar $k = N$ (donde cada punto es su propio centroide y el error intra-cluster $SSE = 0$), perdiendo todo poder de generalización y agrupación intrínseca.
@@ -2335,7 +2335,7 @@ El sobreajuste en $K$-Means ocurre cuando se asigna un valor de $k$ artificialme
 
 ### Pregunta 19: Implementación del Algoritmo Naïve Bayes con Distribuciones Continuas
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ócóóómóoó ósóeó óiómópólóeómóeónótóaó óeóló óaólógóoóróiótómóoó óNóBó ócóoónó ódóiósótóróióbóuócóióoónóeósó ócóoónótóiónóuóaósó.ó óEóló óaólógóoóróiótómóoó óNóBó ócóoónó ódóiósótóróióbóuócóióoónóeósó ócóoónótóiónóuóaósó ófóuónócóióoónóaó óaósóuómóióeónódóoó óqóuóeó ólóaósó óvóeóróoósóiómóiólóiótóuódóeósó ódóeó ócóaódóaó óaótóróióbóuótóoó ódóeó ócóaódóaó ódóaótóoó ódóeóló ódóaótóaósóeótó ósóiógóuóeó óuónó ótóiópóoó ódóeó ódóiósótóróióbóuócóióóónó,ó ódóeó óeósótóaó ómóaónóeóróaó óróeóeómópólóaózóaó ólóaó óvóeóróoósóiómóiólóiótóuódó ópóoóró ólóaó ódóiósótóróióbóuócóióóónó ódóeó ópóróoóbóaóbóiólóiódóaódó óaósóuómóiódóaó.ó
+*"Explique cómo se implementa el algoritmo NB con distribuciones continuas. El algoritmo NB con distribuciones continuas funciona asumiendo que las verosimilitudes de cada atributo de cada dato del dataset sigue un tipo de distribución, de esta manera reemplaza la verosimilitud por la distribución de probabilidad asumida."*
 
 **Respuesta Canónica de la Cátedra:**
 Cuando los atributos del vector $X = (x_1, \dots, x_d)$ son continuos en lugar de discretos, no se pueden construir tablas de conteo de frecuencias. Se implementa el **Naïve Bayes Gaussiano**:
@@ -2355,7 +2355,7 @@ Cuando los atributos del vector $X = (x_1, \dots, x_d)$ son continuos en lugar d
 
 ### Pregunta 20: $k$-NN Ponderado con $w_i = 1 / (1 + d^2)$ y $k = m + n$
 **Enunciado Oficial de la Cátedra:**
-óEónó óuónó ópóróoóbólóeómóaó ódóeó ócólóaósóiófóiócóaócóióóónó ódóoónódóeó ósóeó óuótóiólóiózóaó ókó-ónónó ópóoónódóeóróaódóoó,ó ócóoónó ópóeósóoósó ówóió=ó ó1ó/ó ó(ó1ó+ó ó[ódó(óxó0ó,óxóió)ó^ó2ó]ó)ó,ó ósóeó ótóióeónóeónó ódóoósó ócólóaósóeósó óAó ócóoónó ómó óiónósótóaónócóióaósó óyó óBó ócóoónó ónó óiónósótóaónócóióaósó.ó óEóvóaólóúóeó óqóuóéó ósóuócóeódóeó ósóió ósóeó óuótóiólóiózóaó ókó ó=ómó+ónó,ó ósóuópóoónógóaó óqóuóeó ómó>ónó,ó ómó=ónó óyó ómó<ónó.ó
+*"En un problema de clasificación donde se utiliza k-nn ponderado, con pesos wi= 1/ (1+ [d(x0,xi)^2]), se tienen dos clases A con m instancias y B con n instancias. Evalúe qué sucede si se utiliza k =m+n, suponga que m>n, m=n y m<n."*
 
 **Respuesta Canónica de la Cátedra:**
 En un problema con dos clases $A$ ($m$ instancias) y $B$ ($n$ instancias), si se utiliza **$k$-NN ponderado** con pesos $w_i = \frac{1}{1 + d(x_0, x_i)^2}$ y se fija $k = m + n$ (todo el conjunto de datos):
@@ -2375,7 +2375,7 @@ $$V_A = \sum_{x_i \in A} \frac{1}{1 + d(x_0, x_i)^2} \qquad V_B = \sum_{x_j \in 
 
 ### Pregunta 21: Dinámica Operativa y Condiciones de Cierre de la Red de Hopfield
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóiócóaóró óeóló ófóuónócóióoónóaómóióeónótóoó ódóeó óHóoópófóióeólódó óyó ósóuósó ócóoónódóiócóióoónóeósó ódóeó ócóióeóróróeó.ó óEóló ófóuónócóióoónóaómóióeónótóoó ódóeóló ómóoódóeólóoó ópóuóeódóeó óeósópóeócóiófóiócóaórósóeó ócóoómóoó ósóiógóuóeó:ó
+*"Explicar el funcionamiento de Hopfield y sus condiciones de cierre. El funcionamiento del modelo puede especificarse como sigue:"*
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Dinámica Operativa
@@ -2397,7 +2397,7 @@ $$V_A = \sum_{x_i \in A} \frac{1}{1 + d(x_0, x_i)^2} \qquad V_B = \sum_{x_j \in 
 
 ### Pregunta 22: Determinación del $k$-Óptimo en $k$-NN mediante Leave-One-Out Cross Validation
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ómóoódóeólóoó ókó-ócóróoósósó óvóaólóiódóaótóióoónó óyó ósóuó óróeólóaócóióóónó ócóoónó óKónónó.ó óEóló ómóéótóoódóoó ókó-ócóróoósósó ófóoólódó óvóaólóiódóaótóióoónó óeósó óuónó ómóéótóoódóoó ópóaóróaó ódóeótóeórómóiónóaóró óeóló óKó óóópótóiómóoó,ó óeóló ócóuóaóló óeósó óeóló ókó ócóoónó óeóló óqóuóeó ósóeó ópóróoódóuócóeó ómóeónóoósó óeóróróoóró óaó ólóaó óhóoóróaó ódóeó ócólóaósóiófóiócóaóró.ó
+*"Explique el modelo k-cross validation y su relación con Knn. El método k-cross fold validation es un método para determinar el K óptimo, el cual es el k con el que se produce menos error a la hora de clasificar."*
 
 **Respuesta Canónica de la Cátedra:**
 Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el método de validación cruzada **$k$-Fold Cross Validation** o en su versión canónica **Leave-One-Out (LOOCV)**:
@@ -2421,7 +2421,7 @@ Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el mét
 
 ### Pregunta 23: Decisión Metodológica cuando Error de Validación < Error Mínimo Aceptable
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóiócóaóró óqóuóéó óhóaócóeóró ócóuóaónódóoó óeóló óEóróróoóró ódóeó óvóaólóiódóaócóióóónó ó<ó óEóróróoóró ómóíónóiómóoó óaócóeópótóaóbólóeó.ó óCóuóaónódóoó óeóló óeóróróoóró ódóeó óvóaólóiódóaócóióóónó óeósó ómóeónóoóró óqóuóeó óeóló óeóróróoóró ómóíónóiómóoó óaócóeópótóaóbólóeó,ó ósóiógónóiófóiócóaó óqóuóeó ólóaó óróeódó óhóaó ólóoógóróaódóoó óuónó óbóuóeónó óróeónódóiómóióeónótóoó óeónó ólóaó ótóaóróeóaó ódóeó ógóeónóeóróaólóiózóaócóióóónó óyó ósóeó óhóaó óaójóuósótóaódóoó ócóoóróróeócótóaómóeónótóeó óaó ólóoósó ódóaótóoósó ódóeó óeónótóróeónóaómóióeónótóoó óyó óvóaólóiódóaócóióóónó.ó óEónó óeósótóeó ócóaósóoó,ó ósóeó ópóuóeódóeó ódóeótóeónóeóró óeóló ópóróoócóeósóoó ódóeó óeónótóróeónóaómóióeónótóoó óyóaó óqóuóeó ónóoó ósóeó óeósópóeóróaó óuónóaó ómóeójóoóróaó ósóiógónóiófóiócóaótóióvóaó óeónó óeóló óróeónódóiómóióeónótóoó ódóeó ólóaó óróeódó.ó
+*"Explicar qué hacer cuando el Error de validación < Error mínimo aceptable. Cuando el error de validación es menor que el error mínimo aceptable, significa que la red ha logrado un buen rendimiento en la tarea de generalización y se ha ajustado correctamente a los datos de entrenamiento y validación. En este caso, se puede detener el proceso de entrenamiento ya que no se espera una mejora significativa en el rendimiento de la red."*
 
 **Respuesta Canónica de la Cátedra:**
 Cuando el error de validación desciende por debajo del umbral del error mínimo admisible ($E_{val} < \epsilon_{min}$):
@@ -2434,7 +2434,7 @@ Cuando el error de validación desciende por debajo del umbral del error mínimo
 
 ### Pregunta 24: Diferencia Fundamental entre Aprendizaje Supervisado y por Refuerzo
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó ólóaó ódóiófóeóróeónócóióaó óeónótóróeó óeóló óaópóróeónódóiózóaójóeó ósóuópóeóróvóiósóaódóoó óyó óaópóróeónódóiózóaójóeó ópóoóró óróeófóuóeórózóoó?ó
+*"¿Cuál es la diferencia entre el aprendizaje supervisado y aprendizaje por refuerzo?"*
 
 **Respuesta Canónica de la Cátedra:**
 * **Aprendizaje Supervisado:** Existe un "maestro" o supervisor externo que proporciona explícitamente para cada entrada $X_k$ su **etiqueta o salida deseada exacta $y_k$**. El sistema calcula inmediatamente el error direccional ($S_d - S_o$) y ajusta los parámetros mediante descenso de gradiente guiado.
@@ -2444,7 +2444,7 @@ Cuando el error de validación desciende por debajo del umbral del error mínimo
 
 ### Pregunta 25: Problemas y Limitaciones Intrínsecas del Modelo de Red de Hopfield
 **Enunciado Oficial de la Cátedra:**
-óMóeónócóióoónóeó ótóoódóoósó ólóoósó ópóróoóbólóeómóaósó ódóeó óróeócóoónóoócóiómóióeónótóoó óqóuóeó ópóuóeódóeó ótóeónóeóró óuónóaó óróeódó ónóeóuóróoónóaóló óHóoópófóióeólódó.ó
+*"Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield."*
 
 **Respuesta Canónica de la Cátedra:**
 Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades críticas:
@@ -2464,7 +2464,7 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
 
 ### Pregunta 26: Razón de Iniciar con Valores Optimistas en Aprendizaje por Refuerzo
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó ólóaó óróaózóóónó ódóeó óiónóiócóióaóró ólóoósó óvóaólóoóróeósó óoópótóiómóiósótóaósó óeónó óeóló ópóróoócóeósóoó ódóeó óaópóróeónódóiózóaójóeó ópóoóró óróeófóuóeórózóoó?ó
+*"¿Cuál es la razón de iniciar los valores optimistas en el proceso de aprendizaje por refuerzo?"*
 
 **Respuesta Canónica de la Cátedra:**
 Inicializar la matriz de valores $Q(s, a)$ con **valores optimistas artificialmente altos** (ej. $Q_0 = +10$ cuando las recompensas reales oscilan en $[0, 1]$) tiene como propósito **incentivar una exploración exhaustiva y sistemática de todo el espacio de estados y acciones**.
@@ -2475,7 +2475,7 @@ Inicializar la matriz de valores $Q(s, a)$ con **valores optimistas artificialme
 
 ### Pregunta 27: Limitaciones de Naïve Bayes ante Datos No Lineales o en Espiral
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáólóeósó ósóoónó ólóoósó ópóróoóbólóeómóaósó ódóeó óNóBó ócóoónó ódóiósótóróióbóuócóióóónó ódóeó ópóróoóbóaóbóiólóiódóaódóeósó ó(ógóaóuósósóióaónóaó,ó óeótócó)ó?ó
+*"¿Cuáles son los problemas de NB con distribución de probabilidades (gaussiana, etc)?"*
 
 **Respuesta Canónica de la Cátedra:**
 El clasificador Naïve Bayes asume que los atributos son condicionalmente independientes dado el valor de la clase. Por ello:
@@ -2486,7 +2486,7 @@ El clasificador Naïve Bayes asume que los atributos son condicionalmente indepe
 
 ### Pregunta 28: Diagnóstico en Algoritmos Genéticos: Selección por Orden vs Cruce y Mutación
 **Enunciado Oficial de la Cátedra:**
-óSóió ósóeó ótóióeónóeó óuónóaó ósóoólóuócóióóónó ódóeó óAóGó óqóuóeó óuótóiólóiózóaó ósóeólóeócócóióóónó óeólóiótóiósótóaó ó1ó5ó%ó,ó ócóróuózóaó ó7ó0ó%ó óyó ómóuótóaócóióóónó ó1ó5ó%ó óyó ónóoó ósóeó ólólóeógóaó óaó ólóaó ósóoólóuócóióóónó óeósópóeóróaódóaó.ó ó¿óEósó óuónóaó óbóuóeónóaó óaólótóeórónóaótóióvóaó ócóaómóbóióaóró ólóoósó ómóéótóoódóoósó ódóeó ócóróuózóaó óyó ómóuótóaócóióóónó ópóoóró ósóeólóeócócóióóónó óbóaósóaódóaó óeónó óoóródóeónó?ó óJóuósótóiófóiócóaócóióóónó.ó
+*"Si se tiene una solución de AG que utiliza selección elitista 15%, cruza 70% y mutación 15% y no se llega a la solución esperada. ¿Es una buena alternativa cambiar los métodos de cruza y mutación por selección basada en orden? Justificación."*
 
 **Respuesta Canónica de la Cátedra:**
 **No, no sería una buena alternativa.**
@@ -2502,7 +2502,7 @@ Eliminar o desvirtuar la cruza y mutación para reemplazarlas por selección bas
 
 ### Pregunta 29: Arquitectura BPN para Aproximar $f(x, y, z) = \sin(x + y/z)$
 **Enunciado Oficial de la Cátedra:**
-óDóeótóeórómóiónóeó ólóaó óaóróqóuóiótóeócótóuóróaó ódóeó óuónóaó óróeódó óBóPóNó óqóuóeó óaópóróoóxóiómóeó ólóaó ósóaólóiódóaó ódóeó ólóaó ófóuónócóióóónó ósóeónó(óxó+óyó/ózó)ó.ó óDóeótóaólólóaóró ótóoódóaósó ólóaósó ócóoónósóiódóeóróaócóióoónóeósó ódóeó ódóiósóeóñóoó.ó
+*"Determine la arquitectura de una red BPN que aproxime la salida de la función sen(x+y/z). Detallar todas las consideraciones de diseño."*
 
 **Respuesta Canónica de la Cátedra:**
 Para aproximar la función trigonométrica multivariable no lineal $f(x, y, z) = \sin(x + y/z)$ mediante una red Backpropagation (BPN):
@@ -2516,7 +2516,7 @@ Para aproximar la función trigonométrica multivariable no lineal $f(x, y, z) =
 
 ### Pregunta 30: Algoritmo de Aprendizaje de MLP con Criterios de Parada y Curvas de Error
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló óaólógóoóróiótómóoó ódóeó óaópóróeónódóiózóaójóeó ódóeó óMóLóPó,ó ópóoónóeóró ócóoónódóiócóióóónó ódóeó ópóaóróaódóaó ó(óeóló óeóróróoóró ógólóoóbóaóló ómóíónóiómóoó)ó,ó ófóuónócóióóónó ódóeó ótóróaónósófóeóróeónócóióaó.ó ó¿óSóeó ópóuóeódóeó óaógóróeógóaóró ólóoósó óeóróróoóróeósó ódóeó óeónótóróeónóaómóióeónótóoó,ó ótóeósótó óyó óvóaólóiódóaócóióóónó?ó
+*"Explique el algoritmo de aprendizaje de MLP, poner condición de parada (el error global mínimo), función de transferencia. ¿Se puede agregar los errores de entrenamiento, test y validación?"*
 
 **Respuesta Canónica de la Cátedra:**
 El algoritmo de aprendizaje de una red perceptrón multicapa mediante retropropagación (*Backpropagation*):
@@ -2544,9 +2544,9 @@ El algoritmo de aprendizaje de una red perceptrón multicapa mediante retropropa
 
 ---
 
-### Pregunta 31: Consideraciones de Diseño de MLP para la Función de Paridad $f(x, y, z) = (x 	ext{ XOR } y) 	ext{ XOR } z$
+### Pregunta 31: Consideraciones de Diseño de MLP para la Función de Paridad $f(x, y, z) = (x \text{ XOR } y) \text{ XOR } z$
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóaósó ócóoónósóiódóeóróaócóióoónóeósó óqóuóeó ódóeóbóeóróíóaó ótóeónóeóró óeóló ódóiósóeóñóoó ódóeó óuónóaó óróeódó óMóLóPó ópóaóróaó óqóuóeó ópóuóeódóaó óaópóróeónódóeóró ólóaó ósóiógóuóióeónótóeó ófóuónócóióóónó ódóeó óvóaóróióaóbólóeósó óbóiónóaóróióaósó óxó,ó óyó,ó ózó:ó ófó(óxó,óyó,ózó)ó ó=ó ó(óxó óXóOóRó óyó)óXóOóRó ózó.ó
+*"Explique las consideraciones que debería tener el diseño de una red MLP para que pueda aprender la siguiente función de variables binarias x, y, z: f(x,y,z) = (x XOR y)XOR z."*
 
 **Respuesta Canónica de la Cátedra:**
 La función de paridad de 3 variables $f(x, y, z) = (x \oplus y) \oplus z$ es una extensión de la compuerta XOR a tres dimensiones y es un problema clásico **fuertemente no linealmente separable**:
@@ -2562,7 +2562,7 @@ La función de paridad de 3 variables $f(x, y, z) = (x \oplus y) \oplus z$ es un
 
 ### Pregunta 32: Clustering Aglomerativo vs Divisivo y Algoritmo Aglomerativo Paso a Paso
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáólóeósó ósóoónó ólóaósó ódóiófóeóróeónócóióaósó óeónótóróeó ócólóuósótóeóróiónógó óaógólóoómóeóróaótóióvóoó óyó ódóióvóiósóióvóoó?ó óEóxópólóióqóuóeó óeóló óaólógóoóróiótómóoó óaógólóoómóeóróaótóióvóoó.ó
+*"¿Cuáles son las diferencias entre clustering aglomerativo y divisivo? Explique el algoritmo aglomerativo."*
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Diferencias Fundamentales:
@@ -2581,7 +2581,7 @@ La función de paridad de 3 variables $f(x, y, z) = (x \oplus y) \oplus z$ es un
 
 ### Pregunta 33: En Hopfield: Significado de la Condición $E_k \cdot E_m > 0$
 **Enunciado Oficial de la Cátedra:**
-óEónó óHóoópófóióeólódó:ó ó¿óQóuóéó ósóiógónóiófóiócóaó óeókó ó*ó óeómó>ó0ó?ó
+*"En Hopfield: ¿Qué significa ek * em>0?"*
 
 **Respuesta Canónica de la Cátedra:**
 En el modelo de Hopfield bipolar ($E_k \in \{-1, +1\}^N$), el producto escalar entre dos patrones de entrenamiento $E_k \cdot E_m$ mide su grado de correlación:
@@ -2592,7 +2592,7 @@ En el modelo de Hopfield bipolar ($E_k \in \{-1, +1\}^N$), el producto escalar e
 
 ### Pregunta 34: Ejemplo Inédito de Ambiente No Accesible y Episódico
 **Enunciado Oficial de la Cátedra:**
-óEójóeómópólóoó ódóiófóeóróeónótóeó óaóló ódóeóló óaópóuónótóeó ódóeó óaómóbóióeónótóeó ónóoó óaócócóeósóióbólóeó óyó óaómóbóióeónótóeó óeópóiósóóódóiócóoó.ó óEójóeómópólóoó:ó óRóoóbóoótó óróeócóoólóeócótóoóró ódóeó óbóaósóuóróaó óeónó óuónó ótóeóróróeónóoó óióróróeógóuólóaóró ó-ó óNóoó óaócócóeósóióbólóeó:ó óEóló óróoóbóoótó ótóióeónóeó óiónófóoórómóaócóióóónó ólóiómóiótóaódóaó ósóoóbóróeó óeóló óaómóbóióeónótóeó ópóoóróqóuóeó ónóoó ócóuóeónótóaó ócóoónó ósóeónósóoóróeósó óaóvóaónózóaódóoósó óoó ódóaótóoósó ógólóoóbóaólóeósó ódóeóló ótóeóróróeónóoó.ó
+*"Ejemplo diferente al del apunte de ambiente no accesible y ambiente episódico. Ejemplo: Robot recolector de basura en un terreno irregular - No accesible: El robot tiene información limitada sobre el ambiente porque no cuenta con sensores avanzados o datos globales del terreno."*
 
 **Respuesta Canónica de la Cátedra:**
 **Ejemplo de la Cátedra:** Un robot recolector de residuos en un parque recreativo irregular:
@@ -2603,7 +2603,7 @@ En el modelo de Hopfield bipolar ($E_k \in \{-1, +1\}^N$), el producto escalar e
 
 ### Pregunta 35: Problemas y Limitaciones Intrínsecas del Modelo de Red de Hopfield
 **Enunciado Oficial de la Cátedra:**
-óDóiófóiócóuólótóaódóeósó ódóeóló ómóoódóeólóoó ódóeó óróeódó ódóeó óHóOóPóFóIóEóLóDó.ó ó1ó.ó
+*"Dificultades del modelo de red de HOPFIELD. 1."*
 
 **Respuesta Canónica de la Cátedra:**
 Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades críticas:
@@ -2623,7 +2623,7 @@ Las redes recurrentes auto-asociativas de Hopfield presentan cuatro dificultades
 
 ### Pregunta 36: Arquitectura Completa del Modelo de Red de Hopfield
 **Enunciado Oficial de la Cátedra:**
-óDóeósócóróióbóaó ólóaó óaóróqóuóiótóeócótóuóróaó ódóeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó.ó óLóaó óaóróqóuóiótóeócótóuóróaó ódóeóló ómóoódóeólóoó óHóoópófóióeólódó óeósó ólóaó ósóiógóuóióeónótóeó:ó
+*"Describa la arquitectura del modelo de Hopfield. La arquitectura del modelo Hopfield es la siguiente:"*
 
 **Respuesta Canónica de la Cátedra:**
 La arquitectura de la red de Hopfield es **monocapa recurrente y auto-asociativa**:
@@ -2637,7 +2637,7 @@ La arquitectura de la red de Hopfield es **monocapa recurrente y auto-asociativa
 
 ### Pregunta 37: Aprendizaje por Analogía Transformacional
 **Enunciado Oficial de la Cátedra:**
-óCóoómóoó ófóuónócóióoónóaó óeóló óaópóróeónódóiózóaójóeó ópóoóró óaónóaólóoógóíóaó ótóróaónósófóoórómóaócóióoónóaóló.ó óEónó óeóló óaópóróeónódóiózóaójóeó ópóoóró óaónóaólóoógóíóaó ótóróaónósófóoórómóaócóióoónóaóló ósóeó óbóuósócóaó ótóróaótóaóró ódóeó ótóróaónósófóoórómóaóró ólóaó óróeósóoólóuócóióóónó ódóeó óuónó ópóróoóbólóeómóaó óvóióeójóoó óaóló ópóróoóbólóeómóaó ónóuóeóvóoó.ó
+*"Como funciona el aprendizaje por analogía transformacional. En el aprendizaje por analogía transformacional se busca tratar de transformar la resolución de un problema viejo al problema nuevo."*
 
 **Respuesta Canónica de la Cátedra:**
 En el **aprendizaje por analogía transformacional**, el sistema resuelve un problema nuevo identificando un problema viejo similar resuelto con anterioridad en su base de casos y **transforma directamente la solución existente** para ajustarla a las diferencias del problema nuevo. Modifica los pasos u operadores de la solución previa sin necesidad de reconstruir todo el proceso de razonamiento o justificación que la generó.
@@ -2646,7 +2646,7 @@ En el **aprendizaje por analogía transformacional**, el sistema resuelve un pro
 
 ### Pregunta 38: Aprendizaje Online vs Aprendizaje Offline
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óaópóróeónódóiózóaójóeó óoónólóiónóeó óyó óoófófólóiónóeó.ó ó-ó óAópóróeónódóiózóaójóeó óOófófólóiónóeó:ó óeóxóiósótóeó óaópóróeónódóiózóaójóeó óoó óeónótóróeónóaómóióeónótóoó óyó óuónóaó ófóaósóeó ódóeó ófóuónócóióoónóaómóióeónótóoó.ó
+*"Explique aprendizaje online y offline. - Aprendizaje Offline: existe aprendizaje o entrenamiento y una fase de funcionamiento."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Aprendizaje Offline (*Batch*):** Existe una separación temporal estricta entre la fase de entrenamiento y la fase de operación/producción. Durante el entrenamiento, se procesa todo el dataset de forma iterativa y se fijan los pesos; durante el funcionamiento, los pesos están congelados y no se alteran.
@@ -2656,7 +2656,7 @@ En el **aprendizaje por analogía transformacional**, el sistema resuelve un pro
 
 ### Pregunta 39: Teorema de Bayes y su Aplicación en Clasificación Supervisada
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ótóeóoóróeómóaó ódóeó óBóAóYóEóSó óyó ópóaóróaó óqóuóéó ósóeó ólóoó óuótóiólóiózóaó óeónó ólóoósó ósóiósótóeómóaósó ódóeó ócólóaósóiófóiócóaócóióóónó.ó ó=ó=ó=ó óPóAóGóEó ó1ó6ó ó=ó=ó=ó óEóló ótóeóoóróeómóaó ódóeó óBóaóyóeósó óeósó óuónó óSóBóPó,ó ósóeó óaópólóiócóaó óaó ósóiótóuóaócóióoónóeósó ónóoó ódóeótóeórómóiónóíósótóiócóaósó.ó óEósótóiómóaó ólóaó ópóróoóbóaóbóiólóiódóaódó ódóeó óoócóuóróróeónócóióaó ódóeó óuónó óeóvóeónótóoó ódóaódóaó ólóaó óoócóuóróróeónócóióaó ódóeó ónó óhóeócóhóoósó óoó ósóuócóeósóoósó.ó óSóeó óiómópólóeómóeónótóaó ómóeódóióaónótóeó ódóoósó ómóoódóeólóoósó:ó
+*"Explique el teorema de BAYES y para qué se lo utiliza en los sistemas de clasificación. === PAGE 16 === El teorema de Bayes es un SBP, se aplica a situaciones no determinísticas. Estima la probabilidad de ocurrencia de un evento dada la ocurrencia de n hechos o sucesos. Se implementa mediante dos modelos:"*
 
 **Respuesta Canónica de la Cátedra:**
 El Teorema de Bayes es una regla formal de probabilidad condicional que permite invertir el orden de las dependencias estadísticas:
@@ -2668,7 +2668,7 @@ En los sistemas de clasificación supervisada, permite determinar de forma proba
 
 ### Pregunta 40: Tipo de Aprendizaje que Realiza Naïve Bayes
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó ótóiópóoó ódóeó óaópóróeónódóiózóaójóeó óróeóaólóiózóaó óNóAóIóVóEó óBóAóYóEóSó?ó
+*"¿Qué tipo de aprendizaje realiza NAIVE BAYES?"*
 
 **Respuesta Canónica de la Cátedra:**
 Naïve Bayes realiza un aprendizaje:
@@ -2681,7 +2681,7 @@ Naïve Bayes realiza un aprendizaje:
 
 ### Pregunta 41: Explicación del Denominador del Teorema de Bayes (Evidencia Marginal)
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ótóéórómóiónóoó ódóeónóoómóiónóaódóoóró ódóeóló óTóEóOóRóEóMóAó óDóEó óBóAóYóEóSó.ó
+*"Explique el término denominador del TEOREMA DE BAYES."*
 
 **Respuesta Canónica de la Cátedra:**
 En la formulación del Teorema de Bayes:
@@ -2699,7 +2699,7 @@ El término denominador $P(X)$ representa la **probabilidad marginal total de la
 
 ### Pregunta 42: Origen y Significado del Nombre "Naïve" Bayes
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ópóoóró óqóuóéó óeóló ónóoómóbóróeó ódóeóló ócólóaósóiófóiócóaódóoóró óNóaóióvóeó óBóaóyóeósó.ó óEóló ónóoómóbóróeó ó"óNóaóióvóeó óBóaóyóeósó"ó ópóróoóvóióeónóeó ódóeó ólóaó ósóiómópólóiófóiócóaócóióóónó óoó ósóuópóoósóiócóióóónó ó"óiónógóeónóuóaó"ó ó(ónóaóióvóeó)ó óqóuóeó óróeóaólóiózóaó óeósótóeó ócólóaósóiófóiócóaódóoóró óaóló óaópólóiócóaóró óeóló óTóeóoóróeómóaó ódóeó óBóaóyóeósó.ó óSóeó óaósóuómóeó óqóuóeó ótóoódóaósó ólóaósó ócóaóróaócótóeóróíósótóiócóaósó ó(óoó óvóaóróióaóbólóeósó)ó ósóoónó ócóoónódóiócóióoónóaólómóeónótóeó óiónódóeópóeónódóióeónótóeósó óeónótóróeó ósóíó ódóaódóoó óeóló óvóaólóoóró ódóeó ólóaó ócólóaósóeó.ó óEósótóaó ósóuópóoósóiócóióóónó ódóeó óiónódóeópóeónódóeónócóióaó ósóiómópólóiófóiócóaó óeónóoórómóeómóeónótóeó ólóoósó ócóáólócóuólóoósó,ó ópóoóróqóuóeó:ó óNóoó ó=ó=ó=ó óPóAóGóEó ó1ó7ó ó=ó=ó=ó ósóeó óróeóqóuóióeóróeó óeósótóiómóaóró ólóaó ópóróoóbóaóbóiólóiódóaódó ócóoónójóuónótóaó óPó(óxó1ó,óxó2ó,ó.ó.ó.ó,óxónó∣óCókó)ó,ó óqóuóeó ópóuóeódóeó ósóeóró ómóuóyó ócóoómópólóeójóaó.ó
+*"Explique por qué el nombre del clasificador Naive Bayes. El nombre "Naive Bayes" proviene de la simplificación o suposición "ingenua" (naive) que realiza este clasificador al aplicar el Teorema de Bayes. Se asume que todas las características (o variables) son condicionalmente independientes entre sí dado el valor de la clase. Esta suposición de independencia simplifica enormemente los cálculos, porque: No === PAGE 17 === se requiere estimar la probabilidad conjunta P(x1,x2,...,xn∣Ck), que puede ser muy compleja."*
 
 **Respuesta Canónica de la Cátedra:**
 El término *"Naïve"* (ingenuo o inocente) proviene de la fuerte suposición simplificadora en la que se basa el clasificador: **asume que todos los atributos son condicionalmente independientes entre sí, dado el valor de la clase**.
@@ -2709,7 +2709,7 @@ En el mundo real, esta condición casi nunca se cumple (los síntomas médicos, 
 
 ### Pregunta 43: Definición de Probabilidades a Priori y Verosimilitudes
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óqóuóeó ósóoónó ólóaósó ópóróoóbóaóbóiólóiódóaódóeósó óaó ópóróióoóróió óyó ólóaósó óvóeóróoósóiómóiólóiótóuódóeósó.ó ó-ó óPóróoóbóaóbóiólóiódóaódó óaó ópóróióoóróió:ó óSóoónó ólóaósó ópóróoóbóaóbóiólóiódóaódóeósó óiónóiócóióaólóeósó ódóeó ólóaósó ócólóaósóeósó óaónótóeósó ódóeó óoóbósóeóróvóaóró ócóuóaólóqóuóióeóró óeóvóiódóeónócóióaó,ó óbóaósóaódóaósó óeónó ócóoónóoócóiómóióeónótóoó ópóróeóvóióoó ó(óPó(óCó)ó.ó
+*"Explique que son las probabilidades a priori y las verosimilitudes. - Probabilidad a priori: Son las probabilidades iniciales de las clases antes de observar cualquier evidencia, basadas en conocimiento previo (P(C)."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Probabilidad a Priori $P(C_k)$:** Es la probabilidad asignada a la hipótesis o clase $C_k$ antes de observar la evidencia o atributos de la nueva instancia. Refleja el conocimiento histórico de la prevalencia o proporción de cada clase en el universo de estudio.
@@ -2719,7 +2719,7 @@ En el mundo real, esta condición casi nunca se cumple (los síntomas médicos, 
 
 ### Pregunta 44: ¿Por Qué se Utilizan Verosimilitudes en la Inferencia Bayesiana?
 **Enunciado Oficial de la Cátedra:**
-ó¿óPóoóró óqóuóéó ósóeó óuótóiólóiózóaónó óvóeóróoósóiómóiólóiótóuódóeósó?ó
+*"¿Por qué se utilizan verosimilitudes?"*
 
 **Respuesta Canónica de la Cátedra:**
 Se utilizan porque:
@@ -2730,7 +2730,7 @@ Se utilizan porque:
 
 ### Pregunta 45: ¿Dónde se Almacena el Conocimiento en el Modelo de Bayes?
 **Enunciado Oficial de la Cátedra:**
-ó¿óDóóónódóeó ósóeó óaólómóaócóeónóaó óeóló ócóoónóoócóiómóióeónótóoó óeónó óeóló ómóoódóeólóoó ódóeó óBóaóyóeósó?ó
+*"¿Dónde se almacena el conocimiento en el modelo de Bayes?"*
 
 **Respuesta Canónica de la Cátedra:**
 El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilidades**, constituida físicamente por:
@@ -2741,7 +2741,7 @@ El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilid
 
 ### Pregunta 46: ¿Por Qué MLP es Feedforward si su Algoritmo es Backpropagation?
 **Enunciado Oficial de la Cátedra:**
-ó¿óPóoóró óqóuóéó óeóló óaólógóoóróiótómóoó ódóeó óaópóróeónódóiózóaójóeó ódóeóló ómóoódóeólóoó óMóLóPó ósóeó ócóoónóoócóeó ócóoómóoó óBóaócókópóróoópóaógóaótóióoónó,ó ósóió óeósó óuónó ómóoódóeólóoó ófóeóeódófóoórówóaóródó?ó
+*"¿Por qué el algoritmo de aprendizaje del modelo MLP se conoce como Backpropagation, si es un modelo feedforward?"*
 
 **Respuesta Canónica de la Cátedra:**
 * **Es Feedforward (Propagación hacia Adelante)** por su **topología arquitectónica de inferencia**: las señales de entrada se propagan exclusivamente hacia adelante, de la capa de entrada a las capas ocultas y de allí a la salida, sin la existencia de conexiones laterales ni bucles de retroalimentación en la red.
@@ -2751,7 +2751,7 @@ El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilid
 
 ### Pregunta 47: Diferencia Funcional entre Errores de Entrenamiento, Validación y Test
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óqóuóéó ósóoónó ólóoósó óeóróróoóróeósó ódóeó óeónótóróeónóaómóióeónótóoó,ó óvóaólóiódóaócóióóónó óyó ótóeósótó óuótóiólóiózóaódóoósó óeónó óeóló óaópóróeónódóiózóaójóeó ódóeóló ómóoódóeólóoó óMóLóPó.ó
+*"Explique qué son los errores de entrenamiento, validación y test utilizados en el aprendizaje del modelo MLP."*
 
 **Respuesta Canónica de la Cátedra:**
 1. **Error de Entrenamiento ($E_{train}$):** Se calcula sobre el lote de datos utilizado activamente por la regla delta para ajustar y actualizar los pesos sinápticos. Mide la capacidad de aprendizaje o ajuste del modelo. Desciende de forma monótona durante el entrenamiento.
@@ -2762,7 +2762,7 @@ El conocimiento en el modelo Naïve Bayes se almacena en su **Base de Probabilid
 
 ### Pregunta 48: ¿El Término de Momento en MLP Puede ser Negativo? Justificación
 **Enunciado Oficial de la Cátedra:**
-ó¿óEóló ótóéórómóiónóoó ódóeó ómóoómóeónótóoó ópóuóeódóeó ósóeóró ónóeógóaótóióvóoó?ó óJóuósótóiófóióqóuóeó ósóuó óróeósópóuóeósótóaó óCóuóaónódóoó óβó óeósó óuónóaó ócóoónósótóaónótóeó óqóuóeó ócóoónósóiógóuóeó ólóaó ócóoónóvóeórógóeónócóióaó ódóeó ólóaó óróeódó óeónó ómóeónóoóró ónóúómóeóróoó ódóeó óiótóeóróaócóióoónóeósó:ó ósóió óeónó ótó óeóló óiónócóróeómóeónótóoó ódóeó óuónó ópóeósóoó óeóróaó ópóoósóiótóióvóoó óyó óeónó ótó+ó1ó ótóaómóbóióéónó,ó óeónótóoónócóeósó óeóló ódóeósócóeónósóoó ópóoóró ólóaó ósóuópóeórófóiócóióeó ódóeó óeóróróoóró óeónó ótó+ó1ó óeósó ómóaóyóoóró.ó óSóiónó óeómóbóaórógóoó,ó ósóió óeónó ótó óeóló óiónócóróeómóeónótóoó óeóróaó ópóoósóiótóióvóoó óyó óeónó ótó+ó1ó óeósó ónóeógóaótóióvóoó,ó óeóló ópóaósóoó óqóuóeó ósóeó ódóaó óeónó ótó+ó1ó óeósó ómóáósó ópóeóqóuóeóñóoó,ó óyóaó óqóuóeó ósóeó óhóaó ópóaósóaódóoó ópóoóró óuónó ómóíónóiómóoó óyó ólóoósó ópóaósóoósó ódóeóbóeónó ósóeóró ómóeónóoóróeósó ópóaóróaó ópóoódóeóró óaólócóaónózóaórólóoó.ó
+*"¿El término de momento puede ser negativo? Justifique su respuesta Cuando β es una constante que consigue la convergencia de la red en menor número de iteraciones: si en t el incremento de un peso era positivo y en t+1 también, entonces el descenso por la superficie de error en t+1 es mayor. Sin embargo, si en t el incremento era positivo y en t+1 es negativo, el paso que se da en t+1 es más pequeño, ya que se ha pasado por un mínimo y los pasos deben ser menores para poder alcanzarlo."*
 
 **Respuesta Canónica de la Cátedra:**
 **Sí, el término de momento puede ser negativo.**
@@ -2777,7 +2777,7 @@ Normalmente $\beta \in (0, 1)$ actúa como inercia positiva para acelerar en pen
 
 ### Pregunta 49: Esquema Anatómico y Componentes Matemáticos de una Neurona Artificial
 **Enunciado Oficial de la Cátedra:**
-óEósóqóuóeómóaótóiócóeó óuónóaó ónóeóuóróoónóaó óaórótóiófóiócóióaóló óeó óiónódóióqóuóeó ólóoósó óeólóeómóeónótóoósó óqóuóeó ólóaó ócóoónósótóiótóuóyóeónó.ó ó=ó=ó=ó óPóAóGóEó ó1ó9ó ó=ó=ó=ó
+*"Esquematice una neurona artificial e indique los elementos que la constituyen. === PAGE 19 ==="*
 
 **Respuesta Canónica de la Cátedra:**
 Esquema anatómico de una neurona artificial (modelo Perceptrón / ADALINE):
@@ -2805,7 +2805,7 @@ Entradas (x_i)     Pesos (w_i)
 
 ### Pregunta 50: Clasificación de Neuronas según su Nivel Jerárquico
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó ótóiópóoó ódóeó ónóeóuóróoónóaósó óeóxóiósótóeónó?ó
+*"¿Qué tipo de neuronas existen?"*
 
 **Respuesta Canónica de la Cátedra:**
 En una red neuronal multicapa existen tres tipos de neuronas:
@@ -2817,7 +2817,7 @@ En una red neuronal multicapa existen tres tipos de neuronas:
 
 ### Pregunta 51: Función de Transferencia de una Neurona: Tipos y Propiedades
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó ólóaó ófóuónócóióóónó ódóeó óTóróaónósófóeóróeónócóióaó ódóeó óuónóaó ónóeóuóróoónóaó?ó ó¿óQóuóéó ótóiópóoósó ódóeó ófóuónócóióoónóeósó ódóeó ótóróaónósófóeóróeónócóióaó óeóxóiósótóeónó?ó
+*"¿Cuál es la función de Transferencia de una neurona? ¿Qué tipos de funciones de transferencia existen?"*
 
 **Respuesta Canónica de la Cátedra:**
 La función de transferencia $f(net)$ determina la respuesta o nivel de excitación de la neurona a partir de su potencial neto.
@@ -2835,7 +2835,7 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 
 ### Pregunta 52: Redes Feedforward vs Redes Feedback / Recurrentes
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óróeódóeósó ódóeó ópóróoópóaógóaócóióóónó óhóaócóióaó óaódóeólóaónótóeó óyó óróeódóeósó ódóeó ópóróoópóaógóaócóióóónó óhóaócóióaó óaótóróáósó.ó ó-ó óFóeóeódófóoórówóaóródó ónóeóuóróaóló ónóeótówóoórókó ó(óFóNóNó)ó:ó óeósó óaóqóuóeólólóaó óróeódó óeónó ólóaó ócóuóaóló ólóaó ósóaólóiódóaó ódóeó óuónóaó ónóeóuóróoónóaó ósóeó ópóróoópóaógóaó ósóióeómópóróeó óhóaócóióaó óeóló ósóiógóuóióeónótóeó ónóióvóeóló,ó ónóuónócóaó óhóaócóióaó ónóeóuóróoónóaósó ódóeóló ómóiósómóoó ónóióvóeóló óoó óhóaócóióaó ónóeóuóróoónóaósó ódóeóló ónóióvóeóló óaónótóeóróióoóró.ó
+*"Explique redes de propagación hacia adelante y redes de propagación hacia atrás. - Feedforward neural network (FNN): es aquella red en la cual la salida de una neurona se propaga siempre hacia el siguiente nivel, nunca hacia neuronas del mismo nivel o hacia neuronas del nivel anterior."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Redes Feedforward (Hacia Adelante):** La información fluye en un único sentido estricto desde la entrada hacia la salida. No existen conexiones hacia capas anteriores ni conexiones laterales entre neuronas de una misma capa. No poseen memoria temporal interna (ejemplos: Perceptrón Simple, ADALINE, MLP).
@@ -2845,7 +2845,7 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 
 ### Pregunta 53: Proceso de Aprendizaje de ADALINE vs Perceptrón Simple
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óaópóróeónódóiózóaójóeó óeónó ópóeórócóeópótóróóónó ósóiómópólóeó.ó ó ó óRóeósópóuóeósótóaó óeónó óPóróeógóuónótóaó ó1ó7ó
+*"Explique aprendizaje en perceptrón simple. — Respuesta en Pregunta 17"*
 
 **Respuesta Canónica de la Cátedra:**
 ### 1. Modelo ADALINE (Adaptive Linear Neuron)
@@ -2872,7 +2872,7 @@ La función de transferencia $f(net)$ determina la respuesta o nivel de excitaci
 
 ### Pregunta 54: Algoritmo de la Regla Delta Generalizada
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló óaólógóoóróiótómóoó ódóeó ólóaó óRóeógólóaó óDóeólótóaó óGóeónóeóróaólóiózóaódóaó.ó óEósó ólóaó óróeógólóaó óDóeólótóaó óeóxótóeónódóiódóaó óaó óróeódóeósó ócóoónó ócóaópóaósó óiónótóeórómóeódóióaósó ócóoónó ócóoónóeóxóióoónóeósó óhóaócóióaó óaódóeólóaónótóeó.ó óLóoósó ópóeósóoósó ósóeó óaócótóuóaólóiózóaónó óeónó ófóoórómóaó ópóróoópóoórócóióoónóaóló óaóló ódóeólótóaó,ó óqóuóeó óeósó ólóaó ódóiófóeóróeónócóióaó óeónótóróeó ósóaólóiódóaó ódóeósóeóaódóaó óyó óoóbótóeónóiódóaó.ó óLóaó ódóiófóeóróeónócóióaó ócóoónó ólóaó óróeógólóaó ódóeólótóaó óeósó óeónó ólóaó ófóoórómóaó ódóeó ócóaólócóuólóaóró óeóló ódóeólótóaó ó(óoó óeóróróoóró)ó ópóoóróqóuóeó óeónó ólóaósó ónóeóuóróoónóaósó ódóeó ócóaópóaó óoócóuólótóaó,ó ónóoó ósóeó ócóoónóoócóeó ólóaó ósóaólóiódóaó ódóeósóeóaódóaó.ó óLóoó óqóuóeó ósóeó óhóaócóeó óeósó ócóaólócóuólóaóró óeóló óeóróróoóró óeónó ólóaósó ónóeóuóróoónóaósó ódóeó ósóaólóiódóaó,ó ódóoónódóeó ósóíó ósóeó ócóoónóoócóeó ólóaó ósóaólóiódóaó ódóeósóeóaódóaó óyó ólóuóeógóoó ópóróoópóaógóaóró óeóló óeóróróoóró óhóaócóióaó óaótóróáósó,ó ólóuóeógóoó ósóeó ómóuólótóiópólóiócóaó óeóló óeóróróoóró ópóoóró óeóló ópóeósóoó ódóeó ólóaó ócóoónóeóxóióóónó.ó
+*"Explique el algoritmo de la Regla Delta Generalizada. Es la regla Delta extendida a redes con capas intermedias con conexiones hacia adelante. Los pesos se actualizan en forma proporcional al delta, que es la diferencia entre salida deseada y obtenida. La diferencia con la regla delta es en la forma de calcular el delta (o error) porque en las neuronas de capa oculta, no se conoce la salida deseada. Lo que se hace es calcular el error en las neuronas de salida, donde sí se conoce la salida deseada y luego propagar el error hacia atrás, luego se multiplica el error por el peso de la conexión."*
 
 **Respuesta Canónica de la Cátedra:**
 La Regla Delta Generalizada (Rumelhart, Hinton, Williams) es una extensión de la regla delta de Widrow-Hoff para redes multicapa con capas ocultas y funciones de activación continuas derivables.
@@ -2890,7 +2890,7 @@ Donde el gradiente local $\delta_j$ se calcula por la regla de la cadena:
 
 ### Pregunta 55: Concepto y Manifestaciones de Sobreajuste (*Overfitting*)
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óoóvóeórófóiótótóiónógó ó(ósóoóbóróeóaójóuósótóeó)ó óCóuóaónódóoó ósóeó óiónógóróeósóaónó ópóaótóróoónóeósó óeónótóróaódóaó-ósóaólóiódóaó ódóeósóeóaódóaó ódóuóróaónótóeó óeóló óaópóróeónódóiózóaójóeó,ó ósóeó óbóuósócóaó óqóuóeó óeóló ómóoódóeólóoó óaópóróeónódóaó óyó ólóuóeógóoó ópóuóeódóaó ódóeótóeórómóiónóaóró ólóaó ócólóaósóeó ódóeó ónóuóeóvóaósó óiónósótóaónócóióaósó ódóeósócóoónóoócóiódóaósó.ó óPóuóeódóeó ó=ó=ó=ó óPóAóGóEó ó2ó0ó ó=ó=ó=ó ósóuócóeódóeóró óqóuóeó óeóló ómóoódóeólóoó ósóeó óaódóaópótóeó ómóuóyó óbóióeónó óaó ólóoósó óeójóeómópólóoósó ódóeó óeónótóróeónóaómóióeónótóoó ó(ócóuóróvóaó ónóeógóróaó)ó,ó ópóeóróoó óqóuóeó ópóróeósóeónótóeó ógóróaónódóeósó ódóiófóeóróeónócóióaósó ópóaóróaó ólóoósó óvóaólóoóróeósó óeónó ómóeódóióoó óqóuóeó ónóoó ócóoónóoócóeó ó(ócóuóróvóaó óróoójóaó)ó.ó
+*"Explique overfitting (sobreajuste) Cuando se ingresan patrones entrada-salida deseada durante el aprendizaje, se busca que el modelo aprenda y luego pueda determinar la clase de nuevas instancias desconocidas. Puede === PAGE 20 === suceder que el modelo se adapte muy bien a los ejemplos de entrenamiento (curva negra), pero que presente grandes diferencias para los valores en medio que no conoce (curva roja)."*
 
 **Respuesta Canónica de la Cátedra:**
 El **sobreajuste (*Overfitting*)** es el fenómeno patológico donde un modelo de aprendizaje memoriza con excesivo detalle los datos y el ruido particular del conjunto de entrenamiento, perdiendo su capacidad para generalizar correctamente sobre datos nuevos e independientes.
@@ -2901,7 +2901,7 @@ El **sobreajuste (*Overfitting*)** es el fenómeno patológico donde un modelo d
 
 ### Pregunta 56: Etapa y Tipo de Aprendizaje del Modelo de Hopfield
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó ótóiópóoó ódóeó óaópóróeónódóiózóaójóeó óuótóiólóiózóaó óeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó?ó ó ó óRóeósópóuóeósótóaó óeónó óPóróeógóuónótóaó ó5ó9ó
+*"¿Qué tipo de aprendizaje utiliza el modelo de Hopfield? — Respuesta en Pregunta 59"*
 
 **Respuesta Canónica de la Cátedra:**
 El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estrictamente offline**:
@@ -2914,7 +2914,7 @@ El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estr
 
 ### Pregunta 57: Significado de que la Red de Hopfield sea una Memoria Auto-Asociativa
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó ósóiógónóiófóiócóaó óqóuóeó óeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó óeósó óuónóaó óróeódó óaóuótóoó-óaósóoócóióaótóióvóaó?ó
+*"¿Qué significa que el modelo de Hopfield es una red auto-asociativa?"*
 
 **Respuesta Canónica de la Cátedra:**
 Significa que la red almacena internamente patrones de información y es capaz de **asociar una versión ruidosa, degradada o incompleta de una entrada consigo misma**. Al recibir un vector de entrada distorsionado, la red evoluciona dinámicamente minimizando su función de energía hasta converger al patrón original nítido que más se asemeje a la entrada (memoria direccionable por contenido).
@@ -2923,7 +2923,7 @@ Significa que la red almacena internamente patrones de información y es capaz d
 
 ### Pregunta 58: Representación de la Información en el Modelo de Hopfield
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóóómóoó ódóeóbóeó óróeópóróeósóeónótóaórósóeó ólóaó óiónófóoórómóaócóióóónó óqóuóeó óróeócóióbóeó óeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó?ó
+*"¿Cómo debe representarse la información que recibe el modelo de Hopfield?"*
 
 **Respuesta Canónica de la Cátedra:**
 La información debe codificarse obligatoriamente en forma de **vectores discretos bipolares $\{-1, +1\}^N$** (o binarios $\{0, 1\}^N$, requiriendo transformación matemática). La representación bipolar es la preferida por la Cátedra porque cancela términos cruzados espurios en el producto externo $E_k E_k^T$ y facilita la condición de ortogonalidad simétrica.
@@ -2932,7 +2932,7 @@ La información debe codificarse obligatoriamente en forma de **vectores discret
 
 ### Pregunta 59: Etapa y Tipo de Aprendizaje del Modelo de Hopfield
 **Enunciado Oficial de la Cátedra:**
-óDóeósócóróióbóaó ólóaó óeótóaópóaó ódóeó óaópóróeónódóiózóaójóeó ódóeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó.ó óUótóiólóiózóaó óaópóróeónódóiózóaójóeó óoófófólóiónóeó.ó óLóaó ófóaósóeó ódóeó óeónótóróeónóaómóióeónótóoó óoó óaópóróeónódóiózóaójóeó ócóoónósóiósótóeó óeónó ófóiójóaóró ólóoósó óvóaólóoóróeósó ódóeó ólóoósó ópóeósóoósó óeónó ófóuónócóióóónó ódóeó ólóaósó óiónófóoórómóaócóióoónóeósó óqóuóeó ósóeó ópóróeótóeónódóeó óqóuóeó ólóaó óróeódó ómóeómóoóróiócóeó.ó óPóaóróaó óeósóoó ódóeóbóeó ócóoónófóeócócóióoónóaórósóeó ólóaó ómóaótóróiózó ódóeó ópóeósóoósó:ó
+*"Describa la etapa de aprendizaje del modelo de Hopfield. Utiliza aprendizaje offline. La fase de entrenamiento o aprendizaje consiste en fijar los valores de los pesos en función de las informaciones que se pretende que la red memorice. Para eso debe confeccionarse la matriz de pesos:"*
 
 **Respuesta Canónica de la Cátedra:**
 El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estrictamente offline**:
@@ -2945,7 +2945,7 @@ El modelo de Hopfield utiliza un **aprendizaje no supervisado, asociativo y estr
 
 ### Pregunta 60: Clasificación Topológica de la Red SOM según sus Conexiones
 **Enunciado Oficial de la Cátedra:**
-óSóeógóúónó ósóuósó ócóoónóeóxóióoónóeósó,ó ó¿óqóuóéó ótóiópóoó ódóeó óróeódó óeósó óeóló ómóoódóeólóoó óSóOóMó?ó
+*"Según sus conexiones, ¿qué tipo de red es el modelo SOM?"*
 
 **Respuesta Canónica de la Cátedra:**
 Según sus conexiones sinápticas físicas, el modelo SOM es una red **Feedforward** (las señales sensoriales viajan exclusivamente hacia adelante desde la capa de entrada a la grilla de salida, sin bucles recurrentes). Las interacciones laterales que definen la cooperación no son conexiones físicas por cableado, sino interacciones matemáticas modeladas mediante la **función de vecindad topológica**.
@@ -2954,7 +2954,7 @@ Según sus conexiones sinápticas físicas, el modelo SOM es una red **Feedforwa
 
 ### Pregunta 61: Modelado de la Influencia Mutua y Objetivo de la Función de Vecindad en SOM
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóóómóoó ósóeó ómóoódóeólóaó ólóaó óiónófólóuóeónócóióaó ódóeó ólóaósó ónóeóuóróoónóaósó óeónótóróeó ósóíó óeónó ólóoósó óSóOóMó?ó
+*"¿Cómo se modela la influencia de las neuronas entre sí en los SOM?"*
 
 **Respuesta Canónica de la Cátedra:**
 La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h_{cj}(t)$ (campana Gaussiana o ventana rectangular).
@@ -2965,7 +2965,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 
 ### Pregunta 62: Etapas de Aprendizaje de SOM: Competencia y Cooperación
 **Enunciado Oficial de la Cátedra:**
-óDóeósócóróióbóaó ólóaó óeótóaópóaó ódóeó óaópóróeónódóiózóaójóeó ódóeóló ómóoódóeólóoó óSóOóMó,ó óeósópóeócóiófóiócóaónódóoó ócólóaóróaómóeónótóeó ólóaósó ófóaósóeósó ódóeó ócóoómópóeótóeónócóióaó óyó ócóoóoópóeóróaócóióóónó.ó
+*"Describa la etapa de aprendizaje del modelo SOM, especificando claramente las fases de competencia y cooperación."*
 
 **Respuesta Canónica de la Cátedra:**
 1. **Fase de Competencia:** Ante un vector de entrada $X$, todas las neuronas de salida calculan su distancia euclídea $\|X - W_j\|$. La neurona con menor distancia es declarada ganadora (BMU $c$).
@@ -2976,7 +2976,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 
 ### Pregunta 63: Modelado de la Influencia Mutua y Objetivo de la Función de Vecindad en SOM
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó óoóbójóeótóióvóoó ótóióeónóeó ólóaó ófóuónócóióóónó ódóeó óvóeócóiónódóaódó óuótóiólóiózóaódóaó óeónó ólóoósó óSóOóMó?ó
+*"¿Qué objetivo tiene la función de vecindad utilizada en los SOM?"*
 
 **Respuesta Canónica de la Cátedra:**
 La influencia de las neuronas entre sí se modela en función de la **distancia geométrica sobre la grilla de salida**, mediante una función de vecindad $h_{cj}(t)$ (campana Gaussiana o ventana rectangular).
@@ -2987,7 +2987,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 
 ### Pregunta 64: Tabla Comparativa Exhaustiva: Hopfield vs SOM
 **Enunciado Oficial de la Cátedra:**
-óEónóuómóeóróeó óyó óeóxópólóióqóuóeó ólóaósó ódóiófóeóróeónócóióaósó ópóróiónócóiópóaólóeósó óeónótóróeó óeóló ómóoódóeólóoó ódóeó óHóoópófóióeólódó óyó óeóló ómóoódóeólóoó óSóOóMó.ó
+*"Enumere y explique las diferencias principales entre el modelo de Hopfield y el modelo SOM."*
 
 **Respuesta Canónica de la Cátedra:**
 | Aspecto Comparado | Red de Hopfield | Red SOM (Kohonen) |
@@ -3002,7 +3002,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 
 ### Pregunta 65: Concepto de Clustering y Noción de Agrupamiento Intrínseco
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló ócóoónócóeópótóoó ódóeó ócólóuósótóeóróiónógó.ó óCólóuósótóeóróiónógó óeósó óeóló ópóróoócóeósóoó ódóeó óoórógóaónóiózóaóró ódóaótóoósó óeónó ógóróuópóoósó ócóuóyóoósó ómóióeómóbóróoósó ósóoónó ósóiómóiólóaóróeósó óbóaójóoó óaólógóuónóaó ómóeódóiódóaó ódóeó ósóiómóiólóaóróiódóaódó.ó óUónó ócólóuósótóeóró óeósó óuónó ócóoónójóuónótóoó ódóeó óiónósótóaónócóióaósó ósóiómóiólóaóróeósó óeónótóróeó ósóíó óyó óqóuóeó ósóoónó ódóiófóeóróeónótóeósó ódóeó óoótóróaósó.ó
+*"Explique el concepto de clustering. Clustering es el proceso de organizar datos en grupos cuyos miembros son similares bajo alguna medida de similaridad. Un cluster es un conjunto de instancias similares entre sí y que son diferentes de otras."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Clustering:** Es una técnica de aprendizaje no supervisado que organiza un conjunto de datos en grupos (*clusters*) tales que los miembros de un mismo grupo compartan una alta similitud interna (**máxima cohesión intra-cluster**) y sean claramente diferenciables de los miembros de otros grupos (**máxima separación inter-cluster**).
@@ -3012,7 +3012,7 @@ Preservar la **topología del espacio de entrada**: garantiza que patrones de en
 
 ### Pregunta 66: Taxonomía de Métodos de Clustering
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ócóuóáólóeósó ósóoónó ólóoósó ótóiópóoósó ódóeó ócólóuósótóeóróiónógó ómóáósó óiómópóoórótóaónótóeósó.ó óLóoósó ótóiópóoósó ódóeó ócólóuósótóeóróiónógó ómóáósó óiómópóoórótóaónótóeósó ósóoónó:ó
+*"Explique cuáles son los tipos de clustering más importantes. Los tipos de clustering más importantes son:"*
 
 **Respuesta Canónica de la Cátedra:**
 Los tipos más importantes son:
@@ -3026,7 +3026,7 @@ Los tipos más importantes son:
 
 ### Pregunta 67: Elementos Indispensables para Realizar Clustering
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó óeólóeómóeónótóoósó ósóoónó óiónódóiósópóeónósóaóbólóeósó ópóaóróaó óróeóaólóiózóaóró ócólóuósótóeóróiónógó óeónó óuónó ócóoónójóuónótóoó ódóeó ódóaótóoósó?ó ó¿óEósóoósó óeólóeómóeónótóoósó ósóoónó ócóoómópólóeómóeónótóaóróióoósó?ó
+*"¿Qué elementos son indispensables para realizar clustering en un conjunto de datos? ¿Esos elementos son complementarios?"*
 
 **Respuesta Canónica de la Cátedra:**
 Son indispensables dos elementos plenamente complementarios:
@@ -3037,7 +3037,7 @@ Son indispensables dos elementos plenamente complementarios:
 
 ### Pregunta 68: Estructura y Definición de un Dendrograma
 **Enunciado Oficial de la Cátedra:**
-ó¿óQóuóéó óeósó óuónó ódóeónódóoógóróaómóaó?ó
+*"¿Qué es un dendograma?"*
 
 **Respuesta Canónica de la Cátedra:**
 Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
@@ -3049,7 +3049,7 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 
 ### Pregunta 69: Concepto de Clustering y Noción de Agrupamiento Intrínseco
 **Enunciado Oficial de la Cátedra:**
-ó¿óCóuóáóló óeósó óeóló óoóbójóeótóióvóoó ódóeóló ócólóuósótóeóróiónógó?ó óEóxópólóióqóuóeó óeóló ócóoónócóeópótóoó ódóeó óaógóróuópóaómóióeónótóoó óiónótóróíónósóeócóoó.ó óEóló óoóbójóeótóióvóoó ódóeóló ócólóuósótóeóróiónógó óeósó óeónócóoónótóróaóró ósóiómóiólóiótóuódóeósó óeónótóróeó ólóoósó ódóaótóoósó ódóeó óeónótóróaódóaó ópóaóróaó óaógóróuópóaórólóoósó ómóeódóióaónótóeó óuónó óaólógóoóróiótómóoó ódóeó ócólóuósótóeóróiónógó óyó ómóeódóiódóaósó ódóeó ódóiósótóaónócóióaó.ó óEóló ócólóuósótóeóróiónógó óeósó óuónó ómóoódóeólóoó ódóeó óaógóróuópóaómóióeónótóoó,ó óqóuóeó ódóeónótóróoó ódóeó óuónó ómóaóró ódóeó ódóaótóoósó óbóuósócóaó ópóaótóróoónóeósó óiónótóróíónósóeócóoósó óeónó ócóaódóaó óuónóoó ódóeó ólóoósó ódóaótóoósó óqóuóeó ólóeó ópóeórómóiótóaó óaógóróuópóaórólóoósó ósóeógóúónó ósóuósó ósóiómóiólóiótóuódóeósó.ó
+*"¿Cuál es el objetivo del clustering? Explique el concepto de agrupamiento intrínseco. El objetivo del clustering es encontrar similitudes entre los datos de entrada para agruparlos mediante un algoritmo de clustering y medidas de distancia. El clustering es un modelo de agrupamiento, que dentro de un mar de datos busca patrones intrínsecos en cada uno de los datos que le permita agruparlos según sus similitudes."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Clustering:** Es una técnica de aprendizaje no supervisado que organiza un conjunto de datos en grupos (*clusters*) tales que los miembros de un mismo grupo compartan una alta similitud interna (**máxima cohesión intra-cluster**) y sean claramente diferenciables de los miembros de otros grupos (**máxima separación inter-cluster**).
@@ -3059,7 +3059,7 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 
 ### Pregunta 70: Algoritmo $K$-Means Canónico de la Cátedra
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló óaólógóoóróiótómóoó ókó-ómóeóaónósó ópóróeósóeónótóaódóoó óeónó óeóló ómóaótóeóróióaóló ódóeó óróeófóeóróeónócóióaó.ó óAólógóoóróiótómóoó ókó-ómóeóaónósó ó1ó.ó
+*"Explique el algoritmo k-means presentado en el material de referencia. Algoritmo k-means 1."*
 
 **Respuesta Canónica de la Cátedra:**
 1. Seleccionar $k$ semillas iniciales como centroides iniciales de los clusters.
@@ -3071,7 +3071,7 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 
 ### Pregunta 71: Ventajas y Desventajas Comparativas del Algoritmo $K$-Means
 **Enunciado Oficial de la Cátedra:**
-óEónóuómóeóróeó óyó óeóxópólóióqóuóeó ólóaósó óvóeónótóaójóaósó óyó ódóeósóvóeónótóaójóaósó ódóeóló óaólógóoóróiótómóoó ókó-ómóeóaónósó.ó óVóeónótóaójóaósó óDóeósóvóeónótóaójóaósó óSóiómópólóiócóiódóaódó óyó óeófóiócóióeónócóióaó óSóóólóoó ósóeó ópóuóeódóeó óaópólóiócóaóró óaó ódóaótóaósóeótósó ódóoónódóeó óeóxóiósótóaó ólóaó ónóoócóióóónó ódóeó ómóeódóióaó.ó
+*"Enumere y explique las ventajas y desventajas del algoritmo k-means. Ventajas Desventajas Simplicidad y eficiencia Sólo se puede aplicar a datasets donde exista la noción de media."*
 
 **Respuesta Canónica de la Cátedra:**
 * **Ventajas:** Simplicidad conceptual, facilidad de implementación, alta eficiencia computacional $O(t \cdot k \cdot N \cdot d)$, escala bien a grandes datasets.
@@ -3081,7 +3081,7 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 
 ### Pregunta 72: Algoritmo $k$-NN Canónico de la Cátedra
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó óeóló óaólógóoóróiótómóoó ókónónó ópóróeósóeónótóaódóoó óeónó óeóló ómóaótóeóróióaóló ódóeó óróeófóeóróeónócóióaó.ó óAólógóoóróiótómóoó óKónónó:ó
+*"Explique el algoritmo knn presentado en el material de referencia. Algoritmo Knn:"*
 
 **Respuesta Canónica de la Cátedra:**
 1. Calcular la distancia métrica desde la nueva instancia a clasificar hacia **todas** las instancias del dataset de entrenamiento.
@@ -3093,7 +3093,7 @@ Un dendrograma es un diagrama jerárquico anidado en forma de árbol invertido:
 
 ### Pregunta 73: Determinación del $k$-Óptimo en $k$-NN mediante Leave-One-Out Cross Validation
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ócóóómóoó ócóaólócóuólóaóró óeóló óvóaólóoóró ódóeó ókó óóópótóiómóoó ópóaóróaó ólóaó óeójóeócóuócóióóónó ódóeóló óaólógóoóróiótómóoó ókónónó.ó óPóaóróaó ócóaólócóuólóaóró óeóló óvóaólóoóró ódóeóló ókó óóópótóiómóoó óeónó ólóaó óeójóeócóuócóióóónó ódóeóló óaólógóoóróiótómóoó ókónónó ósóeó ódóeóbóeó óaópólóiócóaóró óuónó óaólógóoóróiótómóoó óqóuóeó ópóeórómóiótóaó ómóeódóióró ólóaó ópóróeócóiósóióóónó ódóeó ólóaósó ócólóaósóiófóiócóaócóióoónóeósó,ó ócóoómóoó ókó-ófóoólódó ócóróoósósó óvóaólóiódóaótóióoónó.ó
+*"Explique cómo calcular el valor de k óptimo para la ejecución del algoritmo knn. Para calcular el valor del k óptimo en la ejecución del algoritmo knn se debe aplicar un algoritmo que permita medir la precisión de las clasificaciones, como k-fold cross validation."*
 
 **Respuesta Canónica de la Cátedra:**
 Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el método de validación cruzada **$k$-Fold Cross Validation** o en su versión canónica **Leave-One-Out (LOOCV)**:
@@ -3117,7 +3117,7 @@ Para determinar el valor de $k$ óptimo en el algoritmo $k$-NN se aplica el mét
 
 ### Pregunta 74: Métodos de Selección Proporcionales en Algoritmos Genéticos
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóoósó ómóéótóoódóoósó ódóeó ósóeólóeócócóióóónó ópóróoópóoórócóióoónóaólóeósó.ó óEójóeómópólóiófóióqóuóeó.ó óLóoósó ómóéótóoódóoósó ódóeó ósóeólóeócócóióóónó ópóróoópóoórócóióoónóaólóeósó ósóoónó ólóoósó óqóuóeó ótóióeónóeónó óeónó ócóuóeónótóaó ólóaó óaópótóiótóuódó ódóeó ólóoósó óiónódóióvóiódóuóoósó óróeósópóeócótóoó óaó ólóaó ópóoóbólóaócóióóónó.ó óSóuó ópóróoóbólóeómóaó óeósó ólóaó ócóoónóvóeórógóeónócóióaó ópóróeómóaótóuóróaó óyóaó óqóuóeó ópóuóeódóeó ópóaósóaóró óqóuóeó ólóoósó ómóeójóoóróeósó óiónódóióvóiódóuóoósó ódóoómóiónóeónó óaó ólóaó ópóoóbólóaócóióóónó óróáópóiódóaómóeónótóeó.ó
+*"Explique los métodos de selección proporcionales. Ejemplifique. Los métodos de selección proporcionales son los que tienen en cuenta la aptitud de los individuos respecto a la población. Su problema es la convergencia prematura ya que puede pasar que los mejores individuos dominen a la población rápidamente."*
 
 **Respuesta Canónica de la Cátedra:**
 Son aquellos donde la probabilidad de reproducción de un individuo es directamente proporcional a su valor de aptitud respecto al total de la población:
@@ -3129,7 +3129,7 @@ Son aquellos donde la probabilidad de reproducción de un individuo es directame
 
 ### Pregunta 75: Métodos de Selección Basados en Orden en Algoritmos Genéticos
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóoósó ómóéótóoódóoósó ódóeó ósóeólóeócócóióóónó óbóaósóaódóoósó óeónó óoóródóeónó.ó óEójóeómópólóiófóióqóuóeó.ó óLóoósó ómóéótóoódóoósó ódóeó ósóeólóeócócóióóónó óbóaósóaódóoósó óeónó óoóródóeónó ótóióeónóeónó óeónó ócóuóeónótóaó óuónóaó ólóiósótóaó óoóródóeónóaódóaó ósóeógóúónó ólóaó óaópótóiótóuódó ódóeó ólóoósó óiónódóióvóiódóuóoósó.ó óEónótóróeó óeólólóoósó óeóxóiósótóeó ólóaó ósóeólóeócócóióóónó ópóoóró óróaónókóiónógó,ó óeónó ólóaó óqóuóeó ócóaódóaó óiónódóióvóiódóuóoó óróeócóióbóeó óuónóaó ócóaónótóiódóaódó ódóeó ócóoópóióaósó ósóeógóúónó ósóuó ópóoósóiócóióóónó óeónó óuónóaó ólóiósótóaó óoóródóeónóaódóaó ópóoóró óaópótóiótóuódó.ó óSóeó óuótóiólóiózóaó ólóaó ófóóórómóuólóaó ócó ó=ó óró ómóiónó ó+ó ó2ó ó*ó(ó ónó ó-ó óió ó)ó*ó ó(ó1ó ó–ó óró ómóiónó)ó ó/ó ónó ó-ó1ó,ó ódóoónódóeó óró ómóiónó óeósó óeóló ónóúómóeóróoó ómóíónóiómóoó ódóeó ócóoópóióaósó
+*"Explique los métodos de selección basados en orden. Ejemplifique. Los métodos de selección basados en orden tienen en cuenta una lista ordenada según la aptitud de los individuos. Entre ellos existe la selección por ranking, en la que cada individuo recibe una cantidad de copias según su posición en una lista ordenada por aptitud. Se utiliza la fórmula c = r min + 2 *( n - i )* (1 – r min) / n -1, donde r min es el número mínimo de copias"*
 
 **Respuesta Canónica de la Cátedra:**
 Asignan probabilidades de selección en función de la **posición del individuo en un ranking ordenado por aptitud**, independizándose de la magnitud numérica de la aptitud:
@@ -3140,7 +3140,7 @@ Asignan probabilidades de selección en función de la **posición del individuo
 
 ### Pregunta 76: Operadores de Cruce en Algoritmos Genéticos
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóoósó ómóéótóoódóoósó ódóeó ócóróuócóeó.ó óEójóeómópólóiófóióqóuóeó.ó óEóló ócóróuócóeó óeósó óoótóróoó óoópóeóróaódóoóró óqóuóeó ósóeó óeónócóaórógóaó ódóeó óróeócóoómóbóiónóaóró óiónódóióvóiódóuóoósó ódóeó ólóaó ópóoóbólóaócóióóónó ógóeónóeóróaónódóoó ónóuóeóvóoósó ónóoó óeóxóiósótóeónótóeósó.ó óEóxóiósótóeónó óvóaóróióoósó ómóéótóoódóoósó:ó
+*"Explique los métodos de cruce. Ejemplifique. El cruce es otro operador que se encarga de recombinar individuos de la población generando nuevos no existentes. Existen varios métodos:"*
 
 **Respuesta Canónica de la Cátedra:**
 Recombinan material genético de dos progenitores:
@@ -3152,7 +3152,7 @@ Recombinan material genético de dos progenitores:
 
 ### Pregunta 77: Mutación Adaptativa por Convergencia en Algoritmos Genéticos
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóoósó ómóéótóoódóoósó ódóeó ómóuótóaócóióóónó óaódóaópótóaótóióvóaó ópóoóró ócóoónóvóeórógóeónócóióaó.ó óEójóeómópólóiófóióqóuóeó.ó óLóaó ómóuótóaócóióóónó óeósó óuótóiólóiózóaódóaó ópóaóróaó ómóaónótóeónóeóró ólóaó ódóióvóeórósóiódóaódó ódóeó ólóaó ópóoóbólóaócóióóónó,ó ósóió óuónó óiónódóióvóiódóuóoó óeósó ósóeólóeócócóióoónóaódóoó ópóaóróaó ómóuótóaóró óeónótóoónócóeósó ómóuótóaó ósóió óoó ósóíó.ó óEóxóiósótóeó ólóaó ómóuótóaócóióóónó ócóoónósótóaónótóeó óyó óaódóaópótóaótóióvóaó.ó
+*"Explique los métodos de mutación adaptativa por convergencia. Ejemplifique. La mutación es utilizada para mantener la diversidad de la población, si un individuo es seleccionado para mutar entonces muta si o sí. Existe la mutación constante y adaptativa."*
 
 **Respuesta Canónica de la Cátedra:**
 Modula la probabilidad de mutación en función del **grado de heterogeneidad o diversidad genética** de la población actual:
@@ -3164,7 +3164,7 @@ Modula la probabilidad de mutación en función del **grado de heterogeneidad o 
 
 ### Pregunta 78: Mutación Adaptativa por Temperatura en Algoritmos Genéticos
 **Enunciado Oficial de la Cátedra:**
-óEóxópólóióqóuóeó ólóoósó ómóéótóoódóoósó ódóeó ómóuótóaócóióóónó óaódóaópótóaótóióvóaó ópóoóró ótóeómópóeóróaótóuóróaó.ó óEójóeómópólóiófóióqóuóeó.ó óLóaó ómóuótóaócóióóónó óaódóaópótóaótóióvóaó ópóoóró ótóeómópóeóróaótóuóróaó ónóoó óuósóaó ólóaó ódóióvóeórósóiódóaódó,ó ósóiónóoó óqóuóeó ósóeó óbóaósóaó óeónó óeóló ótóióeómópóoó,ó óeósó ódóeócóióró óeónó ólóaó ócóaónótóiódóaódó ódóeó ógóeónóeóróaócóióoónóeósó.ó óLóoósó ómóéótóoódóoósó ódóeó óeósótóeó ótóiópóoó ódóeó ómóuótóaócóióóónó ósóoónó:ó
+*"Explique los métodos de mutación adaptativa por temperatura. Ejemplifique. La mutación adaptativa por temperatura no usa la diversidad, sino que se basa en el tiempo, es decir en la cantidad de generaciones. Los métodos de este tipo de mutación son:"*
 
 **Respuesta Canónica de la Cátedra:**
 La mutación adaptativa por temperatura modula la probabilidad de mutación en función del **tiempo evolutivo transcurrido (número de generaciones)**:
