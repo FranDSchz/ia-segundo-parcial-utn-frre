@@ -22,7 +22,16 @@
 >   - [BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md](GUIAS_PASO_A_PASO/BANCO_EJERCICIOS_PRACTICOS_2024_2025_FINALES.md): Banco práctico de 128 KB con todos los ejercicios resueltos paso a paso en KaTeX.
 > - **Aislamiento de Primer Parcial ([TEMA_P1_RENDIDO]):** Todo ejercicio o pregunta de búsqueda ($A^*$, DFS/BFS), planificación (POP) o árboles C4.5 se encuentra debidamente etiquetado para no contaminar el estudio del 2do parcial pero preservarse para recuperatorio.
 
+---
 
+> [!TIP]
+> ### 🎮 ¡NUEVO! Simulador Interactivo de Parcial (Web App & Offline)
+> Ya está disponible la aplicación web interactiva para entrenar el examen teórico multiple choice bajo condiciones reales de examen:
+> - **Acceso Web Inmediato:** [frandschz.github.io/ia-segundo-parcial-utn-frre](https://frandschz.github.io/ia-segundo-parcial-utn-frre/)
+> - **Uso Local (Sin Internet):** Doble clic en [`docs/index.html`](docs/index.html) (corre en cualquier navegador sin instalar Node ni npm).
+> - **Motor de Puntuación Moodle:** Evalúa penalización por respuestas erróneas ($\max(0, 100 \cdot (a/C - e/I))$) con umbrales de Promoción ($\ge 80\%$) y Aprobación ($\ge 60\%$).
+> - **Modo Simulacro Oficial (40 min / 25 preguntas)**, **Práctica Libre por Tema** con feedback inmediato y justificaciones doctrinales completas, y **Modo QA / Auditoría (`#qa`)**.
+> - [Guía de Activación en GitHub Pages](docs/README_DEPLOY.md)
 
 ## 🗺️ Mapa de Navegación del Repositorio
 
@@ -31,6 +40,19 @@
 ├── 📄 README.md                      <- Esta guía de aterrizaje y estrategia
 ├── 📄 FORMULARIO_OFICIAL.md          <- Formulario canónico de 2 carillas exacto
 ├── 📄 MACHETE_LEGAL_5_MINUTOS.md      <- Hoja de emergencia para leer 15 min antes
+├── 📄 preguntas_quiz.json            <- Banco maestro de 52 preguntas estructuradas
+│
+├── 📂 docs/                          <- 🎮 Web App Simulador Interactivo (GitHub Pages Ready)
+│   ├── index.html                    <- Interfaz SPA accesible offline y online
+│   ├── styles.css                    <- Estilos responsive modernos con Dark/Light mode
+│   ├── app.js                        <- Motor de examen, temporizador y corrección Moodle
+│   ├── README_DEPLOY.md              <- Instrucciones en 2 clics para GitHub Pages
+│   └── 📂 data/
+│       └── preguntas.js              <- 52 preguntas con KaTeX precargadas sin CORS
+│
+├── 📂 tools/                         <- Herramientas de automatización y validación
+│   ├── extraer_preguntas.py          <- Extractor maestro y normalizador KaTeX
+│   └── validar_banco.py              <- Validador estricto de esquema, KaTeX y scoring
 │
 ├── 📂 GUIAS_PASO_A_PASO/             <- 8 Guías algorítmicas + Guía Maestra de AG y Estructura Real
 │   ├── GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md <- Guía completa AG + Fin del mito 4 cuadrantes

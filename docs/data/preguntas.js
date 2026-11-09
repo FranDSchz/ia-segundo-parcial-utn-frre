@@ -1,0 +1,1067 @@
+// Base de Datos Maestra de Preguntas — Simulador Quiz UTN FRRe
+// Cátedra de Inteligencia Artificial (Segundo Parcial)
+// Generado automáticamente sin dependencias de build
+window.PREGUNTAS = [
+  {
+    "id": "MC-OFICIAL-01",
+    "tema": "CLUSTERING",
+    "titulo": "Clustering Jerárquico: Centroides en Métodos de Enlace",
+    "enunciado": "En clustering jerárquico aglomerativo, la distancia entre dos clusters:",
+    "opciones": [
+      "A) Se calcula utilizando la máxima distancia de sus centroides si se emplea el método Complete-Link.",
+      "B) Se calcula utilizando la mínima distancia de sus centroides si se emplea el método Single-Link.",
+      "C) Se calcula utilizando el promedio de la distancia de sus centroides si se emplea el método Average-Link.",
+      "D) Ninguna de las anteriores es correcta (TODAS SON FALSAS)."
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "Ninguno de los métodos de enlace canónicos (Single, Complete o Average) calcula distancias entre centroides:\n  * **Single Link** utiliza la distancia mínima entre pares de elementos individuales: $\\min_{x \\in A, y \\in B} d(x, y)$.\n  * **Complete Link** utiliza la distancia máxima entre pares de elementos individuales: $\\max_{x \\in A, y \\in B} d(x, y)$.\n  * **Average Link** utiliza la media aritmética de todas las distancias entre pares cruzados: $\\frac{1}{\\|A\\|\\|B\\|} \\sum \\sum d(x, y)$.\n  El cálculo explícito de centroides ($\\mu = \\frac{1}{\\|C\\|} \\sum x_i$) corresponde a métodos ajenos a los enlaces clásicos, tales como *Centroid Linkage* (UPGMC) o *Ward*.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 1
+  },
+  {
+    "id": "MC-OFICIAL-02",
+    "tema": "KNN",
+    "titulo": "Clasificador $K$-NN Ponderado",
+    "enunciado": "Para utilizar el algoritmo $K$-NN ponderado:",
+    "opciones": [
+      "A) No es necesario que las clases sean linealmente separables.",
+      "B) Es necesario establecer previamente el valor del $K$ óptimo en forma analítica.",
+      "C) Puede utilizarse todo el conjunto de datos para estimar la clase de una nueva instancia obligatoriamente."
+    ],
+    "correctas": [
+      0
+    ],
+    "explicacion": "$K$-NN es un clasificador no paramétrico y local que aproxima fronteras de decisión de forma no lineal (mosaicos de Voronoi suaves), por lo que no impone ningún requisito de separabilidad lineal en el espacio de características. La opción B es falsa porque $K$ es un hiperparámetro empírico ajustado por validación cruzada.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 2
+  },
+  {
+    "id": "MC-OFICIAL-03",
+    "tema": "KMEANS",
+    "titulo": "Algoritmo Disk $K$-Means",
+    "enunciado": "El algoritmo Disk $K$-Means:",
+    "opciones": [
+      "A) Retorna los mismos clusters que la versión $K$-Means si las semillas utilizadas en ambos casos son las mismas.",
+      "B) Requiere establecer la cantidad de clusters al inicio de la ejecución de forma fija e inmutable.",
+      "C) Permite analizar distintas configuraciones de clusters para seleccionar la adecuada."
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "La variante Disk $K$-Means fue concebida para manejar grandes volúmenes de datos almacenados en memoria secundaria (disco) y evaluar dinámicamente configuraciones competitivas de centroides reduciendo el número de accesos a disco, permitiendo comparar índices de validez de múltiples particiones.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 3
+  },
+  {
+    "id": "MC-OFICIAL-04",
+    "tema": "SVM",
+    "titulo": "Vectores y Márgenes en Support Vector Machines (SVM)",
+    "enunciado": "En una Support Vector Machine (caso lineal separable):",
+    "opciones": [
+      "1. Los vectores de soporte son aquellos cuyo multiplicador de Lagrange $\\alpha_i$ es estrictamente positivo ($\\alpha_i > 0$).",
+      "2. Se debe recalcular todo el método cuando ingresa una nueva instancia de prueba para clasificarla. **[FALSO]",
+      "3. Entre los hiperplanos de margen $H_+$ y $H_-$ no existen instancias del conjunto de entrenamiento.",
+      "4. Ninguna de las anteriores. **[FALSO]"
+    ],
+    "correctas": [
+      0,
+      2
+    ],
+    "explicacion": "* La afirmación 1 es la definición axiomática de Karush-Kuhn-Tucker: si $\\alpha_i = 0$, el punto no ejerce fuerza sobre el margen.\n  * La afirmación 2 es falsa porque SVM realiza aprendizaje *eager* y *offline*: clasificar una nueva muestra cuesta un producto escalar directo $\\text{sgn}(\\mathbf{w}^T \\mathbf{x} + b)$ sin reentrenar.\n  * La afirmación 3 es verdadera por definición de margen estricto (*hard margin*): las restricciones exigen $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\ge 1$, dejando la banda de ancho $\\frac{2}{\\|\\mathbf{w}\\|}$ totalmente vacía de puntos.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 4
+  },
+  {
+    "id": "MC-OFICIAL-05",
+    "tema": "HOPFIELD",
+    "titulo": "Ortogonalidad en Redes de Hopfield",
+    "enunciado": "En el modelo autoasociativo de Hopfield, el concepto de ortogonalidad está asociado a:",
+    "opciones": [
+      "A) La cantidad de neuronas físicas en la capa de entrada.",
+      "B) Al grado de diferencia que hay entre los patrones de entrenamiento memorizados.",
+      "C) A la complejidad temporal de los cálculos en el proceso de entrenamiento."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "En el álgebra bipolar $\\{-1, +1\\}^N$, dos patrones $\\mathbf{e}_k$ y $\\mathbf{e}_m$ son ortogonales si su producto escalar es nulo ($\\mathbf{e}_k \\cdot \\mathbf{e}_m = 0$). Esto ocurre cuando difieren exactamente en el **50% de sus componentes** ($N/2$). Si los patrones no son ortogonales, existe correlación cruzada (*crosstalk*), reduciendo drásticamente la capacidad de almacenamiento y provocando que la red recupere patrones espurios.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 5
+  },
+  {
+    "id": "MC-OFICIAL-06",
+    "tema": "KMEANS",
+    "titulo": "Propiedades del Algoritmo $K$-Means",
+    "enunciado": "El algoritmo clásico $K$-Means:",
+    "opciones": [
+      "A) Es un método de clasificación local. **[FALSO]",
+      "B) Es un método de clasificación lazy. **[FALSO]",
+      "C) Es un algoritmo de aprendizaje supervisado. **[FALSO]",
+      "D) Ninguna de las anteriores."
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "$K$-Means es un algoritmo de **clustering no supervisado** (los datos no poseen etiquetas de clase), es **particional** (no jerárquico), opera de forma **global** (minimiza la suma global de errores cuadráticos intra-cluster / inercia), y es de tipo **eager** (construye centroides explícitos durante el entrenamiento iterativo). Por ende, las tres afirmaciones iniciales son rotundamente falsas.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 6
+  },
+  {
+    "id": "MC-OFICIAL-07",
+    "tema": "KNN",
+    "titulo": "Naturaleza del Algoritmo $K$-NN",
+    "enunciado": "El algoritmo $K$-NN:",
+    "opciones": [
+      "1. Es lazy (vago / perezoso).",
+      "2. Es un método local.",
+      "3. Requiere obligatoriamente que las clases tengan cantidades iguales o muy parecidas de instancias. **[FALSO]"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "* Es *lazy* porque no procesa una función de hipótesis en la fase de entrenamiento: almacena los datos y calcula distancias sólo ante una consulta.\n  * Es *local* porque su predicción se fundamenta exclusivamente en el entorno geométrico circundante a la consulta $\\mathbf{x}_0$.\n  * La opción 3 es falsa: aunque un desbalance severo afecta la votación mayoritaria simple, el algoritmo puede ejecutarse y corregirse mediante ponderación por distancia inversa $w_i = 1/d^2$.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 7
+  },
+  {
+    "id": "MC-OFICIAL-08",
+    "tema": "KNN",
+    "titulo": "Desbalance y Tamaño de Vecindad en $K$-NN ($K = p + q$)",
+    "enunciado": "En un dataset con dos clases ($p$ instancias de $A$ y $q$ instancias de $B$), se clasifica una nueva consulta fijando $K = p + q$ (la totalidad de los ejemplos) con votación mayoritaria simple:",
+    "opciones": [
+      "1. Se clasifica como $A$ si $p > q$.",
+      "2. Se clasifica como $B$ si $p < q$.",
+      "3. No se puede determinar de antemano sin haber calculado las distancias con la nueva instancia. **[FALSO para votación simple]"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "Si $K$ abarca todo el dataset y la votación es **no ponderada** (recuento plano), la clase mayoritaria tendrá inexorablemente más votos ($p > q \\implies A$, $q > p \\implies B$) sin importar dónde esté ubicada la consulta en el espacio. Solo si existe ponderación por distancia inversa ($w_i = \\frac{1}{1+d^2}$) la ubicación espacial podría potencialmente revertir el predominio de la clase mayoritaria.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 8
+  },
+  {
+    "id": "MC-OFICIAL-09",
+    "tema": "SVM",
+    "titulo": "Multiplicadores de Lagrange para Puntos No Soporte en SVM",
+    "enunciado": "En una Máquina de Vectores de Soporte lineal, los vectores de entrenamiento que **no son de soporte** tienen asociados multiplicadores de Lagrange cuyos valores son:",
+    "opciones": [
+      "A) Estrictamente positivos ($\\alpha_i > 0$).",
+      "B) Ceros ($\\alpha_i = 0$).",
+      "C) Estrictamente negativos ($\\alpha_i < 0$)."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "Por la condición de holgura complementaria de Karush-Kuhn-Tucker (KKT):\n  $$\\alpha_i \\cdot [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$$\n  Para cualquier punto que no pertenezca al borde del margen, se tiene $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) > 1$. Para que el producto sea nulo, **necesariamente $\\alpha_i = 0$**.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 9
+  },
+  {
+    "id": "MC-OFICIAL-10",
+    "tema": "HOPFIELD",
+    "titulo": "Capacidad de Almacenamiento Teórica en Hopfield",
+    "enunciado": "La cantidad de patrones $M$ que puede memorizar una red de Hopfield de $N$ neuronas para una recuperación libre de errores es:",
+    "opciones": [
+      "A) $M = \\frac{M}{4 \\ln N}$",
+      "B) $N = \\frac{M}{4 \\ln M}$",
+      "C) $M \\le \\frac{N}{4 \\ln N}$",
+      "D) $M \\ge 0.50 N$"
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "Para garantizar matemáticamente que todos los patrones memorizados correspondan a mínimos locales exactos de la función de Lyapunov con probabilidad tendiente a 1, la cota asintótica de McEliece y Posner establece que $M \\le \\frac{N}{4 \\ln N}$. Si se tolera un pequeño margen de error en la recuperación, la cota empírica se amplía a $M \\approx 0.138 N$.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 10
+  },
+  {
+    "id": "MC-OFICIAL-11",
+    "tema": "SOM",
+    "titulo": "Fase de Competencia en Mapas de Kohonen (SOM)",
+    "enunciado": "En la fase de competencia del entrenamiento de una red SOM:",
+    "opciones": [
+      "A) Las mejores entradas definen la influencia en las neuronas de salida.",
+      "B) Se establece la magnitud de actualización de pesos mediante la función de vecindad.",
+      "C) Se establece la neurona de salida ganadora (BMU) en función de la menor distancia euclídea.",
+      "D) Las entradas compiten entre sí para alcanzar la mejor neurona."
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "La fase de competencia consiste en presentar un patrón de entrada $\\mathbf{x}$ y computar la distancia contra todos los vectores de pesos $\\mathbf{w}_j$, declarando como ganadora a la que presente la distancia mínima: $j^* = \\arg\\min_j \\|\\mathbf{x} - \\mathbf{w}_j\\|$. La opción B corresponde a la fase posterior de cooperación/adaptación.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 11
+  },
+  {
+    "id": "MC-OFICIAL-12",
+    "tema": "SOM",
+    "titulo": "Definición de la Capa de Entrada en SOM",
+    "enunciado": "La cantidad de neuronas en la capa de entrada de un SOM está definida por:",
+    "opciones": [
+      "A) La cantidad de conexiones sinápticas.",
+      "B) Las dimensiones del problema (número de atributos del vector de entrada).",
+      "C) La topología elegida para la grilla de salida (rectangular o hexagonal).",
+      "D) La decisión arbitraria del diseñador."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "Cada patrón de entrada tiene dimensión $D$ ($\\mathbf{x} = [x_1, x_2, \\dots, x_D]^T$). Por lo tanto, la capa de entrada de la red SOM debe poseer exactamente $D$ nodos, cada uno conectado a cada neurona de salida mediante un peso $w_{ji}$.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 12
+  },
+  {
+    "id": "MC-OFICIAL-13",
+    "tema": "SVM",
+    "titulo": "Capacidad de Separación de SVM Lineal",
+    "enunciado": "Las Máquinas de Vectores de Soporte con kernel lineal realizan separaciones lineales:",
+    "opciones": [
+      "A) Solamente en problemas de dos dimensiones ($D = 2$).",
+      "B) En problemas con cualquier cantidad de clases simultáneas de forma nativa.",
+      "C) En problemas binarios (dos clases) en espacios de características de cualquier dimensionalidad ($D \\ge 2$).",
+      "D) Únicamente cuando los multiplicadores de Lagrange son todos iguales."
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "SVM lineal está formulado nativamente como un clasificador binario ($y_i \\in \\{-1, +1\\}$), pero su formulación opera en espacios euclidianos de cualquier dimensión $\\mathbb{R}^D$ mediante hiperplanos de dimensión $D-1$. Para problemas multiclase ($K > 2$), se deben aplicar esquemas de descomposición externa como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 13
+  },
+  {
+    "id": "MC-OFICIAL-14",
+    "tema": "MLP",
+    "titulo": "Término de Momento en el Perceptrón Multicapa (MLP)",
+    "enunciado": "El término de momento $\\beta$ en el algoritmo Backpropagation:",
+    "opciones": [
+      "A) Reemplaza al coeficiente de aprendizaje $\\alpha$ cuando el gradiente se anula.",
+      "B) Acelera la convergencia a lo largo de direcciones consistentes y filtra oscilaciones de alta frecuencia.",
+      "C) Obliga a que la actualización de pesos sea siempre un número estrictamente positivo."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "El término de momento $\\beta \\Delta w(t-1)$ añade una componente inercial al gradiente. Si los gradientes sucesivos apuntan en el mismo sentido, la velocidad de ajuste se incrementa (acelerando el cruce de mesetas llanas). Si los gradientes oscilan de signo (valles escarpados), las componentes consecutivas se cancelan parcialmente, estabilizando la trayectoria del descenso.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "nro": 14
+  },
+  {
+    "id": "MC-CONSOL-01",
+    "tema": "P1_REPASO",
+    "titulo": "Propiedades de las Reglas de Decisión / Asociación",
+    "enunciado": "En reglas de decisión / asociación:",
+    "opciones": [
+      "Si una regla cumple con el minconf, también cumple con el minSup",
+      "El conjunto de reglas final puede estar conformado por todas las combinaciones posibles de extraer de la BD",
+      "El objetivo es encontrar relaciones de co-ocurrencia entre los atributos y las clases"
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "- *Opción a (Falso):* La confianza y el soporte son métricas desacopladas; una regla puede tener 100% de confianza involucrando apenas una única transacción de un millón, no alcanzando el minsup.\n  - *Opción b (Verdadero):* Si los umbrales minsup y minconf se establecen en cero, o si todos los ítems co-ocurren en todas las transacciones, el conjunto extraído comprende la totalidad del retículo combinatorio.\n  - *Opción c (Falso):* En minería de reglas de asociación el aprendizaje es no supervisado; no existe un atributo privilegiado de \"clase\". Busca asociaciones entre cualquier par de itemsets $X \\to Y$.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 15
+  },
+  {
+    "id": "MC-CONSOL-02",
+    "tema": "P1_REPASO",
+    "titulo": "Determinación del Nodo Raíz en un Árbol de Decisión",
+    "enunciado": "¿Cómo se determina el nodo raíz en un árbol de decisión?",
+    "opciones": [
+      "Atributo con mayor cantidad de valores",
+      "Atributo que aporta más entropía",
+      "Atributo que aporte menos ganancia",
+      "Ninguna de las anteriores"
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "El nodo raíz se determina seleccionando aquel atributo que maximiza la **Ganancia de Información** (ID3) o la **Tasa de Ganancia de Información** (C4.5), lo cual equivale a lograr la máxima reducción neta de entropía. Ninguna de las opciones a, b o c describe este criterio.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 16
+  },
+  {
+    "id": "MC-CONSOL-03",
+    "tema": "P1_REPASO",
+    "titulo": "Estructura de Árboles de Decisión",
+    "enunciado": "En árboles de decisión:",
+    "opciones": [
+      "Las hojas pueden ser nodos impuros",
+      "Los caminos no son mutuamente excluyentes.  *(en el apunte de cátedra se aclara que los caminos son estrictamente mutuamente excluyentes y exhaustivos)*",
+      "Se obtienen todas las reglas que superan el minsup y el minconf establecidos"
+    ],
+    "correctas": [
+      0
+    ],
+    "explicacion": "- *Opción a (Verdadero):* Si se agotan los atributos predictivos o la ganancia es menor al umbral y coexisten instancias de distintas clases, la hoja queda impura y se etiqueta por mayoría.\n  - *Opción c (Falso):* Un árbol de decisión sólo extrae un **subconjunto mínimo** de reglas mutuamente excluyentes suficientes para clasificar, a diferencia de la minería de asociación que extrae todas las reglas que superan los umbrales.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 17
+  },
+  {
+    "id": "MC-CONSOL-04",
+    "tema": "P1_REPASO",
+    "titulo": "Estado al Finalizar el Algoritmo POP (Planificación de Orden Parcial)",
+    "enunciado": "Al finalizar la ejecución del algoritmo POP:",
+    "opciones": [
+      "No pueden haber amenazas sin resolver",
+      "Se obtiene una o más secuencia de pasos para resolver un problema",
+      "No puede haber post-condiciones de operadores sin resolver"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "- *Opción a (Verdadero):* Para que un plan de orden parcial sea solución válida, todos los conflictos y amenazas a vínculos causales deben haber sido resueltos mediante promoción o democión.\n  - *Opción b (Verdadero):* Un plan de orden parcial representa un conjunto (familia) de secuencias de linearización admisibles; cualquier ordenamiento topológico compatible resuelve el problema.\n  - *Opción c (Falso):* Las postcondiciones no se \"resuelven\"; son efectos producidos por los pasos. Lo que debe quedar resuelto son todas las **precondiciones** de los pasos abiertos.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 18
+  },
+  {
+    "id": "MC-CONSOL-05",
+    "tema": "P1_REPASO",
+    "titulo": "Comparación entre Búsqueda en Amplitud y $A^*$ con Heurística Perfecta",
+    "enunciado": "Comparación entre búsqueda primero en amplitud y $A^*$ con $h'$ realizando estimación perfecta de $h$ ($h'=h^*$) y costo por paso $g=1$:",
+    "opciones": [
+      "$A^*$ encuentra el camino de menor costo",
+      "Primero en amplitud encuentra el camino de menor costo",
+      "$A^*$ encuentra el camino de menor longitud en cantidad de tramos",
+      "Primero en amplitud encuentra el camino de menor longitud en cantidad de tramos",
+      "Todas son correctas"
+    ],
+    "correctas": [
+      4
+    ],
+    "explicacion": "Si el costo de cada arista es unitario ($g=1$), el costo total coincide exactamente con la cantidad de tramos. Dado que tanto BFS como $A^*$ admisible garantizan optimalidad bajo costos uniformes, ambos algoritmos hallan el camino de menor costo y de menor cantidad de tramos (son equivalentes semánticamente).",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 19
+  },
+  {
+    "id": "MC-CONSOL-06",
+    "tema": "P1_REPASO",
+    "titulo": "Búsqueda Heurística con $h'=0$ y $g$ Variable",
+    "enunciado": "En búsqueda heurística si $h'(n) = 0$ y $g(n)$ es variable:",
+    "opciones": [
+      "Se encuentra la solución más corta en cantidad de tramos",
+      "No se garantiza que se encuentre el camino óptimo",
+      "Se encuentra el camino óptimo",
+      "Ninguna de las anteriores"
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "Al anular la heurística ($h'=0$), la función de evaluación es $f'(n) = g(n)$ (costo real acumulado). El algoritmo $A^*$ degenera en el algoritmo de Dijkstra (búsqueda de costo uniforme), el cual garantiza encontrar el camino de costo mínimo global, aunque no necesariamente tenga la menor cantidad de tramos.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 20
+  },
+  {
+    "id": "MC-CONSOL-07",
+    "tema": "P1_REPASO",
+    "titulo": "$A^*$ con $h'=0$ y $g=1$",
+    "enunciado": "$A^*$ con $h'(n)=0$ y $g(n)=1$ para todo nodo:",
+    "opciones": [
+      "No se puede asegurar que encuentre la solución en menor cantidad de tramos",
+      "Encuentra la solución en menor cantidad de tramos/pasos",
+      "Se comporta como escalada simple",
+      "Ninguna de las anteriores"
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "Con $g=1$ uniforme y $h'=0$, los nodos se expanden en orden estricto de profundidad creciente ($g(n) = \\text{profundidad}$), comportándose idénticamente a la Búsqueda Primero en Amplitud (BFS), que garantiza la solución en la menor cantidad de pasos.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 21
+  },
+  {
+    "id": "MC-CONSOL-11",
+    "tema": "SVM",
+    "titulo": "Propiedades de Support Vector Machines (SVM)",
+    "enunciado": "En Support Vector Machines (SVM):",
+    "opciones": [
+      "Los vectores de soporte son aquellos cuyo $\\alpha_i$ es distinto de cero",
+      "Se recalcula el método cuando ingresa una nueva instancia de entrenamiento",
+      "Entre $H_+$ y $H_-$ no existen instancias de entrenamiento en el caso separable",
+      "Se debe conocer la clase de la instancia antes de comenzar el entrenamiento"
+    ],
+    "correctas": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explicacion": "- Por KKT, las instancias fuera del margen satisfacen la restricción holgadamente y tienen multiplicadores $\\alpha_i = 0$.\n  - Al ser un algoritmo global basado en programación cuadrática, la inserción de nuevos datos altera potencialmente las restricciones activas, exigiendo reoptimizar.\n  - La banda de margen máximo conforma una región vacía de exclusión de ancho $\\frac{2}{\\|\\mathbf{w}\\|}$.\n  - Es un método supervisado; requiere las etiquetas binarias $y_i \\in \\{-1, +1\\}$.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 22
+  },
+  {
+    "id": "MC-CONSOL-12",
+    "tema": "HOPFIELD",
+    "titulo": "Ortogonalidad en Redes de Hopfield",
+    "enunciado": "En el modelo de Hopfield, el concepto de ortogonalidad está asociado a:",
+    "opciones": [
+      "La cantidad de información que puede almacenar la red",
+      "Al grado de diferencia que hay entre los patrones de entrenamiento",
+      "A la complejidad de los cálculos en el proceso de entrenamiento"
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "La ortogonalidad matemática ($\\sum e_i^{(k)} e_i^{(m)} = 0$) significa que dos vectores son perpendiculares en el hiperespacio bipolar, lo cual indica que la correlación o similitud entre ellos es nula (máxima diferenciación). Esto elimina la diafonía o interferencia destructiva en la memoria asociativa.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 23
+  },
+  {
+    "id": "MC-CONSOL-13",
+    "tema": "KMEANS",
+    "titulo": "Clasificación Taxonómica del Algoritmo $K$-Means",
+    "enunciado": "El algoritmo $K$-means:",
+    "opciones": [
+      "Es un método de clasificación local",
+      "Es un método de clasificación lazy",
+      "Es un algoritmo de aprendizaje supervisado",
+      "Ninguna de las anteriores"
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "$K$-Means es un algoritmo de **agrupamiento (clustering) no supervisado y particional**, no un método de clasificación supervisada ni un algoritmo *lazy* (estas últimas propiedades caracterizan a $k$-NN).",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 24
+  },
+  {
+    "id": "MC-CONSOL-14",
+    "tema": "KMEANS",
+    "titulo": "Equivalencia entre $K$-Means y Disk $K$-Means",
+    "enunciado": "En relación a $K$-Means:",
+    "opciones": [
+      "Si se seleccionan las mismas semillas en $K$-means y en Disk $K$-means, se obtienen los mismos resultados",
+      "Se debe definir desde un principio el número de clases/clusters"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "Disk $k$-means acumula de forma secuencial las coordenadas en disco pero computa exactamente la misma media matemática por grupo, garantizando idéntica trayectoria de centroides. El valor de $k$ es un hiperparámetro estático inicial mandatorio.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 25
+  },
+  {
+    "id": "MC-CONSOL-15",
+    "tema": "KNN",
+    "titulo": "Comportamiento Límite de $k$-NN con $k = N$",
+    "enunciado": "En $k$-NN no ponderado se tienen $p$ instancias de la clase A y $q$ instancias de la clase B. Se presenta una nueva instancia para clasificar siendo $k = p + q$ (la totalidad del conjunto de datos):",
+    "opciones": [
+      "Se clasifica como A si $p > q$",
+      "Se clasifica como B si $p < q$",
+      "No se puede determinar de antemano sin haber calculado las distancias con la nueva instancia"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "Al fijar $k = N$ en $k$-NN sin ponderación por distancia, el algoritmo toma como vecinos a todos los puntos de la base sin importar su cercanía a la consulta. La votación por mayoría simple se convierte en un conteo global fijo del dataset; por ende, clasifica siempre a la clase mayoritaria a priori sin importar las distancias.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 26
+  },
+  {
+    "id": "MC-CONSOL-16",
+    "tema": "KNN",
+    "titulo": "Naturaleza de $k$-NN",
+    "enunciado": "$k$-NN es:",
+    "opciones": [
+      "Es lazy (perezoso)",
+      "Es un método local",
+      "Requiere una cantidad parecida de instancias en las clases. $\\to$ Falso"
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "Es *lazy* porque difiere el cómputo hasta la fase de prueba (no crea modelo explícito), y es *local* porque aproxima la función objetivo únicamente en el entorno inmediato de la consulta.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 27
+  },
+  {
+    "id": "MC-CONSOL-18",
+    "tema": "P1_REPASO",
+    "titulo": "Algoritmo Apriori e Itemsets Frecuentes",
+    "enunciado": "En el algoritmo Apriori, la generación de itemsets frecuentes:",
+    "opciones": [
+      "Utiliza la propiedad downward closure",
+      "Se realiza en base al mínimo de confianza definido por el usuario. $\\to$ Falso",
+      "Utiliza la propiedad lexicographical closure. $\\to$ Falso",
+      "Se realiza en base al mínimo de soporte definido por el usuario"
+    ],
+    "correctas": [
+      0,
+      3
+    ],
+    "explicacion": "La etapa 1 de Apriori filtra itemsets basándose exclusivamente en el **mínimo de soporte** utilizando la propiedad **downward closure**. La confianza mínima sólo interviene en la etapa 2 (generación de reglas).",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 28
+  },
+  {
+    "id": "MC-CONSOL-19",
+    "tema": "P1_REPASO",
+    "titulo": "Control de Coherencia en Sistemas Basados en Reglas",
+    "enunciado": "En un Sistema Basado en Reglas, el control de la coherencia de datos:",
+    "opciones": [
+      "Evita que todas las inferencias sean hechas con datos falsos",
+      "Evita que el usuario cargue evidencia contradictoria",
+      "Evita que el conocimiento sea incoherente",
+      "Evita que las reglas sean incoherentes"
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "El control de coherencia de hechos/datos valida dinámicamente que la memoria de trabajo no admita hechos incompatibles simultáneos (ej. `Fiebre = Sí` y `Temperatura = 36.0 °C`).",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 29
+  },
+  {
+    "id": "MC-CONSOL-20",
+    "tema": "P1_REPASO",
+    "titulo": "Confianza de una Regla de Asociación",
+    "enunciado": "En el modelo de Reglas de Asociación, la confianza de una regla $X \\to Y$:",
+    "opciones": [
+      "Puede ser considerado con el estimado de la probabilidad $P(Y \\mid X)$",
+      "Es el porcentaje de transacciones que contiene $X \\cup Y$. $\\to$ Falso (eso es soporte)",
+      "Puede ser considerado con el estimado de la probabilidad $P(X \\mid Y)$. $\\to$ Falso"
+    ],
+    "correctas": [
+      0
+    ],
+    "explicacion": "Por definición bayesiana: $\\text{confianza}(X \\to Y) = \\frac{\\text{soporte}(X \\cup Y)}{\\text{soporte}(X)} = \\frac{P(X \\cap Y)}{P(X)} = P(Y \\mid X)$.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 30
+  },
+  {
+    "id": "MC-CONSOL-22",
+    "tema": "P1_REPASO",
+    "titulo": "Caminos en un Árbol de Decisión",
+    "enunciado": "En árboles de decisión los caminos desde la raíz hasta las hojas son:",
+    "opciones": [
+      "Mutuamente excluyentes y expansivos",
+      "Mutuamente excluyentes y de longitud máxima max",
+      "Mutuamente excluyentes y exhaustivos"
+    ],
+    "correctas": [
+      2
+    ],
+    "explicacion": "Son *mutuamente excluyentes* porque una instancia sólo puede activar una rama en cada bifurcación; y son *exhaustivos* porque cualquier combinación posible en el dominio de atributos tiene un camino de clasificación definido.",
+    "es_oficial": true,
+    "es_p1": true,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 31
+  },
+  {
+    "id": "MC-CONSOL-23",
+    "tema": "GENERAL_IA",
+    "titulo": "Conjunto de Test en Aprendizaje Supervisado",
+    "enunciado": "En aprendizaje supervisado el conjunto de test:",
+    "opciones": [
+      "Contiene datos, pero no sus etiquetas. $\\to$ Falso",
+      "Contiene datos y sus respectivas etiquetas",
+      "No se utiliza para entrenar el modelo",
+      "Se utiliza durante el proceso de aprendizaje. $\\to$ Falso"
+    ],
+    "correctas": [
+      1,
+      2
+    ],
+    "explicacion": "El conjunto de test debe contener etiquetas reales para poder cuantificar la tasa de acierto y la matriz de confusión, pero debe permanecer estrictamente aislado durante la optimización de parámetros y selección de hiperparámetros.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 32
+  },
+  {
+    "id": "MC-CONSOL-38",
+    "tema": "CLUSTERING",
+    "titulo": "En Clustering Jerárquico: Single-Link, Complete-Link y Average-Link frente a Centroides",
+    "enunciado": "En clustering jerárquico, la distancia entre dos clusters:",
+    "opciones": [
+      "Se calcula utilizando la máxima distancia de sus centroides si se emplea el método complete-link.",
+      "Se calcula utilizando la mínima distancia de sus centroides si se emplea el método single-link.",
+      "Se calcula utilizando el promedio de la distancia de sus centroides si se emplea el método average-link.",
+      "Ninguna de las anteriores es correcta (todas las afirmaciones son falsas según la doctrina oficial)."
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \\max_{x \\in A, y \\in B} d(x, y)$), **NO** entre sus centroides.\n2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \\min_{x \\in A, y \\in B} d(x, y)$), **NO** entre sus centroides.\n3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \\frac{1}{\\|A\\|\\|B\\|} \\sum_{x \\in A} \\sum_{y \\in B} d(x, y)$). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 33
+  },
+  {
+    "id": "MC-CONSOL-41",
+    "tema": "SVM",
+    "titulo": "Support Vector Machines (SVM): Vectores de Soporte ($\\alpha_i > 0$), Recálculo y Banda $H_+$ / $H_-$",
+    "enunciado": "En SVM (caso lineal separable canónico):",
+    "opciones": [
+      "Los vectores de soporte son aquellos cuyo $\\alpha$ es distinto de 0.",
+      "Se recalcula el método cuando ingresa una nueva instancia de entrenamiento.",
+      "Entre $H_+$ y $H_-$ no existen instancias de entrenamiento.",
+      "Ninguna de las anteriores."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "1. **VERDADERO.** De acuerdo con las condiciones de Karush-Kuhn-Tucker (KKT), los puntos de datos que no están sobre el margen tienen $\\alpha_i = 0$, mientras que los puntos situados exactamente sobre los hiperplanos de margen ($H_1$ y $H_2$) son los únicos con multiplicadores de Lagrange $\\alpha_i > 0$.\n2. **VERDADERO.** En el aprendizaje supervisado por lotes (*batch*), la incorporación de una nueva instancia puede alterar la envolvente convexa y la posición del hiperplano de soporte óptimo, requiriendo un reentrenamiento del modelo.\n3. **VERDADERO.** En la formulación de margen duro (*Hard Margin*), por definición analítica estricta, la región comprendida entre $H_+$ ($\\mathbf{w}^T \\mathbf{x} + b = +1$) y $H_-$ ($\\mathbf{w}^T \\mathbf{x} + b = -1$) constituye una zona de margen vacía donde no puede residir ninguna instancia de entrenamiento.\n4. **FALSO.** Las afirmaciones 1, 2 y 3 son correctas.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 34
+  },
+  {
+    "id": "MC-CONSOL-42",
+    "tema": "HOPFIELD",
+    "titulo": "Redes de Hopfield: Concepto de Ortogonalidad, Diferencia del 50% y Capacidad de Almacenamiento",
+    "enunciado": "En el modelo Hopfield, el concepto de ortogonalidad está asociado a:",
+    "opciones": [
+      "La cantidad de información que puede almacenar la red.",
+      "Al grado de diferencia que hay entre los patrones de entrenamiento.",
+      "A la complejidad de los cálculos en el proceso de entrenamiento."
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "1. **VERDADERO.** Si los patrones almacenados son ortogonales entre sí, se minimiza la diafonía o interferencia (*crosstalk*) en la matriz de pesos Hebbiana, lo que permite a la red aproximarse a su cota máxima de memorización ($M \\approx 0.138 N$).\n2. **VERDADERO.** En el espacio bipolar $\\{-1, +1\\}^N$, dos patrones $E_k$ y $E_m$ son ortogonales ($E_k \\cdot E_m = 0$) si y solo si difieren en exactamente la mitad ($50\\%$) de sus componentes vectoriales.\n3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \\sum (E_k E_k^T - I)$) es $O(M \\cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 35
+  },
+  {
+    "id": "MC-CONSOL-45",
+    "tema": "KNN",
+    "titulo": "$k$-NN con $k = p + q$ (Todo el Conjunto): Predicción con Muestras Desbalanceadas $p > q$ vs $p < q$",
+    "enunciado": "En $k$-NN estándar se tienen $p$ instancias de la clase A y $q$ instancias de la clase B. Se presenta una nueva instancia para clasificar fijando $k = p + q$ (todo el conjunto de entrenamiento):",
+    "opciones": [
+      "Se clasifica como A si $p > q$.",
+      "Se clasifica como B si $p < q$.",
+      "No se puede determinar de antemano sin haber calculado las distancias con la nueva instancia."
+    ],
+    "correctas": [
+      0,
+      1
+    ],
+    "explicacion": "1. **VERDADERO.** En $k$-NN simple (votación mayoritaria sin ponderar por distancia), si $k$ incluye a todas las instancias del dataset ($k = p + q$), todos los datos emiten exactamente un voto. Por ende, la clase A obtiene $p$ votos y la clase B obtiene $q$ votos. Si $p > q$, la clase A gana indefectiblemente.\n2. **VERDADERO.** Por la misma razón matemática, si $p < q$, la clase B gana por mayoría simple ($q > p$).\n3. **FALSO.** Para el caso de $k$-NN **no ponderado**, el resultado es totalmente independiente de las distancias y se conoce a priori mediante el recuento total de instancias. (Nota: Si fuese $k$-NN ponderado, esta proposición sería verdadera).",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 36
+  },
+  {
+    "id": "MC-CONSOL-46",
+    "tema": "CLUSTERING",
+    "titulo": "Clustering Jerárquico: Enlace Simple, Completo y Promedio vs Distancia entre Centroides",
+    "enunciado": "En clustering jerárquico:",
+    "opciones": [
+      "En single link la distancia entre dos clusters es la distancia mínima entre sus centroides.",
+      "En complete link la distancia entre dos clusters es la distancia máxima entre sus centroides.",
+      "En average link la distancia entre dos clusters es la distancia promedio entre sus centroides.",
+      "Ninguna de las anteriores es correcta (todas las afirmaciones son falsas según la doctrina oficial)."
+    ],
+    "correctas": [
+      3
+    ],
+    "explicacion": "1. **FALSO.** La distancia de enlace simple es la distancia mínima entre cualquier par de instancias $x \\in C_1, y \\in C_2$.\n2. **FALSO.** La distancia de enlace completo es la distancia máxima entre cualquier par de instancias $x \\in C_1, y \\in C_2$.\n3. **FALSO.** La distancia de enlace promedio es la media aritmética de todas las distancias entre pares de puntos. Ninguna de las tres utiliza centroides.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 37
+  },
+  {
+    "id": "MC-CONSOL-47",
+    "tema": "SVM",
+    "titulo": "SVM: Valores de los Multiplicadores de Lagrange $\\alpha_i$ en Vectores No de Soporte",
+    "enunciado": "En una SVM, los vectores que no son de soporte tienen asociados multiplicadores de Lagrange cuyos valores son:",
+    "opciones": [
+      "Positivos.",
+      "Ceros.",
+      "Negativos."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "1. **FALSO.** Los multiplicadores estrictamente positivos ($\\alpha_i > 0$) pertenecen con exclusividad a los vectores de soporte.\n2. **VERDADERO.** La condición de holgura complementaria KKT establece que $\\alpha_i [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$. Como para los vectores no de soporte la distancia al margen es mayor a cero ($y_i (\\mathbf{w}^T \\mathbf{x}_i + b) > 1$), obligatoriamente debe cumplirse $\\alpha_i = 0$.\n3. **FALSO.** Por restricción primal-dual de optimización convexa, los multiplicadores de Lagrange en SVM están acotados inferiormente por cero ($\\alpha_i \\ge 0$). Nunca pueden ser negativos.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 38
+  },
+  {
+    "id": "MC-CONSOL-50",
+    "tema": "SOM",
+    "titulo": "Redes SOM: Determinación de la Cantidad de Entradas según las Dimensiones del Problema",
+    "enunciado": "La cantidad de entradas de una red SOM está definida por:",
+    "opciones": [
+      "La cantidad de conexiones.",
+      "Las dimensiones del problema.",
+      "La cantidad de pesos de las conexiones.",
+      "El diseñador de la red."
+    ],
+    "correctas": [
+      1
+    ],
+    "explicacion": "1. **FALSO.** La cantidad de conexiones es un resultado derivado del producto entre entradas y salidas.\n2. **VERDADERO.** La cantidad de neuronas en la capa de entrada coincide exactamente con la dimensión del espacio de características del dataset (número de atributos del vector de entrada $\\mathbf{x} \\in \\mathbb{R}^d$).\n3. **FALSO.** Los pesos son parámetros libres dependientes de la arquitectura total.\n4. **FALSO.** Si bien el diseñador define la grilla de salida, la cantidad de entradas viene impuesta de forma rígida por las variables/atributos que describen el fenómeno físico a modelar.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 39
+  },
+  {
+    "id": "MC-CONSOL-51",
+    "tema": "SVM",
+    "titulo": "Support Vector Machines (SVM): Separaciones Lineales Binarias vs Multiclase y Dimensionalidad Espacial",
+    "enunciado": "Las SVM (caso lineal estándar) realizan separaciones lineales:",
+    "opciones": [
+      "Solamente en problemas de clasificación de dos dimensiones.",
+      "Solamente en problemas de clasificación de dos clases.",
+      "En problemas de clasificación de varias clases (mayor a dos clases).",
+      "En problemas de clasificación de varias dimensiones (mayor a dos dimensiones)."
+    ],
+    "correctas": [
+      1,
+      3
+    ],
+    "explicacion": "1. **FALSO.** Las SVM lineales operan en espacios vectoriales $\\mathbb{R}^d$ de cualquier dimensionalidad arbitraria ($d \\ge 2$), definiendo hiperplanos de dimensión $d-1$.\n2. **VERDADERO.** La formulación matemática canónica de SVM es estrictamente binaria ($y_i \\in \\{-1, +1\\}$), separando exactamente dos clases mediante un único hiperplano de soporte óptimo.\n3. **FALSO.** La SVM estándar no es directamente multiclase; para resolver problemas con más de dos clases requiere acoplar múltiples clasificadores binarios mediante estrategias heurísticas externas como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).\n4. **VERDADERO.** Las SVM lineales operan naturalmente en espacios multidimensionales de alta dimensión mediante hiperplanos $\\mathbf{w}^T \\mathbf{x} + b = 0$.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "nro": 40
+  },
+  {
+    "id": "MC-AG-01",
+    "tema": "ALGORITMOS_GENETICOS",
+    "titulo": "Algoritmos Genéticos: Selección Proporcional por Ruleta Acumulada",
+    "enunciado": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según la doctrina de la Cátedra?",
+    "opciones": [
+      "A cada individuo se le asigna un sector de ruleta proporcional a su aptitud relativa $p_i = f_i / \\sum f_k$.",
+      "Se generan intervalos cerrados acumulados normalizados (por ejemplo en el rango de ranuras 00 a 99) para indexar con números aleatorios.",
+      "El método de Ruleta simple previene matemáticamente el estancamiento en óptimos locales frente a un súper-individuo dominante.",
+      "Si un individuo tiene aptitud el doble de la media, la probabilidad de que su ranura sea seleccionada es exactamente el doble que la de un individuo con aptitud media."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "Las opciones 1, 2 y 4 son verdaderas. La opción 3 es falsa: la ruleta simple es vulnerable al fenómeno del superindividuo que monopoliza la probabilidad y causa convergencia prematura.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Guía Práctica Nº 6 y Segundo Parcial 19/11/2025 (Punto 4 al 30%)",
+    "nro": 41
+  },
+  {
+    "id": "MC-AG-02",
+    "tema": "ALGORITMOS_GENETICOS",
+    "titulo": "Algoritmos Genéticos: Control de Copias Esperadas (Expected Value Selection)",
+    "enunciado": "En la Selección con Control de Copias Esperadas (utilizada en el examen presencial del 19/11/2025), respecto a la asignación de réplicas de cada individuo:",
+    "opciones": [
+      "El número esperado de copias se calcula como $c_i = f_i / \\bar{f}$, donde $\\bar{f}$ es la aptitud media de la población.",
+      "La parte entera $\\lfloor c_i \\rfloor$ garantiza copias determinísticas directas en la población de apareamiento.",
+      "Las vacantes restantes se sortean utilizando la parte decimal o fraccionaria de $c_i$ (o mediante umbral al 50%).",
+      "Todos los individuos con $c_i < 1.0$ son eliminados automáticamente sin ninguna chance de pasar a la siguiente generación."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: los individuos con $c_i < 1.0$ tienen parte entera 0 pero conservan su parte decimal (ej. $0.65$), la cual compite estocásticamente para las plazas remanentes.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Segundo Parcial Presencial Oficial (19/11/2025, Punto 4 al 30%)",
+    "nro": 42
+  },
+  {
+    "id": "MC-AG-03",
+    "tema": "ALGORITMOS_GENETICOS",
+    "titulo": "Algoritmos Genéticos: Operadores de Cruce (Recombinación)",
+    "enunciado": "Sobre los operadores de cruce en representaciones cromosómicas binarias:",
+    "opciones": [
+      "El cruce en 1 punto divide ambos cromosomas en la posición $k$ e intercambia sus colas derechas.",
+      "El cruce multipunto en 2 puntos divide el cromosoma en 3 segmentos e intercambia el segmento central.",
+      "El cruce binomial o uniforme evalúa bit a bit una máscara probabilística independiente para decidir de qué padre proviene cada alelo.",
+      "El operador de cruce siempre se aplica con probabilidad $P_c = 1.0$ sobre todos los individuos de la población."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: el cruce se rige por una tasa de probabilidad $P_c$ (típicamente entre 0.6 y 0.9). Si el par de padres no cruza, ambos pasan intactos a la fase de mutación.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Guía Práctica Nº 6 y Cuaderno de Cátedra UTN FRRe",
+    "nro": 43
+  },
+  {
+    "id": "MC-AG-04",
+    "tema": "ALGORITMOS_GENETICOS",
+    "titulo": "Algoritmos Genéticos: Mutación Adaptativa por Temperatura (Simulated Annealing)",
+    "enunciado": "En la Cátedra de IA, el mecanismo de mutación adaptativa por temperatura:",
+    "opciones": [
+      "En régimen descendente ($P_{mut} = P_{max} - \\lambda(t)$), promueve alta exploración global inicial y afinamiento local final.",
+      "En régimen ascendente ($P_{mut} = P_{min} + \\lambda(t)$), incrementa la probabilidad de mutación para escapar de óptimos locales ante la homogeneización de la población.",
+      "La probabilidad de mutación jamás debe modificarse durante la corrida del algoritmo para garantizar la convergencia asintótica.",
+      "Permite dinamizar la diversidad genética en función de la madurez o estancamiento poblacional."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "La opción 3 es falsa: la mutación adaptativa se basa precisamente en variar $P_{mut}$ dinámicamente.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Exámenes Presenciales 2023 y Guía Maestra de Cátedra",
+    "nro": 44
+  },
+  {
+    "id": "MC-AG-05",
+    "tema": "ALGORITMOS_GENETICOS",
+    "titulo": "Algoritmos Genéticos: Selección por Ranking Lineal frente a Superindividuos",
+    "enunciado": "¿Por qué la Cátedra recomienda la Selección por Ranking Lineal para mitigar la convergencia prematura?",
+    "opciones": [
+      "Porque asigna probabilidades de selección en función de la posición ordinal (orden) y no de la magnitud absoluta de la aptitud.",
+      "Porque un superindividuo con aptitud desproporcionada solo recibe la probabilidad del puesto #1 ($P_{max}$), sin monopolizar la ruleta.",
+      "Porque suprime por completo la necesidad de evaluar la función de aptitud $f(x)$.",
+      "Porque mantiene una presión selectiva constante tanto al inicio como al final de la búsqueda evolutiva."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "La opción 3 es absurda: la función de aptitud sigue siendo imprescindible para ordenar a los individuos de menor a mayor.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Doctrina de Cátedra UTN FRRe — Preguntas Parcial 2",
+    "nro": 45
+  },
+  {
+    "id": "MC-NB-01",
+    "tema": "NAIVE_BAYES",
+    "titulo": "Naïve Bayes: Supuesto Fundamental de Independencia Condicional",
+    "enunciado": "El modelo Naïve Bayes asume que:",
+    "opciones": [
+      "Los atributos descriptivos son condicionalmente independientes entre sí, dada la variable de clase: $P(X_1, X_2 \\mid C_k) = P(X_1 \\mid C_k) \\cdot P(X_2 \\mid C_k)$.",
+      "La probabilidad conjunta $P(X, C_k)$ se factoriza como el producto de la probabilidad a priori $P(C_k)$ por las verosimilitudes univariadas $\\prod P(x_i \\mid C_k)$.",
+      "Todos los atributos tienen necesariamente idéntica distribución normal estándar con media cero.",
+      "La evidencia marginal $P(X)$ es una constante normalizadora que no altera el ordenamiento de las clases candidatas."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "La opción 3 es falsa: los atributos pueden tener distintas medias y varianzas, o ser discretos mediante frecuencias relativas/histogramas.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Banco Teórico de Cátedra y Exámenes Presenciales 2016-2023",
+    "nro": 46
+  },
+  {
+    "id": "MC-NB-02",
+    "tema": "NAIVE_BAYES",
+    "titulo": "Naïve Bayes: Manejo de Variables Continuas (Gaussiano vs Histogramas)",
+    "enunciado": "En la práctica de la Cátedra para clasificar variables numéricas continuas mediante Naïve Bayes:",
+    "opciones": [
+      "El método de Histogramas discretiza la variable en $B$ intervalos (bins) de igual ancho y calcula frecuencias relativas.",
+      "Si un bin contiene 0 instancias para una clase dada, su verosimilitud es 0 y anularía toda la probabilidad posterior (efecto probabilidad cero).",
+      "La corrección de Laplace (o estimador m) suma un pseudocuento en el numerador para evitar la probabilidad nula.",
+      "El enfoque Gaussiano asume obligatoriamente que la varianza debe ser igual en todas las clases."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: en Naïve Bayes Gaussiano cada clase $C_k$ estima su propia media $\\mu_k$ y su propia desviación estándar $\\sigma_k$ sobre el atributo.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Guía Práctica Nº 4 Naïve Bayes y Exámenes de Final",
+    "nro": 47
+  },
+  {
+    "id": "MC-NB-03",
+    "tema": "NAIVE_BAYES",
+    "titulo": "Naïve Bayes vs k-NN: Comparación Arquitectural y Desbalance",
+    "enunciado": "Al contrastar el Clasificador Naïve Bayes frente al algoritmo $k$-NN según la doctrina de la Cátedra:",
+    "opciones": [
+      "Naïve Bayes es un modelo ávido (*eager*) paramétrico que construye tablas de probabilidad durante el entrenamiento.",
+      "$k$-NN es un modelo perezoso (*lazy*) y no paramétrico que pospone el cálculo de distancias hasta el momento de clasificar la consulta.",
+      "Ante un fuerte desbalance de clases (ej. 90% Clase A y 10% Clase B), Naïve Bayes incorpora el sesgo muestral en el prior $P(C_k)$.",
+      "Ambos modelos requieren forzosamente que las clases sean linealmente separables en el espacio de características."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: ninguno de los dos modelos requiere separabilidad lineal. $k$-NN genera fronteras no lineales complejas y Naïve Bayes combina verosimilitudes independientes.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Tabla Comparativa Tridimensional Canónica — Preguntas Parcial 2",
+    "nro": 48
+  },
+  {
+    "id": "MC-MLP-01",
+    "tema": "MLP",
+    "titulo": "MLP: Error de Validación Creciente y Early Stopping",
+    "enunciado": "Durante el entrenamiento de una red neuronal Perceptrón Multicapa con Backpropagation, se observa que el error sobre el conjunto de entrenamiento decrece continuamente, pero el error sobre el conjunto de validación comienza a incrementarse sistemáticamente:",
+    "opciones": [
+      "Este fenómeno indica que la red está memorizando ruido del dataset de entrenamiento (sobreajuste o *overfitting*).",
+      "La técnica de *Early Stopping* (parada temprana) interrumpe el entrenamiento en el punto de mínimo error de validación para asegurar óptima generalización.",
+      "El error de validación creciente implica que la tasa de aprendizaje $\\eta$ debe incrementarse exponencialmente.",
+      "El uso de un conjunto de test independiente permite evaluar el rendimiento final sin sesgar la selección del modelo."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "La opción 3 es falsa: aumentar la tasa de aprendizaje $\\eta$ provocaría inestabilidad u oscilaciones destructivas. Lo correcto es aplicar parada temprana o regularización.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Final Junio 2025 y Exámenes Presenciales 2021-2024",
+    "nro": 49
+  },
+  {
+    "id": "MC-MLP-02",
+    "tema": "MLP",
+    "titulo": "MLP: Justificación Matemática del Término de Momento Negativo Ficticio",
+    "enunciado": "En la ecuación de actualización de pesos con momento: $\\Delta w_{ij}(t) = \\eta \\delta_j x_i + \\alpha \\Delta w_{ij}(t-1)$. ¿Por qué el coeficiente de momento $\\alpha$ debe ser estrictamente positivo ($0 < \\alpha < 1$) y nunca negativo?",
+    "opciones": [
+      "Un valor $\\alpha > 0$ actúa como inercia física, amortiguando oscilaciones en valles de gran curvatura y acelerando en mesetas.",
+      "Si $\\alpha < 0$, el término restaría la dirección del paso previo, provocando un comportamiento de rebote errático y desacelerando el avance hacia el mínimo.",
+      "El valor $\\alpha = 1.0$ garantiza teóricamente que el algoritmo nunca quede atrapado en ningún mínimo local.",
+      "El término de momento permite escapar de mínimos locales poco profundos gracias a la velocidad acumulada."
+    ],
+    "correctas": [
+      0,
+      1,
+      3
+    ],
+    "explicacion": "La opción 3 es falsa: si $\\alpha = 1$, la inercia no decae y la energía cinética infinita puede desestabilizar por completo el descenso de gradiente impidiendo la convergencia.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Examen Final Junio 2025 (Punto 4) y Preguntas de Cátedra",
+    "nro": 50
+  },
+  {
+    "id": "MC-HOP-01",
+    "tema": "HOPFIELD",
+    "titulo": "Redes de Hopfield: Matriz de Pesos Hebbiana y Diagonal Principal",
+    "enunciado": "En una Red de Hopfield discreta de $N$ neuronas con estados $s_i \\in \\{-1, +1\\}$ y regla de Hebb:",
+    "opciones": [
+      "La matriz de pesos es estrictamente simétrica ($w_{ij} = w_{ji}$).",
+      "La diagonal principal es nula ($w_{ii} = 0$), lo que impide la auto-retroalimentación de las neuronas.",
+      "La condición de diagonal nula ($w_{ii} = 0$) es necesaria para garantizar la convergencia monótona de la función de energía de Lyapunov $E = -\\frac{1}{2} \\sum_{i} \\sum_{j} w_{ij} s_i s_j$.",
+      "La red puede almacenar un número ilimitado de patrones ortogonales sin generar ningún estado espurio."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: la capacidad máxima está estrictamente acotada por $N / (4 \\ln N)$ y la red siempre es susceptible a estados espurios (combinaciones lineales no deseadas).",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Exámenes Teóricos Escaneados y Banco Doctrinal Oficial",
+    "nro": 51
+  },
+  {
+    "id": "MC-SVM-01",
+    "tema": "SVM",
+    "titulo": "Support Vector Machines: Margen Óptimo y Vectores de Soporte",
+    "enunciado": "En la formulación canónica de Máquinas de Vectores de Soporte (SVM) para clasificación binaria linealmente separable:",
+    "opciones": [
+      "El margen geométrico total de separación entre las dos clases es $\\gamma = \\frac{2}{\\|w\\|}$.",
+      "Maximizar el margen equivale matemáticamente a minimizar la norma $\\frac{1}{2} \\|w\\|^2$.",
+      "Los vectores de soporte son los únicos puntos de datos que satisfacen $y_i (w \\cdot x_i + b) = 1$ y tienen $\\alpha_i > 0$.",
+      "Si se eliminan todos los puntos que no son vectores de soporte, la solución del hiperplano óptimo cambia drásticamente."
+    ],
+    "correctas": [
+      0,
+      1,
+      2
+    ],
+    "explicacion": "La opción 4 es falsa: los puntos que no son vectores de soporte tienen $\\alpha_i = 0$ y no ejercen ninguna influencia sobre el hiperplano. Si se eliminan, el hiperplano óptimo permanece exactamente idéntico.",
+    "es_oficial": true,
+    "es_p1": false,
+    "fuente": "Guía Práctica Nº 5 SVM y Exámenes Finales 2024-2025",
+    "nro": 52
+  }
+];

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Examen — IA UTN FRRe (2do Parcial)</title>
+  <meta name="description" content="Simulador de examen teórico de Inteligencia Artificial para el 2do Parcial y Finales — UTN Facultad Regional Resistencia.">
+
+  <!-- KaTeX for high-performance math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="brand" onclick="app.navigate('home')">
+        <div class="brand-icon">IA</div>
+        <div>
+          <div class="brand-title">Simulador de Examen</div>
+          <span class="brand-badge">UTN FRRe · ISI 5to Nivel</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <nav class="nav-tabs">
+          <button class="nav-tab-btn active" id="tab-home" onclick="app.navigate('home')">Simulacro</button>
+          <button class="nav-tab-btn" id="tab-practice" onclick="app.navigate('practice')">Práctica</button>
+          <button class="nav-tab-btn" id="tab-history" onclick="app.navigate('history')">Historial</button>
+          <button class="nav-tab-btn" id="tab-qa" onclick="app.navigate('qa')">Banco QA</button>
+        </nav>
+
+        <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="app.toggleTheme()" title="Cambiar tema">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Views -->
+  <main>
+
+    <!-- VIEW 1: HOME / CONFIGURACIÓN DE SIMULACRO -->
+    <section id="view-home" class="view-section active">
+      <h1>Simulador Oficial del 2do Parcial</h1>
+      <p class="subtitle">Entrenador interactivo con preguntas reales de parciales, finales y banco doctrinal con corrección Moodle.</p>
+
+      <h2>Selecciona el Modo de Examen:</h2>
+      <div class="presets-grid">
+        <div class="card preset-card selected" id="preset-oficial" onclick="app.selectPreset('oficial')">
+          <span class="preset-tag">Recomendado</span>
+          <div>
+            <div class="preset-title">Simulacro de Cátedra</div>
+            <div class="preset-desc">Condiciones idénticas al parcial presencial: selección múltiple con penalización por respuestas incorrectas.</div>
+          </div>
+          <div class="preset-meta">
+            <span>⏱ 40 Minutos</span>
+            <span>📝 25 Preguntas</span>
+            <span>⚖️ Puntuación Moodle</span>
+          </div>
+        </div>
+
+        <div class="card preset-card" id="preset-rapido" onclick="app.selectPreset('rapido')">
+          <div>
+            <div class="preset-title">Simulacro Rápido</div>
+            <div class="preset-desc">Ideal para repasos rápidos entre clases o en el colectivo.</div>
+          </div>
+          <div class="preset-meta">
+            <span>⏱ 20 Minutos</span>
+            <span>📝 15 Preguntas</span>
+            <span>⚡ Alta Velocidad</span>
+          </div>
+        </div>
+
+        <div class="card preset-card" id="preset-completo" onclick="app.selectPreset('completo')">
+          <div>
+            <div class="preset-title">Banco Completo P2</div>
+            <div class="preset-desc">Barre absolutamente todas las preguntas teóricas del 2do Parcial de forma exhaustiva.</div>
+          </div>
+          <div class="preset-meta">
+            <span>⏱ 60 Minutos</span>
+            <span>📝 41 Preguntas</span>
+            <span>🎯 Cobertura 100%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-box">
+        <label class="checkbox-label">
+          <input type="checkbox" id="check-include-p1">
+          <span>Incluir preguntas de repaso de <strong>1er Parcial</strong> (Búsqueda $A^*$, Árboles C4.5, Apriori, POP)</span>
+        </label>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">(Por defecto excluido para foco total en P2)</span>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn btn-primary btn-lg" onclick="app.startExam()">
+          🚀 Iniciar Examen Ahora
+        </button>
+      </div>
+
+      <!-- Quick resume failed questions if available -->
+      <div id="resume-failed-box" style="display: none; margin-top: 2rem; text-align: center;">
+        <button class="btn btn-outline" onclick="app.startPracticeFailed()">
+          🔁 Repasar mis <span id="failed-count">0</span> preguntas falladas anteriormente
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEW 2: EXAMEN ACTIVO / SIMULACRO -->
+    <section id="view-exam" class="view-section">
+      <div class="exam-topbar">
+        <div class="exam-meta-left">
+          <span class="badge badge-topic" id="exam-topic-badge">TEMA</span>
+          <span style="font-weight: 700;" id="exam-progress-text">Pregunta 1 de 25</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div class="badge badge-timer" id="exam-timer">40:00</div>
+          <button class="flag-btn" id="exam-flag-btn" onclick="app.toggleCurrentFlag()" title="Marcar para revisar al final">
+            🚩 <span id="flag-label">Marcar</span>
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="app.confirmFinishExam()">
+            Finalizar
+          </button>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar" id="exam-progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-box">
+        <div class="question-header">
+          <h3 id="exam-question-title" style="font-size: 1.1rem; color: var(--text-muted);">Título de Pregunta</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="exam-multi-hint">Múltiple Selección</span>
+        </div>
+
+        <div class="question-prompt" id="exam-question-prompt">
+          Enunciado de la consigna...
+        </div>
+
+        <div class="options-list" id="exam-options-list">
+          <!-- Options rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Navigation & Controls -->
+      <div class="exam-navigation">
+        <button class="btn btn-outline" id="btn-prev-q" onclick="app.prevQuestion()">
+          ← Anterior
+        </button>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline btn-sm" onclick="app.clearCurrentSelection()">
+            Limpiar selección
+          </button>
+        </div>
+        <button class="btn btn-primary" id="btn-next-q" onclick="app.nextQuestion()">
+          Siguiente →
+        </button>
+      </div>
+
+      <!-- Question Palette -->
+      <div class="palette-box">
+        <div class="palette-title">
+          <span>Mapa de Preguntas</span>
+          <div class="palette-legend">
+            <span class="legend-item"><span class="legend-dot" style="background-color: var(--primary);"></span> Respondida</span>
+            <span class="legend-item"><span class="legend-dot" style="background-color: var(--warning);"></span> 🚩 Marcada</span>
+            <span class="legend-item"><span class="legend-dot" style="background-color: var(--bg-subtle); border: 1px solid var(--border-color);"></span> Pendiente</span>
+          </div>
+        </div>
+        <div class="palette-grid" id="exam-palette-grid">
+          <!-- Numbers 1 to N rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESULTADOS & REVISIÓN DOCTRINAL -->
+    <section id="view-results" class="view-section">
+      <div class="results-header-card">
+        <div style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">
+          Calificación Obtenida (Fórmula Moodle UTN)
+        </div>
+        <div class="score-display" id="res-score-number">85%</div>
+        <div class="score-badge-status" id="res-status-badge">¡PROMOCIONADO! 🚀</div>
+        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;" id="res-status-text">
+          Has superado el umbral del 80% requerido para la promoción directa de la parte teórica.
+        </p>
+      </div>
+
+      <!-- Statistics grid -->
+      <div class="results-stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-correct">18</div>
+          <div class="stat-label">Completamente Correctas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-partial">4</div>
+          <div class="stat-label">Parcialmente Correctas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-wrong">3</div>
+          <div class="stat-label">Incorrectas / 0 pts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-time">28m 14s</div>
+          <div class="stat-label">Tiempo Empleado</div>
+        </div>
+      </div>
+
+      <!-- Breakdown by Topic -->
+      <div class="topic-breakdown-card">
+        <h3 style="margin-bottom: 1rem;">Rendimiento por Eje Temático:</h3>
+        <div id="res-topics-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+        <h2>Revisión Exhaustiva Pregunta por Pregunta:</h2>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline btn-sm" onclick="app.filterReview('all')">Todas</button>
+          <button class="btn btn-outline btn-sm" onclick="app.filterReview('failed')">Solo Falladas</button>
+          <button class="btn btn-primary btn-sm" onclick="app.navigate('home')">Nuevo Examen</button>
+        </div>
+      </div>
+
+      <div id="res-review-container">
+        <!-- Review cards rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- VIEW 4: MODO PRÁCTICA LIBRE POR TEMA -->
+    <section id="view-practice" class="view-section">
+      <h1>Modo Práctica Libre por Tema</h1>
+      <p class="subtitle">Estudia a tu propio ritmo sin límite de tiempo, con validación instantánea y justificación oficial inmediata.</p>
+
+      <!-- Topic Filters -->
+      <div class="filter-bar" id="practice-filter-bar">
+        <!-- Topic buttons injected via JS -->
+      </div>
+
+      <div id="practice-container">
+        <!-- Practice question card -->
+      </div>
+    </section>
+
+    <!-- VIEW 5: HISTORIAL Y ESTADÍSTICAS -->
+    <section id="view-history" class="view-section">
+      <h1>Historial de Rendimiento</h1>
+      <p class="subtitle">Registro local de tus simulacros de examen para medir tu curva de aprendizaje hacia el 18/11/2026.</p>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3>Intentos Registrados</h3>
+          <button class="btn btn-outline btn-sm" onclick="app.clearHistory()">Limpiar Historial</button>
+        </div>
+        <div id="history-list-container">
+          <p style="color: var(--text-muted);">Aún no has completado ningún simulacro. ¡Inicia uno desde la pestaña Simulacro!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: BANCO QA / AUDITORÍA COMPLETA -->
+    <section id="view-qa" class="view-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <h1>Auditoría Completa del Banco (Modo QA)</h1>
+          <p class="subtitle">Inspección de las 52 preguntas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
+        </div>
+        <span class="badge badge-topic">52 Preguntas Activas</span>
+      </div>
+
+      <div id="qa-questions-container">
+        <!-- All questions rendered with correct keys and rationale visible -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal: Confirm Finish Exam -->
+  <div class="modal-backdrop" id="modal-finish">
+    <div class="modal-content">
+      <h3 style="margin-bottom: 0.75rem;">¿Deseas finalizar el examen?</h3>
+      <p id="modal-finish-warning" style="color: var(--text-muted); margin-bottom: 1.5rem;">
+        Has respondido todas las preguntas. Tu puntaje se calculará inmediatamente según la fórmula Moodle.
+      </p>
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button class="btn btn-outline" onclick="app.closeModal('modal-finish')">Continuar respondiendo</button>
+        <button class="btn btn-danger" onclick="app.finishExam()">Entregar y Calificar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+      <div>
+        <strong>Simulador de Inteligencia Artificial</strong> · UTN Facultad Regional Resistencia<br>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Segundo Parcial Presencial · Preguntas Oficiales y Compendio Doctrinal</span>
+      </div>
+      <div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">Modo 100% Offline / Standalone · Sin dependencias de compilación</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Data Script (Loaded synchronously to avoid CORS in file://) -->
+  <script src="data/preguntas.js"></script>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
