@@ -2,7 +2,7 @@
 **Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
 **Carrera:** Ingeniería en Sistemas de Información (5to Nivel)  
 **Cátedra:** Inteligencia Artificial  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Régimen de Evaluación:** 4 Cuadrantes Independientes (25% cada uno) | **Nota de Aprobación Práctica:** $\ge 60\%$ (60/100 pts)  
 **Tiempo Límite Sugerido:** 120 minutos (2 horas de reloj en papel manuscrito con calculadora científica)  
 

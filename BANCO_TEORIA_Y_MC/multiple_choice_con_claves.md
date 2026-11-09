@@ -1,11 +1,11 @@
 # Banco de Multiple Choice con Claves Docentes Confirmadas
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Fuentes Documentales:** Exámenes teóricos oficiales impresos (2019 con corrección en tinta roja `CIN_teoria_IA2019.jpg`, 2020, 2021, 2023).
 
 > [!IMPORTANT]
 > **Penalización por Respuesta Incorrecta:**  
-> En la modalidad presencial teórica de la UTN FRRe, las preguntas Multiple Choice o V/F suelen restar puntaje en caso de error. Por tanto, no se debe adivinar. Este banco compila las claves exactas validadas por el Ing. Marcelo Karanik junto a sus fundamentos teóricos.
+> En la modalidad presencial teórica de la UTN FRRe, las preguntas Multiple Choice o V/F suelen restar puntaje en caso de error. Por tanto, no se debe adivinar. Este banco compila las claves exactas validadas por la cátedra junto a sus fundamentos teóricos.
 
 ---
 

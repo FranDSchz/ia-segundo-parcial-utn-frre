@@ -1,6 +1,6 @@
 # Machete Legal de Emergencia (Repaso 15 Minutos Antes de Rendir)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Instrucción:** Leé esta hoja en el pasillo del aula Magna antes de que el profesor reparta los enunciados.
 
 ---
@@ -59,7 +59,7 @@
 
 ## ✅ Checklist de 6 Puntos Antes de Entregar la Hoja
 
-- [ ] **1. Fórmulas Generales Escritas:** ¿Pusiste la fórmula con letras antes de reemplazar con números en cada ejercicio? (Karanik descuenta si ponés resultados directos).
+- [ ] **1. Fórmulas Generales Escritas:** ¿Pusiste la fórmula con letras antes de reemplazar con números en cada ejercicio? (La cátedra descuenta si ponés resultados directos).
 - [ ] **2. Frases Justificativas:** ¿Acompañaste los pasos con frases breves? (*"La neurona 2 es BMU por tener menor distancia"*, *"El punto 4 no influye por tener $\alpha=0$"*).
 - [ ] **3. Diagrama de Red Dibujado:** ¿Dibujaste la arquitectura con entradas, salidas y nombres de conexiones en SOM y MLP?
 - [ ] **4. Redondeo Uniforme:** ¿Usaste 3 o 4 decimales prolijos en todos los términos $\delta$ y distancias?

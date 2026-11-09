@@ -3,7 +3,7 @@
 **Universidad:** Universidad Tecnológica Nacional – Facultad Regional Resistencia (UTN FRRe)  
 **Carrera:** Ingeniería en Sistemas de Información (5to Nivel)  
 **Asignatura:** Inteligencia Artificial  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Destino Académico:** Preparación Integral para el Segundo Parcial Teórico-Práctico (Semana 14 – 18/11/2026)  
 **Estado:** Curado, Anonimizado, Auditado y Verificado Criptográficamente  
 
@@ -249,7 +249,7 @@ Todos los archivos han sido:
 #### Ficha Técnica: `2019_cin_teoria_correccion_roja_4k.jpg`
 - **Identificador:** `IA-H-2019-TEOR`
 - **Fecha:** Noviembre 2019.
-- **Legibilidad:** ⭐⭐⭐⭐⭐ (5/5 – Examen oficial corregido en tinta roja por el Ing. Karanik).
+- **Legibilidad:** ⭐⭐⭐⭐⭐ (5/5 – Examen oficial corregido en tinta roja por la cátedra).
 - **Desglose:**
   - Ejercicio 1: MLP vs Naive Bayes en el plano $\mathbb{R}^2$. [ACTIVO P2]
   - Ejercicio 2: Factores del aprendizaje conexionista (convergencia, gradiente). [ACTIVO P2]
@@ -318,7 +318,7 @@ Contiene los **137 recortes gráficos `.png`** extraídos en alta resolución de
 
 ## 4. Las 6 Trampas Mortales de Examen Detectadas por Auditoría Docente
 
-Del análisis forense de las correcciones docentes del Ing. Karanik en los exámenes de 2016 a 2023, se extraen las 6 trampas recurrentes donde los alumnos pierden puntos:
+Del análisis forense de las correcciones docentes de la cátedra en los exámenes de 2016 a 2023, se extraen las 6 trampas recurrentes donde los alumnos pierden puntos:
 
 1. **El Sentido del Vector Normal en Perceptrón Analítico:**
    - *Error típico:* El alumno halla la recta igualando a cero ($w_1 x_1 + w_2 x_2 - \theta = 0$) a partir de los cortes en los ejes y no verifica la orientación.

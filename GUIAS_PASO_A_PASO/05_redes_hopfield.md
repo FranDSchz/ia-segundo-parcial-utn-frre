@@ -1,6 +1,6 @@
 # Guía Paso a Paso: Redes Asociativas de Hopfield
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 20 - 25 minutos | **Ponderación:** 20% - 25% (Alternante en Q4)
 
 ---

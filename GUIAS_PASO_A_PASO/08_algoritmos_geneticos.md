@@ -1,6 +1,6 @@
 # Guía Paso a Paso: Algoritmos Genéticos (Selección, Cruce y Mutación)
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Tiempo estimado en examen:** 25 minutos | **Ponderación:** Cierre de Brecha Curricular (Teoría / Práctica Especial)
 
 ---

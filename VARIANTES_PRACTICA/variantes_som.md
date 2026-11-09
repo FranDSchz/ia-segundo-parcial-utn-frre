@@ -1,6 +1,6 @@
 # Dossier de Variantes Numéricas Resueltas: Redes SOM de Kohonen
 **Universidad Tecnológica Nacional — Facultad Regional Resistencia (UTN FRRe)**  
-**Cátedra:** Inteligencia Artificial | **Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Material de Entrenamiento Gradual en 3 Niveles**  
 
 ---

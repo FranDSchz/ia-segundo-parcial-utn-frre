@@ -4,11 +4,11 @@
 [![Carrera](https://img.shields.io/badge/Carrera-ISI%20(5to%20Nivel)-green.svg)]()
 [![Asignatura](https://img.shields.io/badge/Materia-Inteligencia%20Artificial-orange.svg)]()
 [![Examen](https://img.shields.io/badge/2do%20Parcial-18%2F11%2F2026-red.svg)]()
-[![Profesor](https://img.shields.io/badge/Titular-Ing.%20Marcelo%20Karanik-informational.svg)]()
+[![Cátedra](https://img.shields.io/badge/Cátedra-Inteligencia%20Artificial-informational.svg)]()
 [![Estado](https://img.shields.io/badge/Status-100%25%20Curado%20y%20Verificado-success.svg)]()
 
 > **¡Bienvenido/a al repositorio definitivo de preparación para el Segundo Parcial de IA!**  
-> Este material fue elaborado minuciosamente por y para estudiantes de Ingeniería en Sistemas de Información de la **UTN Facultad Regional Resistencia**, a partir de la recopilación forense de más de 60 archivos reales de exámenes impresos, recuperatorios y finales de la cátedra del **Ing. Marcelo Karanik** (período 2012–2023).
+> Este material fue elaborado minuciosamente por y para estudiantes de Ingeniería en Sistemas de Información de la **UTN Facultad Regional Resistencia**, a partir de la recopilación forense de más de 60 archivos reales de exámenes impresos, recuperatorios y finales de la cátedra de la cátedra de Inteligencia Artificial (período 2012–2023).
 
 ---
 
@@ -89,7 +89,7 @@ El examen práctico presencial de la cátedra se resuelve en papel y lápiz en u
 
 ## ⚠️ Las 6 Trampas Clásicas de Cátedra (¡Leelas con atención!)
 
-Del análisis forense de exámenes corregidos por el Ing. Marcelo Karanik, identificamos los 6 errores típicos donde los alumnos pierden entre el 10% y el 25% del parcial:
+Del análisis forense de exámenes corregidos por la cátedra, identificamos los 6 errores típicos donde los alumnos pierden entre el 10% y el 25% del parcial:
 
 ```mermaid
 graph TD
@@ -124,7 +124,7 @@ graph TD
 
 ---
 
-## 📝 Consejos de Presentación para el Día del Examen (Criterio Karanik)
+## 📝 Consejos de Presentación para el Día del Examen (Criterios de Cátedra)
 
 1. **Nunca pongas números sueltos:** Escribí primero la fórmula general ($w = \sum \alpha_i y_i x_i$), luego reemplazá los valores numéricos y por último poné el resultado.
 2. **Justificá cada paso con una línea ingenieril:** *"La neurona 2 es la ganadora por presentar menor distancia euclidiana ($d_2 = 1.476 < d_1 = 1.700$)"*. Eso demuestra solidez conceptual ante la corrección manual.

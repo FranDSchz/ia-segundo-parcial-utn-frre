@@ -1,6 +1,6 @@
 # Formulario Oficial Canónico — Segundo Parcial
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Compilado Canónico:** 2 Carillas de Fórmulas y Convenciones de Cátedra
 
 ---

@@ -1,6 +1,6 @@
 # Banco de Preguntas Teóricas y de Desarrollo
 **Cátedra:** Inteligencia Artificial — UTN FRRe (5to Nivel ISI)  
-**Profesor Titular:** Ing. Marcelo Karanik  
+**Cátedra:** Inteligencia Artificial (UTN FRRe)  
 **Compilación:** Preguntas recurrentes de parciales presenciales, recuperatorios y finales (2015 – 2023).
 
 ---
