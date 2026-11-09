@@ -430,29 +430,51 @@
         </div>
       </div>
 
-      <!-- Embedded Comments Section (Giscus / GitHub Discussions) -->
+      <!-- Canales de Debate Oficiales (100% Nativo en GitHub) -->
       <div class="card" style="padding: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
           <div>
-            <h3 style="margin-bottom: 0.25rem;">Hilos de Debate Integrados</h3>
+            <h3 style="margin-bottom: 0.25rem;">Canales de Debate y Colaboración</h3>
             <p style="color: var(--text-muted); font-size: 0.88rem; margin: 0;">
-              Comentarios sincronizados directamente con GitHub Discussions.
+              100% nativo en GitHub. Sin apps ni autorizaciones extrañas: solo ingresás y comentás.
             </p>
           </div>
-          <button class="btn btn-outline btn-sm" onclick="app.loadGiscus(true)">
-            🔄 Recargar Comentarios
-          </button>
+          <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions/new?category=q-a" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="text-decoration: none;">
+            ➕ Nueva Consulta / Duda ↗
+          </a>
         </div>
 
-        <div id="giscus-thread-container">
-          <div id="giscus-loader-placeholder" style="text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); background: var(--bg-subtle); border-radius: var(--radius-md);">
-            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
-            <p style="margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Foro de Debate en Vivo</p>
-            <p style="font-size: 0.88rem; max-width: 520px; margin: 0 auto 1.25rem; line-height: 1.45;">
-              Cargando el hilo de comentarios de GitHub... Podés iniciar sesión con tu cuenta de GitHub para dejar preguntas, responder a tus compañeros y subir capturas de pantalla.
+        <div class="community-actions-grid" style="margin-top: 1rem;">
+          <div class="card" style="background: var(--bg-subtle); border: 1px solid var(--border-color); padding: 1.25rem; display: flex; flex-direction: column;">
+            <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🎓</div>
+            <h4 style="margin-bottom: 0.35rem;">Foro General &amp; Bienvenida</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1;">
+              Espacio para consultas sobre fechas, modalidades de examen, alcance de temas y debate libre.
             </p>
-            <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none;">
-              Abrir GitHub Discussions en pestaña nueva ↗
+            <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions/1" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none; text-align: center;">
+              Ver Hilo de Bienvenida #1 ↗
+            </a>
+          </div>
+
+          <div class="card" style="background: var(--bg-subtle); border: 1px solid var(--border-color); padding: 1.25rem; display: flex; flex-direction: column;">
+            <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">❓</div>
+            <h4 style="margin-bottom: 0.35rem;">Preguntas &amp; Respuestas (Q&amp;A)</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1;">
+              Consultá sobre ejercicios puntuales, deducción de fórmulas, dudas de matrices o algoritmos.
+            </p>
+            <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions/categories/q-a" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none; text-align: center;">
+              Explorar Consultas Q&amp;A ↗
+            </a>
+          </div>
+
+          <div class="card" style="background: var(--bg-subtle); border: 1px solid var(--border-color); padding: 1.25rem; display: flex; flex-direction: column;">
+            <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🐛</div>
+            <h4 style="margin-bottom: 0.35rem;">Buzón de Erratas Oficial</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; flex-grow: 1;">
+              Si encontrás una clave cuestionable o un error de tipeo, abrinos un issue estructurado con 1 clic.
+            </p>
+            <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/issues" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none; text-align: center;">
+              Ver Issues / Erratas ↗
             </a>
           </div>
         </div>

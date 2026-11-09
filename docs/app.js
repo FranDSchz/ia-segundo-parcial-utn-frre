@@ -51,7 +51,6 @@
 
     // Community & Feedback State
     currentFeedbackQuestion: null,
-    _giscusLoaded: false,
 
     // Init
     init() {
@@ -319,15 +318,6 @@
       const current = document.documentElement.getAttribute("data-theme") || "dark";
       const next = current === "dark" ? "light" : "dark";
       this.setTheme(next);
-
-      // Sincronizar tema con el iframe de Giscus si está presente
-      const iframe = document.querySelector("iframe.giscus-frame");
-      if (iframe && iframe.contentWindow) {
-        iframe.contentWindow.postMessage(
-          { giscus: { setConfig: { theme: next === "dark" ? "dark_dimmed" : "light" } } },
-          "https://giscus.app"
-        );
-      }
     },
 
     // -------------------------------------------------------------
@@ -1400,52 +1390,10 @@
     },
 
     // -------------------------------------------------------------
-    // Community, Giscus & Feedback Engine
+    // Community & Feedback Engine (100% Nativo GitHub)
     // -------------------------------------------------------------
     initCommunityView() {
-      this.loadGiscus(false);
-    },
-
-    loadGiscus(forceReload = false) {
-      const container = document.getElementById("giscus-thread-container");
-      if (!container) return;
-
-      if (!forceReload && this._giscusLoaded && container.querySelector("iframe.giscus-frame")) {
-        return;
-      }
-
-      container.innerHTML = `
-        <div id="giscus-loader-placeholder" style="text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); background: var(--bg-subtle); border-radius: var(--radius-md);">
-          <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
-          <p style="margin-bottom: 0.5rem; font-weight: 600; color: var(--text-main);">Foro de Debate en Vivo</p>
-          <p style="font-size: 0.88rem; max-width: 520px; margin: 0 auto 1.25rem; line-height: 1.45;">
-            Cargando el hilo de comentarios de GitHub... Podés iniciar sesión con tu cuenta de GitHub para dejar preguntas, responder a tus compañeros y subir capturas de pantalla.
-          </p>
-          <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="text-decoration: none;">
-            Abrir GitHub Discussions en pestaña nueva ↗
-          </a>
-        </div>
-      `;
-
-      const theme = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark_dimmed";
-      const script = document.createElement("script");
-      script.src = "https://giscus.app/client.js";
-      script.setAttribute("data-repo", "FranDSchz/ia-segundo-parcial-utn-frre");
-      script.setAttribute("data-repo-id", "R_kgDOVnmHmQ");
-      script.setAttribute("data-category", "General");
-      script.setAttribute("data-category-id", "DIC_kwDOVnmHmc4DKvcb");
-      script.setAttribute("data-mapping", "pathname");
-      script.setAttribute("data-strict", "0");
-      script.setAttribute("data-reactions-enabled", "1");
-      script.setAttribute("data-emit-metadata", "0");
-      script.setAttribute("data-input-position", "top");
-      script.setAttribute("data-theme", theme);
-      script.setAttribute("data-lang", "es");
-      script.crossOrigin = "anonymous";
-      script.async = true;
-
-      container.appendChild(script);
-      this._giscusLoaded = true;
+      // 100% nativo y estático: navegación y enlaces directos sin dependencias externas
     },
 
     showToast(message) {
