@@ -9,7 +9,8 @@ organizados para facilitar el estudio práctico del Segundo Parcial y Exámenes 
     Fotos y PDFs de exámenes presenciales y virtuales del 2do Parcial (2012 a 2025).
     Los que tienen fecha verificada en el papel incluyen el año en el nombre.
     Los que no tienen fecha impresa están identificados por los ejercicios de la consigna.
-    Incluye el PDF oficial del examen del 19/11/2025 y el compendio oficial de 29 páginas.
+    Incluye el PDF oficial del examen del 19/11/2025, el compendio oficial de 29 páginas y
+    las 8 imágenes de parciales reales y recuperatorios recientemente auditadas.
 
 2_FINALES/
     Enunciados y resoluciones de exámenes finales presenciales y virtuales tomados en mesas.
@@ -21,6 +22,10 @@ organizados para facilitar el estudio práctico del Segundo Parcial y Exámenes 
 4_GUIAS_PRACTICAS_CATEDRA/
     Guías oficiales de Trabajos Prácticos de la Cátedra por tema (Clustering, Hopfield,
     KNN, MLP, Naïve Bayes, Perceptrón Simple, SOM y SVM).
+    Incluye además:
+    - hoja_de_formulas_segundo_parcial.pdf: Hoja oficial de fórmulas canónica para el examen.
+    - guias_resueltas_unidad4_y_modelos_segundo_parcial.pdf: Compendio de 47 páginas con guías
+      resueltas y la pauta oficial de resolución numérica de modelos de examen.
 
 ========================================================================
 NOTA: Se han excluido todos los temas del Primer Parcial (Búsqueda A*, Planificación POP y Árboles).
