@@ -8,7 +8,7 @@ window.ENTRENAMIENTO_PRACTICO = {
   version: "1.0",
   roadmap: [
     { id: "MLP_PERCEPTRON", nombre: "MLP, Perceptrón y ADALINE", estado: "completo" },
-    { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "pendiente" },
+    { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "completo" },
     { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "pendiente" },
     { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "pendiente" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "pendiente" },
@@ -279,6 +279,313 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Usar signo $+$ con el umbral $\\theta$ en Perceptrón:** La cátedra define $w_0 = -\\theta$ con $x_0 = +1$, por lo que $net = \\sum w_i x_i - \\theta$. Si la consigna da $\\theta = 0.5$, entonces $w_0 = -0.5$.",
             "**Olvidar algún cable saliente en $\\delta_{\\text{oculta}}$:** Si la neurona oculta $o_1$ está conectada a 3 neuronas de salida ($s_1, s_2, s_3$), la sumatoria $\\sum \\delta_{sk} w_{sk-o1}$ DEBE tener los 3 términos sumados antes de multiplicar por $f'(net_{o1})$.",
             "**Omitir escribir la fórmula general en papel:** Si ponés solo el número final en calculadora sin escribir antes la ecuación simbólica y la sustitución numérica, la cátedra suele descontar puntaje de procedimiento."
+          ]
+        }
+      ]
+    },
+    {
+      id: "ALGORITMOS_GENETICOS",
+      nombre: "Algoritmos Genéticos (Selección, Cruce y Mutación)",
+      badge: "Algoritmos Genéticos",
+      icono: "🧬",
+      ponderacion: "20% – 30% del Parcial Práctico",
+      tiempoSugerido: "15 - 20 min en hoja",
+      objetivo: "Armar sin errores las tablas de Ruleta [00–99], Control de Copias Esperadas y Ranking Lineal, ejecutar cruces Simple, Multipunto (regla de anillo) y Binomial (dos formas de Hijo 2), y calcular Mutación Adaptativa por Temperatura (con o sin reinicio cíclico) diferenciándola de Convergencia.",
+      items: [
+        {
+          id: "PRAC-AG-01",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "diagrama",
+          titulo: "Ciclo Evolutivo, Mapeo de Ruleta [00–99] y Cruce Multipunto en Anillo",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Vista gráfica de cómo se reparten las 100 ranuras sin huecos y cómo alternan los bloques de cromosomas en Cruce Simple, Multipunto (3 cortes = 4 segmentos) y Binomial.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama de Ruleta 00-99 y Operadores de Cruce en Algoritmos Genéticos">
+              <defs>
+                <marker id="ag-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+                </marker>
+              </defs>
+
+              <!-- 1. Banda superior: Ciclo evolutivo -->
+              <rect x="20" y="12" width="720" height="44" rx="8" class="svg-note-bg"/>
+              <text x="85" y="38" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">P(t)</text>
+              <line x1="108" y1="34" x2="148" y2="34" stroke="#38bdf8" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="208" y="38" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">1. Fitness fᵢ</text>
+              <line x1="258" y1="34" x2="298" y2="34" stroke="#38bdf8" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="355" y="38" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">2. Selección</text>
+              <line x1="406" y1="34" x2="446" y2="34" stroke="#38bdf8" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="492" y="38" text-anchor="middle" fill="#fb7185" font-size="12" font-weight="700">3. Cruce</text>
+              <line x1="532" y1="34" x2="572" y2="34" stroke="#38bdf8" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="622" y="38" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">4. Mutación</text>
+              <line x1="668" y1="34" x2="695" y2="34" stroke="#38bdf8" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="718" y="38" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">P(t+1)</text>
+
+              <!-- 2. Seccion Izquierda: Barra Ruleta [00-99] -->
+              <rect x="20" y="72" width="345" height="205" rx="10" class="svg-node svg-node-in"/>
+              <text x="192" y="96" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800">RULETA DE 100 RANURAS [00 – 99]</text>
+              <text x="192" y="114" text-anchor="middle" class="svg-label-muted" font-size="11">Ranuras = round(pᵢ · 100)  |  Fin = Inicio + Ranuras - 1</text>
+
+              <!-- Barra proporcional -->
+              <rect x="38" y="128" width="48" height="36" fill="#0284c7" stroke="#f8fafc" stroke-width="1"/>
+              <text x="62" y="146" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">I₁</text>
+              <text x="62" y="159" text-anchor="middle" fill="#e0f2fe" font-size="9">00–14</text>
+
+              <rect x="86" y="128" width="108" height="36" fill="#0d9488" stroke="#f8fafc" stroke-width="1"/>
+              <text x="140" y="146" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">I₂ (35%)</text>
+              <text x="140" y="159" text-anchor="middle" fill="#ccfbf1" font-size="9">15–49</text>
+
+              <rect x="194" y="128" width="34" height="36" fill="#d97706" stroke="#f8fafc" stroke-width="1"/>
+              <text x="211" y="146" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">I₃</text>
+              <text x="211" y="159" text-anchor="middle" fill="#fef3c7" font-size="9">50–59</text>
+
+              <rect x="228" y="128" width="120" height="36" fill="#7c3aed" stroke="#f8fafc" stroke-width="1"/>
+              <text x="288" y="146" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="700">I₄ (40%)</text>
+              <text x="288" y="159" text-anchor="middle" fill="#ede9fe" font-size="9">60–99</text>
+
+              <!-- Flecha de aleatorio r=64 -->
+              <line x1="252" y1="194" x2="252" y2="168" stroke="#fb7185" stroke-width="2" marker-end="url(#ag-arrow)"/>
+              <text x="252" y="210" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">Ej: r = 64 ∈ [60–99] ➔ I₄</text>
+
+              <text x="38" y="238" class="svg-node-text" font-size="11" font-weight="700">Control obligatorio en hoja:</text>
+              <text x="38" y="256" class="svg-label-muted" font-size="11">• El 1° siempre arranca en 00 y el último cierra en 99.</text>
+              <text x="38" y="271" class="svg-label-muted" font-size="11">• El siguiente intervalo empieza en (Fin anterior + 1).</text>
+
+              <!-- 3. Seccion Derecha: Cruce Multipunto -->
+              <rect x="385" y="72" width="355" height="205" rx="10" class="svg-node svg-node-in"/>
+              <text x="562" y="96" text-anchor="middle" fill="#fb7185" font-size="13" font-weight="800">CRUCE MULTIPUNTO (Ej: G₂, G₅, G₇ en L=8)</text>
+              <text x="562" y="114" text-anchor="middle" class="svg-label-muted" font-size="11">Cortes impares (3) ➔ 4 bloques alternados P₁ | P₂ | P₁ | P₂</text>
+
+              <!-- Padres -->
+              <text x="405" y="142" class="svg-label-muted" font-size="11" font-weight="700">P₁:</text>
+              <rect x="435" y="126" width="56" height="24" rx="4" fill="#0284c7"/><text x="463" y="142" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0</text>
+              <rect x="499" y="126" width="84" height="24" rx="4" fill="#0284c7" opacity="0.55"/><text x="541" y="142" text-anchor="middle" fill="#e0f2fe" font-size="12" font-weight="700">1 0 0</text>
+              <rect x="591" y="126" width="56" height="24" rx="4" fill="#0284c7"/><text x="619" y="142" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0</text>
+              <rect x="655" y="126" width="32" height="24" rx="4" fill="#0284c7" opacity="0.55"/><text x="671" y="142" text-anchor="middle" fill="#e0f2fe" font-size="12" font-weight="700">0</text>
+
+              <text x="405" y="174" class="svg-label-muted" font-size="11" font-weight="700">P₂:</text>
+              <rect x="435" y="158" width="56" height="24" rx="4" fill="#e11d48" opacity="0.55"/><text x="463" y="174" text-anchor="middle" fill="#ffe4e6" font-size="12" font-weight="700">1 1</text>
+              <rect x="499" y="158" width="84" height="24" rx="4" fill="#e11d48"/><text x="541" y="174" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">0 0 0</text>
+              <rect x="591" y="158" width="56" height="24" rx="4" fill="#e11d48" opacity="0.55"/><text x="619" y="174" text-anchor="middle" fill="#ffe4e6" font-size="12" font-weight="700">1 0</text>
+              <rect x="655" y="158" width="32" height="24" rx="4" fill="#e11d48"/><text x="671" y="174" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1</text>
+
+              <!-- Lineas de corte G2, G5, G7 -->
+              <line x1="495" y1="120" x2="495" y2="252" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="4,3"/>
+              <text x="495" y="264" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">G₂</text>
+              <line x1="587" y1="120" x2="587" y2="252" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="4,3"/>
+              <text x="587" y="264" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">G₅</text>
+              <line x1="651" y1="120" x2="651" y2="252" stroke="#fbbf24" stroke-width="1.8" stroke-dasharray="4,3"/>
+              <text x="651" y="264" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">G₇</text>
+
+              <!-- Hijos -->
+              <text x="405" y="212" fill="#10b981" font-size="11" font-weight="700">H₁:</text>
+              <rect x="435" y="196" width="56" height="24" rx="4" fill="#0284c7"/><text x="463" y="212" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0</text>
+              <rect x="499" y="196" width="84" height="24" rx="4" fill="#e11d48"/><text x="541" y="212" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">0 0 0</text>
+              <rect x="591" y="196" width="56" height="24" rx="4" fill="#0284c7"/><text x="619" y="212" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0</text>
+              <rect x="655" y="196" width="32" height="24" rx="4" fill="#e11d48"/><text x="671" y="212" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1</text>
+
+              <text x="405" y="242" fill="#10b981" font-size="11" font-weight="700">H₂:</text>
+              <rect x="435" y="226" width="56" height="24" rx="4" fill="#e11d48"/><text x="463" y="242" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 1</text>
+              <rect x="499" y="226" width="84" height="24" rx="4" fill="#0284c7"/><text x="541" y="242" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0 0</text>
+              <rect x="591" y="226" width="56" height="24" rx="4" fill="#e11d48"/><text x="619" y="242" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1 0</text>
+              <rect x="655" y="226" width="32" height="24" rx="4" fill="#0284c7"/><text x="671" y="242" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">0</text>
+
+              <!-- Regla inferior -->
+              <rect x="20" y="288" width="720" height="30" rx="6" class="svg-note-bg"/>
+              <text x="380" y="308" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="600">
+                Regla del corte Gₖ: se corta DESPUÉS del bit k (ej. G₄ separa bits 1..4 de bits 5..L). Con n° impar de cortes, asume corte ficticio en 0 (anillo).
+              </text>
+            </svg>
+          `,
+          notasClave: [
+            "**Vocabulario oficial UTN FRRe:** **Cromosoma** = Estructura/Individuo; **Gen** = Posición o característica; **Alelo** = Valor del gen (`0` o `1`); **Locus** = Índice de posición ($1 \\dots L$); **Genotipo** = Cadena codificada; **Fenotipo** = Solución decodificada / Aptitud $f_i$.",
+            "**Salto Generacional ($G_{gap}$):** Proporción reemplazada por generación: $G_{gap} = N_{\\text{hijos}} / N_{\\text{población}}$. Si $G_{gap} = 1$, reemplazo total; si $0 < G_{gap} < 1$ (ej. con elitismo o selección del $40\\%$), es reemplazo parcial."
+          ]
+        },
+        {
+          id: "PRAC-AG-02",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "algoritmo",
+          titulo: "Algoritmo de Selección en Hoja: Elitista, Ruleta [00–99], Control de Copias y Ranking",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo resolver cualquiera de los 4 métodos de selección que toma la cátedra en la Guía TP-AG y parciales.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Calcular N, Suma Total y aplicar Elitismo (si lo pide)",
+              queHago: "Contar la cantidad total $N$ de individuos y sumar todas las aptitudes $\\sum f_i$. Si piden **Selección Elitista** del $k\\%$, ordenás por aptitud descendente y copiás directo a los $\\text{round}(k\\% \\cdot N)$ mejores **sin pasarlos por cruce ni mutación**.",
+              formula: "$$S = \\sum_{i=1}^{N} f_i \\qquad \\bar{f} = \\frac{S}{N} \\qquad N_{\\text{elite}} = k\\% \\cdot N$$",
+              queEscriboEnHoja: "«Calculo la aptitud total de la población $\\sum f_i = \\dots$ y la media $\\bar{f} = \\dots$. En caso de selección elitista del $k\\%$, preservo intactos los mejores individuos sin recombinación.»"
+            },
+            {
+              nro: 2,
+              titulo: "Método 1 — Selección por Ruleta Proporcional [00–99]",
+              queHago: "Calculás la aptitud normalizada $p_i = f_i / \\sum f$, multiplicás por $100$ y redondeás a ranuras enteras (verificando que sumen exactamente $100$). Asignás rangos consecutivos empezando en `00` hasta `99` y leés la lista de aleatorios en orden.",
+              formula: "$$p_i = \\frac{f_i}{\\sum_{j=1}^N f_j} \\qquad \\text{Ranuras}_i = \\text{round}(100 \\cdot p_i) \\qquad \\text{Rango}_i = [\\text{Fin}_{i-1}+1,\\; \\text{Fin}_{i-1}+\\text{Ranuras}_i]$$",
+              queEscriboEnHoja: "«Normalizo las aptitudes como $p_i = f_i / \\sum f_j$, asigno 100 ranuras en el rango $[00-99]$ sin huecos ni solapamientos y selecciono cada individuo según el intervalo que contiene al número aleatorio $r_k$.»"
+            },
+            {
+              nro: 3,
+              titulo: "Método 2 — Control sobre el Número Esperado de Copias",
+              queHago: "Calculás el valor esperado $c_i = f_i / \\bar{f}$ (equivalente a $N \\cdot p_i$). Si piden seleccionar una fracción $M$ (ej. $50\\%$ de $N$, como en el Parcial 19/11/2025), asignás primero las partes enteras $\\lfloor c_i \\rfloor$. Los cupos faltantes hasta $M$ se completan o bien **por mayor parte decimal** (Criterio Determinista) o haciendo una **nueva ruleta normalizada sobre las partes decimales** $d_i / \\sum d_k$ (Guía Ej. 01-e).",
+              formula: "$$c_i = \\frac{f_i}{\\bar{f}} = \\lfloor c_i \\rfloor + d_i \\qquad P_i^{\\text{dec}} = \\frac{d_i}{\\sum_{k=1}^N d_k}$$",
+              queEscriboEnHoja: "«Calculo las copias esperadas $c_i = f_i / \\bar{f}$, asigno determinísticamente la parte entera $\\lfloor c_i \\rfloor$ y completo los cupos vacantes mediante [los mayores residuos decimales / ruleta normalizada sobre $d_i$].»"
+            },
+            {
+              nro: 4,
+              titulo: "Método 3 — Selección por Ranking Lineal (Orden Descendente)",
+              queHago: "Primero **ordenás la tabla de mayor a menor aptitud**: $i = 1$ es el **más apto** y $i = n$ es el **menos apto**. Aplicás la fórmula oficial de la cátedra para obtener copias esperadas $c_i$ usando $R_{\\min} \\in [0, 1]$ (verificando que $\\sum c_i = n$). Luego aplicás parte entera + mayor parte decimal (o ruleta sobre $d_i$, según pida el enunciado).",
+              formula: "$$c_i = R_{\\min} + 2 \\cdot \\frac{(n - i)(1 - R_{\\min})}{n - 1} \\qquad (i = 1:\\text{ mejor},\\; i = n:\\text{ peor})$$",
+              queEscriboEnHoja: "«Para evitar convergencia prematura por súper-individuos, ordeno decrecientemente la población ($i=1$ mejor, $i=n$ peor), aplico Ranking Lineal con $R_{\\min} = \\dots$ verificando $\\sum c_i = n$, y asigno copias enteras y decimales.»"
+            },
+            {
+              nro: 5,
+              titulo: "Cierre: Ajuste cuando piden un % de la población (ej. 30%, 40%, 50%)",
+              queHago: "Si el enunciado pide seleccionar por ejemplo *«el 40% de la población»* sobre $N=10$ (es decir $M=4$ individuos), en Ruleta leés solo los primeros 4 aleatorios (o tomás las copias pedidas); en Control de Copias o Ranking podés trabajar con $\\sum c_i = N$ asignando enteros sin pasarte de $M$ y cubriendo los cupos restantes hasta $M$ con las mayores partes decimales.",
+              formula: "$$M_{\\text{objetivo}} = \\text{Porcentaje} \\cdot N \\qquad \\Delta N = M_{\\text{objetivo}} - N_{\\text{enteras asignadas}}$$",
+              queEscriboEnHoja: "«El cupo objetivo es del $\\dots\\%$ ($M = \\dots$ individuos). Con las copias por parte entera cubro $\\dots$ plazas y las $\\Delta N$ restantes se asignan según la parte fraccionaria.»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-AG-03",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "algoritmo",
+          titulo: "Algoritmo de Operadores Genéticos: Cruces (Simple, Multipunto, Binomial) y Mutación Térmica",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Reglas bit a bit de cada operador de recombinación y cálculo exacto de probabilidad de mutación adaptativa.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Cruza Simple en Gen k (Gk)",
+              queHago: "Ubicás el corte **después del bit $k$** contando desde la izquierda ($1 \\dots k \\mid k+1 \\dots L$). Hijo 1 toma prefijo de Padre 1 + sufijo de Padre 2. **Cuidado:** leé bien si te piden el Hijo 2 clásico (prefijo P2 + sufijo P1) o *«por complemento binario del primero»* ($\\text{NOT}(\\text{Hijo 1})$ bit a bit).",
+              formula: "$$H_1 = P_1[1..k] \\parallel P_2[k+1..L] \\qquad H_2^{\\text{clásico}} = P_2[1..k] \\parallel P_1[k+1..L] \\quad \\text{ó} \\quad H_2^{\\text{comp}} = \\overline{H_1}$$",
+              queEscriboEnHoja: "«Aplico cruce simple en el gen $G_k$, conservando en el Hijo 1 los primeros $k$ bits del primer progenitor y los restantes del segundo (y obtengo Hijo 2 según el criterio solicitado).»"
+            },
+            {
+              nro: 2,
+              titulo: "Cruza Multipunto en Gk1, Gk2, ..., Gkm",
+              queHago: "Trazás líneas verticales **después** de cada posición indicada ($k_1, k_2, \\dots$) dividiendo el cromosoma en segmentos. Si hay cantidad impar de cortes (ej. 3 cortes en `G2, G5, G7`), se asume un corte implícito en 0 (anillo). Alternás bloques: Hijo 1 toma `Seg1(P1) + Seg2(P2) + Seg3(P1) + Seg4(P2)` y Hijo 2 lo opuesto.",
+              formula: "$$H_1 = \\text{Seg}_1(P_1) \\parallel \\text{Seg}_2(P_2) \\parallel \\text{Seg}_3(P_1) \\parallel \\dots$$",
+              queEscriboEnHoja: "«Segmento ambos cromosomas en los loci $G_{k1}, G_{k2}, \\dots$ alternando bloques entre Padre 1 y Padre 2 (modelo de anillo) para generar ambos descendientes.»"
+            },
+            {
+              nro: 3,
+              titulo: "Cruza Binomial / Uniforme (Ranuras gen a gen)",
+              queHago: "Si el primer progenitor tiene prob $p$ y el segundo $1-p$, asignás ranuras $[00\\text{ a }(100p-1)]$ al primero y $[100p\\text{ a }99]$ al segundo (si $p=0.5$ es Uniforme: `00-49` y `50-99`). Para cada bit $j = 1 \\dots L$, mirás el aleatorio $r_j$ para decidir de qué progenitor copiás el bit $j$ para Hijo 1. Para Hijo 2 fijate cuál de los **dos métodos** piden: (a) **genes no seleccionados**, o (b) **complemento binario de Hijo 1**.",
+              formula: "$$r_j \\in [00,\\, 100p-1] \\implies H_1[j] = P_1[j], \\qquad r_j \\in [100p,\\, 99] \\implies H_1[j] = P_2[j]$$",
+              queEscriboEnHoja: "«Asigno ranuras $[00 - \\dots]$ al Padre 1 ($p = \\dots$) y $[\\dots - 99]$ al Padre 2 ($1-p = \\dots$). Evalúo cada locus con su aleatorio $r_j$ y construyo el segundo hijo mediante [genes no seleccionados / complemento binario del Hijo 1].»"
+            },
+            {
+              nro: 4,
+              titulo: "Mutación Simple vs. Adaptativa por Temperatura (Ascendente / Descendente)",
+              queHago: "En Mutación Simple, invertís únicamente el bit indicado ($0 \\leftrightarrow 1$). En **Temperatura**, recordá que en la cátedra **las generaciones arrancan en $t = 0$**! Aplicás la fórmula lineal **sin pasarte** de $[P_{\\min}, P_{\\max}]$. Si el enunciado aclara **reinicio cíclico** (caso `Alg_gen_Adapt_Temp.pdf`), primero hallás la longitud del ciclo $T = \\frac{P_{\\max}-P_{\\min}}{\\lambda} + 1$ y evaluás $t_{\\text{rel}} = t \\pmod{T}$.",
+              formula: "$$\\text{Asc: } p_m(t) = \\min(P_{\\max},\\; P_{\\min} + \\lambda \\cdot t_{\\text{rel}}) \\qquad \\text{Desc: } p_m(t) = \\max(P_{\\min},\\; P_{\\max} - \\lambda \\cdot t_{\\text{rel}})$$",
+              queEscriboEnHoja: "«Siendo $t=0$ la generación inicial, evalúo el esquema térmico [ascendente/descendente] con paso $\\lambda$ acotado al intervalo $[P_{\\min}, P_{\\max}]$ (con ciclo modular $T$ si reinicia al saturar).»"
+            },
+            {
+              nro: 5,
+              titulo: "Justificación conceptual: Temperatura vs. Convergencia",
+              queHago: "Si te preguntan si la Mutación por Temperatura (ascendente o descendente) mide la **homogeneidad de la población**, respondés con firmeza **NO**. Solo depende del contador temporal $t$; la que sí evalúa diversidad/similitud genética real es la **Mutación Adaptativa por Convergencia**.",
+              formula: "$$\\text{Temperatura } \\implies f(t) \\text{ (exógena)} \\qquad \\text{Convergencia } \\implies f(\\text{diversidad}) = \\frac{N_{\\text{distintos}}}{N_{\\text{total}}}$$",
+              queEscriboEnHoja: "«La mutación por temperatura NO evalúa la homogeneidad poblacional porque solo depende del número de generación $t$; el método que sí mide la diversidad real es la mutación adaptativa por convergencia.»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-AG-04",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "plantilla",
+          titulo: "Plantillas de Tablas para la Hoja en Blanco (Ruleta y Control de Copias / Ranking)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Columnas exactas de la presentación oficial (`SEM08-AlgGen_2024.pptx` Slide 14 y Guía TP-AG) para copiar directo en tu hoja.",
+          tablaPlantilla: {
+            tituloTabla: "1) Tabla de Selección por Ruleta [00–99] (Orden original o de población)",
+            columnas: [
+              "Individuo",
+              "Aptitud $f_i$",
+              "Norm. $p_i = \\frac{f_i}{\\sum f}$",
+              "Ranuras $\\text{round}(100 p_i)$",
+              "Asignación $[00\\text{–}99]$",
+              "Copias (Aleatorios)"
+            ],
+            filas: [
+              ["$I_1$", "$f_1$", "$f_1 / S$", "$R_1$", "$[00\\text{ a }(R_1-1)]$", "Contar cuántos $r_k$ caen aquí"],
+              ["$I_2 \\dots I_N$", "$f_i$", "$f_i / S$", "$R_i$", "$[\\text{Fin}_{i-1}+1\\text{ a }(\\text{Fin}_{i-1}+R_i)]$", "Anotar cuáles $r_k$ lo eligieron"],
+              ["**Control Total**", "$\\mathbf{\\sum f_i = S}$", "$\\mathbf{\\sum p_i = 1.00}$", "$\\mathbf{\\sum R_i = 100}$", "**Termina exacto en 99**", "**Total elegidos = $M$**"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "2) Tabla de Ranking Lineal / Control de Copias Esperadas",
+            columnas: [
+              "Orden $i$ (1=Mejor)",
+              "Individuo",
+              "Aptitud $f_i$",
+              "Copias $c_i$",
+              "Entera $\\lfloor c_i \\rfloor$",
+              "Decimal $d_i = c_i - \\lfloor c_i \\rfloor$",
+              "Extra (Orden / Ruleta $d_i$)",
+              "Total"
+            ],
+            filas: [
+              ["$1$ (Más apto)", "$I_{\\text{mejor}}$", "$\\max f$", "$2 - R_{\\min}$ (o $f/\\bar{f}$)", "$\\lfloor c_1 \\rfloor$", "$d_1$", "$+1$ si entra en $\\Delta N$", "Suma"],
+              ["$\\vdots$", "$\\dots$", "$\\dots$", "$\\dots$", "$\\dots$", "$\\dots$", "$\\dots$", "$\\dots$"],
+              ["$n$ (Menos apto)", "$I_{\\text{peor}}$", "$\\min f$", "$R_{\\min}$ (o $f/\\bar{f}$)", "$\\lfloor c_n \\rfloor$", "$d_n$", "$0$ o sorteo", "Suma"],
+              ["**Control Total**", "—", "$\\sum f_i$", "$\\mathbf{\\sum c_i = N}$", "$\\mathbf{N_{\\text{fijas}}}$", "$\\mathbf{\\sum d_i = N - N_{\\text{fijas}}}$", "$\\mathbf{\\Delta N = M - N_{\\text{fijas}}}$", "$\\mathbf{= M}$"]
+            ]
+          },
+          tipHoja: "💡 **Regla de control automático:** Antes de leer los aleatorios, verificá 3 sumas en tu tabla: en Ruleta $\\sum p_i = 1.00$ y $\\sum \\text{Ranuras} = 100$ (cerrando en `99`); en Control de Copias / Ranking $\\sum c_i = N$. Si algo no cierra, arreglalo antes de seguir!"
+        },
+        {
+          id: "PRAC-AG-05",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "formula",
+          titulo: "Flashcard 1: Fórmula Oficial de Selección por Ranking Lineal y Efecto de R_min",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Ordenaste la población de mayor a menor aptitud ($i=1$ el mejor, $i=n$ el peor). ¿Cuál es la fórmula de copias esperadas $c_i$ en Ranking Lineal, cuánto suman todos los $c_i$ y qué pasa si $R_{\\min} = 0$, $0.5$ o $1.0$?",
+          respuestaDorso: "**Fórmula oficial de cátedra (cantidad de copias esperadas):**\n$$c_i = R_{\\min} + 2 \\cdot \\frac{(n - i)(1 - R_{\\min})}{n - 1}, \\qquad i \\in \\{1, 2, \\dots, n\\}$$\n\n* **Verificación rápida en hoja:** El mejor recibe $c_1 = 2 - R_{\\min}$, el peor recibe $c_n = R_{\\min}$ y la suma total siempre da $\\sum_{i=1}^n c_i = n$.\n* *Nota:* Si algún ejercicio pide probabilidad $P(i)$ en lugar de copias $c_i$, dividís por $n$: $P(i) = c_i / n$.\n* **Interpretación de $R_{\\min}$:**\n  * **$R_{\\min} = 0$:** Máxima presión selectiva ($c_1 = 2$, $c_n = 0$).\n  * **$R_{\\min} = 0.5$:** Presión moderada ($c_1 = 1.5$, $c_n = 0.5$).\n  * **$R_{\\min} = 1.0$:** Presión nula / uniforme ($c_i = 1$ para todos los individuos)."
+        },
+        {
+          id: "PRAC-AG-06",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "formula",
+          titulo: "Flashcard 2: Control de Copias Esperadas y Criterios para la Parte Decimal",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo se calcula el número esperado de copias $c_i$ en Control de Copias y cuáles son las **2 formas** de repartir los cupos faltantes con la parte decimal $d_i$?",
+          respuestaDorso: "**Fórmula de copias esperadas:**\n$$\\bar{f} = \\frac{1}{N} \\sum_{j=1}^N f_j \\implies c_i = \\frac{f_i}{\\bar{f}} = N \\cdot \\frac{f_i}{\\sum f_j}$$\nDescomponemos $c_i = \\lfloor c_i \\rfloor + d_i$, asignamos primero la parte entera $\\lfloor c_i \\rfloor$ y quedan $\\Delta N = M - \\sum \\lfloor c_i \\rfloor$ cupos.\n\n* **Criterio A (Determinista — Guía Ej. 07 / Parcial 19-11-2025):** Se ordenan los restos $d_i$ de **mayor a menor** y se asigna 1 copia adicional a los primeros $\\Delta N$ mayores decimales.\n* **Criterio B (Estocástico — Guía Ej. 01-e / 07-b):** Se normalizan los decimales $P_i^{\\text{dec}} = \\frac{d_i}{\\sum d_k}$, se arma una **ruleta $[00\\text{–}99]$ con esas probabilidades** y se sortean los $\\Delta N$ cupos con los aleatorios dados."
+        },
+        {
+          id: "PRAC-AG-07",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "formula",
+          titulo: "Flashcard 3: Mutación Adaptativa por Temperatura — Estándar vs. Reinicio Cíclico",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Te dan $P_{\\min} = 0.001$, $P_{\\max} = 0.1$, $\\lambda = 0.001$ y arranca en $t = 0$. ¿Cómo calculás $p_m(200)$, $p_m(320)$ y $p_m(435)$ en esquema **estándar** vs. cuando el enunciado dice **«al alcanzar $P_{\\max}$, la siguiente toma $P_{\\min}$ y reinicia»** (`Alg_gen_Adapt_Temp`)?",
+          respuestaDorso: "* **Esquema Estándar (se estabiliza en el tope):**\n  * Temperatura Ascendente: $p_m(t) = \\min(P_{\\max},\\; P_{\\min} + \\lambda \\cdot t)$.\n  * Temperatura Descendente: $p_m(t) = \\max(P_{\\min},\\; P_{\\max} - \\lambda \\cdot t)$.\n  * Como se alcanza $P_{\\max} = 0.1$ en $t = \\frac{0.1 - 0.001}{0.001} = 99$, para $t \\ge 99$ quedaría fijo en $0.100$.\n* **Esquema con Reinicio Cíclico (trampa clásica de `Alg_gen_Adapt_Temp.pdf`):**\n  * De $t = 0$ a $t = 99$ hay exactamente **$T = 99 + 1 = 100$ generaciones por ciclo**. En $t = 100$ reinicia a $P_{\\min} = 0.001$.\n  * Usás aritmética modular $t_{\\text{rel}} = t \\pmod{100}$:\n    * $t = 200 \\implies t_{\\text{rel}} = 0 \\implies p_m(200) = 0.001 + 0.001(0) = \\mathbf{0.001}$\n    * $t = 320 \\implies t_{\\text{rel}} = 20 \\implies p_m(320) = 0.001 + 0.001(20) = \\mathbf{0.021}$\n    * $t = 435 \\implies t_{\\text{rel}} = 35 \\implies p_m(435) = 0.001 + 0.001(35) = \\mathbf{0.036}$"
+        },
+        {
+          id: "PRAC-AG-08",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "formula",
+          titulo: "Flashcard 4: Cruce Binomial (Ranuras y Hijo 2) + Problema Criptoaritmético (Ej. 08)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "1) En Cruce Binomial con $(p_P = 0.6, p_M = 0.4)$, ¿cómo armás las ranuras y las dos variantes del Hijo 2? 2) Si te piden modelar `SEND + MORE = MONEY` en AG (Ej. 08), ¿qué cromosoma, fitness y cruce proponés?",
+          respuestaDorso: "* **1) Cruce Binomial (`00-59` vs `60-99`):**\n  * Si $p_{\\text{Madre}} = 0.6$ $\\to$ ranuras `[00–59]`; $p_{\\text{Padre}} = 0.4$ $\\to$ ranuras `[60–99]`.\n  * Si $p = 0.5$ se llama **Cruce Uniforme**.\n  * **Segundo hijo — Variante A (genes no elegidos):** En cada bit $j$, si Hijo 1 tomó de Madre, Hijo 2 toma de Padre (ojo: si ambos padres tienen el mismo bit, Hijo 2 repite ese bit).\n  * **Segundo hijo — Variante B (complemento binario):** $H_2 = \\text{NOT}(H_1)$, invirtiendo cada bit de Hijo 1.\n* **2) Criptoaritmética (`SEND + MORE = MONEY` — Guía Ej. 08):**\n  * **Cromosoma:** Permutación de 10 posiciones con los dígitos `{0..9}` (8 letras únicas `S,E,N,D,M,O,R,Y` + 2 huecos/comodines; **restringiendo $S \\ne 0$ y $M \\ne 0$**).\n  * **Fitness:** Minimizar el error absoluto de la suma: $f = |(\\text{SEND} + \\text{MORE}) - \\text{MONEY}|$ (o maximizar $K - |\\dots|$), penalizando dígitos repetidos.\n  * **Cruce:** NO usar cruce binario clásico porque repite dígitos; usar **cruce basado en orden (OX / PMX / CX)** que preserva permutaciones sin dígitos duplicados."
+        },
+        {
+          id: "PRAC-AG-09",
+          tema: "ALGORITMOS_GENETICOS",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Clásicas de Examen en Algoritmos Genéticos",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Errores mecánicos y conceptuales que aparecen en parciales y recuperatorios de UTN FRRe.",
+          trampas: [
+            "**Arrancar en $t = 1$ en lugar de $t = 0$ en Mutación por Temperatura:** La cátedra fija explícitamente $t = 0$ para el valor inicial (`0 -> 0.001`, `99 -> 0.1`). Si contás desde $1$, te corrés 1 paso toda la tabla (y en ciclos de 100 te desfasás en `200`, `320`, `435`).",
+            "**Invertir el orden en Ranking Lineal:** Siempre se ordena de **MAYOR a MENOR** aptitud ($i=1$ es el mejor con $c_1 = 2 - R_{\\min}$, $i=n$ es el peor con $c_n = R_{\\min}$). Si ordenás ascendente, ¡le das más copias al peor!",
+            "**Numerar ranuras de Ruleta como `01–100` o solapar extremos:** La ruleta usa `[00–99]`. Si un individuo tiene 6 ranuras desde `00`, su intervalo es **`00–05`** (no `00–06`, que tendría 7 ranuras) y el siguiente arranca en **`06`**.",
+            "**Confundir los dos métodos de Hijo 2 en Cruce Binomial:** Obtener Hijo 2 con **genes no seleccionados** da un resultado distinto al **complemento binario del Hijo 1** en cualquier locus donde Padre y Madre tenían el mismo bit. Leé qué pide la consigna.",
+            "**Decir que Temperatura mide homogeneidad de la población:** FALSO de parcial. La Temperatura (Ascendente o Descendente) solo mira la generación $t$. La única que mide diversidad real de cromosomas es la **Mutación Adaptativa por Convergencia**.",
+            "**Cruzar o mutar a los individuos Elitistas:** Por definición de cátedra, los seleccionados por **elitismo** pasan directo e intactos a $t+1$ y **no participan ni de cruza ni de mutación**."
           ]
         }
       ]
