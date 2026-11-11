@@ -30,6 +30,7 @@
         <nav class="nav-tabs">
           <button class="nav-tab-btn active" id="tab-home" onclick="app.navigate('home')">Simulacro</button>
           <button class="nav-tab-btn" id="tab-practice" onclick="app.navigate('practice')">Práctica</button>
+          <button class="nav-tab-btn" id="tab-lab" onclick="app.navigate('lab')">🛠️ Práctica Guiada</button>
           <button class="nav-tab-btn" id="tab-history" onclick="app.navigate('history')">Historial</button>
           <button class="nav-tab-btn" id="tab-qa" onclick="app.navigate('qa')">Banco QA</button>
           <button class="nav-tab-btn" id="tab-community" onclick="app.navigate('community')">Comunidad 💬</button>
@@ -514,6 +515,32 @@
       </div>
     </section>
 
+    <!-- VIEW: PRACTICA GUIADA / LABORATORIO DE RESOLUCION (#lab) -->
+    <section id="view-lab" class="view-section">
+      <div class="lab-isolation-banner">
+        <div class="lab-isolation-badge">🛠️ ENTRENAMIENTO PRÁCTICO DE RESOLUCIÓN · NO SON PREGUNTAS DE PARCIAL</div>
+        <p class="lab-isolation-note">
+          Este módulo <strong>no se mezcla</strong> con el banco teórico de parciales/Moodle (<a href="#qa" onclick="app.navigate('qa'); return false;">Banco QA</a> ni <a href="#home" onclick="app.navigate('home'); return false;">Simulacro</a>).
+          Reúne algoritmos paso a paso, qué justificar en la hoja, fórmulas clave, plantillas de tablas, trampas de cálculo y diagramas para resolver la práctica sin errores.
+        </p>
+      </div>
+
+      <div id="lab-roadmap-strip" class="lab-roadmap-strip"></div>
+
+      <div id="lab-topic-bar" class="lab-topic-bar"></div>
+
+      <div id="lab-topic-header" class="lab-topic-header card"></div>
+
+      <div class="lab-controls-bar">
+        <div id="lab-type-filters" class="lab-type-filters"></div>
+        <button id="lab-reveal-all-btn" class="btn btn-outline btn-sm" onclick="app.toggleAllFlashcards()">
+          👁️ Revelar todas las fórmulas
+        </button>
+      </div>
+
+      <div id="lab-content-container" class="lab-content-container"></div>
+    </section>
+
   </main>
 
   <!-- Modal: Confirm Finish Exam -->
@@ -597,6 +624,7 @@
 
   <!-- Data Script (Loaded synchronously to avoid CORS in file://) -->
   <script src="data/preguntas.js"></script>
+  <script src="data/entrenamiento_practico.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>

@@ -50,6 +50,13 @@
     qaSelectedTopic: "ALL",
     qaSelectedYear: "ALL",
 
+    // Práctica Guiada / Laboratorio de Resolución (#lab) State
+    labData: null,
+    labSelectedTopic: null,
+    labSelectedType: "ALL",
+    labRevealedCards: new Set(),
+    labCompletedSteps: new Set(),
+
     // Community & Feedback State
     currentFeedbackQuestion: null,
 
@@ -98,8 +105,9 @@
       // 4. Check for stored failed questions
       this.updateFailedButtonVisibility();
 
-      // 5. Build practice topics
+      // 5. Build practice topics and guided practical lab (#lab)
       this.initPracticeMode();
+      this.initLabMode();
 
       // 6. Bind keyboard shortcuts for active exam
       this.bindKeyboardShortcuts();
@@ -107,7 +115,7 @@
       // 7. Check URL hash for direct routing and listen to back/forward/hash changes
       const handleHashRoute = () => {
         const hash = window.location.hash.replace("#", "").toLowerCase();
-        if (["home", "practice", "history", "qa", "community"].includes(hash)) {
+        if (["home", "practice", "lab", "history", "qa", "community"].includes(hash)) {
           if (this.currentView !== hash) {
             this.navigate(hash);
           }
@@ -378,6 +386,8 @@
         this.renderQAMode();
       } else if (viewName === "practice") {
         this.renderPracticeQuestion();
+      } else if (viewName === "lab") {
+        this.renderLabView();
       } else if (viewName === "community") {
         this.initCommunityView();
       }
@@ -1591,6 +1601,374 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         alert("No se pudo copiar automáticamente. Por favor seleccioná el texto manualmente.");
       }
       document.body.removeChild(ta);
+    },
+
+    // =============================================================
+    // VIEW: Práctica Guiada / Laboratorio de Resolución (#lab)
+    // =============================================================
+    initLabMode() {
+      this.labData = window.ENTRENAMIENTO_PRACTICO || null;
+      if (this.labData && Array.isArray(this.labData.temas) && this.labData.temas.length > 0) {
+        this.labSelectedTopic = this.labData.temas[0].id;
+      }
+      try {
+        const saved = JSON.parse(localStorage.getItem("ia_lab_steps") || "[]");
+        if (Array.isArray(saved)) {
+          this.labCompletedSteps = new Set(saved);
+        }
+      } catch (e) {
+        this.labCompletedSteps = new Set();
+      }
+    },
+
+    formatLabText(rawStr) {
+      if (!rawStr) return "";
+      let str = String(rawStr);
+      const mathBlocks = [];
+      const holdMath = (m) => {
+        const tok = `@@LAB_MATH_${mathBlocks.length}@@`;
+        mathBlocks.push(m);
+        return tok;
+      };
+      str = str.replace(/\$\$([\s\S]+?)\$\$/g, holdMath);
+      str = str.replace(/\$([^\$\n]+?)\$/g, holdMath);
+      str = str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      mathBlocks.forEach((m, idx) => {
+        str = str.replace(`@@LAB_MATH_${idx}@@`, m);
+      });
+      return this.formatRichText(str);
+    },
+
+    selectLabTopic(topicId) {
+      this.labSelectedTopic = topicId;
+      this.labSelectedType = "ALL";
+      this.renderLabView();
+    },
+
+    setLabTypeFilter(tipo) {
+      this.labSelectedType = tipo;
+      this.renderLabView();
+    },
+
+    saveLabSteps() {
+      try {
+        localStorage.setItem("ia_lab_steps", JSON.stringify([...this.labCompletedSteps]));
+      } catch (e) {
+        // Ignore storage quota issues gracefully
+      }
+    },
+
+    toggleLabStep(itemId, stepNro) {
+      const key = `${itemId}:${stepNro}`;
+      if (this.labCompletedSteps.has(key)) {
+        this.labCompletedSteps.delete(key);
+      } else {
+        this.labCompletedSteps.add(key);
+      }
+      this.saveLabSteps();
+      const scrollY = window.scrollY;
+      this.renderLabView();
+      window.scrollTo(0, scrollY);
+    },
+
+    resetLabAlgorithmSteps(itemId) {
+      for (const key of [...this.labCompletedSteps]) {
+        if (key.startsWith(`${itemId}:`)) {
+          this.labCompletedSteps.delete(key);
+        }
+      }
+      this.saveLabSteps();
+      const scrollY = window.scrollY;
+      this.renderLabView();
+      window.scrollTo(0, scrollY);
+    },
+
+    getVisibleLabItems(tema) {
+      if (!tema || !Array.isArray(tema.items)) return [];
+      if (this.labSelectedType === "ALL") return tema.items;
+      return tema.items.filter((it) => it.tipo === this.labSelectedType);
+    },
+
+    updateRevealAllBtnState(visibleItems) {
+      const btn = document.getElementById("lab-reveal-all-btn");
+      if (!btn) return;
+      const formulaItems = (visibleItems || []).filter((it) => it.tipo === "formula");
+      if (formulaItems.length === 0) {
+        btn.style.display = "none";
+        return;
+      }
+      btn.style.display = "inline-flex";
+      const allRevealed = formulaItems.every((it) => this.labRevealedCards.has(it.id));
+      btn.textContent = allRevealed ? "🙈 Ocultar todas las fórmulas" : "👁️ Revelar todas las fórmulas";
+    },
+
+    toggleFlashcard(itemId) {
+      if (this.labRevealedCards.has(itemId)) {
+        this.labRevealedCards.delete(itemId);
+      } else {
+        this.labRevealedCards.add(itemId);
+      }
+      const card = document.querySelector(`.lab-flashcard[data-lab-id="${itemId}"]`);
+      if (card) {
+        const back = card.querySelector(".lab-flashcard-back");
+        const btn = card.querySelector(".lab-flashcard-toggle");
+        const isOpen = this.labRevealedCards.has(itemId);
+        if (back) back.classList.toggle("hidden", !isOpen);
+        if (btn) btn.textContent = isOpen ? "🙈 Ocultar fórmula" : "👁️ Revelar fórmula";
+      }
+      const tema = (this.labData?.temas || []).find((t) => t.id === this.labSelectedTopic);
+      this.updateRevealAllBtnState(this.getVisibleLabItems(tema));
+    },
+
+    toggleAllFlashcards() {
+      if (!this.labData) return;
+      const tema = this.labData.temas.find((t) => t.id === this.labSelectedTopic) || this.labData.temas[0];
+      const formulaItems = this.getVisibleLabItems(tema).filter((it) => it.tipo === "formula");
+      if (formulaItems.length === 0) return;
+
+      const allRevealed = formulaItems.every((it) => this.labRevealedCards.has(it.id));
+      formulaItems.forEach((it) => {
+        if (allRevealed) {
+          this.labRevealedCards.delete(it.id);
+        } else {
+          this.labRevealedCards.add(it.id);
+        }
+        const card = document.querySelector(`.lab-flashcard[data-lab-id="${it.id}"]`);
+        if (card) {
+          const back = card.querySelector(".lab-flashcard-back");
+          const btn = card.querySelector(".lab-flashcard-toggle");
+          if (back) back.classList.toggle("hidden", allRevealed);
+          if (btn) btn.textContent = allRevealed ? "👁️ Revelar fórmula" : "🙈 Ocultar fórmula";
+        }
+      });
+      this.updateRevealAllBtnState(this.getVisibleLabItems(tema));
+    },
+
+    renderLabView() {
+      const container = document.getElementById("lab-content-container");
+      const roadmapEl = document.getElementById("lab-roadmap-strip");
+      const topicBarEl = document.getElementById("lab-topic-bar");
+      const topicHeaderEl = document.getElementById("lab-topic-header");
+      const filtersEl = document.getElementById("lab-type-filters");
+      if (!container) return;
+
+      if (!this.labData || !Array.isArray(this.labData.temas) || this.labData.temas.length === 0) {
+        container.innerHTML = `<div class="card"><p>No se pudieron cargar los datos de Práctica Guiada (revisa <code>data/entrenamiento_practico.js</code>).</p></div>`;
+        return;
+      }
+
+      // 1. Roadmap strip (all 8 syllabus iterations)
+      if (roadmapEl && Array.isArray(this.labData.roadmap)) {
+        roadmapEl.innerHTML = this.labData.roadmap.map((r, idx) => {
+          const isReady = r.estado === "completo";
+          const icon = isReady ? `✅ Iter. ${idx + 1}` : `⏳ Iter. ${idx + 1}`;
+          const clickAttr = isReady ? `onclick="app.selectLabTopic('${r.id}')"` : `title="Se agregará en la Iteración ${idx + 1} del plan"`;
+          return `<span class="lab-roadmap-pill ${isReady ? "complete" : "pending"}" ${clickAttr}>${icon} · ${r.nombre}</span>`;
+        }).join("");
+      }
+
+      // 2. Active topic selection bar
+      const activeTema = this.labData.temas.find((t) => t.id === this.labSelectedTopic) || this.labData.temas[0];
+      this.labSelectedTopic = activeTema.id;
+
+      if (topicBarEl) {
+        topicBarEl.innerHTML = this.labData.temas.map((t) => `
+          <button class="lab-topic-btn ${t.id === activeTema.id ? "active" : ""}" onclick="app.selectLabTopic('${t.id}')">
+            <span>${t.icono || "🛠️"}</span>
+            <span>${t.nombre}</span>
+          </button>
+        `).join("");
+      }
+
+      // 3. Topic Header + Checklist Progress
+      const totalSteps = activeTema.items.reduce((acc, it) => acc + (Array.isArray(it.pasos) ? it.pasos.length : 0), 0);
+      const doneSteps = activeTema.items.reduce((acc, it) => {
+        if (!Array.isArray(it.pasos)) return acc;
+        return acc + it.pasos.filter((p) => this.labCompletedSteps.has(`${it.id}:${p.nro}`)).length;
+      }, 0);
+
+      if (topicHeaderEl) {
+        topicHeaderEl.innerHTML = `
+          <div class="lab-topic-header-top">
+            <h2 class="lab-topic-title"><span>${activeTema.icono || "🛠️"}</span> ${activeTema.nombre}</h2>
+            <span class="badge badge-lab-nature">${activeTema.badge || "SOLO PRÁCTICA · NO ES PARCIAL"}</span>
+          </div>
+          <div class="lab-topic-meta">
+            <span class="lab-meta-chip">⚖️ Ponderación típica: ${activeTema.ponderacion || "N/A"}</span>
+            <span class="lab-meta-chip">⏱️ Tiempo sugerido: ${activeTema.tiempoSugerido || "N/A"}</span>
+            <span class="lab-meta-chip progress">☑️ Pasos practicados: ${doneSteps} / ${totalSteps}</span>
+          </div>
+          <div class="lab-topic-objetivo">${this.formatLabText(activeTema.objetivo)}</div>
+        `;
+      }
+
+      // 4. Type Filters with counts
+      const filterDefs = [
+        { id: "ALL", label: "Todos", icon: "📚" },
+        { id: "algoritmo", label: "Algoritmos", icon: "🔢" },
+        { id: "formula", label: "Fórmulas / Flashcards", icon: "📐" },
+        { id: "plantilla", label: "Plantillas", icon: "📋" },
+        { id: "diagrama", label: "Diagramas", icon: "🖼️" },
+        { id: "trampa", label: "Trampas", icon: "⚠️" }
+      ];
+      if (filtersEl) {
+        filtersEl.innerHTML = filterDefs.map((f) => {
+          const count = f.id === "ALL"
+            ? activeTema.items.length
+            : activeTema.items.filter((it) => it.tipo === f.id).length;
+          if (f.id !== "ALL" && count === 0) return "";
+          const activeClass = this.labSelectedType === f.id ? "active" : "";
+          return `<button class="lab-filter-pill ${activeClass}" onclick="app.setLabTypeFilter('${f.id}')">${f.icon} ${f.label} (${count})</button>`;
+        }).join("");
+      }
+
+      // 5. Render visible items
+      const visibleItems = this.getVisibleLabItems(activeTema);
+      this.updateRevealAllBtnState(visibleItems);
+      container.innerHTML = visibleItems.map((item) => this.renderLabItemCard(item)).join("");
+
+      // 6. Trigger KaTeX math rendering across all cards
+      this.renderMath(container);
+      if (topicHeaderEl) this.renderMath(topicHeaderEl);
+    },
+
+    renderLabItemCard(item) {
+      const TYPE_META = {
+        diagrama: { label: "Diagrama Ilustrativo", icon: "🖼️", extraClass: "" },
+        algoritmo: { label: "Algoritmo Paso a Paso", icon: "🔢", extraClass: "" },
+        plantilla: { label: "Plantilla de Hoja", icon: "📋", extraClass: "" },
+        formula: { label: "Flashcard de Fórmula", icon: "📐", extraClass: "lab-flashcard" },
+        trampa: { label: "Trampas de Cálculo", icon: "⚠️", extraClass: "lab-trap-card" }
+      };
+      const meta = TYPE_META[item.tipo] || { label: item.tipo, icon: "📌", extraClass: "" };
+      const natureLabel = item.etiquetaNaturaleza || "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL";
+
+      let bodyHtml = "";
+      if (item.tipo === "diagrama") bodyHtml = this.renderLabDiagramBody(item);
+      else if (item.tipo === "algoritmo") bodyHtml = this.renderLabAlgorithmBody(item);
+      else if (item.tipo === "plantilla") bodyHtml = this.renderLabPlantillaBody(item);
+      else if (item.tipo === "formula") bodyHtml = this.renderLabFormulaBody(item);
+      else if (item.tipo === "trampa") bodyHtml = this.renderLabTrampaBody(item);
+
+      return `
+        <article class="lab-card ${meta.extraClass}" data-lab-id="${item.id}">
+          <div class="lab-card-header">
+            <div class="lab-card-badges">
+              <span class="badge-lab-id">${item.id}</span>
+              <span class="badge-lab-type">${meta.icon} ${meta.label}</span>
+              <span class="badge-lab-nature">🛠️ ${natureLabel}</span>
+            </div>
+          </div>
+          <h3 class="lab-card-title">${this.formatLabText(item.titulo)}</h3>
+          ${item.resumen ? `<div class="lab-card-resumen">${this.formatLabText(item.resumen)}</div>` : ""}
+          ${bodyHtml}
+        </article>
+      `;
+    },
+
+    renderLabDiagramBody(item) {
+      const notes = (item.notasClave || []).map((n) => `
+        <div class="lab-note-item">${this.formatLabText(n)}</div>
+      `).join("");
+      return `
+        <div class="lab-svg-wrap">${item.svgDiagram || ""}</div>
+        ${notes ? `<div class="lab-notes-list">${notes}</div>` : ""}
+      `;
+    },
+
+    renderLabAlgorithmBody(item) {
+      const pasos = item.pasos || [];
+      const doneCount = pasos.filter((p) => this.labCompletedSteps.has(`${item.id}:${p.nro}`)).length;
+      const stepsHtml = pasos.map((p) => {
+        const isDone = this.labCompletedSteps.has(`${item.id}:${p.nro}`);
+        return `
+          <div class="lab-step-item ${isDone ? "done" : ""}">
+            <div class="lab-step-header">
+              <label class="lab-step-check-label">
+                <input type="checkbox" class="lab-step-checkbox" ${isDone ? "checked" : ""} onchange="app.toggleLabStep('${item.id}', ${p.nro})" />
+                <span class="lab-step-num">Paso ${p.nro}</span>
+                <span>${this.formatLabText(p.titulo)}</span>
+              </label>
+            </div>
+            <div class="lab-step-body">
+              <div><strong>🧠 Qué hago:</strong> ${this.formatLabText(p.queHago)}</div>
+              ${p.formula ? `<div class="lab-formula-box">${this.formatLabText(p.formula)}</div>` : ""}
+              ${p.queEscriboEnHoja ? `
+                <div class="lab-paper-quote">
+                  <span class="lab-paper-quote-label">✍️ Qué escribo en la hoja</span>
+                  <div>${this.formatLabText(p.queEscriboEnHoja)}</div>
+                </div>
+              ` : ""}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="lab-algo-toolbar">
+          <span class="lab-algo-progress">Checklist de práctica: ${doneCount} / ${pasos.length} pasos completados</span>
+          ${doneCount > 0 ? `<button class="btn btn-outline btn-sm" onclick="app.resetLabAlgorithmSteps('${item.id}')">↺ Reiniciar pasos</button>` : ""}
+        </div>
+        <div class="lab-steps-list">${stepsHtml}</div>
+      `;
+    },
+
+    renderLabTableBlock(tbl) {
+      if (!tbl || !Array.isArray(tbl.columnas)) return "";
+      const thead = tbl.columnas.map((c) => `<th>${this.formatLabText(c)}</th>`).join("");
+      const tbody = (tbl.filas || []).map((row) => {
+        const cells = row.map((cell) => `<td>${this.formatLabText(cell)}</td>`).join("");
+        return `<tr>${cells}</tr>`;
+      }).join("");
+      return `
+        <div class="lab-table-block">
+          ${tbl.tituloTabla ? `<h4 class="lab-table-title">${this.formatLabText(tbl.tituloTabla)}</h4>` : ""}
+          <div class="lab-table-wrap">
+            <table class="lab-table">
+              <thead><tr>${thead}</tr></thead>
+              <tbody>${tbody}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    },
+
+    renderLabPlantillaBody(item) {
+      const tipHtml = item.tipHoja
+        ? (String(item.tipHoja).trim().startsWith("💡")
+            ? `<div class="lab-tip-box">${this.formatLabText(item.tipHoja)}</div>`
+            : `<div class="lab-tip-box"><strong>💡 Tip de hoja:</strong> ${this.formatLabText(item.tipHoja)}</div>`)
+        : "";
+      return `
+        ${this.renderLabTableBlock(item.tablaPlantilla)}
+        ${this.renderLabTableBlock(item.tablaPlantilla2)}
+        ${tipHtml}
+      `;
+    },
+
+    renderLabFormulaBody(item) {
+      const isOpen = this.labRevealedCards.has(item.id);
+      return `
+        <div class="lab-flashcard-front">${this.formatLabText(item.preguntaFrente)}</div>
+        <div class="lab-flashcard-actions">
+          <button class="btn btn-primary btn-sm lab-flashcard-toggle" onclick="app.toggleFlashcard('${item.id}')">
+            ${isOpen ? "🙈 Ocultar fórmula" : "👁️ Revelar fórmula"}
+          </button>
+        </div>
+        <div class="lab-flashcard-back ${isOpen ? "" : "hidden"}">
+          ${this.formatLabText(item.respuestaDorso)}
+        </div>
+      `;
+    },
+
+    renderLabTrampaBody(item) {
+      const listHtml = (item.trampas || []).map((t) => `
+        <div class="lab-trap-item">
+          <span class="lab-trap-icon">🚨</span>
+          <div>${this.formatLabText(t)}</div>
+        </div>
+      `).join("");
+      return `<div class="lab-trap-list">${listHtml}</div>`;
     }
   };
 
