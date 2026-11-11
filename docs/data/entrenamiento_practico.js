@@ -13,7 +13,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "completo" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "completo" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "completo" },
-    { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "pendiente" },
+    { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "completo" },
     { id: "CLUSTERING", nombre: "Clustering y K-Means", estado: "pendiente" }
   ],
   temas: [
@@ -1696,6 +1696,266 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Calcular $\\text{dist}(W_i, W_{j^*})$ con los pesos ya actualizados $W_{j^*}(t+1)$:** Dentro de un mismo patrón, tanto la distancia competitiva como las distancias entre neuronas para $h$ se evalúan usando el estado actual $W(t)$ **antes** de aplicar $\\Delta W$.",
             "**Invertir el orden de la resta a (w_ji - x_i):** Poner el peso primero invierte el vector dirección y **aleja** la neurona del patrón presentado en vez de atraerla. Recordá siempre: *Entrada menos Peso* $(x_i - w_{ji})$.",
             "**Dibujar nodo bias x₀ = 1 o cruzar los subíndices w_ji en el esquema:** SOM no lleva bias en la capa de entrada, y cada flecha que entra a la salida $W_j$ desde $x_i$ se rotula $w_{ji}$ (componente $i$ del vector $W_j$)."
+          ]
+        }
+      ]
+    },
+
+    // =========================================================================
+    // TEMA 7: K-NEAREST NEIGHBORS (KNN) Y LEAVE-ONE-OUT (LOOCV)
+    // =========================================================================
+    {
+      id: "KNN",
+      nombre: "K-Nearest Neighbors y LOOCV",
+      badge: "Aprendizaje Lazy · Votación Simple/Ponderada y K Óptimo",
+      icono: "📍",
+      ponderacion: "20%–25% típico · Cuentas simples pero exige precisión con LOOCV y ponderación",
+      tiempoSugerido: "20–25 min",
+      objetivo: "Clasificar nuevas consultas con KNN mayoritario o ponderado (1/d, 1/d², 1/(1+d²)), armar la tabla simétrica de distancias para elegir K* mediante Leave-One-Out Cross-Validation y resolver el caso teórico K = m + n.",
+      items: [
+        {
+          id: "PRAC-KNN-01",
+          tema: "KNN",
+          tipo: "diagrama",
+          titulo: "Vecindad Radial (Simple vs Ponderado) y Validación Leave-One-Out (LOOCV)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "KNN no entrena un modelo previo (lazy evaluation): guarda todas las instancias y clasifica según los K vecinos más cercanos. Con ponderación por distancia, un vecino muy cercano puede derrotar a varios vecinos más lejanos.",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparación de KNN simple vs ponderado con círculos de vecindad y flujo Leave-One-Out">
+  <defs>
+    <marker id="knn-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="knn-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <text x="186" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">1. VECINDAD RADIAL: SIMPLE VS PONDERADO</text>
+  <text x="568" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">2. LEAVE-ONE-OUT CROSS-VALIDATION (LOOCV)</text>
+
+  <!-- Radio exterior K=3 y radio interior K=1 -->
+  <circle cx="176" cy="134" r="92" fill="rgba(16,185,129,0.06)" stroke="#10b981" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <circle cx="176" cy="134" r="46" fill="rgba(56,189,248,0.08)" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 3"/>
+
+  <text x="272" y="72" text-anchor="start" fill="#34d399" font-size="11" font-weight="700">K = 3</text>
+  <text x="224" y="108" text-anchor="start" fill="#38bdf8" font-size="11" font-weight="700">K = 1</text>
+
+  <!-- Punto consulta x_q -->
+  <polygon points="172,125 180,134 172,143 164,134" fill="#f8fafc" stroke="#38bdf8" stroke-width="2"/>
+  <text x="166" y="159" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">x_q</text>
+
+  <!-- Vecino 1 muy cercano (Clase A) -->
+  <circle cx="198" cy="126" r="7" fill="#38bdf8" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="200" y="148" text-anchor="middle" class="svg-label-muted" font-size="9.5">P₁(A)</text>
+
+  <!-- Vecinos 2 y 3 más lejanos (Clase B) -->
+  <rect x="104" y="96" width="14" height="14" rx="2" fill="#f59e0b" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="72" y="91" text-anchor="middle" fill="#fbbf24" font-size="10">P₂(B) d=2,0</text>
+
+  <rect x="116" y="182" width="14" height="14" rx="2" fill="#f59e0b" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="86" y="210" text-anchor="middle" fill="#fbbf24" font-size="10">P₃(B) d=2,5</text>
+
+  <!-- Punto 4 fuera de K=3 -->
+  <circle cx="304" cy="186" r="7" fill="#38bdf8" opacity="0.55" stroke="#94a3b8" stroke-width="1.2"/>
+  <text x="304" y="206" text-anchor="middle" class="svg-label-muted" font-size="10">P₄(A) fuera</text>
+
+  <!-- Nota izquierda -->
+  <rect x="16" y="252" width="340" height="76" rx="8" class="svg-note-bg"/>
+  <text x="186" y="273" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">Con K = 3 vecinos, la ponderación invierte el fallo:</text>
+  <text x="186" y="292" text-anchor="middle" fill="#fbbf24" font-size="10.5">Simple: Clase B = 2 votos vs A = 1  → Gana B</text>
+  <text x="186" y="311" text-anchor="middle" fill="#34d399" font-size="10.5" font-weight="700">Ponderado (1/d²): A = 100 vs B = 0,41  → Gana A</text>
+
+  <!-- Separador vertical -->
+  <line x1="370" y1="18" x2="370" y2="334" stroke="rgba(148,163,184,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Flujo derecho LOOCV -->
+  <rect x="388" y="42" width="166" height="52" rx="8" class="svg-node svg-node-in"/>
+  <text x="471" y="64" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">1. Aislar pᵢ (Prueba)</text>
+  <text x="471" y="82" text-anchor="middle" class="svg-label-muted" font-size="10">Quedan N − 1 puntos</text>
+
+  <line x1="556" y1="68" x2="584" y2="68" stroke="#38bdf8" stroke-width="2" marker-end="url(#knn-arrow)"/>
+
+  <rect x="588" y="42" width="156" height="52" rx="8" class="svg-node svg-node-hidden"/>
+  <text x="666" y="64" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">2. Simetría dᵢⱼ = dⱼᵢ</text>
+  <text x="666" y="82" text-anchor="middle" class="svg-label-muted" font-size="10">Diagonal (dᵢᵢ) prohibida</text>
+
+  <line x1="666" y1="96" x2="666" y2="124" stroke="#38bdf8" stroke-width="2" marker-end="url(#knn-arrow)"/>
+
+  <rect x="388" y="128" width="356" height="54" rx="8" class="svg-node svg-node-out"/>
+  <text x="566" y="149" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">3. Clasificar pᵢ usando K vecinos más próximos</text>
+  <text x="566" y="168" text-anchor="middle" class="svg-label-muted" font-size="10.5">Repetir para i = 1..N  →  Comparar predicción vs clase real</text>
+
+  <line x1="566" y1="184" x2="566" y2="210" stroke="#10b981" stroke-width="2" marker-end="url(#knn-arrow-green)"/>
+
+  <!-- Caja inferior LOOCV -->
+  <rect x="388" y="214" width="356" height="114" rx="8" class="svg-note-bg"/>
+  <text x="566" y="236" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">4. Elegir K* con menor tasa de error LOOCV</text>
+  <text x="566" y="257" text-anchor="middle" class="svg-node-text" font-size="11">E_LOOCV(K) = (Cantidad de Errores) / N</text>
+  <text x="566" y="280" text-anchor="middle" class="svg-label-muted" font-size="10.5">Solo calculás N(N−1)/2 pares de distancias una vez</text>
+  <text x="566" y="302" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="600">En binario usar K impares (1, 3, 5) para evitar empates</text>
+</svg>`,
+          notasClave: [
+            "**Algoritmo perezoso (lazy):** No existe etapa de entrenamiento ni ecuación de frontera previa; todo cálculo ocurre recién al llegar $\\mathbf{x}_q$.",
+            "**Tres pesos ponderados en cátedra:** $1/d$ y $1/d^2$ (Guía TP) y $1/(1+d^2)$ (para evitar división por cero cuando un punto coincide con $\\mathbf{x}_q$).",
+            "**Diagonal excluida en LOOCV:** Al validar $\\mathbf{x}_i$, nunca puede figurar $\\mathbf{x}_i$ mismo entre sus $K$ vecinos."
+          ]
+        },
+        {
+          id: "PRAC-KNN-02",
+          tema: "KNN",
+          tipo: "algoritmo",
+          titulo: "Algoritmo Paso a Paso: KNN Mayoritario Simple y KNN Ponderado",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Procedimiento completo para clasificar una nueva instancia x_q dada una tabla de entrenamiento y un parámetro K.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Calcular la distancia euclídea entre x_q y todas las instancias",
+              queHago: "Tomo el punto nuevo $\\mathbf{x}_q$ y calculo su distancia euclídea a **todos** los $N$ ejemplos del conjunto de entrenamiento (escribiendo la raíz cuadrada en la hoja).",
+              formula: "$$d(\\mathbf{x}_q, \\mathbf{x}_i) = \\sqrt{\\sum_{r=1}^{D} \\big(a_r(\\mathbf{x}_q) - a_r(\\mathbf{x}_i)\\big)^2}$$",
+              queEscriboEnHoja: "Paso 1 — Distancias a x_q = (...): d(x_q, p_1) = √(...) = ...; d(x_q, p_2) = ... [listo las N instancias]."
+            },
+            {
+              nro: 2,
+              titulo: "Ordenar las instancias de menor a mayor distancia y tomar las K primeras",
+              queHago: "Asigno el orden $1^{\\circ}, 2^{\\circ}, \\dots, N^{\\circ}$ desde la distancia más pequeña hasta la más grande y selecciono el subconjunto $V_K$ de los $K$ vecinos más cercanos con sus respectivas etiquetas $f(\\mathbf{x}_i)$.",
+              formula: "$$d_{(1)} \\le d_{(2)} \\le \\dots \\le d_{(K)} \\le \\dots \\le d_{(N)} \\quad\\Longrightarrow\\quad V_K = \\{\\mathbf{x}_{(1)}, \\dots, \\mathbf{x}_{(K)}\\}$$",
+              queEscriboEnHoja: "Paso 2 — Selección K = ... vecinos más cercanos: 1° p_a (d=..., Clase ...), 2° p_b (d=..., Clase ...), ..."
+            },
+            {
+              nro: 3,
+              titulo: "Asignar pesos w_i (solo si es KNN Ponderado)",
+              queHago: "- **Si es KNN Simple:** cada vecino seleccionado vale $w_i = 1$.\n- **Si es KNN Ponderado:** calculo el peso inverso de cada uno de los $K$ vecinos usando la función pedida en el enunciado: $1/d$, $1/d^2$ o $1/(1+d^2)$.",
+              formula: "$$w_i = 1 \\;\\text{(Simple)} \\quad \\bigg| \\quad w_i = \\frac{1}{d_i} \\;\\text{ ó }\\; w_i = \\frac{1}{d_i^2} \\;\\text{ ó }\\; w_i = \\frac{1}{1 + d_i^2}$$",
+              queEscriboEnHoja: "Paso 3 — Ponderación w_i = ...: w_(1) = ..., w_(2) = ..., ... [con 3 decimales]."
+            },
+            {
+              nro: 4,
+              titulo: "Sumar votos / puntajes por clase y decidir por arg max",
+              queHago: "Aplico la función indicadora $\\delta(v, f(\\mathbf{x}_i))$ acumulada por cada clase candidata $v \\in V$. Asigno a $\\mathbf{x}_q$ la clase con mayor suma (de conteo o de pesos $w_i$).",
+              formula: "$$\\hat{f}(\\mathbf{x}_q) = \\arg\\max_{v \\in V} \\sum_{i \\in V_K} w_i\\,\\delta\\big(v, f(\\mathbf{x}_i)\\big), \\qquad \\delta(a,b) = \\begin{cases} 1 & a=b \\\\ 0 & a\\neq b \\end{cases}$$",
+              queEscriboEnHoja: "Paso 4 — Votación: Para Clase A = sum(...) = ...; Para Clase B = sum(...) = ... . Como Score(...) es mayor, x_q se clasifica en Clase ..."
+            }
+          ]
+        },
+        {
+          id: "PRAC-KNN-03",
+          tema: "KNN",
+          tipo: "algoritmo",
+          titulo: "Algoritmo LOOCV para Elegir el K Óptimo (Validación Cruzada en Papel)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo encontrar el parámetro K óptimo en los puntos 02 y 04 de la Guía TP sin duplicar cuentas innecesariamente.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Construir la matriz simétrica de distancias por pares (N(N−1)/2 cálculos)",
+              queHago: "Como $d(p_i, p_j) = d(p_j, p_i)$, calculo solo el triángulo superior de distancias entre puntos distintos, dejando vacía/tachada la diagonal ($i=j$, porque el punto de prueba queda excluido).",
+              formula: "$$d(p_i, p_j) = d(p_j, p_i), \\qquad i \\neq j \\quad\\Longrightarrow\\quad \\text{solo } \\frac{N(N-1)}{2} \\text{ pares}$$",
+              queEscriboEnHoja: "Tabla de distancias entre pares (simétrica, sin autovecino): d(p1,p2)=..., d(p1,p3)=..., ..."
+            },
+            {
+              nro: 2,
+              titulo: "Listar para cada instancia p_i su ranking de N − 1 vecinos",
+              queHago: "En cada columna $p_i$, ordeno de arriba hacia abajo sus vecinos del $1^{\\circ}$ más cercano al $(N-1)^{\\circ}$ más lejano.",
+              formula: "$$\\text{Columna } p_i: \\; \\big[p_{(1)}^{(i)},\\; p_{(2)}^{(i)},\\; \\dots,\\; p_{(N-1)}^{(i)}\\big]$$",
+              queEscriboEnHoja: "Ranking de cercanía por punto excluido: Col p_1 -> [1° ..., 2° ...]; Col p_2 -> [1° ..., 2° ...]..."
+            },
+            {
+              nro: 3,
+              titulo: "Evaluar aciertos y tasa de error para cada K candidato",
+              queHago: "Para cada $K$ solicitado (por ej. $K \\in \\{1, 3, 5\\}$ o $1..N-1$), tomo los primeros $K$ vecinos de cada columna, determino qué clase predicen para $p_i$, la comparo contra su clase verdadera y cuento aciertos y errores.",
+              formula: "$$E_{\\text{LOOCV}}(K) = \\frac{\\text{Cantidad de Errores}(K)}{N}, \\qquad \\text{Precisión}(K) = \\frac{\\text{Aciertos}(K)}{N}$$",
+              queEscriboEnHoja: "Evaluación K=1: p1->ok, p2->ok... Aciertos = .../N, Error = .../N. Repito para K=3 y K=5."
+            },
+            {
+              nro: 4,
+              titulo: "Seleccionar K* óptimo (mínimo error LOOCV)",
+              queHago: "Elijo el $K$ con **menor tasa de error LOOCV** (máxima precisión). Si hay empate entre varios $K$, se suele preferir el menor $K$ impar que evite empates de votación.",
+              formula: "$$K^* = \\arg\\min_{K} E_{\\text{LOOCV}}(K)$$",
+              queEscriboEnHoja: "Conclusión: El valor óptimo es K* = ... porque minimiza el error LOOCV (E = .../N)."
+            }
+          ]
+        },
+        {
+          id: "PRAC-KNN-04",
+          tema: "KNN",
+          tipo: "plantilla",
+          titulo: "Plantilla de Hoja en Blanco: KNN Ponderado + LOOCV (Parcial IA-H0122)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Modelo completo con puntos p_1(1,2,+1), p_2(2,3,+1), p_3(2,1,+1), p_4(4,2,-1), p_5(5,3,-1), p_6(5,1,-1) clasificando x_0 = (3, 2) con K = 3 y w_i = 1 / (1 + d²).",
+          tablaPlantilla: {
+            tituloTabla: "Tabla 1 — Clasificación de x_0 = (3, 2) con K = 3 y w_i = 1 / (1 + d²)",
+            columnas: ["Instancia (Clase)", "d(x_0, p_i)", "Orden", "¿En K=3?", "Peso w_i = 1 / (1 + d²)", "Aporte por Clase"],
+            filas: [
+              ["p_4 (4, 2) [−1]", "√1 = 1,000", "1°", "✅ Sí", "1 / (1 + 1) = 0,500", "Score(−1) += 0,500"],
+              ["p_2 (2, 3) [+1]", "√2 ≈ 1,414", "2°", "✅ Sí", "1 / (1 + 2) = 0,333", "Score(+1) += 0,333"],
+              ["p_3 (2, 1) [+1]", "√2 ≈ 1,414", "3°", "✅ Sí", "1 / (1 + 2) = 0,333", "Score(+1) += 0,333"],
+              ["p_1 (1, 2) [+1]", "√4 = 2,000", "4°", "No", "—", "Descartado"],
+              ["p_5 (5, 3) [−1]", "√5 ≈ 2,236", "5°", "No", "—", "Descartado"],
+              ["p_6 (5, 1) [−1]", "√5 ≈ 2,236", "6°", "No", "—", "Descartado"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "Tabla 2 — Resumen Final y Control LOOCV (K = 1 sobre los 6 puntos)",
+            columnas: ["Evaluación", "Comparación de Puntajes / Vecinos", "Resultado", "Verificación"],
+            filas: [
+              ["Decisión x_0 = (3,2)", "Score(+1) = 0,666  vs  Score(−1) = 0,500", "Clase +1", "Dos vecinos (+1) superan a p_4 (−1)"],
+              ["LOOCV (K=1)", "p_1→p_2(+1), p_2→p_1(+1), p_3→p_1(+1), p_4→p_5(−1), p_5→p_4(−1), p_6→p_4(−1)", "6/6 Aciertos", "E_LOOCV(K=1) = 0 / 6 = 0%"]
+            ]
+          },
+          tipHoja: "💡 Truco de tiempo en LOOCV: para N = 6 instancias no hagas 30 cuentas de distancia. Armá 15 pares en un triángulo superior (p1-p2, p1-p3... hasta p5-p6) y leé cada fila/columna para armar el ranking."
+        },
+        {
+          id: "PRAC-KNN-05",
+          tema: "KNN",
+          tipo: "formula",
+          titulo: "Flashcard 1: Regla Matemática de KNN Simple vs Ponderado",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo se formaliza la regla de decisión de KNN Simple y KNN Ponderado en las diapositivas de la cátedra?",
+          respuestaDorso: "Con la función delta de Kronecker $\\delta(a, b) = 1$ si $a=b$ (y $0$ si $a \\neq b$):\n- **KNN Simple:** $\\hat{f}(\\mathbf{x}_q) \\leftarrow \\arg\\max_{v \\in V} \\sum_{i=1}^{K} \\delta\\big(v, f(\\mathbf{x}_i)\\big)$.\n- **KNN Ponderado:** $\\hat{f}(\\mathbf{x}_q) \\leftarrow \\arg\\max_{v \\in V} \\sum_{i=1}^{K} w_i\\,\\delta\\big(v, f(\\mathbf{x}_i)\\big)$."
+        },
+        {
+          id: "PRAC-KNN-06",
+          tema: "KNN",
+          tipo: "formula",
+          titulo: "Flashcard 2: Las Tres Variantes de Pesos w_i en KNN Ponderado",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Qué tres fórmulas de ponderación aparecen en la Guía TP y parciales, y cuál evita la división por cero?",
+          respuestaDorso: "1. **Inversa de distancia (Guía TP 03):** $w_i = \\dfrac{1}{d(\\mathbf{x}_q, \\mathbf{x}_i)}$.\n2. **Inversa del cuadrado (Diapositivas y TP 03):** $w_i = \\dfrac{1}{d(\\mathbf{x}_q, \\mathbf{x}_i)^2}$ *(más agresiva con los cercanos)*.\n3. **Inversa suavizada (Parciales):** $w_i = \\dfrac{1}{1 + d(\\mathbf{x}_q, \\mathbf{x}_i)^2}$ — **única que evita indeterminación** si $d = 0$ (cuando $\\mathbf{x}_q$ coincide exactamente con un dato, da $w_i = 1$)."
+        },
+        {
+          id: "PRAC-KNN-07",
+          tema: "KNN",
+          tipo: "formula",
+          titulo: "Flashcard 3: Tasa de Error Leave-One-Out (LOOCV)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo se define el error LOOCV para un candidato K y cuántos pares de distancias únicos exige una tabla de N puntos?",
+          respuestaDorso: "Para cada $i = 1, \\dots, N$, se clasifica $\\mathbf{x}_i$ usando los **$N - 1$** puntos restantes:\n$$E_{\\text{LOOCV}}(K) = \\frac{\\text{Cantidad de clasificaciones erróneas con } K}{N}, \\qquad K^* = \\arg\\min_K E_{\\text{LOOCV}}(K)$$\nPor simetría $d(\\mathbf{x}_i, \\mathbf{x}_j) = d(\\mathbf{x}_j, \\mathbf{x}_i)$, solo necesitás calcular $\\dfrac{N(N-1)}{2}$ distancias distintas."
+        },
+        {
+          id: "PRAC-KNN-08",
+          tema: "KNN",
+          tipo: "formula",
+          titulo: "Flashcard 4: Caso Teórico Crítico K = m + n (Parcial IA-H0076)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Con dos clases A (m ejemplos) y B (n ejemplos) y KNN ponderado w_i = 1/(1+d²) usando K = m + n, ¿qué ocurre si m > n, m < n y m = n?",
+          respuestaDorso: "- **Si $m > n$:** tiende a clasificar como **Clase $A$** por acumulación mayoritaria de muchos sumandos positivos.\n- **Si $m < n$:** tiende a clasificar como **Clase $B$** por volumen muestral.\n- **Si $m = n$:** las cantidades están equilibradas, se anula el sesgo de tamaño y decide **estrictamente la proximidad espacial** (los $w_i$ más altos)."
+        },
+        {
+          id: "PRAC-KNN-09",
+          tema: "KNN",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Mortales de KNN y LOOCV en el Parcial",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Errores de procedimiento o de aritmética que más hacen perder puntos en ejercicios de KNN.",
+          trampas: [
+            "**Incluir al propio punto p_i como vecino suyo en LOOCV:** Al validar $p_i$, queda fuera del entrenamiento. Si dejás la diagonal $d(p_i, p_i)=0$, $K=1$ acierta 100% por trampa e invalida la elección de $K^*$.",
+            "**Olvidar sumar los pesos w_i en KNN Ponderado:** Calcular $w_i$ pero terminar sumando $1 + 1 + 0$ en la ecuación de clase (error frecuente al copiar rápido la plantilla de KNN simple) cambia por completo el ganador.",
+            "**Dividir por cero con w_i = 1/d² cuando d = 0:** Si la consulta cae sobre un punto existente del dataset ($d=0$), en $1/d^2$ queda indefinido (se asigna esa clase o se usa $1/(1+d^2)$ que da $w=1$).",
+            "**Elegir K par en problemas de 2 clases:** Como sucede con $K=6$ en TP 01 ($3$ votos Clase 0 vs $3$ votos Clase 1), un $K$ par puede producir empates sin ganador claro. Usá preferentemente $K$ impares.",
+            "**Confundir 'menor distancia' con 'menor peso':** El vecino $1^{\\circ}$ más próximo tiene la **menor** distancia $d$ y por lo tanto el **mayor** peso $w_i$. Ordená primero por $d$ ascendente.",
+            "**No mostrar los cálculos de √(...) cuando los números parecen obvios:** En la hoja de examen la cátedra evalúa que escribas la expresión euclídea $\\sqrt{(x_1 - y_1)^2 + \\dots}$ al menos en las primeras instancias y listes todas las $N$ distancias antes de elegir los $K$ mejores."
           ]
         }
       ]
