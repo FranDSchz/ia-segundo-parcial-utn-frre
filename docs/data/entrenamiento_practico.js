@@ -10,7 +10,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "MLP_PERCEPTRON", nombre: "MLP, Perceptrón y ADALINE", estado: "completo" },
     { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "completo" },
     { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "completo" },
-    { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "pendiente" },
+    { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "completo" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "pendiente" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "pendiente" },
     { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "pendiente" },
@@ -264,7 +264,7 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Flashcard 4: Tabla de Errores (Entrenamiento, Validación, Test) — Early Stopping",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           preguntaFrente: "Te dan una tabla con Error de Entrenamiento, Error de Validación y Error de Test desde I₁₁ hasta I₂₀ (como el Ej. 02 de la guía). ¿Cómo elegís la iteración exacta para detener el entrenamiento?",
-          respuestaDorso: "Se mira **primero la fila de Error de Validación** (no la de Entrenamiento ni Test para decidir el corte).\n\n* Mientras el **Error de Validación** baja junto con el de entrenamiento, la red sigue generalizando bien.\n* En el instante en que el Error de Validación **alcanza su mínimo y en la iteración siguiente empieza a subir** (mientras entrenamiento sigue bajando), comenzó el **sobreajuste (*overfitting*)**.\n* **Qué escribir en la hoja:** «Se debe detener el entrenamiento en la iteración $I_k$ (la del mínimo de validación), ya que a partir de $I_{k+1}$ el error de validación crece mientras el de entrenamiento sigue descendiendo, evidenciando sobreajuste (*overfitting*).»\n* *Nota:* Si el ejercicio aclara expresamente «no se utiliza error de validación», recién ahí comparás **$E_G \\le E_{\\text{mínimo aceptable}}$**."
+          respuestaDorso: "Se mira **primero la fila de Error de Validación** (no la de Entrenamiento ni Test para decidir el corte).\n\n* Mientras el **Error de Validación** baja junto con el de entrenamiento, la red sigue generalizando bien.\n* En el instante en que el Error de Validación **alcanza su mínimo y en la iteración siguiente empieza a subir** (mientras entrenamiento sigue bajando), comenzó el **sobreajuste (overfitting)**.\n* **Qué escribir en la hoja:** «Se debe detener el entrenamiento en la iteración $I_k$ (la del mínimo de validación), ya que a partir de $I_{k+1}$ el error de validación crece mientras el de entrenamiento sigue descendiendo, evidenciando sobreajuste (*overfitting*).»\n* *Nota:* Si el ejercicio aclara expresamente «no se utiliza error de validación», recién ahí comparás **$E_G \\le E_{\\text{mínimo aceptable}}$**."
         },
         {
           id: "PRAC-MLP-09",
@@ -843,6 +843,305 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Doble signo negativo cuando $\\mu < 0$ o $x < 0$:** En $(x_i - \\mu_{ik})^2$, si $x = 1.6$ y $\\mu = -3.0$ (Guía Ej. 01), la diferencia es $(1.6 - (-3.0))^2 = (4.6)^2$, **no** $(1.6 - 3.0)^2$.",
             "**Comparar mal potencias negativas de 10:** Un alumno distraído ve `7.29 > 1.96` y no mira el exponente: $9.70 \\times 10^{-7}$ es **cientos de miles de veces MAYOR** que $7.29 \\times 10^{-12}$.",
             "**Omitir calcular $N_k$ cuando el enunciado da porcentajes:** Si dice $T_1 (30\\%)$ de $125.000$ muestras, primero calculá $N_1 = 37.500$, verificá que la fila de frecuencias de $T_1$ sume $37.500$, y usá ese denominador en cada bin."
+          ]
+        }
+      ]
+    },
+    {
+      id: "SVM",
+      nombre: "Support Vector Machines (SVM) — Primal, Dual KKT y Margen",
+      badge: "SVM",
+      icono: "📐",
+      ponderacion: "20% – 25% del Parcial Práctico",
+      tiempoSugerido: "20 - 25 min en hoja",
+      objetivo: "Identificar Vectores de Soporte (α_i > 0), reconstruir el vector w y el sesgo promediado b_prom, trazar los hiperplanos H_0, H+ y H- con sus cortes de ejes, verificar soluciones propuestas (Guía Ej. 02) y plantear el Dual Lagrangiano L_D con restricciones KKT y Margen Blando C.",
+      items: [
+        {
+          id: "PRAC-SVM-01",
+          tema: "SVM",
+          tipo: "diagrama",
+          titulo: "Geometría de Hiperplanos (H₀, H⁺, H⁻), Margen Máximo M y Vectores de Soporte",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo visualizar en R² los 3 hiperplanos paralelos, la dirección perpendicular de w y qué puntos definen realmente la frontera (α_i > 0 vs α_i = 0).",
+          svgDiagram: `
+            <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama geometrico SVM con hiperplanos H0, H+, H-, margen 2/||w|| y vectores de soporte">
+              <defs>
+                <marker id="svm-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
+                </marker>
+                <marker id="svm-arrow-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+                </marker>
+              </defs>
+
+              <!-- Panel Izquierdo: Plano geometrico R^2 -->
+              <rect x="20" y="14" width="435" height="254" rx="10" class="svg-node svg-node-in"/>
+              <text x="237" y="36" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800">PLANO R²: SEPARACIÓN DE MARGEN MÁXIMO</text>
+
+              <!-- Ejes suaves -->
+              <line x1="65" y1="226" x2="425" y2="226" stroke="#475569" stroke-width="1.2"/>
+              <line x1="85" y1="54" x2="85" y2="246" stroke="#475569" stroke-width="1.2"/>
+              <text x="432" y="230" class="svg-label-muted" font-size="11">x₁</text>
+              <text x="85" y="48" text-anchor="middle" class="svg-label-muted" font-size="11">x₂</text>
+
+              <!-- H+ (+1) -->
+              <line x1="115" y1="74" x2="390" y2="174" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="6,4"/>
+              <text x="396" y="170" fill="#38bdf8" font-size="11" font-weight="700">H⁺ (= +1)</text>
+
+              <!-- H0 (= 0) -->
+              <line x1="95" y1="104" x2="364" y2="202" stroke="#f8fafc" stroke-width="2.5"/>
+              <text x="374" y="208" class="svg-node-text" font-size="11.5" font-weight="800">H₀ (= 0)</text>
+
+              <!-- H- (-1) -->
+              <line x1="75" y1="134" x2="355" y2="236" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="6,4"/>
+              <text x="360" y="246" fill="#fb7185" font-size="11" font-weight="700">H⁻ (= -1)</text>
+
+              <!-- Vector normal w -->
+              <line x1="168" y1="131" x2="188" y2="76" stroke="#fbbf24" stroke-width="2.4" marker-end="url(#svm-arrow)"/>
+              <text x="198" y="82" fill="#fbbf24" font-size="12" font-weight="800">w (⊥ H₀)</text>
+
+              <!-- Margen M = 2 / ||w|| -->
+              <line x1="274" y1="132" x2="254" y2="188" stroke="#10b981" stroke-width="2" marker-start="url(#svm-arrow-m)" marker-end="url(#svm-arrow-m)"/>
+              <rect x="275" y="140" width="95" height="22" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+              <text x="322" y="155" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">M = 2 / ||w||</text>
+
+              <!-- Puntos clase +1 -->
+              <circle cx="239" cy="119" r="7" fill="#38bdf8" stroke="#fbbf24" stroke-width="2.4"/>
+              <text x="239" y="106" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₁>0)</text>
+
+              <circle cx="310" cy="145" r="7" fill="#38bdf8" stroke="#fbbf24" stroke-width="2.4"/>
+              <text x="342" y="128" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₂>0)</text>
+
+              <circle cx="325" cy="76" r="6" fill="#0284c7" stroke="#94a3b8" stroke-width="1.4"/>
+              <text x="364" y="80" class="svg-label-muted" font-size="10">+1 (α=0)</text>
+
+              <!-- Puntos clase -1 -->
+              <rect x="172" y="166" width="13" height="13" rx="2" fill="#fb7185" stroke="#fbbf24" stroke-width="2.4"/>
+              <text x="206" y="196" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₃>0)</text>
+
+              <rect x="115" y="198" width="12" height="12" rx="2" fill="#e11d48" stroke="#94a3b8" stroke-width="1.4"/>
+              <text x="155" y="210" class="svg-label-muted" font-size="10">-1 (α=0)</text>
+
+              <!-- Panel Derecho: Reglas de decision rapida -->
+              <rect x="470" y="14" width="270" height="254" rx="10" class="svg-node svg-node-in"/>
+              <text x="605" y="38" text-anchor="middle" fill="#10b981" font-size="13" font-weight="800">CHEQUEO DE VALIDEZ (Ej. 02)</text>
+
+              <rect x="486" y="54" width="238" height="58" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8"/>
+              <text x="605" y="73" text-anchor="middle" fill="#38bdf8" font-size="11.5" font-weight="700">1. Equilibrio KKT obligatorio:</text>
+              <text x="605" y="91" text-anchor="middle" class="svg-node-text" font-size="11.5">Σ αᵢ yᵢ = 0   y   αᵢ ≥ 0</text>
+              <text x="605" y="105" text-anchor="middle" class="svg-label-muted" font-size="10">(Si no da 0, el resultado dado es erróneo)</text>
+
+              <rect x="486" y="122" width="238" height="64" rx="6" fill="rgba(16, 185, 129, 0.12)" stroke="#10b981"/>
+              <text x="605" y="141" text-anchor="middle" fill="#10b981" font-size="11.5" font-weight="700">2. Consistencia geométrica:</text>
+              <text x="605" y="159" text-anchor="middle" class="svg-node-text" font-size="11">• Los αᵢ > 0 deben caer SOBRE H⁺ / H⁻.</text>
+              <text x="605" y="175" text-anchor="middle" class="svg-node-text" font-size="11">• Los puntos con yᵢ=+1 arriba, yᵢ=-1 abajo.</text>
+
+              <rect x="486" y="196" width="238" height="58" rx="6" fill="rgba(251, 113, 133, 0.12)" stroke="#fb7185"/>
+              <text x="605" y="215" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">3. Ningún punto dentro de banda:</text>
+              <text x="605" y="233" text-anchor="middle" class="svg-node-text" font-size="11">yᵢ (wᵀxᵢ + b) ≥ 1  ∀i  (caso separable)</text>
+              <text x="605" y="247" text-anchor="middle" class="svg-label-muted" font-size="10">Si algún punto queda del lado opuesto ➔ Falla</text>
+
+              <!-- Regla inferior -->
+              <rect x="20" y="280" width="720" height="28" rx="6" class="svg-note-bg"/>
+              <text x="380" y="299" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="600">
+                Regla clave de cátedra: SOLO los puntos con αᵢ > 0 (Vectores de Soporte) participan en w, b_prom y definen el margen óptimo.
+              </text>
+            </svg>
+          `,
+          notasClave: [
+            "**Significado de $d(+)$ y $d(-)$:** Son la distancia ortogonal mínima desde el hiperplano central $H_0$ hasta el punto positivo más cercano ($H^+$) y negativo más cercano ($H^-$). Ambas miden $\\frac{1}{\\|\\mathbf{w}\\|}$, por lo que el margen total vale $M = \\frac{2}{\\|\\mathbf{w}\\|}$.",
+            "**¿Por qué maximizar el margen equivale a minimizar $\\frac{1}{2}\\|\\mathbf{w}\\|^2$?** Porque $M = 2/\\|\\mathbf{w}\\|$ crece cuando $\\|\\mathbf{w}\\|$ decrece, y minimizar $\\frac{1}{2}\\mathbf{w}^T\\mathbf{w}$ convierte el problema en una optimización cuadrática convexa derivable."
+          ]
+        },
+        {
+          id: "PRAC-SVM-02",
+          tema: "SVM",
+          tipo: "algoritmo",
+          titulo: "Variante A (80% Exámenes): Dados los α_i, hallar w, b_prom, Hiperplanos y Margen",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los 6 pasos exactos de la guía resuelta de cátedra (`guia_practica_svm.pdf` Págs. 4–9) para reconstruir el clasificador y validar soluciones.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Identificar Vectores de Soporte (αi > 0) y verificar Σ αi·yi = 0",
+              queHago: "Filtrás únicamente las filas con $\\alpha_i > 0$ (el resto son puntos interiores inactivos que **no entran** en ningún cálculo de $\\mathbf{w}$ ni de $b$). Como chequeo rápido KKT, verificás si $\\sum \\alpha_i y_i = 0$.",
+              formula: "$$SV = \\{\\mathbf{x}_i : \\alpha_i > 0\\} \\qquad \\text{Control KKT: } \\sum_{i \\in SV} \\alpha_i y_i = 0$$",
+              queEscriboEnHoja: "«Identifico como Vectores de Soporte únicamente los ejemplos con multiplicador $\\alpha_i > 0$ (descartando los de $\\alpha_i = 0$) y verifico la condición KKT $\\sum \\alpha_i y_i = 0$.»"
+            },
+            {
+              nro: 2,
+              titulo: "Calcular el Vector de Pesos w componente a componente",
+              queHago: "Escribís primero la sumatoria simbólica y luego sumás los productos $\\alpha_i \\cdot y_i \\cdot \\mathbf{x}_i$ componente a componente ($w_1$ y $w_2$). Atención al signo de $y_i = -1$ combinado con coordenadas negativas.",
+              formula: "$$\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i \\, y_i \\, \\mathbf{x}_i$$",
+              queEscriboEnHoja: "«Reconstruyo el vector de pesos $\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i y_i \\mathbf{x}_i$, obteniendo $\\mathbf{w} = [w_1,\\; w_2]^T$.»"
+            },
+            {
+              nro: 3,
+              titulo: "Calcular b_i en CADA Vector de Soporte y promediar (b_prom)",
+              queHago: "La cátedra escribe $b_i = \\frac{1}{y_i} - \\mathbf{w}^T \\mathbf{x}_i$ (que es idéntico a $y_i - \\mathbf{w}^T \\mathbf{x}_i$ porque $y_i \\in \\{+1, -1\\}$). Calculás **un $b_i$ por cada SV** ($\\alpha_i > 0$) y sacás el promedio $b_{\\text{prom}}$ (fundamental si los datos traen redondeo o pertenecen al Ej. 02).",
+              formula: "$$b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i \\qquad b_{\\text{prom}} = \\frac{1}{|SV|} \\sum_{i \\in SV} b_i$$",
+              queEscriboEnHoja: "«Por la condición $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$, calculo $b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$ para cada vector de soporte y tomo su promedio $b_{\\text{prom}} = \\frac{1}{|SV|} \\sum b_i$ para absorber posibles redondeos.»"
+            },
+            {
+              nro: 4,
+              titulo: "Escribir los Hiperplanos (H₀, H⁺, H⁻) y hallar cortes con los ejes",
+              queHago: "Armás las 3 ecuaciones reemplazando $\\mathbf{w}$ y $b_{\\text{prom}}$: $H_0 (=0)$, $H^+ (=+1)$ y $H^- (=-1)$. En cada recta evaluás **si $x_1 = 0 \\implies x_2 = \\dots$** y **si $x_2 = 0 \\implies x_1 = \\dots$** para dibujar las 3 líneas paralelas con precisión.",
+              formula: "$$H_0: w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = 0 \\qquad H^{\\pm}: w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = \\pm 1$$",
+              queEscriboEnHoja: "«Defino el hiperplano separador $H_0$ y los márgenes canónicos $H^+, H^-$, calculando sus intersecciones con ambos ejes coordenados para el trazado gráfico.»"
+            },
+            {
+              nro: 5,
+              titulo: "Graficar puntos y validar si la solución es correcta (caso Guía Ej. 02)",
+              queHago: "Dibujás todos los puntos (aunque tengan $\\alpha_i = 0$!). Si te preguntan si la solución obtenida es correcta, evaluás 3 cosas: (1) $\\sum \\alpha_i y_i = 0$, (2) los puntos con $\\alpha_i > 0$ caen sobre $H^+$ o $H^-$, y (3) ningún punto queda mal clasificado ni dentro del margen.",
+              formula: "$$\\text{Clasificación nueva muestra: } \\hat{y}(\\mathbf{x}) = \\operatorname{sgn}(\\mathbf{w}^T \\mathbf{x} + b_{\\text{prom}})$$",
+              queEscriboEnHoja: "«Al graficar el hiperplano, los márgenes y la totalidad de puntos de entrenamiento, verifico [que separa correctamente / que viola la separación o KKT porque el punto ... queda mal ubicado].»"
+            },
+            {
+              nro: 6,
+              titulo: "Calcular la Norma ||w|| y el Ancho Total del Margen M",
+              queHago: "Calculás $\\|\\mathbf{w}\\| = \\sqrt{\\mathbf{w}^T \\mathbf{w}} = \\sqrt{w_1^2 + w_2^2}$ y dividís $2$ por ese valor para reportar el margen de maximización completo $M$.",
+              formula: "$$\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2} \\qquad M = d(+) + d(-) = \\frac{2}{\\|\\mathbf{w}\\|}$$",
+              queEscriboEnHoja: "«Calculo la norma euclídea $\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2}$ y el margen geométrico máximo entre hiperplanos paralelos $M = 2 / \\|\\mathbf{w}\\|$.»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-SVM-03",
+          tema: "SVM",
+          tipo: "algoritmo",
+          titulo: "Variante B: Planteo del Lagrangiano Dual L_D, Matriz de Gram y Caso No Separable",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo armar paso a paso la función objetivo cuadrática L_D(α) y las restricciones KKT (Guía Ej. 01 y `Sem12-SVM`).",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Armar Matriz simétrica de Productos Internos (Gram) Kij = xiᵀ·xj",
+              queHago: "Para no equivocarte signos en la doble sumatoria, primero armás la tabla de productos escalares $K_{ij} = x_{i1} x_{j1} + x_{i2} x_{j2}$ (como $K_{ij} = K_{ji}$, calculás solo la triangular superior y diagonal).",
+              formula: "$$K_{ij} = \\langle \\mathbf{x}_i, \\mathbf{x}_j \\rangle = \\mathbf{x}_i^T \\mathbf{x}_j$$",
+              queEscriboEnHoja: "«Construyo la matriz de productos escalares $K_{ij} = \\mathbf{x}_i^T \\mathbf{x}_j$ para todos los pares de ejemplos de entrenamiento.»"
+            },
+            {
+              nro: 2,
+              titulo: "Desarrollar la doble sumatoria ½ ΣΣ αi αj yi yj Kij con signo y factor 2",
+              queHago: "En la diagonal ($i = j$), siempre vale $y_i^2 = +1$, quedando $\\frac{1}{2} K_{ii} \\alpha_i^2$. En los pares cruzados ($i < j$), como aparecen dos veces —$(i, j)$ y $(j, i)$— se cancela el $\\frac{1}{2}$ y queda **$y_i y_j K_{ij} \\alpha_i \\alpha_j$**. ¡Ojo al signo del producto $y_i y_j$!",
+              formula: "$$\\frac{1}{2}\\sum_i\\sum_j \\alpha_i \\alpha_j y_i y_j K_{ij} = \\frac{1}{2}\\sum_{i} K_{ii}\\alpha_i^2 + \\sum_{i < j} (y_i y_j K_{ij}) \\alpha_i \\alpha_j$$",
+              queEscriboEnHoja: "«Desarrollo el término cuadrático separando elementos diagonales ($y_i^2=1$) y términos cruzados duplicados por simetría, cuidando el signo de $y_i y_j$.»"
+            },
+            {
+              nro: 3,
+              titulo: "Escribir el Lagrangiano Dual L_D(α) a Maximizar",
+              queHago: "Recordá el signo menos delante de toda la parte cuadrática: $\\max_{\\boldsymbol{\\alpha}} L_D(\\boldsymbol{\\alpha}) = \\sum \\alpha_i - \\frac{1}{2}\\sum\\sum \\dots$. Distribuí bien el signo negativo al abrir paréntesis.",
+              formula: "$$\\max_{\\boldsymbol{\\alpha}} \\; L_D(\\boldsymbol{\\alpha}) = \\sum_{i=1}^N \\alpha_i - \\frac{1}{2} \\sum_{i=1}^N \\sum_{j=1}^N \\alpha_i \\alpha_j y_i y_j (\\mathbf{x}_i^T \\mathbf{x}_j)$$",
+              queEscriboEnHoja: "«Planteo la función objetivo dual $L_D(\\boldsymbol{\\alpha})$ a maximizar en función exclusivamente de los multiplicadores de Lagrange $\\alpha_i$.»"
+            },
+            {
+              nro: 4,
+              titulo: "Detallar todas las Restricciones KKT (Separable vs. Margen Blando C)",
+              queHago: "Escribís la igualdad $\\sum \\alpha_i y_i = 0$ explícita con $+1$ y $-1$ según la clase, y $\\alpha_i \\ge 0$ para todo $i$. Si el ejercicio menciona **margen blando / ruido / parámetro $C$**, la cota cambia a **$0 \\le \\alpha_i \\le C$**.",
+              formula: "$$\\text{s.a. } \\sum_{i=1}^N \\alpha_i y_i = 0, \\qquad \\alpha_i \\ge 0 \\; (\\text{o } 0 \\le \\alpha_i \\le C \\text{ en margen blando})$$",
+              queEscriboEnHoja: "«Establezco las restricciones KKT de igualdad $\\sum \\alpha_i y_i = 0$ y no negatividad $\\alpha_i \\ge 0$ (acotadas por $C$ en caso de margen blando).»"
+            },
+            {
+              nro: 5,
+              titulo: "Qué hacer si los datos NO son linealmente separables (Kernels y Holgura)",
+              queHago: "Si los datos presentan ruido o no admiten recta separadora en $\\mathbb{R}^2$, la cátedra plantea dos recursos complementarios: (a) **Margen blando** introduciendo variables de holgura $\\xi_i \\ge 0$ penalizadas por $C\\sum \\xi_i$, o (b) **Función Kernel** $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\langle \\Phi(\\mathbf{x}_i), \\Phi(\\mathbf{x}_j)\\rangle$ que mapea los datos a mayor dimensión donde sí son separables.",
+              formula: "$$\\min \\frac{1}{2}\\|\\mathbf{w}\\|^2 + C\\sum_{i=1}^N \\xi_i \\qquad \\text{ó} \\qquad \\mathbf{x}_i^T \\mathbf{x}_j \\mapsto \\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j) = \\Phi(\\mathbf{x}_i)^T\\Phi(\\mathbf{x}_j)$$",
+              queEscriboEnHoja: "«Ante datos no linealmente separables se permiten holguras $\\xi_i \\ge 0$ penalizadas por $C$ ($0 \\le \\alpha_i \\le C$), o bien se sustituye el producto interno por una función Kernel $\\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j)$ que proyecta a un espacio de mayor dimensión.»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-SVM-04",
+          tema: "SVM",
+          tipo: "plantilla",
+          titulo: "Plantillas para Hoja en Blanco (Tabla de SVs/Sesgos + Cortes de Hiperplanos)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Formato exacto para resolver cualquier ejercicio tipo Guía 02 o Parcial 2023 en papel con cero errores de índice.",
+          tablaPlantilla: {
+            tituloTabla: "1) Tabla de Reconstrucción de w y b_prom (solo usar filas con α_i > 0)",
+            columnas: [
+              "Punto",
+              "Vector $\\mathbf{x}_i = [x_1, x_2]$",
+              "$y_i$",
+              "$\\alpha_i$",
+              "¿Es SV?",
+              "Aporte a $\\mathbf{w}$: $\\alpha_i y_i \\mathbf{x}_i$",
+              "$\\mathbf{w}^T \\mathbf{x}_i$",
+              "$b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$"
+            ],
+            filas: [
+              ["$p_1$", "$[x_{11}, x_{12}]$", "$+1$", "$\\alpha_1 > 0$", "**Sí**", "$\\alpha_1(+1)\\mathbf{x}_1$", "$w_1 x_{11}+w_2 x_{12}$", "$1 - \\mathbf{w}^T p_1$"],
+              ["$p_2$", "$[x_{21}, x_{22}]$", "$-1$", "$\\alpha_2 > 0$", "**Sí**", "$\\alpha_2(-1)\\mathbf{x}_2$", "$w_1 x_{21}+w_2 x_{22}$", "$-1 - \\mathbf{w}^T p_2$"],
+              ["$p_k$", "$[x_{k1}, x_{k2}]$", "$\\pm 1$", "$0$", "No (omitir)", "$[0, 0]$", "—", "**No promediar**"],
+              ["**Totales**", "—", "—", "$\\sum \\alpha_i y_i = 0$", "$|SV|$ filas", "$\\mathbf{w} = [w_1, w_2]^T$", "—", "$b_{\\text{prom}} = \\frac{1}{|SV|}\\sum b_i$"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "2) Cortes con los Ejes para Graficar las 3 Rectas en R²",
+            columnas: [
+              "Hiperplano",
+              "Ecuación Cartesiana",
+              "Corte eje $x_2$ ($x_1 = 0$)",
+              "Corte eje $x_1$ ($x_2 = 0$)"
+            ],
+            filas: [
+              ["**Separador $H_0$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = 0$", "$x_2 = -b_{\\text{prom}} / w_2$", "$x_1 = -b_{\\text{prom}} / w_1$"],
+              ["**Margen $H^+$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = +1$", "$x_2 = (1 - b_{\\text{prom}}) / w_2$", "$x_1 = (1 - b_{\\text{prom}}) / w_1$"],
+              ["**Margen $H^-$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = -1$", "$x_2 = (-1 - b_{\\text{prom}}) / w_2$", "$x_1 = (-1 - b_{\\text{prom}}) / w_1$"]
+            ]
+          },
+          tipHoja: "💡 **Atajo al graficar en hoja:** Si un coeficiente ($w_1$ o $w_2$) da $0$, esa recta es horizontal o vertical ($x_k = \\text{cte}$). En caso general, calculá primero los dos cortes de $H_0$, unilos con regla, y trazá $H^+$ y $H^-$ paralelos usando sus propios cortes!"
+        },
+        {
+          id: "PRAC-SVM-05",
+          tema: "SVM",
+          tipo: "formula",
+          titulo: "Flashcard 1: Reconstrucción Primal (w, b_prom), Norma y Ancho del Margen M",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Te dan los multiplicadores óptimos $\\alpha_i$. ¿Cómo calculás $\\mathbf{w}$, $b_{\\text{prom}}$, las distancias $d^+$ y $d^-$, el margen total $M$ y cómo clasificás un nuevo punto $\\mathbf{x}_{\\text{nuevo}}$?",
+          respuestaDorso: "* **Vector de pesos $\\mathbf{w}$:**\n  $$\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i y_i \\mathbf{x}_i \\quad (\\text{sólo con } \\alpha_i > 0)$$\n* **Sesgo individual y promedio:**\n  $$b_i = \\frac{1}{y_i} - \\mathbf{w}^T \\mathbf{x}_i = y_i - \\mathbf{w}^T \\mathbf{x}_i, \\qquad b_{\\text{prom}} = \\frac{1}{|SV|} \\sum_{i \\in SV} b_i$$\n* **Distancias y Margen Geométrico Total:**\n  $$\\|\\mathbf{w}\\| = \\sqrt{\\mathbf{w}^T \\mathbf{w}} = \\sqrt{\\sum_k w_k^2}, \\qquad d^+ = d^- = \\frac{1}{\\|\\mathbf{w}\\|}, \\qquad M = d^+ + d^- = \\frac{2}{\\|\\mathbf{w}\\|}$$\n* **Regla de clasificación:**\n  $$f(\\mathbf{x}_{\\text{nuevo}}) = \\mathbf{w}^T \\mathbf{x}_{\\text{nuevo}} + b_{\\text{prom}} \\implies \\text{Clase } +1 \\text{ si } f \\ge 0,\\; \\text{Clase } -1 \\text{ si } f < 0$$"
+        },
+        {
+          id: "PRAC-SVM-06",
+          tema: "SVM",
+          tipo: "formula",
+          titulo: "Flashcard 2: Formulación Dual L_D(α) y las 3 Condiciones KKT",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Escribí de memoria el problema de optimización Dual Lagrangiano $L_D(\\boldsymbol{\\alpha})$ completo y las **3 condiciones de Karush-Kuhn-Tucker (KKT)** que exige la cátedra.",
+          respuestaDorso: "**Función Objetivo Dual (a Maximizar):**\n$$L_D(\\boldsymbol{\\alpha}) = \\sum_{i=1}^N \\alpha_i - \\frac{1}{2} \\sum_{i=1}^N \\sum_{j=1}^N \\alpha_i \\alpha_j y_i y_j (\\mathbf{x}_i^T \\mathbf{x}_j)$$\n\n**Las 3 Condiciones KKT:**\n1. **Estacionariedad / Equilibrio de pesos:** $\\sum_{i=1}^N \\alpha_i y_i = 0$ *(y $\\mathbf{w} = \\sum \\alpha_i y_i \\mathbf{x}_i$)*. \n2. **Factibilidad dual (no negatividad):** $\\alpha_i \\ge 0 \\; \\forall i$ *(si es Margen Blando: $0 \\le \\alpha_i \\le C$)*. \n3. **Holgura complementaria:** $\\alpha_i \\cdot [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0 \\; \\forall i$ *(implica que si $\\alpha_i > 0$, el punto DEBE estar sobre $H^+$ o $H^-$).* "
+        },
+        {
+          id: "PRAC-SVM-07",
+          tema: "SVM",
+          tipo: "formula",
+          titulo: "Flashcard 3: Cómo evaluar si una solución propuesta (Guía Ej. 02) es válida o errónea",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "En el Ejercicio 02 de la Guía TP-SVM te dan una tabla con 7 puntos, clases y valores $\\alpha_i$, y te piden *«grafique y explique si la solución obtenida es correcta»*. ¿Qué verificás paso a paso?",
+          respuestaDorso: "Seguís esta lista rápida de validación (como en `guia_practica_svm.pdf` Ej. 2.1 y 2.3):\n1. **Chequeo KKT algebraico inmediato:** Calculá $\\sum \\alpha_i y_i$. Si da distinto de $0$ (como en Ej. 2.1 donde $\\frac{1}{9} - \\frac{1}{3} + \\frac{5}{9} = \\frac{1}{3} \\ne 0$), **ya podés anticipar que es incorrecta** (aunque igual graficás $\\mathbf{w}, b_{\\text{prom}}, H_0, H^+, H^-$ si piden gráfico).\n2. **Chequeo de ubicación en $H_0, H^+, H^-$:** Verificá en el dibujo si los puntos con $\\alpha_i > 0$ caen sobre las líneas de margen ($y_i(\\mathbf{w}^T\\mathbf{x}_i + b) = 1$) y si la banda entre $H^+$ y $H^-$ queda libre.\n3. **Separación de clases:** Si un punto de clase $+1$ cae del lado negativo o viceversa (o puntos mezclados sin margen separable), la solución lineal hard-margin **no es válida**."
+        },
+        {
+          id: "PRAC-SVM-08",
+          tema: "SVM",
+          tipo: "formula",
+          titulo: "Flashcard 4: Caso No Linealmente Separable — Margen Blando (ξ_i, C) y Kernel Φ(x)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Qué cambia exactamente en la formulación primal y dual cuando los datos tienen ruido (Margen Blando), y qué hace conceptualmente una función Kernel $\\mathcal{K}$?",
+          respuestaDorso: "* **1) Margen Blando (Soft Margin):**\n  * Se agregan **variables de holgura** $\\xi_i \\ge 0$ a cada restricción: $y_i(\\mathbf{w}^T\\mathbf{x}_i + b) \\ge 1 - \\xi_i$.\n  * El objetivo primal suma el castigo por error: $\\min \\frac{1}{2}\\|\\mathbf{w}\\|^2 + C \\sum \\xi_i$.\n  * **Dato de oro para examen (`Slide 28`):** ¡En el **Dual**, $\\xi_i$ desaparece por completo! La fórmula de $L_D(\\boldsymbol{\\alpha})$ es **idéntica**, solo cambia la cota a **$0 \\le \\alpha_i \\le C$**.\n  * $C$ alto penaliza errores fuertemente (margen estrecho, riesgo de overfitting); $C$ bajo tolera más errores (margen más ancho).\n* **2) Truco del Kernel:**\n  * Mapea los vectores $\\mathbf{x} \\mapsto \\Phi(\\mathbf{x})$ a un espacio de mayor dimensión donde las clases sí sean linealmente separables, calculando $\\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j) = \\Phi(\\mathbf{x}_i)^T\\Phi(\\mathbf{x}_j)$ directamente en $L_D$ sin computar $\\Phi$ explícitamente."
+        },
+        {
+          id: "PRAC-SVM-09",
+          tema: "SVM",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Clásicas de Examen en Support Vector Machines (SVM)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Errores habituales de cálculo y signo al resolver SVM en hoja.",
+          trampas: [
+            "**Usar solo un $b_i$ sin promediar todos los Vectores de Soporte:** Cuando los $\\alpha_i$ vienen redondeados o son de prueba (`Ej. 02` o `Parcial 2023`), $b_1, b_2, b_3$ dan distintos. La cátedra exige promediar sobre todos los SVs: $b_{\\text{prom}} = \\frac{1}{|SV|}\\sum b_i$.",
+            "**Incluir puntos con $\\alpha_i = 0$ en el cálculo de $b_{\\text{prom}}$:** JAMÁS. Un punto con $\\alpha_i = 0$ está fuera del margen (`y_i(wᵀx_i + b) > 1`), NO cumple la igualdad $y_i(\\mathbf{w}^T\\mathbf{x}_i + b) = 1$, y arruinaría $b_{\\text{prom}}$.",
+            "**Poner $+1$ en vez de $y_i$ al despejar $b_i$:** Es $b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$. Si el vector de soporte es de clase negativa ($y_i = -1$), arrancás con **$-1 - \\mathbf{w}^T \\mathbf{x}_i$**, ¡nunca $1 - \\mathbf{w}^T \\mathbf{x}_i$!",
+            "**Confundir el ancho del margen $M$ con $d^+$:** La distancia del hiperplano central $H_0$ a un margen es $d^+ = \\frac{1}{\\|\\mathbf{w}\\|}$, pero el **margen total entre $H^+$ y $H^-$** es el doble: **$M = \\frac{2}{\\|\\mathbf{w}\\|}$**.",
+            "**Comerse el factor $2$ o errar el signo $y_i y_j$ en el Dual $L_D$:** Al expandir $\\frac{1}{2}\\sum_i\\sum_j$, cada par distinto $(i, j)$ aparece dos veces (`2 · 1/2 = 1`). Además, si $y_1 = +1$, $y_3 = -1$ y $K_{13} = -12$, entonces $-y_1 y_3 K_{13} = -(+1)(-1)(-12) = -12$, pero en $L_D = \\dots - Q$ cambia el signo de nuevo! Escribí primero $Q$ completo y después restalo.",
+            "**Olvidar que $\\|\\mathbf{w}\\|$ lleva raíz cuadrada:** La norma euclídea es $\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2}$, mientras que $\\mathbf{w}^T \\mathbf{w} = \\|\\mathbf{w}\\|^2$. Al dividir $M = 2 / \\|\\mathbf{w}\\|$, aplicá siempre la raíz cuadrada."
           ]
         }
       ]
