@@ -14,7 +14,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "completo" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "completo" },
     { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "completo" },
-    { id: "CLUSTERING", nombre: "Clustering y K-Means", estado: "pendiente" }
+    { id: "CLUSTERING", nombre: "Clustering y K-Means", estado: "completo" }
   ],
   temas: [
     {
@@ -1956,6 +1956,285 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Elegir K par en problemas de 2 clases:** Como sucede con $K=6$ en TP 01 ($3$ votos Clase 0 vs $3$ votos Clase 1), un $K$ par puede producir empates sin ganador claro. Usá preferentemente $K$ impares.",
             "**Confundir 'menor distancia' con 'menor peso':** El vecino $1^{\\circ}$ más próximo tiene la **menor** distancia $d$ y por lo tanto el **mayor** peso $w_i$. Ordená primero por $d$ ascendente.",
             "**No mostrar los cálculos de √(...) cuando los números parecen obvios:** En la hoja de examen la cátedra evalúa que escribas la expresión euclídea $\\sqrt{(x_1 - y_1)^2 + \\dots}$ al menos en las primeras instancias y listes todas las $N$ distancias antes de elegir los $K$ mejores."
+          ]
+        }
+      ]
+    },
+
+    // =========================================================================
+    // TEMA 8: CLUSTERING (K-MEANS Y JERÁRQUICO AGLOMERATIVO)
+    // =========================================================================
+    {
+      id: "CLUSTERING",
+      nombre: "Clustering y K-Means",
+      badge: "Particional (K-Means) · Jerárquico (Single/Complete/Average) y Dendrograma",
+      icono: "🫧",
+      ponderacion: "25% clásico · Average-Link ponderado y Dendrograma escalado son puntos clave",
+      tiempoSugerido: "20–25 min",
+      objetivo: "Ejecutar iteraciones tabuladas de K-Means hasta estabilizar centroides, reducir matrices de distancia con Single/Complete/Average Link sin caer en el error de cardinalidad y trazar dendrogramas con escala vertical exacta.",
+      items: [
+        {
+          id: "PRAC-CLU-01",
+          tema: "CLUSTERING",
+          tipo: "diagrama",
+          titulo: "Criterios de Enlace Jerárquico (Single / Complete / Average) y Dendrograma Escalado",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Mientras K-Means particiona en K grupos recalculando centroides en cada iteración, el clustering jerárquico aglomerativo fusiona paso a paso los dos clusters de menor distancia según Single-Link (mínimo), Complete-Link (máximo) o Average-Link (promedio de TODOS los pares cruzados).",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparativa geométrica de enlaces Single Complete Average y dendrograma escalado de Average-Link">
+  <defs>
+    <marker id="clu-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <text x="186" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">1. DISTANCIA ENTRE CLUSTERS A y B</text>
+  <text x="568" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">2. DENDROGRAMA ESCALADO (AVERAGE LINK)</text>
+
+  <!-- Cluster A (izquierda) y Cluster B (derecha) -->
+  <ellipse cx="96" cy="128" rx="54" ry="52" fill="rgba(56,189,248,0.08)" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="96" y="66" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Cluster A (|A|=2)</text>
+
+  <ellipse cx="276" cy="128" rx="54" ry="52" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="276" y="66" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Cluster B (|B|=2)</text>
+
+  <!-- Puntos en A y B -->
+  <circle cx="72" cy="106" r="7" fill="#38bdf8" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="72" y="94" text-anchor="middle" class="svg-label-muted" font-size="10">x₁</text>
+  <circle cx="122" cy="144" r="7" fill="#38bdf8" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="122" y="164" text-anchor="middle" class="svg-label-muted" font-size="10">x₂</text>
+
+  <circle cx="250" cy="144" r="7" fill="#10b981" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="250" y="164" text-anchor="middle" class="svg-label-muted" font-size="10">y₁</text>
+  <circle cx="300" cy="106" r="7" fill="#10b981" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="300" y="94" text-anchor="middle" class="svg-label-muted" font-size="10">y₂</text>
+
+  <!-- Líneas cruzadas internas suaves para Average Link (4 pares) -->
+  <line x1="72" y1="106" x2="250" y2="144" stroke="rgba(148,163,184,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <line x1="122" y1="144" x2="300" y2="106" stroke="rgba(148,163,184,0.45)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+  <!-- Línea Complete-Link (máxima: x1 <-> y2) -->
+  <line x1="79" y1="106" x2="293" y2="106" stroke="#f59e0b" stroke-width="2.2"/>
+  <text x="186" y="97" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="700">Complete (máx)</text>
+
+  <!-- Línea Single-Link (mínima: x2 <-> y1) -->
+  <line x1="129" y1="144" x2="243" y2="144" stroke="#38bdf8" stroke-width="2.4"/>
+  <text x="186" y="161" text-anchor="middle" fill="#38bdf8" font-size="10.5" font-weight="700">Single (mín)</text>
+
+  <text x="186" y="198" text-anchor="middle" class="svg-node-text" font-size="10.5" font-weight="600">Average = promedio de los |A|·|B| = 4 pares cruzados</text>
+
+  <!-- Caja izquierda K-Means -->
+  <rect x="16" y="218" width="340" height="112" rx="8" class="svg-note-bg"/>
+  <text x="186" y="239" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">K-Means (Particional · K fijo a priori)</text>
+  <text x="186" y="260" text-anchor="middle" class="svg-label-muted" font-size="10.5">1. Semillas μⱼ⁽⁰⁾ → 2. Asignar al μⱼ más cercano</text>
+  <text x="186" y="279" text-anchor="middle" class="svg-label-muted" font-size="10.5">3. Recalcular μⱼ = media de puntos en Cⱼ</text>
+  <text x="186" y="299" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="600">Para cuando no reasigna puntos (μ no cambia)</text>
+  <text x="186" y="317" text-anchor="middle" class="svg-label-muted" font-size="10">Si datos son categóricos sin media → usar K-Modes</text>
+
+  <!-- Separador vertical -->
+  <line x1="370" y1="18" x2="370" y2="334" stroke="rgba(148,163,184,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Eje vertical del Dendrograma (Parcial IA-H0075: 1.45, 1.98, 2.84, 6.11) -->
+  <line x1="422" y1="210" x2="422" y2="42" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#clu-arrow)"/>
+  <text x="415" y="42" text-anchor="end" class="svg-label-muted" font-size="10.5" font-weight="700">h</text>
+
+  <!-- Línea base y hojas A, N, R, S, P -->
+  <line x1="422" y1="210" x2="736" y2="210" stroke="#64748b" stroke-width="1.4"/>
+  <text x="466" y="226" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">A</text>
+  <text x="526" y="226" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">N</text>
+  <text x="586" y="226" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">R</text>
+  <text x="656" y="226" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">S</text>
+  <text x="716" y="226" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">P</text>
+
+  <!-- Nivel h1 = 1.45 (y = 175) : (A, N) -->
+  <line x1="418" y1="175" x2="426" y2="175" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="413" y="179" text-anchor="end" fill="#38bdf8" font-size="10" font-weight="700">1,45</text>
+  <polyline points="466,210 466,175 526,175 526,210" fill="none" stroke="#38bdf8" stroke-width="2.2"/>
+
+  <!-- Nivel h2 = 1.98 (y = 152) : (S, P) -->
+  <line x1="418" y1="152" x2="426" y2="152" stroke="#10b981" stroke-width="1.5"/>
+  <text x="413" y="156" text-anchor="end" fill="#34d399" font-size="10" font-weight="700">1,98</text>
+  <polyline points="656,210 656,152 716,152 716,210" fill="none" stroke="#10b981" stroke-width="2.2"/>
+
+  <!-- Nivel h3 = 2.84 (y = 120) : ((AN), R) -->
+  <line x1="418" y1="120" x2="426" y2="120" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="413" y="124" text-anchor="end" fill="#fbbf24" font-size="10" font-weight="700">2,84</text>
+  <polyline points="496,175 496,120 586,120 586,210" fill="none" stroke="#f59e0b" stroke-width="2.2"/>
+  <text x="541" y="112" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">(AN)R</text>
+
+  <!-- Nivel h4 = 6.11 (y = 64) : ((AN)R, SP) -->
+  <line x1="418" y1="64" x2="426" y2="64" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="413" y="68" text-anchor="end" class="svg-node-text" font-size="10" font-weight="700">6,11</text>
+  <polyline points="541,120 541,64 686,64 686,152" fill="none" stroke="#f8fafc" stroke-width="2.2"/>
+  <text x="614" y="55" text-anchor="middle" class="svg-node-text" font-size="10" font-weight="700">Raíz: 6 pares / 6</text>
+
+  <!-- Nota derecha trampa cardinalidad -->
+  <rect x="386" y="242" width="358" height="88" rx="8" class="svg-note-bg"/>
+  <text x="565" y="263" text-anchor="middle" fill="#f87171" font-size="11.5" font-weight="700">¡Trampa de Cardinalidad en h₄ = 6,11!</text>
+  <text x="565" y="283" text-anchor="middle" class="svg-label-muted" font-size="10.5">|(AN)R| = 3 elementos  y  |SP| = 2 elementos</text>
+  <text x="565" y="302" text-anchor="middle" fill="#34d399" font-size="10.5" font-weight="700">Correcto: (2·d(AN,SP) + 1·d(R,SP)) / 3 = 6,107</text>
+  <text x="565" y="320" text-anchor="middle" fill="#fbbf24" font-size="10">Prohibido dividir por 2 cuando |A| ≠ |B|</text>
+</svg>`,
+          notasClave: [
+            "**Dendrograma con escala:** Siempre graduá el eje vertical $h$ con las alturas numéricas exactas ($h_1 < h_2 < \\dots$) y dejá todas las hojas individuales en la línea base $h = 0$.",
+            "**Average Link ponderado:** Si un cluster tiene tamaño $|A|$ y se fusiona con otro de tamaño $|B|$, la fórmula recurrente pondera por $|A|$ y $|B|$ dividiendo por $|A|+|B|$ (equivale al promedio exacto de todos los pares originales cruzados).",
+            "**K-Means converge en meseta:** Necesitás verificar que en la iteración siguiente los puntos no cambien de cluster (o alcanzar las iteraciones pedidas en la consigna)."
+          ]
+        },
+        {
+          id: "PRAC-CLU-02",
+          tema: "CLUSTERING",
+          tipo: "algoritmo",
+          titulo: "Algoritmo Paso a Paso de K-Means (Particional + Heurística de Semillas)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los 4 pasos exactos para resolver K-Means a mano en tabla, incluyendo qué hacer si el enunciado no entrega semillas iniciales.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Fijar K semillas iniciales (dadas o por heurística oficial)",
+              queHago: "- Si el enunciado indica semillas (ej. $Seeds = I_2, I_3$), las copio como $\\boldsymbol{\\mu}_1^{(0)}, \\boldsymbol{\\mu}_2^{(0)}$.\n- Si el enunciado pide aplicar la **heurística de la cátedra** (`Guía TP 02`): calculo primero la media global $\\bar{\\mathbf{x}}$ de todo el dataset; tomo como $\\boldsymbol{\\mu}_1^{(0)}$ el punto **más lejano** a $\\bar{\\mathbf{x}}$, como $\\boldsymbol{\\mu}_2^{(0)}$ el **más lejano** a $\\boldsymbol{\\mu}_1^{(0)}$, y así sucesivamente.",
+              formula: "$$\\boldsymbol{\\mu}_1^{(0)}, \\dots, \\boldsymbol{\\mu}_K^{(0)} \\in \\mathbb{R}^D \\qquad (\\text{o } \\arg\\max \\|\\mathbf{x}_i - \\bar{\\mathbf{x}}\\| \\text{ si usa heurística})$$",
+              queEscriboEnHoja: "Iteración 0 — Semillas iniciales: C_1^(0) = μ_1 = (...), C_2^(0) = μ_2 = (...)."
+            },
+            {
+              nro: 2,
+              titulo: "Calcular distancias euclídeas y asignar cada instancia al centroide más cercano",
+              queHago: "Para cada instancia $\\mathbf{x}_i$, calculo $d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)})$ contra cada uno de los $K$ centroides y la asigno al cluster $C_j$ de **menor distancia**. (En Iteración 1, cada punto elegido como semilla está a distancia $0$ de sí mismo).",
+              formula: "$$d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)}) = \\sqrt{\\sum_{r=1}^{D} (x_{ir} - \\mu_{jr}^{(t)})^2}, \\qquad c(\\mathbf{x}_i) = \\arg\\min_j\\, d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)})$$",
+              queEscriboEnHoja: "Asignación Iteración t: tabla con d(I_i, C_1) y d(I_i, C_2). Marco en recuadro la menor distancia -> I_1 en C_1, I_2 en C_2..."
+            },
+            {
+              nro: 3,
+              titulo: "Recalcular los K centroides (media aritmética por componente)",
+              queHago: "Agrupo los puntos asignados a cada $C_j$ y promedio coordenada a coordenada. *(Nota: si el dataset tuviera atributos categóricos sin media posible, se reemplaza por **K-Modes** usando la moda)*.",
+              formula: "$$\\boldsymbol{\\mu}_j^{(t+1)} = \\frac{1}{|C_j|} \\sum_{\\mathbf{x}_i \\in C_j} \\mathbf{x}_i$$",
+              queEscriboEnHoja: "Nuevos centroides: C_1 tiene |C_1| puntos -> μ_1 = [sum x_1 / |C_1|; sum x_2 / |C_1|; ...] = (...). Repito para C_2."
+            },
+            {
+              nro: 4,
+              titulo: "Repetir y verificar criterio de parada (estabilidad o SSE)",
+              queHago: "Vuelvo al Paso 2 usando los nuevos centroides $\\boldsymbol{\\mu}_j^{(t+1)}$. Si ninguna instancia cambió de cluster (o los centroides permanecen idénticos $\\boldsymbol{\\mu}^{(t+1)} = \\boldsymbol{\\mu}^{(t)}$), **el algoritmo converge y finaliza** (minimización local de $SSE$).",
+              formula: "$$\\text{Parada: } \\boldsymbol{\\mu}_j^{(t+1)} = \\boldsymbol{\\mu}_j^{(t)} \\;\\forall j \\qquad \\Longleftrightarrow \\qquad SSE = \\sum_{j=1}^{K} \\sum_{\\mathbf{x} \\in C_j} \\|\\mathbf{x} - \\boldsymbol{\\mu}_j\\|^2$$",
+              queEscriboEnHoja: "Conclusión: En la iteración t+1 no hay reasignación de instancias (los centroides coinciden con los anteriores), por lo que el algoritmo converge y finaliza."
+            }
+          ]
+        },
+        {
+          id: "PRAC-CLU-03",
+          tema: "CLUSTERING",
+          tipo: "algoritmo",
+          titulo: "Algoritmo Clustering Jerárquico Aglomerativo (Single / Complete / Average + Dendrograma)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los 4 pasos tabulados para ir reduciendo matrices de distancia D_0 -> D_1 -> ... -> D_{N-2} sin confundir cardinalidades y dibujar el dendrograma.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Partir de la matriz inicial D_0 y localizar la mínima distancia no diagonal",
+              queHago: "Si dan puntos $\\mathbf{x}_i$ en $\\mathbb{R}^D$, calculo primero las $\\frac{N(N-1)}{2}$ distancias euclídeas por pares; si ya entregan $D_0$, la copio y rodeo con un círculo el **menor valor fuera de la diagonal principal**.",
+              formula: "$$(C_i^*, C_j^*) = \\arg\\min_{i \\neq j} d(C_i, C_j), \\qquad h_t = d(C_i^*, C_j^*)$$",
+              queEscriboEnHoja: "Paso 1: En D_0 la menor distancia es d(A, N) = 1,45. Se fusionan {A} y {N} formando (AN) a nivel h_1 = 1,45."
+            },
+            {
+              nro: 2,
+              titulo: "Actualizar filas/columnas hacia el nuevo cluster según el enlace pedido",
+              queHago: "Tacho las filas/columnas individuales fusionadas y creo la fila/columna del nuevo cluster $(C_i \\cup C_j)$. Calculo su distancia contra cada otro grupo $C_k$ aplicando el método asignado (¡en Average-Link ponderar SIEMPRE por $|C_i|$ y $|C_j|$ o sumar todos los $|C_i \\cup C_j| \\cdot |C_k|$ pares de $D_0$!).",
+              formula: "$$d(A \\cup B, C) = \\begin{cases} \\min\\{d(A,C),\\, d(B,C)\\} & \\text{Single-Link} \\\\ \\max\\{d(A,C),\\, d(B,C)\\} & \\text{Complete-Link} \\\\ \\dfrac{|A|\\,d(A,C) + |B|\\,d(B,C)}{|A| + |B|} & \\text{Average-Link (UPGMA)} \\end{cases}$$",
+              queEscriboEnHoja: "Cálculo explícito hacia (AN) (|AN|=2): d((AN), R) = (3,23+2,44)/2 = 2,835... Escribo la matriz reducida D_1."
+            },
+            {
+              nro: 3,
+              titulo: "Repetir reducción hasta llegar a matriz 2 × 2 (fusión raíz)",
+              queHago: "Repito los Pasos 1 y 2 sobre $D_1, D_2, \\dots$ registrando explícitamente el nivel $h_t$ de cada fusión y el cardinal acumulado de cada macro-cluster hasta unir los últimos dos grupos en la raíz.",
+              formula: "$$D_0\\,(N\\times N) \\longrightarrow D_1\\,((N-1)\\times(N-1)) \\longrightarrow \\dots \\longrightarrow D_{N-2}\\,(2\\times 2) \\;\\text{(altura raíz } h_{N-1}\\text{)}$$",
+              queEscriboEnHoja: "Paso final (D_3 de 2x2): se unen ((AN)R) (cardinal 3) y (SP) (cardinal 2) a nivel h_4 = (2*4,855 + 1*8,610)/3 = 6,107."
+            },
+            {
+              nro: 4,
+              titulo: "Dibujar el dendrograma con eje vertical escalado",
+              queHago: "Trazo un eje vertical graduado con escala acorde a los niveles $h_1, h_2, \\dots, h_{N-1}$. Ubico los $N$ elementos individuales en el nivel $0$ (reordenando horizontalmente para que **ninguna rama se cruce**) y dibujo cada puente horizontal exactamente a su altura $h_t$.",
+              formula: "$$h_1 \\le h_2 \\le \\dots \\le h_{N-1} \\qquad \\text{(monotonía garantizada en Single, Complete y Average)}$$",
+              queEscriboEnHoja: "Dendrograma: eje vertical con marcas 1,45; 1,98; 2,84; 6,11; hojas A, N, R, S, P ordenadas sin cruces de ramas."
+            }
+          ]
+        },
+        {
+          id: "PRAC-CLU-04",
+          tema: "CLUSTERING",
+          tipo: "plantilla",
+          titulo: "Plantilla de Hoja en Blanco: Average-Link (Parcial 2023 IA-H0075) + K-Means (Final)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Dos desarrollos modelo con números exactos: primero la secuencia de Average-Link sobre {A, N, R, S, P} donde aparece la Trampa de Cardinalidad (3 vs 2), y luego 2 iteraciones completas de K-Means.",
+          tablaPlantilla: {
+            tituloTabla: "Tabla 1 — Resumen de Fusiones Average-Link (D_0 de 5×5 con A, N, R, S, P)",
+            columnas: ["Paso", "Matriz", "Mínimo hallado", "Nuevo Cluster (Cardinal)", "Cálculo de Recálculo Obligatorio"],
+            filas: [
+              ["1", "D_0 (5×5)", "d(A, N) = 1,45", "(AN) · |·| = 2", "d((AN),R) = (3,23+2,44)/2 = 2,835; d((AN),S) = 6,220; d((AN),P) = 3,490"],
+              ["2", "D_1 (4×4)", "d(S, P) = 1,98", "(SP) · |·| = 2", "d((SP),R) = (9,10+8,12)/2 = 8,610; d((SP),(AN)) = 4 pares / 4 = 4,855"],
+              ["3", "D_2 (3×3)", "d((AN), R) = 2,835", "((AN)R) · |·| = 3", "d(((AN)R),(SP)) = (2·4,855 + 1·8,610) / (2+1) = 18,320 / 3 = 6,107"],
+              ["4", "D_3 (2×2)", "d(((AN)R), (SP)) = 6,107", "((AN)R)(SP) · |·| = 5", "Comprobación por 6 pares en D_0: (6,32+2,25+6,12+4,73+9,10+8,12)/6 = 6,107"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "Tabla 2 — K-Means con K = 2 en x₁(1,1), x₂(1,3), x₃(2,2), x₄(6,6), x₅(8,6) y semillas μ₁=(1,1), μ₂=(2,2)",
+            columnas: ["Iteración", "Centroides Vigentes", "Asignación a C₁", "Asignación a C₂", "Centroides Nuevos"],
+            filas: [
+              ["Iter. 1", "μ₁=(1;1), μ₂=(2;2)", "{x₁} (d=0 < 1,414)", "{x₂, x₃, x₄, x₅}", "μ₁⁽¹⁾=(1; 1),  μ₂⁽¹⁾=(4,25; 4,25)"],
+              ["Iter. 2", "μ₁=(1;1), μ₂=(4,25;4,25)", "{x₁, x₂, x₃} (¡x₂,x₃ cambian!)", "{x₄, x₅}", "μ₁⁽²⁾=(1,333; 2),  μ₂⁽²⁾=(7; 6)"],
+              ["Iter. 3", "μ₁=(1,333;2), μ₂=(7;6)", "{x₁, x₂, x₃} (sin cambios)", "{x₄, x₅} (sin cambios)", "CONVERGE: μ⁽³⁾ = μ⁽²⁾ → Fin"]
+            ]
+          },
+          tipHoja: "💡 Truco antibloqueo en Average-Link: si dudás de los coeficientes |A| y |B| de Lance-Williams al promediar clusters grandes, sumá directamente en D_0 todas las entradas d(x, y) con x en el primer grupo e y en el segundo, y dividí por |Grupo 1| × |Grupo 2|."
+        },
+        {
+          id: "PRAC-CLU-05",
+          tema: "CLUSTERING",
+          tipo: "formula",
+          titulo: "Flashcard 1: Centroides, Error SSE y Criterio de Parada en K-Means",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo se actualiza cada centroide en K-Means y qué función de error minimiza el algoritmo hasta converger?",
+          respuestaDorso: "- **Recálculo del centroide $j$:** promedio aritmético por coordenada de las instancias asignadas a $C_j$:\n$$\\boldsymbol{\\mu}_j = \\frac{1}{|C_j|} \\sum_{\\mathbf{x}_i \\in C_j} \\mathbf{x}_i$$\n- **Función objetivo (SSE — Suma de Errores Cuadráticos):** $SSE = \\sum_{j=1}^{K} \\sum_{\\mathbf{x} \\in C_j} \\|\\mathbf{x} - \\boldsymbol{\\mu}_j\\|_2^2$.\n- **Parada:** cuando no hay reasignación de puntos ($\\boldsymbol{\\mu}_j^{(t+1)} = \\boldsymbol{\\mu}_j^{(t)}$)."
+        },
+        {
+          id: "PRAC-CLU-06",
+          tema: "CLUSTERING",
+          tipo: "formula",
+          titulo: "Flashcard 2: Comparativa de Distancias Single, Complete y Average Link",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo calcula la distancia entre dos clusters A y B cada uno de los tres métodos aglomerativos clásicos?",
+          respuestaDorso: "1. **Single-Link (vecino más cercano):** $d(A,B) = \\min_{x\\in A,\\, y\\in B} d(x,y)$ *(sufre efecto cadena)*.\n2. **Complete-Link (vecino más lejano):** $d(A,B) = \\max_{x\\in A,\\, y\\in B} d(x,y)$ *(clusters compactos, sensible a outliers)*.\n3. **Average-Link (UPGMA):** $d(A,B) = \\dfrac{1}{|A|\\cdot|B|} \\sum_{x\\in A} \\sum_{y\\in B} d(x,y)$ *(compromiso robusto entre ambos)*."
+        },
+        {
+          id: "PRAC-CLU-07",
+          tema: "CLUSTERING",
+          tipo: "formula",
+          titulo: "Flashcard 3: Fórmula Ponderada de Lance-Williams en Average-Link",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Cuando unís dos clusters A y B para calcular la distancia hacia otro grupo C en Average-Link, ¿por qué NO podés hacer (d(A,C) + d(B,C)) / 2?",
+          respuestaDorso: "Porque si $|A| \\neq |B|$, el promedio simple les da el mismo peso a grupos de distinto tamaño. La fórmula correcta pondera por la **cardinalidad**:\n$$d(A \\cup B, C) = \\frac{|A|\\,d(A, C) + |B|\\,d(B, C)}{|A| + |B|}$$\nSolo coincide con $(d(A,C)+d(B,C))/2$ en el primer paso cuando ambos grupos tienen $|A|=|B|=1$ elemento."
+        },
+        {
+          id: "PRAC-CLU-08",
+          tema: "CLUSTERING",
+          tipo: "formula",
+          titulo: "Flashcard 4: Average-Link vs Distancia entre Centroides y Selección de Semillas",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Es equivalente Average-Link a la distancia entre los centroides de los clusters? Y en K-Means sin semillas dadas, ¿cómo se eligen?",
+          respuestaDorso: "- **Average-Link NO equivale a distancia entre centroides:** $\\frac{1}{|A||B|}\\sum\\|\\mathbf{x}-\\mathbf{y}\\| \\neq \\|\\boldsymbol{\\mu}_A - \\boldsymbol{\\mu}_B\\|$ por la no linealidad de la norma euclídea (además, centroides puede generar *inversiones* en el dendrograma).\n- **Heurística de semillas en K-Means (`Guía TP 02`):** calcular la media global $\\bar{\\mathbf{x}}$, elegir $\\boldsymbol{\\mu}_1$ como el punto **más alejado** de $\\bar{\\mathbf{x}}$, $\\boldsymbol{\\mu}_2$ el más alejado de $\\boldsymbol{\\mu}_1$, y así sucesivamente."
+        },
+        {
+          id: "PRAC-CLU-09",
+          tema: "CLUSTERING",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Mortales de Clustering y K-Means en el Parcial",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los errores más frecuentes en la corrección de Clustering Jerárquico y K-Means en UTN FRRe.",
+          trampas: [
+            "**Promediar Average-Link dividiendo siempre por 2 (Trampa 5):** Al unir $(AN)$ de $2$ elementos con $R$ de $1$ elemento, su distancia hacia $(SP)$ debe ponderarse $(2\\cdot d((AN),(SP)) + 1\\cdot d(R,(SP))) / 3$. Dividir por $2$ da otro valor y arruina el último nivel $h$ del dendrograma.",
+            "**Responder que Average-Link calcula la distancia entre centroides:** Aunque suenen parecidos, promediar distancias entre **todos los pares de puntos** no da lo mismo que medir la distancia entre los dos promedios $\\|\\mu_A - \\mu_B\\|$.",
+            "**Dibujar el dendrograma sin alturas numéricas en el eje vertical:** Un árbol topológico sin marcas escaladas $h_1, h_2, h_3, \\dots$ ni alineación real de las alturas de unión pierde puntaje completo de representación gráfica.",
+            "**Frenar K-Means en la primera iteración cuando los puntos aún migraron:** Si entre Iteración $0$ e Iteración $1$ cambió algún centroide, necesitás correr al menos la comprobación siguiente hasta verificar que no hubo reasignaciones (salvo que la consigna pida exactamente $2$ iteraciones).",
+            "**Cruzar fortalezas y debilidades entre métodos:** **Single-Link** sufre efecto cadena (*chain effect*); **Complete-Link** es sensible a *outliers*; **K-Means** exige definir $K$ a priori, es sensible a semillas iniciales y a *outliers*, y solo aplica donde exista media.",
+            "**Aplicar media aritmética sobre atributos nominales (TP K-Means 03):** Si los datos son categóricos (no numéricos), no existe noción de promedio; se debe usar **K-Modes**, tomando la **moda** (valor más frecuente) como centro representativo de cada cluster."
           ]
         }
       ]
