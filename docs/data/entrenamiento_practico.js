@@ -11,7 +11,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "completo" },
     { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "completo" },
     { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "completo" },
-    { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "pendiente" },
+    { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "completo" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "pendiente" },
     { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "pendiente" },
     { id: "CLUSTERING", nombre: "Clustering y K-Means", estado: "pendiente" }
@@ -1142,6 +1142,287 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Confundir el ancho del margen $M$ con $d^+$:** La distancia del hiperplano central $H_0$ a un margen es $d^+ = \\frac{1}{\\|\\mathbf{w}\\|}$, pero el **margen total entre $H^+$ y $H^-$** es el doble: **$M = \\frac{2}{\\|\\mathbf{w}\\|}$**.",
             "**Comerse el factor $2$ o errar el signo $y_i y_j$ en el Dual $L_D$:** Al expandir $\\frac{1}{2}\\sum_i\\sum_j$, cada par distinto $(i, j)$ aparece dos veces (`2 · 1/2 = 1`). Además, si $y_1 = +1$, $y_3 = -1$ y $K_{13} = -12$, entonces $-y_1 y_3 K_{13} = -(+1)(-1)(-12) = -12$, pero en $L_D = \\dots - Q$ cambia el signo de nuevo! Escribí primero $Q$ completo y después restalo.",
             "**Olvidar que $\\|\\mathbf{w}\\|$ lleva raíz cuadrada:** La norma euclídea es $\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2}$, mientras que $\\mathbf{w}^T \\mathbf{w} = \\|\\mathbf{w}\\|^2$. Al dividir $M = 2 / \\|\\mathbf{w}\\|$, aplicá siempre la raíz cuadrada."
+          ]
+        }
+      ]
+    },
+
+    // =========================================================================
+    // TEMA 5: REDES DE HOPFIELD (MEMORIA AUTOASOCIATIVA)
+    // =========================================================================
+    {
+      id: "HOPFIELD",
+      nombre: "Redes de Hopfield",
+      badge: "Memoria Autoasociativa · Matriz W y Convergencia",
+      icono: "🧲",
+      ponderacion: "Cálculo matricial mecánico (sin errores de signo) + análisis de capacidad/ortogonalidad",
+      tiempoSugerido: "15–20 min",
+      objetivo: "Memorizar patrones bipolares {-1, +1} en una matriz simétrica W de diagonal nula, iterar el reconocimiento sincrónico cuidando el caso net_i = 0 y diagnosticar convergencia, ciclos oscilatorios o capacidad límite.",
+      items: [
+        {
+          id: "PRAC-HOP-01",
+          tema: "HOPFIELD",
+          tipo: "diagrama",
+          titulo: "Arquitectura Monocapa Autoasociativa y Bucle de Recuperación",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Hopfield es una red monocapa totalmente conectada en forma lateral (sin autorrecurrencia: w_ii = 0) y con pesos simétricos (w_ij = w_ji). El aprendizaje hebbiano es off-line y luego la salida se realimenta iterativamente hasta alcanzar un mínimo (atractor) o entrar en ciclo.",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Red de Hopfield monocapa sin autorrecurrencia y bucle de iteración">
+  <defs>
+    <marker id="hop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="hop-arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="hop-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="hop-arrow-red" viewBox="0 0 10 10" refX="8" markerHeight="6" markerWidth="6" orient="auto-start-reverse" refY="5">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <text x="186" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">1. TOPOLOGÍA (N=4, sin autorrecurrencia)</text>
+  <text x="565" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">2. DINÁMICA DE RECONOCIMIENTO SINCRÓNICO</text>
+
+  <!-- Conexiones laterales simétricas w_ij = w_ji -->
+  <line x1="133" y1="98" x2="239" y2="98" stroke="#60a5fa" stroke-width="1.8" marker-start="url(#hop-arrow)" marker-end="url(#hop-arrow)"/>
+  <line x1="133" y1="206" x2="239" y2="206" stroke="#60a5fa" stroke-width="1.8" marker-start="url(#hop-arrow)" marker-end="url(#hop-arrow)"/>
+  <line x1="106" y1="125" x2="106" y2="179" stroke="#60a5fa" stroke-width="1.8" marker-start="url(#hop-arrow)" marker-end="url(#hop-arrow)"/>
+  <line x1="266" y1="125" x2="266" y2="179" stroke="#60a5fa" stroke-width="1.8" marker-start="url(#hop-arrow)" marker-end="url(#hop-arrow)"/>
+  <line x1="124" y1="116" x2="248" y2="188" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <line x1="248" y1="116" x2="124" y2="188" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3"/>
+
+  <!-- Autolazo tachado (sin autorrecurrencia) -->
+  <path d="M 86 80 C 58 48, 128 48, 108 74" fill="none" stroke="#ef4444" stroke-width="1.6" stroke-dasharray="3 3"/>
+  <line x1="78" y1="54" x2="108" y2="70" stroke="#ef4444" stroke-width="2"/>
+  <text x="108" y="45" text-anchor="middle" fill="#f87171" font-size="10.5" font-weight="700">w₁₁ = 0 (prohibido)</text>
+
+  <!-- 4 neuronas -->
+  <circle cx="106" cy="98" r="24" class="svg-node svg-node-in"/>
+  <text x="106" y="95" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₁</text>
+  <text x="106" y="110" text-anchor="middle" class="svg-label-muted" font-size="10.5">±1</text>
+
+  <circle cx="266" cy="98" r="24" class="svg-node svg-node-in"/>
+  <text x="266" y="95" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₂</text>
+  <text x="266" y="110" text-anchor="middle" class="svg-label-muted" font-size="10.5">±1</text>
+
+  <circle cx="106" cy="206" r="24" class="svg-node svg-node-hidden"/>
+  <text x="106" y="203" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₃</text>
+  <text x="106" y="218" text-anchor="middle" class="svg-label-muted" font-size="10.5">±1</text>
+
+  <circle cx="266" cy="206" r="24" class="svg-node svg-node-hidden"/>
+  <text x="266" y="203" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₄</text>
+  <text x="266" y="218" text-anchor="middle" class="svg-label-muted" font-size="10.5">±1</text>
+
+  <text x="186" y="88" text-anchor="middle" class="svg-label-muted" font-size="10.5" font-weight="600">w₁₂ = w₂₁</text>
+  <text x="186" y="196" text-anchor="middle" class="svg-label-muted" font-size="10.5" font-weight="600">w₃₄ = w₄₃</text>
+
+  <rect x="16" y="256" width="340" height="72" rx="8" class="svg-note-bg"/>
+  <text x="186" y="277" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">Aprendizaje Hebbiano Off-Line (W = Wᵀ)</text>
+  <text x="186" y="297" text-anchor="middle" class="svg-label-muted" font-size="11">W = Σ (Eₖᵀ · Eₖ − I)   con diagonal wᵢᵢ = 0</text>
+  <text x="186" y="316" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="600">Codificación bipolar obligatoria: {−1, +1}</text>
+
+  <!-- Separador vertical -->
+  <line x1="370" y1="18" x2="370" y2="334" stroke="rgba(148,163,184,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Flujo derecho -->
+  <rect x="384" y="44" width="160" height="50" rx="8" class="svg-node svg-node-in"/>
+  <text x="464" y="65" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">Entrada S(0) = E_d</text>
+  <text x="464" y="82" text-anchor="middle" class="svg-label-muted" font-size="10.5">Ruido o incompleto</text>
+
+  <line x1="546" y1="69" x2="578" y2="69" stroke="#38bdf8" stroke-width="2" marker-end="url(#hop-arrow)"/>
+
+  <rect x="582" y="44" width="164" height="50" rx="8" class="svg-node svg-node-hidden"/>
+  <text x="664" y="65" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">net = S(t) · W</text>
+  <text x="664" y="82" text-anchor="middle" class="svg-label-muted" font-size="10.5">Producto fila × matriz</text>
+
+  <line x1="664" y1="96" x2="664" y2="126" stroke="#38bdf8" stroke-width="2" marker-end="url(#hop-arrow)"/>
+
+  <rect x="550" y="132" width="196" height="64" rx="8" class="svg-node svg-node-out"/>
+  <text x="648" y="152" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">S(t+1) = f(net)</text>
+  <text x="648" y="170" text-anchor="middle" class="svg-label-muted" font-size="10.5">+1 (&gt;0)   |   −1 (&lt;0)</text>
+  <text x="648" y="186" text-anchor="middle" fill="#fde68a" font-size="10.5" font-weight="600">netᵢ = 0 → conserva sᵢ(t)</text>
+
+  <!-- Loop de realimentación si S(t+1) != S(t) -->
+  <path d="M 548 164 L 464 164 L 464 100" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#hop-arrow-accent)"/>
+  <text x="464" y="184" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">S(t+1) ≠ S(t)</text>
+  <text x="464" y="200" text-anchor="middle" fill="#fbbf24" font-size="10.5">Realimentar S(t+1)</text>
+
+  <!-- Decisiones finales -->
+  <line x1="612" y1="198" x2="542" y2="250" stroke="#10b981" stroke-width="2" marker-end="url(#hop-arrow-green)"/>
+  <line x1="688" y1="198" x2="688" y2="250" stroke="#ef4444" stroke-width="2" marker-end="url(#hop-arrow-red)"/>
+
+  <rect x="384" y="256" width="234" height="72" rx="8" class="svg-note-bg"/>
+  <text x="501" y="277" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">S(t+1) = S(t) → CONVERGE</text>
+  <text x="501" y="296" text-anchor="middle" class="svg-label-muted" font-size="10.5">Comparar con Eₖ almacenados</text>
+  <text x="501" y="314" text-anchor="middle" fill="#fbbf24" font-size="10.5">Ojo: puede caer en inverso (−Eₖ)</text>
+
+  <rect x="630" y="256" width="116" height="72" rx="8" class="svg-note-bg"/>
+  <text x="688" y="277" text-anchor="middle" fill="#f87171" font-size="11.5" font-weight="700">Ciclo n &gt; 1</text>
+  <text x="688" y="296" text-anchor="middle" class="svg-label-muted" font-size="10.5">S(t) = S(t+n)</text>
+  <text x="688" y="314" text-anchor="middle" fill="#f87171" font-size="10.5">NO estabiliza</text>
+</svg>`,
+          notasClave: [
+            "Hopfield discreta opera exclusivamente con **vectores bipolares** $\\{+1, -1\\}$ (no binarios $\\{0, 1\\}$).",
+            "Toda matriz $W$ válida cumple dos invariantes visuales instantáneas: **diagonal principal nula** ($w_{ii}=0$) y **simetría** ($w_{ij}=w_{ji}$).",
+            "Cuando $net_i = 0$, la función de transferencia **conserva el estado anterior** $s_i(t)$ (no devuelve $0$, salvo si $S(0)$ empezó con $0$ en rasgo faltante)."
+          ]
+        },
+        {
+          id: "PRAC-HOP-02",
+          tema: "HOPFIELD",
+          tipo: "algoritmo",
+          titulo: "Algoritmo Completo de Hopfield (Aprendizaje Off-Line + Reconocimiento)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los 5 pasos exactos exigidos en la guía práctica y hojas de parcial para memorizar M patrones de longitud N y probar un patrón distorsionado o incompleto E_d.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Codificar los patrones de entrada en representación bipolar",
+              queHago: "Traduzco cada figura o ficha de variables a un vector fila $E_k$ de tamaño $N$ usando $+1$ (negro / verdadero) y $-1$ (blanco / falso). Si un patrón de consulta $E_d$ omite variables (ej. problema meteorológico donde solo informan $VN$ y $TE$), coloco $0$ en las posiciones desconocidas.",
+              formula: "$$E_k = [e_1^{(k)}, e_2^{(k)}, \\dots, e_N^{(k)}] \\in \\{-1, +1\\}^N$$",
+              queEscriboEnHoja: "Paso 1 — Codificación bipolar (negro/v = +1, blanco/f = -1): E_1 = [...], E_2 = [...], patrón de consulta E_d = [...]."
+            },
+            {
+              nro: 2,
+              titulo: "Calcular cada matriz individual sin autorrecurrencias",
+              queHago: "Para cada patrón $E_k$, armo el producto exterior $E_k^T \\cdot E_k$ (matriz $N \\times N$ donde la celda $(i,j)$ vale $e_i^{(k)} \\cdot e_j^{(k)}$) y le resto la matriz identidad $I$ (dejando $0$ en toda la diagonal principal).",
+              formula: "$$W_k = E_k^T \\cdot E_k - I \\qquad (w_{ii}^{(k)} = 0)$$",
+              queEscriboEnHoja: "Paso 2 — Aprendizaje individual: Escribo las tablas de producto exterior E_1^T E_1 - I y E_2^T E_2 - I poniendo explícitamente ceros en la diagonal."
+            },
+            {
+              nro: 3,
+              titulo: "Sumar las matrices para obtener W",
+              queHago: "Sumo componente a componente las $M$ matrices individuales $W_k$. Verifico visualmente que la matriz resultante $W$ tenga ceros en la diagonal y sea simétrica respecto a ella.",
+              formula: "$$W = \\sum_{k=1}^{M} \\left(E_k^T \\cdot E_k - I\\right)$$",
+              queEscriboEnHoja: "Paso 3 — Matriz de pesos total: W = W_1 + ... + W_M = [...]. Verificación: diagonal = 0 y w_ij = w_ji."
+            },
+            {
+              nro: 4,
+              titulo: "Presentar E_d e iterar el cálculo sincrónico",
+              queHago: "Inicio con $S(0) = E_d$. Calculo $net = S(t) \\cdot W$ multiplicando el vector fila por cada columna de $W$ (como $W$ es simétrica, fila o columna da idéntico producto). Luego aplico la función escalón $f(net_i)$: positivo $\\to +1$, negativo $\\to -1$, y **si $net_i = 0$ copio el valor anterior $s_i(t)$**.",
+              formula: "$$net(t) = S(t)\\cdot W, \\qquad s_i(t+1) = \\begin{cases} +1 & net_i > 0 \\\\ s_i(t) & net_i = 0 \\\\ -1 & net_i < 0 \\end{cases}$$",
+              queEscriboEnHoja: "Iteración 1: S(0).W = [net_1 ... net_N] -> S(1) = f(net) = [...]. (Aclaro al margen: como net_j = 0, conserva s_j(0))."
+            },
+            {
+              nro: 5,
+              titulo: "Evaluar convergencia, ciclo límite o patrón espurio",
+              queHago: "Comparo $S(t+1)$ con todos los estados anteriores. Si $S(t+1) = S(t)$ la red **se estabiliza**; si vuelvo a un estado de hace $n > 1$ pasos ($S(t) = S(t+n)$) entra en **oscilación (no estabiliza)**. Si estabilizó, verifico si coincide con algún $E_k$ aprendido o con un **atractor inverso / espurio** ($-E_k$).",
+              formula: "$$S(t+1) = S(t) \\implies \\text{Converge} \\quad | \\quad S(t+n) = S(t)\\;(n>1) \\implies \\text{No estabiliza}$$",
+              queEscriboEnHoja: "Iteración 2: S(1).W = [...] -> S(2) = [...]. Como S(2) = S(1), la red se estabiliza y recupera el patrón E_k (o el patrón inverso -E_k)."
+            }
+          ]
+        },
+        {
+          id: "PRAC-HOP-03",
+          tema: "HOPFIELD",
+          tipo: "algoritmo",
+          titulo: "Análisis de Capacidad, Ortogonalidad y Auditoría de Matrices W (Ej. 03 y 04)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Además de iterar, la Guía Práctica evalúa dos preguntas fijas: verificar las cotas de recuperabilidad/ortogonalidad y detectar errores premeditados en una matriz W dada.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Verificar condiciones de recuperabilidad (Capacidad)",
+              queHago: "Con $N$ neuronas y $M$ patrones almacenados, calculo los dos umbrales: recuperación suficientemente buena ($0{,}138\\,N$) y recuperación perfecta ($N / (4\\ln N)$). Comparo $M$ contra ambos límites.",
+              formula: "$$M_{\\text{buena}} \\approx 0{,}138\\,N \\qquad M_{\\text{perfecta}} \\le \\frac{N}{4\\,\\ln(N)}$$",
+              queEscriboEnHoja: "Con N neuronas: Buena <= 0,138*N = ...; Perfecta <= N / (4*ln(N)) = .... Como almacenamos M = ... patrones (> límite), no se garantiza teóricamente la recuperación sin interferencia."
+            },
+            {
+              nro: 2,
+              titulo: "Verificar condición de ortogonalidad entre cada par (k, m)",
+              queHago: "Calculo el producto escalar entre cada par distinto de patrones $E_k$ y $E_m$. En esta cátedra se exige que los patrones difieran en al menos $50\\%$ de sus componentes, lo que equivale a suma $\\le 0$.",
+              formula: "$$\\sum_{i=1}^{N} e_i^{(k)}\\,e_i^{(m)} \\le 0 \\quad (\\forall\\,k \\neq m)$$",
+              queEscriboEnHoja: "Producto escalar E_1 . E_2 = (...). Como da <= 0 (diferencia >= 50%), cumplen la condición de ortogonalidad de la cátedra."
+            },
+            {
+              nro: 3,
+              titulo: "Auditar una matriz W dada (Ejercicio tipo 04)",
+              queHago: "Cuando el enunciado da $E_1, E_2$ y matrices $W_1, W_2, W$ precalculadas pidiendo encontrar errores: 1) chequeo diagonal de $W_1, W_2, W$ (deben ser $0$); 2) chequeo simetría; 3) recalculo fila a fila $e_i e_j$ donde sospecho error y verifico la suma $W = W_1 + W_2$; 4) recién con la $W$ **corregida** pruebo $E_d$.",
+              formula: "$$w_{ij} \\stackrel{?}{=} \\sum_{k=1}^{M} e_i^{(k)} e_j^{(k)} \\quad (i \\neq j), \\qquad w_{ii} \\stackrel{?}{=} 0$$",
+              queEscriboEnHoja: "Errores detectados: en W_1 posición (fila, col) figura X en lugar de Y (porque e_i*e_j = ...); además no se restó la identidad en (...). Con W corregida presento E_d..."
+            }
+          ]
+        },
+        {
+          id: "PRAC-HOP-04",
+          tema: "HOPFIELD",
+          tipo: "plantilla",
+          titulo: "Plantilla de Hoja en Blanco: Aprendizaje de W e Iteraciones (Ejemplo 11-RedesHopfield)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Ejemplo resuelto de las diapositivas oficiales con E_1 = [+1, -1, -1, +1], E_2 = [-1, +1, +1, -1] y E_d = [+1, +1, -1, +1].",
+          tablaPlantilla: {
+            tituloTabla: "Matriz W = (E_1^T E_1 - I) + (E_2^T E_2 - I)",
+            columnas: ["Neurona i \\ j", "j = 1", "j = 2", "j = 3", "j = 4"],
+            filas: [
+              ["i = 1 (+1 / -1)", "0", "-2", "-2", "+2"],
+              ["i = 2 (-1 / +1)", "-2", "0", "+2", "-2"],
+              ["i = 3 (-1 / +1)", "-2", "+2", "0", "-2"],
+              ["i = 4 (+1 / -1)", "+2", "-2", "-2", "0"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "Tabla de Trazado de Iteraciones (S(0) = E_d = [+1, +1, -1, +1])",
+            columnas: ["Iteración t", "Estado S(t)", "net = S(t) · W", "S(t+1) = f(net)", "Diagnóstico"],
+            filas: [
+              ["t = 0", "[+1, +1, -1, +1]", "[+2, -6, -2, +2]", "[+1, -1, -1, +1]", "Cambió s_2 -> realimentar"],
+              ["t = 1", "[+1, -1, -1, +1]", "[+6, -6, -6, +6]", "[+1, -1, -1, +1]", "S(2) = S(1) -> Converge a E_1"]
+            ]
+          },
+          tipHoja: "💡 Truco mecánico para el producto exterior en papel: escribí E_k arriba de las columnas y E_k^T a la izquierda de las filas. Si fila y columna tienen igual signo, va +1; si distinto signo, va -1; y luego tachá la diagonal reemplazándola por 0."
+        },
+        {
+          id: "PRAC-HOP-05",
+          tema: "HOPFIELD",
+          tipo: "formula",
+          titulo: "Flashcard 1: Matriz de Pesos W y Propiedades Estructurales",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cuál es la fórmula exacta para calcular la matriz de pesos W de Hopfield y qué dos propiedades garantiza siempre?",
+          respuestaDorso: "Se calcula mediante aprendizaje hebbiano **off-line**:\n$$W = \\sum_{k=1}^{M} \\left( E_k^T \\cdot E_k - I \\right)$$\nDonde cada $E_k$ es vector fila $1 \\times N$, de modo que $E_k^T \\cdot E_k$ genera una matriz $N \\times N$. Garantiza **diagonal nula** ($w_{ii} = 0$, sin autorrecurrencia) y **simetría** ($w_{ij} = w_{ji}$)."
+        },
+        {
+          id: "PRAC-HOP-06",
+          tema: "HOPFIELD",
+          tipo: "formula",
+          titulo: "Flashcard 2: Función de Activación y Regla Crítica net_i = 0",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "En el reconocimiento sincrónico S(t+1) = f(S(t) · W), ¿qué devuelve f(net_i) cuando net_i da exactamente 0?",
+          respuestaDorso: "Cuando $net_i = 0$, **la neurona conserva su estado del paso anterior**:\n$$s_i(t+1) = \\begin{cases} +1 & \\text{si } net_i > 0 \\\\ s_i(t) & \\text{si } net_i = 0 \\\\ -1 & \\text{si } net_i < 0 \\end{cases}$$\n¡Nunca pongas $0$ en $S(t+1)$ cuando $net_i = 0$! Eso arruina las multiplicaciones de la iteración siguiente."
+        },
+        {
+          id: "PRAC-HOP-07",
+          tema: "HOPFIELD",
+          tipo: "formula",
+          titulo: "Flashcard 3: Cotas de Recuperabilidad y Ortogonalidad",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cuáles son las fórmulas de capacidad perfecta, recuperación buena y ortogonalidad en los trabajos prácticos?",
+          respuestaDorso: "- **Recuperación perfecta:** $M_{\\text{perf}} \\le \\frac{N}{4\\,\\ln(N)}$ (logaritmo natural $\\ln$).\n- **Recuperación suficientemente buena:** $M_{\\text{buena}} \\approx 0{,}138\\,N$.\n- **Ortogonalidad (criterio de cátedra, diferencia $\\ge 50\\%$):** $\\sum_{i=1}^{N} e_i^{(k)}\\,e_i^{(m)} \\le 0$ para todo $k \\neq m$. *(Nota: para $N=4$, $M_{\\text{buena}}=0{,}55$ y $M_{\\text{perf}}=0{,}72$)*."
+        },
+        {
+          id: "PRAC-HOP-08",
+          tema: "HOPFIELD",
+          tipo: "formula",
+          titulo: "Flashcard 4: Criterios de Estabilización, Ciclos y Estados Espurios",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cómo distinguís en la hoja si la red convergió a un patrón válido, si cayó en un patrón espurio o si no estabiliza?",
+          respuestaDorso: "- **Estabiliza (converge):** $S(t+1) = S(t)$.\n- **No estabiliza (oscilación):** se repite un estado tras $n > 1$ pasos, $S(t) = S(t+n)$ (muy frecuente un ciclo de período $2$: $A \\leftrightarrow B$).\n- **Atractor inverso / espurio:** como $W$ es idéntica para $E_k$ y $-E_k$ (ya que $(-E_k)^T(-E_k) = E_k^T E_k$), si $S(t)$ converge a $-E_k$, estabilizó pero en la **imagen invertida** del patrón (o en una mezcla espuria si $M$ supera la capacidad)."
+        },
+        {
+          id: "PRAC-HOP-09",
+          tema: "HOPFIELD",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Mortales de Redes de Hopfield en el Parcial",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Errores de cálculo o de criterio que invalidan todo el ejercicio aunque hayas entendido el algoritmo.",
+          trampas: [
+            "**Usar codificación binaria {0, 1} en vez de bipolar {-1, +1}:** Blanco/falso SIEMPRE es $-1$, nunca $0$. Si usás $0$, perdés los refuerzos negativos $((-1)(-1)=+1)$ y la matriz $W$ queda completamente mal. (Solo se usa $0$ en componentes *desconocidas* de una consulta parcial $E_d$ en el Paso 4).",
+            "**Olvidar restar la matriz identidad I:** Dejar $1$ en la diagonal principal ($w_{ii} \\neq 0$) agrega autorrecurrencia positiva artificial y hace que la red quede atrapada repitiendo el patrón ruidoso $E_d$ sin corregirlo.",
+            "**Multiplicar al revés E_k · E_k^T (escalar) en vez de E_k^T · E_k (matriz):** Como $E_k$ es vector fila ($1 \\times N$), la traspuesta $E_k^T$ ($N \\times 1$) debe ir a la izquierda para obtener una matriz $N \\times N$.",
+            "**Responder 0 o +1 fijo cuando net_i = 0:** Ante un empate ($net_i = 0$), la regla oficial conserva el valor previo $s_i(t)$. Cambiarlo arbitrariamente suele transformar una convergencia legítima en oscilación falsa.",
+            "**Calcular la capacidad con log10(N) en lugar de ln(N):** La calculadora científica tiene `log` (base 10) y `ln` (base $e$). Para $N=4$, $4/(4\\ln 4) = 0{,}721$, mientras que con $\\log_{10}$ daría $1{,}66$ (¡completamente falso!).",
+            "**Creer que si superó la capacidad M > 0,138N ya no se hace el ejercicio:** En los prácticos con $N=4, 5, 6$ y $M=2$ siempre falla la cota teórica ($0{,}72 < 2$), pero igual se calcula $W$ y se itera $E_d$ para verificar si en ese caso particular converge o oscila."
           ]
         }
       ]
