@@ -12,7 +12,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "completo" },
     { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "completo" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "completo" },
-    { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "pendiente" },
+    { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "completo" },
     { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "pendiente" },
     { id: "CLUSTERING", nombre: "Clustering y K-Means", estado: "pendiente" }
   ],
@@ -1423,6 +1423,279 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Responder 0 o +1 fijo cuando net_i = 0:** Ante un empate ($net_i = 0$), la regla oficial conserva el valor previo $s_i(t)$. Cambiarlo arbitrariamente suele transformar una convergencia legítima en oscilación falsa.",
             "**Calcular la capacidad con log10(N) en lugar de ln(N):** La calculadora científica tiene `log` (base 10) y `ln` (base $e$). Para $N=4$, $4/(4\\ln 4) = 0{,}721$, mientras que con $\\log_{10}$ daría $1{,}66$ (¡completamente falso!).",
             "**Creer que si superó la capacidad M > 0,138N ya no se hace el ejercicio:** En los prácticos con $N=4, 5, 6$ y $M=2$ siempre falla la cota teórica ($0{,}72 < 2$), pero igual se calcula $W$ y se itera $E_d$ para verificar si en ese caso particular converge o oscila."
+          ]
+        }
+      ]
+    },
+
+    // =========================================================================
+    // TEMA 6: MAPAS AUTO-ORGANIZADOS DE KOHONEN (SOM)
+    // =========================================================================
+    {
+      id: "SOM",
+      nombre: "Mapas Auto-organizados (SOM)",
+      badge: "Aprendizaje Competitivo Online · Vecindad y BMU",
+      icono: "🗺️",
+      ponderacion: "25% típico del parcial · Alta sensibilidad a persistencia W(t) y función de vecindad",
+      tiempoSugerido: "20–25 min",
+      objetivo: "Determinar la neurona ganadora (BMU) por mínima distancia euclídea, evaluar la función de vecindad nula o continua sin omitir vecinas, actualizar pesos en modo estrictamente online y graficar la arquitectura final.",
+      items: [
+        {
+          id: "PRAC-SOM-01",
+          tema: "SOM",
+          tipo: "diagrama",
+          titulo: "Arquitectura Competitiva SOM y Atracción de Pesos en el Espacio de Entradas",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cada entrada xᵢ se conecta a todas las neuronas competitivas de salida Wⱼ (sin nodo bias). La neurona más cercana al patrón X gana la competencia (BMU) y arrastra su vector de pesos hacia X; si la vecindad es continua, las vecinas también se acercan según h(i, j*).",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 345" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arquitectura SOM de Kohonen y desplazamiento geométrico de pesos hacia el patrón ganador">
+  <defs>
+    <marker id="som-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="som-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="som-arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <text x="184" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">1. ARQUITECTURA DE RED SOM (SIN BIAS)</text>
+  <text x="568" y="22" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">2. COMPETENCIA Y MOVIMIENTO DE PESOS</text>
+
+  <!-- Neuronas de salida arriba -->
+  <circle cx="110" cy="84" r="24" class="svg-node svg-node-hidden"/>
+  <text x="110" y="81" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">W₁</text>
+  <text x="110" y="96" text-anchor="middle" class="svg-label-muted" font-size="10">Salida 1</text>
+
+  <circle cx="258" cy="84" r="24" class="svg-node svg-node-out"/>
+  <text x="258" y="81" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">W₂*</text>
+  <text x="258" y="96" text-anchor="middle" class="svg-label-muted" font-size="10">BMU</text>
+
+  <!-- Interacción lateral implícita entre salidas -->
+  <line x1="136" y1="84" x2="232" y2="84" stroke="#f59e0b" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="184" y="75" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">vecindad h(1,2)</text>
+
+  <!-- Neuronas de entrada abajo -->
+  <circle cx="110" cy="208" r="22" class="svg-node svg-node-in"/>
+  <text x="110" y="213" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">x₁</text>
+
+  <circle cx="258" cy="208" r="22" class="svg-node svg-node-in"/>
+  <text x="258" y="213" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">x₂</text>
+
+  <!-- Conexiones forward x -> W -->
+  <line x1="110" y1="184" x2="110" y2="112" stroke="#38bdf8" stroke-width="2" marker-end="url(#som-arrow)"/>
+  <line x1="125" y1="190" x2="242" y2="104" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#som-arrow)"/>
+  <line x1="243" y1="190" x2="126" y2="104" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#som-arrow)"/>
+  <line x1="258" y1="184" x2="258" y2="112" stroke="#10b981" stroke-width="2.2" marker-end="url(#som-arrow-green)"/>
+
+  <!-- Etiquetas de pesos sinápticos -->
+  <text x="92" y="150" text-anchor="middle" class="svg-label-muted" font-size="11" font-weight="700">w₁₁</text>
+  <text x="276" y="150" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">w₂₂</text>
+  <text x="150" y="160" text-anchor="middle" class="svg-label-muted" font-size="10.5">w₂₁</text>
+  <text x="218" y="160" text-anchor="middle" class="svg-label-muted" font-size="10.5">w₁₂</text>
+
+  <!-- Nota izquierda -->
+  <rect x="16" y="252" width="338" height="76" rx="8" class="svg-note-bg"/>
+  <text x="185" y="273" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">Convención de subíndices en hoja: w_ji</text>
+  <text x="185" y="292" text-anchor="middle" class="svg-label-muted" font-size="10.5">j = neurona de salida (fila)  |  i = entrada (col)</text>
+  <text x="185" y="311" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="600">Regla: W_i(t+1) = W_i(t) + α · h(i,j*) · (X − W_i(t))</text>
+
+  <!-- Separador vertical -->
+  <line x1="370" y1="18" x2="370" y2="334" stroke="rgba(148,163,184,0.4)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- Ejes del plano derecho -->
+  <line x1="406" y1="226" x2="736" y2="226" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="422" y1="240" x2="422" y2="44" stroke="#64748b" stroke-width="1.5"/>
+  <text x="734" y="218" text-anchor="end" class="svg-label-muted" font-size="11">x₁</text>
+  <text x="412" y="54" text-anchor="end" class="svg-label-muted" font-size="11">x₂</text>
+
+  <!-- Patrón p presentado -->
+  <circle cx="534" cy="182" r="7" fill="#38bdf8" stroke="#f8fafc" stroke-width="2"/>
+  <text x="534" y="202" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">Patrón p</text>
+
+  <!-- Distancia a W2 (menor = BMU) y W1 (mayor) -->
+  <line x1="534" y1="182" x2="578" y2="110" stroke="#34d399" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="542" y="138" text-anchor="end" fill="#34d399" font-size="10.5" font-weight="700">d₂ (mín)</text>
+
+  <line x1="534" y1="182" x2="676" y2="96" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <text x="642" y="148" text-anchor="middle" class="svg-label-muted" font-size="10.5">d₁ &gt; d₂</text>
+
+  <!-- Pesos iniciales y actualizados -->
+  <circle cx="578" cy="110" r="8" class="svg-node svg-node-out"/>
+  <text x="578" y="96" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">W₂(0)</text>
+
+  <!-- Flecha gran movimiento de W2(0) a W2(1) -->
+  <line x1="573" y1="117" x2="554" y2="150" stroke="#10b981" stroke-width="2.6" marker-end="url(#som-arrow-green)"/>
+  <circle cx="549" cy="158" r="6" fill="#10b981" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="588" y="174" text-anchor="start" fill="#34d399" font-size="10.5" font-weight="700">W₂(1) (h grande)</text>
+
+  <!-- Peso W1 vecino -->
+  <circle cx="676" cy="96" r="8" class="svg-node svg-node-hidden"/>
+  <text x="688" y="84" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">W₁(0)</text>
+
+  <!-- Flecha movimiento menor de W1(0) a W1(1) si vecindad continua -->
+  <line x1="669" y1="100" x2="646" y2="114" stroke="#f59e0b" stroke-width="2.2" marker-end="url(#som-arrow-amber)"/>
+  <circle cx="639" cy="118" r="5.5" fill="#f59e0b" stroke="#f8fafc" stroke-width="1.5"/>
+  <text x="684" y="130" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="700">W₁(1) si h &gt; 0</text>
+
+  <!-- Nota derecha -->
+  <rect x="386" y="252" width="358" height="76" rx="8" class="svg-note-bg"/>
+  <text x="565" y="273" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">Aprendizaje estrictamente ONLINE (secuencial)</text>
+  <text x="565" y="292" text-anchor="middle" class="svg-label-muted" font-size="10.5">El patrón p₂ compite contra W(1), NUNCA contra W(0)</text>
+  <text x="565" y="311" text-anchor="middle" fill="#fbbf24" font-size="10.5">Vecindad nula: solo cambia j* | Continua: cambian todas</text>
+</svg>`,
+          notasClave: [
+            "**Sin neurona bias:** A diferencia de Perceptrón y MLP, en SOM las $D$ entradas se conectan directamente a las $M$ neuronas competitivas de salida.",
+            "**Atracción geométrica:** El vector $\\mathbf{x} - \\mathbf{w}_i(t)$ apunta desde $\\mathbf{w}_i$ hacia $\\mathbf{x}$, por eso al sumar $\\alpha\\,h\\,(\\mathbf{x} - \\mathbf{w}_i)$ cada neurona se mueve **acercándose** al patrón presentado.",
+            "**Modo online obligatorio:** Apenas actualizás los pesos tras presentar $p_1$, esos valores $W(1)$ reemplazan de inmediato a $W(0)$ para evaluar $p_2$."
+          ]
+        },
+        {
+          id: "PRAC-SOM-02",
+          tema: "SOM",
+          tipo: "algoritmo",
+          titulo: "Algoritmo Paso a Paso de Kohonen SOM (Competencia, Cooperación y Adaptación)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los 5 pasos exactos para resolver cualquier ejercicio de entrenamiento SOM en el parcial, cubriendo tanto vecindad nula como vecindad continua.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Fijar arquitectura inicial, tasa α y función de vecindad",
+              queHago: "Identifico la dimensión $D$ de entrada, la cantidad $M$ de neuronas de salida y copio la tabla de pesos iniciales $W_1(0), \\dots, W_M(0)$. Anoto la tasa de aprendizaje $\\alpha$ (si la guía TP no la aclara, en TP 01 suele indicarse $\\alpha = 0{,}5$) y si la vecindad $h$ es **nula** o **continua**.",
+              formula: "$$W_j(0) = [w_{j1}(0),\\; w_{j2}(0),\\; \\dots,\\; w_{jD}(0)], \\qquad \\alpha \\in (0, 1]$$",
+              queEscriboEnHoja: "Datos iniciales: D = ... entradas, M = ... neuronas de salida, α = ..., vecindad h = ... . Pesos iniciales W_1(0) = [...], W_2(0) = [...]."
+            },
+            {
+              nro: 2,
+              titulo: "Presentar el patrón p con los pesos vigentes W(t)",
+              queHago: "Tomo el vector de entrada $\\mathbf{x} = E_k$ indicado por el enunciado. Si estoy en una secuencia de varios patrones ($p_1$, luego $p_2$, luego $p_3$...), **uso obligatoriamente la matriz de pesos recién actualizada** $W(t)$, nunca los iniciales $W(0)$.",
+              formula: "$$\\mathbf{x}(t) = [x_1,\\; x_2,\\; \\dots,\\; x_D], \\qquad \\text{comparar contra } W_j(t)$$",
+              queEscriboEnHoja: "Iteración t — Presento el patrón p = [...] utilizando los pesos actuales W(t) = ..."
+            },
+            {
+              nro: 3,
+              titulo: "Fase de Competencia: distancias euclídeas y ganadora (BMU)",
+              queHago: "Calculo explícitamente la distancia euclídea (con raíz cuadrada escrita) entre $\\mathbf{x}$ y cada vector de pesos $W_j(t)$. La neurona con la **menor distancia** es la ganadora $j^*$ (Best Matching Unit).",
+              formula: "$$d_j = \\sqrt{\\sum_{i=1}^{D} (x_i - w_{ji}(t))^2} \\qquad\\Longrightarrow\\qquad j^* = \\arg\\min_j\\, d_j$$",
+              queEscriboEnHoja: "Competencia: d(p, W_1) = √(...) = ...; d(p, W_2) = √(...) = ... . Como d_k es mínima, la neurona ganadora (BMU) es j* = k."
+            },
+            {
+              nro: 4,
+              titulo: "Fase de Cooperación: evaluar factor de vecindad h(i, j*)",
+              queHago: "- **Si vecindad es nula:** $h(j^*, j^*) = 1$ y $h(i, j^*) = 0$ para todas las demás neuronas.\n- **Si vecindad es continua** (ej. $\\frac{1}{1 + \\text{dist}(W_i, W_{j^*})}$ o $\\frac{1}{2 + \\text{dist}(W_i, W_{j^*})}$): evalúo $h$ tanto para $j^*$ (donde $\\text{dist}(W_{j^*}, W_{j^*}) = 0$) como para cada neurona vecina usando los pesos $W(t)$ **previos a actualizar**.",
+              formula: "$$h(i, j^*) = \\begin{cases} 1 \\text{ si } i=j^*,\\; 0 \\text{ si } i\\neq j^* & \\text{(vecindad nula)} \\\\ \\dfrac{1}{c + \\sqrt{\\sum_k (w_{ik}(t) - w_{j^* k}(t))^2}} & \\text{(vecindad continua, } c\\in\\{1,2\\}\\text{)} \\end{cases}$$",
+              queEscriboEnHoja: "Cooperación: Para la ganadora dist = 0 -> h(j*) = ...; para la vecina dist(W_i, W_j*) = √(...) -> h(i) = 1/(c + dist) = ..."
+            },
+            {
+              nro: 5,
+              titulo: "Fase de Adaptación: actualizar todas las neuronas con h > 0",
+              queHago: "Aplico la regla de Kohonen componente a componente sobre todas las neuronas con $h(i, j^*) > 0$. Verifico que cada componente nueva haya quedado ubicada entre el peso anterior y el patrón $\\mathbf{x}$, y guardo $W(t+1)$ para la siguiente iteración o gráfica.",
+              formula: "$$w_{ji}(t+1) = w_{ji}(t) + \\alpha \\cdot h(j, j^*) \\cdot \\big(x_i - w_{ji}(t)\\big)$$",
+              queEscriboEnHoja: "Adaptación: w_ji(t+1) = w_ji(t) + α·h·(x_i - w_ji(t)) = ... . Nuevo vector W(t+1) = [...]. (Si hay siguiente patrón, repito desde el Paso 2 con estos nuevos pesos)."
+            }
+          ]
+        },
+        {
+          id: "PRAC-SOM-03",
+          tema: "SOM",
+          tipo: "algoritmo",
+          titulo: "Sub-procedimientos de Examen: Clasificar Nuevos Ejemplos y Dibujar la Red",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo responder los incisos complementarios clásicos de la Guía TP (Punto 02) y de parciales: clasificación post-entrenamiento y gráfico de arquitectura.",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Clasificar ejemplos de prueba usando pesos actualizados W(final)",
+              queHago: "Cuando piden *'Suponga que cada $W_i$ corresponde a la clase $C_i$; determine con los pesos actualizados a qué clase pertenecen los ejemplos'*, tomo el último vector de pesos actualizado $W_i(\\text{final})$, calculo la distancia euclídea del ejemplo de prueba $\\mathbf{x}_{\\text{test}}$ a cada $W_i(\\text{final})$, y asigno la clase de la neurona de **menor distancia**. ¡En clasificación NO se modifican pesos!",
+              formula: "$$\\text{Clase}(\\mathbf{x}_{\\text{test}}) = C_{j^*}, \\qquad j^* = \\arg\\min_j \\|\\mathbf{x}_{\\text{test}} - W_j(\\text{final})\\|_2$$",
+              queEscriboEnHoja: "Clasificación Ejemplo k: d(x_test, W_1(final)) = ...; d(x_test, W_2(final)) = ... . Mínima en W_m -> pertenece a la Clase C_m (sin modificar pesos)."
+            },
+            {
+              nro: 2,
+              titulo: "Graficar la arquitectura final con pesos etiquetados",
+              queHago: "Dibujo abajo (o a la izquierda) los $D$ nodos de entrada $x_1, \\dots, x_D$ (SIN neurona bias $x_0$), arriba (o a la derecha) los $M$ nodos de salida $W_1, \\dots, W_M$, trazo flechas de cada entrada hacia todas las salidas y escribo sobre cada flecha el valor final $w_{ji}$.",
+              formula: "$$\\text{Entrada } x_i \\xrightarrow{\\;w_{ji}\\;} \\text{Salida } W_j \\qquad (D \\times M \\text{ conexiones totales})$$",
+              queEscriboEnHoja: "Arquitectura de la Red: esquema con D nodos de entrada conectando hacia M neuronas competitivas de salida, rotulando cada flecha con w_ji final."
+            }
+          ]
+        },
+        {
+          id: "PRAC-SOM-04",
+          tema: "SOM",
+          tipo: "plantilla",
+          titulo: "Plantilla de Hoja en Blanco: Parcial Real 2023 (Vecindad Continua h = 1/(2 + dist))",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Modelo completo con números verificados del Parcial 2023 (IA-H0075): W_1(0) = [+0,70; -0,10], W_2(0) = [-0,10; +0,40], α = 0,70, p_2 = [-0,80; -0,90] y vecindad h(i) = 1 / (2 + dist(W_i, W_j*)).",
+          tablaPlantilla: {
+            tituloTabla: "Tabla 1 — Fases de Competencia y Cooperación",
+            columnas: ["Neurona j", "Peso W_j(0)", "d(p_2, W_j)", "¿Ganadora BMU?", "dist(W_j, W_2)", "Factor h(j)"],
+            filas: [
+              ["W_1 (Vecina)", "[+0,700; -0,100]", "√2,89 = 1,700", "No", "√0,89 ≈ 0,943", "1 / (2 + 0,943) ≈ 0,340"],
+              ["W_2 (Ganadora)", "[-0,100; +0,400]", "√2,18 ≈ 1,476", "✅ Sí (j* = 2)", "0", "1 / (2 + 0) = 0,500"]
+            ]
+          },
+          tablaPlantilla2: {
+            tituloTabla: "Tabla 2 — Fase de Adaptación Online: W_j(1) = W_j(0) + α · h(j) · (p_2 - W_j(0))",
+            columnas: ["Neurona", "α · h(j)", "Diferencia (p_2 - W(0))", "Incremento ΔW", "Peso Nuevo W(1)"],
+            filas: [
+              ["W_2 (Ganadora)", "0,70 × 0,500 = 0,350", "[-0,700; -1,300]", "[-0,245; -0,455]", "[-0,345; -0,055]"],
+              ["W_1 (Vecina)", "0,70 × 0,340 = 0,238", "[-1,500; -0,800]", "[-0,357; -0,190]", "[+0,343; -0,290]"]
+            ]
+          },
+          tipHoja: "💡 Chequeo instantáneo en calculadora: las coordenadas de W(1) SIEMPRE deben quedar comprendidas entre las de W(0) y p_2. Por ejemplo, +0,700 se movió hacia -0,800 quedando en +0,343. ¡Si te dio mayor a +0,700, invertiste el signo de (p_2 - W)!"
+        },
+        {
+          id: "PRAC-SOM-05",
+          tema: "SOM",
+          tipo: "formula",
+          titulo: "Flashcard 1: Distancia Euclídea y Selección de BMU",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Qué criterio define a la neurona ganadora (BMU) en SOM y cómo conviene anotar su cálculo en el parcial?",
+          respuestaDorso: "Gana la neurona $j^*$ con **menor distancia euclídea** entre su vector de pesos $W_j(t)$ y el patrón de entrada $\\mathbf{x}$:\n$$d_j = \\sqrt{\\sum_{i=1}^{D} (x_i - w_{ji}(t))^2}, \\qquad j^* = \\arg\\min_j\\, d_j$$\nEn la hoja se debe escribir la raíz cuadrada explícita (no solo $d_j^2$) y declarar en una frase: *'La neurona $j^*$ resulta ganadora por presentar la menor distancia euclídea'*."
+        },
+        {
+          id: "PRAC-SOM-06",
+          tema: "SOM",
+          tipo: "formula",
+          titulo: "Flashcard 2: Vecindad Nula vs Continua (Denominador 1+dist vs 2+dist)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cuánto vale el factor de vecindad h para la neurona ganadora y sus vecinas según la función dada?",
+          respuestaDorso: "- **Vecindad nula:** $h(j^*) = 1$ y $h(i) = 0$ para todo $i \\neq j^*$ (solo se actualiza la ganadora).\n- **Vecindad continua:** $h(i) = \\dfrac{1}{1 + \\text{dist}(W_i, W_{j^*})}$ (Guía TP) o $h(i) = \\dfrac{1}{2 + \\text{dist}(W_i, W_{j^*})}$ (Parcial 2023).\n¡Ojo con la ganadora! Como $\\text{dist}(W_{j^*}, W_{j^*}) = 0$, su factor vale **$1$** si el denominador es $1+d$, pero vale **$0{,}500$** si el denominador es $2+d$."
+        },
+        {
+          id: "PRAC-SOM-07",
+          tema: "SOM",
+          tipo: "formula",
+          titulo: "Flashcard 3: Ecuación de Adaptación de Pesos y Regla del Signo",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "¿Cuál es la fórmula de actualización de pesos en SOM y cómo verificás que no invertiste el signo?",
+          respuestaDorso: "$$w_{ji}(t+1) = w_{ji}(t) + \\alpha \\cdot h(j, j^*) \\cdot \\big(x_i - w_{ji}(t)\\big)$$\nEl término entre paréntesis siempre es **Patrón menos Peso** $(x_i - w_{ji})$, nunca al revés. Como $\\alpha\\cdot h \\in (0, 1]$, cada nuevo peso $w_{ji}(t+1)$ tiene que quedar **entre** $w_{ji}(t)$ y $x_i$ (acercándose al patrón)."
+        },
+        {
+          id: "PRAC-SOM-08",
+          tema: "SOM",
+          tipo: "formula",
+          titulo: "Flashcard 4: Aprendizaje Online Secuencial entre Patrones",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Si el parcial pide 'presentar el patrón p₁ y luego p₂', ¿contra qué pesos calculás las distancias para p₂?",
+          respuestaDorso: "Obligatoriamente contra **$W(1)$**, es decir, los pesos **ya actualizados** luego de presentar $p_1$ (aprendizaje estrictamente *online*).\nSi evaluás $p_2$ contra $W(0)$, podés elegir una neurona ganadora distinta y la cátedra califica el ejercicio completo con **0 puntos**."
+        },
+        {
+          id: "PRAC-SOM-09",
+          tema: "SOM",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Mortales de SOM en el Parcial",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Los errores sistemáticos que más anulan ejercicios completos de Kohonen SOM en UTN FRRe.",
+          trampas: [
+            "**Ignorar la función de vecindad continua:** Si el enunciado da $h(i) = 1/(1+\\text{dist})$ o $1/(2+\\text{dist})$, debés actualizar **la ganadora Y todas las vecinas**. Actualizar solo la ganadora anula el ejercicio.",
+            "**Olvidar la persistencia online entre patrones p₁ -> p₂ -> p₃:** Evaluar el segundo patrón contra los pesos iniciales $W(0)$ en lugar de usar $W(1)$ recién calculados puede cambiar hasta la neurona ganadora.",
+            "**Asumir h(ganadora) = 1 cuando la fórmula es 1 / (2 + dist):** Con denominador $2 + \\text{dist}$, para la ganadora ($\\text{dist}=0$) da $h = 1/2 = 0{,}500$, NO $1$. Leé con lupa el constante del denominador.",
+            "**Calcular $\\text{dist}(W_i, W_{j^*})$ con los pesos ya actualizados $W_{j^*}(t+1)$:** Dentro de un mismo patrón, tanto la distancia competitiva como las distancias entre neuronas para $h$ se evalúan usando el estado actual $W(t)$ **antes** de aplicar $\\Delta W$.",
+            "**Invertir el orden de la resta a (w_ji - x_i):** Poner el peso primero invierte el vector dirección y **aleja** la neurona del patrón presentado en vez de atraerla. Recordá siempre: *Entrada menos Peso* $(x_i - w_{ji})$.",
+            "**Dibujar nodo bias x₀ = 1 o cruzar los subíndices w_ji en el esquema:** SOM no lleva bias en la capa de entrada, y cada flecha que entra a la salida $W_j$ desde $x_i$ se rotula $w_{ji}$ (componente $i$ del vector $W_j$)."
           ]
         }
       ]
