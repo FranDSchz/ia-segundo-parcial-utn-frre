@@ -9,7 +9,7 @@ window.ENTRENAMIENTO_PRACTICO = {
   roadmap: [
     { id: "MLP_PERCEPTRON", nombre: "MLP, Perceptrón y ADALINE", estado: "completo" },
     { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "completo" },
-    { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "pendiente" },
+    { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "completo" },
     { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "pendiente" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "pendiente" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "pendiente" },
@@ -586,6 +586,263 @@ window.ENTRENAMIENTO_PRACTICO = {
             "**Confundir los dos métodos de Hijo 2 en Cruce Binomial:** Obtener Hijo 2 con **genes no seleccionados** da un resultado distinto al **complemento binario del Hijo 1** en cualquier locus donde Padre y Madre tenían el mismo bit. Leé qué pide la consigna.",
             "**Decir que Temperatura mide homogeneidad de la población:** FALSO de parcial. La Temperatura (Ascendente o Descendente) solo mira la generación $t$. La única que mide diversidad real de cromosomas es la **Mutación Adaptativa por Convergencia**.",
             "**Cruzar o mutar a los individuos Elitistas:** Por definición de cátedra, los seleccionados por **elitismo** pasan directo e intactos a $t+1$ y **no participan ni de cruza ni de mutación**."
+          ]
+        }
+      ]
+    },
+    {
+      id: "NAIVE_BAYES",
+      nombre: "Clasificador Naïve Bayes (Histogramas y Distribución Normal)",
+      badge: "Naïve Bayes",
+      icono: "📊",
+      ponderacion: "20% – 25% del Parcial Práctico",
+      tiempoSugerido: "15 - 20 min en hoja",
+      objetivo: "Clasificar nuevas instancias paso a paso tanto con tablas de Histogramas (bins) como con Distribución Normal Gaussiana, aplicando los denominadores correctos (N_k vs N_total), límites de intervalo (a, b], notación científica, suavizado de Laplace ante ceros y decisión MAP.",
+      items: [
+        {
+          id: "PRAC-NB-01",
+          tema: "NAIVE_BAYES",
+          tipo: "diagrama",
+          titulo: "Flujo Naïve Bayes: Histogramas (Bins) vs. Distribución Gaussiana Continua",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo elegir el método según el enunciado y evitar el error más frecuente: confundir el denominador N_k con N_total.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama comparativo Naive Bayes por Histogramas vs Gaussiano">
+              <defs>
+                <marker id="nb-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+                </marker>
+                <marker id="nb-arrow-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+                </marker>
+              </defs>
+
+              <!-- Rama Izquierda: Histogramas / Bins -->
+              <rect x="20" y="14" width="348" height="205" rx="10" class="svg-node svg-node-in"/>
+              <text x="194" y="38" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800">MODO A: HISTOGRAMAS (BINS)</text>
+              <text x="194" y="55" text-anchor="middle" class="svg-label-muted" font-size="11">Si el enunciado da tabla de intervalos y frecuencias</text>
+
+              <!-- Bins rect -->
+              <rect x="42" y="72" width="76" height="44" fill="#1e293b" stroke="#64748b"/>
+              <text x="80" y="92" text-anchor="middle" class="svg-label-muted" font-size="10">(-∞, -3]</text>
+              <text x="80" y="107" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">1</text>
+
+              <rect x="118" y="72" width="76" height="44" fill="#1e293b" stroke="#64748b"/>
+              <text x="156" y="92" text-anchor="middle" class="svg-label-muted" font-size="10">(-3, 2]</text>
+              <text x="156" y="107" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">10.500</text>
+
+              <rect x="194" y="72" width="76" height="44" fill="#0369a1" stroke="#38bdf8" stroke-width="2"/>
+              <text x="232" y="92" text-anchor="middle" fill="#e0f2fe" font-size="10" font-weight="700">(2, 5]</text>
+              <text x="232" y="107" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800">5.500</text>
+
+              <rect x="270" y="72" width="76" height="44" fill="#1e293b" stroke="#64748b"/>
+              <text x="308" y="92" text-anchor="middle" class="svg-label-muted" font-size="10">(5, +∞)</text>
+              <text x="308" y="107" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">15.000</text>
+
+              <line x1="232" y1="142" x2="232" y2="120" stroke="#38bdf8" stroke-width="2" marker-end="url(#nb-arrow)"/>
+              <text x="232" y="158" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Ej: x = 2.8 cae en (2, 5]</text>
+
+              <rect x="38" y="170" width="312" height="38" rx="6" fill="rgba(251, 113, 133, 0.14)" stroke="#fb7185"/>
+              <text x="194" y="186" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">¡NO dividir por N_total!</text>
+              <text x="194" y="201" text-anchor="middle" class="svg-node-text" font-size="11">P(Bin | Cₖ) = Frec(Bin, Cₖ) / Nₖ  (total de ESA clase)</text>
+
+              <!-- Rama Derecha: Gaussiana -->
+              <rect x="392" y="14" width="348" height="205" rx="10" class="svg-node svg-node-in"/>
+              <text x="566" y="38" text-anchor="middle" fill="#10b981" font-size="13" font-weight="800">MODO B: GAUSSIANA CONTINUA</text>
+              <text x="566" y="55" text-anchor="middle" class="svg-label-muted" font-size="11">Si te dan μ y σ (o muestras sueltas sin bins)</text>
+
+              <!-- Curvas Gaussianas estilizadas -->
+              <line x1="418" y1="145" x2="718" y2="145" stroke="#64748b" stroke-width="1.2"/>
+              <path d="M 424 144 Q 465 142 488 92 Q 505 62 522 92 Q 545 142 586 144" fill="rgba(56, 189, 248, 0.18)" stroke="#38bdf8" stroke-width="2"/>
+              <path d="M 526 144 Q 570 142 595 104 Q 615 76 635 104 Q 660 142 706 144" fill="rgba(16, 185, 129, 0.18)" stroke="#10b981" stroke-width="2"/>
+              <text x="505" y="72" text-anchor="middle" fill="#38bdf8" font-size="10.5" font-weight="700">C₁ (μ₁, σ₁)</text>
+              <text x="615" y="82" text-anchor="middle" fill="#10b981" font-size="10.5" font-weight="700">C₂ (μ₂, σ₂)</text>
+
+              <!-- Linea vertical de consulta x_i -->
+              <line x1="548" y1="68" x2="548" y2="150" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4,3"/>
+              <circle cx="548" cy="133" r="4" fill="#38bdf8"/>
+              <circle cx="548" cy="141" r="4" fill="#10b981"/>
+              <text x="548" y="164" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">xᵢ (consulta)</text>
+
+              <rect x="410" y="172" width="312" height="36" rx="6" fill="rgba(16, 185, 129, 0.14)" stroke="#10b981"/>
+              <text x="566" y="194" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="600">p(xᵢ | Cₖ) = [1 / (σ√2π)] · exp(−(xᵢ − μ)² / 2σ²)</text>
+
+              <!-- Convergencia MAP inferior -->
+              <line x1="194" y1="219" x2="310" y2="245" stroke="#38bdf8" stroke-width="2" marker-end="url(#nb-arrow)"/>
+              <line x1="566" y1="219" x2="450" y2="245" stroke="#10b981" stroke-width="2" marker-end="url(#nb-arrow-g)"/>
+
+              <rect x="90" y="246" width="580" height="58" rx="8" class="svg-note-bg"/>
+              <text x="380" y="269" text-anchor="middle" fill="#fbbf24" font-size="12.5" font-weight="800">
+                DECISIÓN FINAL (Regla MAP — ArgMax): Score(Cₖ) = P(Cₖ) · Π p(xᵢ | Cₖ)
+              </text>
+              <text x="380" y="290" text-anchor="middle" class="svg-node-text" font-size="11.5">
+                Se elige C* con MAYOR Score (si piden porcentaje exacto: P(Cₖ | x) = Score(Cₖ) / Σ Score(Cⱼ))
+              </text>
+            </svg>
+          `,
+          notasClave: [
+            "**¿Qué significa el símbolo $\\propto$ («proporcional a»)?** Como el denominador de Bayes $P(\\mathbf{x})$ es idéntico para todas las clases, la cátedra escribe $P(C_k \\mid \\mathbf{x}) \\propto P(C_k) \\prod P(x_i \\mid C_k)$ para comparar solo los numeradores (*scores*) y decidir $\\arg\\max$.",
+            "**Cuidado con paréntesis vs. corchetes en Histogramas:** En un intervalo `(a, b]`, el paréntesis **`(` excluye** al extremo `a` y el corchete **`]` incluye** al extremo `b`. Ej: `-12` entra en `(-∞, -12]`, NO en `(-12, -1]`."
+          ]
+        },
+        {
+          id: "PRAC-NB-02",
+          tema: "NAIVE_BAYES",
+          tipo: "algoritmo",
+          titulo: "Algoritmo de 5 Pasos: Naïve Bayes por Histogramas (Tablas de Bins)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Receta exacta de resolución en papel para los ejercicios clásicos de tablas discretizadas en intervalos (Guía Ej. 05, 06 y 07).",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Calcular las Probabilidades a Priori P(Ck) y los totales por clase Nk",
+              queHago: "Leé cuántas muestras hay en cada clase $N_k$ y el total general $N_{\\text{total}}$. Si el enunciado da porcentajes (ej. `T1=30%` de `125.000`), calculás $N_1 = 0.30 \\times 125.000 = 37.500$ porque **lo vas a necesitar como denominador de los bins**. Si falta una clase («y el resto de $E_4$»), restás del total.",
+              formula: "$$P(C_k) = \\frac{N_k}{N_{\\text{total}}} \\qquad N_k = P(C_k) \\cdot N_{\\text{total}}$$",
+              queEscriboEnHoja: "«Determino la cantidad de muestras por clase $N_k$ (si vienen en %, calculo $N_k = P(C_k)\\cdot N_{\\text{total}}$) y obtengo las probabilidades *a priori* $P(C_k) = N_k / N_{\\text{total}}$ verificando que sumen $1$.»"
+            },
+            {
+              nro: 2,
+              titulo: "Ubicar el bin exacto de cada atributo de la nueva instancia",
+              queHago: "Para cada coordenada de la instancia $X_{\\text{nueva}} = (x_1, x_2, \\dots)$, localizás en qué columna/intervalo cae respetando estrictamente bordes abiertos `(` vs. cerrados `]`.",
+              formula: "$$x_i \\in (a, b] \\iff a < x_i \\le b$$",
+              queEscriboEnHoja: "«Para la instancia $X = (\\dots)$, identifico los intervalos correspondientes: $x_1$ pertenece al bin $(\\dots]$, $x_2$ al bin $(\\dots]$, etc.»"
+            },
+            {
+              nro: 3,
+              titulo: "Extraer las Verosimilitudes Condicionales P(xi ∈ Bin | Ck)",
+              queHago: "Para cada clase $C_k$, tomás la frecuencia observada en ese bin y la dividís por **$N_k$ (total de ESA clase, NO $N_{\\text{total}}$)**. **Ojo:** si una celda vale $0$, comentá el efecto anulador y aplicá **Laplace** si corresponde.",
+              formula: "$$P(x_i \\in \\text{Bin}_m \\mid C_k) = \\frac{\\text{Frec}(\\text{Bin}_m,\\, C_k)}{N_k} \\qquad (\\text{con Laplace: } \\frac{\\text{Frec} + 1}{N_k + B})$$",
+              queEscriboEnHoja: "«Asumiendo independencia condicional entre atributos dada la clase, calculo cada verosimilitud dividiendo la frecuencia del intervalo por el total de esa clase $N_k$.»"
+            },
+            {
+              nro: 4,
+              titulo: "Multiplicar A Priori × Verosimilitudes (Score por clase)",
+              queHago: "Aplicás el Teorema de Naïve Bayes sin el denominador $P(\\mathbf{x})$: multiplicás $P(C_k)$ por todas las verosimilitudes de esa clase. Anotá el resultado en **notación científica** clara (`5.87 × 10^-3`) para no perder dígitos significativos.",
+              formula: "$$P(C_k \\mid \\mathbf{x}) \\propto \\text{Score}(C_k) = P(C_k) \\cdot \\prod_{i=1}^{D} P(x_i \\in \\text{Bin}_m \\mid C_k)$$",
+              queEscriboEnHoja: "«Calculo el producto proporcional a la probabilidad *a posteriori* para cada clase: $P(C_k \\mid \\mathbf{x}) \\propto P(C_k) \\cdot P(x_1 \\mid C_k) \\cdots P(x_D \\mid C_k) = \\dots$»"
+            },
+            {
+              nro: 5,
+              titulo: "Aplicar Regla MAP (ArgMax) y Normalizar si piden probabilidad %",
+              queHago: "Comparás todos los $\\text{Score}(C_k)$ y elegís la clase mayor (cuidado con exponentes negativos: $10^{-3} > 10^{-6}$). Si la consigna pide la *«probabilidad de pertenecer a cada clase»*, dividís cada Score por la suma $\\sum \\text{Score}(C_j)$ para normalizar al $100\\%$.",
+              formula: "$$C^* = \\arg\\max_{C_k} \\text{Score}(C_k) \\qquad P(C_k \\mid \\mathbf{x}) = \\frac{\\text{Score}(C_k)}{\\sum_j \\text{Score}(C_j)}$$",
+              queEscriboEnHoja: "«Por regla MAP ($\\arg\\max$), como $\\text{Score}(C^*) > \\text{Score}(C_{\\text{otras}})$, la nueva instancia se clasifica como perteneciente a la clase **$C^*$** [con probabilidad normalizada del $\\dots\\%$].»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-NB-03",
+          tema: "NAIVE_BAYES",
+          tipo: "algoritmo",
+          titulo: "Algoritmo de 4 Pasos: Naïve Bayes Continuo con Distribución Normal (Gaussiana)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo resolver ejercicios donde te dan medias μ y desvíos σ (Ej. 01 y 02) o una tabla/gráfico de puntos crudos (Ej. 03 y 04).",
+          pasos: [
+            {
+              nro: 1,
+              titulo: "Estimar μ y σ por atributo y clase (solo si dan puntos crudos)",
+              queHago: "Si ya te dan la tabla de $(\\mu, \\sigma)$, salteás este paso. Si te dan puntos $(x, y, \\text{Clase})$ (Ej. 03 o gráfico del Ej. 04), separás por clase y calculás la media $\\mu$ y el desvío $\\sigma$ de cada atributo. *(Nota: la guía resuelta de cátedra usa desvío poblacional dividiendo por $N_k$, tecla `xσn` en Casio; si usás $N_k-1$ aclará tu convención).* ",
+              formula: "$$\\mu_{ik} = \\frac{1}{N_k} \\sum_{p \\in C_k} x_{pi} \\qquad \\sigma_{ik} = \\sqrt{\\frac{1}{N_k} \\sum_{p \\in C_k} (x_{pi} - \\mu_{ik})^2}$$",
+              queEscriboEnHoja: "«Calculo la media $\\mu$ y el desvío estándar $\\sigma$ de entrenamiento para cada atributo dentro de cada clase y armo la tabla de parámetros gaussianos.»"
+            },
+            {
+              nro: 2,
+              titulo: "Calcular Probabilidades a Priori P(Ck)",
+              queHago: "Contás cuántos ejemplos pertenecen a cada clase y dividís por el total $N_{\\text{total}}$. Si todas las clases tienen la misma cantidad de ejemplos (ej. 3 de clase `0` y 3 de clase `1`), $P(C_0) = P(C_1) = 0.5$.",
+              formula: "$$P(C_k) = \\frac{N_k}{N_{\\text{total}}}$$",
+              queEscriboEnHoja: "«Las probabilidades *a priori* de cada clase son $P(C_1) = N_1 / N_{\\text{total}} = \\dots$»"
+            },
+            {
+              nro: 3,
+              titulo: "Evaluar la Función de Densidad Gaussiana para cada atributo",
+              queHago: "Para cada clase $C_k$ y cada atributo $x_i$ de la consulta, reemplazás $x_i, \\mu_{ik}, \\sigma_{ik}$ en la campana de Gauss. **¡Atención!** Si $\\sigma$ es chico (ej. $0.2$), el valor de densidad puede dar **$> 1$** (ej. $1.76$): es completamente normal porque es una *densidad*, no una probabilidad acumulada.",
+              formula: "$$p(x_i \\mid C_k) = \\frac{1}{\\sigma_{ik}\\sqrt{2\\pi}} \\cdot e^{-\\frac{(x_i - \\mu_{ik})^2}{2\\sigma_{ik}^2}}$$",
+              queEscriboEnHoja: "«Asumiendo distribución normal para cada atributo continuo, reemplazo $(x_i, \\mu_{ik}, \\sigma_{ik})$ en la función de densidad gaussiana para obtener las verosimilitudes.»"
+            },
+            {
+              nro: 4,
+              titulo: "Multiplicar A Priori × Verosimilitudes y Clasificar (ArgMax)",
+              queHago: "Calculás $\\text{Score}(C_k) = P(C_k) \\cdot p(x_1 \\mid C_k) \\cdot p(x_2 \\mid C_k) \\cdots$ para todas las clases, normalizás si la consigna pide *«calcule la probabilidad»* (Ej. 01) y declarás ganadora la clase de mayor valor.",
+              formula: "$$C^* = \\arg\\max_{C_k} \\left[ P(C_k) \\prod_{i=1}^D p(x_i \\mid C_k) \\right]$$",
+              queEscriboEnHoja: "«Comparando los productos *a posteriori* (notación proporcional / normalizada), el mayor valor corresponde a la clase **$C^*$**, por lo tanto la nueva instancia se asigna a dicha clase.»"
+            }
+          ]
+        },
+        {
+          id: "PRAC-NB-04",
+          tema: "NAIVE_BAYES",
+          tipo: "plantilla",
+          titulo: "Plantilla de Hoja en Blanco y Secuencia de Calculadora Casio",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Cómo tabular ordenadamente el cálculo para 2, 3 o 4 clases sin perder un término en el medio de las potencias de 10.",
+          tablaPlantilla: {
+            tituloTabla: "Tabla de Evaluación Bayesiana para Nueva Instancia X = (x₁, x₂, ...)",
+            columnas: [
+              "Clase $C_k$",
+              "$N_k$ y $P(C_k) = \\frac{N_k}{N_{\\text{tot}}}$",
+              "Verosimilitud $x_1$",
+              "Verosimilitud $x_2$",
+              "Score $P(C_k) \\prod p(x_i \\mid C_k)$",
+              "Normalizada ($\\%$)"
+            ],
+            filas: [
+              ["$C_1$", "$N_1 / N_{\\text{tot}}$", "$\\text{Frec}_1/N_1$ ó $f_{\\mathcal{N}}(x_1)$", "$\\text{Frec}_2/N_1$ ó $f_{\\mathcal{N}}(x_2)$", "$S_1$ (ej. $9.70 \\times 10^{-7}$)", "$S_1 / \\sum S_j$"],
+              ["$C_2$", "$N_2 / N_{\\text{tot}}$", "$\\text{Frec}_1/N_2$ ó $f_{\\mathcal{N}}(x_1)$", "$\\text{Frec}_2/N_2$ ó $f_{\\mathcal{N}}(x_2)$", "$S_2$ (ej. $4.02 \\times 10^{-12}$)", "$S_2 / \\sum S_j$"],
+              ["**Control**", "$\\sum P(C_k) = 1.00$", "**Divisor siempre es $N_k$**", "**Signo $-$ en exp.**", "**Mayor $S_k$ gana**", "$\\sum = 100\\%$"]
+            ]
+          },
+          tipHoja: "💡 **Secuencia segura en calculadora científica:** Calculá primero el exponente $E = -((x - \\mu)^2) / (2 \\cdot \\sigma^2)$ (con doble paréntesis en el denominador!), luego hacé `e^Ans` y por último multiplicá por `1 / (σ * √(2 * π))`. Así evitás el clásico error de dividir por $2$ y después multiplicar por $\\sigma^2$!"
+        },
+        {
+          id: "PRAC-NB-05",
+          tema: "NAIVE_BAYES",
+          tipo: "formula",
+          titulo: "Flashcard 1: ¿Por qué se escribe ∝ y cuándo SÍ hay que dividir por la suma?",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "La fórmula exacta de Bayes lleva un denominador $P(\\mathbf{x})$. ¿Por qué en los cálculos manuales casi siempre se usa el signo proporcional $\\propto$ y cuándo estás obligado a normalizar al final?",
+          respuestaDorso: "**Teorema completo vs. Regla MAP:**\n$$P(C_k \\mid \\mathbf{x}) = \\frac{P(C_k) \\prod_{i=1}^D P(x_i \\mid C_k)}{P(\\mathbf{x})} \\quad \\Longrightarrow \\quad \\text{Score}(C_k) = P(C_k) \\prod_{i=1}^D P(x_i \\mid C_k)$$\n\n* **Por qué se omite $P(\\mathbf{x})$ para clasificar:** $P(\\mathbf{x}) = \\sum_j \\text{Score}(C_j)$ es una **constante positiva idéntica para todas las clases**, por lo que no cambia cuál clase resulta ganadora en el $\\arg\\max$.\n* **Cuándo SÍ normalizar:** Si el enunciado pide **«calcule la probabilidad de pertenecer a cada clase»** (en lugar de solo *«a qué clase pertenece»*), dividís cada Score por $\\sum_j \\text{Score}(C_j)$ para entregar probabilidades reales que sumen $1$ ($100\\%$)."
+        },
+        {
+          id: "PRAC-NB-06",
+          tema: "NAIVE_BAYES",
+          tipo: "formula",
+          titulo: "Flashcard 2: Fórmula Gaussiana Completa y la Trampa de Densidad > 1",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "1) Escribí de memoria la función de densidad normal $p(x_i \\mid C_k)$ con $\\mu$ y $\\sigma$. 2) Estás rindiendo y la cuenta te da $p(x_i \\mid C_1) = 1.76$. ¿Hiciste algo mal en la calculadora?",
+          respuestaDorso: "**1) Fórmula canónica de la cátedra:**\n$$p(x_i \\mid C_k) = \\frac{1}{\\sigma_{ik}\\sqrt{2\\pi}} \\cdot e^{-\\frac{(x_i - \\mu_{ik})^2}{2\\sigma_{ik}^2}}$$\n\n**2) ¿Puede dar $> 1$?** **SÍ, está perfectamente bien.** $p(x \\mid C_k)$ es una **función de densidad de probabilidad ($f(x)$)**, NO una probabilidad discreta. Lo que debe valer $1$ es el área total bajo la curva ($\\int f(x)\\,dx = 1$). Cuando el desvío $\\sigma$ es chico (ej. $\\sigma < \\frac{1}{\\sqrt{2\\pi}} \\approx 0.3989$), el pico en $x = \\mu$ supera $1$ (por ejemplo con $\\sigma = 0.2$, el pico vale $\\approx 1.9947$)."
+        },
+        {
+          id: "PRAC-NB-07",
+          tema: "NAIVE_BAYES",
+          tipo: "formula",
+          titulo: "Flashcard 3: El Problema de Frecuencia Cero (Bin Vacío) y Suavizado de Laplace",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "En Naïve Bayes con Histogramas, todos los síntomas apuntan fuerte a la clase $E_1$, pero un único bin tiene frecuencia `0`. ¿Qué pasa con el Score sin corrección y cómo se resuelve formalmente?",
+          respuestaDorso: "* **Efecto anulador:** Como la verosimilitud conjunta multiplica los factores, un solo $P(x_m \\mid E_1) = 0 / N_1 = 0$ **anula todo el producto**, dando $\\text{Score}(E_1) = 0$ sin importar cuán probables sean los demás atributos.\n* **Solución (Suavizado de Laplace / $+1$):** Se suma $1$ a cada frecuencia y $B$ (cantidad de intervalos/bins posibles de ese atributo) al denominador:\n$$P_{\\text{Laplace}}(x_i \\in \\text{Bin}_m \\mid C_k) = \\frac{\\text{Frec}(\\text{Bin}_m, C_k) + 1}{N_k + B}$$\n*(Aclaración en hoja: si te aparece un bin en $0$ en un ejercicio sin especificar suavizado, calculá el producto $= 0$ y dejá asentado en una nota que con suavizado de Laplace $+1$ se evita el bloqueo).* "
+        },
+        {
+          id: "PRAC-NB-08",
+          tema: "NAIVE_BAYES",
+          tipo: "formula",
+          titulo: "Flashcard 4: ¿Cuándo falla Naïve Bayes Gaussiano vs. Histogramas? (Pregunta de Parcial)",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          preguntaFrente: "Pregunta conceptual de las diapositivas oficiales (`Slide 37` y `Slide 47`): ¿En qué datos falla Naïve Bayes con distribución Gaussiana, qué alternativa se usa y qué 3 cuidados requieren los Histogramas?",
+          respuestaDorso: "* **Limitación de la Gaussiana:** Asume que cada clase y atributo sigue una única campana unimodal e independencia entre dimensiones. **Falla** si los datos son **multimodales** (varios grupos separados de la misma clase), tienen formas no convexas/entrelazadas (**espirales, anillos concéntricos**) o fuerte correlación diagonal.\n* **Alternativa:** Discretizar en **Histogramas (bins)** cuando no se conoce la distribución.\n* **3 factores clave al usar Histogramas (Slide 47):**\n  1. **No usar bins** si los datos responden claramente a una distribución paramétrica conocida.\n  2. Determinar correctamente la **amplitud (cantidad y ancho) de los bins**.\n  3. Manejar adecuadamente las probabilidades de los **bins vacíos (frecuencia cero)**."
+        },
+        {
+          id: "PRAC-NB-09",
+          tema: "NAIVE_BAYES",
+          tipo: "trampa",
+          titulo: "Las 6 Trampas Clásicas de Examen en Naïve Bayes",
+          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
+          resumen: "Errores mecánicos que invalidan los cálculos tanto en Histogramas como en Distribución Normal.",
+          trampas: [
+            "**Dividir la frecuencia del bin por $N_{\\text{total}}$ en lugar de $N_k$:** En $P(x_1 \\in \\text{Bin} \\mid C_k)$, el denominador es SIEMPRE la cantidad de muestras de **esa clase $N_k$** (ej. $37.500$ para $T_1$), jamás los $125.000$ totales del dataset.",
+            "**Caer en el borde equivocado del bin `(a, b]`:** Paréntesis `(` no incluye el extremo, corchete `]` sí. Si $x_1 = -12$ y los intervalos son `(-∞, -12]` y `(-12, -1]` (Guía Ej. 07), `-12` pertenece al **primer** bin.",
+            "**Olvidar los paréntesis en $(2\\sigma^2)$ en la calculadora:** Escribir `-(x-μ)^2 / 2 * σ^2` hace $\\frac{-(x-\\mu)^2}{2} \\cdot \\sigma^2$ en vez de dividir por $(2\\sigma^2)$.",
+            "**Doble signo negativo cuando $\\mu < 0$ o $x < 0$:** En $(x_i - \\mu_{ik})^2$, si $x = 1.6$ y $\\mu = -3.0$ (Guía Ej. 01), la diferencia es $(1.6 - (-3.0))^2 = (4.6)^2$, **no** $(1.6 - 3.0)^2$.",
+            "**Comparar mal potencias negativas de 10:** Un alumno distraído ve `7.29 > 1.96` y no mira el exponente: $9.70 \\times 10^{-7}$ es **cientos de miles de veces MAYOR** que $7.29 \\times 10^{-12}$.",
+            "**Omitir calcular $N_k$ cuando el enunciado da porcentajes:** Si dice $T_1 (30\\%)$ de $125.000$ muestras, primero calculá $N_1 = 37.500$, verificá que la fila de frecuencias de $T_1$ sume $37.500$, y usá ese denominador en cada bin."
           ]
         }
       ]
