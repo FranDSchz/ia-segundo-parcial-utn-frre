@@ -1,0 +1,25 @@
+name: 🏆 Publicar Marca en Ranking Comunitario
+description: Comparte tu código IA-RANK de progreso para aparecer en el leaderboard comunitario del simulador
+title: "[Ranking]: "
+labels: ["ranking"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Pega aquí tu código **IA-RANK:v1:...** generado desde la pestaña **Progreso & Ranking** del simulador.
+        La app valida automáticamente el código y muestra tu posición usando únicamente tu alias, dominio P2, mejor simulacro, XP y racha (sin datos personales).
+  - type: input
+    id: alias
+    attributes:
+      label: Alias en el simulador
+      placeholder: Ej. Fran · ISI
+    validations:
+      required: true
+  - type: textarea
+    id: rank-code
+    attributes:
+      label: Código de Ranking (IA-RANK:v1:...)
+      description: Copiado con el botón "Copiar código para Ranking" dentro del simulador.
+      placeholder: IA-RANK:v1:...
+    validations:
+      required: true

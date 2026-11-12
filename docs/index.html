@@ -31,7 +31,7 @@
           <button class="nav-tab-btn active" id="tab-home" onclick="app.navigate('home')">Simulacro</button>
           <button class="nav-tab-btn" id="tab-practice" onclick="app.navigate('practice')">Práctica</button>
           <button class="nav-tab-btn" id="tab-lab" onclick="app.navigate('lab')">🛠️ Práctica Guiada</button>
-          <button class="nav-tab-btn" id="tab-history" onclick="app.navigate('history')">Historial</button>
+          <button class="nav-tab-btn" id="tab-history" onclick="app.navigate('history')">Progreso 🏆</button>
           <button class="nav-tab-btn" id="tab-qa" onclick="app.navigate('qa')">Banco QA</button>
           <button class="nav-tab-btn" id="tab-community" onclick="app.navigate('community')">Comunidad 💬</button>
         </nav>
@@ -63,6 +63,9 @@
     <section id="view-home" class="view-section active">
       <h1>Simulador Oficial del 2do Parcial</h1>
       <p class="subtitle">Entrenador interactivo con preguntas reales de parciales, finales y banco doctrinal con corrección Moodle.</p>
+
+      <!-- Global Study Progress & Gamification HUD -->
+      <div id="home-study-hud" class="study-hud-card card"></div>
 
       <h2>Selecciona el Modo de Examen:</h2>
       <div class="presets-grid">
@@ -136,7 +139,7 @@
       </div>
 
       <!-- Quick resume failed questions if available -->
-      <div id="resume-failed-box" style="display: none; margin-top: 2rem; text-align: center;">
+      <div id="resume-failed-box" style="display: none; margin-top: 1rem; text-align: center;">
         <button class="btn btn-outline" onclick="app.startPracticeFailed()">
           🔁 Repasar mis <span id="failed-count">0</span> preguntas falladas anteriormente
         </button>
@@ -149,6 +152,7 @@
         <div class="exam-meta-left">
           <span class="badge badge-topic" id="exam-topic-badge">TEMA</span>
           <span style="font-weight: 700;" id="exam-progress-text">Pregunta 1 de 25</span>
+          <span class="exam-answered-pill" id="exam-answered-text">Respondidas: 0 / 25</span>
         </div>
 
         <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -255,6 +259,9 @@
         </div>
       </div>
 
+      <!-- Post-Exam Gamification & SRS Delta -->
+      <div id="res-gamification-summary" class="res-gamification-summary"></div>
+
       <!-- Breakdown by Topic -->
       <div class="topic-breakdown-card">
         <h3 style="margin-bottom: 1rem;">Rendimiento por Eje Temático:</h3>
@@ -281,7 +288,10 @@
     <!-- VIEW 4: MODO PRÁCTICA LIBRE POR TEMA -->
     <section id="view-practice" class="view-section">
       <h1>Modo Práctica Libre por Tema</h1>
-      <p class="subtitle">Estudia a tu propio ritmo sin límite de tiempo, con validación instantánea y justificación oficial inmediata.</p>
+      <p class="subtitle">Estudia a tu propio ritmo con repetición espaciada (Anki), validación instantánea y justificación oficial.</p>
+
+      <!-- Practice Session & Anki Progress Bar -->
+      <div id="practice-hud" class="practice-hud-card card"></div>
 
       <!-- Topic Filters -->
       <div class="filter-bar" id="practice-filter-bar">
@@ -293,14 +303,22 @@
       </div>
     </section>
 
-    <!-- VIEW 5: HISTORIAL Y ESTADÍSTICAS -->
+    <!-- VIEW 5: PROGRESO, LOGROS, HISTORIAL Y RANKING -->
     <section id="view-history" class="view-section">
-      <h1>Historial de Rendimiento</h1>
-      <p class="subtitle">Registro local de tus simulacros de examen para medir tu curva de aprendizaje hacia el 18/11/2026.</p>
+      <h1>Progreso de Estudio, Logros y Ranking</h1>
+      <p class="subtitle">Seguimiento de tu dominio con repetición espaciada (Anki), racha hacia el 18/11/2026 y tabla comparativa de grupo.</p>
+
+      <div id="history-profile-card" class="card" style="margin-bottom: 1.5rem;"></div>
+
+      <div id="history-topics-card" class="card" style="margin-bottom: 1.5rem;"></div>
+
+      <div id="history-achievements-card" class="card" style="margin-bottom: 1.5rem;"></div>
+
+      <div id="history-leaderboard-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
       <div class="card" style="margin-bottom: 1.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-          <h3>Intentos Registrados</h3>
+          <h3>Intentos de Simulacro Registrados</h3>
           <button class="btn btn-outline btn-sm" onclick="app.clearHistory()">Limpiar Historial</button>
         </div>
         <div id="history-list-container">
@@ -541,6 +559,8 @@
         </p>
       </div>
 
+      <div id="lab-global-progress" class="lab-global-progress card"></div>
+
       <div id="lab-roadmap-strip" class="lab-roadmap-strip"></div>
 
       <div id="lab-topic-bar" class="lab-topic-bar"></div>
@@ -641,6 +661,7 @@
   <!-- Data Script (Loaded synchronously to avoid CORS in file://) -->
   <script src="data/preguntas.js"></script>
   <script src="data/entrenamiento_practico.js"></script>
+  <script src="study_engine.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>

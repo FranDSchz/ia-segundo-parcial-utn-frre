@@ -48,6 +48,22 @@
     practiceSelectedTopic: "ALL",
     practiceAnswers: {},
     practiceEvaluated: {},
+    practiceTurnBaseline: {},
+    practiceTurnRating: {},
+    practiceXpAwardedIds: new Set(),
+    practiceRequeuedTurns: new Set(),
+    practiceVerifiedCount: 0,
+    practiceQueueMeta: null,
+    practiceAllowAllCaughtUpFallback: false,
+
+    // Study Engine State (SM-2 Spaced Repetition, Gamification & Leaderboard)
+    srsMap: {},
+    gamif: null,
+    groupLeaderboard: [],
+    leaderboardMode: "group",
+    githubLeaderboard: null,
+    githubLeaderboardStatus: "",
+    lastExamReward: null,
 
     // QA Mode State
     qaSearchQuery: "",
@@ -74,6 +90,9 @@
         this.allQuestions = [];
       }
 
+      this.labData = window.ENTRENAMIENTO_PRACTICO || null;
+      this.initStudyState();
+
       // 2. Load theme
       const savedTheme = localStorage.getItem("ia_quiz_theme") || "dark";
       this.setTheme(savedTheme);
@@ -91,6 +110,8 @@
         if (presetCompletoMeta) {
           presetCompletoMeta.textContent = `📝 ${poolCount} Preguntas`;
         }
+        this.renderGlobalStudyHud();
+        this.updateSmartPracticeFilterLabel();
       };
       if (checkP1) {
         checkP1.checked = false;
@@ -107,6 +128,13 @@
         });
       }
       updatePresetCompletoCount();
+
+      // Track repo source link clicks for Auditor achievement
+      document.addEventListener("click", (e) => {
+        if (e.target && e.target.closest && e.target.closest(".repo-link-pill")) {
+          this.recordSourceLinkClick();
+        }
+      });
 
       // Update QA select count
       const qaOptionAll = document.querySelector('#qa-topic-select option[value="ALL"]');
@@ -396,12 +424,15 @@
 
       // View-specific initializers
       if (viewName === "home") {
+        this.renderGlobalStudyHud();
         this.renderStaticMath();
       } else if (viewName === "history") {
+        this.renderProgressDashboard();
         this.renderHistory();
       } else if (viewName === "qa") {
         this.renderQAMode();
       } else if (viewName === "practice") {
+        this.renderPracticeHud();
         this.renderPracticeQuestion();
       } else if (viewName === "lab") {
         this.renderLabView();
@@ -565,6 +596,15 @@
       const progressText = document.getElementById("exam-progress-text");
       if (progressText) {
         progressText.textContent = `Pregunta ${index + 1} de ${this.examQuestions.length}`;
+      }
+
+      const answeredEl = document.getElementById("exam-answered-text");
+      if (answeredEl) {
+        let answeredCount = 0;
+        for (let i = 0; i < this.examQuestions.length; i++) {
+          if (this.userAnswers[i] && this.userAnswers[i].size > 0) answeredCount++;
+        }
+        answeredEl.textContent = `Respondidas: ${answeredCount} / ${this.examQuestions.length}`;
       }
 
       const progressBar = document.getElementById("exam-progress-bar");
@@ -864,7 +904,11 @@
       localStorage.setItem("ia_quiz_failed_ids", JSON.stringify(Array.from(failedIds)));
       this.updateFailedButtonVisibility();
 
+      // Update Spaced Repetition (SRS) & Gamification cleanly AFTER exam finishes
+      this.lastExamReward = this.recordExamStudyOutcome(questionReviews, finalScore, this.selectedPreset);
+
       // Render Results View
+      this.renderGlobalStudyHud();
       this.renderResults();
       this.navigate("results");
     },
@@ -930,6 +974,42 @@
       document.getElementById("stat-partial").textContent = res.countPartial;
       document.getElementById("stat-wrong").textContent = res.countZero;
       document.getElementById("stat-time").textContent = res.timeFormatted;
+
+      // Post-exam Gamification & SRS Delta Strip
+      const rewardEl = document.getElementById("res-gamification-summary");
+      if (rewardEl) {
+        const rw = this.lastExamReward;
+        if (rw) {
+          const streakNow = window.StudyEngine ? StudyEngine.getEffectiveStreak(this.gamif) : 0;
+          const lvl = window.StudyEngine ? StudyEngine.getLevelInfo(this.gamif.xp) : { level: 1, title: "", icon: "⭐" };
+          const achBadges = (rw.newlyUnlocked || [])
+            .map((a) => `<span class="badge" style="background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.4);">🏅 Logro: ${this.escapeHtml(a.title)}</span>`)
+            .join("");
+          rewardEl.innerHTML = `
+            <div class="study-hud-card card" style="margin-bottom: 0;">
+              <div class="study-hud-top" style="margin-bottom: ${achBadges ? "0.5rem" : "0"};">
+                <div class="hud-level-block">
+                  <div class="hud-level-icon">${lvl.icon}</div>
+                  <div>
+                    <div class="hud-level-title">+${rw.xpGained} XP ganados${rw.leveledUp ? ` · ¡Subiste a Nv. ${lvl.level}: ${this.escapeHtml(lvl.title)}!` : ""}</div>
+                    <div class="hud-level-sub">
+                      <span>🧠 ${rw.srsUpdatedCount} tarjetas actualizadas en Repetición Espaciada</span>
+                      ${rw.recoveredCount > 0 ? `<span>· ⚔️ ${rw.recoveredCount} recuperadas</span>` : ""}
+                    </div>
+                  </div>
+                </div>
+                <div class="hud-stat-pills">
+                  <span class="hud-pill streak-hot">🔥 Racha: ${streakNow} ${streakNow === 1 ? "día" : "días"}</span>
+                  <span class="hud-pill">⭐ ${this.gamif.xp} XP totales</span>
+                </div>
+              </div>
+              ${achBadges ? `<div style="display:flex;flex-wrap:wrap;gap:0.4rem;">${achBadges}</div>` : ""}
+            </div>
+          `;
+        } else {
+          rewardEl.innerHTML = "";
+        }
+      }
 
       // Topic Breakdown
       const topicsList = document.getElementById("res-topics-list");
@@ -1054,8 +1134,41 @@
     },
 
     // -------------------------------------------------------------
-    // Practice Mode Engine
+    // Practice Mode Engine (with SM-2 Spaced Repetition Queue)
     // -------------------------------------------------------------
+    getSmartPracticePool() {
+      if (!window.StudyEngine) return [...this.allQuestions];
+      return StudyEngine.getScopedQuestions(this.allQuestions, {
+        includeP1: this.includeP1,
+        includeSVM: this.includeSVM
+      });
+    },
+
+    updateSmartPracticeFilterLabel() {
+      const btn = document.getElementById("practice-btn-SMART_SRS");
+      if (!btn || !window.StudyEngine) return;
+      const pool = this.getSmartPracticePool();
+      const qInfo = StudyEngine.buildSmartSrsQueue(pool, this.srsMap, Date.now());
+      const pending = qInfo.dueCount + qInfo.newCount;
+      btn.textContent = `🧠 Repaso Espaciado (${pending})`;
+    },
+
+    startSmartPractice() {
+      this.practiceAllowAllCaughtUpFallback = false;
+      this.navigate("practice");
+      this.filterPracticeTopic("SMART_SRS");
+    },
+
+    practiceTopicDirect(topicKey) {
+      this.navigate("practice");
+      this.filterPracticeTopic(topicKey || "ALL");
+    },
+
+    practiceUpcomingAnyway() {
+      this.practiceAllowAllCaughtUpFallback = true;
+      this.filterPracticeTopic("SMART_SRS");
+    },
+
     initPracticeMode() {
       const filterBar = document.getElementById("practice-filter-bar");
       if (!filterBar) return;
@@ -1066,6 +1179,19 @@
       this.allQuestions.forEach((q) => {
         counts[q.tema] = (counts[q.tema] || 0) + 1;
       });
+
+      // Botón Repaso Espaciado (Anki SM-2)
+      const smartBtn = document.createElement("button");
+      smartBtn.className = "filter-btn";
+      smartBtn.id = "practice-btn-SMART_SRS";
+      smartBtn.style.borderColor = "var(--success)";
+      smartBtn.style.fontWeight = "700";
+      smartBtn.onclick = () => {
+        this.practiceAllowAllCaughtUpFallback = false;
+        this.filterPracticeTopic("SMART_SRS");
+      };
+      filterBar.appendChild(smartBtn);
+      this.updateSmartPracticeFilterLabel();
 
       // "ALL" button
       const allBtn = document.createElement("button");
@@ -1104,12 +1230,20 @@
 
     filterPracticeTopic(topicKey) {
       this.practiceSelectedTopic = topicKey;
+      this.practiceQueueMeta = null;
 
       document.querySelectorAll(".filter-btn").forEach((btn) => {
         btn.classList.toggle("active", btn.id === `practice-btn-${topicKey}`);
       });
 
-      if (topicKey === "ALL") {
+      if (topicKey === "SMART_SRS" && window.StudyEngine) {
+        const pool = this.getSmartPracticePool();
+        const qInfo = StudyEngine.buildSmartSrsQueue(pool, this.srsMap, Date.now(), {
+          includeNotDueFallback: this.practiceAllowAllCaughtUpFallback
+        });
+        this.practiceQueueMeta = qInfo;
+        this.practiceQuestions = qInfo.queue;
+      } else if (topicKey === "ALL") {
         this.practiceQuestions = [...this.allQuestions];
       } else if (topicKey === "YEAR_2025") {
         this.practiceQuestions = this.allQuestions.filter((q) => this.matchesYearFilter(q, "PARCIAL_2025"));
@@ -1120,7 +1254,128 @@
       this.practiceIndex = 0;
       this.practiceAnswers = {};
       this.practiceEvaluated = {};
+      this.practiceTurnBaseline = {};
+      this.practiceTurnRating = {};
+      this.practiceXpAwardedIds = new Set();
+      this.practiceRequeuedTurns = new Set();
+      this.practiceVerifiedCount = 0;
+      this.renderPracticeHud();
       this.renderPracticeQuestion();
+    },
+
+    renderPracticeHud() {
+      const hud = document.getElementById("practice-hud");
+      if (!hud || !window.StudyEngine || !this.gamif) return;
+
+      const total = this.practiceQuestions.length;
+      const pos = total > 0 ? Math.min(total, this.practiceIndex + 1) : 0;
+      const pct = total > 0 ? Math.round((pos / total) * 100) : 100;
+      const todayKey = StudyEngine.getLocalDateKey();
+      const todayCount = (this.gamif.dailyActions && this.gamif.dailyActions[todayKey]) || 0;
+      const goal = this.gamif.dailyGoal || 15;
+      const streak = StudyEngine.getEffectiveStreak(this.gamif);
+      const combo = this.gamif.practiceCombo || 0;
+      const qMeta = this.practiceQueueMeta;
+
+      const queueLabel = this.practiceSelectedTopic === "SMART_SRS" && qMeta
+        ? `🧠 Cola Anki · ${qMeta.dueCount} vencidas/repaso · ${qMeta.newCount} nuevas · ${qMeta.rebeldesCount} rebeldes`
+        : `📘 Progreso del mazo actual: ${pos} de ${total} · Verificadas en sesión: ${this.practiceVerifiedCount}`;
+
+      hud.innerHTML = `
+        <div class="practice-hud-row">
+          <div><strong>${queueLabel}</strong></div>
+          <div class="hud-stat-pills">
+            ${combo >= 2 ? `<span class="combo-pill ${combo >= 5 ? "hot" : ""}">⚡ Racha de aciertos x${combo}</span>` : ""}
+            <span class="hud-pill ${todayCount >= goal ? "goal-done" : ""}">🎯 Meta hoy: ${todayCount}/${goal}</span>
+            <span class="hud-pill ${streak > 0 ? "streak-hot" : ""}">🔥 ${streak} ${streak === 1 ? "día" : "días"}</span>
+          </div>
+        </div>
+        <div class="progress-container" style="margin-top: 0.2rem;">
+          <div class="progress-bar" style="width: ${pct}%;"></div>
+        </div>
+      `;
+    },
+
+    renderAnkiStatusChipHtml(card) {
+      if (!window.StudyEngine) return "";
+      const c = card || StudyEngine.createEmptyCard();
+      if (!c.lastReviewedAt || c.status === "new") {
+        return `<span class="anki-status-chip">✨ Nueva en Anki</span>`;
+      }
+      if (StudyEngine.isCardMastered(c)) {
+        return `<span class="anki-status-chip mastered">✅ Dominada · Próx. ${StudyEngine.formatIntervalLabel(c.intervalHours, 4)}</span>`;
+      }
+      if (c.lapses > 0) {
+        return `<span class="anki-status-chip relearning">⚔️ Rebelde (${c.lapses} ${c.lapses === 1 ? "fallo" : "fallos"}) · Próx. ${StudyEngine.formatIntervalLabel(c.intervalHours, c.lastRating)}</span>`;
+      }
+      return `<span class="anki-status-chip learning">🧠 En aprendizaje · Próx. ${StudyEngine.formatIntervalLabel(c.intervalHours, c.lastRating)}</span>`;
+    },
+
+    buildAnkiButtonsHtml({ cardBefore, moodleScore, selectedRating, handlerName, itemArg, hintText }) {
+      if (!window.StudyEngine) return "";
+      const previews = StudyEngine.previewIntervals(cardBefore, moodleScore, Date.now());
+      const suggested = typeof moodleScore === "number" ? StudyEngine.ratingFromMoodleScore(moodleScore) : null;
+      const defs = [
+        { r: 1, cls: "anki-again", icon: "🔁", label: "Otra vez" },
+        { r: 2, cls: "anki-hard", icon: "😅", label: "Difícil" },
+        { r: 3, cls: "anki-good", icon: "👍", label: "Bien" },
+        { r: 4, cls: "anki-easy", icon: "⚡", label: "Fácil" }
+      ];
+      const argPrefix = (itemArg !== undefined && itemArg !== null)
+        ? `'${String(itemArg).replace(/'/g, "\\'")}', `
+        : "";
+      const buttons = defs.map((d) => {
+        const isSelected = Number(selectedRating) === d.r;
+        const isSuggested = !isSelected && Number(suggested) === d.r;
+        const classes = ["anki-btn", d.cls, isSelected ? "selected" : "", isSuggested ? "suggested" : ""]
+          .filter(Boolean)
+          .join(" ");
+        return `
+          <button type="button" class="${classes}" onclick="${handlerName}(${argPrefix}${d.r})">
+            <span class="anki-btn-label">${d.icon} ${d.label}</span>
+            <span class="anki-btn-interval">${this.escapeHtml(previews[d.r])}</span>
+          </button>
+        `;
+      }).join("");
+
+      const chipTarget = (selectedRating || suggested)
+        ? StudyEngine.computeNextSrsState(cardBefore, selectedRating || suggested, moodleScore, Date.now())
+        : null;
+      const chipHtml = chipTarget
+        ? this.renderAnkiStatusChipHtml(chipTarget)
+        : (cardBefore && cardBefore.reps > 0)
+          ? this.renderAnkiStatusChipHtml(cardBefore)
+          : `<span class="anki-status-chip learning">🆕 Nueva · Elegí tu recuerdo</span>`;
+
+      return `
+        <div class="anki-rating-box">
+          <div class="anki-rating-header">
+            <span><strong>🧠 Repetición Espaciada (Estilo Anki)</strong> — ${this.escapeHtml(hintText || "Ajustá cuándo volver a verla según cuánto te costó:")}</span>
+            ${chipHtml}
+          </div>
+          <div class="anki-rating-grid">${buttons}</div>
+        </div>
+      `;
+    },
+
+    shiftPracticeIndicesFrom(insertAt) {
+      const shiftMap = (obj) => {
+        const next = {};
+        Object.keys(obj).forEach((kStr) => {
+          const k = Number(kStr);
+          next[k >= insertAt ? k + 1 : k] = obj[kStr];
+        });
+        return next;
+      };
+      this.practiceAnswers = shiftMap(this.practiceAnswers);
+      this.practiceEvaluated = shiftMap(this.practiceEvaluated);
+      this.practiceTurnBaseline = shiftMap(this.practiceTurnBaseline);
+      this.practiceTurnRating = shiftMap(this.practiceTurnRating);
+      const nextSet = new Set();
+      this.practiceRequeuedTurns.forEach((k) => {
+        nextSet.add(k >= insertAt ? k + 1 : k);
+      });
+      this.practiceRequeuedTurns = nextSet;
     },
 
     renderPracticeQuestion() {
@@ -1128,6 +1383,22 @@
       if (!container) return;
 
       if (this.practiceQuestions.length === 0) {
+        if (this.practiceSelectedTopic === "SMART_SRS") {
+          container.innerHTML = `
+            <div class="card" style="text-align: center; padding: 2.25rem 1.5rem;">
+              <div style="font-size: 2.4rem; margin-bottom: 0.5rem;">🎉</div>
+              <h2 style="margin-bottom: 0.5rem;">¡Mazo de Repaso Espaciado al día!</h2>
+              <p style="color: var(--text-muted); max-width: 560px; margin: 0 auto 1.25rem;">
+                No tenés tarjetas vencidas ni nuevas pendientes en tu alcance actual. Podés repasar igual las programadas a futuro o hacer un simulacro cronometrado.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.65rem;">
+                <button class="btn btn-primary" onclick="app.practiceUpcomingAnyway()">🔁 Repasar tarjetas futuras igual</button>
+                <button class="btn btn-outline" onclick="app.navigate('home')">🚀 Ir a Simulacro</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
         container.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No hay preguntas para este tema.</p>`;
         return;
       }
@@ -1172,6 +1443,18 @@
         `;
       });
 
+      const ankiBoxHtml = isChecked && window.StudyEngine
+        ? this.buildAnkiButtonsHtml({
+            cardBefore: this.practiceTurnBaseline[this.practiceIndex] || this.srsMap[q.id],
+            moodleScore: score,
+            selectedRating: this.practiceTurnRating[this.practiceIndex] || StudyEngine.ratingFromMoodleScore(score),
+            handlerName: "app.ratePracticeAnki",
+            hintText: this.practiceRequeuedTurns.has(this.practiceIndex)
+              ? "Re-encolada en esta sesión para volver a practicarla:"
+              : "Elegí qué tan difícil te resultó para ajustar su frecuencia:"
+          })
+        : "";
+
       const justificationHtml = isChecked
         ? `
         <div class="justification-box" style="margin-top: 1.25rem;">
@@ -1184,6 +1467,7 @@
             </span>
           </div>
           <div>${this.formatRichText(q.explicacion)}</div>
+          ${ankiBoxHtml}
           ${this.renderHistoricalRefHtml(q)}
         </div>
       `
@@ -1263,7 +1547,116 @@
     },
 
     checkPracticeCurrent() {
-      this.practiceEvaluated[this.practiceIndex] = true;
+      const idx = this.practiceIndex;
+      const q = this.practiceQuestions[idx];
+      if (!q) return;
+
+      this.practiceEvaluated[idx] = true;
+      this.practiceVerifiedCount += 1;
+
+      if (window.StudyEngine) {
+        const selectedSet = this.practiceAnswers[idx] || new Set();
+        const score = this.calculateMoodleScore(q.correctas, q.opciones.length, selectedSet);
+        const now = Date.now();
+
+        if (!this.practiceTurnBaseline[idx]) {
+          this.practiceTurnBaseline[idx] = StudyEngine.cloneCard(this.srsMap[q.id]);
+        }
+        const prevCard = this.practiceTurnBaseline[idx];
+        const autoRating = StudyEngine.ratingFromMoodleScore(score);
+        const nextCard = StudyEngine.computeNextSrsState(prevCard, autoRating, score, now);
+        this.srsMap[q.id] = nextCard;
+        this.practiceTurnRating[idx] = autoRating;
+
+        // Track failed IDs legacy sync cleanly
+        const failedSet = new Set(this.getStoredFailedIds());
+        if (score === 100) {
+          failedSet.delete(q.id);
+        } else {
+          failedSet.add(q.id);
+        }
+        localStorage.setItem("ia_quiz_failed_ids", JSON.stringify(Array.from(failedSet)));
+        this.updateFailedButtonVisibility();
+
+        // Gamification with anti-farm guard (1 XP award per question ID per session pass, or if re-queued later)
+        const xpKey = `${idx}:${q.id}`;
+        if (!this.practiceXpAwardedIds.has(xpKey) && this.gamif) {
+          this.practiceXpAwardedIds.add(xpKey);
+          const { dailyBonusXp } = StudyEngine.applyStudyTouch(this.gamif, now, 1);
+          this.gamif.totalReviews = (this.gamif.totalReviews || 0) + 1;
+
+          let earnedXp = dailyBonusXp;
+          if (score >= 100) earnedXp += 30;
+          else if (score >= 80) earnedXp += 20;
+          else if (score >= 60) earnedXp += 10;
+          else earnedXp += 5; // effort XP for attempting & reading justification
+
+          if ((prevCard.lapses > 0 || prevCard.status === "relearning") && score >= 80) {
+            earnedXp += 10;
+            this.gamif.recoveredCount = (this.gamif.recoveredCount || 0) + 1;
+          }
+
+          if (score >= 80) {
+            this.gamif.practiceCombo = (this.gamif.practiceCombo || 0) + 1;
+            if (this.gamif.practiceCombo > (this.gamif.bestPracticeCombo || 0)) {
+              this.gamif.bestPracticeCombo = this.gamif.practiceCombo;
+            }
+          } else {
+            this.gamif.practiceCombo = 0;
+          }
+
+          const prevLvl = StudyEngine.getLevelInfo(this.gamif.xp).level;
+          this.gamif.xp = (this.gamif.xp || 0) + earnedXp;
+          const nextLvl = StudyEngine.getLevelInfo(this.gamif.xp);
+          const summary = this.getStudySummary(now);
+          const unlocked = StudyEngine.evaluateAchievements(this.gamif, summary, now);
+
+          if (unlocked.length > 0) {
+            this.showToast(`🏅 ¡Logro desbloqueado: ${unlocked[0].title}!`);
+          } else if (nextLvl.level > prevLvl) {
+            this.showToast(`${nextLvl.icon} ¡Subiste al Nivel ${nextLvl.level}: ${nextLvl.title}!`);
+          } else if (this.gamif.practiceCombo >= 3 && score >= 80) {
+            this.showToast(`⚡ ¡Racha x${this.gamif.practiceCombo}! +${earnedXp} XP`);
+          }
+        }
+
+        this.saveStudyState();
+        this.renderGlobalStudyHud();
+        this.updateSmartPracticeFilterLabel();
+        this.renderPracticeHud();
+      }
+
+      this.renderPracticeQuestion();
+    },
+
+    ratePracticeAnki(rating) {
+      const idx = this.practiceIndex;
+      const q = this.practiceQuestions[idx];
+      if (!q || !window.StudyEngine || !this.practiceEvaluated[idx]) return;
+
+      const selectedSet = this.practiceAnswers[idx] || new Set();
+      const score = this.calculateMoodleScore(q.correctas, q.opciones.length, selectedSet);
+      const baseline = this.practiceTurnBaseline[idx] || StudyEngine.createEmptyCard();
+      const now = Date.now();
+      const nextCard = StudyEngine.computeNextSrsState(baseline, rating, score, now);
+      this.srsMap[q.id] = nextCard;
+      this.practiceTurnRating[idx] = rating;
+
+      if (rating === 1 && this.practiceSelectedTopic === "SMART_SRS" && !this.practiceRequeuedTurns.has(idx)) {
+        this.practiceRequeuedTurns.add(idx);
+        const insertAt = Math.min(this.practiceQuestions.length, idx + 4);
+        this.practiceQuestions.splice(insertAt, 0, q);
+        this.shiftPracticeIndicesFrom(insertAt);
+        this.showToast("🔁 Tarjeta re-encolada para volver a verla en esta sesión");
+      } else {
+        const nextTxt = StudyEngine.formatIntervalLabel(nextCard.intervalHours, rating);
+        this.showToast(`🧠 Programada en Repetición Espaciada (${nextTxt})`);
+      }
+
+      this.saveStudyState();
+      this.renderGlobalStudyHud();
+      this.updateSmartPracticeFilterLabel();
+      this.renderPracticeHud();
       this.renderPracticeQuestion();
     },
 
@@ -1278,6 +1671,7 @@
     prevPracticeQuestion() {
       if (this.practiceIndex > 0) {
         this.practiceIndex--;
+        this.renderPracticeHud();
         this.renderPracticeQuestion();
       }
     },
@@ -1285,8 +1679,911 @@
     nextPracticeQuestion() {
       if (this.practiceIndex < this.practiceQuestions.length - 1) {
         this.practiceIndex++;
+        this.renderPracticeHud();
         this.renderPracticeQuestion();
       }
+    },
+
+    // -------------------------------------------------------------
+    // Study Engine, SRS Persistence, Gamification & Ranking
+    // -------------------------------------------------------------
+    initStudyState() {
+      this.labCardSessionRating = {};
+      if (!window.StudyEngine) {
+        this.srsMap = {};
+        this.gamif = null;
+        this.groupLeaderboard = [];
+        return;
+      }
+
+      const rawSrs = localStorage.getItem("ia_srs_v1");
+      const rawGamif = localStorage.getItem("ia_gamification_v1");
+      const rawGroup = localStorage.getItem("ia_group_leaderboard_v1");
+      const rawGhCache = localStorage.getItem("ia_github_rank_cache_v1");
+
+      try {
+        const parsedSrs = rawSrs ? JSON.parse(rawSrs) : {};
+        this.srsMap = parsedSrs && typeof parsedSrs === "object" && !Array.isArray(parsedSrs) ? parsedSrs : {};
+      } catch (e) {
+        this.srsMap = {};
+      }
+
+      try {
+        const parsedGamif = rawGamif ? JSON.parse(rawGamif) : null;
+        this.gamif = StudyEngine.normalizeGamification(parsedGamif);
+      } catch (e) {
+        this.gamif = StudyEngine.createDefaultGamification();
+      }
+
+      try {
+        const parsedGroup = rawGroup ? JSON.parse(rawGroup) : [];
+        this.groupLeaderboard = Array.isArray(parsedGroup)
+          ? parsedGroup.filter((entry) => entry && entry.code && StudyEngine.decodeRankCode(entry.code))
+          : [];
+      } catch (e) {
+        this.groupLeaderboard = [];
+      }
+
+      try {
+        const parsedCache = rawGhCache ? JSON.parse(rawGhCache) : null;
+        if (parsedCache && Array.isArray(parsedCache.rows)) {
+          this.githubLeaderboard = parsedCache.rows;
+          this.githubLeaderboardFetchedAt = Number(parsedCache.fetchedAt || 0);
+          this.githubLeaderboardStatus = "ready";
+        } else {
+          this.githubLeaderboard = [];
+          this.githubLeaderboardFetchedAt = 0;
+          this.githubLeaderboardStatus = "idle";
+        }
+      } catch (e) {
+        this.githubLeaderboard = [];
+        this.githubLeaderboardFetchedAt = 0;
+        this.githubLeaderboardStatus = "idle";
+      }
+
+      const migrated = this.migrateLegacyStudyData(!rawSrs, !rawGamif);
+      const now = Date.now();
+      const summary = this.getStudySummary(now);
+      const newlyUnlocked = StudyEngine.evaluateAchievements(this.gamif, summary, now);
+      if (migrated || newlyUnlocked.length > 0) {
+        this.saveStudyState();
+      }
+    },
+
+    migrateLegacyStudyData(shouldMigrateSrs, shouldMigrateGamif) {
+      let changed = false;
+      if (shouldMigrateSrs) {
+        try {
+          const failedRaw = localStorage.getItem("ia_quiz_failed_ids");
+          const failedIds = failedRaw ? JSON.parse(failedRaw) : [];
+          if (Array.isArray(failedIds) && failedIds.length > 0) {
+            failedIds.forEach((id) => {
+              if (!this.srsMap[id]) {
+                this.srsMap[id] = {
+                  ...StudyEngine.createEmptyCard(),
+                  status: "relearning",
+                  lapses: 1,
+                  ease: 2.35,
+                  intervalHours: 0,
+                  nextReviewAt: 0,
+                  lastScore: 0,
+                  lastRating: 1
+                };
+                changed = true;
+              }
+            });
+          }
+        } catch (e) {
+          // Ignore malformed legacy failed IDs
+        }
+      }
+
+      if (shouldMigrateGamif && (this.gamif.totalExams || 0) === 0) {
+        try {
+          const histRaw = localStorage.getItem("ia_quiz_history");
+          const hist = histRaw ? JSON.parse(histRaw) : [];
+          if (Array.isArray(hist) && hist.length > 0) {
+            this.gamif.totalExams = hist.length;
+            hist.forEach((attempt) => {
+              const s = Number(attempt?.score || 0);
+              const preset = String(attempt?.preset || "");
+              if (preset === "2025") {
+                this.gamif.best2025Score = Math.max(this.gamif.best2025Score || 0, s);
+              }
+              if (preset === "oficial" || preset === "2025" || preset === "completo") {
+                this.gamif.bestExamScore = Math.max(this.gamif.bestExamScore || 0, s);
+              }
+            });
+            this.gamif.xp = Math.max(this.gamif.xp || 0, Math.min(hist.length * 40, 320));
+            changed = true;
+          }
+        } catch (e) {
+          // Ignore malformed legacy history
+        }
+      }
+      return changed;
+    },
+
+    saveStudyState() {
+      if (!window.StudyEngine) return;
+      try {
+        localStorage.setItem("ia_srs_v1", JSON.stringify(this.srsMap || {}));
+        localStorage.setItem("ia_gamification_v1", JSON.stringify(this.gamif || StudyEngine.createDefaultGamification()));
+        localStorage.setItem("ia_group_leaderboard_v1", JSON.stringify(this.groupLeaderboard || []));
+      } catch (e) {
+        // Ignore storage quota errors gracefully
+      }
+    },
+
+    getStudySummary(nowMs = Date.now()) {
+      if (!window.StudyEngine) return null;
+      return StudyEngine.computeProgressSummary(
+        this.allQuestions,
+        this.srsMap,
+        this.labData,
+        this.labCompletedSteps,
+        { includeP1: this.includeP1, includeSVM: this.includeSVM, nowMs }
+      );
+    },
+
+    finalizeGamifAction({ xpGain = 0, actionIncrement = 1, reviewIncrement = 0, recoveredIncrement = 0, nowMs = Date.now(), emitToast = true }) {
+      if (!window.StudyEngine || !this.gamif) return { xpGained: 0, leveledUp: false, newlyUnlocked: [] };
+      const { dailyBonusXp } = StudyEngine.applyStudyTouch(this.gamif, nowMs, actionIncrement);
+      this.gamif.totalReviews = (this.gamif.totalReviews || 0) + reviewIncrement;
+      this.gamif.recoveredCount = (this.gamif.recoveredCount || 0) + recoveredIncrement;
+
+      const prevLvl = StudyEngine.getLevelInfo(this.gamif.xp).level;
+      const totalAdded = Math.max(0, Math.round(xpGain + dailyBonusXp));
+      this.gamif.xp = (this.gamif.xp || 0) + totalAdded;
+      const nextLvl = StudyEngine.getLevelInfo(this.gamif.xp);
+      const summary = this.getStudySummary(nowMs);
+      const newlyUnlocked = StudyEngine.evaluateAchievements(this.gamif, summary, nowMs);
+
+      if (emitToast) {
+        if (newlyUnlocked.length > 0) {
+          this.showToast(`🏅 ¡Logro desbloqueado: ${newlyUnlocked[0].title}!`);
+        } else if (nextLvl.level > prevLvl) {
+          this.showToast(`${nextLvl.icon} ¡Subiste al Nivel ${nextLvl.level}: ${nextLvl.title}!`);
+        } else if (dailyBonusXp > 0) {
+          this.showToast(`🎯 ¡Meta diaria alcanzada! +${dailyBonusXp} XP bonus`);
+        }
+      }
+
+      return {
+        xpGained: totalAdded,
+        dailyBonusXp,
+        leveledUp: nextLvl.level > prevLvl,
+        newlyUnlocked
+      };
+    },
+
+    renderMasteryStackedBarHtml(stats) {
+      const total = Math.max(1, Number(stats.total || 0));
+      const mPct = Math.round(((stats.mastered || 0) / total) * 100);
+      const lPct = Math.min(100 - mPct, Math.round(((stats.learning || 0) / total) * 100));
+      return `
+        <div class="mastery-stacked-bar">
+          <div class="mastery-seg-mastered" style="width: ${mPct}%;"></div>
+          <div class="mastery-seg-learning" style="width: ${lPct}%;"></div>
+        </div>
+      `;
+    },
+
+    renderGlobalStudyHud() {
+      const hudEl = document.getElementById("home-study-hud");
+      if (!hudEl || !window.StudyEngine || !this.gamif) return;
+
+      const now = Date.now();
+      const summary = this.getStudySummary(now);
+      if (!summary) return;
+      const lvl = StudyEngine.getLevelInfo(this.gamif.xp);
+      const streak = StudyEngine.getEffectiveStreak(this.gamif, now);
+      const todayKey = StudyEngine.getLocalDateKey(now);
+      const todayActions = (this.gamif.dailyActions && this.gamif.dailyActions[todayKey]) || 0;
+      const goalTarget = this.gamif.dailyGoal || 15;
+      const goalMet = todayActions >= goalTarget;
+      const xpGoalTxt = lvl.nextLevel ? `${lvl.xp} / ${lvl.nextLevel.minXp} XP` : `${lvl.xp} XP (Máximo)`;
+
+      const scopeLabel = (!this.includeP1 && !this.includeSVM)
+        ? "Banco activo 2do Parcial"
+        : "Banco filtrado activo";
+      const dueBadgeTxt = summary.p2.dueNow > 0
+        ? `🧠 Sesión Anki (${summary.p2.dueNow} vencidas)`
+        : summary.p2.newCount > 0
+          ? `🧠 Sesión Anki (${summary.p2.newCount} nuevas)`
+          : "🧠 Repasar Banco Activo";
+
+      hudEl.innerHTML = `
+        <div class="study-hud-top">
+          <div class="hud-level-block">
+            <div class="hud-level-icon">${lvl.icon}</div>
+            <div>
+              <div class="hud-level-title">Nv. ${lvl.level} · ${this.escapeHtml(lvl.title)} <span style="font-weight:500;color:var(--text-muted);font-size:0.82rem;">(${this.escapeHtml(this.gamif.alias || "Estudiante UTN")})</span></div>
+              <div class="hud-level-sub">
+                <span>⭐ ${xpGoalTxt}</span>
+                <div class="xp-bar-wrap" title="${lvl.progressPct}% hacia el siguiente nivel">
+                  <div class="xp-bar-fill" style="width: ${lvl.progressPct}%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hud-stat-pills">
+            <span class="hud-pill ${streak > 0 ? "streak-hot" : ""}">🔥 Racha: ${streak} ${streak === 1 ? "día" : "días"}</span>
+            <span class="hud-pill ${goalMet ? "goal-done" : ""}">🎯 Meta hoy: ${todayActions}/${goalTarget}${goalMet ? " ✓" : ""}</span>
+            <span class="hud-pill">🛠️ Lab: ${summary.lab.pct}%</span>
+          </div>
+        </div>
+
+        <div class="mastery-bar-header">
+          <span><strong>Dominio del ${scopeLabel}:</strong> ${summary.p2.mastered} / ${summary.p2.total} preguntas dominadas (${summary.p2.masteredPct}%)</span>
+          <span style="color:var(--text-muted);">En repaso: ${summary.p2.learning} · Sin ver: ${summary.p2.newCount}</span>
+        </div>
+        ${this.renderMasteryStackedBarHtml(summary.p2)}
+        <div class="mastery-legend">
+          <span><span class="mastery-dot" style="background:var(--success);"></span>Dominadas (${summary.p2.mastered})</span>
+          <span><span class="mastery-dot" style="background:var(--primary);"></span>En repaso Anki (${summary.p2.learning})</span>
+          <span><span class="mastery-dot" style="background:var(--border-color);"></span>Sin ver (${summary.p2.newCount})</span>
+          ${summary.p2.rebeldes > 0 ? `<span style="color:var(--danger);font-weight:700;">⚔️ ${summary.p2.rebeldes} rebeldes por recuperar</span>` : ""}
+        </div>
+
+        <div class="srs-home-cta">
+          <div style="font-size:0.83rem;color:var(--text-muted);">
+            <strong>Prioridad inteligente:</strong> primero vuelven las que más te costaron o están vencidas; luego las nuevas.
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="app.startSmartPractice()">${dueBadgeTxt}</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.navigate('history')">🏆 Progreso y Ranking</button>
+          </div>
+        </div>
+      `;
+    },
+
+    recordExamStudyOutcome(questionReviews, finalScore, preset) {
+      if (!window.StudyEngine || !this.gamif || !Array.isArray(questionReviews) || questionReviews.length === 0) {
+        return { xpGained: 0, dailyBonusXp: 0, leveledUp: false, newlyUnlocked: [], srsUpdatedCount: 0, recoveredCount: 0 };
+      }
+
+      const answeredReviews = questionReviews.filter((r) => Array.isArray(r.selectedIndices) && r.selectedIndices.length > 0);
+      if (answeredReviews.length === 0) {
+        return { xpGained: 0, dailyBonusXp: 0, leveledUp: false, newlyUnlocked: [], srsUpdatedCount: 0, recoveredCount: 0 };
+      }
+
+      // Guard against early-exit penalty: if < 50% was answered, only update questions the user actually attempted
+      const abortedEarly = answeredReviews.length < Math.ceil(questionReviews.length * 0.5);
+      const targets = abortedEarly ? answeredReviews : questionReviews;
+
+      const now = Date.now();
+      let srsUpdatedCount = 0;
+      let recoveredCount = 0;
+      let questionXp = 0;
+
+      targets.forEach((r) => {
+        const q = r.question;
+        if (!q || q.id === undefined) return;
+        const prevCard = this.srsMap[q.id] || StudyEngine.createEmptyCard();
+        const rating = StudyEngine.ratingFromMoodleScore(r.score);
+        this.srsMap[q.id] = StudyEngine.computeNextSrsState(prevCard, rating, r.score, now);
+        srsUpdatedCount++;
+
+        if ((prevCard.lapses > 0 || prevCard.status === "relearning") && r.score >= 80) {
+          recoveredCount++;
+        }
+
+        if (r.selectedIndices && r.selectedIndices.length > 0) {
+          if (r.score >= 100) questionXp += 18;
+          else if (r.score >= 80) questionXp += 13;
+          else if (r.score >= 60) questionXp += 7;
+          else questionXp += 2;
+        }
+      });
+
+      const completionBonus = abortedEarly
+        ? 0
+        : preset === "completo"
+          ? 80
+          : (preset === "oficial" || preset === "2025")
+            ? 50
+            : 25;
+
+      this.gamif.totalExams = (this.gamif.totalExams || 0) + 1;
+      if (!abortedEarly) {
+        if (preset === "2025") {
+          this.gamif.best2025Score = Math.max(this.gamif.best2025Score || 0, finalScore);
+        }
+        if (preset === "oficial" || preset === "2025" || preset === "completo" || questionReviews.length >= 25) {
+          this.gamif.bestExamScore = Math.max(this.gamif.bestExamScore || 0, finalScore);
+        }
+      }
+
+      const delta = this.finalizeGamifAction({
+        xpGain: questionXp + completionBonus + recoveredCount * 10,
+        actionIncrement: Math.max(1, answeredReviews.length),
+        reviewIncrement: srsUpdatedCount,
+        recoveredIncrement: recoveredCount,
+        nowMs: now,
+        emitToast: false
+      });
+
+      this.saveStudyState();
+      this.updateSmartPracticeFilterLabel();
+
+      return {
+        ...delta,
+        srsUpdatedCount,
+        recoveredCount
+      };
+    },
+
+    recordSourceLinkClick() {
+      if (!window.StudyEngine || !this.gamif) return;
+      const now = Date.now();
+      this.gamif.sourceClicks = (this.gamif.sourceClicks || 0) + 1;
+      const summary = this.getStudySummary(now);
+      const newlyUnlocked = StudyEngine.evaluateAchievements(this.gamif, summary, now);
+      if (newlyUnlocked.length > 0) {
+        this.showToast(`🏅 ¡Logro desbloqueado: ${newlyUnlocked[0].title}!`);
+      }
+      this.saveStudyState();
+      if (this.currentView === "history") {
+        this.renderProgressDashboard();
+      }
+    },
+
+    renderProgressDashboard() {
+      if (!window.StudyEngine || !this.gamif) return;
+      const now = Date.now();
+      const summary = this.getStudySummary(now);
+      if (!summary) return;
+
+      this.renderProfileSummaryCard(summary, now);
+      this.renderTopicsMasteryCard(summary);
+      this.renderAchievementsCard(summary);
+      this.renderLeaderboardCard(summary, now);
+    },
+
+    renderProfileSummaryCard(summary, now) {
+      const el = document.getElementById("history-profile-card");
+      if (!el) return;
+
+      const lvl = StudyEngine.getLevelInfo(this.gamif.xp);
+      const streak = StudyEngine.getEffectiveStreak(this.gamif, now);
+      const todayKey = StudyEngine.getLocalDateKey(now);
+      const todayActions = (this.gamif.dailyActions && this.gamif.dailyActions[todayKey]) || 0;
+      const goalTarget = this.gamif.dailyGoal || 15;
+      const goalPct = Math.min(100, Math.round((todayActions / Math.max(1, goalTarget)) * 100));
+      const xpSub = lvl.nextLevel
+        ? `${lvl.xp} XP · faltan ${lvl.xpToNext} XP para Nv. ${lvl.nextLevel.level} (${this.escapeHtml(lvl.nextLevel.title)})`
+        : `${lvl.xp} XP · Nivel máximo alcanzado`;
+
+      const unlockedCount = Object.keys(this.gamif.unlockedAchievements || {}).length;
+      const goalOptions = [10, 15, 20, 30]
+        .map((n) => `<option value="${n}" ${goalTarget === n ? "selected" : ""}>${n} acciones/día</option>`)
+        .join("");
+
+      el.innerHTML = `
+        <div class="study-hud-top">
+          <div class="hud-level-block">
+            <div class="hud-level-icon">${lvl.icon}</div>
+            <div>
+              <div class="hud-level-title">Nv. ${lvl.level} · ${this.escapeHtml(lvl.title)}</div>
+              <div class="hud-level-sub">
+                <span>⭐ ${xpSub}</span>
+                <div class="xp-bar-wrap" style="width:140px;">
+                  <div class="xp-bar-fill" style="width:${lvl.progressPct}%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hud-stat-pills">
+            <span class="hud-pill ${streak > 0 ? "streak-hot" : ""}">🔥 Racha: ${streak} d (máx ${this.gamif.bestStreakDays || streak} d)</span>
+            <span class="hud-pill ${todayActions >= goalTarget ? "goal-done" : ""}">🎯 Meta hoy: ${todayActions}/${goalTarget} (${goalPct}%)</span>
+            <span class="hud-pill">⚡ Mejor combo: x${this.gamif.bestPracticeCombo || 0}</span>
+          </div>
+        </div>
+
+        <div class="profile-top-grid">
+          <div class="profile-stat-box">
+            <div class="profile-stat-val">${summary.p2.mastered} / ${summary.p2.total} <span style="font-size:0.9rem;color:var(--success);">(${summary.p2.masteredPct}%)</span></div>
+            <div class="profile-stat-lbl">Banco P2 dominado (SRS)</div>
+          </div>
+          <div class="profile-stat-box">
+            <div class="profile-stat-val">${summary.p2.dueNow}</div>
+            <div class="profile-stat-lbl">Tarjetas vencidas para hoy (${summary.p2.newCount} nuevas)</div>
+          </div>
+          <div class="profile-stat-box">
+            <div class="profile-stat-val">${summary.lab.pct}%</div>
+            <div class="profile-stat-lbl">Lab Práctico (${summary.lab.stepsDone}/${summary.lab.stepsTotal} pasos · ${summary.lab.flashcardsEvaluated}/${summary.lab.flashcardsTotal} cards)</div>
+          </div>
+          <div class="profile-stat-box">
+            <div class="profile-stat-val">${this.gamif.best2025Score || 0}% · ${unlockedCount}/${StudyEngine.ACHIEVEMENTS.length}</div>
+            <div class="profile-stat-lbl">Mejor Moodle 2025 · Logros</div>
+          </div>
+        </div>
+
+        ${this.renderMasteryStackedBarHtml(summary.p2)}
+        <div class="srs-deck-chips">
+          <span class="badge" style="background:var(--success-bg);color:var(--success);">Dominadas: ${summary.p2.mastered}</span>
+          <span class="badge badge-topic">En repaso: ${summary.p2.learning}</span>
+          <span class="badge" style="background:var(--bg-subtle);color:var(--text-muted);border:1px solid var(--border-color);">Sin ver: ${summary.p2.newCount}</span>
+          <span class="badge" style="background:var(--danger-bg);color:var(--danger);">Rebeldes: ${summary.p2.rebeldes}</span>
+          <span class="badge" style="background:var(--bg-subtle);color:var(--text-muted);border:1px solid var(--border-color);">Evaluaciones totales: ${this.gamif.totalReviews || 0}</span>
+        </div>
+
+        <div class="profile-controls-row" style="margin-top:0.9rem;">
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">
+            <label for="profile-alias-input" style="font-size:0.82rem;font-weight:700;">Alias:</label>
+            <input id="profile-alias-input" type="text" class="inline-input" maxlength="28" value="${this.escapeHtml(this.gamif.alias || "Estudiante UTN")}" onkeydown="if(event.key==='Enter') app.saveProfileSettings();" />
+            <label for="profile-goal-select" style="font-size:0.82rem;font-weight:700;">Meta diaria:</label>
+            <select id="profile-goal-select" class="inline-input">${goalOptions}</select>
+            <button type="button" class="btn btn-primary btn-sm" onclick="app.saveProfileSettings()">Guardar perfil</button>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;align-items:center;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.exportProgressBackup()">💾 Exportar JSON</button>
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;margin:0;">
+              📂 Importar JSON
+              <input type="file" accept=".json,application/json" style="display:none;" onchange="app.importProgressBackup(this)" />
+            </label>
+            <button type="button" class="btn btn-outline btn-sm" style="color:var(--danger);border-color:rgba(239,68,68,0.4);" onclick="app.resetStudyProgress()">♻️ Reiniciar progreso</button>
+          </div>
+        </div>
+      `;
+    },
+
+    renderTopicsMasteryCard(summary) {
+      const el = document.getElementById("history-topics-card");
+      if (!el) return;
+
+      const rowsHtml = Object.values(summary.byTopic)
+        .sort((a, b) => a.masteredPct - b.masteredPct || b.dueNow - a.dueNow)
+        .map((t) => {
+          const avgTxt = t.avgScore !== null ? ` · Últ. prom: ${t.avgScore}%` : "";
+          const dueTxt = t.dueNow > 0 ? ` · ${t.dueNow} vencidas` : "";
+          return `
+            <div class="topic-mastery-row">
+              <div>
+                <div style="font-weight:700;font-size:0.87rem;">${this.escapeHtml(TOPIC_NAMES[t.tema] || t.tema)}</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">
+                  ${t.rebeldes > 0 ? `⚔️ ${t.rebeldes} rebeldes` : "Sin rebeldes"}${dueTxt}${avgTxt}
+                </div>
+              </div>
+              <div>${this.renderMasteryStackedBarHtml(t)}</div>
+              <div style="font-family:var(--font-mono);font-size:0.82rem;font-weight:700;white-space:nowrap;">${t.mastered}/${t.total} (${t.masteredPct}%)</div>
+              <div>
+                <button type="button" class="btn btn-outline btn-sm" onclick="app.practiceTopicDirect('${t.tema}')">🧠 Repasar</button>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.65rem;">
+          <div>
+            <h3 style="margin:0;">📊 Dominio por Tema (Anki SM-2)</h3>
+            <p style="margin:0.15rem 0 0;font-size:0.82rem;color:var(--text-muted);">Ordenado desde los temas con menor dominio para enfocar tu estudio antes del parcial.</p>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" onclick="app.startSmartPractice()">🧠 Ir al Repaso Inteligente</button>
+        </div>
+        ${rowsHtml || `<p style="color:var(--text-muted);">No hay temas activos en el filtro actual.</p>`}
+      `;
+    },
+
+    renderAchievementsCard(summary) {
+      const el = document.getElementById("history-achievements-card");
+      if (!el) return;
+
+      const ctx = { gamif: this.gamif, summary };
+      const unlockedMap = this.gamif.unlockedAchievements || {};
+      const unlockedTotal = Object.keys(unlockedMap).length;
+
+      const cardsHtml = StudyEngine.ACHIEVEMENTS.map((a) => {
+        const isUnlocked = Boolean(unlockedMap[a.id]);
+        const rawProg = a.progress ? a.progress(ctx) : [isUnlocked ? 1 : 0, 1];
+        const cur = Array.isArray(rawProg) ? Number(rawProg[0] || 0) : Number(rawProg?.current || 0);
+        const tgt = Math.max(1, Array.isArray(rawProg) ? Number(rawProg[1] || 1) : Number(rawProg?.target || 1));
+        const pct = Math.min(100, Math.round((cur / tgt) * 100));
+        const ratioTxt = isUnlocked ? `${tgt}/${tgt}` : `${Math.min(cur, tgt)}/${tgt}`;
+        return `
+          <div class="achievement-card ${isUnlocked ? "unlocked" : "locked"}">
+            <div class="achievement-icon">${isUnlocked ? a.icon : "🔒"}</div>
+            <div style="flex:1;min-width:0;">
+              <div class="achievement-title">${this.escapeHtml(a.title)} ${isUnlocked ? "✓" : ""}</div>
+              <div class="achievement-desc">${this.escapeHtml(a.desc)}</div>
+              <div style="margin-top:0.35rem;display:flex;align-items:center;gap:0.45rem;">
+                <div class="xp-bar-wrap" style="flex:1;width:auto;">
+                  <div class="xp-bar-fill" style="width:${isUnlocked ? 100 : pct}%;${isUnlocked ? "background:var(--success);" : ""}"></div>
+                </div>
+                <span style="font-size:0.72rem;font-family:var(--font-mono);color:var(--text-muted);">${ratioTxt}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+          <h3 style="margin:0;">🏅 Logros de Preparación (${unlockedTotal} / ${StudyEngine.ACHIEVEMENTS.length})</h3>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Desbloqueados únicamente por progreso real (sin farmeo)</span>
+        </div>
+        <div class="achievements-grid">${cardsHtml}</div>
+      `;
+    },
+
+    renderLeaderboardCard(summary, now) {
+      const el = document.getElementById("history-leaderboard-card");
+      if (!el) return;
+
+      const myCode = StudyEngine.encodeRankCode(this.gamif, summary, now);
+      const myEntry = {
+        ...StudyEngine.decodeRankCode(myCode),
+        isMe: true
+      };
+
+      const mode = this.leaderboardMode === "github" ? "github" : "group";
+      const rows = mode === "group"
+        ? [myEntry, ...(this.groupLeaderboard || []).map((p) => ({ ...p, isMe: false }))]
+        : [myEntry, ...(this.githubLeaderboard || []).filter((p) => p.code !== myCode).map((p) => ({ ...p, isMe: false }))];
+
+      rows.sort((a, b) =>
+        (b.masteredCount - a.masteredCount) ||
+        (b.xp - a.xp) ||
+        (b.best2025Score - a.best2025Score)
+      );
+
+      const tableRowsHtml = rows.map((r, idx) => {
+        const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
+        const authorMeta = r.authorLogin
+          ? `<div style="font-size:0.72rem;color:var(--text-muted);">@${this.escapeHtml(r.authorLogin)}${r.issueUrl ? ` · <a href="${this.escapeHtml(r.issueUrl)}" target="_blank" rel="noopener noreferrer">Issue</a>` : ""}</div>`
+          : "";
+        const removeBtn = (!r.isMe && mode === "group")
+          ? `<button type="button" class="btn btn-outline btn-sm" style="padding:0.15rem 0.45rem;font-size:0.74rem;" title="Quitar del grupo" onclick="app.removePeerFromLeaderboard('${this.escapeHtml(r.code).replace(/'/g, "\\'")}')">✕</button>`
+          : "";
+
+        return `
+          <tr class="${r.isMe ? "rank-row-me" : ""}">
+            <td>${medal}</td>
+            <td>
+              <div>${r.levelIcon || "🌱"} <strong>${this.escapeHtml(r.alias || "Estudiante UTN")}</strong> ${r.isMe ? `<span class="badge badge-topic" style="margin-left:0.25rem;">TÚ</span>` : ""}</div>
+              ${authorMeta}
+            </td>
+            <td style="font-family:var(--font-mono);">Nv.${r.level || 1} · ${r.xp || 0} XP</td>
+            <td><strong>${r.masteryPct || 0}%</strong> <span style="color:var(--text-muted);font-size:0.76rem;">(${r.masteredCount || 0})</span></td>
+            <td style="font-family:var(--font-mono);">${r.best2025Score || 0}%</td>
+            <td>🔥 ${r.streakDays || 0}d</td>
+            <td>${removeBtn}</td>
+          </tr>
+        `;
+      }).join("");
+
+      const groupPanel = `
+        <div class="rank-code-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+            <div>
+              <strong style="font-size:0.86rem;">🔗 Tu Código Verificable para Compartir</strong>
+              <span style="font-size:0.78rem;color:var(--text-muted);margin-left:0.35rem;">(con checksum anti-edición · ideal para grupos de estudio)</span>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="app.generateAndCopyRankCode()">📋 Copiar mi código</button>
+          </div>
+          <code class="rank-code-preview" title="${this.escapeHtml(myCode)}">${this.escapeHtml(myCode)}</code>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.65rem;">
+            <input id="peer-rank-code-input" type="text" class="inline-input" style="flex:1;min-width:220px;" placeholder="Pegá acá el código IA-RANK:v1:... de un compañero" onkeydown="if(event.key==='Enter') app.importPeerRankCode();" />
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.importPeerRankCode()">➕ Agregar compañero</button>
+          </div>
+        </div>
+      `;
+
+      const ghIssueUrl = `https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/issues/new?template=ranking_puntaje.yml&title=${encodeURIComponent(`[Ranking]: ${this.gamif.alias || "Estudiante UTN"}`)}&alias=${encodeURIComponent(this.gamif.alias || "Estudiante UTN")}&rank-code=${encodeURIComponent(myCode)}`;
+      const lastFetchTxt = this.githubLeaderboardFetchedAt
+        ? `Última actualización: ${new Date(this.githubLeaderboardFetchedAt).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}`
+        : "Sin sincronizar aún";
+      const ghStatusBadge = this.githubLeaderboardStatus === "loading"
+        ? "⏳ Cargando Issues públicos..."
+        : this.githubLeaderboardStatus === "error"
+          ? `⚠️ No se pudo conectar con GitHub (mostrando caché/local). ${lastFetchTxt}`
+          : `✅ Sincronizado (${this.githubLeaderboard.length} participantes en GitHub · ${lastFetchTxt})`;
+
+      const githubPanel = `
+        <div class="rank-code-box">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.65rem;">
+            <div style="font-size:0.82rem;color:var(--text-muted);">
+              <strong>🌐 Tabla Comunitaria Real via GitHub Issues:</strong> lee issues públicos abiertos con la etiqueta <code>ranking</code> y código <code>IA-RANK:v1:...</code> válido. Zero bots, zero servidor oculto.
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+              <a href="${ghIssueUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">📤 Publicar mi código</a>
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.refreshGithubLeaderboard(true)">🔄 Actualizar</button>
+            </div>
+          </div>
+          <div style="margin-top:0.55rem;font-size:0.78rem;color:var(--text-muted);">${ghStatusBadge}</div>
+        </div>
+      `;
+
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;">
+          <div>
+            <h3 style="margin:0;">🏆 Leaderboard del Grupo y Comunidad (100% Real)</h3>
+            <p style="margin:0.2rem 0 0;font-size:0.82rem;color:var(--text-muted);">Aplicación estática sin backend: nunca inventa bots. Compartí tu progreso verificable por código o publicá opcionalmente en GitHub.</p>
+          </div>
+        </div>
+
+        <div class="leaderboard-tabs">
+          <button type="button" class="filter-btn ${mode === "group" ? "active" : ""}" onclick="app.setLeaderboardMode('group')">👥 Mi Grupo (${1 + (this.groupLeaderboard || []).length})</button>
+          <button type="button" class="filter-btn ${mode === "github" ? "active" : ""}" onclick="app.setLeaderboardMode('github')">🌐 Ranking GitHub (${this.githubLeaderboard.length})</button>
+        </div>
+
+        ${mode === "group" ? groupPanel : githubPanel}
+
+        <div style="overflow-x:auto;">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Estudiante</th>
+                <th>Nivel / XP</th>
+                <th>Dominio P2</th>
+                <th>2025</th>
+                <th>Racha</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>${tableRowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    },
+
+    saveProfileSettings() {
+      if (!this.gamif) return;
+      const aliasEl = document.getElementById("profile-alias-input");
+      const goalEl = document.getElementById("profile-goal-select");
+      if (aliasEl) {
+        const cleanAlias = aliasEl.value.trim().slice(0, 28) || "Estudiante UTN";
+        this.gamif.alias = cleanAlias;
+      }
+      if (goalEl) {
+        const g = Number(goalEl.value);
+        if ([10, 15, 20, 30].includes(g)) {
+          this.gamif.dailyGoal = g;
+        }
+      }
+      this.saveStudyState();
+      this.renderGlobalStudyHud();
+      this.renderProgressDashboard();
+      this.showToast("✅ Perfil y meta diaria guardados");
+    },
+
+    setLeaderboardMode(mode) {
+      this.leaderboardMode = mode === "github" ? "github" : "group";
+      this.renderProgressDashboard();
+      if (this.leaderboardMode === "github") {
+        const stale = (Date.now() - (this.githubLeaderboardFetchedAt || 0)) > (15 * 60 * 1000);
+        if (stale && this.githubLeaderboardStatus !== "loading") {
+          this.refreshGithubLeaderboard(false);
+        }
+      }
+    },
+
+    generateAndCopyRankCode() {
+      if (!window.StudyEngine || !this.gamif) return;
+      const code = StudyEngine.encodeRankCode(this.gamif, this.getStudySummary(Date.now()), Date.now());
+      const copyFallback = () => {
+        const ta = document.createElement("textarea");
+        ta.value = code;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code)
+          .then(() => this.showToast("📋 Código IA-RANK copiado. ¡Compartilo con tu grupo!"))
+          .catch(() => {
+            copyFallback();
+            this.showToast("📋 Código IA-RANK copiado");
+          });
+      } else {
+        copyFallback();
+        this.showToast("📋 Código IA-RANK copiado");
+      }
+    },
+
+    importPeerRankCode() {
+      if (!window.StudyEngine) return;
+      const input = document.getElementById("peer-rank-code-input");
+      if (!input) return;
+      const raw = input.value.trim();
+      if (!raw) {
+        this.showToast("⚠️ Pegá un código IA-RANK:v1:... primero");
+        return;
+      }
+      const decoded = StudyEngine.decodeRankCode(raw);
+      if (!decoded) {
+        this.showToast("❌ Código inválido o alterado (checksum incorrecto)");
+        return;
+      }
+
+      const myCode = StudyEngine.encodeRankCode(this.gamif, this.getStudySummary(Date.now()), Date.now());
+      if (decoded.code === myCode) {
+        this.showToast("ℹ️ Ese es tu propio código actual (ya estás en la tabla)");
+        return;
+      }
+
+      const keyAlias = decoded.alias.toLowerCase();
+      this.groupLeaderboard = (this.groupLeaderboard || []).filter(
+        (p) => p.code !== decoded.code && String(p.alias || "").toLowerCase() !== keyAlias
+      );
+      this.groupLeaderboard.push(decoded);
+      this.saveStudyState();
+      input.value = "";
+      this.renderProgressDashboard();
+      this.showToast(`✅ ${decoded.alias} agregado al Leaderboard del Grupo`);
+    },
+
+    removePeerFromLeaderboard(code) {
+      this.groupLeaderboard = (this.groupLeaderboard || []).filter((p) => p.code !== code);
+      this.saveStudyState();
+      this.renderProgressDashboard();
+      this.showToast("🗑️ Participante quitado del grupo");
+    },
+
+    async refreshGithubLeaderboard(forceRefresh = false) {
+      if (!window.StudyEngine) return;
+      const now = Date.now();
+      const cacheAgeMs = now - (this.githubLeaderboardFetchedAt || 0);
+      if (!forceRefresh && cacheAgeMs < (15 * 60 * 1000) && this.githubLeaderboard.length > 0) {
+        this.githubLeaderboardStatus = "ready";
+        if (this.currentView === "history") this.renderProgressDashboard();
+        return;
+      }
+
+      this.githubLeaderboardStatus = "loading";
+      if (this.currentView === "history") this.renderProgressDashboard();
+
+      const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), 7000) : null;
+
+      try {
+        const res = await fetch(
+          "https://api.github.com/repos/FranDSchz/ia-segundo-parcial-utn-frre/issues?labels=ranking&state=open&per_page=30",
+          {
+            headers: { Accept: "application/vnd.github+json" },
+            signal: controller ? controller.signal : undefined
+          }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const issues = await res.json();
+        if (!Array.isArray(issues)) throw new Error("Respuesta inesperada");
+
+        const byAuthor = new Map();
+        issues.forEach((issue) => {
+          const body = String(issue?.body || "");
+          const match = body.match(/IA-RANK:v1:[A-Za-z0-9_-]+/);
+          if (!match) return;
+          const decoded = StudyEngine.decodeRankCode(match[0]);
+          if (!decoded) return;
+
+          const login = issue?.user?.login ? String(issue.user.login) : decoded.alias;
+          const candidate = {
+            ...decoded,
+            authorLogin: login,
+            issueUrl: issue?.html_url || ""
+          };
+          const prev = byAuthor.get(login);
+          if (!prev || candidate.xp > prev.xp || candidate.masteredCount > prev.masteredCount) {
+            byAuthor.set(login, candidate);
+          }
+        });
+
+        this.githubLeaderboard = Array.from(byAuthor.values());
+        this.githubLeaderboardFetchedAt = Date.now();
+        this.githubLeaderboardStatus = "ready";
+        try {
+          localStorage.setItem("ia_github_rank_cache_v1", JSON.stringify({
+            fetchedAt: this.githubLeaderboardFetchedAt,
+            rows: this.githubLeaderboard
+          }));
+        } catch (e) {}
+      } catch (e) {
+        this.githubLeaderboardStatus = "error";
+      } finally {
+        if (timer) clearTimeout(timer);
+        if (this.currentView === "history") {
+          this.renderProgressDashboard();
+        }
+      }
+    },
+
+    exportProgressBackup() {
+      try {
+        const payload = {
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          srsMap: this.srsMap || {},
+          gamif: this.gamif || {},
+          labSteps: [...(this.labCompletedSteps || [])],
+          groupLeaderboard: this.groupLeaderboard || [],
+          history: JSON.parse(localStorage.getItem("ia_quiz_history") || "[]"),
+          failedIds: JSON.parse(localStorage.getItem("ia_quiz_failed_ids") || "[]")
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `ia-2p-progreso-${StudyEngine.getLocalDateKey(Date.now())}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        this.showToast("💾 Respaldo JSON descargado");
+      } catch (e) {
+        this.showToast("⚠️ No se pudo exportar el respaldo");
+      }
+    },
+
+    importProgressBackup(inputEl) {
+      const file = inputEl && inputEl.files && inputEl.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || "{}"));
+          if (!data || typeof data !== "object" || (!data.srsMap && !data.gamif && !Array.isArray(data.labSteps))) {
+            throw new Error("Formato incompatible");
+          }
+          if (data.srsMap && typeof data.srsMap === "object" && !Array.isArray(data.srsMap)) {
+            this.srsMap = data.srsMap;
+          }
+          if (data.gamif && typeof data.gamif === "object" && window.StudyEngine) {
+            this.gamif = StudyEngine.normalizeGamification(data.gamif);
+          }
+          if (Array.isArray(data.labSteps)) {
+            this.labCompletedSteps = new Set(data.labSteps.map(String));
+            this.saveLabSteps();
+          }
+          if (Array.isArray(data.groupLeaderboard) && window.StudyEngine) {
+            this.groupLeaderboard = data.groupLeaderboard.filter((e) => e && e.code && StudyEngine.decodeRankCode(e.code));
+          }
+          if (Array.isArray(data.history)) {
+            localStorage.setItem("ia_quiz_history", JSON.stringify(data.history));
+          }
+          if (Array.isArray(data.failedIds)) {
+            localStorage.setItem("ia_quiz_failed_ids", JSON.stringify(data.failedIds));
+          }
+
+          this.saveStudyState();
+          this.updateFailedButtonVisibility();
+          this.updateSmartPracticeFilterLabel();
+          this.renderGlobalStudyHud();
+          this.renderHistory();
+          this.renderProgressDashboard();
+          if (this.currentView === "lab") this.renderLabView();
+          this.showToast("✅ Progreso restaurado desde respaldo JSON");
+        } catch (e) {
+          this.showToast("❌ Archivo JSON de progreso inválido");
+        } finally {
+          inputEl.value = "";
+        }
+      };
+      reader.readAsText(file);
+    },
+
+    resetStudyProgress() {
+      if (!confirm("¿Reiniciar todo tu progreso de Repetición Espaciada (Anki), XP, racha y logros? (Tus intentos históricos quedan aparte)")) {
+        return;
+      }
+      const savedAlias = this.gamif && this.gamif.alias ? this.gamif.alias : "Estudiante UTN";
+      this.srsMap = {};
+      this.gamif = window.StudyEngine ? StudyEngine.createDefaultGamification() : {};
+      if (this.gamif) this.gamif.alias = savedAlias;
+      this.labCardSessionRating = {};
+      localStorage.setItem("ia_srs_v1", "{}");
+      localStorage.setItem("ia_gamification_v1", JSON.stringify(this.gamif));
+      this.updateSmartPracticeFilterLabel();
+      this.renderGlobalStudyHud();
+      this.renderProgressDashboard();
+      if (this.currentView === "lab") this.renderLabView();
+      this.showToast("♻️ Progreso de SRS y gamificación reiniciado");
     },
 
     // -------------------------------------------------------------
@@ -1840,12 +3137,35 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
     toggleLabStep(itemId, stepNro) {
       const key = `${itemId}:${stepNro}`;
-      if (this.labCompletedSteps.has(key)) {
+      const wasDone = this.labCompletedSteps.has(key);
+      if (wasDone) {
         this.labCompletedSteps.delete(key);
       } else {
         this.labCompletedSteps.add(key);
+        if (window.StudyEngine && this.gamif) {
+          const now = Date.now();
+          const todayKey = StudyEngine.getLocalDateKey(now);
+          const xpKey = `labstep:${key}`;
+          if (!this.gamif.xpAwardedToday) this.gamif.xpAwardedToday = {};
+          if (this.gamif.xpAwardedToday[xpKey] !== todayKey) {
+            this.gamif.xpAwardedToday[xpKey] = todayKey;
+            this.finalizeGamifAction({
+              xpGain: 10,
+              actionIncrement: 1,
+              reviewIncrement: 0,
+              recoveredIncrement: 0,
+              nowMs: now,
+              emitToast: true
+            });
+          } else {
+            const summary = this.getStudySummary(now);
+            StudyEngine.evaluateAchievements(this.gamif, summary, now);
+          }
+          this.saveStudyState();
+        }
       }
       this.saveLabSteps();
+      this.renderGlobalStudyHud();
       const scrollY = window.scrollY;
       this.renderLabView();
       window.scrollTo(0, scrollY);
@@ -1858,6 +3178,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         }
       }
       this.saveLabSteps();
+      this.renderGlobalStudyHud();
       const scrollY = window.scrollY;
       this.renderLabView();
       window.scrollTo(0, scrollY);
@@ -1924,6 +3245,66 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       this.updateRevealAllBtnState(this.getVisibleLabItems(tema));
     },
 
+    renderLabGlobalProgress(summary) {
+      const globalEl = document.getElementById("lab-global-progress");
+      if (!globalEl) return;
+      if (!summary || !summary.lab) {
+        globalEl.innerHTML = "";
+        return;
+      }
+      const lab = summary.lab;
+      globalEl.innerHTML = `
+        <div class="mastery-bar-header">
+          <span><strong>🛠️ Progreso Global de Práctica Guiada:</strong> ${lab.pct}% completado</span>
+          <span style="color:var(--text-muted);">${lab.stepsDone}/${lab.stepsTotal} pasos · ${lab.flashcardsEvaluated}/${lab.flashcardsTotal} flashcards (${lab.flashcardsMastered} dominadas) · ${lab.topicsTouched}/${lab.topicsTotal} temas</span>
+        </div>
+        <div class="mastery-stacked-bar">
+          <div class="mastery-seg-mastered" style="width:${lab.pct}%;"></div>
+        </div>
+      `;
+    },
+
+    renderLabTopicHeader(activeTema, summary) {
+      const topicHeaderEl = document.getElementById("lab-topic-header");
+      if (!topicHeaderEl || !activeTema) return;
+
+      const totalSteps = activeTema.items.reduce((acc, it) => acc + (Array.isArray(it.pasos) ? it.pasos.length : 0), 0);
+      const doneSteps = activeTema.items.reduce((acc, it) => {
+        if (!Array.isArray(it.pasos)) return acc;
+        return acc + it.pasos.filter((p) => this.labCompletedSteps.has(`${it.id}:${p.nro}`)).length;
+      }, 0);
+      const tStat = summary && summary.lab && summary.lab.byTopic ? summary.lab.byTopic[activeTema.id] : null;
+      const tPct = tStat ? tStat.pct : (totalSteps > 0 ? Math.round((doneSteps / totalSteps) * 100) : 0);
+      const cardsTxt = tStat && tStat.cardsTotal > 0 ? ` · 📐 Flashcards: ${tStat.cardsEvaluated}/${tStat.cardsTotal}` : "";
+
+      topicHeaderEl.innerHTML = `
+        <div class="lab-topic-header-top">
+          <h2 class="lab-topic-title"><span>${activeTema.icono || "🛠️"}</span> ${activeTema.nombre}</h2>
+          <span class="badge badge-lab-nature">${activeTema.badge || "SOLO PRÁCTICA · NO ES PARCIAL"}</span>
+        </div>
+        <div class="lab-topic-meta">
+          <span class="lab-meta-chip">⚖️ Ponderación típica: ${activeTema.ponderacion || "N/A"}</span>
+          <span class="lab-meta-chip">⏱️ Tiempo sugerido: ${activeTema.tiempoSugerido || "N/A"}</span>
+          <span class="lab-meta-chip progress">☑️ Pasos practicados: ${doneSteps} / ${totalSteps}${cardsTxt}</span>
+        </div>
+        <div class="lab-topic-progress">
+          <div class="mastery-bar-header" style="margin-bottom:0.25rem;">
+            <span>Progreso del tema: <strong>${tPct}%</strong></span>
+            <span style="color:var(--text-muted);">${doneSteps}/${totalSteps} pasos${tStat && tStat.cardsTotal > 0 ? ` · ${tStat.cardsMastered}/${tStat.cardsTotal} flashcards dominadas` : ""}</span>
+          </div>
+          <div class="mastery-stacked-bar">
+            <div class="mastery-seg-mastered" style="width:${tPct}%;"></div>
+          </div>
+        </div>
+        ${activeTema.referenciaCatedra ? `
+          <div class="lab-catedra-ref">
+            <div><strong>📚 Referencia de Cátedra:</strong> ${this.escapeHtml(activeTema.referenciaCatedra)}</div>
+            ${this.renderRepoLinksHtml(activeTema.referenciaLinks, "🔗 Guías y modelos originales:")}
+          </div>` : ""}
+        <div class="lab-topic-objetivo">${this.formatLabText(activeTema.objetivo)}</div>
+      `;
+    },
+
     renderLabView() {
       const container = document.getElementById("lab-content-container");
       const roadmapEl = document.getElementById("lab-roadmap-strip");
@@ -1936,6 +3317,9 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         container.innerHTML = `<div class="card"><p>No se pudieron cargar los datos de Práctica Guiada (revisa <code>data/entrenamiento_practico.js</code>).</p></div>`;
         return;
       }
+
+      const summary = this.getStudySummary(Date.now());
+      this.renderLabGlobalProgress(summary);
 
       // 1. Roadmap strip (all 8 syllabus iterations)
       if (roadmapEl && Array.isArray(this.labData.roadmap)) {
@@ -1960,32 +3344,8 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         `).join("");
       }
 
-      // 3. Topic Header + Checklist Progress
-      const totalSteps = activeTema.items.reduce((acc, it) => acc + (Array.isArray(it.pasos) ? it.pasos.length : 0), 0);
-      const doneSteps = activeTema.items.reduce((acc, it) => {
-        if (!Array.isArray(it.pasos)) return acc;
-        return acc + it.pasos.filter((p) => this.labCompletedSteps.has(`${it.id}:${p.nro}`)).length;
-      }, 0);
-
-      if (topicHeaderEl) {
-        topicHeaderEl.innerHTML = `
-          <div class="lab-topic-header-top">
-            <h2 class="lab-topic-title"><span>${activeTema.icono || "🛠️"}</span> ${activeTema.nombre}</h2>
-            <span class="badge badge-lab-nature">${activeTema.badge || "SOLO PRÁCTICA · NO ES PARCIAL"}</span>
-          </div>
-          <div class="lab-topic-meta">
-            <span class="lab-meta-chip">⚖️ Ponderación típica: ${activeTema.ponderacion || "N/A"}</span>
-            <span class="lab-meta-chip">⏱️ Tiempo sugerido: ${activeTema.tiempoSugerido || "N/A"}</span>
-            <span class="lab-meta-chip progress">☑️ Pasos practicados: ${doneSteps} / ${totalSteps}</span>
-          </div>
-          ${activeTema.referenciaCatedra ? `
-            <div class="lab-catedra-ref">
-              <div><strong>📚 Referencia de Cátedra:</strong> ${this.escapeHtml(activeTema.referenciaCatedra)}</div>
-              ${this.renderRepoLinksHtml(activeTema.referenciaLinks, "🔗 Guías y modelos originales:")}
-            </div>` : ""}
-          <div class="lab-topic-objetivo">${this.formatLabText(activeTema.objetivo)}</div>
-        `;
-      }
+      // 3. Topic Header + Checklist + Flashcard Progress
+      this.renderLabTopicHeader(activeTema, summary);
 
       // 4. Type Filters with counts
       const filterDefs = [
@@ -2134,18 +3494,107 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       `;
     },
 
+    rateLabFlashcard(itemId, rating) {
+      if (!window.StudyEngine || !this.srsMap) return;
+      const key = `lab:${itemId}`;
+      const now = Date.now();
+      if (!this.labCardSessionBaseline) this.labCardSessionBaseline = {};
+      if (!this.labCardSessionRating) this.labCardSessionRating = {};
+      if (!this.labCardSessionBaseline[itemId]) {
+        this.labCardSessionBaseline[itemId] = StudyEngine.cloneCard(this.srsMap[key] || StudyEngine.createEmptyCard());
+      }
+      const baseline = this.labCardSessionBaseline[itemId];
+      const nextCard = StudyEngine.computeNextSrsState(baseline, rating, null, now);
+      this.srsMap[key] = nextCard;
+      this.labCardSessionRating[itemId] = rating;
+      this.labRevealedCards.add(itemId);
+
+      if (this.gamif) {
+        const todayKey = StudyEngine.getLocalDateKey(now);
+        const xpKey = `labcard:${itemId}`;
+        if (!this.gamif.xpAwardedToday) this.gamif.xpAwardedToday = {};
+        if (this.gamif.xpAwardedToday[xpKey] !== todayKey) {
+          this.gamif.xpAwardedToday[xpKey] = todayKey;
+          this.finalizeGamifAction({
+            xpGain: 15,
+            actionIncrement: 1,
+            reviewIncrement: 1,
+            recoveredIncrement: 0,
+            nowMs: now,
+            emitToast: true
+          });
+        } else {
+          this.gamif.totalReviews = (this.gamif.totalReviews || 0) + 1;
+          const summary = this.getStudySummary(now);
+          StudyEngine.evaluateAchievements(this.gamif, summary, now);
+        }
+      }
+
+      this.saveStudyState();
+      this.renderGlobalStudyHud();
+
+      const summary = this.getStudySummary(now);
+      this.renderLabGlobalProgress(summary);
+      const activeTema = (this.labData?.temas || []).find((t) => t.id === this.labSelectedTopic);
+      if (activeTema) {
+        this.renderLabTopicHeader(activeTema, summary);
+        const hdrEl = document.getElementById("lab-topic-header");
+        if (hdrEl) this.renderMath(hdrEl);
+      }
+
+      const cardEl = document.querySelector(`.lab-flashcard[data-lab-id="${itemId}"]`);
+      if (cardEl) {
+        const chipSlot = cardEl.querySelector(".lab-flashcard-chip-slot");
+        if (chipSlot) {
+          chipSlot.innerHTML = this.renderAnkiStatusChipHtml(nextCard);
+        }
+        const srsBox = cardEl.querySelector(".lab-flashcard-srs");
+        if (srsBox) {
+          srsBox.innerHTML = this.buildAnkiButtonsHtml({
+            cardBefore: baseline,
+            moodleScore: null,
+            selectedRating: rating,
+            handlerName: "app.rateLabFlashcard",
+            itemArg: itemId,
+            hintText: "¿Qué tan bien recordaste esta fórmula/paso sin mirar?"
+          });
+        }
+      }
+
+      const nextTxt = StudyEngine.formatIntervalLabel(nextCard.intervalHours, rating);
+      this.showToast(`🧠 Flashcard programada (${nextTxt})`);
+    },
+
     renderLabFormulaBody(item) {
       const isOpen = this.labRevealedCards.has(item.id);
+      const srsCard = (this.srsMap && this.srsMap[`lab:${item.id}`]) || null;
+      const chipHtml = (srsCard && srsCard.reps > 0) ? this.renderAnkiStatusChipHtml(srsCard) : "";
+      const cardBaseline = (this.labCardSessionBaseline && this.labCardSessionBaseline[item.id]) || srsCard || (window.StudyEngine ? StudyEngine.createEmptyCard() : {});
+      const ratingUi = window.StudyEngine ? `
+        <div class="lab-flashcard-srs">
+          ${this.buildAnkiButtonsHtml({
+            cardBefore: cardBaseline,
+            moodleScore: null,
+            selectedRating: this.labCardSessionRating ? this.labCardSessionRating[item.id] : null,
+            handlerName: "app.rateLabFlashcard",
+            itemArg: item.id,
+            hintText: "¿Qué tan bien recordaste esta fórmula/paso sin mirar?"
+          })}
+        </div>
+      ` : "";
+
       return `
         <div class="lab-flashcard-front">${this.formatLabText(item.preguntaFrente)}</div>
-        <div class="lab-flashcard-actions">
+        <div class="lab-flashcard-actions" style="display:flex;flex-wrap:wrap;align-items:center;gap:0.65rem;">
           <button class="btn btn-primary btn-sm lab-flashcard-toggle" onclick="app.toggleFlashcard('${item.id}')">
             ${isOpen ? "🙈 Ocultar fórmula" : "👁️ Revelar fórmula"}
           </button>
+          <span class="lab-flashcard-chip-slot">${chipHtml}</span>
         </div>
         <div class="lab-flashcard-back ${isOpen ? "" : "hidden"}">
           ${this.formatLabText(item.respuestaDorso)}
           ${item.svgDiagram ? `<div class="lab-svg-wrap lab-svg-inline">${item.svgDiagram}</div>` : ""}
+          ${ratingUi}
         </div>
       `;
     },
