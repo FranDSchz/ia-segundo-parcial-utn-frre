@@ -314,7 +314,13 @@
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem;">
         <div>
           <h1>Auditoría Completa del Banco (Modo QA)</h1>
-          <p class="subtitle">Inspección de las 87 preguntas únicas con sus claves correctas y justificaciones oficiales para revisión grupal.</p>
+          <p class="subtitle">Inspección de las 87 preguntas únicas con sus claves correctas, justificaciones oficiales y fuentes verificables.</p>
+          <div class="repo-links-row" style="margin-top: 0.45rem;">
+            <span class="repo-links-label">📂 Archivos originales en el repositorio:</span>
+            <a class="repo-link-pill" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/tree/main/MODELOS_ORIGINALES" target="_blank" rel="noopener noreferrer">📄 MODELOS_ORIGINALES/ (Parciales, Finales, Moodle, Guías) ↗</a>
+            <a class="repo-link-pill" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/tree/main/BANCO_TEORIA_Y_MC" target="_blank" rel="noopener noreferrer">📝 BANCO_TEORIA_Y_MC/ ↗</a>
+            <a class="repo-link-pill" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/tree/main/GUIAS_PASO_A_PASO" target="_blank" rel="noopener noreferrer">🧭 GUIAS_PASO_A_PASO/ ↗</a>
+          </div>
         </div>
         <span class="badge badge-topic" id="qa-count-badge">87 Preguntas Activas</span>
       </div>
@@ -342,10 +348,16 @@
           <option value="P1_REPASO">Repaso 1er Parcial (P1)</option>
         </select>
         <select id="qa-year-select" class="qa-topic-select" onchange="app.setQAYear(this.value)">
-          <option value="ALL">📅 Todos los Años / Tags</option>
-          <option value="2025">⭐ 2025 Oficial (28 preguntas)</option>
-          <option value="2023">📅 2023 Oficial (14 preguntas)</option>
-          <option value="HISTORICO">📜 Históricos / Cátedra</option>
+          <option value="ALL">📅 Todos los Orígenes / Años</option>
+          <option value="PARCIAL_2025">⭐ Parcial Moodle 2025 (28)</option>
+          <option value="2025">📅 Registro 2025</option>
+          <option value="2023">📅 Registro 2023</option>
+          <option value="2021">📅 Registro 2021</option>
+          <option value="2020">📅 Registro 2020</option>
+          <option value="2019">📅 Registro 2019</option>
+          <option value="VERIFICADA">✅ Verificada de Examen</option>
+          <option value="DERIVADA">🧪 Derivada de Examen / Guía</option>
+          <option value="SIN_FECHA">📜 Compendio sin Fecha</option>
           <option value="P1_REPASO">📘 Repaso P1</option>
         </select>
       </div>

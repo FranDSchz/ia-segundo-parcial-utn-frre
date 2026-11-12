@@ -16,17 +16,47 @@ window.PREGUNTAS = [
     "explicacion": "Ninguno de los métodos de enlace canónicos (Single, Complete o Average) calcula distancias entre centroides:\n  * **Single Link** utiliza la distancia mínima entre pares de elementos individuales: $\\min_{x \\in A, y \\in B} d(x, y)$.\n  * **Complete Link** utiliza la distancia máxima entre pares de elementos individuales: $\\max_{x \\in A, y \\in B} d(x, y)$.\n  * **Average Link** utiliza la media aritmética de todas las distancias entre pares cruzados: $\\frac{1}{\\\\\\|A\\\\\\|\\\\\\|B\\\\\\|} \\sum \\sum d(x, y)$.\n  El cálculo explícito de centroides ($\\mu = \\frac{1}{\\\\\\|C\\\\\\|} \\sum x_i$) corresponde a métodos ajenos a los enlaces clásicos, tales como *Centroid Linkage* (UPGMC) o *Ward*.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 06)",
     "nro": 1,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 06)",
     "pregunta": "En clustering jerárquico aglomerativo, la distancia entre dos clusters:",
     "multiple": false,
     "justificacion": "Ninguno de los métodos de enlace canónicos (Single, Complete o Average) calcula distancias entre centroides:\n  * **Single Link** utiliza la distancia mínima entre pares de elementos individuales: $\\min_{x \\in A, y \\in B} d(x, y)$.\n  * **Complete Link** utiliza la distancia máxima entre pares de elementos individuales: $\\max_{x \\in A, y \\in B} d(x, y)$.\n  * **Average Link** utiliza la media aritmética de todas las distancias entre pares cruzados: $\\frac{1}{\\\\\\|A\\\\\\|\\\\\\|B\\\\\\|} \\sum \\sum d(x, y)$.\n  El cálculo explícito de centroides ($\\mu = \\frac{1}{\\\\\\|C\\\\\\|} \\sum x_i$) corresponde a métodos ajenos a los enlaces clásicos, tales como *Centroid Linkage* (UPGMC) o *Ward*.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "OFICIAL",
+      "PARCIAL_2",
+      "TINTA_ROJA"
     ],
-    "anio": null
+    "anio": "2019",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Presencial (Validado en Tinta Roja)",
+      "fecha": "2019",
+      "anios": [
+        "2019"
+      ],
+      "archivo_origen": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg · Ej. 06 (5%)",
+      "antecedentes": "Compilada también en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Opciones Múltiples Preg. 1 y 9); variante conceptual sobre Average-Link en 2do Parcial Nov 2023 Tema 1 (Ej. 02).",
+      "detalle": "Consigna V/F oficial impresa con corrección docente en tinta roja.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-02",
@@ -45,17 +75,52 @@ window.PREGUNTAS = [
     "explicacion": "* **A es verdadera:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de decisión de forma no lineal (mosaicos de Voronoi suaves), por lo que no impone ningún requisito de separabilidad lineal en el espacio de características.\n  * **B es falsa:** El valor óptimo de $K$ no se conoce a priori; es un hiperparámetro empírico ajustado mediante validación cruzada (*Leave-One-Out*).\n  * **C es verdadera:** En $K$-NN **ponderado** por distancia inversa ($w_i = \\frac{1}{d^2}$ o $w_i = \\frac{1}{1+d^2}$), es válido emplear todo el conjunto de entrenamiento ($K = N$) dado que las instancias lejanas reciben un peso infinitesimalmente pequeño y no distorsionan la decisión local.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 07)",
     "nro": 2,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 07)",
     "pregunta": "Para utilizar el algoritmo $K$-NN ponderado:",
     "multiple": true,
     "justificacion": "* **A es verdadera:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de decisión de forma no lineal (mosaicos de Voronoi suaves), por lo que no impone ningún requisito de separabilidad lineal en el espacio de características.\n  * **B es falsa:** El valor óptimo de $K$ no se conoce a priori; es un hiperparámetro empírico ajustado mediante validación cruzada (*Leave-One-Out*).\n  * **C es verdadera:** En $K$-NN **ponderado** por distancia inversa ($w_i = \\frac{1}{d^2}$ o $w_i = \\frac{1}{1+d^2}$), es válido emplear todo el conjunto de entrenamiento ($K = N$) dado que las instancias lejanas reciben un peso infinitesimalmente pequeño y no distorsionan la decisión local.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "OFICIAL",
+      "PARCIAL_2",
+      "TINTA_ROJA"
     ],
-    "anio": null
+    "anio": "2019",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Presencial (Validado en Tinta Roja)",
+      "fecha": "2019",
+      "anios": [
+        "2019"
+      ],
+      "archivo_origen": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg · Ej. 07 (5%)",
+      "antecedentes": "Compilada en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Opciones Múltiples Preg. 2) y Multiple_choice_D4.docx (Preg. 36).",
+      "detalle": "Consigna V/F oficial impresa sobre K-NN ponderado con corrección docente en tinta roja.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-03",
@@ -74,17 +139,52 @@ window.PREGUNTAS = [
     "explicacion": "La variante Disk $K$-Means fue concebida para manejar grandes volúmenes de datos almacenados en memoria secundaria (disco) reduciendo las operaciones de I/O a una lectura secuencial por iteración, pero acumula las sumas y calcula exactamente la misma media aritmética por grupo que $K$-Means clásico; por lo tanto, **bajo idénticas semillas iniciales converge exactamente a los mismos centroides y clusters**. Asimismo, exige definir el hiperparámetro $K$ al inicio de la corrida.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 08)",
     "nro": 3,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "2do Parcial Teórico Presencial 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Preg. 08)",
     "pregunta": "El algoritmo Disk $K$-Means:",
     "multiple": true,
     "justificacion": "La variante Disk $K$-Means fue concebida para manejar grandes volúmenes de datos almacenados en memoria secundaria (disco) reduciendo las operaciones de I/O a una lectura secuencial por iteración, pero acumula las sumas y calcula exactamente la misma media aritmética por grupo que $K$-Means clásico; por lo tanto, **bajo idénticas semillas iniciales converge exactamente a los mismos centroides y clusters**. Asimismo, exige definir el hiperparámetro $K$ al inicio de la corrida.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "OFICIAL",
+      "PARCIAL_2",
+      "TINTA_ROJA"
     ],
-    "anio": null
+    "anio": "2019",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Presencial (Validado en Tinta Roja)",
+      "fecha": "2019",
+      "anios": [
+        "2019"
+      ],
+      "archivo_origen": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg · Ej. 08 (5%)",
+      "antecedentes": "Compilada en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Opciones Múltiples Preg. 3) y Multiple_choice_D4.docx (Preg. 37).",
+      "detalle": "Consigna V/F oficial impresa sobre Disk K-Means con corrección docente en tinta roja.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-04",
@@ -104,17 +204,48 @@ window.PREGUNTAS = [
     "explicacion": "* La afirmación 1 es la definición axiomática de Karush-Kuhn-Tucker: si $\\alpha_i = 0$, el punto no ejerce fuerza sobre el margen.\n  * La afirmación 2 es falsa porque SVM realiza aprendizaje *eager* y *offline*: clasificar una nueva instancia de prueba cuesta un producto escalar directo $\\text{sgn}(\\mathbf{w}^T \\mathbf{x} + b)$ sin reentrenar (sólo se recalcularía si ingresara una nueva instancia de *entrenamiento* que violase el margen).\n  * La afirmación 3 es verdadera por definición de margen estricto (*hard margin*): las restricciones exigen $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\ge 1$, dejando la banda de ancho $\\frac{2}{\\|\\mathbf{w}\\|}$ totalmente vacía de puntos.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Exámenes Teóricos Oficiales UTN FRRe (2020 y 2023)",
     "nro": 4,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Exámenes Teóricos Oficiales UTN FRRe (2020 y 2023)",
     "pregunta": "En una Support Vector Machine (caso lineal separable):",
     "multiple": true,
     "justificacion": "* La afirmación 1 es la definición axiomática de Karush-Kuhn-Tucker: si $\\alpha_i = 0$, el punto no ejerce fuerza sobre el margen.\n  * La afirmación 2 es falsa porque SVM realiza aprendizaje *eager* y *offline*: clasificar una nueva instancia de prueba cuesta un producto escalar directo $\\text{sgn}(\\mathbf{w}^T \\mathbf{x} + b)$ sin reentrenar (sólo se recalcularía si ingresara una nueva instancia de *entrenamiento* que violase el margen).\n  * La afirmación 3 es verdadera por definición de margen estricto (*hard margin*): las restricciones exigen $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\ge 1$, dejando la banda de ancho $\\frac{2}{\\|\\mathbf{w}\\|}$ totalmente vacía de puntos.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "2023",
+      "OFICIAL",
+      "PARCIAL_2"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "Exámenes Teóricos Oficiales de Cátedra",
+      "fecha": "2020 / 2023",
+      "anios": [
+        "2020",
+        "2023"
+      ],
+      "archivo_origen": "multiple_choice_con_claves.md (MC 04) · compilado en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (MC Preg. 4)",
+      "antecedentes": "Registrada también en Multiple_choice_D4.docx (Preg. 29 / banco CVG).",
+      "detalle": "Consigna de selección múltiple validada sobre vectores de soporte y márgenes H+ / H- en SVM.",
+      "archivos_repo": [
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-05",
@@ -132,17 +263,43 @@ window.PREGUNTAS = [
     "explicacion": "En el álgebra bipolar $\\{-1, +1\\}^N$, dos patrones $\\mathbf{e}_k$ y $\\mathbf{e}_m$ son ortogonales si su producto escalar es nulo ($\\mathbf{e}_k \\cdot \\mathbf{e}_m = 0$). Esto ocurre cuando difieren exactamente en el **50% de sus componentes** ($N/2$). Si los patrones no son ortogonales, existe correlación cruzada (*crosstalk*), reduciendo drásticamente la capacidad de almacenamiento y provocando que la red recupere patrones espurios.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Exámenes Teóricos Oficiales UTN FRRe (2021 / 2023)",
     "nro": 5,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Exámenes Teóricos Oficiales UTN FRRe (2021 / 2023)",
     "pregunta": "En el modelo autoasociativo de Hopfield, el concepto de ortogonalidad está asociado a:",
     "multiple": false,
     "justificacion": "En el álgebra bipolar $\\{-1, +1\\}^N$, dos patrones $\\mathbf{e}_k$ y $\\mathbf{e}_m$ son ortogonales si su producto escalar es nulo ($\\mathbf{e}_k \\cdot \\mathbf{e}_m = 0$). Esto ocurre cuando difieren exactamente en el **50% de sus componentes** ($N/2$). Si los patrones no son ortogonales, existe correlación cruzada (*crosstalk*), reduciendo drásticamente la capacidad de almacenamiento y provocando que la red recupere patrones espurios.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "2023",
+      "OFICIAL",
+      "PARCIAL_2"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "Examen Teórico Oficial de Cátedra",
+      "fecha": "2021 / 2023",
+      "anios": [
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "multiple_choice_con_claves.md (MC 05) · compilado en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (MC Preg. 5)",
+      "antecedentes": "Temática evaluada también en Cuestionario 06 CVG (04/11/2020, Preg. 1) y 2do Parcial Moodle 19/11/2025 (Preg. 11).",
+      "detalle": "Consigna oficial sobre significado de la ortogonalidad de patrones en Hopfield.",
+      "archivos_repo": [
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-06",
@@ -161,9 +318,9 @@ window.PREGUNTAS = [
     "explicacion": "$K$-Means es un algoritmo de **clustering no supervisado** (los datos no poseen etiquetas de clase), es **particional** (no jerárquico), opera de forma **global** (minimiza la suma global de errores cuadráticos intra-cluster / inercia), y es de tipo **eager** (construye centroides explícitos durante el entrenamiento iterativo). Por ende, las tres afirmaciones iniciales son rotundamente falsas.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 6, s/f)",
     "nro": 6,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 6, s/f)",
     "pregunta": "El algoritmo clásico $K$-Means:",
     "multiple": false,
     "justificacion": "$K$-Means es un algoritmo de **clustering no supervisado** (los datos no poseen etiquetas de clase), es **particional** (no jerárquico), opera de forma **global** (minimiza la suma global de errores cuadráticos intra-cluster / inercia), y es de tipo **eager** (construye centroides explícitos durante el entrenamiento iterativo). Por ende, las tres afirmaciones iniciales son rotundamente falsas.",
@@ -171,7 +328,28 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 6",
+      "antecedentes": "Reproducida en multiple_choice_con_claves.md (MC 06). El compilado no conserva el año individual de esta pregunta.",
+      "detalle": "Item V/F oficial sobre clasificación taxonómica de K-Means (ninguna de las anteriores es verdadera).",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-07",
@@ -190,9 +368,9 @@ window.PREGUNTAS = [
     "explicacion": "* Es *lazy* porque no procesa una función de hipótesis en la fase de entrenamiento: almacena los datos y calcula distancias sólo ante una consulta.\n  * Es *local* porque su predicción se fundamenta exclusivamente en el entorno geométrico circundante a la consulta $\\mathbf{x}_0$.\n  * La opción 3 es falsa: aunque un desbalance severo afecta la votación mayoritaria simple, el algoritmo puede ejecutarse y corregirse mediante ponderación por distancia inversa $w_i = 1/d^2$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 7, s/f)",
     "nro": 7,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 7, s/f)",
     "pregunta": "El algoritmo $K$-NN:",
     "multiple": true,
     "justificacion": "* Es *lazy* porque no procesa una función de hipótesis en la fase de entrenamiento: almacena los datos y calcula distancias sólo ante una consulta.\n  * Es *local* porque su predicción se fundamenta exclusivamente en el entorno geométrico circundante a la consulta $\\mathbf{x}_0$.\n  * La opción 3 es falsa: aunque un desbalance severo afecta la votación mayoritaria simple, el algoritmo puede ejecutarse y corregirse mediante ponderación por distancia inversa $w_i = 1/d^2$.",
@@ -200,7 +378,28 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 7",
+      "antecedentes": "Reproducida en multiple_choice_con_claves.md (MC 07). El compilado no consigna fecha de examen específica.",
+      "detalle": "Consigna oficial sobre naturaleza lazy y local de K-NN.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-08",
@@ -219,9 +418,9 @@ window.PREGUNTAS = [
     "explicacion": "Si $K$ abarca todo el dataset y la votación es **no ponderada** (recuento plano), la clase mayoritaria tendrá inexorablemente más votos ($p \\gt q \\implies A$, $q \\gt p \\implies B$) sin importar dónde esté ubicada la consulta en el espacio. Solo si existe ponderación por distancia inversa ($w_i = \\frac{1}{1+d^2}$) la ubicación espacial podría potencialmente revertir el predominio de la clase mayoritaria.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 8, s/f)",
     "nro": 8,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 8, s/f)",
     "pregunta": "En un dataset con dos clases ($p$ instancias de $A$ y $q$ instancias de $B$), se clasifica una nueva consulta fijando $K = p + q$ (la totalidad de los ejemplos) con votación mayoritaria simple:",
     "multiple": true,
     "justificacion": "Si $K$ abarca todo el dataset y la votación es **no ponderada** (recuento plano), la clase mayoritaria tendrá inexorablemente más votos ($p \\gt q \\implies A$, $q \\gt p \\implies B$) sin importar dónde esté ubicada la consulta en el espacio. Solo si existe ponderación por distancia inversa ($w_i = \\frac{1}{1+d^2}$) la ubicación espacial podría potencialmente revertir el predominio de la clase mayoritaria.",
@@ -229,7 +428,33 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 8",
+      "antecedentes": "Versión de desarrollo análoga (k-NN ponderado k=m+n) tomada en Recuperatorio 2do Parcial Nov 2023 (parcial2_2023_teoria_tema2.jpeg / IA-H0076, Ej. 05).",
+      "detalle": "Pregunta de examen sobre desbalance p vs q con k=p+q en K-NN sin ponderar.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-09",
@@ -247,9 +472,9 @@ window.PREGUNTAS = [
     "explicacion": "Por la condición de holgura complementaria de Karush-Kuhn-Tucker (KKT):\n  $$\\alpha_i \\cdot [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$$\n  Para cualquier punto que no pertenezca al borde del margen, se tiene $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$. Para que el producto sea nulo, **necesariamente $\\alpha_i = 0$**.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 10, s/f)",
     "nro": 9,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 10, s/f)",
     "pregunta": "En una Máquina de Vectores de Soporte lineal, los vectores de entrenamiento que **no son de soporte** tienen asociados multiplicadores de Lagrange cuyos valores son:",
     "multiple": false,
     "justificacion": "Por la condición de holgura complementaria de Karush-Kuhn-Tucker (KKT):\n  $$\\alpha_i \\cdot [y_i (\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$$\n  Para cualquier punto que no pertenezca al borde del margen, se tiene $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$. Para que el producto sea nulo, **necesariamente $\\alpha_i = 0$**.",
@@ -257,7 +482,33 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 10 (y Multiple_choice_D4.docx Preg. 30)",
+      "antecedentes": "Sin fecha individual impresa en el compilado; concepto evaluado también en Finales 17/02/2021 (Preg. 3) y 08/06/2021 (Ej. 04).",
+      "detalle": "Consigna oficial sobre multiplicadores de Lagrange nulos en vectores no soporte.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-10",
@@ -276,9 +527,9 @@ window.PREGUNTAS = [
     "explicacion": "Para garantizar matemáticamente que todos los patrones memorizados correspondan a mínimos locales exactos de la función de Lyapunov con probabilidad tendiente a 1, la cota asintótica de McEliece y Posner establece que $M \\le \\frac{N}{4 \\ln N}$. Si se tolera un pequeño margen de error en la recuperación, la cota empírica se amplía a $M \\approx 0.138 N$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 11, s/f)",
     "nro": 10,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 11, s/f)",
     "pregunta": "La cantidad de patrones $M$ que puede memorizar una red de Hopfield de $N$ neuronas para una recuperación libre de errores es:",
     "multiple": false,
     "justificacion": "Para garantizar matemáticamente que todos los patrones memorizados correspondan a mínimos locales exactos de la función de Lyapunov con probabilidad tendiente a 1, la cota asintótica de McEliece y Posner establece que $M \\le \\frac{N}{4 \\ln N}$. Si se tolera un pequeño margen de error en la recuperación, la cota empírica se amplía a $M \\approx 0.138 N$.",
@@ -286,7 +537,33 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 11 (y Multiple_choice_D4.docx Preg. 31)",
+      "antecedentes": "Sin fecha individual impresa en el compilado.",
+      "detalle": "Consigna oficial sobre cota teórica de patrones M <= N / (4 ln N) en Hopfield.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-11",
@@ -305,9 +582,9 @@ window.PREGUNTAS = [
     "explicacion": "La fase de competencia consiste en presentar un patrón de entrada $\\mathbf{x}$ y computar la distancia contra todos los vectores de pesos $\\mathbf{w}_j$, declarando como ganadora a la que presente la distancia mínima: $j^* = \\arg\\min_j \\|\\mathbf{x} - \\mathbf{w}_j\\|$. La opción B corresponde a la fase posterior de cooperación/adaptación.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 12, s/f)",
     "nro": 11,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 12, s/f)",
     "pregunta": "En la fase de competencia del entrenamiento de una red SOM:",
     "multiple": false,
     "justificacion": "La fase de competencia consiste en presentar un patrón de entrada $\\mathbf{x}$ y computar la distancia contra todos los vectores de pesos $\\mathbf{w}_j$, declarando como ganadora a la que presente la distancia mínima: $j^* = \\arg\\min_j \\|\\mathbf{x} - \\mathbf{w}_j\\|$. La opción B corresponde a la fase posterior de cooperación/adaptación.",
@@ -315,7 +592,33 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 12 (y Multiple_choice_D4.docx Preg. 32)",
+      "antecedentes": "Sin fecha individual impresa en el compilado.",
+      "detalle": "Consigna oficial sobre fase de competencia (selección de BMU) en SOM.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-12",
@@ -334,9 +637,9 @@ window.PREGUNTAS = [
     "explicacion": "Cada patrón de entrada tiene dimensión $D$ ($\\mathbf{x} = [x_1, x_2, \\dots, x_D]^T$). Por lo tanto, la capa de entrada de la red SOM debe poseer exactamente $D$ nodos, cada uno conectado a cada neurona de salida mediante un peso $w_{ji}$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 13, s/f)",
     "nro": 12,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Compilado de Parciales Opciones Múltiples UTN FRRe (Preg. 13, s/f)",
     "pregunta": "La cantidad de neuronas en la capa de entrada de un SOM está definida por:",
     "multiple": false,
     "justificacion": "Cada patrón de entrada tiene dimensión $D$ ($\\mathbf{x} = [x_1, x_2, \\dots, x_D]^T$). Por lo tanto, la capa de entrada de la red SOM debe poseer exactamente $D$ nodos, cada uno conectado a cada neurona de salida mediante un peso $w_{ji}$.",
@@ -344,7 +647,33 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Compilado de Parciales · Opciones Múltiples",
+      "fecha": "Sin fecha exacta registrada",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Sección Opciones Múltiples, Preg. 13 (y Multiple_choice_D4.docx Preg. 33)",
+      "antecedentes": "Sin fecha individual impresa en el compilado; pregunta relacionada con Cuestionario 06 CVG (04/11/2020, Preg. 3).",
+      "detalle": "Consigna oficial sobre cantidad de neuronas en la capa de entrada de un SOM.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-13",
@@ -363,17 +692,51 @@ window.PREGUNTAS = [
     "explicacion": "SVM lineal está formulado nativamente como un clasificador binario ($y_i \\in \\{-1, +1\\}$), pero su formulación opera en espacios euclidianos de cualquier dimensión $\\mathbb{R}^D$ mediante hiperplanos de dimensión $D-1$. Para problemas multiclase ($K \\gt 2$), se deben aplicar esquemas de descomposición externa como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Cuestionario 06 CVG (04/11/2020, Preg. 2) y Compilado Oficial (Preg. 14)",
     "nro": 13,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Cuestionario 06 CVG (04/11/2020, Preg. 2) y Compilado Oficial (Preg. 14)",
     "pregunta": "Las Máquinas de Vectores de Soporte con kernel lineal realizan separaciones lineales:",
     "multiple": false,
     "justificacion": "SVM lineal está formulado nativamente como un clasificador binario ($y_i \\in \\{-1, +1\\}$), pero su formulación opera en espacios euclidianos de cualquier dimensión $\\mathbb{R}^D$ mediante hiperplanos de dimensión $D-1$. Para problemas multiclase ($K \\gt 2$), se deben aplicar esquemas de descomposición externa como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "OFICIAL",
+      "MOODLE_CVG"
     ],
-    "anio": null
+    "anio": "2020",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "Cuestionario Moodle CVG + Compilado de Parciales",
+      "fecha": "04/11/2020",
+      "anios": [
+        "2020"
+      ],
+      "archivo_origen": "cuestionario_moodle_06_svm_hopfield_som.pdf · Preg. 2 (y preguntas_parcial2_desarrollo_compilado_29paginas.pdf MC Preg. 14)",
+      "antecedentes": "Presente también en Multiple_choice_D4.docx (Preg. 34).",
+      "detalle": "Consigna oficial verificada: SVM lineal realiza separaciones binarias en espacios de D >= 2 dimensiones.",
+      "archivos_repo": [
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md (Parte IV · D4)",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-OFICIAL-14",
@@ -391,9 +754,9 @@ window.PREGUNTAS = [
     "explicacion": "El término de momento $\\beta \\Delta w(t-1)$ añade una componente inercial al gradiente. Si los gradientes sucesivos apuntan en el mismo sentido, la velocidad de ajuste se incrementa (acelerando el cruce de mesetas llanas). Si los gradientes oscilan de signo (valles escarpados), las componentes consecutivas se cancelan parcialmente, estabilizando la trayectoria del descenso.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "fuente": "Banco Multiple Choice Oficial UTN FRRe (MC 14 — Término de Momento, s/f)",
     "nro": 14,
-    "origen": "Examen Teórico Oficial UTN FRRe (Validado en Tinta Roja)",
+    "origen": "Banco Multiple Choice Oficial UTN FRRe (MC 14 — Término de Momento, s/f)",
     "pregunta": "El término de momento $\\beta$ en el algoritmo Backpropagation:",
     "multiple": false,
     "justificacion": "El término de momento $\\beta \\Delta w(t-1)$ añade una componente inercial al gradiente. Si los gradientes sucesivos apuntan en el mismo sentido, la velocidad de ajuste se incrementa (acelerando el cruce de mesetas llanas). Si los gradientes oscilan de signo (valles escarpados), las componentes consecutivas se cancelan parcialmente, estabilizando la trayectoria del descenso.",
@@ -401,7 +764,23 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Teórico de Cátedra · Multiple Choice",
+      "fecha": "Sin fecha exacta en el ítem MC",
+      "anios": [],
+      "archivo_origen": "multiple_choice_con_claves.md · Pregunta MC 14",
+      "antecedentes": "Temática evaluada en 2do Parcial Moodle 19/11/2025 (Preg. 18), 2do Parcial Teórico 22/11/2023 (IA-H0079, Ej. 01) y Final 17/02/2021 (Preg. 1).",
+      "detalle": "Efecto físico del término de momento beta en Backpropagation.",
+      "archivos_repo": [
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-01",
@@ -419,16 +798,33 @@ window.PREGUNTAS = [
     "explicacion": "- *Opción a (Falso):* La confianza y el soporte son métricas desacopladas; una regla puede tener 100% de confianza involucrando apenas una única transacción de un millón, no alcanzando el minsup.\n  - *Opción b (Verdadero):* Si los umbrales minsup y minconf se establecen en cero, o si todos los ítems co-ocurren en todas las transacciones, el conjunto extraído comprende la totalidad del retículo combinatorio.\n  - *Opción c (Falso):* En minería de reglas de asociación el aprendizaje es no supervisado; no existe un atributo privilegiado de \"clase\". Busca asociaciones entre cualquier par de itemsets $X \\to Y$.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 01, s/f)",
     "nro": 15,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 01, s/f)",
     "pregunta": "En reglas de decisión / asociación:",
     "multiple": false,
     "justificacion": "- *Opción a (Falso):* La confianza y el soporte son métricas desacopladas; una regla puede tener 100% de confianza involucrando apenas una única transacción de un millón, no alcanzando el minsup.\n  - *Opción b (Verdadero):* Si los umbrales minsup y minconf se establecen en cero, o si todos los ítems co-ocurren en todas las transacciones, el conjunto extraído comprende la totalidad del retículo combinatorio.\n  - *Opción c (Falso):* En minería de reglas de asociación el aprendizaje es no supervisado; no existe un atributo privilegiado de \"clase\". Busca asociaciones entre cualquier par de itemsets $X \\to Y$.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 1 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 01)",
+      "antecedentes": "Tema de Primer Parcial (Reglas de Asociación).",
+      "detalle": "Consigna V/F oficial sobre minconf, minsup y co-ocurrencia en reglas de asociación.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-02",
@@ -447,16 +843,33 @@ window.PREGUNTAS = [
     "explicacion": "El nodo raíz se determina seleccionando aquel atributo que maximiza la **Ganancia de Información** (ID3) o la **Tasa de Ganancia de Información** (C4.5), lo cual equivale a lograr la máxima reducción neta de entropía. Ninguna de las opciones a, b o c describe este criterio.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 02, s/f)",
     "nro": 16,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 02, s/f)",
     "pregunta": "¿Cómo se determina el nodo raíz en un árbol de decisión?",
     "multiple": false,
     "justificacion": "El nodo raíz se determina seleccionando aquel atributo que maximiza la **Ganancia de Información** (ID3) o la **Tasa de Ganancia de Información** (C4.5), lo cual equivale a lograr la máxima reducción neta de entropía. Ninguna de las opciones a, b o c describe este criterio.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 2 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 02)",
+      "antecedentes": "Tema de Primer Parcial (Árboles de Decisión ID3/C4.5).",
+      "detalle": "Criterio de selección de nodo raíz en árboles de decisión.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-03",
@@ -474,16 +887,33 @@ window.PREGUNTAS = [
     "explicacion": "- *Opción a (Verdadero):* Si se agotan los atributos predictivos o la ganancia es menor al umbral y coexisten instancias de distintas clases, la hoja queda impura y se etiqueta por mayoría.\n  - *Opción c (Falso):* Un árbol de decisión sólo extrae un **subconjunto mínimo** de reglas mutuamente excluyentes suficientes para clasificar, a diferencia de la minería de asociación que extrae todas las reglas que superan los umbrales.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 03, s/f)",
     "nro": 17,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 03, s/f)",
     "pregunta": "En árboles de decisión:",
     "multiple": false,
     "justificacion": "- *Opción a (Verdadero):* Si se agotan los atributos predictivos o la ganancia es menor al umbral y coexisten instancias de distintas clases, la hoja queda impura y se etiqueta por mayoría.\n  - *Opción c (Falso):* Un árbol de decisión sólo extrae un **subconjunto mínimo** de reglas mutuamente excluyentes suficientes para clasificar, a diferencia de la minería de asociación que extrae todas las reglas que superan los umbrales.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 3 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 03)",
+      "antecedentes": "Tema de Primer Parcial (Árboles de Decisión).",
+      "detalle": "Propiedades de hojas impuras y caminos mutuamente excluyentes.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-04",
@@ -502,16 +932,33 @@ window.PREGUNTAS = [
     "explicacion": "- *Opción a (Verdadero):* Para que un plan de orden parcial sea solución válida, todos los conflictos y amenazas a vínculos causales deben haber sido resueltos mediante promoción o democión.\n  - *Opción b (Verdadero):* Un plan de orden parcial representa un conjunto (familia) de secuencias de linearización admisibles; cualquier ordenamiento topológico compatible resuelve el problema.\n  - *Opción c (Falso):* Las postcondiciones no se \"resuelven\"; son efectos producidos por los pasos. Lo que debe quedar resuelto son todas las **precondiciones** de los pasos abiertos.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 04, s/f)",
     "nro": 18,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 04, s/f)",
     "pregunta": "Al finalizar la ejecución del algoritmo POP:",
     "multiple": true,
     "justificacion": "- *Opción a (Verdadero):* Para que un plan de orden parcial sea solución válida, todos los conflictos y amenazas a vínculos causales deben haber sido resueltos mediante promoción o democión.\n  - *Opción b (Verdadero):* Un plan de orden parcial representa un conjunto (familia) de secuencias de linearización admisibles; cualquier ordenamiento topológico compatible resuelve el problema.\n  - *Opción c (Falso):* Las postcondiciones no se \"resuelven\"; son efectos producidos por los pasos. Lo que debe quedar resuelto son todas las **precondiciones** de los pasos abiertos.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 4 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 04)",
+      "antecedentes": "Tema de Primer Parcial (Planificación de Orden Parcial POP).",
+      "detalle": "Condiciones de terminación y amenazas resueltas en POP.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-05",
@@ -531,16 +978,38 @@ window.PREGUNTAS = [
     "explicacion": "Si el costo de cada arista es unitario ($g=1$), el costo total coincide exactamente con la cantidad de tramos. Dado que tanto BFS como $A^*$ admisible garantizan optimalidad bajo costos uniformes, ambos algoritmos hallan el camino de menor costo y de menor cantidad de tramos (son equivalentes semánticamente).",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 05, s/f)",
     "nro": 19,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 05, s/f)",
     "pregunta": "Comparación entre búsqueda primero en amplitud y $A^*$ con $h'$ realizando estimación perfecta de $h$ ($h'=h^*$) y costo por paso $g=1$:",
     "multiple": false,
     "justificacion": "Si el costo de cada arista es unitario ($g=1$), el costo total coincide exactamente con la cantidad de tramos. Dado que tanto BFS como $A^*$ admisible garantizan optimalidad bajo costos uniformes, ambos algoritmos hallan el camino de menor costo y de menor cantidad de tramos (son equivalentes semánticamente).",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 5 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 05)",
+      "antecedentes": "Consigna afín sobre A* en 2do Parcial Teórico 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Ej. 05). Tema evaluado actualmente en P1.",
+      "detalle": "Comparación entre BFS y A* con heurística perfecta h'=h* y g=1.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-06",
@@ -559,16 +1028,33 @@ window.PREGUNTAS = [
     "explicacion": "Al anular la heurística ($h'=0$), la función de evaluación es $f'(n) = g(n)$ (costo real acumulado). El algoritmo $A^*$ degenera en el algoritmo de Dijkstra (búsqueda de costo uniforme), el cual garantiza encontrar el camino de costo mínimo global, aunque no necesariamente tenga la menor cantidad de tramos.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 06, s/f)",
     "nro": 20,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 06, s/f)",
     "pregunta": "En búsqueda heurística si $h'(n) = 0$ y $g(n)$ es variable:",
     "multiple": false,
     "justificacion": "Al anular la heurística ($h'=0$), la función de evaluación es $f'(n) = g(n)$ (costo real acumulado). El algoritmo $A^*$ degenera en el algoritmo de Dijkstra (búsqueda de costo uniforme), el cual garantiza encontrar el camino de costo mínimo global, aunque no necesariamente tenga la menor cantidad de tramos.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 6 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 06)",
+      "antecedentes": "Tema de Primer Parcial (Búsqueda Heurística A*).",
+      "detalle": "Comportamiento de A* con h'(n)=0 y costo de paso g(n) variable.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-07",
@@ -587,16 +1073,38 @@ window.PREGUNTAS = [
     "explicacion": "Con $g=1$ uniforme y $h'=0$, los nodos se expanden en orden estricto de profundidad creciente ($g(n) = \\text{profundidad}$), comportándose idénticamente a la Búsqueda Primero en Amplitud (BFS), que garantiza la solución en la menor cantidad de pasos.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 07, s/f)",
     "nro": 21,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 07, s/f)",
     "pregunta": "$A^*$ con $h'(n)=0$ y $g(n)=1$ para todo nodo:",
     "multiple": false,
     "justificacion": "Con $g=1$ uniforme y $h'=0$, los nodos se expanden en orden estricto de profundidad creciente ($g(n) = \\text{profundidad}$), comportándose idénticamente a la Búsqueda Primero en Amplitud (BFS), que garantiza la solución en la menor cantidad de pasos.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 7 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 07)",
+      "antecedentes": "Misma situación evaluada en desarrollo en Recuperatorio 2do Parcial Nov 2023 (parcial2_2023_teoria_tema2.jpeg / IA-H0076, Ej. 04). Tema movido a P1.",
+      "detalle": "Comportamiento de A* con h'(n)=0 y g(n)=1 constante.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        },
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-18",
@@ -616,16 +1124,33 @@ window.PREGUNTAS = [
     "explicacion": "La etapa 1 de Apriori filtra itemsets basándose exclusivamente en el **mínimo de soporte** utilizando la propiedad **downward closure**. La confianza mínima sólo interviene en la etapa 2 (generación de reglas).",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 18, s/f)",
     "nro": 22,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 18, s/f)",
     "pregunta": "En el algoritmo Apriori, la generación de itemsets frecuentes:",
     "multiple": true,
     "justificacion": "La etapa 1 de Apriori filtra itemsets basándose exclusivamente en el **mínimo de soporte** utilizando la propiedad **downward closure**. La confianza mínima sólo interviene en la etapa 2 (generación de reglas).",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 18 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 18)",
+      "antecedentes": "Propiedad downward closure evaluada en desarrollo en Final Feb 2021 2da Mesa (Ej. 03) y Final 08/06/2021 (Ej. 03). Tema de P1.",
+      "detalle": "Generación de itemsets frecuentes en Apriori.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-19",
@@ -644,16 +1169,33 @@ window.PREGUNTAS = [
     "explicacion": "El control de coherencia de hechos/datos valida dinámicamente que la memoria de trabajo no admita hechos incompatibles simultáneos (ej. `Fiebre = Sí` y `Temperatura = 36.0 °C`).",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 19, s/f)",
     "nro": 23,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 19, s/f)",
     "pregunta": "En un Sistema Basado en Reglas, el control de la coherencia de datos:",
     "multiple": false,
     "justificacion": "El control de coherencia de hechos/datos valida dinámicamente que la memoria de trabajo no admita hechos incompatibles simultáneos (ej. `Fiebre = Sí` y `Temperatura = 36.0 °C`).",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 19 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 19)",
+      "antecedentes": "Tema de Primer Parcial (Sistemas Basados en Reglas).",
+      "detalle": "Control de coherencia de datos en Sistemas Basados en Reglas.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-20",
@@ -671,16 +1213,33 @@ window.PREGUNTAS = [
     "explicacion": "Por definición bayesiana: $\\text{confianza}(X \\to Y) = \\frac{\\text{soporte}(X \\cup Y)}{\\text{soporte}(X)} = \\frac{P(X \\cap Y)}{P(X)} = P(Y \\mid X)$.",
     "es_oficial": true,
     "es_p1": true,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 20, s/f)",
     "nro": 24,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 20, s/f)",
     "pregunta": "En el modelo de Reglas de Asociación, la confianza de una regla $X \\to Y$:",
     "multiple": false,
     "justificacion": "Por definición bayesiana: $\\text{confianza}(X \\to Y) = \\frac{\\text{soporte}(X \\cup Y)}{\\text{soporte}(X)} = \\frac{P(X \\cap Y)}{P(X)} = P(Y \\mid X)$.",
     "tags": [
-      "P1_REPASO"
+      "P1_REPASO",
+      "HISTORICO"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · ítem 20 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 20)",
+      "antecedentes": "Tema de Primer Parcial (Reglas de Asociación).",
+      "detalle": "Definición probabilística de confianza P(Y | X) en reglas de asociación.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CONSOL-23",
@@ -700,9 +1259,9 @@ window.PREGUNTAS = [
     "explicacion": "El conjunto de test debe contener etiquetas reales para poder cuantificar la tasa de acierto y la matriz de confusión, pero debe permanecer estrictamente aislado durante la optimización de parámetros y selección de hiperparámetros.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "fuente": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 23, s/f)",
     "nro": 25,
-    "origen": "Compendio Doctrinal y Exámenes Reales UTN FRRe",
+    "origen": "Banco Multiple Choice CVG (Multiple_choice_D4.docx · Parte IV Preg. 23, s/f)",
     "pregunta": "En aprendizaje supervisado el conjunto de test:",
     "multiple": true,
     "justificacion": "El conjunto de test debe contener etiquetas reales para poder cuantificar la tasa de acierto y la matriz de confusión, pero debe permanecer estrictamente aislado durante la optimización de parámetros y selección de hiperparámetros.",
@@ -710,7 +1269,23 @@ window.PREGUNTAS = [
       "HISTORICO",
       "CATEDRA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Banco Multiple Choice CVG (Compilado P1/P2)",
+      "fecha": "Sin fecha exacta en Multiple_choice_D4.docx",
+      "anios": [],
+      "archivo_origen": "Multiple_choice_D4.docx · Preg. 24 (BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md Parte IV Preg. 23)",
+      "antecedentes": "Evaluación de uso del conjunto de test con etiquetas en aprendizaje supervisado.",
+      "detalle": "Consigna oficial sobre contenido y rol del conjunto de test.",
+      "archivos_repo": [
+        {
+          "label": "BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_TEORICO_Y_TIPS_CONSOLIDADO_TOTAL.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-01",
@@ -731,17 +1306,41 @@ window.PREGUNTAS = [
     "explicacion": "Las opciones 1, 2 y 4 son verdaderas. La opción 3 es falsa: la ruleta simple es vulnerable al fenómeno del superindividuo que monopoliza la probabilidad y causa convergencia prematura.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Guía Práctica Nº 6 y Segundo Parcial Presencial",
+    "fuente": "Basada en Guía Práctica Nº 6 TP-AG y antecedente Moodle 19/11/2025 (Preg. 12)",
     "nro": 26,
-    "origen": "Guía Práctica Nº 6 y Segundo Parcial Presencial",
+    "origen": "Basada en Guía Práctica Nº 6 TP-AG y antecedente Moodle 19/11/2025 (Preg. 12)",
     "pregunta": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según la doctrina de la Cátedra?",
     "multiple": true,
     "justificacion": "Las opciones 1, 2 y 4 son verdaderas. La opción 3 es falsa: la ruleta simple es vulnerable al fenómeno del superindividuo que monopoliza la probabilidad y causa convergencia prematura.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2025",
+      "PRACTICO",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Guía Práctica TP-AG y Moodle 2025",
+      "fecha": "19/11/2025 (Moodle Preg. 12) · Guía TP-AG",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "guia_practica / 2do Parcial Moodle 19/11/2025 (parcial2_2025_11_19_teoria_moodle_oficial.pdf, Preg. 12)",
+      "antecedentes": "Combina la selección proporcional por ruleta [00-99] de la guía práctica con la trampa del superindividuo.",
+      "detalle": "Pregunta temática de estudio basada en guía oficial y Moodle.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-02",
@@ -762,17 +1361,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: los individuos con $c_i \\lt 1.0$ tienen parte entera 0 pero conservan su parte decimal (ej. $0.93$), la cual compite por las vacantes remanentes.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 4.c) y Guía Práctica TP-AG",
     "nro": 27,
-    "origen": "Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 4.c) y Guía Práctica TP-AG",
     "pregunta": "En la Selección con Control de Copias Esperadas (evaluada en el Segundo Parcial Presencial), respecto a la asignación de réplicas de cada individuo:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: los individuos con $c_i \\lt 1.0$ tienen parte entera 0 pero conservan su parte decimal (ej. $0.93$), la cual compite por las vacantes remanentes.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Práctico Presencial",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf · Página 2, Punto 4.c (Control de copias 50%)",
+      "antecedentes": "Complementa la regla de parte entera + mayor parte decimal tomada en el parcial práctico del 19/11/2025.",
+      "detalle": "Pregunta conceptual derivada directamente del ejercicio práctico oficial.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-03",
@@ -793,17 +1416,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el cruce se rige por una probabilidad de cruza $P_c$ (típicamente entre 0.6 y 0.9). Si un par no cruza, los padres pasan intactos a la etapa siguiente.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Guía Práctica Nº 6 y Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 4.a y 4.b) y Guía Práctica TP-AG",
     "nro": 28,
-    "origen": "Guía Práctica Nº 6 y Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 4.a y 4.b) y Guía Práctica TP-AG",
     "pregunta": "Sobre los operadores de cruce en representaciones cromosómicas binarias:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el cruce se rige por una probabilidad de cruza $P_c$ (típicamente entre 0.6 y 0.9). Si un par no cruza, los padres pasan intactos a la etapa siguiente.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Práctico Presencial",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf · Página 2, Punto 4.a (Cruza simple G4) y 4.b (Multipunto G2, G5, G7)",
+      "antecedentes": "Cubre operadores de cruce binario de la guía práctica TP-AG.",
+      "detalle": "Pregunta conceptual derivada del punto práctico de Algoritmos Genéticos.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-04",
@@ -824,17 +1471,51 @@ window.PREGUNTAS = [
     "explicacion": "La opción 3 es falsa: la mutación adaptativa varía dinámicamente $P_m(t)$ entre $P_{\\min}$ y $P_{\\max}$ según la temperatura o madurez de la población.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Mesas de Examen Final",
+    "fuente": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 03) y Hoja de Fórmulas Oficial",
     "nro": 29,
-    "origen": "Hoja de Fórmulas Oficial y Mesas de Examen Final",
+    "origen": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 03) y Hoja de Fórmulas Oficial",
     "pregunta": "En la Cátedra de IA, el mecanismo de mutación adaptativa dependiente de la temperatura ($P_m(t+1) = P_m(t) \\pm \\lambda$):",
     "multiple": true,
     "justificacion": "La opción 3 es falsa: la mutación adaptativa varía dinámicamente $P_m(t)$ entre $P_{\\min}$ y $P_{\\max}$ según la temperatura o madurez de la población.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico Presencial",
+      "fecha": "22/11/2023",
+      "anios": [
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_desarrollo.jpeg · Ej. 03 (20% · IA-H0079) y hoja_de_formulas_segundo_parcial.pdf",
+      "antecedentes": "Evaluada también en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Preg. 78).",
+      "detalle": "Pregunta temática basada en el ejercicio teórico de mutación adaptativa por temperatura.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-05",
@@ -855,17 +1536,44 @@ window.PREGUNTAS = [
     "explicacion": "La opción 3 es falsa: la función de aptitud sigue siendo indispensable para poder ordenar a los individuos en el ranking.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Banco Teórico UTN FRRe",
+    "fuente": "Basada en Hoja de Fórmulas Oficial y Compendio de Cátedra (Preg. 75, s/f)",
     "nro": 30,
-    "origen": "Hoja de Fórmulas Oficial y Banco Teórico UTN FRRe",
+    "origen": "Basada en Hoja de Fórmulas Oficial y Compendio de Cátedra (Preg. 75, s/f)",
     "pregunta": "¿Por qué la Cátedra recomienda la Selección por Ranking Lineal ($c_i = R_{\\min} + 2 \\frac{(n-i)(1-R_{\\min})}{n-1}$) para mitigar la convergencia prematura?",
     "multiple": true,
     "justificacion": "La opción 3 es falsa: la función de aptitud sigue siendo indispensable para poder ordenar a los individuos en el ranking.",
     "tags": [
       "HISTORICO",
-      "CATEDRA"
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Derivada de Hoja de Fórmulas y Compendio Teórico",
+      "fecha": "Sin fecha exacta en el compendio",
+      "anios": [],
+      "archivo_origen": "hoja_de_formulas_segundo_parcial.pdf y preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Preg. 75)",
+      "antecedentes": "Desarrollada también en la presentación oficial SEM08-AlgGen_2024.pptx (Ranking lineal).",
+      "detalle": "Pregunta conceptual sobre fórmula y efecto del Ranking Lineal.",
+      "archivos_repo": [
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-AG-06",
@@ -886,17 +1594,39 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa (Pregunta Oficial de Examen): reemplazar cruza y mutación por selección basada en orden destruiría toda capacidad de búsqueda y exploración de nuevas soluciones.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Pregunta 28 del Compendio Doctrinal)",
+    "fuente": "Basada en Compendio Doctrinal de Finales (Preg. 28 del compilado, s/f)",
     "nro": 31,
-    "origen": "Examen Final Oficial (Pregunta 28 del Compendio Doctrinal)",
+    "origen": "Basada en Compendio Doctrinal de Finales (Preg. 28 del compilado, s/f)",
     "pregunta": "Si un Algoritmo Genético utiliza selección elitista (15%), cruza (70%) y mutación (15%) y se estanca en un óptimo local sin alcanzar la solución esperada, ¿cuál es el diagnóstico correcto de la Cátedra?",
     "multiple": true,
     "justificacion": "La opción 4 es falsa (Pregunta Oficial de Examen): reemplazar cruza y mutación por selección basada en orden destruiría toda capacidad de búsqueda y exploración de nuevas soluciones.",
     "tags": [
       "HISTORICO",
-      "CATEDRA"
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Derivada de Pregunta de Examen Final del Compilado",
+      "fecha": "Sin fecha exacta en el compendio",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Preg. 28 (Elitismo 15%, cruza 70%, mutación 15%)",
+      "antecedentes": "El compilado reúne preguntas reales de mesas de examen final previas sin fecha individual por ítem.",
+      "detalle": "Pregunta temática armada sobre el diagnóstico oficial ante estancamiento en AG.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "08_algoritmos_geneticos.md",
+          "path": "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-NB-01",
@@ -917,17 +1647,53 @@ window.PREGUNTAS = [
     "explicacion": "La opción 3 es falsa: los atributos pueden ser discretos (tablas de frecuencia/histogramas) o continuos con distintas medias $\\mu_{jk}$ y desviaciones $\\sigma_{jk}$ por clase.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Exámenes Presenciales de Cátedra",
+    "fuente": "Basada en Cuestionario 05 CVG (28/10/2020, Preg. 4) y 2do Parcial 22/11/2023 (Ej. 04)",
     "nro": 32,
-    "origen": "Hoja de Fórmulas Oficial y Exámenes Presenciales de Cátedra",
+    "origen": "Basada en Cuestionario 05 CVG (28/10/2020, Preg. 4) y 2do Parcial 22/11/2023 (Ej. 04)",
     "pregunta": "El clasificador probabilístico Naïve Bayes asume que:",
     "multiple": true,
     "justificacion": "La opción 3 es falsa: los atributos pueden ser discretos (tablas de frecuencia/histogramas) o continuos con distintas medias $\\mu_{jk}$ y desviaciones $\\sigma_{jk}$ por clase.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parcial Teórico y Cuestionario CVG",
+      "fecha": "28/10/2020 y 22/11/2023",
+      "anios": [
+        "2020",
+        "2023"
+      ],
+      "archivo_origen": "cuestionario_moodle_05_nb_perceptron_mlp.pdf (Preg. 4), parcial2_2023_teoria_desarrollo.jpeg (Ej. 04 · IA-H0079) y hoja_de_formulas_segundo_parcial.pdf",
+      "antecedentes": "Temática presente también en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Pregs. 39–45).",
+      "detalle": "Síntesis sobre independencia condicional, posterior y rol del denominador en Naïve Bayes.",
+      "archivos_repo": [
+        {
+          "label": "cuestionario_moodle_05_nb_perceptron_mlp.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_05_nb_perceptron_mlp.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-NB-02",
@@ -949,17 +1715,55 @@ window.PREGUNTAS = [
     "explicacion": "Las 4 afirmaciones son verdaderas y constituyen los pilares teóricos y prácticos de la Guía Nº 4 y de la Hoja de Fórmulas Oficial de la Cátedra.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Guía Práctica Nº 4 Naïve Bayes y Hoja de Fórmulas Oficial",
+    "fuente": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 03), Parciales 2015/2016 y Guía NB",
     "nro": 33,
-    "origen": "Guía Práctica Nº 4 Naïve Bayes y Hoja de Fórmulas Oficial",
+    "origen": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 03), Parciales 2015/2016 y Guía NB",
     "pregunta": "En la práctica de la Cátedra para clasificar variables numéricas continuas mediante Naïve Bayes:",
     "multiple": true,
     "justificacion": "Las 4 afirmaciones son verdaderas y constituyen los pilares teóricos y prácticos de la Guía Nº 4 y de la Hoja de Fórmulas Oficial de la Cátedra.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2015",
+      "2016",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parciales Teóricos/Prácticos y Guía Nº 4",
+      "fecha": "Nov 2023 (y Prácticos 2015 / 2016)",
+      "anios": [
+        "2015",
+        "2016",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema2.jpeg (Ej. 03 · IA-H0076), parcial2_2015_06_22_nb_perceptron_hopfield_spam_svm_inverso.png (Ej. 2), parcial2_2016_presencial.jpg (Ej. 2) y guia_practica_naive_bayes.pdf",
+      "antecedentes": "Cubre histogramas, bins vacíos (frecuencia cero), suavizado de Laplace y densidad gaussiana.",
+      "detalle": "Síntesis de los dos enfoques prácticos de Naïve Bayes evaluados por la cátedra.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2015_06_22_nb_perceptron_hopfield_spam_svm_inverso.png",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2015_06_22_nb_perceptron_hopfield_spam_svm_inverso.png",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2016_presencial.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2016_presencial.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "guia_practica_naive_bayes.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_naive_bayes.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-NB-03",
@@ -980,17 +1784,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: tanto Naïve Bayes como $k$-NN son algoritmos de **clasificación supervisada** (el no supervisado de la tabla comparativa es $K$-Means).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Tabla Comparativa Tridimensional Canónica (Pregunta 16 del Compendio)",
+    "fuente": "Basada en Examen Final 08/06/2021 (Ej. 01 al 42% · Tabla K-NN / K-Means / NB)",
     "nro": 34,
-    "origen": "Tabla Comparativa Tridimensional Canónica (Pregunta 16 del Compendio)",
+    "origen": "Basada en Examen Final 08/06/2021 (Ej. 01 al 42% · Tabla K-NN / K-Means / NB)",
     "pregunta": "Al contrastar el Clasificador Naïve Bayes frente al algoritmo $k$-NN según la tabla comparativa oficial de la Cátedra:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: tanto Naïve Bayes como $k$-NN son algoritmos de **clasificación supervisada** (el no supervisado de la tabla comparativa es $K$-Means).",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Examen Final Oficial",
+      "fecha": "08/06/2021",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_06_08_mesa.png · Ej. 01 (42%) y compilado 29 págs. Preg. 16",
+      "antecedentes": "Refleja directamente las dimensiones comparadas en el cuadro tridimensional k-NN vs K-Means vs NB.",
+      "detalle": "Síntesis sobre aprendizaje eager vs lazy y sensibilidad dimensional.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_06_08_mesa.png",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_06_08_mesa.png",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-NB-04",
@@ -1011,17 +1839,34 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: como explica la Pregunta 27 del banco de finales, Naïve Bayes falla ante espirales entrelazadas porque ignora las dependencias cruzadas entre variables.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Pregunta 27 del Compendio Doctrinal)",
+    "fuente": "Basada en Banco de Finales del Compendio (Preg. 27 del compilado, s/f)",
     "nro": 35,
-    "origen": "Examen Final Oficial (Pregunta 27 del Compendio Doctrinal)",
+    "origen": "Basada en Banco de Finales del Compendio (Preg. 27 del compilado, s/f)",
     "pregunta": "¿Qué ocurre cuando se aplica Naïve Bayes Gaussiano a un problema bidimensional cuyas clases forman dos espirales entrelazadas o presentan fuerte correlación no lineal entre atributos?",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: como explica la Pregunta 27 del banco de finales, Naïve Bayes falla ante espirales entrelazadas porque ignora las dependencias cruzadas entre variables.",
     "tags": [
       "HISTORICO",
-      "CATEDRA"
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Derivada de Pregunta de Examen Final del Compilado",
+      "fecha": "Sin fecha exacta en el compendio",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Preg. 27 (Problemas de NB con distribución gaussiana)",
+      "antecedentes": "Basada en el caso clásico de dos espirales entrelazadas y atributos correlacionados.",
+      "detalle": "Pregunta conceptual derivada de pregunta real de examen final.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-MLP-01",
@@ -1042,17 +1887,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: entrenar hasta error cero sin validación agrava el sobreajuste. La Cátedra exige detener el entrenamiento por Early Stopping o cuando $E_{val} \\lt E_{\\min}$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Mesas de Examen Final y Preguntas del Compendio de Cátedra",
+    "fuente": "Basada en Final 2da Mesa Febrero 2021 (Ej. 02 al 20%) y Compilado (Pregs. 2, 13, 23)",
     "nro": 36,
-    "origen": "Mesas de Examen Final y Preguntas del Compendio de Cátedra",
+    "origen": "Basada en Final 2da Mesa Febrero 2021 (Ej. 02 al 20%) y Compilado (Pregs. 2, 13, 23)",
     "pregunta": "Durante el entrenamiento de una red Perceptrón Multicapa (MLP) con Backpropagation, el error de entrenamiento disminuye pero el error de validación comienza a subir de forma sostenida:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: entrenar hasta error cero sin validación agrava el sobreajuste. La Cátedra exige detener el entrenamiento por Early Stopping o cuando $E_{val} \\lt E_{\\min}$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Examen Final Oficial",
+      "fecha": "Febrero 2021 (2da Mesa)",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_02_segunda_mesa.jpeg · Ej. 02 (20%) y compilado 29 págs. Pregs. 2, 13 y 23",
+      "antecedentes": "Concepto evaluado también en 2do Parcial Moodle 19/11/2025 (Pregs. 10 y 18) y DOCX Grupo 2 (MC-2025-26).",
+      "detalle": "Criterios de Early Stopping cuando sube el error de validación o E_val < E_min.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_02_segunda_mesa.jpeg",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_segunda_mesa.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-MLP-02",
@@ -1073,17 +1942,53 @@ window.PREGUNTAS = [
     "explicacion": "Trampa clásica de examen final de cátedra: el coeficiente escalar $\\beta \\in [0, 1)$ es positivo, pero el **término de momento** $\\beta (w(t) - w(t-1))$ **SÍ puede ser negativo** cuando $w(t) \\lt w(t-1)$ (es decir, cuando el peso disminuyó en el paso anterior).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Mesas de Examen Final y Preguntas del Compendio de Cátedra",
+    "fuente": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 01) y Final 17/02/2021 (Preg. 1)",
     "nro": 37,
-    "origen": "Mesas de Examen Final y Preguntas del Compendio de Cátedra",
+    "origen": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 01) y Final 17/02/2021 (Preg. 1)",
     "pregunta": "En la fórmula oficial de actualización de pesos de Backpropagation con momento de la Cátedra: $w_{kj}(t+1) = w_{kj}(t) + \\alpha \\delta_{pk} y_{pj} + \\beta (w_{kj}(t) - w_{kj}(t-1))$. Ante la pregunta de examen \"¿El término de momento puede llegar a ser negativo?\", ¿cuáles afirmaciones son correctas?",
     "multiple": true,
     "justificacion": "Trampa clásica de examen final de cátedra: el coeficiente escalar $\\beta \\in [0, 1)$ es positivo, pero el **término de momento** $\\beta (w(t) - w(t-1))$ **SÍ puede ser negativo** cuando $w(t) \\lt w(t-1)$ (es decir, cuando el peso disminuyó en el paso anterior).",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico y Examen Final",
+      "fecha": "22/11/2023 (y Final 17/02/2021)",
+      "anios": [
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_desarrollo.jpeg (Ej. 01 · IA-H0079), final_2021_02_17.pdf (Preg. 1) y compilado 29 págs. Pregs. 12 y 48",
+      "antecedentes": "Pregunta recurrente reportada también en mesas de finales 2024–2025 (Lista de Finales Teóricos).",
+      "detalle": "Aclara la diferencia entre el coeficiente positivo beta y el término completo beta·DeltaW(t-1) negativo.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-MLP-03",
@@ -1104,17 +2009,48 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: las neuronas ocultas no poseen salida deseada directa $d_{pj}$, por lo que su gradiente $\\delta_{pj}$ se retropropaga sumando $\\sum_k \\delta_{pk} w_{kj}$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Pto. 3), Nov 2023 (Ej. 3) y Hoja de Fórmulas",
     "nro": 38,
-    "origen": "Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Pto. 3), Nov 2023 (Ej. 3) y Hoja de Fórmulas",
     "pregunta": "En el cálculo del gradiente local $\\delta$ durante el paso hacia atrás (*Backward Pass*) de una red MLP según el Formulario Oficial de la Cátedra:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: las neuronas ocultas no poseen salida deseada directa $d_{pj}$, por lo que su gradiente $\\delta_{pj}$ se retropropaga sumando $\\sum_k \\delta_{pk} w_{kj}$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Práctico y Hoja de Fórmulas",
+      "fecha": "19/11/2025 (y Nov 2023)",
+      "anios": [
+        "2023",
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf (Punto 3 · todas sigmoidales), parcial2_2023_tema1.jpeg (Ej. 03) y hoja_de_formulas_segundo_parcial.pdf",
+      "antecedentes": "Sintetiza las derivadas y gradientes delta requeridos en Backpropagation.",
+      "detalle": "Pregunta de práctica conceptual derivada del ejercicio obligatorio de MLP.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-MLP-04",
@@ -1135,17 +2071,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el Perceptrón Simple solo genera un hiperplano lineal y no puede resolver XOR ni paridad de 3 bits $(x \\oplus y) \\oplus z$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Pregunta 17 del Compendio Doctrinal)",
+    "fuente": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 01) y Compilado (Preg. 17)",
     "nro": 39,
-    "origen": "Examen Final Oficial (Pregunta 17 del Compendio Doctrinal)",
+    "origen": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 01) y Compilado (Preg. 17)",
     "pregunta": "Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según la doctrina de la Cátedra:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el Perceptrón Simple solo genera un hiperplano lineal y no puede resolver XOR ni paridad de 3 bits $(x \\oplus y) \\oplus z$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Recuperatorio 2do Parcial Teórico",
+      "fecha": "Nov 2023",
+      "anios": [
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema2.jpeg · Ej. 01 (IA-H0076) y compilado 29 págs. Preg. 17",
+      "antecedentes": "Relacionada con Pregs. 1, 2, 17 del Moodle 2025 y DOCX Grupo 2 (MC-2025-25).",
+      "detalle": "Contrasta el cálculo de error lineal de ADALINE (Widrow-Hoff) vs umbralizado del Perceptrón.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-HOP-01",
@@ -1166,17 +2126,46 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el modelo de Hopfield es una memoria auto-asociativa de aprendizaje **no supervisado y offline**.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Preguntas 15, 21 y 56 del Compendio",
+    "fuente": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 05), Compilado (Pregs. 21, 36, 59) y Hoja Fórmulas",
     "nro": 40,
-    "origen": "Hoja de Fórmulas Oficial y Preguntas 15, 21 y 56 del Compendio",
+    "origen": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 05), Compilado (Pregs. 21, 36, 59) y Hoja Fórmulas",
     "pregunta": "En una Red de Hopfield discreta de $N$ neuronas con patrones bipolares $E_k \\in \\{-1, +1\\}^N$ y regla de aprendizaje $W = \\sum_{k=1}^M (E_k^T E_k - I)$:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el modelo de Hopfield es una memoria auto-asociativa de aprendizaje **no supervisado y offline**.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico y Hoja de Fórmulas",
+      "fecha": "22/11/2023",
+      "anios": [
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_desarrollo.jpeg (Ej. 05 · IA-H0079), hoja_de_formulas_segundo_parcial.pdf y compilado Pregs. 21, 36, 59",
+      "antecedentes": "Complementa a MC-2025-07 y MC-2025-19 del Moodle 2025.",
+      "detalle": "Regla de aprendizaje hebbiana W = sum(E_k^T E_k - I) y convergencia de Lyapunov.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-HOP-02",
@@ -1198,17 +2187,34 @@ window.PREGUNTAS = [
     "explicacion": "Las 4 opciones son verdaderas y constituyen la respuesta completa a la Pregunta 25 de exámenes finales (\"Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield\").",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Pregunta 25 del Compendio Doctrinal)",
+    "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 25 y 35 del compilado, s/f)",
     "nro": 41,
-    "origen": "Examen Final Oficial (Pregunta 25 del Compendio Doctrinal)",
+    "origen": "Basada en Compendio Doctrinal de Finales (Pregs. 25 y 35 del compilado, s/f)",
     "pregunta": "¿Cuáles de los siguientes son problemas o limitaciones intrínsecas de reconocimiento en una red neuronal de Hopfield según la Cátedra?",
     "multiple": true,
     "justificacion": "Las 4 opciones son verdaderas y constituyen la respuesta completa a la Pregunta 25 de exámenes finales (\"Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield\").",
     "tags": [
       "HISTORICO",
-      "CATEDRA"
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Derivada de Pregunta de Examen Final del Compilado",
+      "fecha": "Sin fecha exacta en el compendio",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Pregs. 25 y 35 (Limitaciones de reconocimiento en Hopfield)",
+      "antecedentes": "Enumera capacidad límite, crosstalk, estados espurios, ciclos límite y patrones inversos -E_k.",
+      "detalle": "Pregunta temática basada en el banco oficial de preguntas de desarrollo.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-SOM-01",
@@ -1229,17 +2235,50 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el entrenamiento del SOM se extiende a lo largo de múltiples épocas hasta que el mapa topológico converge y los pesos sinápticos se estabilizan ($\\Delta w \\to 0$).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 2), Nov 2023 y Cuestionario 06 CVG (04/11/2020)",
     "nro": 42,
-    "origen": "Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 2), Nov 2023 y Cuestionario 06 CVG (04/11/2020)",
     "pregunta": "En el entrenamiento de una red SOM de Kohonen (como en el Punto 2 del Segundo Parcial Presencial) con función de vecindad continua $h = \\frac{1}{1 + \\text{dist}(S_i, S_j)^2}$:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el entrenamiento del SOM se extiende a lo largo de múltiples épocas hasta que el mapa topológico converge y los pesos sinápticos se estabilizan ($\\Delta w \\to 0$).",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "2023",
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Práctico y Cuestionario CVG",
+      "fecha": "19/11/2025 (y Nov 2023 / 04/11/2020)",
+      "anios": [
+        "2020",
+        "2023",
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf (Punto 2 al 30%), parcial2_2023_tema1.jpeg (Ej. 02) y cuestionario_moodle_06_svm_hopfield_som.pdf (Preg. 5)",
+      "antecedentes": "Fórmula h = 1/(1 + dist^2) tomada textualmente en el parcial práctico del 19/11/2025.",
+      "detalle": "Síntesis de vecindad continua y regla de actualización en SOM.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-SOM-02",
@@ -1260,17 +2299,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: SOM es estrictamente no supervisado y competitivo; calcula distancias únicamente entre el vector de entrada $X$ y los vectores de pesos $W_j$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Pregunta 15 del Compendio Doctrinal)",
+    "fuente": "Basada en Final 2da Mesa Febrero 2021 (Ej. 01 al 40%) y Compilado (Preg. 15)",
     "nro": 43,
-    "origen": "Examen Final Oficial (Pregunta 15 del Compendio Doctrinal)",
+    "origen": "Basada en Final 2da Mesa Febrero 2021 (Ej. 01 al 40%) y Compilado (Preg. 15)",
     "pregunta": "De acuerdo con la Tabla Comparativa de Redes Neuronales exigida por la Cátedra (SOM vs. Hopfield vs. Perceptrón Simple):",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: SOM es estrictamente no supervisado y competitivo; calcula distancias únicamente entre el vector de entrada $X$ y los vectores de pesos $W_j$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Examen Final Oficial",
+      "fecha": "Febrero 2021 (2da Mesa)",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_02_segunda_mesa.jpeg · Ej. 01 (40%) y compilado 29 págs. Preg. 15",
+      "antecedentes": "Compara arquitecturas SOM, Hopfield y Perceptrón Simple según grilla comparativa de finales.",
+      "detalle": "Pregunta temática armada desde el cuadro comparativo oficial.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_02_segunda_mesa.jpeg",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_segunda_mesa.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-SOM-03",
@@ -1291,17 +2354,41 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa (Pregunta Clásica de Cátedra): no existen conexiones físicas ponderadas entre las neuronas de la grilla de salida; su interacción ocurre únicamente a través de la función de vecindad topológica $h$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Pregunta 14 del Compendio Doctrinal",
+    "fuente": "Basada en 2do Parcial Teórico Nov 2023 Tema 1 (Ej. 04) y Compilado (Pregs. 14, 60–63)",
     "nro": 44,
-    "origen": "Hoja de Fórmulas Oficial y Pregunta 14 del Compendio Doctrinal",
+    "origen": "Basada en 2do Parcial Teórico Nov 2023 Tema 1 (Ej. 04) y Compilado (Pregs. 14, 60–63)",
     "pregunta": "Respecto a la topología de la capa de salida y los hiperparámetros de entrenamiento en una red SOM de Kohonen:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa (Pregunta Clásica de Cátedra): no existen conexiones físicas ponderadas entre las neuronas de la grilla de salida; su interacción ocurre únicamente a través de la función de vecindad topológica $h$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico y Compendio",
+      "fecha": "Nov 2023",
+      "anios": [
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema1.jpeg (Ej. 04 · IA-H0074) y compilado 29 págs. Pregs. 14 y 60–63",
+      "antecedentes": "Refuerza el criterio de vecindad topológica (4 vs 6 vecinas) y ausencia de conexiones sinápticas entre salidas (Moodle 2025 Preg. 3).",
+      "detalle": "Pregunta temática de arquitectura y entrenamiento SOM.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-SVM-01",
@@ -1322,17 +2409,48 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: los puntos con $\\alpha_i = 0$ no aportan nada a la suma $\\mathbf{w} = \\sum y_i \\alpha_i \\mathbf{x}_i$, por lo que eliminarlos deja invariante al hiperplano.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Guía Práctica Nº 5 SVM",
+    "fuente": "Basada en Final 17/02/2021 (Preg. 3), Parcial 2023 (Ej. 01) y Guía Práctica SVM",
     "nro": 45,
-    "origen": "Hoja de Fórmulas Oficial y Guía Práctica Nº 5 SVM",
+    "origen": "Basada en Final 17/02/2021 (Preg. 3), Parcial 2023 (Ej. 01) y Guía Práctica SVM",
     "pregunta": "En la formulación canónica de Máquinas de Vectores de Soporte (SVM) para clasificación binaria linealmente separable:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: los puntos con $\\alpha_i = 0$ no aportan nada a la suma $\\mathbf{w} = \\sum y_i \\alpha_i \\mathbf{x}_i$, por lo que eliminarlos deja invariante al hiperplano.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parciales Prácticos, Final y Guía Nº 5 SVM",
+      "fecha": "Nov 2023 (y Final 17/02/2021)",
+      "anios": [
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_tema1.jpeg (Ej. 01 · IA-H0075/IA-H0077), final_2021_02_17.pdf (Preg. 3) y guia_practica_svm.pdf",
+      "antecedentes": "Tema correspondiente a finales / planes anteriores (marcado opcional en P2 actual).",
+      "detalle": "Margen geométrico óptimo, vector normal w e invariancia ante vectores con alpha_i = 0.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "guia_practica_svm.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_svm.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-SVM-02",
@@ -1353,17 +2471,51 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: la restricción de igualdad del problema dual obtenida al derivar respecto a $b$ es $\\sum_{i=1}^N y_i \\alpha_i = 0$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Mesas de Examen Final",
+    "fuente": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Ej. 04) y Hoja de Fórmulas",
     "nro": 46,
-    "origen": "Hoja de Fórmulas Oficial y Mesas de Examen Final",
+    "origen": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Ej. 04) y Hoja de Fórmulas",
     "pregunta": "Respecto a la resolución analítica de una SVM en $\\mathbb{R}^2$ y al tratamiento de datos no linealmente separables:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: la restricción de igualdad del problema dual obtenida al derivar respecto a $b$ es $\\sum_{i=1}^N y_i \\alpha_i = 0$.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Exámenes Finales y Hoja de Fórmulas",
+      "fecha": "17/02/2021 y 08/06/2021",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_02_17.pdf (Preg. 3), final_2021_06_08_mesa.png (Ej. 04) y hoja_de_formulas_segundo_parcial.pdf",
+      "antecedentes": "Reportada también en mesas finales 2024–2025 (Lista de Finales Teóricos).",
+      "detalle": "Cálculo de sesgo b, recta separadora, kernel trick y restricción dual sum(y_i alpha_i) = 0.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "final_2021_06_08_mesa.png",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_06_08_mesa.png",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md",
+          "path": "BANCO_TEORIA_Y_MC/BANCO_PREGUNTAS_TEORICAS_FINALES_Y_MESAS.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CLU-01",
@@ -1385,17 +2537,43 @@ window.PREGUNTAS = [
     "explicacion": "Las 4 opciones son verdaderas y resumen las propiedades fundamentales de Single-Link, Complete-Link, Average-Link y la interpretación del dendrograma.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 1 al 20%) y Nov 2023 (Ej. 04)",
     "nro": 47,
-    "origen": "Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Punto 1 al 20%) y Nov 2023 (Ej. 04)",
     "pregunta": "En el algoritmo de Clustering Jerárquico Aglomerativo (evaluado en el Punto 1 del Segundo Parcial Presencial):",
     "multiple": true,
     "justificacion": "Las 4 opciones son verdaderas y resumen las propiedades fundamentales de Single-Link, Complete-Link, Average-Link y la interpretación del dendrograma.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Práctico Presencial",
+      "fecha": "19/11/2025 (y Nov 2023)",
+      "anios": [
+        "2023",
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf (Punto 1 al 20%) y parcial2_2023_tema1.jpeg (Ej. 04)",
+      "antecedentes": "Complementa a Preg. 4 del Moodle 2025 (MC-2025-04).",
+      "detalle": "Pasos de clustering jerárquico aglomerativo, efecto cadena, compacidad e interpretación del dendrograma.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg",
+          "kind": "img"
+        }
+      ]
+    }
   },
   {
     "id": "MC-KM-01",
@@ -1417,17 +2595,46 @@ window.PREGUNTAS = [
     "explicacion": "Las 4 afirmaciones son verdaderas (Hoja de Fórmulas Oficial y Preguntas 16 y 18 del Compendio Teórico de la Cátedra).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Hoja de Fórmulas Oficial y Pregunta 18 del Compendio Doctrinal",
+    "fuente": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 02) y Compilado (Pregs. 18, 70, 71)",
     "nro": 48,
-    "origen": "Hoja de Fórmulas Oficial y Pregunta 18 del Compendio Doctrinal",
+    "origen": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 02) y Compilado (Pregs. 18, 70, 71)",
     "pregunta": "Respecto al algoritmo de agrupamiento particional $K$-Means según la Cátedra:",
     "multiple": true,
     "justificacion": "Las 4 afirmaciones son verdaderas (Hoja de Fórmulas Oficial y Preguntas 16 y 18 del Compendio Teórico de la Cátedra).",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Recuperatorio 2do Parcial Teórico",
+      "fecha": "Nov 2023",
+      "anios": [
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema2.jpeg (Ej. 02 · IA-H0076), hoja_de_formulas_segundo_parcial.pdf y compilado Pregs. 18, 70, 71",
+      "antecedentes": "Responde directamente a cómo evitar el sobreajuste (valores altos de k) y cuándo finaliza K-Means.",
+      "detalle": "Pregunta temática basada en el recuperatorio teórico de Noviembre 2023.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "hoja_de_formulas_segundo_parcial.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-CLU-02",
@@ -1448,17 +2655,48 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: Average-Link exige promediar **todos** los $|C_1| \\times |C_2|$ pares cruzados de distancias individuales entre ambos grupos.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Segundo Parcial Presencial",
+    "fuente": "Basada en 2do Parcial Práctico 19/11/2025 (Pto. 1) y 2do Parcial Nov 2023 (Ej. 04 / Teo Ej. 02)",
     "nro": 49,
-    "origen": "Segundo Parcial Presencial",
+    "origen": "Basada en 2do Parcial Práctico 19/11/2025 (Pto. 1) y 2do Parcial Nov 2023 (Ej. 04 / Teo Ej. 02)",
     "pregunta": "Si en un paso del algoritmo de Clustering Jerárquico Aglomerativo se desea calcular la distancia entre el cluster $C_1 = \\{A, C\\}$ y el cluster $C_2 = \\{B, D\\}$:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: Average-Link exige promediar **todos** los $|C_1| \\times |C_2|$ pares cruzados de distancias individuales entre ambos grupos.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2023",
+      "2025",
+      "PRACTICO_2025",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parciales Prácticos Presenciales",
+      "fecha": "19/11/2025 (y Nov 2023)",
+      "anios": [
+        "2023",
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_oficial.pdf (Punto 1), parcial2_2023_tema1.jpeg (Ej. 04) y parcial2_2023_teoria_tema1.jpeg (Ej. 02)",
+      "antecedentes": "Ejemplifica el cálculo cruzado entre clusters {A,C} y {B,D} en Average-Link vs Single/Complete-Link.",
+      "detalle": "Pregunta analítica derivada de los parciales prácticos de Clustering.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "parcial2_2023_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2023_teoria_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema1.jpeg",
+          "kind": "img"
+        }
+      ]
+    }
   },
   {
     "id": "MC-KM-02",
@@ -1479,17 +2717,46 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el dendrograma es exclusivo del Clustering Jerárquico; $K$-Means requiere fijar $k$ a priori y solo mantiene $k$ centroides.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Guía Práctica Nº 4 y Exámenes Finales Oficiales",
+    "fuente": "Basada en Final 17/02/2021 (Teoría Preg. 6 y Práctica Ej. 4) y Guía Práctica Clustering",
     "nro": 50,
-    "origen": "Guía Práctica Nº 4 y Exámenes Finales Oficiales",
+    "origen": "Basada en Final 17/02/2021 (Teoría Preg. 6 y Práctica Ej. 4) y Guía Práctica Clustering",
     "pregunta": "Al comparar el agrupamiento particional ($K$-Means) con el agrupamiento jerárquico aglomerativo según la Cátedra:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el dendrograma es exclusivo del Clustering Jerárquico; $K$-Means requiere fijar $k$ a priori y solo mantiene $k$ centroides.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Examen Final Oficial y Guía Práctica",
+      "fecha": "17/02/2021",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_02_17.pdf (Teoría Preg. 6 y Práctica Ej. 4), compilado Preg. 32 y guia_practica_clustering.pdf",
+      "antecedentes": "Compara particionamiento plano en K-Means frente a jerarquía irrevocable en clustering aglomerativo.",
+      "detalle": "Pregunta temática derivada de final teórico-práctico y guía oficial.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "guia_practica_clustering.pdf",
+          "path": "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_clustering.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-KNN-01",
@@ -1510,17 +2777,48 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: el peso es inversamente proporcional al cuadrado de la distancia, por lo que las instancias más cercanas reciben el mayor peso.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Examen Final Oficial (Preguntas 20 y 22 del Compendio Doctrinal)",
+    "fuente": "Basada en Recuperatorio Nov 2023 (Ej. 05), Recup Virtual Nov 2020 y Compilado (Pregs. 20, 22)",
     "nro": 51,
-    "origen": "Examen Final Oficial (Preguntas 20 y 22 del Compendio Doctrinal)",
+    "origen": "Basada en Recuperatorio Nov 2023 (Ej. 05), Recup Virtual Nov 2020 y Compilado (Pregs. 20, 22)",
     "pregunta": "En el clasificador $k$-NN ponderado por distancia ($w_i = \\frac{1}{1 + d(x_0, x_i)^2}$ o $w_i = \\frac{1}{d(x_q, x_i)^2}$):",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el peso es inversamente proporcional al cuadrado de la distancia, por lo que las instancias más cercanas reciben el mayor peso.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Recuperatorios 2do Parcial Teórico/Práctico",
+      "fecha": "Nov 2020 y Nov 2023",
+      "anios": [
+        "2020",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema2.jpeg (Ej. 05 · IA-H0076), parcial2_2020_recup_virtual.jpeg (IA-H0124, k-fold) y compilado Pregs. 20 y 22",
+      "antecedentes": "Integra el análisis teórico de k = m + n en k-NN ponderado con la selección de k por Leave-One-Out.",
+      "detalle": "Pregunta temática armada desde consignas reales de recuperatorios.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2020_recup_virtual.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2020_recup_virtual.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-GEN-01",
@@ -1541,17 +2839,34 @@ window.PREGUNTAS = [
     "explicacion": "La opción 4 es falsa: en Aprendizaje por Refuerzo no se conoce la salida deseada ni el gradiente analítico; solo se observa una señal escalar de recompensa.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes Finales Oficiales (Preguntas 24 y 26 del Compendio Doctrinal)",
+    "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 24 y 26 del compilado, s/f)",
     "nro": 52,
-    "origen": "Exámenes Finales Oficiales (Preguntas 24 y 26 del Compendio Doctrinal)",
+    "origen": "Basada en Compendio Doctrinal de Finales (Pregs. 24 y 26 del compilado, s/f)",
     "pregunta": "De acuerdo con las preguntas teóricas de examen final de la Cátedra sobre paradigmas de aprendizaje:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: en Aprendizaje por Refuerzo no se conoce la salida deseada ni el gradiente analítico; solo se observa una señal escalar de recompensa.",
     "tags": [
       "HISTORICO",
-      "CATEDRA"
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": null,
+    "referencia_historica": {
+      "estado": "compendio_sin_fecha",
+      "instancia": "Derivada de Preguntas de Examen Final del Compilado",
+      "fecha": "Sin fecha exacta en el compendio",
+      "anios": [],
+      "archivo_origen": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf · Pregs. 24 y 26",
+      "antecedentes": "Consolida aprendizaje supervisado vs por refuerzo y valores iniciales optimistas.",
+      "detalle": "Pregunta temática basada en dos preguntas clásicas del banco de desarrollo.",
+      "archivos_repo": [
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-53",
@@ -1572,17 +2887,55 @@ window.PREGUNTAS = [
     "explicacion": "En la red SOM de Kohonen con conexiones laterales:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - El modelo biológico del Sombrero Mexicano implementa cooperación local mediante conexiones excitatorias de corto alcance e inhibición lateral a media/larga distancia para concentrar la respuesta en un único grupo ganador (*winner-take-all* suave).\n    - La función de vecindad $h_{cj}(t) = \\exp\\left(-\\frac{\\text{dist}^2(c, j)}{2\\sigma(t)^2}\\right)$ disminuye tanto con la distancia topológica a la BMU como con el tiempo, contrayendo $\\sigma(t)$ para pasar de autoorganización global a ajuste fino local.\n    - La propiedad central de SOM es la preservación topológica (*topological ordering*): mapea relaciones de proximidad de $\\mathbb{R}^N$ sobre una grilla bidimensional o unidimensional.\n  * **La opción 3 es falsa:** SOM es un modelo de aprendizaje estrictamente **no supervisado**; los vectores de entrada no poseen etiquetas de clase.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 2019 (Ej. 03) y Nov 2023 Tema 1 (Ej. 04)",
+    "origen": "Basada en 2do Parcial Teórico 2019 (Ej. 03) y Nov 2023 Tema 1 (Ej. 04)",
     "nro": 53,
     "pregunta": "En la arquitectura de una red neuronal autoorganizada competitiva (SOM de Kohonen) dotada de conexiones laterales recurrentes (modelo de Sombrero Mexicano):",
     "multiple": true,
     "justificacion": "En la red SOM de Kohonen con conexiones laterales:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - El modelo biológico del Sombrero Mexicano implementa cooperación local mediante conexiones excitatorias de corto alcance e inhibición lateral a media/larga distancia para concentrar la respuesta en un único grupo ganador (*winner-take-all* suave).\n    - La función de vecindad $h_{cj}(t) = \\exp\\left(-\\frac{\\text{dist}^2(c, j)}{2\\sigma(t)^2}\\right)$ disminuye tanto con la distancia topológica a la BMU como con el tiempo, contrayendo $\\sigma(t)$ para pasar de autoorganización global a ajuste fino local.\n    - La propiedad central de SOM es la preservación topológica (*topological ordering*): mapea relaciones de proximidad de $\\mathbb{R}^N$ sobre una grilla bidimensional o unidimensional.\n  * **La opción 3 es falsa:** SOM es un modelo de aprendizaje estrictamente **no supervisado**; los vectores de entrada no poseen etiquetas de clase.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "2021",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2019",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Exámenes Teóricos (Parcial 2019 / Parcial 2023 / Final 2021)",
+      "fecha": "2019 / Nov 2023",
+      "anios": [
+        "2019",
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg (Ej. 03 · IA-H-2019-TEOR) y parcial2_2023_teoria_tema1.jpeg (Ej. 04 · IA-H0074)",
+      "antecedentes": "Evaluada también en Final 17/02/2021 (Preg. 4) y compilado 29 págs. (Preg. 10, 14, 60–63).",
+      "detalle": "Síntesis MC generada desde el ejercicio de desarrollo sobre SOM y conexiones laterales (Sombrero Mexicano).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2023_teoria_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-54",
@@ -1603,17 +2956,46 @@ window.PREGUNTAS = [
     "explicacion": "En el paradigma EBL:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - La disponibilidad de una Teoría del Dominio previa (axiomas, reglas y relaciones causales) es el factor determinante indispensable; sin ella no es posible construir la explicación deductiva fundacional.\n    - Al apoyarse en razonamiento deductivo a partir de la teoría del dominio, el sistema puede extraer el concepto general a partir de un único ejemplo positivo (*one-shot learning*).\n    - El algoritmo EBL construye un árbol de demostración formal y luego sustituye las constantes específicas del ejemplo por variables generales mediante regresión de objetivos (*Goal Regression* / EBG), asegurando que la regla aprendida preserve validez deductiva.\n  * **La opción 3 es falsa:** La necesidad de grandes volúmenes de datos estadísticos caracteriza al aprendizaje inductivo empírico (como redes neuronales, árboles de decisión o Naive Bayes), no al aprendizaje deductivo EBL.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Ej. 04)",
+    "origen": "Basada en 2do Parcial Teórico 2019 (parcial2_2019_cin_teoria_correccion_roja_4k.jpg, Ej. 04)",
     "nro": 54,
     "pregunta": "En el paradigma de Aprendizaje Basado en Explicaciones (EBL - Explanation-Based Learning), en contraste con los métodos de aprendizaje inductivo empírico:",
     "multiple": true,
     "justificacion": "En el paradigma EBL:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - La disponibilidad de una Teoría del Dominio previa (axiomas, reglas y relaciones causales) es el factor determinante indispensable; sin ella no es posible construir la explicación deductiva fundacional.\n    - Al apoyarse en razonamiento deductivo a partir de la teoría del dominio, el sistema puede extraer el concepto general a partir de un único ejemplo positivo (*one-shot learning*).\n    - El algoritmo EBL construye un árbol de demostración formal y luego sustituye las constantes específicas del ejemplo por variables generales mediante regresión de objetivos (*Goal Regression* / EBG), asegurando que la regla aprendida preserve validez deductiva.\n  * **La opción 3 es falsa:** La necesidad de grandes volúmenes de datos estadísticos caracteriza al aprendizaje inductivo empírico (como redes neuronales, árboles de decisión o Naive Bayes), no al aprendizaje deductivo EBL.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2019",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico Presencial",
+      "fecha": "2019",
+      "anios": [
+        "2019"
+      ],
+      "archivo_origen": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg (Ej. 04 al 15% · IA-H-2019-TEOR)",
+      "antecedentes": "Reproducida como Preg. 11 en preguntas_parcial2_desarrollo_compilado_29paginas.pdf.",
+      "detalle": "Síntesis MC de la consigna de desarrollo sobre el rol de la Teoría del Dominio en EBL.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-55",
@@ -1634,17 +3016,55 @@ window.PREGUNTAS = [
     "explicacion": "Análisis de métodos de enlace en clustering jerárquico:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - Por definir la disimilitud como $d(A, B) = \\min_{x \\in A, y \\in B} d(x, y)$, Single Link es vulnerable al efecto de encadenamiento (*chaining*), formando cadenas alargadas o serpenteantes si existen instancias intermedias dispersas.\n    - Complete Link define $d(A, B) = \\max_{x \\in A, y \\in B} d(x, y)$, lo que exige que todos los puntos de ambos grupos estén próximos para fusionarse, produciendo cúmulos de diámetro reducido y formas compactas.\n    - Average Link (UPGMA) promedia todas las distancias punto a punto: $\\frac{1}{\\|A\\|\\|B\\|} \\sum_{x \\in A} \\sum_{y \\in B} d(x, y)$, logrando una mayor estabilidad estadística ante ruido.\n  * **La opción 3 es falsa:** Ninguno de los tres enlaces clásicos (Single, Complete ni Average) utiliza centroides; el uso de centroides define métodos distintos como *Centroid Linkage* (UPGMC) o *Ward*.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 2019 (Ej. 06), Final 17/02/2021 (Preg. 6) y Nov 2023 (Ej. 02)",
+    "origen": "Basada en 2do Parcial Teórico 2019 (Ej. 06), Final 17/02/2021 (Preg. 6) y Nov 2023 (Ej. 02)",
     "nro": 55,
     "pregunta": "Al evaluar las propiedades geométricas y de estabilidad de los métodos clásicos de enlace en clustering jerárquico aglomerativo:",
     "multiple": true,
     "justificacion": "Análisis de métodos de enlace en clustering jerárquico:\n  * **Las opciones 1, 2 y 4 son verdaderas:**\n    - Por definir la disimilitud como $d(A, B) = \\min_{x \\in A, y \\in B} d(x, y)$, Single Link es vulnerable al efecto de encadenamiento (*chaining*), formando cadenas alargadas o serpenteantes si existen instancias intermedias dispersas.\n    - Complete Link define $d(A, B) = \\max_{x \\in A, y \\in B} d(x, y)$, lo que exige que todos los puntos de ambos grupos estén próximos para fusionarse, produciendo cúmulos de diámetro reducido y formas compactas.\n    - Average Link (UPGMA) promedia todas las distancias punto a punto: $\\frac{1}{\\|A\\|\\|B\\|} \\sum_{x \\in A} \\sum_{y \\in B} d(x, y)$, logrando una mayor estabilidad estadística ante ruido.\n  * **La opción 3 es falsa:** Ninguno de los tres enlaces clásicos (Single, Complete ni Average) utiliza centroides; el uso de centroides define métodos distintos como *Centroid Linkage* (UPGMC) o *Ward*.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "2021",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parciales Teóricos y Final",
+      "fecha": "2019 / 2021 / Nov 2023",
+      "anios": [
+        "2019",
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema1.jpeg (Ej. 02 · IA-H0074), parcial2_2019_cin_teoria_correccion_roja_4k.jpg (Ej. 06) y final_2021_02_17.pdf (Preg. 6)",
+      "antecedentes": "Cubre propiedades geométricas de Single-Link, Complete-Link y diferencia de Average-Link vs centroides.",
+      "detalle": "Síntesis MC armada sobre consignas recurrentes de enlaces en clustering jerárquico.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema1.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema1.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-56",
@@ -1665,17 +3085,48 @@ window.PREGUNTAS = [
     "explicacion": "Propiedades del algoritmo $K$-NN ponderado por distancia inversa:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - La ponderación $w_i = \\frac{1}{d^2}$ decae cuadráticamente con la distancia. Esto protege la decisión local frente a outliers alejados y hace que fijar $k = N$ sea viable sin que la clase mayoritaria global degrade el voto del entorno inmediato.\n    - Como cualquier método basado en distancias euclídeas, atributos con magnitudes numéricas grandes dominarían artificialmente el cálculo de distancia si no se normalizan al intervalo $[0, 1]$ o a media cero y varianza unitaria.\n  * **La opción 4 es falsa:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de Voronoi altamente no lineales; no asume ninguna hipótesis de separabilidad lineal.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 2019 (Ej. 07) y Recuperatorio Nov 2023 (Ej. 05)",
+    "origen": "Basada en 2do Parcial Teórico 2019 (Ej. 07) y Recuperatorio Nov 2023 (Ej. 05)",
     "nro": 56,
     "pregunta": "En el clasificador $K$-NN ponderado por distancia inversa con pesos $w_i = \\frac{1}{d(\\mathbf{x}_q, \\mathbf{x}_i)^2}$:",
     "multiple": true,
     "justificacion": "Propiedades del algoritmo $K$-NN ponderado por distancia inversa:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - La ponderación $w_i = \\frac{1}{d^2}$ decae cuadráticamente con la distancia. Esto protege la decisión local frente a outliers alejados y hace que fijar $k = N$ sea viable sin que la clase mayoritaria global degrade el voto del entorno inmediato.\n    - Como cualquier método basado en distancias euclídeas, atributos con magnitudes numéricas grandes dominarían artificialmente el cálculo de distancia si no se normalizan al intervalo $[0, 1]$ o a media cero y varianza unitaria.\n  * **La opción 4 es falsa:** $K$-NN es un clasificador no paramétrico y local que aproxima fronteras de Voronoi altamente no lineales; no asume ninguna hipótesis de separabilidad lineal.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2019",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parcial Teórico y Recuperatorio",
+      "fecha": "2019 / Nov 2023",
+      "anios": [
+        "2019",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_tema2.jpeg (Ej. 05 · IA-H0076) y parcial2_2019_cin_teoria_correccion_roja_4k.jpg (Ej. 07)",
+      "antecedentes": "Incluye normalización, robustez ante k=N y ponderación inversa al cuadrado.",
+      "detalle": "Síntesis MC derivada de consignas reales de K-NN ponderado.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_tema2.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2019_cin_teoria_correccion_roja_4k.jpg",
+          "kind": "img"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-57",
@@ -1696,17 +3147,53 @@ window.PREGUNTAS = [
     "explicacion": "Dinámica del término de momento en MLP:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - El parámetro inercial $\\beta$ suma una fracción del desplazamiento anterior. Si los gradientes son coherentes en signo, la velocidad efectiva aumenta $\\Delta w_{\\max} \\approx \\frac{-\\alpha \\nabla E}{1-\\beta}$ (atravesando mesetas llanas rápidamente). Si los gradientes alternan de signo, los términos sucesivos se contrarrestan, cancelando oscilaciones transversales estériles y conduciendo la actualización hacia el fondo del cañón.\n    - Aunque el coeficiente escalar $\\beta \\ge 0$ es no negativo, el término de momento $\\beta \\Delta w(t-1) = \\beta (w(t) - w(t-1))$ adopta signo negativo siempre que $w(t) \\lt w(t-1)$, siendo una trampa conceptual clásica de examen.\n  * **La opción 4 es falsa:** El momento complementa y modula el gradiente local guiado por $\\alpha$, pero jamás sustituye al vector gradiente $\\nabla E$ ni a la tasa de aprendizaje.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 01) y Final 17/02/2021 (Preg. 1)",
+    "origen": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 01) y Final 17/02/2021 (Preg. 1)",
     "nro": 57,
     "pregunta": "En el entrenamiento de un Perceptrón Multicapa (MLP) mediante Backpropagation, la regla de actualización con término de momento es $\\Delta w(t) = -\\alpha \\nabla E(t) + \\beta \\Delta w(t-1)$ con $\\beta \\in [0, 1)$. Respecto a su efecto físico y dinámico:",
     "multiple": true,
     "justificacion": "Dinámica del término de momento en MLP:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - El parámetro inercial $\\beta$ suma una fracción del desplazamiento anterior. Si los gradientes son coherentes en signo, la velocidad efectiva aumenta $\\Delta w_{\\max} \\approx \\frac{-\\alpha \\nabla E}{1-\\beta}$ (atravesando mesetas llanas rápidamente). Si los gradientes alternan de signo, los términos sucesivos se contrarrestan, cancelando oscilaciones transversales estériles y conduciendo la actualización hacia el fondo del cañón.\n    - Aunque el coeficiente escalar $\\beta \\ge 0$ es no negativo, el término de momento $\\beta \\Delta w(t-1) = \\beta (w(t) - w(t-1))$ adopta signo negativo siempre que $w(t) \\lt w(t-1)$, siendo una trampa conceptual clásica de examen.\n  * **La opción 4 es falsa:** El momento complementa y modula el gradiente local guiado por $\\alpha$, pero jamás sustituye al vector gradiente $\\nabla E$ ni a la tasa de aprendizaje.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de 2do Parcial Teórico y Examen Final",
+      "fecha": "22/11/2023 (y Final 17/02/2021)",
+      "anios": [
+        "2021",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_desarrollo.jpeg (Ej. 01 · IA-H0079) y final_2021_02_17.pdf (Teoría Preg. 1)",
+      "antecedentes": "Presente también en preguntas_parcial2_desarrollo_compilado_29paginas.pdf (Pregs. 12 y 48).",
+      "detalle": "Síntesis MC sobre física del término de momento (mesetas llanas, valles escarpados y signo negativo).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-58",
@@ -1727,17 +3214,51 @@ window.PREGUNTAS = [
     "explicacion": "Condiciones KKT y multiplicadores de Lagrange en SVM:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - Por holgura complementaria KKT, el producto $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1]$ debe anularse para toda instancia $i$. Si el punto se sitúa estrictamente detrás del margen ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$), el corchete es estrictamente positivo, obligando a que $\\alpha_i = 0$. Únicamente cuando la instancia descansa exactamente sobre el margen límite ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$), el multiplicador puede ser positivo ($\\alpha_i \\gt 0$), definiendo un vector de soporte.\n    - Como $\\alpha_i = 0$ para todos los puntos no soporte, el vector de pesos $\\mathbf{w} = \\sum_{i \\in \\text{SV}} \\alpha_i y_i \\mathbf{x}_i$ es una combinación lineal dispersa (*sparse*) sustentada únicamente en los vectores de soporte.\n  * **La opción 4 es falsa:** La remoción o desplazamiento de cualquier punto interior que mantenga $\\alpha_i = 0$ no produce alteración alguna en la frontera de separación ni en los márgenes de decisión.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Preg. 4) y MC Oficial (#4, #10)",
+    "origen": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Preg. 4) y MC Oficial (#4, #10)",
     "nro": 58,
     "pregunta": "En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con esta doctrina:",
     "multiple": true,
     "justificacion": "Condiciones KKT y multiplicadores de Lagrange en SVM:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - Por holgura complementaria KKT, el producto $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1]$ debe anularse para toda instancia $i$. Si el punto se sitúa estrictamente detrás del margen ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$), el corchete es estrictamente positivo, obligando a que $\\alpha_i = 0$. Únicamente cuando la instancia descansa exactamente sobre el margen límite ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$), el multiplicador puede ser positivo ($\\alpha_i \\gt 0$), definiendo un vector de soporte.\n    - Como $\\alpha_i = 0$ para todos los puntos no soporte, el vector de pesos $\\mathbf{w} = \\sum_{i \\in \\text{SV}} \\alpha_i y_i \\mathbf{x}_i$ es una combinación lineal dispersa (*sparse*) sustentada únicamente en los vectores de soporte.\n  * **La opción 4 es falsa:** La remoción o desplazamiento de cualquier punto interior que mantenga $\\alpha_i = 0$ no produce alteración alguna en la frontera de separación ni en los márgenes de decisión.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2021",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2021",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Exámenes Finales y MC Compilado",
+      "fecha": "17/02/2021 y 08/06/2021",
+      "anios": [
+        "2021"
+      ],
+      "archivo_origen": "final_2021_02_17.pdf (Preg. 3), final_2021_06_08_mesa.png (Ej. 04) y compilado 29 págs. (MC #4 y #10)",
+      "antecedentes": "Cubre condiciones de holgura complementaria KKT y dispersión de vectores de soporte.",
+      "detalle": "Síntesis MC basada en preguntas de finales sobre Lagrange y obtención de w.",
+      "archivos_repo": [
+        {
+          "label": "final_2021_02_17.pdf",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_02_17.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "final_2021_06_08_mesa.png",
+          "path": "MODELOS_ORIGINALES/2_FINALES/final_2021_06_08_mesa.png",
+          "kind": "img"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-59",
@@ -1758,17 +3279,53 @@ window.PREGUNTAS = [
     "explicacion": "Propiedades fundamentales de las redes de Hopfield:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - La ortogonalidad en el espacio bipolar $\\{-1, +1\\}^N$ se define por $\\mathbf{e}^{(k)} \\cdot \\mathbf{e}^{(m)} = 0$, requiriendo que exactamente la mitad ($N/2$) de las componentes coincidan (+1) y la otra mitad difiera (-1). Esto anula los términos de interferencia cruzada (*crosstalk*) en la regla Hebbiana.\n    - La fijación de $w_{ii} = 0$ elimina bucles reflexivos y, unida a la simetría $w_{ij} = w_{ji}$, asegura que ante la actualización asincrónica de la neurona $k$, el cambio de energía sea $\\Delta E = -\\Delta s_k \\cdot \\text{net}_k \\le 0$, asegurando que la red descienda sin ciclos oscilatorios a un mínimo de Lyapunov.\n  * **La opción 4 es falsa:** La correlación cruzada entre patrones no ortogonales genera diafonía destructiva, degrada drásticamente la capacidad de recuperación libre de errores y genera mínimos espurios no deseados.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Exámenes de Cátedra (Parciales y Finales)",
-    "origen": "Exámenes de Cátedra (Parciales y Finales)",
+    "fuente": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 05) y Cuestionario 06 CVG (04/11/2020, Preg. 1)",
+    "origen": "Basada en 2do Parcial Teórico 22/11/2023 (Ej. 05) y Cuestionario 06 CVG (04/11/2020, Preg. 1)",
     "nro": 59,
     "pregunta": "En el modelo autoasociativo discreto de Hopfield con estados bipolares $s_i \\in \\{-1, +1\\}$ y matriz de pesos Hebbiana $\\mathbf{W}$:",
     "multiple": true,
     "justificacion": "Propiedades fundamentales de las redes de Hopfield:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - La ortogonalidad en el espacio bipolar $\\{-1, +1\\}^N$ se define por $\\mathbf{e}^{(k)} \\cdot \\mathbf{e}^{(m)} = 0$, requiriendo que exactamente la mitad ($N/2$) de las componentes coincidan (+1) y la otra mitad difiera (-1). Esto anula los términos de interferencia cruzada (*crosstalk*) en la regla Hebbiana.\n    - La fijación de $w_{ii} = 0$ elimina bucles reflexivos y, unida a la simetría $w_{ij} = w_{ji}$, asegura que ante la actualización asincrónica de la neurona $k$, el cambio de energía sea $\\Delta E = -\\Delta s_k \\cdot \\text{net}_k \\le 0$, asegurando que la red descienda sin ciclos oscilatorios a un mínimo de Lyapunov.\n  * **La opción 4 es falsa:** La correlación cruzada entre patrones no ortogonales genera diafonía destructiva, degrada drásticamente la capacidad de recuperación libre de errores y genera mínimos espurios no deseados.",
     "tags": [
-      "HISTORICO",
-      "CATEDRA"
+      "2020",
+      "2023",
+      "CATEDRA",
+      "DERIVADA"
     ],
-    "anio": null
+    "anio": "2023",
+    "referencia_historica": {
+      "estado": "derivada_examen",
+      "instancia": "Derivada de Parcial Teórico y Cuestionario CVG",
+      "fecha": "22/11/2023 (y 04/11/2020)",
+      "anios": [
+        "2020",
+        "2023"
+      ],
+      "archivo_origen": "parcial2_2023_teoria_desarrollo.jpeg (Ej. 05 · IA-H0079) y cuestionario_moodle_06_svm_hopfield_som.pdf (Preg. 1)",
+      "antecedentes": "Relacionada con Pregs. 21, 33, 36 y 59 de preguntas_parcial2_desarrollo_compilado_29paginas.pdf.",
+      "detalle": "Síntesis MC sobre ortogonalidad bipolar, diagonal nula y estabilidad de Lyapunov en Hopfield.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2023_teoria_desarrollo.jpeg",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_desarrollo.jpeg",
+          "kind": "img"
+        },
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/preguntas_parcial2_desarrollo_compilado_29paginas.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "multiple_choice_con_claves.md",
+          "path": "BANCO_TEORIA_Y_MC/multiple_choice_con_claves.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-01",
@@ -1787,18 +3344,37 @@ window.PREGUNTAS = [
     "explicacion": "En el modelo autoasociativo discreto estándar de Hopfield, la red posee una única capa recurrente donde cada una de las $N$ neuronas recibe una componente del vector de entrada y produce una componente de la salida ($N$ entradas y $N$ salidas). No hay capas ocultas ni asimetría dimensional.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 1)",
     "nro": 60,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 1)",
     "pregunta": "El modelo de Hopfield es una red neuronal de:",
     "multiple": false,
     "justificacion": "En el modelo autoasociativo discreto estándar de Hopfield, la red posee una única capa recurrente donde cada una de las $N$ neuronas recibe una componente del vector de entrada y produce una componente de la salida ($N$ entradas y $N$ salidas). No hay capas ocultas ni asimetría dimensional.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 1",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-02",
@@ -1817,18 +3393,37 @@ window.PREGUNTAS = [
     "explicacion": "El Perceptrón simple clásico de Rosenblatt utiliza exclusivamente una función de activación tipo escalón (Hard Limit / signo / Heaviside) que produce una salida discreta binaria $\\{0, 1\\}$ o bipolar $\\{-1, +1\\}$. Las funciones sigmoidal y tangente hiperbólica son derivables y corresponden a redes multicapa (MLP) entrenadas por gradiente descendente.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 2)",
     "nro": 61,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 2)",
     "pregunta": "La función de transferencia que utiliza el modelo del Perceptrón es:",
     "multiple": false,
     "justificacion": "El Perceptrón simple clásico de Rosenblatt utiliza exclusivamente una función de activación tipo escalón (Hard Limit / signo / Heaviside) que produce una salida discreta binaria $\\{0, 1\\}$ o bipolar $\\{-1, +1\\}$. Las funciones sigmoidal y tangente hiperbólica son derivables y corresponden a redes multicapa (MLP) entrenadas por gradiente descendente.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 2",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-03",
@@ -1846,18 +3441,37 @@ window.PREGUNTAS = [
     "explicacion": "En una red SOM de Kohonen, cada neurona de la capa de salida (ubicada en una grilla topológica 1D o 2D) posee un vector de pesos sinápticos completo conectado directamente a todas las neuronas de la capa de entrada ($d$ conexiones por neurona de salida). Entre las neuronas de salida no existen conexiones físicas cableadas: la interacción lateral de vecindad se modela algorítmicamente mediante la función $h(i)$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 3)",
     "nro": 62,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 3)",
     "pregunta": "En los Mapas Auto-organizados (SOM), cada neurona de salida:",
     "multiple": false,
     "justificacion": "En una red SOM de Kohonen, cada neurona de la capa de salida (ubicada en una grilla topológica 1D o 2D) posee un vector de pesos sinápticos completo conectado directamente a todas las neuronas de la capa de entrada ($d$ conexiones por neurona de salida). Entre las neuronas de salida no existen conexiones físicas cableadas: la interacción lateral de vecindad se modela algorítmicamente mediante la función $h(i)$.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 3",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-04",
@@ -1875,18 +3489,37 @@ window.PREGUNTAS = [
     "explicacion": "En el pseudocódigo formal de Clustering Jerárquico Aglomerativo (Tan, Steinbach & Kumar / Han & Kamber), el paso inicial (línea 1) consiste en asignar cada elemento individual del dataset $D$ a su propio cluster singleton: *Make each data point in the data set D a cluster*. En las líneas posteriores (bucle iterativo) se buscan recursivamente los dos clusters con distancia mínima y se unen.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 4)",
     "nro": 63,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 4)",
     "pregunta": "La línea 1 (uno) del algoritmo de clustering aglomerativo dice:",
     "multiple": false,
     "justificacion": "En el pseudocódigo formal de Clustering Jerárquico Aglomerativo (Tan, Steinbach & Kumar / Han & Kamber), el paso inicial (línea 1) consiste en asignar cada elemento individual del dataset $D$ a su propio cluster singleton: *Make each data point in the data set D a cluster*. En las líneas posteriores (bucle iterativo) se buscan recursivamente los dos clusters con distancia mínima y se unen.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 4",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-05",
@@ -1905,18 +3538,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 5)",
     "nro": 64,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 5)",
     "pregunta": "Una red neuronal de propagación hacia atrás:",
     "multiple": true,
     "justificacion": "Doctrina oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 5",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-06",
@@ -1935,18 +3587,37 @@ window.PREGUNTAS = [
     "explicacion": "En el modelo formal de neurona artificial, la salida $y_i$ se obtiene aplicando la función de transferencia no lineal $f$ a la suma ponderada neta o potencial postsináptico: $y_i = f(\\text{Net}_i)$, donde $\\text{Net}_i = \\sum_{j=1}^n w_{ij} x_j - \\theta_i$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 6)",
     "nro": 65,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 6)",
     "pregunta": "La salida de una neurona $i$ está determinada por:",
     "multiple": false,
     "justificacion": "En el modelo formal de neurona artificial, la salida $y_i$ se obtiene aplicando la función de transferencia no lineal $f$ a la suma ponderada neta o potencial postsináptico: $y_i = f(\\text{Net}_i)$, donde $\\text{Net}_i = \\sum_{j=1}^n w_{ij} x_j - \\theta_i$.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 6",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-07",
@@ -1965,18 +3636,37 @@ window.PREGUNTAS = [
     "explicacion": "En el aprendizaje hebbiano de Hopfield con $M$ patrones bipolares de entrenamiento, la matriz de pesos sinápticos es la suma de los productos exteriores de los $M$ vectores menos la matriz identidad $I$ para anular las conexiones autorrecurrentes ($w_{ii} = 0$): $W = \\sum_{k=1}^M (E_k^T \\cdot E_k) - I$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 7)",
     "nro": 66,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 7)",
     "pregunta": "En el modelo de Hopfield, con $M$ patrones, los pesos de las conexiones se obtienen calculando:",
     "multiple": false,
     "justificacion": "En el aprendizaje hebbiano de Hopfield con $M$ patrones bipolares de entrenamiento, la matriz de pesos sinápticos es la suma de los productos exteriores de los $M$ vectores menos la matriz identidad $I$ para anular las conexiones autorrecurrentes ($w_{ii} = 0$): $W = \\sum_{k=1}^M (E_k^T \\cdot E_k) - I$.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 7",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-08",
@@ -1994,18 +3684,44 @@ window.PREGUNTAS = [
     "explicacion": "La regla de Kohonen desplaza los vectores de pesos de la neurona ganadora y sus vecinas topológicas hacia el patrón de entrada $e$: $\\Delta w_{ji} = a(t) \\cdot h_j \\cdot [e_i - w_{ji}(t)]$, de donde $w_{ji}(t+1) = w_{ji}(t) + a(t) h_j [e_i - w_{ji}(t)]$.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 8)",
     "nro": 67,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 8)",
     "pregunta": "La expresión de actualización del peso $w_{ji}$ de un SOM es (siendo $e_i$ el componente $i$-ésimo de la entrada, $a(t)$ el factor de aprendizaje y $h_j$ la función de vecindad):",
     "multiple": false,
     "justificacion": "La regla de Kohonen desplaza los vectores de pesos de la neurona ganadora y sus vecinas topológicas hacia el patrón de entrada $e$: $\\Delta w_{ji} = a(t) \\cdot h_j \\cdot [e_i - w_{ji}(t)]$, de donde $w_{ji}(t+1) = w_{ji}(t) + a(t) h_j [e_i - w_{ji}(t)]$.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025",
+      "MOODLE_CVG_2020"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025",
+        "2020"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 8",
+      "antecedentes": "Pregunta idéntica evaluada previamente en Cuestionario 06 CVG (04/11/2020, Preg. 5 — cuestionario_moodle_06_svm_hopfield_som.pdf).",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-09",
@@ -2024,18 +3740,37 @@ window.PREGUNTAS = [
     "explicacion": "La convergencia prematura ocurre cuando cromosomas con aptitud relativa muy alta en las generaciones iniciales acaparan la selección por ruleta, reduciendo rápidamente la diversidad genética y atrapando al algoritmo genético en un óptimo local antes de explorar adecuadamente el espacio de estados.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 9)",
     "nro": 68,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 9)",
     "pregunta": "En Algoritmos Genéticos, la convergencia prematura se da cuando uno o más individuos:",
     "multiple": false,
     "justificacion": "La convergencia prematura ocurre cuando cromosomas con aptitud relativa muy alta en las generaciones iniciales acaparan la selección por ruleta, reduciendo rápidamente la diversidad genética y atrapando al algoritmo genético en un óptimo local antes de explorar adecuadamente el espacio de estados.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 9",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-10",
@@ -2054,18 +3789,37 @@ window.PREGUNTAS = [
     "explicacion": "En el entrenamiento estándar de Backpropagation sobre el conjunto de entrenamiento, el criterio de convergencia de parada primaria se satisface cuando el error global cuadrático de la época desciende por debajo de un umbral de tolerancia predefinido denominado 'error mínimo aceptable' ($E \\le \\varepsilon_{\\text{min}}$).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 10)",
     "nro": 69,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 10)",
     "pregunta": "Sin considerar error de validación, ni test, el algoritmo de aprendizaje de las redes MLP finaliza cuando el error global es:",
     "multiple": false,
     "justificacion": "En el entrenamiento estándar de Backpropagation sobre el conjunto de entrenamiento, el criterio de convergencia de parada primaria se satisface cuando el error global cuadrático de la época desciende por debajo de un umbral de tolerancia predefinido denominado 'error mínimo aceptable' ($E \\le \\varepsilon_{\\text{min}}$).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 10",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-11",
@@ -2084,18 +3838,44 @@ window.PREGUNTAS = [
     "explicacion": "Para que dos patrones bipolares $\\{-1, +1\\}^N$ sean ortogonales ($E_a \\cdot E_b = 0$), deben coincidir en exactamente $N/2$ componentes y diferir en las otras $N/2$. Por lo tanto, tomados de a pares deben tener al menos el 50% de sus elementos análogos diferentes (distancia de Hamming $d_H \\ge N/2$).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 11)",
     "nro": 70,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 11)",
     "pregunta": "La condición de ortogonalidad de las redes de Hopfield (con $N$ neuronas) establece que:",
     "multiple": false,
     "justificacion": "Para que dos patrones bipolares $\\{-1, +1\\}^N$ sean ortogonales ($E_a \\cdot E_b = 0$), deben coincidir en exactamente $N/2$ componentes y diferir en las otras $N/2$. Por lo tanto, tomados de a pares deben tener al menos el 50% de sus elementos análogos diferentes (distancia de Hamming $d_H \\ge N/2$).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025",
+      "MOODLE_CVG_2020"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025",
+        "2020"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 11",
+      "antecedentes": "Pregunta idéntica evaluada previamente en Cuestionario 06 CVG (04/11/2020, Preg. 1 — cuestionario_moodle_06_svm_hopfield_som.pdf).",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        },
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-12",
@@ -2114,18 +3894,37 @@ window.PREGUNTAS = [
     "explicacion": "La ruleta es el método canónico de Selección Proporcional a la Aptitud (*Fitness Proportionate Selection*): el tamaño angular del slot asignado a cada individuo en el espacio $[0, 1)$ es exactamente proporcional a su aptitud normalizada $p_i = f_i / \\sum f$. No es un método basado en ranking u orden ni un operador genético de modificación.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 12)",
     "nro": 71,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 12)",
     "pregunta": "En Algoritmos Genéticos, la selección mediante ruleta:",
     "multiple": false,
     "justificacion": "La ruleta es el método canónico de Selección Proporcional a la Aptitud (*Fitness Proportionate Selection*): el tamaño angular del slot asignado a cada individuo en el espacio $[0, 1)$ es exactamente proporcional a su aptitud normalizada $p_i = f_i / \\sum f$. No es un método basado en ranking u orden ni un operador genético de modificación.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 12",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-13",
@@ -2144,18 +3943,37 @@ window.PREGUNTAS = [
     "explicacion": "El hiperparámetro de tasa o factor de aprendizaje $\\alpha$ controla la magnitud del paso de ajuste aplicado a los pesos en cada iteración ($\\Delta w_i = \\alpha \\cdot e \\cdot x_i$), regulando de forma directa la velocidad y la estabilidad de la convergencia hacia el hiperplano separador.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 13)",
     "nro": 72,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 13)",
     "pregunta": "En el modelo del Perceptrón, el factor de aprendizaje (alfa) se utiliza para:",
     "multiple": false,
     "justificacion": "El hiperparámetro de tasa o factor de aprendizaje $\\alpha$ controla la magnitud del paso de ajuste aplicado a los pesos en cada iteración ($\\Delta w_i = \\alpha \\cdot e \\cdot x_i$), regulando de forma directa la velocidad y la estabilidad de la convergencia hacia el hiperplano separador.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 13",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-14",
@@ -2174,18 +3992,37 @@ window.PREGUNTAS = [
     "explicacion": "La regla delta clásica de Widrow-Hoff solo permitía actualizar capas conectadas directamente a una salida deseada supervisada. La regla delta generalizada (Backpropagation) utiliza la regla de la cadena para propagar los errores hacia atrás, proveyendo por primera vez una fórmula analítica para actualizar los pesos de las capas ocultas o intermedias.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 14)",
     "nro": 73,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 14)",
     "pregunta": "La regla delta generalizada es la generalización de la regla delta debido a que:",
     "multiple": false,
     "justificacion": "La regla delta clásica de Widrow-Hoff solo permitía actualizar capas conectadas directamente a una salida deseada supervisada. La regla delta generalizada (Backpropagation) utiliza la regla de la cadena para propagar los errores hacia atrás, proveyendo por primera vez una fórmula analítica para actualizar los pesos de las capas ocultas o intermedias.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 14",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-15",
@@ -2205,18 +4042,37 @@ window.PREGUNTAS = [
     "explicacion": "El enfoque de Naïve Bayes con histogramas discretiza atributos continuos en intervalos o bins sin requerir supuestos paramétricos de distribución previa (como normalidad), y opera de forma consistente tanto para problemas multiclase ($K > 2$) como multidimensionales ($d > 2$) gracias a la hipótesis de independencia condicional.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 15)",
     "nro": 74,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 15)",
     "pregunta": "El clasificador Naïve Bayes con histogramas:",
     "multiple": true,
     "justificacion": "El enfoque de Naïve Bayes con histogramas discretiza atributos continuos en intervalos o bins sin requerir supuestos paramétricos de distribución previa (como normalidad), y opera de forma consistente tanto para problemas multiclase ($K > 2$) como multidimensionales ($d > 2$) gracias a la hipótesis de independencia condicional.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 15",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-16",
@@ -2234,18 +4090,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 16)",
     "nro": 75,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 16)",
     "pregunta": "¿Qué representa la tupla $x_i = (x_1 \\dots x_r)$ en el algoritmo K-means?",
     "multiple": false,
     "justificacion": "Doctrina oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 16",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-17",
@@ -2264,18 +4139,37 @@ window.PREGUNTAS = [
     "explicacion": "El objetivo formal de la regla delta de Widrow-Hoff (LMS) en el ADALINE es minimizar el Error Cuadrático Medio (ECM / MSE) calculado sobre todos los patrones de entrenamiento: $E = \\frac{1}{2P} \\sum_{p=1}^P (d_p - \\text{Net}_p)^2$, aplicando descenso por gradiente en la superficie parabólica continua del error.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 17)",
     "nro": 76,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 17)",
     "pregunta": "El modelo ADALINE utiliza la regla delta, cuyo objetivo es:",
     "multiple": false,
     "justificacion": "El objetivo formal de la regla delta de Widrow-Hoff (LMS) en el ADALINE es minimizar el Error Cuadrático Medio (ECM / MSE) calculado sobre todos los patrones de entrenamiento: $E = \\frac{1}{2P} \\sum_{p=1}^P (d_p - \\text{Net}_p)^2$, aplicando descenso por gradiente en la superficie parabólica continua del error.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 17",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-18",
@@ -2294,18 +4188,37 @@ window.PREGUNTAS = [
     "explicacion": "El término de momento $\\alpha \\Delta w(t-1)$ aporta inercia a la actualización sináptica en la dirección predominante del gradiente, evitando oscilaciones en valles estrechos, atravesando mesetas de error planas y acelerando de forma demostrada la convergencia hacia pesos estables.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 18)",
     "nro": 77,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 18)",
     "pregunta": "La utilización del término de momento en el algoritmo de la regla delta generalizada:",
     "multiple": false,
     "justificacion": "El término de momento $\\alpha \\Delta w(t-1)$ aporta inercia a la actualización sináptica en la dirección predominante del gradiente, evitando oscilaciones en valles estrechos, atravesando mesetas de error planas y acelerando de forma demostrada la convergencia hacia pesos estables.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 18",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-19",
@@ -2324,18 +4237,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina estricta de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 19)",
     "nro": 78,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 19)",
     "pregunta": "El algoritmo del modelo de Hopfield es:",
     "multiple": false,
     "justificacion": "Doctrina estricta de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 19",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-20",
@@ -2354,18 +4286,37 @@ window.PREGUNTAS = [
     "explicacion": "En la formulación canónica general de Naïve Bayes continuo, para calcular la verosimilitud $P(x_i | C_k)$ no necesariamente se usa una normal/gaussiana (pueden ser distribuciones exponenciales, log-normales o Gamma). Por ello, el principio general requiere estimar los parámetros específicos de la distribución elegida para cada combinación de clase y atributo.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 20)",
     "nro": 79,
-    "origen": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
+    "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 20)",
     "pregunta": "El clasificador Naïve Bayes que utiliza distribuciones continuas de probabilidad, requiere el cálculo de:",
     "multiple": false,
     "justificacion": "En la formulación canónica general de Naïve Bayes continuo, para calcular la verosimilitud $P(x_i | C_k)$ no necesariamente se usa una normal/gaussiana (pueden ser distribuciones exponenciales, log-normales o Gamma). Por ello, el principio general requiere estimar los parámetros específicos de la distribución elegida para cada combinación de clase y atributo.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
-    "anio": "2025"
+    "anio": "2025",
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Moodle)",
+      "fecha": "19/11/2025",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "parcial2_2025_11_19_teoria_moodle_oficial.pdf · Pregunta 20",
+      "antecedentes": "Forma parte del intento completo oficial del 19/11/2025.",
+      "detalle": "Consigna y opciones oficiales extraídas del examen en Campus Virtual (CVG).",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "path": "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_teoria_moodle_oficial.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-21",
@@ -2384,18 +4335,44 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: Los mapas auto-organizados de Kohonen (SOM) proyectan un espacio de entrada continuo de $N$ dimensiones sobre un espacio discreto de salida conformado por una retícula topológica de $M$ neuronas (frecuentemente bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión del vector de entrada ($N$).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 1)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 1)",
     "pregunta": "Los SOM son redes neuronales de:",
     "multiple": false,
     "justificacion": "Los mapas de Kohonen (SOM) mapean un espacio de entrada de $N$ dimensiones a un espacio de salida de $M$ dimensiones (generalmente una retícula bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión de la entrada ($N$).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025",
+      "MOODLE_CVG_2020"
     ],
     "anio": "2025",
-    "nro": 80
+    "nro": 80,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025",
+        "2020"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 1 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Pregunta idéntica evaluada previamente en Cuestionario 06 CVG (04/11/2020, Preg. 3 — cuestionario_moodle_06_svm_hopfield_som.pdf).",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        },
+        {
+          "label": "cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-22",
@@ -2414,18 +4391,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: Según el Teorema de Convergencia del Perceptrón, para conjuntos de entrenamiento linealmente separables el algoritmo garantiza alcanzar un vector de pesos que clasifica exactamente todos los patrones, finalizando cuando se completa una época completa con error cero. En cambio, en MLP se tolera un error menor a una cota prefijada.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 2)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 2)",
     "pregunta": "En el modelo del Perceptrón, el proceso de aprendizaje finaliza cuando:",
     "multiple": false,
     "justificacion": "Teóricamente, el algoritmo del Perceptrón simple garantiza la convergencia (teorema de convergencia del perceptrón) solo si los datos son linealmente separables, deteniéndose cuando clasifica correctamente todos los patrones de entrenamiento (error cero).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 81
+    "nro": 81,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 2 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-23",
@@ -2444,18 +4440,44 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: La hipótesis simplificadora fundamental del modelo Naïve Bayes ('ingenuo') es asumir que los atributos o variables predictoras son condicionalmente independientes entre sí dada la clase observada. Las clases no son independientes entre sí (son mutuamente excluyentes).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 3)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 3)",
     "pregunta": "El clasificador Naïve Bayes tiene como principio básico:",
     "multiple": false,
     "justificacion": "El término 'Naïve' (ingenuo) proviene de la asunción simplificadora de que la presencia de una característica (atributo) particular en una clase no está relacionada con la presencia de ninguna otra característica (independencia condicional).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025",
+      "MOODLE_CVG_2020"
     ],
     "anio": "2025",
-    "nro": 82
+    "nro": 82,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025",
+        "2020"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 3 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Pregunta idéntica evaluada previamente en Cuestionario 05 CVG (28/10/2020, Preg. 4 — cuestionario_moodle_05_nb_perceptron_mlp.pdf).",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        },
+        {
+          "label": "cuestionario_moodle_05_nb_perceptron_mlp.pdf",
+          "path": "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_05_nb_perceptron_mlp.pdf",
+          "kind": "pdf"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-24",
@@ -2474,18 +4496,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: De acuerdo a la regla delta generalizada para la conexión dirigida desde la neurona de origen $i$ hacia la neurona de destino $j$, el incremento sináptico es $\\Delta w_{ji} = \\alpha \\cdot \\delta_j \\cdot y_i$, correspondiente a la tasa de aprendizaje $\\alpha$ multiplicada por el gradiente de error local de la neurona destino $j$ ($\\delta_j$) multiplicada por la salida o activación de la neurona origen $i$ ($y_i$).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 4)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 4)",
     "pregunta": "Utilizando el algoritmo Backpropagation, el incremento del peso $w_{ji}$ es ($i \\to j$):",
     "multiple": false,
     "justificacion": "La regla delta generalizada establece que el cambio de peso es proporcional a la tasa de aprendizaje ($\\alpha$), el gradiente local o error de la neurona destino ($\\delta_j$) y la salida de la neurona origen ($y_i$).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 83
+    "nro": 83,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 4 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-25",
@@ -2504,18 +4545,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: Ambos modelos son monocapa y supervisados. La diferencia reside en la función de transferencia: el Perceptrón calcula el error a partir de la salida cuantizada por la función escalón, mientras que ADALINE (regla LMS / Widrow-Hoff) aplica una función de activación lineal (identidad) para calcular la diferencia con la salida deseada antes del umbral de decisión final.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 5)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 5)",
     "pregunta": "La diferencia entre el modelo del Perceptrón y del ADALINE es:",
     "multiple": false,
     "justificacion": "Aunque ambos son supervisados y estructuralmente similares, ADALINE (Adaptive Linear Element) utiliza una función de transferencia lineal (la suma ponderada neta) para calcular el error y ajustar pesos (regla Widrow-Hoff), mientras que el Perceptrón usa la salida cuantizada (escalón).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 84
+    "nro": 84,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 5 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-26",
@@ -2534,18 +4594,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: El conjunto de validación sirve para controlar el sobreentrenamiento (overfitting). Si durante el entrenamiento el error sobre el conjunto de validación comienza a incrementarse mientras el de entrenamiento sigue cayendo, significa que la red está perdiendo capacidad de generalización sobre datos no vistos, debiendo detenerse el entrenamiento (parada temprana / Early Stopping).",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 7)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 7)",
     "pregunta": "El error de validación se utiliza para detener el proceso de aprendizaje del modelo MLP cuando:",
     "multiple": false,
     "justificacion": "Cuando el error de validación comienza a subir (mientras el de entrenamiento sigue bajando), indica overfitting (sobreajuste). Esto significa que la red está perdiendo su capacidad de generalización (su capacidad para clasificar correctamente patrones nuevos o no vistos).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 85
+    "nro": 85,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 7 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-27",
@@ -2563,18 +4642,37 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: La red de Hopfield es una red asociativa puramente autorrecurrente (recurrent network) compuesta por una capa interconectada donde las salidas de las neuronas se retroalimentan como entradas de las demás hasta converger a un atractor o estado de equilibrio estable.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 8)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 8)",
     "pregunta": "El modelo de Hopfield es una red neuronal:",
     "multiple": false,
     "justificacion": "Las redes de Hopfield son redes recurrentes asociativas donde la salida de las neuronas se retroalimenta a las entradas de las otras neuronas en la red.",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 86
+    "nro": 86,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 8 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   },
   {
     "id": "MC-2025-28",
@@ -2592,17 +4690,36 @@ window.PREGUNTAS = [
     "explicacion": "Doctrina oficial de la Cátedra: En la red de Hopfield discreta clásica, la conectividad es completa entre neuronas distintas ($w_{ij} = w_{ji}$), pero la diagonal principal es nula ($w_{ii} = 0$), lo que significa que cada neurona de salida está conectada a todas las demás neuronas y no posee conexiones autorrecurrentes hacia sí misma.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
-    "origen": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
+    "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 9)",
+    "origen": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 9)",
     "pregunta": "En el modelo de Hopfield, cada neurona de salida:",
     "multiple": false,
     "justificacion": "En la arquitectura estándar de Hopfield, la conectividad es total entre neuronas distintas, pero $w_{ii} = 0$ (una neurona no se conecta a sí misma; sin auto-bucles).",
     "tags": [
       "2025",
       "OFICIAL",
-      "PARCIAL_2"
+      "PARCIAL_2",
+      "PARCIAL_2025"
     ],
     "anio": "2025",
-    "nro": 87
+    "nro": 87,
+    "referencia_historica": {
+      "estado": "verificada_examen",
+      "instancia": "2do Parcial Teórico Oficial (Grupo 2 · Moodle)",
+      "fecha": "2025 (cohorte 19/11/2025)",
+      "anios": [
+        "2025"
+      ],
+      "archivo_origen": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md · Preg. 9 (transcripción de Preguntas Segundo parcial Grupo 2 .docx)",
+      "antecedentes": "Variante del banco de preguntas Moodle 2do Parcial 2025.",
+      "detalle": "Consigna oficial recopilada de otro grupo del mismo 2do Parcial Moodle 2025.",
+      "archivos_repo": [
+        {
+          "label": "parcial2_2025_grupo2_moodle.md",
+          "path": "BANCO_TEORIA_Y_MC/parcial2_2025_grupo2_moodle.md",
+          "kind": "md"
+        }
+      ]
+    }
   }
 ];

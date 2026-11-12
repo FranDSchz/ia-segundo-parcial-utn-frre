@@ -22,6 +22,14 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "MLP & Perceptrón",
       icono: "🧠",
       ponderacion: "25% – 30% del Parcial Práctico",
+      referenciaCatedra: "Guías Prácticas Perceptrón Simple y MLP · Parciales 2015, 2019 (CIN), 2020/2021, 2023 y 19/11/2025",
+      referenciaLinks: [
+        { label: "guia_practica_mlp.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_mlp.pdf", kind: "pdf" },
+        { label: "guia_practica_perceptron_simple.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_perceptron_simple.pdf", kind: "pdf" },
+        { label: "hoja_de_formulas_segundo_parcial.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf", kind: "pdf" },
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "03_mlp_backpropagation.md", path: "GUIAS_PASO_A_PASO/03_mlp_backpropagation.md", kind: "md" }
+      ],
       tiempoSugerido: "25 - 30 min en hoja",
       objetivo: "Seguir en papel el algoritmo de 6/8 pasos de Backpropagation sin confundir neuronas lineales vs. sigmoidales, justificar el criterio de parada (EG y Early Stopping), aplicar el término de momento y verificar signos en Perceptrón analítico.",
       items: [
@@ -489,6 +497,14 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Algoritmos Genéticos",
       icono: "🧬",
       ponderacion: "20% – 30% del Parcial Práctico",
+      referenciaCatedra: "Teoría Unidad AG (Apuntes de Cátedra) · Parciales 2023 (Tema 1/2), 19/11/2025 y Finales 2021",
+      referenciaLinks: [
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "parcial2_2023_tema1.jpeg", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg", kind: "img" },
+        { label: "hoja_de_formulas_segundo_parcial.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf", kind: "pdf" },
+        { label: "08_algoritmos_geneticos.md", path: "GUIAS_PASO_A_PASO/08_algoritmos_geneticos.md", kind: "md" },
+        { label: "GUIA_MAESTRA_ALGORITMOS_GENETICOS...", path: "GUIAS_PASO_A_PASO/GUIA_MAESTRA_ALGORITMOS_GENETICOS_Y_ESTRUCTURA_EXAMEN.md", kind: "md" }
+      ],
       tiempoSugerido: "15 - 20 min en hoja",
       objetivo: "Armar sin errores las tablas de Ruleta [00–99], Control de Copias Esperadas y Ranking Lineal, ejecutar cruces Simple, Multipunto (regla de anillo) y Binomial (dos formas de Hijo 2), y calcular Mutación Adaptativa por Temperatura (con o sin reinicio cíclico) diferenciándola de Convergencia.",
       items: [
@@ -910,6 +926,13 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Naïve Bayes",
       icono: "📊",
       ponderacion: "20% – 25% del Parcial Práctico",
+      referenciaCatedra: "Guía Práctica Naïve Bayes · Parciales 22/06/2015, 2020/2021, 2023 (Tema 1/2) y Cuestionario Moodle 05",
+      referenciaLinks: [
+        { label: "guia_practica_naive_bayes.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_naive_bayes.pdf", kind: "pdf" },
+        { label: "hoja_de_formulas_segundo_parcial.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/hoja_de_formulas_segundo_parcial.pdf", kind: "pdf" },
+        { label: "cuestionario_moodle_05_nb_perceptron_mlp.pdf", path: "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_05_nb_perceptron_mlp.pdf", kind: "pdf" },
+        { label: "06_naive_bayes_histogramas.md", path: "GUIAS_PASO_A_PASO/06_naive_bayes_histogramas.md", kind: "md" }
+      ],
       tiempoSugerido: "15 - 20 min en hoja",
       objetivo: "Clasificar nuevas instancias paso a paso tanto con tablas de Histogramas (bins) como con Distribución Normal Gaussiana, aplicando los denominadores correctos (N_k vs N_total), límites de intervalo (a, b], notación científica, suavizado de Laplace ante ceros y decisión MAP.",
       items: [
@@ -1232,6 +1255,13 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Memoria Autoasociativa · Matriz W y Convergencia",
       icono: "🧲",
       ponderacion: "Cálculo matricial mecánico (sin errores de signo) + análisis de capacidad/ortogonalidad",
+      referenciaCatedra: "Guía Práctica Hopfield · Parciales 22/06/2015, 2021, 2023 (Tema 1), 19/11/2025 y Cuestionario Moodle 06",
+      referenciaLinks: [
+        { label: "guia_practica_hopfield.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_hopfield.pdf", kind: "pdf" },
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "cuestionario_moodle_06_svm_hopfield_som.pdf", path: "MODELOS_ORIGINALES/3_CUESTIONARIOS_MOODLE_2DO_PARCIAL/cuestionario_moodle_06_svm_hopfield_som.pdf", kind: "pdf" },
+        { label: "05_redes_hopfield.md", path: "GUIAS_PASO_A_PASO/05_redes_hopfield.md", kind: "md" }
+      ],
       tiempoSugerido: "15–20 min",
       objetivo: "Memorizar patrones bipolares {-1, +1} en una matriz simétrica W de diagonal nula, iterar el reconocimiento sincrónico cuidando el caso net_i = 0 y diagnosticar convergencia, ciclos oscilatorios o capacidad límite.",
       items: [
@@ -1580,6 +1610,13 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Aprendizaje Competitivo Online · Vecindad y BMU",
       icono: "🗺️",
       ponderacion: "25% típico del parcial · Alta sensibilidad a persistencia W(t) y función de vecindad",
+      referenciaCatedra: "Guía Práctica SOM · Parciales 2019 (CIN), 2020/2021, 2023 (Tema 1/2), 19/11/2025 y Cuestionario Moodle 06",
+      referenciaLinks: [
+        { label: "guia_practica_som.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_som.pdf", kind: "pdf" },
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "parcial2_2023_tema1.jpeg", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg", kind: "img" },
+        { label: "02_som_kohonen_paso_a_paso.md", path: "GUIAS_PASO_A_PASO/02_som_kohonen_paso_a_paso.md", kind: "md" }
+      ],
       tiempoSugerido: "20–25 min",
       objetivo: "Determinar la neurona ganadora (BMU) por mínima distancia euclídea, evaluar la función de vecindad nula o continua sin omitir vecinas, actualizar pesos en modo estrictamente online y graficar la arquitectura final.",
       items: [
@@ -1942,6 +1979,13 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Aprendizaje Lazy · Votación Simple/Ponderada y K Óptimo",
       icono: "📍",
       ponderacion: "20%–25% típico · Cuentas simples pero exige precisión con LOOCV y ponderación",
+      referenciaCatedra: "Guía Práctica KNN · Parciales 2020/2021, 2023 (Tema 2), 19/11/2025 y Finales 2021 (17/02, 27/04)",
+      referenciaLinks: [
+        { label: "guia_practica_knn.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_knn.pdf", kind: "pdf" },
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "parcial2_2023_teoria_tema2.jpeg", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_teoria_tema2.jpeg", kind: "img" },
+        { label: "07_knn_leave_one_out.md", path: "GUIAS_PASO_A_PASO/07_knn_leave_one_out.md", kind: "md" }
+      ],
       tiempoSugerido: "20–25 min",
       objetivo: "Clasificar nuevas consultas con KNN mayoritario o ponderado (1/d, 1/d², 1/(1+d²)), armar la tabla simétrica de distancias para elegir K* mediante Leave-One-Out Cross-Validation y resolver el caso teórico K = m + n.",
       items: [
@@ -2303,6 +2347,13 @@ window.ENTRENAMIENTO_PRACTICO = {
       badge: "Particional (K-Means) · Jerárquico (Single/Complete/Average) y Dendrograma",
       icono: "🫧",
       ponderacion: "25% clásico · Average-Link ponderado y Dendrograma escalado son puntos clave",
+      referenciaCatedra: "Guía Práctica Clustering · Parciales 2016, 2021, 2023 (Tema 1/2), 19/11/2025 y Finales 2021",
+      referenciaLinks: [
+        { label: "guia_practica_clustering.pdf", path: "MODELOS_ORIGINALES/4_GUIAS_PRACTICAS_CATEDRA/guia_practica_clustering.pdf", kind: "pdf" },
+        { label: "parcial2_2025_11_19_oficial.pdf", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2025_11_19_oficial.pdf", kind: "pdf" },
+        { label: "parcial2_2023_tema1.jpeg", path: "MODELOS_ORIGINALES/1_PARCIALES_2DO_PARCIAL/parcial2_2023_tema1.jpeg", kind: "img" },
+        { label: "04_clustering_average_link.md", path: "GUIAS_PASO_A_PASO/04_clustering_average_link.md", kind: "md" }
+      ],
       tiempoSugerido: "20–25 min",
       objetivo: "Ejecutar iteraciones tabuladas de K-Means hasta estabilizar centroides, reducir matrices de distancia con Single/Complete/Average Link sin caer en el error de cardinalidad y trazar dendrogramas con escala vertical exacta.",
       items: [

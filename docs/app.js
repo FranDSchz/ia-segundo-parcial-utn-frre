@@ -6,6 +6,9 @@
 (function () {
   "use strict";
 
+  // Public Repository Base URL (for direct source PDF/image/bank traceability)
+  const REPO_GITHUB_BASE = "https://github.com/FranDSchz/ia-segundo-parcial-utn-frre";
+
   // Topic Labels & Friendly Names
   const TOPIC_NAMES = {
     ALGORITMOS_GENETICOS: "Algoritmos Genéticos",
@@ -114,6 +117,7 @@
       if (qaCountBadge) {
         qaCountBadge.textContent = `${this.allQuestions.length} Preguntas Activas`;
       }
+      this.updateQAYearOptions();
 
       // 4. Check for stored failed questions
       this.updateFailedButtonVisibility();
@@ -457,7 +461,7 @@
       let durationMinutes = 40;
 
       if (this.selectedPreset === "2025") {
-        pool = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025"));
+        pool = this.allQuestions.filter((q) => this.matchesYearFilter(q, "PARCIAL_2025"));
         count = pool.length;
         durationMinutes = 20;
         this.examQuestions = [...pool];
@@ -1010,7 +1014,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <div>
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
-              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
+              ${this.renderHistoricalBadgesHtml(q)}
               <span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem;">Pregunta ${idx + 1} (${q.id})</span>
             </div>
             <span style="font-weight: 800; font-family: var(--font-mono);">${statusLabel}</span>
@@ -1027,9 +1031,7 @@
               <span>📖 Justificación Doctrinal Oficial de Cátedra:</span>
             </div>
             <div>${this.formatRichText(q.explicacion)}</div>
-            <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.4rem;">
-              <strong>Fuente Oficial:</strong> ${q.fuente}
-            </div>
+            ${this.renderHistoricalRefHtml(q)}
           </div>
 
           <div class="question-footer-toolbar">
@@ -1074,14 +1076,14 @@
       filterBar.appendChild(allBtn);
 
       // Botón especial Oficial 2025
-      const count2025 = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025")).length;
+      const count2025 = this.allQuestions.filter((q) => this.matchesYearFilter(q, "PARCIAL_2025")).length;
       if (count2025 > 0) {
         const btn2025 = document.createElement("button");
         btn2025.className = "filter-btn";
         btn2025.id = "practice-btn-YEAR_2025";
         btn2025.style.borderColor = "var(--primary)";
         btn2025.style.fontWeight = "700";
-        btn2025.textContent = `⭐ Oficial 2025 (${count2025})`;
+        btn2025.textContent = `⭐ Parcial Moodle 2025 (${count2025})`;
         btn2025.onclick = () => this.filterPracticeTopic("YEAR_2025");
         filterBar.appendChild(btn2025);
       }
@@ -1110,7 +1112,7 @@
       if (topicKey === "ALL") {
         this.practiceQuestions = [...this.allQuestions];
       } else if (topicKey === "YEAR_2025") {
-        this.practiceQuestions = this.allQuestions.filter((q) => q.anio === "2025" || (q.tags || []).includes("2025"));
+        this.practiceQuestions = this.allQuestions.filter((q) => this.matchesYearFilter(q, "PARCIAL_2025"));
       } else {
         this.practiceQuestions = this.allQuestions.filter((q) => q.tema === topicKey);
       }
@@ -1182,9 +1184,7 @@
             </span>
           </div>
           <div>${this.formatRichText(q.explicacion)}</div>
-          <div style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.4rem;">
-            <strong>Fuente:</strong> ${q.fuente}
-          </div>
+          ${this.renderHistoricalRefHtml(q)}
         </div>
       `
         : "";
@@ -1194,7 +1194,7 @@
           <div class="question-header">
             <div>
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
-              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
+              ${isChecked ? this.renderHistoricalBadgesHtml(q) : ""}
               <span style="font-size: 0.85rem; color: var(--text-muted); margin-left: 0.5rem;">
                 Pregunta ${this.practiceIndex + 1} de ${this.practiceQuestions.length}
               </span>
@@ -1357,6 +1357,176 @@
     },
 
     // -------------------------------------------------------------
+    // Historical Source Traceability Helpers (Never called in active exam)
+    // -------------------------------------------------------------
+    escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    },
+
+    getHistoricalRef(q) {
+      const ref = (q && q.referencia_historica) || {};
+      const estado = ref.estado || "compendio_sin_fecha";
+      const anios = Array.isArray(ref.anios) && ref.anios.length > 0
+        ? ref.anios
+        : q && q.anio
+        ? [String(q.anio)]
+        : [];
+      return {
+        estado,
+        instancia: ref.instancia || (q && q.origen) || "Registro de Cátedra",
+        fecha: ref.fecha || (anios.length > 0 ? anios.join(" / ") : "Sin fecha exacta registrada"),
+        anios,
+        archivo_origen: ref.archivo_origen || (q && q.fuente) || "",
+        antecedentes: ref.antecedentes || "",
+        detalle: ref.detalle || "",
+        archivos_repo: Array.isArray(ref.archivos_repo) ? ref.archivos_repo : []
+      };
+    },
+
+    buildRepoBlobUrl(relPath) {
+      if (!relPath) return REPO_GITHUB_BASE;
+      const encoded = String(relPath)
+        .split("/")
+        .filter(Boolean)
+        .map((seg) => encodeURIComponent(seg))
+        .join("/");
+      return `${REPO_GITHUB_BASE}/blob/main/${encoded}`;
+    },
+
+    getRepoKindIcon(kind) {
+      if (kind === "pdf") return "📄";
+      if (kind === "img") return "🖼️";
+      if (kind === "md") return "📝";
+      return "📎";
+    },
+
+    renderRepoLinksHtml(archivos, labelText) {
+      if (!Array.isArray(archivos) || archivos.length === 0) return "";
+      const pills = archivos
+        .map((item) => {
+          const url = this.buildRepoBlobUrl(item.path);
+          const icon = this.getRepoKindIcon(item.kind);
+          const title = `Abrir en GitHub: ${item.path}`;
+          return `<a class="repo-link-pill" href="${this.escapeHtml(url)}" target="_blank" rel="noopener noreferrer" title="${this.escapeHtml(title)}">${icon} ${this.escapeHtml(item.label || item.path)} ↗</a>`;
+        })
+        .join("");
+      return `
+        <div class="repo-links-row">
+          <span class="repo-links-label">${this.escapeHtml(labelText || "🔗 Abrir fuente en el repo:")}</span>
+          ${pills}
+        </div>
+      `;
+    },
+
+    matchesYearFilter(q, filterKey) {
+      if (!filterKey || filterKey === "ALL") return true;
+      const tags = q.tags || [];
+      const ref = this.getHistoricalRef(q);
+      if (filterKey === "PARCIAL_2025") return tags.includes("PARCIAL_2025");
+      if (filterKey === "VERIFICADA") return ref.estado === "verificada_examen";
+      if (filterKey === "DERIVADA") return ref.estado === "derivada_examen";
+      if (filterKey === "SIN_FECHA") return ref.estado === "compendio_sin_fecha";
+      if (filterKey === "P1_REPASO") return Boolean(q.es_p1) || tags.includes("P1_REPASO");
+      if (/^\d{4}$/.test(filterKey)) {
+        return String(q.anio || "") === filterKey || tags.includes(filterKey) || ref.anios.includes(filterKey);
+      }
+      if (filterKey === "HISTORICO") {
+        return ref.estado === "compendio_sin_fecha" || (!ref.anios.includes("2025") && !ref.anios.includes("2023") && !q.es_p1);
+      }
+      return true;
+    },
+
+    updateQAYearOptions() {
+      const select = document.getElementById("qa-year-select");
+      if (!select || !Array.isArray(this.allQuestions) || this.allQuestions.length === 0) return;
+      const countFor = (key) => this.allQuestions.filter((q) => this.matchesYearFilter(q, key)).length;
+      const defs = [
+        ["ALL", `📅 Todos los Orígenes / Años (${this.allQuestions.length})`],
+        ["PARCIAL_2025", `⭐ Parcial Moodle 2025 (${countFor("PARCIAL_2025")})`],
+        ["2025", `📅 Registro 2025 (${countFor("2025")})`],
+        ["2023", `📅 Registro 2023 (${countFor("2023")})`],
+        ["2021", `📅 Registro 2021 (${countFor("2021")})`],
+        ["2020", `📅 Registro 2020 (${countFor("2020")})`],
+        ["2019", `📅 Registro 2019 (${countFor("2019")})`],
+        ["VERIFICADA", `✅ Verificada de Examen (${countFor("VERIFICADA")})`],
+        ["DERIVADA", `🧪 Derivada de Examen / Guía (${countFor("DERIVADA")})`],
+        ["SIN_FECHA", `📜 Compendio sin Fecha (${countFor("SIN_FECHA")})`],
+        ["P1_REPASO", `📘 Repaso P1 (${countFor("P1_REPASO")})`]
+      ];
+      const currentVal = select.value || "ALL";
+      select.innerHTML = defs
+        .map(([val, label]) => `<option value="${val}">${this.escapeHtml(label)}</option>`)
+        .join("");
+      select.value = defs.some(([val]) => val === currentVal) ? currentVal : "ALL";
+    },
+
+    getEstadoBadgeMeta(estado) {
+      if (estado === "verificada_examen") {
+        return { cls: "badge-ref-verificada", boxCls: "estado-verificada", label: "✅ Verificada de Examen" };
+      }
+      if (estado === "derivada_examen") {
+        return { cls: "badge-ref-derivada", boxCls: "estado-derivada", label: "🧪 Derivada de Examen / Guía" };
+      }
+      return { cls: "badge-ref-compendio", boxCls: "estado-compendio", label: "📜 Compendio sin Fecha" };
+    },
+
+    renderHistoricalBadgesHtml(q) {
+      const ref = this.getHistoricalRef(q);
+      const meta = this.getEstadoBadgeMeta(ref.estado);
+      const yearsLabel = ref.anios.length > 0 ? ref.anios.join(" / ") : (q.anio || "");
+      return `
+        ${yearsLabel ? `<span class="badge badge-year" style="margin-left: 0.45rem;">📅 ${this.escapeHtml(yearsLabel)}</span>` : ""}
+        <span class="badge ${meta.cls}" style="margin-left: 0.45rem;">${meta.label}</span>
+      `;
+    },
+
+    renderHistoricalRefHtml(q) {
+      const ref = this.getHistoricalRef(q);
+      const meta = this.getEstadoBadgeMeta(ref.estado);
+      return `
+        <div class="historical-ref-box ${meta.boxCls}">
+          <div class="historical-ref-header">
+            <span class="historical-ref-title">📚 Ficha Histórica</span>
+            <span class="badge ${meta.cls}">${meta.label}</span>
+            <span class="historical-ref-date">📅 ${this.escapeHtml(ref.fecha)}</span>
+          </div>
+          <div class="historical-ref-row"><strong>Instancia:</strong> ${this.escapeHtml(ref.instancia)}</div>
+          ${ref.archivo_origen ? `<div class="historical-ref-row"><strong>Archivo / Fuente:</strong> <span class="historical-ref-file">${this.escapeHtml(ref.archivo_origen)}</span></div>` : ""}
+          ${ref.antecedentes ? `<div class="historical-ref-row"><strong>Antecedentes / Recurrencia:</strong> ${this.escapeHtml(ref.antecedentes)}</div>` : ""}
+          ${ref.detalle ? `<div class="historical-ref-row"><strong>Nota:</strong> ${this.escapeHtml(ref.detalle)}</div>` : ""}
+          ${this.renderRepoLinksHtml(ref.archivos_repo, "🔗 Ver fuentes en el repo:")}
+        </div>
+      `;
+    },
+
+    formatHistoricalMarkdown(q) {
+      const ref = this.getHistoricalRef(q);
+      const lines = [
+        `**Fuente Oficial:** ${q.fuente || "No especificada"}`,
+        `**Estado Histórico:** ${ref.estado} (${ref.instancia} · ${ref.fecha})`
+      ];
+      if (ref.archivo_origen && ref.archivo_origen !== q.fuente) {
+        lines.push(`**Archivo Origen:** ${ref.archivo_origen}`);
+      }
+      if (ref.antecedentes) {
+        lines.push(`**Antecedentes:** ${ref.antecedentes}`);
+      }
+      if (ref.archivos_repo.length > 0) {
+        const mdLinks = ref.archivos_repo
+          .map((item) => `[${item.label || item.path}](${this.buildRepoBlobUrl(item.path)})`)
+          .join(" · ");
+        lines.push(`**Archivos en el Repositorio:** ${mdLinks}`);
+      }
+      return lines.join("\n");
+    },
+
+    // -------------------------------------------------------------
     // QA Mode (Full Bank Inspection + Live Search & Topic Filter)
     // -------------------------------------------------------------
     setQASearch(query) {
@@ -1385,14 +1555,11 @@
 
       const filtered = this.allQuestions.filter((q) => {
         if (topicFilter !== "ALL" && q.tema !== topicFilter) return false;
-        if (yearFilter !== "ALL") {
-          if (yearFilter === "2025" && q.anio !== "2025" && !(q.tags || []).includes("2025")) return false;
-          if (yearFilter === "2023" && q.anio !== "2023" && !(q.tags || []).includes("2023")) return false;
-          if (yearFilter === "P1_REPASO" && !q.es_p1 && !(q.tags || []).includes("P1_REPASO")) return false;
-          if (yearFilter === "HISTORICO" && (q.anio === "2025" || q.anio === "2023" || q.es_p1)) return false;
-        }
+        if (yearFilter !== "ALL" && !this.matchesYearFilter(q, yearFilter)) return false;
         if (!query) return true;
-        const haystack = `${q.id} ${q.tema} ${TOPIC_NAMES[q.tema] || ""} ${q.titulo} ${q.enunciado} ${(q.tags || []).join(" ")} ${q.anio || ""} ${q.opciones.join(" ")} ${q.explicacion}`.toLowerCase();
+        const ref = this.getHistoricalRef(q);
+        const repoStr = ref.archivos_repo.map((a) => `${a.label || ""} ${a.path || ""}`).join(" ");
+        const haystack = `${q.id} ${q.tema} ${TOPIC_NAMES[q.tema] || ""} ${q.titulo} ${q.enunciado} ${(q.tags || []).join(" ")} ${q.anio || ""} ${q.fuente || ""} ${q.origen || ""} ${ref.instancia} ${ref.fecha} ${ref.archivo_origen} ${ref.antecedentes} ${ref.detalle} ${ref.anios.join(" ")} ${repoStr} ${q.opciones.join(" ")} ${q.explicacion}`.toLowerCase();
         return haystack.includes(query);
       });
 
@@ -1431,14 +1598,13 @@
         });
 
         card.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-            <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.25rem;">
               <span class="badge badge-topic">${TOPIC_NAMES[q.tema] || q.tema}</span>
-              <span style="font-weight: 700; margin-left: 0.5rem;">#${idx + 1} — ${q.id}</span>
-              ${q.anio ? `<span class="badge badge-year" style="margin-left: 0.5rem;">📅 ${q.anio}</span>` : ""}
-              ${q.es_p1 ? `<span class="badge" style="background: var(--warning-bg); color: var(--warning); margin-left: 0.5rem;">P1</span>` : ""}
+              <span style="font-weight: 700; margin-left: 0.4rem;">#${idx + 1} — ${q.id}</span>
+              ${this.renderHistoricalBadgesHtml(q)}
+              ${q.es_p1 ? `<span class="badge" style="background: var(--warning-bg); color: var(--warning); margin-left: 0.4rem;">P1</span>` : ""}
             </div>
-            <span style="font-size: 0.78rem; color: var(--text-muted);">${q.fuente}</span>
           </div>
 
           <div style="font-size: 1.05rem; font-weight: 600; margin-bottom: 0.85rem;">${this.formatRichText(q.enunciado)}</div>
@@ -1451,6 +1617,8 @@
             <div class="justification-title">📖 Justificación Oficial:</div>
             <div>${this.formatRichText(q.explicacion)}</div>
           </div>
+
+          ${this.renderHistoricalRefHtml(q)}
 
           <div class="question-footer-toolbar">
             <button class="btn btn-outline btn-sm" onclick="app.openQuestionFeedback('${q.id}')">
@@ -1503,9 +1671,7 @@
         previewBox.innerHTML = `
           <div style="font-weight: 700; margin-bottom: 0.35rem;">${q.titulo}</div>
           <div style="margin-bottom: 0.5rem;">${this.formatRichText(q.enunciado)}</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 0.35rem;">
-            <strong>Fuente Oficial:</strong> ${q.fuente}
-          </div>
+          ${this.renderHistoricalRefHtml(q)}
         `;
         this.renderMath(previewBox);
       }
@@ -1522,7 +1688,7 @@
 
 **ID de la Pregunta:** \`${q.id}\`
 **Tema:** ${topicName}
-**Fuente Oficial:** ${q.fuente}
+${this.formatHistoricalMarkdown(q)}
 
 ---
 
@@ -1812,6 +1978,11 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
             <span class="lab-meta-chip">⏱️ Tiempo sugerido: ${activeTema.tiempoSugerido || "N/A"}</span>
             <span class="lab-meta-chip progress">☑️ Pasos practicados: ${doneSteps} / ${totalSteps}</span>
           </div>
+          ${activeTema.referenciaCatedra ? `
+            <div class="lab-catedra-ref">
+              <div><strong>📚 Referencia de Cátedra:</strong> ${this.escapeHtml(activeTema.referenciaCatedra)}</div>
+              ${this.renderRepoLinksHtml(activeTema.referenciaLinks, "🔗 Guías y modelos originales:")}
+            </div>` : ""}
           <div class="lab-topic-objetivo">${this.formatLabText(activeTema.objetivo)}</div>
         `;
       }

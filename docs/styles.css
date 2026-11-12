@@ -1807,6 +1807,145 @@ code {
   line-height: 1.4;
 }
 
+/* ==========================================================================
+   Trazabilidad Histórica de Cátedra
+   ========================================================================== */
+.badge-ref-verificada {
+  background-color: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.38);
+}
+
+.badge-ref-derivada {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.badge-ref-compendio {
+  background-color: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.38);
+}
+
+.historical-ref-box {
+  margin-top: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  font-size: 0.81rem;
+  line-height: 1.48;
+  color: var(--text-muted);
+}
+
+.historical-ref-box.estado-verificada {
+  border-left-color: var(--success);
+}
+
+.historical-ref-box.estado-derivada {
+  border-left-color: var(--primary);
+}
+
+.historical-ref-box.estado-compendio {
+  border-left-color: var(--warning);
+}
+
+.historical-ref-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.38rem;
+}
+
+.historical-ref-title {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.historical-ref-date {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.historical-ref-row {
+  margin-top: 0.25rem;
+}
+
+.historical-ref-row strong {
+  color: var(--text-main);
+}
+
+.historical-ref-file {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  word-break: break-word;
+  color: var(--text-main);
+}
+
+.lab-catedra-ref {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.lab-catedra-ref strong {
+  color: var(--text-main);
+}
+
+.repo-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+.repo-links-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.repo-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.58rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.repo-link-pill:hover {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+  text-decoration: underline;
+}
+
 @media print {
   header,
   footer,
