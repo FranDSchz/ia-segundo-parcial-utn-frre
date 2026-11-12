@@ -460,10 +460,6 @@
           Elegí un tema para abrir o consultar los hilos de debate específicos en GitHub Discussions:
         </p>
         <div class="community-topics-grid">
-          <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=SVM" target="_blank" rel="noopener noreferrer">
-            <span class="topic-dot" style="background-color: #6366f1;"></span>
-            <span>SVM (Solo Finales · fuera de P2)</span>
-          </a>
           <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=SOM" target="_blank" rel="noopener noreferrer">
             <span class="topic-dot" style="background-color: #10b981;"></span>
             <span>Mapas de Kohonen (SOM)</span>
@@ -499,6 +495,10 @@
           <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=P1" target="_blank" rel="noopener noreferrer">
             <span class="topic-dot" style="background-color: #64748b;"></span>
             <span>Repaso 1er Parcial (P1)</span>
+          </a>
+          <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=SVM" target="_blank" rel="noopener noreferrer">
+            <span class="topic-dot" style="background-color: #6366f1;"></span>
+            <span>SVM (Solo Finales · fuera de P2)</span>
           </a>
         </div>
       </div>
@@ -566,17 +566,21 @@
 
       <div class="lab-submode-tabs" role="tablist" aria-label="Modo de entrenamiento práctico">
         <button type="button" id="lab-subtab-guides" class="lab-subtab-btn active" onclick="app.setLabSubMode('guides')">
-          📘 Guías, Diagramas y Flashcards
+          📘 Guías y Flashcards
         </button>
         <button type="button" id="lab-subtab-timed" class="lab-subtab-btn" onclick="app.setLabSubMode('timed')">
-          ⏱️ Parciales Prácticos Cronometrados
+          ⏱️ Parciales Cronometrados
+        </button>
+        <button type="button" id="lab-subtab-sandboxes" class="lab-subtab-btn" onclick="app.setLabSubMode('sandboxes')">
+          🧪 Simuladores en Vivo
+        </button>
+        <button type="button" id="lab-subtab-traps" class="lab-subtab-btn" onclick="app.setLabSubMode('traps')">
+          🎯 Cazador de Trampas
         </button>
       </div>
 
       <div id="lab-guides-panel">
         <div id="lab-global-progress" class="lab-global-progress card"></div>
-
-        <div id="lab-roadmap-strip" class="lab-roadmap-strip"></div>
 
         <div id="lab-topic-bar" class="lab-topic-bar"></div>
 
@@ -595,6 +599,8 @@
       </div>
 
       <div id="lab-timed-panel" class="pe-panel hidden"></div>
+      <div id="lab-sandboxes-panel" class="pe-panel hidden"></div>
+      <div id="lab-traps-panel" class="pe-panel hidden"></div>
     </section>
 
   </main>
@@ -684,6 +690,7 @@
   <script src="study_engine.js"></script>
   <script src="practical_engine.js"></script>
   <script src="visual_widgets.js"></script>
+  <script src="algo_sandboxes.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>

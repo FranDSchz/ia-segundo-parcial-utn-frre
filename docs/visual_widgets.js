@@ -231,12 +231,144 @@
     return `<div class="vw-pace-list">${rows}</div>`;
   }
 
-  function renderProgressChartsHtml({ quizHistory, practicalAttempts, topicMeta }) {
+  const RADAR_TOPIC_SPECS = [
+    { id: "CLUSTERING", label: "Clustering", theoryKey: "CLUSTERING", labKey: "CLUSTERING", pracKey: "CLUSTERING" },
+    { id: "SOM", label: "SOM", theoryKey: "SOM", labKey: "SOM", pracKey: "SOM" },
+    { id: "MLP", label: "MLP", theoryKey: "MLP", labKey: "MLP_PERCEPTRON", pracKey: "MLP" },
+    { id: "AG", label: "Genéticos", theoryKey: "ALGORITMOS_GENETICOS", labKey: "ALGORITMOS_GENETICOS", pracKey: "AG" },
+    { id: "NB", label: "Naïve Bayes", theoryKey: "NAIVE_BAYES", labKey: "NAIVE_BAYES", pracKey: "NB" },
+    { id: "HOPFIELD", label: "Hopfield", theoryKey: "HOPFIELD", labKey: "HOPFIELD", pracKey: "HOPFIELD" },
+    { id: "KNN", label: "KNN", theoryKey: "KNN", labKey: "KNN", pracKey: "KNN" }
+  ];
+
+  function buildTopicRadarChartSvg({ summary, practicalAttempts }) {
+    const byTopicTheory = (summary && summary.byTopic) || {};
+    const labByTopic = (summary && summary.lab && summary.lab.byTopic) || {};
+    const attempts = Array.isArray(practicalAttempts) ? practicalAttempts : [];
+
+    // Aggregate best / latest timed practice average score per topic
+    const pracBestByTopic = {};
+    attempts.forEach((a) => {
+      if (!a || !a.topic) return;
+      const pct = Number(a.scorePct);
+      if (!Number.isFinite(pct)) return;
+      if (!pracBestByTopic[a.topic] || pct > pracBestByTopic[a.topic]) {
+        pracBestByTopic[a.topic] = clamp(pct, 0, 100);
+      }
+    });
+
+    const axes = RADAR_TOPIC_SPECS.map((spec, idx) => {
+      const th = byTopicTheory[spec.theoryKey];
+      let theoryPct = 0;
+      if (th && Number(th.total) > 0) {
+        const mastered = Number(th.mastered || 0);
+        const learning = Number(th.learning || 0);
+        theoryPct = clamp(Math.round(((mastered + learning * 0.45) / th.total) * 100), 0, 100);
+      }
+
+      const lb = labByTopic[spec.labKey];
+      let labPct = 0;
+      if (lb && Number(lb.stepsTotal) > 0) {
+        labPct = clamp(Math.round((Number(lb.stepsDone || 0) / lb.stepsTotal) * 100), 0, 100);
+      }
+
+      const timedBest = pracBestByTopic[spec.pracKey];
+      const practicePct = Number.isFinite(timedBest)
+        ? clamp(Math.round(labPct > 0 ? labPct * 0.5 + timedBest * 0.5 : timedBest), 0, 100)
+        : labPct;
+
+      return {
+        idx,
+        label: spec.label,
+        theoryPct,
+        practicePct
+      };
+    });
+
+    const hasAnyData = axes.some((a) => a.theoryPct > 0 || a.practicePct > 0);
+    const W = 380;
+    const H = 264;
+    const cx = 190;
+    const cy = 132;
+    const R = 82;
+    const N = axes.length;
+
+    const ptFor = (i, pct) => {
+      const ang = -Math.PI / 2 + (2 * Math.PI * i) / N;
+      const rad = (clamp(pct, 0, 100) / 100) * R;
+      return {
+        x: Number((cx + rad * Math.cos(ang)).toFixed(1)),
+        y: Number((cy + rad * Math.sin(ang)).toFixed(1))
+      };
+    };
+
+    const ringsHtml = [25, 50, 75, 100].map((lvl) => {
+      const pts = axes.map((_, i) => {
+        const p = ptFor(i, lvl);
+        return `${p.x},${p.y}`;
+      }).join(" ");
+      return `<polygon points="${pts}" fill="none" stroke="var(--border-color)" stroke-width="1" stroke-dasharray="${lvl === 100 ? "none" : "3 3"}" opacity="${lvl === 100 ? "0.9" : "0.65"}" />`;
+    }).join("");
+
+    const spokesHtml = axes.map((a, i) => {
+      const outer = ptFor(i, 100);
+      const ang = -Math.PI / 2 + (2 * Math.PI * i) / N;
+      const lblR = R + 21;
+      const lx = Number((cx + lblR * Math.cos(ang)).toFixed(1));
+      const ly = Number((cy + lblR * Math.sin(ang)).toFixed(1));
+      const cosA = Math.cos(ang);
+      const anchor = cosA > 0.25 ? "start" : (cosA < -0.25 ? "end" : "middle");
+      const dy = Math.sin(ang) > 0.7 ? "8" : (Math.sin(ang) < -0.7 ? "-2" : "3");
+      return `
+        <line x1="${cx}" y1="${cy}" x2="${outer.x}" y2="${outer.y}" stroke="var(--border-color)" stroke-width="1" opacity="0.7" />
+        <text x="${lx}" y="${ly}" dy="${dy}" text-anchor="${anchor}" font-size="10" font-weight="700" fill="var(--text-main)">${escapeHtml(a.label)}</text>
+      `;
+    }).join("");
+
+    const polyPoints = (field) => axes.map((a, i) => {
+      const p = ptFor(i, a[field]);
+      return `${p.x},${p.y}`;
+    }).join(" ");
+
+    const dotsFor = (field, color, labelName) => axes.map((a, i) => {
+      const p = ptFor(i, a[field]);
+      return `<circle cx="${p.x}" cy="${p.y}" r="3.2" fill="${color}" stroke="var(--bg-card)" stroke-width="1.3"><title>${escapeHtml(a.label)} · ${labelName}: ${a[field]}%</title></circle>`;
+    }).join("");
+
+    const ringScaleLabels = `
+      <text x="${cx + 4}" y="${cy - R * 0.5 + 3}" font-size="8" font-weight="700" fill="var(--text-muted)">50%</text>
+      <text x="${cx + 4}" y="${cy - R + 3}" font-size="8" font-weight="700" fill="var(--text-muted)">100%</text>
+    `;
+
+    return `
+      <div class="vw-radar-box">
+        <svg class="vw-svg-chart vw-radar-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa radar de dominio en los 7 temas del Segundo Parcial">
+          ${ringsHtml}
+          ${spokesHtml}
+          ${ringScaleLabels}
+          ${hasAnyData ? `
+            <polygon points="${polyPoints("theoryPct")}" fill="rgba(59, 130, 246, 0.20)" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round" />
+            <polygon points="${polyPoints("practicePct")}" fill="rgba(16, 185, 129, 0.20)" stroke="var(--success)" stroke-width="2" stroke-linejoin="round" />
+            ${dotsFor("theoryPct", "var(--primary)", "Teoría")}
+            ${dotsFor("practicePct", "var(--success)", "Práctica")}
+          ` : `
+            <text x="${cx}" y="${cy + 3}" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--text-muted)">Respondé preguntas o guías para poblar tu radar</text>
+          `}
+        </svg>
+        <div class="vw-radar-legend">
+          <span class="vw-legend-item"><span class="vw-legend-swatch" style="background:var(--primary);"></span>Teoría (Anki SM-2)</span>
+          <span class="vw-legend-item"><span class="vw-legend-swatch" style="background:var(--success);"></span>Práctica (Guías + Cronometrados)</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderProgressChartsHtml({ quizHistory, practicalAttempts, topicMeta, summary }) {
     return `
       <div class="vw-charts-header">
         <div>
           <h3 style="margin:0;">📈 Analítica Visual de Rendimiento</h3>
-          <p style="margin:0.15rem 0 0;font-size:0.82rem;color:var(--text-muted);">Tendencia reciente en simulacros Moodle y tiempo promedio por ejercicio práctico vs. presupuesto de cátedra.</p>
+          <p style="margin:0.15rem 0 0;font-size:0.82rem;color:var(--text-muted);">Tendencia reciente en simulacros Moodle, velocidad por ejercicio y equilibrio Teoría vs. Práctica en los 7 temas del P2.</p>
         </div>
       </div>
       <div class="vw-charts-grid">
@@ -247,6 +379,10 @@
         <div class="vw-chart-panel">
           <div class="vw-chart-title">Velocidad Práctica vs. Objetivo (línea punteada)</div>
           ${buildPracticalPaceChartHtml(practicalAttempts, topicMeta)}
+        </div>
+        <div class="vw-chart-panel vw-chart-panel-wide">
+          <div class="vw-chart-title">Radar 7 Temas del 2do Parcial · Teoría vs. Práctica</div>
+          ${buildTopicRadarChartSvg({ summary, practicalAttempts })}
         </div>
       </div>
     `;
@@ -785,6 +921,7 @@
     getExamCountdownInfo,
     renderRadialRingSvg,
     animateCountUp,
+    buildTopicRadarChartSvg,
     renderProgressChartsHtml,
     mountLabVisualizer,
     clearActiveVisualizerTimer

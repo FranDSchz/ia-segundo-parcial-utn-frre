@@ -425,6 +425,9 @@
       if (viewName !== "lab" && window.VisualWidgets) {
         VisualWidgets.clearActiveVisualizerTimer();
       }
+      if (viewName !== "lab" && window.AlgoSandboxes) {
+        AlgoSandboxes.clearAllSandboxTimers();
+      }
 
       this.currentView = viewName;
       window.location.hash = viewName;
@@ -2104,7 +2107,8 @@
       el.innerHTML = VisualWidgets.renderProgressChartsHtml({
         quizHistory: quizHist,
         practicalAttempts: this.peAttempts || [],
-        topicMeta: window.PracticalEngine ? PracticalEngine.TOPIC_META : null
+        topicMeta: window.PracticalEngine ? PracticalEngine.TOPIC_META : null,
+        summary: this.getStudySummary(Date.now())
       });
     },
 
@@ -3393,41 +3397,104 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
     },
 
     setLabSubMode(subMode) {
-      const next = subMode === "timed" ? "timed" : "guides";
+      const allowed = new Set(["guides", "timed", "sandboxes", "traps"]);
+      const next = allowed.has(subMode) ? subMode : "guides";
       if (next !== "timed" && this.peTimerInterval) {
         this.stopPeTimer();
       }
-      if (next === "timed" && window.VisualWidgets) {
+      if (next !== "guides" && window.VisualWidgets) {
         VisualWidgets.clearActiveVisualizerTimer();
+      }
+      if (next !== "sandboxes" && next !== "traps" && window.AlgoSandboxes) {
+        AlgoSandboxes.clearAllSandboxTimers();
       }
       this.labSubMode = next;
       this.renderLabView();
     },
 
+    awardTrapHunterXp(caseId, isCorrect) {
+      if (!window.StudyEngine || !this.gamif) return;
+      const nowMs = Date.now();
+      const todayKey = StudyEngine.getLocalDateKey(nowMs);
+      const token = `trap:${todayKey}:${caseId}`;
+      this.gamif.xpAwardedToday = this.gamif.xpAwardedToday || {};
+      let xpGain = 0;
+      if (isCorrect && !this.gamif.xpAwardedToday[token]) {
+        this.gamif.xpAwardedToday[token] = true;
+        xpGain = 15;
+      }
+      this.finalizeGamifAction({
+        xpGain,
+        actionIncrement: 1,
+        nowMs,
+        emitToast: xpGain > 0
+      });
+      if (xpGain > 0) {
+        this.showToast(`🎯 Trampa detectada (+${xpGain} XP)`);
+      }
+      this.saveStudyState();
+      this.renderGlobalStudyHud();
+    },
+
     renderLabView() {
       const subGuidesBtn = document.getElementById("lab-subtab-guides");
       const subTimedBtn = document.getElementById("lab-subtab-timed");
+      const subSandboxesBtn = document.getElementById("lab-subtab-sandboxes");
+      const subTrapsBtn = document.getElementById("lab-subtab-traps");
+
       const guidesPanel = document.getElementById("lab-guides-panel");
       const timedPanel = document.getElementById("lab-timed-panel");
+      const sandboxesPanel = document.getElementById("lab-sandboxes-panel");
+      const trapsPanel = document.getElementById("lab-traps-panel");
 
-      const isTimed = this.labSubMode === "timed";
-      if (subGuidesBtn) subGuidesBtn.classList.toggle("active", !isTimed);
+      const mode = this.labSubMode || "guides";
+      const isGuides = mode === "guides";
+      const isTimed = mode === "timed";
+      const isSandboxes = mode === "sandboxes";
+      const isTraps = mode === "traps";
+
+      if (subGuidesBtn) subGuidesBtn.classList.toggle("active", isGuides);
       if (subTimedBtn) subTimedBtn.classList.toggle("active", isTimed);
-      if (guidesPanel) guidesPanel.classList.toggle("hidden", isTimed);
+      if (subSandboxesBtn) subSandboxesBtn.classList.toggle("active", isSandboxes);
+      if (subTrapsBtn) subTrapsBtn.classList.toggle("active", isTraps);
+
+      if (guidesPanel) guidesPanel.classList.toggle("hidden", !isGuides);
       if (timedPanel) timedPanel.classList.toggle("hidden", !isTimed);
+      if (sandboxesPanel) sandboxesPanel.classList.toggle("hidden", !isSandboxes);
+      if (trapsPanel) trapsPanel.classList.toggle("hidden", !isTraps);
+
+      if (!isTimed && this.peTimerInterval) {
+        this.stopPeTimer();
+      }
+      if (!isGuides && window.VisualWidgets) {
+        VisualWidgets.clearActiveVisualizerTimer();
+      }
+      if (!isSandboxes && !isTraps && window.AlgoSandboxes) {
+        AlgoSandboxes.clearAllSandboxTimers();
+      }
 
       if (isTimed) {
-        if (window.VisualWidgets) VisualWidgets.clearActiveVisualizerTimer();
         this.renderTimedPracticalPanel();
         return;
       }
 
-      if (this.peTimerInterval) {
-        this.stopPeTimer();
+      if (isSandboxes) {
+        if (window.AlgoSandboxes && sandboxesPanel) {
+          AlgoSandboxes.mountSandboxesHub(sandboxesPanel);
+        }
+        return;
+      }
+
+      if (isTraps) {
+        if (window.AlgoSandboxes && trapsPanel) {
+          AlgoSandboxes.mountTrapHunterGame(trapsPanel, {
+            onAwardXp: (caseId, ok) => this.awardTrapHunterXp(caseId, ok)
+          });
+        }
+        return;
       }
 
       const container = document.getElementById("lab-content-container");
-      const roadmapEl = document.getElementById("lab-roadmap-strip");
       const topicBarEl = document.getElementById("lab-topic-bar");
       const topicHeaderEl = document.getElementById("lab-topic-header");
       const filtersEl = document.getElementById("lab-type-filters");
@@ -3440,16 +3507,6 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
       const summary = this.getStudySummary(Date.now());
       this.renderLabGlobalProgress(summary);
-
-      // 1. Roadmap strip (all 8 syllabus iterations)
-      if (roadmapEl && Array.isArray(this.labData.roadmap)) {
-        roadmapEl.innerHTML = this.labData.roadmap.map((r, idx) => {
-          const isReady = r.estado === "completo";
-          const icon = isReady ? `✅ Iter. ${idx + 1}` : `⏳ Iter. ${idx + 1}`;
-          const clickAttr = isReady ? `onclick="app.selectLabTopic('${r.id}')"` : `title="Se agregará en la Iteración ${idx + 1} del plan"`;
-          return `<span class="lab-roadmap-pill ${isReady ? "complete" : "pending"}" ${clickAttr}>${icon} · ${r.nombre}</span>`;
-        }).join("");
-      }
 
       // 2. Active topic selection bar
       const activeTema = this.labData.temas.find((t) => t.id === this.labSelectedTopic) || this.labData.temas[0];
