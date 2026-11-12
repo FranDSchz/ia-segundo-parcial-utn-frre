@@ -555,26 +555,39 @@
         <div class="lab-isolation-badge">🛠️ ENTRENAMIENTO PRÁCTICO DE RESOLUCIÓN · NO SON PREGUNTAS DE PARCIAL</div>
         <p class="lab-isolation-note">
           Este módulo <strong>no se mezcla</strong> con el banco teórico (<a href="#qa" onclick="app.navigate('qa'); return false;">Banco QA</a> ni <a href="#home" onclick="app.navigate('home'); return false;">Simulacro</a>) y cubre los <strong>7 temas oficiales del 2do Parcial</strong> (sin SVM).
-          No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP) y ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.
+          No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP), el cronómetro por ejercicio y los ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.
         </p>
       </div>
 
-      <div id="lab-global-progress" class="lab-global-progress card"></div>
-
-      <div id="lab-roadmap-strip" class="lab-roadmap-strip"></div>
-
-      <div id="lab-topic-bar" class="lab-topic-bar"></div>
-
-      <div id="lab-topic-header" class="lab-topic-header card"></div>
-
-      <div class="lab-controls-bar">
-        <div id="lab-type-filters" class="lab-type-filters"></div>
-        <button id="lab-reveal-all-btn" class="btn btn-outline btn-sm" onclick="app.toggleAllFlashcards()">
-          👁️ Revelar todas las fórmulas
+      <div class="lab-submode-tabs" role="tablist" aria-label="Modo de entrenamiento práctico">
+        <button type="button" id="lab-subtab-guides" class="lab-subtab-btn active" onclick="app.setLabSubMode('guides')">
+          📘 Guías, Diagramas y Flashcards
+        </button>
+        <button type="button" id="lab-subtab-timed" class="lab-subtab-btn" onclick="app.setLabSubMode('timed')">
+          ⏱️ Parciales Prácticos Cronometrados
         </button>
       </div>
 
-      <div id="lab-content-container" class="lab-content-container"></div>
+      <div id="lab-guides-panel">
+        <div id="lab-global-progress" class="lab-global-progress card"></div>
+
+        <div id="lab-roadmap-strip" class="lab-roadmap-strip"></div>
+
+        <div id="lab-topic-bar" class="lab-topic-bar"></div>
+
+        <div id="lab-topic-header" class="lab-topic-header card"></div>
+
+        <div class="lab-controls-bar">
+          <div id="lab-type-filters" class="lab-type-filters"></div>
+          <button id="lab-reveal-all-btn" class="btn btn-outline btn-sm" onclick="app.toggleAllFlashcards()">
+            👁️ Revelar todas las fórmulas
+          </button>
+        </div>
+
+        <div id="lab-content-container" class="lab-content-container"></div>
+      </div>
+
+      <div id="lab-timed-panel" class="pe-panel hidden"></div>
     </section>
 
   </main>
@@ -662,6 +675,7 @@
   <script src="data/preguntas.js"></script>
   <script src="data/entrenamiento_practico.js"></script>
   <script src="study_engine.js"></script>
+  <script src="practical_engine.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>

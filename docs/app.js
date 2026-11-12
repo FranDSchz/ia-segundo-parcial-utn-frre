@@ -76,6 +76,13 @@
     labSelectedType: "ALL",
     labRevealedCards: new Set(),
     labCompletedSteps: new Set(),
+    labSubMode: "guides",
+    pePracticeMode: "exam",
+    peSession: null,
+    peTimerInterval: null,
+    pePaused: false,
+    peRandomSeed: 1,
+    peAttempts: [],
 
     // Community & Feedback State
     currentFeedbackQuestion: null,
@@ -160,7 +167,14 @@
       // 7. Check URL hash for direct routing and listen to back/forward/hash changes
       const handleHashRoute = () => {
         const hash = window.location.hash.replace("#", "").toLowerCase();
-        if (["home", "practice", "lab", "history", "qa", "community"].includes(hash)) {
+        if (hash === "practical-exam") {
+          this.labSubMode = "timed";
+          if (this.currentView !== "lab") {
+            this.navigate("lab");
+          } else {
+            this.renderLabView();
+          }
+        } else if (["home", "practice", "lab", "history", "qa", "community"].includes(hash)) {
           if (this.currentView !== hash) {
             this.navigate(hash);
           }
@@ -403,6 +417,10 @@
           return;
         }
         clearInterval(this.timerInterval);
+      }
+
+      if (viewName !== "lab" && this.peTimerInterval) {
+        this.stopPeTimer();
       }
 
       this.currentView = viewName;
@@ -1932,6 +1950,7 @@
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
             <button type="button" class="btn btn-primary btn-sm" onclick="app.startSmartPractice()">${dueBadgeTxt}</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.openTimedPracticalMode()">⏱️ Parciales Prácticos</button>
             <button type="button" class="btn btn-outline btn-sm" onclick="app.navigate('history')">🏆 Progreso y Ranking</button>
           </div>
         </div>
@@ -2502,6 +2521,7 @@
           srsMap: this.srsMap || {},
           gamif: this.gamif || {},
           labSteps: [...(this.labCompletedSteps || [])],
+          practicalAttempts: this.peAttempts || [],
           groupLeaderboard: this.groupLeaderboard || [],
           history: JSON.parse(localStorage.getItem("ia_quiz_history") || "[]"),
           failedIds: JSON.parse(localStorage.getItem("ia_quiz_failed_ids") || "[]")
@@ -2528,7 +2548,7 @@
       reader.onload = () => {
         try {
           const data = JSON.parse(String(reader.result || "{}"));
-          if (!data || typeof data !== "object" || (!data.srsMap && !data.gamif && !Array.isArray(data.labSteps))) {
+          if (!data || typeof data !== "object" || (!data.srsMap && !data.gamif && !Array.isArray(data.labSteps) && !Array.isArray(data.practicalAttempts))) {
             throw new Error("Formato incompatible");
           }
           if (data.srsMap && typeof data.srsMap === "object" && !Array.isArray(data.srsMap)) {
@@ -2540,6 +2560,10 @@
           if (Array.isArray(data.labSteps)) {
             this.labCompletedSteps = new Set(data.labSteps.map(String));
             this.saveLabSteps();
+          }
+          if (Array.isArray(data.practicalAttempts)) {
+            this.peAttempts = data.practicalAttempts.slice(0, 60);
+            this.savePeAttempts();
           }
           if (Array.isArray(data.groupLeaderboard) && window.StudyEngine) {
             this.groupLeaderboard = data.groupLeaderboard.filter((e) => e && e.code && StudyEngine.decodeRankCode(e.code));
@@ -3096,6 +3120,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       } catch (e) {
         this.labCompletedSteps = new Set();
       }
+      this.loadPeAttempts();
     },
 
     formatLabText(rawStr) {
@@ -3305,7 +3330,41 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       `;
     },
 
+    openTimedPracticalMode() {
+      this.labSubMode = "timed";
+      this.navigate("lab");
+    },
+
+    setLabSubMode(subMode) {
+      const next = subMode === "timed" ? "timed" : "guides";
+      if (next !== "timed" && this.peTimerInterval) {
+        this.stopPeTimer();
+      }
+      this.labSubMode = next;
+      this.renderLabView();
+    },
+
     renderLabView() {
+      const subGuidesBtn = document.getElementById("lab-subtab-guides");
+      const subTimedBtn = document.getElementById("lab-subtab-timed");
+      const guidesPanel = document.getElementById("lab-guides-panel");
+      const timedPanel = document.getElementById("lab-timed-panel");
+
+      const isTimed = this.labSubMode === "timed";
+      if (subGuidesBtn) subGuidesBtn.classList.toggle("active", !isTimed);
+      if (subTimedBtn) subTimedBtn.classList.toggle("active", isTimed);
+      if (guidesPanel) guidesPanel.classList.toggle("hidden", isTimed);
+      if (timedPanel) timedPanel.classList.toggle("hidden", !isTimed);
+
+      if (isTimed) {
+        this.renderTimedPracticalPanel();
+        return;
+      }
+
+      if (this.peTimerInterval) {
+        this.stopPeTimer();
+      }
+
       const container = document.getElementById("lab-content-container");
       const roadmapEl = document.getElementById("lab-roadmap-strip");
       const topicBarEl = document.getElementById("lab-topic-bar");
@@ -3607,6 +3666,717 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         </div>
       `).join("");
       return `<div class="lab-trap-list">${listHtml}</div>`;
+    },
+
+    // -------------------------------------------------------------
+    // Timed Practical Exams & Checkpoint Drills (PracticalEngine)
+    // -------------------------------------------------------------
+    loadPeAttempts() {
+      try {
+        const raw = JSON.parse(localStorage.getItem("ia_practical_attempts_v1") || "[]");
+        this.peAttempts = Array.isArray(raw) ? raw : [];
+      } catch (e) {
+        this.peAttempts = [];
+      }
+    },
+
+    savePeAttempts() {
+      try {
+        localStorage.setItem("ia_practical_attempts_v1", JSON.stringify((this.peAttempts || []).slice(0, 60)));
+      } catch (e) {
+        // Ignore storage quota gracefully
+      }
+    },
+
+    clearPeAttempts() {
+      if (!this.peAttempts || this.peAttempts.length === 0) return;
+      if (!confirm("¿Eliminar el historial de tiempos de prácticas cronometradas?")) return;
+      this.peAttempts = [];
+      this.savePeAttempts();
+      this.renderTimedPracticalPanel();
+      this.showToast("🗑️ Historial práctico limpiado");
+    },
+
+    setPePracticeMode(mode) {
+      this.pePracticeMode = mode === "guided" ? "guided" : "exam";
+      if (this.peSession && !this.peSession.finished) {
+        this.peSession.mode = this.pePracticeMode;
+      }
+      this.renderTimedPracticalPanel();
+    },
+
+    stopPeTimer() {
+      if (this.peTimerInterval) {
+        clearInterval(this.peTimerInterval);
+        this.peTimerInterval = null;
+      }
+    },
+
+    startPeTimerIfNeeded() {
+      this.stopPeTimer();
+      const s = this.peSession;
+      if (!s || s.finished || this.pePaused || this.currentView !== "lab" || this.labSubMode !== "timed") {
+        return;
+      }
+      const exState = s.exStates[s.currentIdx];
+      if (!exState || exState.submitted) return;
+
+      s.lastTickMs = Date.now();
+      this.peTimerInterval = setInterval(() => {
+        if (!this.peSession || this.peSession.finished || this.pePaused || this.currentView !== "lab" || this.labSubMode !== "timed") {
+          this.stopPeTimer();
+          return;
+        }
+        const curState = this.peSession.exStates[this.peSession.currentIdx];
+        if (!curState || curState.submitted) {
+          this.stopPeTimer();
+          return;
+        }
+        const now = Date.now();
+        const delta = Math.max(1, Math.min(5, Math.round((now - (this.peSession.lastTickMs || now)) / 1000)));
+        this.peSession.lastTickMs = now;
+        this.peSession.totalElapsedSec += delta;
+        curState.elapsedSec += delta;
+        this.updatePeTimerDom();
+      }, 1000);
+    },
+
+    togglePePause() {
+      if (!this.peSession || this.peSession.finished) return;
+      this.pePaused = !this.pePaused;
+      if (this.pePaused) {
+        this.stopPeTimer();
+      } else {
+        this.peSession.lastTickMs = Date.now();
+        this.startPeTimerIfNeeded();
+      }
+      const btn = document.getElementById("pe-pause-btn");
+      if (btn) {
+        btn.textContent = this.pePaused ? "▶️ Reanudar" : "⏸️ Pausar";
+      }
+      this.showToast(this.pePaused ? "⏸️ Cronómetro en pausa" : "▶️ Cronómetro reanudado");
+    },
+
+    updatePeTimerDom() {
+      const s = this.peSession;
+      if (!s || !window.PracticalEngine) return;
+      const ex = s.exercises[s.currentIdx];
+      const exState = s.exStates[s.currentIdx];
+      if (!ex || !exState) return;
+
+      const globalEl = document.getElementById("pe-global-timer");
+      const exEl = document.getElementById("pe-ex-timer");
+      const paceEl = document.getElementById("pe-pace-badge");
+
+      const totalBudgetSec = (s.totalMinutes || 120) * 60;
+      const remaining = Math.max(0, totalBudgetSec - (s.totalElapsedSec || 0));
+      if (globalEl) {
+        globalEl.textContent = PracticalEngine.formatDuration(remaining);
+        globalEl.style.color = remaining <= 600 ? "var(--danger)" : "";
+      }
+      if (exEl) {
+        exEl.textContent = PracticalEngine.formatDuration(exState.elapsedSec || 0);
+      }
+      if (paceEl) {
+        const pace = PracticalEngine.getPaceStatus(exState.elapsedSec || 0, ex.targetMinutes || 25);
+        paceEl.textContent = pace.label;
+        paceEl.className = `pe-pace-badge ${pace.cls}`;
+      }
+    },
+
+    startPeExam(modelId) {
+      if (!window.PracticalEngine) return;
+      const seed = modelId === "aleatorio" ? this.peRandomSeed : 0;
+      const model = PracticalEngine.buildExamModel(modelId, seed);
+      if (!model || !Array.isArray(model.exercises) || model.exercises.length === 0) return;
+
+      this.pePaused = false;
+      this.peSession = {
+        sessionId: `pe_${Date.now()}`,
+        kind: "exam",
+        modelId,
+        title: model.title,
+        subtitle: model.subtitle,
+        mode: this.pePracticeMode,
+        totalMinutes: model.totalMinutes || 120,
+        exercises: model.exercises,
+        currentIdx: 0,
+        startedAtMs: Date.now(),
+        lastTickMs: Date.now(),
+        totalElapsedSec: 0,
+        exStates: model.exercises.map(() => ({
+          values: {},
+          commentChecked: false,
+          elapsedSec: 0,
+          checkedStages: {},
+          submitted: false,
+          evaluation: null,
+          submittedAtIso: null
+        })),
+        finished: false
+      };
+
+      this.renderTimedPracticalPanel();
+      this.startPeTimerIfNeeded();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    rerollPeRandomSeed() {
+      this.peRandomSeed = ((this.peRandomSeed || 1) % 997) + 1;
+      const seedLabel = document.getElementById("pe-random-seed-label");
+      if (seedLabel) {
+        seedLabel.textContent = `#${this.peRandomSeed}`;
+      }
+      this.showToast(`🎲 Nueva semilla aleatoria #${this.peRandomSeed}`);
+    },
+
+    startPeTopicDrill(topicId, useRandomVariant = false) {
+      if (!window.PracticalEngine) return;
+      const seed = useRandomVariant ? (Math.floor(Math.random() * 900) + 1) : 0;
+      const meta = PracticalEngine.TOPIC_META[topicId];
+      const ex = PracticalEngine.buildTopicExercise(topicId, seed, {
+        uid: `DRILL_${topicId}_S${seed}`,
+        weight: 100,
+        targetMinutes: meta ? meta.targetMinutes : 25,
+        sourceTag: seed === 0 ? "Práctica Cronometrada · Caso Base" : `Práctica Cronometrada · Variante #${seed}`
+      });
+      if (!ex) return;
+
+      this.pePaused = false;
+      this.peSession = {
+        sessionId: `pe_${Date.now()}`,
+        kind: "drill",
+        modelId: topicId,
+        seed,
+        title: `${ex.topicLabel}`,
+        subtitle: seed === 0
+          ? "Ejercicio individual cronometrado (variante base verificada con solución paso a paso)."
+          : `Ejercicio individual cronometrado (variante aleatoria #${seed} con solución recalculada en vivo).`,
+        mode: this.pePracticeMode,
+        totalMinutes: ex.targetMinutes || 25,
+        exercises: [ex],
+        currentIdx: 0,
+        startedAtMs: Date.now(),
+        lastTickMs: Date.now(),
+        totalElapsedSec: 0,
+        exStates: [{
+          values: {},
+          commentChecked: false,
+          elapsedSec: 0,
+          checkedStages: {},
+          submitted: false,
+          evaluation: null,
+          submittedAtIso: null
+        }],
+        finished: false
+      };
+
+      this.renderTimedPracticalPanel();
+      this.startPeTimerIfNeeded();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    exitPeSession() {
+      const s = this.peSession;
+      if (s && !s.finished) {
+        const hasPendingWork = s.exStates.some((st) => !st.submitted && Object.keys(st.values).some((k) => String(st.values[k] || "").trim() !== ""));
+        if (hasPendingWork && !confirm("¿Volver al selector? Se perderán las respuestas aún no enviadas de este ejercicio.")) {
+          return;
+        }
+      }
+      this.stopPeTimer();
+      this.peSession = null;
+      this.pePaused = false;
+      this.renderTimedPracticalPanel();
+    },
+
+    selectPeExercise(idx) {
+      const s = this.peSession;
+      if (!s || idx < 0 || idx >= s.exercises.length) return;
+      this.stopPeTimer();
+      s.finished = false;
+      s.currentIdx = idx;
+      this.pePaused = false;
+      this.renderTimedPracticalPanel();
+      this.startPeTimerIfNeeded();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    onPeFieldInput(fieldId, value) {
+      const s = this.peSession;
+      if (!s) return;
+      const exState = s.exStates[s.currentIdx];
+      if (!exState || exState.submitted) return;
+      exState.values[fieldId] = value;
+    },
+
+    togglePeCommentCheck(checked) {
+      const s = this.peSession;
+      if (!s) return;
+      const exState = s.exStates[s.currentIdx];
+      if (!exState || exState.submitted) return;
+      exState.commentChecked = Boolean(checked);
+    },
+
+    checkPeStage(stageId) {
+      const s = this.peSession;
+      if (!s || !window.PracticalEngine) return;
+      const ex = s.exercises[s.currentIdx];
+      const exState = s.exStates[s.currentIdx];
+      if (!ex || !exState || exState.submitted) return;
+
+      const stage = (ex.stages || []).find((st) => st.id === stageId);
+      if (!stage) return;
+
+      const stageEval = PracticalEngine.evaluateStage(stage, exState.values);
+      exState.checkedStages[stageId] = stageEval;
+
+      const stageEl = document.getElementById(`pe-stage-${stageId}`);
+      if (stageEl) {
+        stageEl.outerHTML = this.renderPeStageCardHtml(ex, exState, stage, ex.stages.indexOf(stage));
+        const newStageEl = document.getElementById(`pe-stage-${stageId}`);
+        if (newStageEl) this.renderMath(newStageEl);
+      }
+      this.showToast(`🔍 Etapa verificada: ${stageEval.correctCount}/${stageEval.total} correctos`);
+    },
+
+    submitCurrentPeExercise() {
+      const s = this.peSession;
+      if (!s || !window.PracticalEngine) return;
+      const ex = s.exercises[s.currentIdx];
+      const exState = s.exStates[s.currentIdx];
+      if (!ex || !exState || exState.submitted) return;
+
+      const evalRes = PracticalEngine.evaluateExercise(ex, exState.values);
+      if (evalRes.answeredCount === 0 && !confirm("No completaste ningún campo aún. ¿Enviar igual para ver la solución?")) {
+        return;
+      }
+
+      this.stopPeTimer();
+      exState.submitted = true;
+      exState.evaluation = evalRes;
+      exState.submittedAtIso = new Date().toISOString();
+
+      // Record split entry cleanly for progress tracking
+      const pace = PracticalEngine.getPaceStatus(exState.elapsedSec || 0, ex.targetMinutes || 25);
+      this.peAttempts.unshift({
+        id: `${s.sessionId}_${s.currentIdx}`,
+        sessionId: s.sessionId,
+        dateIso: exState.submittedAtIso,
+        kind: s.kind,
+        modelTitle: s.title,
+        topic: ex.topic,
+        topicLabel: ex.topicLabel,
+        mode: s.mode,
+        scorePct: evalRes.scorePct,
+        correctCount: evalRes.correctCount,
+        totalFields: evalRes.totalFields,
+        answeredCount: evalRes.answeredCount,
+        elapsedSec: exState.elapsedSec || 0,
+        targetMinutes: ex.targetMinutes || 25,
+        paceCode: pace.code,
+        paceLabel: pace.label,
+        commentChecked: Boolean(exState.commentChecked)
+      });
+      this.peAttempts = this.peAttempts.slice(0, 60);
+      this.savePeAttempts();
+
+      // Award anti-farm XP when at least 1 checkpoint field was attempted
+      if (window.StudyEngine && this.gamif && evalRes.answeredCount > 0) {
+        const todayKey = StudyEngine.getLocalDateKey(Date.now());
+        const xpAwarded = this.gamif.xpAwardedToday || {};
+        const xpKey = `pracex:${todayKey}:${ex.uid || ex.topic}`;
+        let xpGain = 0;
+        if (!xpAwarded[xpKey]) {
+          xpGain = Math.max(8, Math.round(evalRes.scorePct * 0.25) + (exState.commentChecked ? 5 : 0));
+          xpAwarded[xpKey] = xpGain;
+          this.gamif.xpAwardedToday = xpAwarded;
+        }
+        this.finalizeGamifAction({
+          xpGain,
+          actionIncrement: 1,
+          reviewIncrement: 0,
+          recoveredIncrement: 0,
+          emitToast: true
+        });
+        this.saveStudyState();
+        this.renderGlobalStudyHud();
+      }
+
+      this.renderTimedPracticalPanel();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    finishPeExamSummary() {
+      const s = this.peSession;
+      if (!s) return;
+      this.stopPeTimer();
+      s.finished = true;
+      this.renderTimedPracticalPanel();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    renderPeStageCardHtml(ex, exState, stage, stageIdx) {
+      const stageEval = exState.submitted && exState.evaluation
+        ? exState.evaluation.stageResults[stageIdx]
+        : (exState.checkedStages ? exState.checkedStages[stage.id] : null);
+      const showSolution = Boolean(exState.submitted || (this.peSession && this.peSession.mode === "guided" && stageEval));
+      const canStageCheck = Boolean(!exState.submitted && this.peSession && this.peSession.mode === "guided");
+
+      const fieldsHtml = (stage.fields || []).map((f) => {
+        const val = exState.values[f.id] !== undefined ? String(exState.values[f.id]) : "";
+        const res = stageEval && Array.isArray(stageEval.results)
+          ? stageEval.results.find((r) => r.fieldId === f.id)
+          : null;
+
+        let inputHtml = "";
+        if (f.type === "select") {
+          const optsHtml = (f.options || []).map((opt) =>
+            `<option value="${this.escapeHtml(opt)}" ${val === String(opt) ? "selected" : ""}>${this.escapeHtml(opt)}</option>`
+          ).join("");
+          inputHtml = `
+            <select class="pe-select" ${exState.submitted ? "disabled" : ""} onchange="app.onPeFieldInput('${f.id}', this.value)">
+              <option value="">-- Elegir --</option>
+              ${optsHtml}
+            </select>
+          `;
+        } else {
+          const inputMode = f.type === "number" ? "decimal" : "text";
+          inputHtml = `
+            <input type="text" inputmode="${inputMode}" class="pe-input" ${exState.submitted ? "disabled" : ""}
+              value="${this.escapeHtml(val)}" placeholder="${this.escapeHtml(f.placeholder || "")}"
+              oninput="app.onPeFieldInput('${f.id}', this.value)" />
+          `;
+        }
+
+        let fbHtml = "";
+        if (res) {
+          const icon = res.isCorrect ? (res.status === "tolerance" ? "≈" : "✅") : (res.status === "missing" ? "⚠️" : "❌");
+          const expPart = !res.isCorrect ? ` · Esperado: <strong>${this.escapeHtml(res.expectedDisplay)}</strong>` : "";
+          fbHtml = `<div class="pe-field-feedback is-${res.status}">${icon} ${this.escapeHtml(res.detail)}${expPart}</div>`;
+        }
+
+        return `
+          <div class="pe-field-row">
+            <label class="pe-field-label">
+              <span>${f.label}</span>
+              ${f.hint ? `<span class="pe-field-hint">${this.escapeHtml(f.hint)}</span>` : ""}
+            </label>
+            ${inputHtml}
+            ${fbHtml}
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="card pe-stage-card" id="pe-stage-${stage.id}">
+          <div class="pe-stage-header">
+            <div class="pe-stage-title">${stage.title}</div>
+            ${canStageCheck ? `
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.checkPeStage('${stage.id}')">
+                ${stageEval ? "🔄 Re-verificar Etapa" : `🔍 Verificar Etapa ${stageIdx + 1}`}
+              </button>
+            ` : ""}
+          </div>
+          ${stage.paperCommentTip ? `<div class="pe-paper-tip">${stage.paperCommentTip}</div>` : ""}
+          <div class="pe-fields-grid">${fieldsHtml}</div>
+          ${showSolution && stage.solutionHtml ? `<div class="pe-solution-box">${stage.solutionHtml}</div>` : ""}
+        </div>
+      `;
+    },
+
+    renderPeLobbyHtml() {
+      const PE = window.PracticalEngine;
+      if (!PE) {
+        return `<div class="card"><p>No se pudo cargar <code>practical_engine.js</code>.</p></div>`;
+      }
+      const isGuided = this.pePracticeMode === "guided";
+      const topicCardsHtml = Object.keys(PE.TOPIC_META).map((tid) => {
+        const t = PE.TOPIC_META[tid];
+        return `
+          <div class="card pe-drill-card">
+            <div>
+              <h4>${t.icono} ${this.escapeHtml(t.nombre)}</h4>
+              <div class="pe-meta-chips" style="margin-top:0.45rem;">
+                <span class="pe-badge-pill">⏱️ Objetivo: ${t.targetMinutes} min</span>
+                <span class="pe-badge-pill">⚖️ Peso: ${t.defaultWeight}%</span>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="app.startPeTopicDrill('${tid}', false)">⏱️ Caso Base</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.startPeTopicDrill('${tid}', true)">🎲 Variante</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      const attempts = this.peAttempts || [];
+      const historyHtml = attempts.length === 0
+        ? `<p style="color:var(--text-muted);font-size:0.88rem;">Todavía no registraste entregas cronometradas. Elegí un parcial completo o un tema individual para medir tu velocidad.</p>`
+        : `
+          <div class="pe-table-wrap">
+            <table class="pe-history-table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Ejercicio / Modelo</th>
+                  <th>Modalidad</th>
+                  <th>Checkpoints</th>
+                  <th>Tiempo vs Objetivo</th>
+                  <th>Ritmo</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${attempts.slice(0, 20).map((a) => {
+                  const dateTxt = a.dateIso ? new Date(a.dateIso).toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) : "";
+                  const modeTxt = a.mode === "guided" ? "🧭 Etapas" : "🔒 Simulacro";
+                  return `
+                    <tr>
+                      <td>${this.escapeHtml(dateTxt)}</td>
+                      <td><strong>${this.escapeHtml(a.topicLabel || a.topic)}</strong><div style="font-size:0.75rem;color:var(--text-muted);">${this.escapeHtml(a.modelTitle || "")}</div></td>
+                      <td>${modeTxt}</td>
+                      <td><strong>${a.scorePct}%</strong> (${a.correctCount}/${a.totalFields})</td>
+                      <td><strong>${PE.formatDuration(a.elapsedSec || 0)}</strong> / ${a.targetMinutes}:00</td>
+                      <td><span class="pe-pace-badge pace-${this.escapeHtml(a.paceCode || "good")}">${this.escapeHtml(a.paceLabel || "")}</span></td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align:right;margin-top:0.65rem;">
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.clearPeAttempts()">🗑️ Limpiar historial práctico</button>
+          </div>
+        `;
+
+      return `
+        <div class="card pe-lobby-intro">
+          <h2 style="font-size:1.18rem;margin-bottom:0.35rem;">⏱️ Simulacros Prácticos Cronometrados por Checkpoints</h2>
+          <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.5;">
+            Resolvé ejercicios numéricos en hoja con cálculo verificable paso a paso (sin errores aritméticos ni SVM — 100% temario 2026 UTN FRRe).
+            Acepta coma o punto decimal, orden libre en pares de clustering y tolerancia automática para redondeo a <strong>3 decimales</strong>.
+          </p>
+          <div class="pe-mode-switch-box">
+            <div>
+              <strong style="font-size:0.88rem;">Modalidad de corrección:</strong>
+              <div style="font-size:0.8rem;color:var(--text-muted);">
+                ${isGuided
+                  ? "🧭 Podés verificar cada etapa en medio del ejercicio para no arrastrar errores."
+                  : "🔒 Igual que el parcial: sin ayudas intermedias hasta enviar el ejercicio completo."}
+              </div>
+            </div>
+            <div class="pe-mode-pills">
+              <button type="button" class="pe-mode-pill ${!isGuided ? "active" : ""}" onclick="app.setPePracticeMode('exam')">🔒 Simulacro Real</button>
+              <button type="button" class="pe-mode-pill ${isGuided ? "active" : ""}" onclick="app.setPePracticeMode('guided')">🧭 Chequeo por Etapa</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pe-section-title">📝 Parciales Completos de Práctica (120 Minutos · 4 Ejercicios)</div>
+        <div class="pe-lobby-grid">
+          <div class="card pe-model-card">
+            <div>
+              <span class="pe-badge-pill" style="margin-bottom:0.45rem;">⭐ Estructura Real 19/11/2025</span>
+              <h3>Parcial Modelo 1 (Estilo 2025)</h3>
+              <p>Ponderación <strong>20% – 30% – 30% – 20%</strong>: Clustering UPGMA, SOM Kohonen, MLP Sigmoide (sin momento) y Algoritmos Genéticos.</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="app.startPeExam('modelo_2025')">🚀 Iniciar Parcial Modelo 1 (120 min)</button>
+          </div>
+
+          <div class="card pe-model-card">
+            <div>
+              <span class="pe-badge-pill" style="margin-bottom:0.45rem;">📊 Cobertura Alternativa P2</span>
+              <h3>Parcial Modelo 2 (Integrador)</h3>
+              <p>Esquema <strong>25% c/u</strong> cubriendo los temas que complementan al Modelo 1: Naïve Bayes Gaussiano, Hopfield (N=5), KNN Ponderado y MLP.</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="app.startPeExam('modelo_integrador')">🚀 Iniciar Parcial Modelo 2 (120 min)</button>
+          </div>
+
+          <div class="card pe-model-card">
+            <div>
+              <span class="pe-badge-pill" style="margin-bottom:0.45rem;">🎲 Generador Paramétrico Verificado</span>
+              <h3>Parcial Aleatorio <span id="pe-random-seed-label">#${this.peRandomSeed}</span></h3>
+              <p>Sortea <strong>4 temas distintos</strong> (sin SVM) y calcula la solución exacta en JS en vivo con tolerancia de calculadora.</p>
+            </div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary" style="flex:1;" onclick="app.startPeExam('aleatorio')">🎲 Iniciar Parcial Aleatorio</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.rerollPeRandomSeed()" title="Cambiar semilla de números">🔄 Semilla</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pe-section-title">🎯 Cronometrados Individuales por Tema (7 Temas Oficiales P2)</div>
+        <div class="pe-drill-grid">${topicCardsHtml}</div>
+
+        <div class="pe-section-title">📈 Historial de Tiempos y Checkpoints</div>
+        <div class="card">${historyHtml}</div>
+      `;
+    },
+
+    renderPeSummaryHtml(s) {
+      const PE = window.PracticalEngine;
+      let weightedSum = 0;
+      let weightTotal = 0;
+      const rowsHtml = s.exercises.map((ex, i) => {
+        const st = s.exStates[i];
+        const score = st.submitted && st.evaluation ? st.evaluation.scorePct : 0;
+        const okTxt = st.submitted && st.evaluation ? `${st.evaluation.correctCount}/${st.evaluation.totalFields}` : "Sin enviar";
+        const pace = PE.getPaceStatus(st.elapsedSec || 0, ex.targetMinutes || 25);
+        weightedSum += score * (ex.weight || 25);
+        weightTotal += (ex.weight || 25);
+        return `
+          <tr>
+            <td><strong>Ej. ${i + 1} · ${this.escapeHtml(ex.topic)}</strong> (${ex.weight}%)</td>
+            <td>${score}% (${okTxt})</td>
+            <td>${PE.formatDuration(st.elapsedSec || 0)} / ${ex.targetMinutes}:00</td>
+            <td><span class="pe-pace-badge ${pace.cls}">${st.submitted ? pace.label : "Pendiente"}</span></td>
+            <td>${st.commentChecked ? "✅ Sí" : "⬜ No marcado"}</td>
+            <td><button type="button" class="btn btn-outline btn-sm" onclick="app.selectPeExercise(${i})">Ver</button></td>
+          </tr>
+        `;
+      }).join("");
+      const finalScore = weightTotal > 0 ? Math.round(weightedSum / weightTotal) : 0;
+      const approved = finalScore >= 60;
+
+      return `
+        <div class="card">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.75rem;margin-bottom:0.85rem;">
+            <div>
+              <h2 style="font-size:1.2rem;margin-bottom:0.2rem;">${approved ? "🎉 ¡Parcial Práctico Aprobado!" : "📊 Resumen del Simulacro Práctico"}</h2>
+              <p style="font-size:0.88rem;color:var(--text-muted);">${this.escapeHtml(s.title)}</p>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.65rem;font-weight:900;color:${approved ? "var(--success)" : "var(--warning)"};">${finalScore}%</div>
+              <div style="font-size:0.8rem;color:var(--text-muted);">Tiempo total: ${PE.formatDuration(s.totalElapsedSec || 0)}</div>
+            </div>
+          </div>
+          <div class="pe-table-wrap">
+            <table class="pe-history-table">
+              <thead>
+                <tr>
+                  <th>Ejercicio</th>
+                  <th>Puntaje</th>
+                  <th>Split / Presupuesto</th>
+                  <th>Ritmo</th>
+                  <th>Comentario 1 línea</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.65rem;margin-top:1rem;">
+            <button type="button" class="btn btn-primary" onclick="app.exitPeSession()">🔙 Volver al Selector de Modelos</button>
+          </div>
+        </div>
+      `;
+    },
+
+    renderPeActiveHtml(s) {
+      const PE = window.PracticalEngine;
+      const ex = s.exercises[s.currentIdx];
+      const exState = s.exStates[s.currentIdx];
+      const totalBudgetSec = (s.totalMinutes || 120) * 60;
+      const remaining = Math.max(0, totalBudgetSec - (s.totalElapsedSec || 0));
+      const pace = PE.getPaceStatus(exState.elapsedSec || 0, ex.targetMinutes || 25);
+
+      const exPillsHtml = s.exercises.length > 1
+        ? `<div class="pe-ex-pills">
+            ${s.exercises.map((e, i) => {
+              const st = s.exStates[i];
+              const cls = `${i === s.currentIdx ? "active" : ""} ${st.submitted ? "done" : ""}`;
+              return `<button type="button" class="pe-ex-pill ${cls}" onclick="app.selectPeExercise(${i})">${st.submitted ? "✓ " : ""}Ej. ${i + 1} · ${e.topic} (${e.weight}%)</button>`;
+            }).join("")}
+            <button type="button" class="pe-ex-pill" onclick="app.finishPeExamSummary()">🏁 Resumen Final</button>
+          </div>`
+        : "";
+
+      const bodyHtml = s.finished ? this.renderPeSummaryHtml(s) : `
+        <div class="card pe-statement-card">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.55rem;">
+            <div class="pe-meta-chips">
+              <span class="pe-badge-pill">${this.escapeHtml(ex.sourceTag)}</span>
+              <span class="pe-badge-pill">⚖️ Ponderación: ${ex.weight}%</span>
+              <span class="pe-badge-pill">⏱️ Presupuesto: ${ex.targetMinutes} min</span>
+            </div>
+            ${s.kind === "drill" ? `<button type="button" class="btn btn-outline btn-sm" onclick="app.startPeTopicDrill('${ex.topic}', true)">🎲 Otra Variante</button>` : ""}
+          </div>
+          <h3 style="font-size:1.08rem;margin-bottom:0.5rem;">${ex.title}</h3>
+          <div class="pe-statement-body">${ex.introHtml}</div>
+        </div>
+
+        ${(ex.stages || []).map((st, idx) => this.renderPeStageCardHtml(ex, exState, st, idx)).join("")}
+
+        <div class="card pe-submit-bar">
+          ${exState.submitted && exState.evaluation ? `
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+              <div>
+                <div style="font-size:1.05rem;font-weight:800;">
+                  ✅ Ejercicio Registrado: ${exState.evaluation.scorePct}% (${exState.evaluation.correctCount}/${exState.evaluation.totalFields} checkpoints)
+                </div>
+                <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.2rem;">
+                  Tiempo neto registrado: <strong>${PE.formatDuration(exState.elapsedSec || 0)}</strong> (presupuesto: ${ex.targetMinutes}:00) ·
+                  <span class="pe-pace-badge ${pace.cls}">${pace.label}</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.55rem;">
+                ${s.kind === "exam" && s.currentIdx < s.exercises.length - 1
+                  ? `<button type="button" class="btn btn-primary" onclick="app.selectPeExercise(${s.currentIdx + 1})">➡️ Siguiente Ejercicio (Ej. ${s.currentIdx + 2})</button>`
+                  : (s.kind === "exam"
+                    ? `<button type="button" class="btn btn-primary" onclick="app.finishPeExamSummary()">🏁 Ver Resumen del Parcial</button>`
+                    : `<button type="button" class="btn btn-primary" onclick="app.startPeTopicDrill('${ex.topic}', true)">🎲 Practicar Nueva Variante</button>`)}
+                <button type="button" class="btn btn-outline" onclick="app.exitPeSession()">🔙 Volver al Selector</button>
+              </div>
+            </div>
+          ` : `
+            <label class="pe-comment-check">
+              <input type="checkbox" ${exState.commentChecked ? "checked" : ""} onchange="app.togglePeCommentCheck(this.checked)" />
+              <span>Anoté en mi hoja <strong>un comentario breve (1 línea) por etapa</strong> explicando qué estoy calculando con mis palabras (criterio de cátedra 2026).</span>
+            </label>
+            <div class="pe-action-row">
+              <span style="font-size:0.82rem;color:var(--text-muted);">Modalidad activa: <strong>${s.mode === "guided" ? "🧭 Chequeo por Etapa" : "🔒 Simulacro Real"}</strong></span>
+              <button type="button" class="btn btn-primary" onclick="app.submitCurrentPeExercise()">✅ Enviar Ejercicio y Registrar Tiempo</button>
+            </div>
+          `}
+        </div>
+      `;
+
+      return `
+        <div class="pe-timer-bar">
+          <div class="pe-timer-top">
+            <div>
+              <strong style="font-size:0.95rem;">${this.escapeHtml(s.title)}</strong>
+              <div style="font-size:0.78rem;color:var(--text-muted);">${this.escapeHtml(s.subtitle)}</div>
+            </div>
+            <div class="pe-timer-metrics">
+              <div class="pe-timer-box" title="Cuenta regresiva total">
+                <span>⏳ Global:</span>
+                <span class="pe-timer-value" id="pe-global-timer">${PE.formatDuration(remaining)}</span>
+              </div>
+              <div class="pe-timer-box" title="Cronómetro del ejercicio actual">
+                <span>⏱️ Ej. actual:</span>
+                <span class="pe-timer-value" id="pe-ex-timer">${PE.formatDuration(exState.elapsedSec || 0)}</span>
+                <span style="font-size:0.76rem;color:var(--text-muted);">/ ${ex.targetMinutes}:00</span>
+              </div>
+              <span class="pe-pace-badge ${pace.cls}" id="pe-pace-badge">${pace.label}</span>
+              ${!s.finished && !exState.submitted ? `<button type="button" id="pe-pause-btn" class="btn btn-outline btn-sm" onclick="app.togglePePause()">${this.pePaused ? "▶️ Reanudar" : "⏸️ Pausar"}</button>` : ""}
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.exitPeSession()">🚪 Salir</button>
+            </div>
+          </div>
+          ${exPillsHtml}
+        </div>
+        ${bodyHtml}
+      `;
+    },
+
+    renderTimedPracticalPanel() {
+      const panelEl = document.getElementById("lab-timed-panel");
+      if (!panelEl) return;
+      panelEl.innerHTML = this.peSession ? this.renderPeActiveHtml(this.peSession) : this.renderPeLobbyHtml();
+      this.renderMath(panelEl);
+      if (this.peSession && !this.peSession.finished && !this.pePaused) {
+        this.startPeTimerIfNeeded();
+      }
     }
   };
 
