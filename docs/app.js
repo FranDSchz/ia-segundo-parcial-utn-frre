@@ -197,28 +197,77 @@
 
     bindKeyboardShortcuts() {
       document.addEventListener("keydown", (e) => {
-        if (this.currentView !== "exam") return;
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-        const modal = document.getElementById("modal-finish");
-        if (modal && modal.classList.contains("open")) return;
 
-        if (e.key >= "1" && e.key <= "6") {
-          const optIdx = parseInt(e.key, 10) - 1;
-          const q = this.examQuestions[this.currentIndex];
-          if (q && optIdx < q.opciones.length) {
+        // --- Atajos en Modo Examen ---
+        if (this.currentView === "exam") {
+          const modal = document.getElementById("modal-finish");
+          if (modal && modal.classList.contains("open")) return;
+
+          if (e.key >= "1" && e.key <= "6") {
+            const optIdx = parseInt(e.key, 10) - 1;
+            const q = this.examQuestions[this.currentIndex];
+            if (q && optIdx < q.opciones.length) {
+              e.preventDefault();
+              this.toggleOption(optIdx);
+            }
+          } else if (e.key === "ArrowRight") {
             e.preventDefault();
-            this.toggleOption(optIdx);
+            this.nextQuestion();
+          } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            this.prevQuestion();
+          } else if (e.key === "f" || e.key === "F") {
+            e.preventDefault();
+            this.toggleCurrentFlag();
           }
-        } else if (e.key === "ArrowRight") {
-          e.preventDefault();
-          this.nextQuestion();
-        } else if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          this.prevQuestion();
-        } else if (e.key === "f" || e.key === "F") {
-          e.preventDefault();
-          this.toggleCurrentFlag();
+          return;
+        }
+
+        // --- Atajos en Modo Repaso Teórico (Anki SM-2) ---
+        if (this.currentView === "practice") {
+          const idx = this.practiceIndex;
+          const q = this.practiceQuestions[idx];
+          if (!q) return;
+
+          const isChecked = !!this.practiceEvaluated[idx];
+
+          if (!isChecked) {
+            // Fase 1: Antes de verificar (marcar opciones o verificar)
+            if (e.key >= "1" && e.key <= "6") {
+              const optIdx = parseInt(e.key, 10) - 1;
+              if (optIdx < q.opciones.length) {
+                e.preventDefault();
+                this.togglePracticeOption(optIdx);
+              }
+            } else if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              this.checkPracticeCurrent();
+            } else if (e.key === "ArrowRight") {
+              e.preventDefault();
+              this.nextPracticeQuestion();
+            } else if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              this.prevPracticeQuestion();
+            }
+          } else {
+            // Fase 2: Tarjeta verificada (calificar con 1-4 o avanzar)
+            if (e.key >= "1" && e.key <= "4") {
+              e.preventDefault();
+              const rating = parseInt(e.key, 10);
+              this.ratePracticeAnki(rating);
+            } else if (e.key === " " || e.key === "Enter" || e.key === "ArrowRight") {
+              e.preventDefault();
+              this.nextPracticeQuestion();
+            } else if (e.key === "ArrowLeft") {
+              e.preventDefault();
+              this.prevPracticeQuestion();
+            } else if (e.key === "r" || e.key === "R") {
+              e.preventDefault();
+              this.resetPracticeCurrent();
+            }
+          }
         }
       });
     },
@@ -464,7 +513,7 @@
         this.initCommunityView();
       }
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     // -------------------------------------------------------------
@@ -518,15 +567,48 @@
       if (this.selectedPreset === "2025") {
         pool = this.allQuestions.filter((q) => this.matchesYearFilter(q, "PARCIAL_2025"));
         count = pool.length;
-        durationMinutes = 20;
+        durationMinutes = 30;
         this.examQuestions = [...pool];
+      } else if (this.selectedPreset === "express") {
+        durationMinutes = 10;
+        count = 8;
+        // Focus Express: 1 pregunta aleatoria de cada uno de los 7 temas canónicos de P2
+        const p2Topics = [
+          "CLUSTERING",
+          "SOM",
+          "MLP",
+          "ALGORITMOS_GENETICOS",
+          "NAIVE_BAYES",
+          "HOPFIELD",
+          "KNN"
+        ];
+        const selected = [];
+        const usedIds = new Set();
+        p2Topics.forEach((tema) => {
+          const topicPool = pool.filter((q) => q.tema === tema && !usedIds.has(q.id));
+          if (topicPool.length > 0) {
+            const pick = topicPool[Math.floor(Math.random() * topicPool.length)];
+            selected.push(pick);
+            usedIds.add(pick.id);
+          }
+        });
+        // 1 comodín adicional al azar (priorizando preguntas oficiales de examen)
+        const bonusPool = pool.filter((q) => !usedIds.has(q.id) && q.es_oficial_examen);
+        const fallbackPool = pool.filter((q) => !usedIds.has(q.id));
+        const candidatePool = bonusPool.length > 0 ? bonusPool : fallbackPool;
+        if (candidatePool.length > 0) {
+          const bonus = candidatePool[Math.floor(Math.random() * candidatePool.length)];
+          selected.push(bonus);
+        }
+        // Mezclar las 8 preguntas seleccionadas
+        this.examQuestions = [...selected].sort(() => 0.5 - Math.random());
       } else {
         if (this.selectedPreset === "rapido") {
           count = 15;
           durationMinutes = 20;
         } else if (this.selectedPreset === "completo") {
           count = pool.length;
-          durationMinutes = 60;
+          durationMinutes = 75;
         }
         // Shuffle pool
         const shuffled = [...pool].sort(() => 0.5 - Math.random());
@@ -854,6 +936,23 @@
     closeModal(modalId) {
       const modal = document.getElementById(modalId);
       if (modal) modal.classList.remove("open");
+      document.body.classList.remove("cheatsheet-printing");
+    },
+
+    openPrintCheatSheet() {
+      this.openModal("modal-print-cheatsheet");
+      const pagesEl = document.getElementById("print-cheatsheet-pages");
+      if (pagesEl) {
+        this.renderMath(pagesEl);
+      }
+    },
+
+    printCheatSheet() {
+      document.body.classList.add("cheatsheet-printing");
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove("cheatsheet-printing");
+      }, 1000);
     },
 
     finishExam() {
@@ -1269,6 +1368,10 @@
       this.filterPracticeTopic("ALL");
     },
 
+    filterPracticeByTopic(topicKey) {
+      return this.filterPracticeTopic(topicKey);
+    },
+
     filterPracticeTopic(topicKey) {
       this.practiceSelectedTopic = topicKey;
       this.practiceQueueMeta = null;
@@ -1567,6 +1670,17 @@
               Siguiente →
             </button>
           </div>
+
+          <div class="kbd-hint-bar" style="margin-top: 0.95rem; justify-content: center;">
+            <span>Atajos:</span>
+            <span><kbd>1</kbd>–<kbd>6</kbd> Marcar</span>
+            <span>·</span>
+            <span><kbd>Espacio</kbd> ${!isChecked ? "Verificar" : "Siguiente"}</span>
+            <span>·</span>
+            <span><kbd>1</kbd>–<kbd>4</kbd> Intervalo Anki</span>
+            <span>·</span>
+            <span><kbd>←</kbd> <kbd>→</kbd> Navegar</span>
+          </div>
         </div>
       `;
 
@@ -1699,9 +1813,18 @@
       this.updateSmartPracticeFilterLabel();
       this.renderPracticeHud();
       this.renderPracticeQuestion();
+
+      // Avance automático fluido al calificar (450ms para ver el toast y badge de intervalo)
+      if (this.practiceIndex < this.practiceQuestions.length - 1) {
+        clearTimeout(this._practiceAutoAdvanceTimer);
+        this._practiceAutoAdvanceTimer = setTimeout(() => {
+          this.nextPracticeQuestion();
+        }, 450);
+      }
     },
 
     resetPracticeCurrent() {
+      clearTimeout(this._practiceAutoAdvanceTimer);
       delete this.practiceEvaluated[this.practiceIndex];
       if (this.practiceAnswers[this.practiceIndex]) {
         this.practiceAnswers[this.practiceIndex].clear();
@@ -1710,6 +1833,7 @@
     },
 
     prevPracticeQuestion() {
+      clearTimeout(this._practiceAutoAdvanceTimer);
       if (this.practiceIndex > 0) {
         this.practiceIndex--;
         this.renderPracticeHud();
@@ -1718,6 +1842,7 @@
     },
 
     nextPracticeQuestion() {
+      clearTimeout(this._practiceAutoAdvanceTimer);
       if (this.practiceIndex < this.practiceQuestions.length - 1) {
         this.practiceIndex++;
         this.renderPracticeHud();
@@ -2110,6 +2235,30 @@
         topicMeta: window.PracticalEngine ? PracticalEngine.TOPIC_META : null,
         summary: this.getStudySummary(Date.now())
       });
+    },
+
+    openRadarAction(topicId, label, theoryKey, labKey, theoryPct, practicePct) {
+      this._radarActionContext = { topicId, label, theoryKey, labKey };
+      const titleEl = document.getElementById("radar-modal-title");
+      const statsEl = document.getElementById("radar-modal-stats");
+      if (titleEl) titleEl.textContent = `Reforzar ${label}`;
+      if (statsEl) statsEl.textContent = `Dominio actual: Teoría ${theoryPct}% · Práctica ${practicePct}%`;
+      this.openModal("modal-radar-action");
+    },
+
+    executeRadarAction(type) {
+      const ctx = this._radarActionContext;
+      this.closeModal("modal-radar-action");
+      if (!ctx) return;
+      if (type === "theory") {
+        this.navigate("practice");
+        this.filterPracticeTopic(ctx.theoryKey);
+        this.showToast(`🎯 Mazo filtrado en ${ctx.label}`);
+      } else if (type === "lab") {
+        this.selectLabTopic(ctx.labKey);
+        this.navigate("lab");
+        this.showToast(`🛠️ Abriendo entrenamiento de ${ctx.label}`);
+      }
     },
 
     renderProfileSummaryCard(summary, now) {
@@ -2662,13 +2811,18 @@
       this.gamif = window.StudyEngine ? StudyEngine.createDefaultGamification() : {};
       if (this.gamif) this.gamif.alias = savedAlias;
       this.labCardSessionRating = {};
+      this.labStepsDone = new Set();
+      this.labRevealedCards = new Set();
+      this.peAttempts = [];
       localStorage.setItem("ia_srs_v1", "{}");
       localStorage.setItem("ia_gamification_v1", JSON.stringify(this.gamif));
+      localStorage.removeItem("ia_lab_steps");
+      localStorage.removeItem("ia_practical_attempts_v1");
       this.updateSmartPracticeFilterLabel();
       this.renderGlobalStudyHud();
       this.renderProgressDashboard();
       if (this.currentView === "lab") this.renderLabView();
-      this.showToast("♻️ Progreso de SRS y gamificación reiniciado");
+      this.showToast("♻️ Progreso de SRS, gamificación y laboratorio reiniciado");
     },
 
     // -------------------------------------------------------------
@@ -2715,7 +2869,7 @@
           html += `
             <tr style="border-bottom: 1px solid var(--border-color);">
               <td style="padding: 0.6rem; color: var(--text-muted);">${dateStr}</td>
-              <td style="padding: 0.6rem; text-transform: capitalize;">${item.preset}</td>
+              <td style="padding: 0.6rem; text-transform: capitalize;">${item.preset === "express" ? "⚡ Express (8)" : item.preset}</td>
               <td style="padding: 0.6rem;">${item.totalQuestions}</td>
               <td style="padding: 0.6rem; font-family: var(--font-mono);">${item.timeFormatted}</td>
               <td style="padding: 0.6rem; font-weight: 800; font-family: var(--font-mono); font-size: 1rem;">${item.score}%</td>
@@ -3680,16 +3834,18 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
     rateLabFlashcard(itemId, rating) {
       if (!window.StudyEngine || !this.srsMap) return;
-      const key = `lab:${itemId}`;
+      const key = `LAB:${itemId}`;
+      const legacyKey = `lab:${itemId}`;
       const now = Date.now();
       if (!this.labCardSessionBaseline) this.labCardSessionBaseline = {};
       if (!this.labCardSessionRating) this.labCardSessionRating = {};
       if (!this.labCardSessionBaseline[itemId]) {
-        this.labCardSessionBaseline[itemId] = StudyEngine.cloneCard(this.srsMap[key] || StudyEngine.createEmptyCard());
+        this.labCardSessionBaseline[itemId] = StudyEngine.cloneCard(this.srsMap[key] || this.srsMap[legacyKey] || StudyEngine.createEmptyCard());
       }
       const baseline = this.labCardSessionBaseline[itemId];
       const nextCard = StudyEngine.computeNextSrsState(baseline, rating, null, now);
       this.srsMap[key] = nextCard;
+      if (this.srsMap[legacyKey]) delete this.srsMap[legacyKey];
       this.labCardSessionRating[itemId] = rating;
       this.labRevealedCards.add(itemId);
 
@@ -3751,7 +3907,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
     renderLabFormulaBody(item) {
       const isOpen = this.labRevealedCards.has(item.id);
-      const srsCard = (this.srsMap && this.srsMap[`lab:${item.id}`]) || null;
+      const srsCard = (this.srsMap && (this.srsMap[`LAB:${item.id}`] || this.srsMap[`lab:${item.id}`])) || null;
       const chipHtml = (srsCard && srsCard.reps > 0) ? this.renderAnkiStatusChipHtml(srsCard) : "";
       const cardBaseline = (this.labCardSessionBaseline && this.labCardSessionBaseline[item.id]) || srsCard || (window.StudyEngine ? StudyEngine.createEmptyCard() : {});
       const ratingUi = window.StudyEngine ? `
@@ -3943,7 +4099,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
       this.renderTimedPracticalPanel();
       this.startPeTimerIfNeeded();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     rerollPeRandomSeed() {
@@ -3998,7 +4154,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
 
       this.renderTimedPracticalPanel();
       this.startPeTimerIfNeeded();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     exitPeSession() {
@@ -4024,7 +4180,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       this.pePaused = false;
       this.renderTimedPracticalPanel();
       this.startPeTimerIfNeeded();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     onPeFieldInput(fieldId, value) {
@@ -4129,7 +4285,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       }
 
       this.renderTimedPracticalPanel();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     finishPeExamSummary() {
@@ -4138,7 +4294,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       this.stopPeTimer();
       s.finished = true;
       this.renderTimedPracticalPanel();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
 
     renderPeStageCardHtml(ex, exState, stage, stageIdx) {
@@ -4167,9 +4323,11 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
           `;
         } else {
           const inputMode = f.type === "number" ? "decimal" : "text";
+          const numTitle = f.type === "number" ? 'title="Acepta coma (,) o punto (.) decimal · Tolerancia ±0.05"' : "";
           inputHtml = `
             <input type="text" inputmode="${inputMode}" class="pe-input" ${exState.submitted ? "disabled" : ""}
               value="${this.escapeHtml(val)}" placeholder="${this.escapeHtml(f.placeholder || "")}"
+              ${numTitle}
               oninput="app.onPeFieldInput('${f.id}', this.value)" />
           `;
         }
@@ -4181,10 +4339,13 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
           fbHtml = `<div class="pe-field-feedback is-${res.status}">${icon} ${this.escapeHtml(res.detail)}${expPart}</div>`;
         }
 
+        const tolBadge = f.type === "number" ? `<span class="pe-field-tol" title="Acepta punto o coma · Tolerancia numérica ±0.05">±0.05</span>` : "";
+
         return `
           <div class="pe-field-row">
             <label class="pe-field-label">
               <span>${f.label}</span>
+              ${tolBadge}
               ${f.hint ? `<span class="pe-field-hint">${this.escapeHtml(f.hint)}</span>` : ""}
             </label>
             ${inputHtml}
@@ -4423,6 +4584,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
               <span class="pe-badge-pill">${this.escapeHtml(ex.sourceTag)}</span>
               <span class="pe-badge-pill">⚖️ Ponderación: ${ex.weight}%</span>
               <span class="pe-badge-pill">⏱️ Presupuesto: ${ex.targetMinutes} min</span>
+              <span class="pe-badge-pill" title="Acepta coma (,) o punto (.) decimal · Tolerancia numérica admisible ±0.05">ℹ️ Coma o Punto (±0.05)</span>
             </div>
             ${s.kind === "drill" ? `<button type="button" class="btn btn-outline btn-sm" onclick="app.startPeTopicDrill('${ex.topic}', true)">🎲 Otra Variante</button>` : ""}
           </div>

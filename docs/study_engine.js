@@ -563,7 +563,7 @@
         }
         if (it.tipo === "formula") {
           tCardsTotal += 1;
-          const card = map[`LAB:${it.id}`];
+          const card = map[`LAB:${it.id}`] || map[`lab:${it.id}`];
           if (card && card.lastReviewedAt) {
             tCardsEval += 1;
             if (isCardMastered(card)) tCardsMast += 1;

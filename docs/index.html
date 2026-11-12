@@ -95,6 +95,19 @@
           </div>
         </div>
 
+        <div class="card preset-card" id="preset-express" onclick="app.selectPreset('express')">
+          <span class="preset-tag" style="background: linear-gradient(135deg, #ec4899, #f43f5e); color: white;">⚡ Focus Express</span>
+          <div>
+            <div class="preset-title">Simulacro Relámpago</div>
+            <div class="preset-desc">8 preguntas estratégicas: 1 de cada tema central de P2 + 1 comodín oficial. Diagnóstico en 10 min.</div>
+          </div>
+          <div class="preset-meta">
+            <span>⏱ 10 Minutos</span>
+            <span>📝 8 Preguntas</span>
+            <span>⚡ 7 Temas P2</span>
+          </div>
+        </div>
+
         <div class="card preset-card" id="preset-rapido" onclick="app.selectPreset('rapido')">
           <div>
             <div class="preset-title">Simulacro Rápido</div>
@@ -132,9 +145,12 @@
         <span style="font-size: 0.85rem; color: var(--text-muted);">(Por defecto ambos excluidos para foco 100% en el 2do Parcial)</span>
       </div>
 
-      <div style="text-align: center; margin-top: 1.5rem;">
+      <div style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
         <button class="btn btn-primary btn-lg" onclick="app.startExam()">
           🚀 Iniciar Examen Ahora
+        </button>
+        <button type="button" class="btn btn-outline btn-lg" onclick="app.openPrintCheatSheet()" title="Abrir compendio oficial de fórmulas para imprimir en 2 carillas A4">
+          🖨️ Fórmulas y Resumen Doctrinal (PDF / A4)
         </button>
       </div>
 
@@ -560,8 +576,13 @@
         <div class="lab-isolation-badge">🛠️ ENTRENAMIENTO PRÁCTICO DE RESOLUCIÓN · NO SON PREGUNTAS DE PARCIAL</div>
         <p class="lab-isolation-note">
           Este módulo <strong>no se mezcla</strong> con el banco teórico (<a href="#qa" onclick="app.navigate('qa'); return false;">Banco QA</a> ni <a href="#home" onclick="app.navigate('home'); return false;">Simulacro</a>) y cubre los <strong>7 temas oficiales del 2do Parcial</strong> (sin SVM).
-          No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP), el cronómetro por ejercicio y los ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.
+          <span class="lab-note-extra">No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP), el cronómetro por ejercicio y los ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.</span>
         </p>
+        <div style="margin-top: 0.85rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-sm btn-outline" onclick="app.openPrintCheatSheet()" style="background: var(--surface); font-weight: 600;">
+            🖨️ Formulario &amp; Fórmulas Oficiales para Imprimir (PDF / A4)
+          </button>
+        </div>
       </div>
 
       <div class="lab-submode-tabs" role="tablist" aria-label="Modo de entrenamiento práctico">
@@ -651,6 +672,334 @@
 
       <div style="display: flex; justify-content: flex-end;">
         <button class="btn btn-outline" onclick="app.closeModal('modal-question-feedback')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Acciones Rápidas desde el Radar Temático -->
+  <div class="modal-backdrop" id="modal-radar-action">
+    <div class="modal-content" style="max-width: 440px; text-align: center;">
+      <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">🎯</div>
+      <h3 style="margin-bottom: 0.35rem;" id="radar-modal-title">Reforzar Tema</h3>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;" id="radar-modal-stats">
+        Nivel de dominio actual
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem;">
+        <button type="button" class="btn btn-primary" onclick="app.executeRadarAction('theory')">
+          📖 Repasar Teoría (Mazo Anki SM-2)
+        </button>
+        <button type="button" class="btn btn-outline" onclick="app.executeRadarAction('lab')">
+          🛠️ Ir a Guías Prácticas y Simuladores
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-outline btn-sm" onclick="app.closeModal('modal-radar-action')" style="width: 100%;">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: Compendio Doctrinal y Formulario Oficial Imprimible (2 Carillas A4) -->
+  <div class="modal-backdrop" id="modal-print-cheatsheet" onclick="if (event.target === this) app.closeModal('modal-print-cheatsheet')">
+    <div class="modal-content modal-content-sheet">
+      <div class="sheet-modal-toolbar no-print">
+        <div class="sheet-modal-toolbar-info">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+            <span class="badge badge-topic" style="background: var(--primary); color: white;">Oficial 2do Parcial</span>
+            <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success); font-weight: 700;">2 Carillas A4 de Alta Densidad</span>
+          </div>
+          <h3 style="margin: 0; font-size: 1.15rem;">📋 Compendio Doctrinal &amp; Formulario de Cátedra</h3>
+          <p style="margin: 0.2rem 0 0 0; font-size: 0.82rem; color: var(--text-muted);">
+            7 temas oficiales evaluados (sin SVM). Formato optimizado para pantalla, impresión directa y PDF sin recortes.
+          </p>
+        </div>
+        <div class="sheet-modal-toolbar-actions">
+          <button type="button" class="btn btn-primary" onclick="app.printCheatSheet()">
+            🖨️ Imprimir / Guardar en PDF
+          </button>
+          <button type="button" class="btn btn-outline" onclick="app.closeModal('modal-print-cheatsheet')">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+      <div class="print-cheatsheet-pages" id="print-cheatsheet-pages">
+        <!-- CARILLA 1 -->
+        <article class="sheet-page sheet-page-1">
+          <header class="sheet-header">
+            <div class="sheet-header-top">
+              <span class="sheet-brand">UTN Facultad Regional Resistencia · Inteligencia Artificial</span>
+              <span class="sheet-page-num">Carilla 1 de 2 · Redes Neuronales &amp; Memorias Asociativas</span>
+            </div>
+            <h1 class="sheet-title">COMPENDIO DOCTRINAL &amp; FÓRMULAS CLAVE — 2DO PARCIAL</h1>
+            <p class="sheet-subtitle">Criterios canónicos de cátedra para resolución práctica y teórica · Versión 2026</p>
+          </header>
+
+          <div class="sheet-grid-2col">
+            <!-- 1. MLP -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">MLP</span>
+                <h2>1. Perceptrón Multicapa &amp; Backpropagation (Sigmoidal · Sin Momento)</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p class="sheet-formula-row">
+                  <strong>Función logística:</strong> $\sigma(z) = \frac{1}{1 + e^{-z}} \qquad$
+                  <strong>Derivada exacta:</strong> $\sigma'(z) = y \cdot (1 - y)$
+                </p>
+                <div class="sheet-step-box">
+                  <div><strong>1. Propagación Forward:</strong> $net_j = \sum_{i} w_{ji} x_i + \theta_j \quad \implies \quad y_j = \sigma(net_j)$</div>
+                  <div><strong>2. Error en Salida ($k$):</strong> $\delta_k = y_k (1 - y_k) (d_k - y_k)$ <em>(si salida fuera lineal: $\sigma'=1 \implies \delta_k = d_k - y_k$)</em></div>
+                  <div><strong>3. Error Retropropagado ($j$ oculta):</strong> $\delta_j = y_j (1 - y_j) \sum_{k} \delta_k w_{kj}$</div>
+                  <div><strong>4. Actualización de Pesos:</strong> $\Delta w_{ji} = \eta \cdot \delta_j \cdot x_i, \quad \Delta \theta_j = \eta \cdot \delta_j \quad \implies \quad w_{ji}^{(t+1)} = w_{ji}^{(t)} + \Delta w_{ji}$</div>
+                </div>
+                <p class="sheet-formula-row" style="margin-top: 4px;">
+                  <strong>Error de Patrón:</strong> $E_p = \frac{1}{2}\sum_k (d_k - y_k)^2 \quad$
+                  <strong>Error Global:</strong> $E_G = \frac{1}{L}\sum_{p=1}^L E_p$
+                </p>
+                <div class="sheet-note-box">
+                  <strong>⚠️ Criterio Early Stopping:</strong> Cortar el entrenamiento exactamente en la época donde el error sobre el conjunto de <em>Validación</em> toca su mínimo. No entrenar sobre validación.
+                </div>
+              </div>
+            </section>
+
+            <!-- 2. SOM -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">SOM</span>
+                <h2>2. Mapas Auto-Organizados de Kohonen (SOM)</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p class="sheet-formula-row">
+                  <strong>Distancia Euclídea:</strong> $d_j = \sqrt{\sum_{i=1}^D (x_i - w_{ji})^2} \qquad$
+                  <strong>BMU (Ganadora):</strong> $c = \arg\min_j d_j$
+                </p>
+                <div class="sheet-step-box">
+                  <div><strong>Vecindad Gaussiana:</strong> $h_{ci}(t) = \exp\left(-\frac{\|r_c - r_i\|^2}{2\,\sigma(t)^2}\right)$ <em>($h_{ci}=1$ si está en radio discreto $R(t)$, 0 si no)</em></div>
+                  <div><strong>Regla Continua:</strong> $W_i(t+1) = W_i(t) + \alpha(t) \cdot h_{ci}(t) \cdot [X - W_i(t)]$</div>
+                </div>
+                <div class="sheet-note-box">
+                  <strong>⚠️ Regla Canónica de Cátedra:</strong> La BMU $c$ se calcula al inicio y <strong>queda fija</strong> durante toda la actualización de su vecindad. Prohibido recalcular distancias intermedias mientras se actualizan pesos de vecinos en el mismo paso.
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- 3. HOPFIELD -->
+          <section class="sheet-card" style="margin-top: 6px;">
+            <div class="sheet-card-header">
+              <span class="sheet-tag">HOPFIELD</span>
+              <h2>3. Redes de Hopfield Autoasociativas Discretas</h2>
+            </div>
+            <div class="sheet-card-body">
+              <div class="sheet-grid-3col">
+                <div>
+                  <strong>Codificación Bipolar:</strong>
+                  <p>$S \in \{-1, +1\}^N$<br>Blanco/inactivo $= -1$<br>Negro/activo $= +1$<br><em>(¡Jamás 0 en memoria!)</em></p>
+                </div>
+                <div>
+                  <strong>Matriz Hebbiana ($w_{ii} = 0$):</strong>
+                  <p>$$W = \sum_{p=1}^P S^{(p)} (S^{(p)})^T - P \cdot I_N$$
+                  $$w_{ij} = \sum_{p=1}^P s_i^{(p)} s_j^{(p)} \quad (i \neq j)$$</p>
+                </div>
+                <div>
+                  <strong>Función de Activación:</strong>
+                  <p>$$s_i^{(t+1)} = \begin{cases} +1 & \text{si } net_i > 0 \\ -1 & \text{si } net_i < 0 \\ s_i^{(t)} & \text{si } net_i = 0 \end{cases}$$
+                  <em>(¡En 0 conserva estado previo!)</em></p>
+                </div>
+              </div>
+              <div class="sheet-grid-2col" style="margin-top: 4px;">
+                <div class="sheet-subcard">
+                  <strong>Función de Energía de Lyapunov:</strong>
+                  $$E = -\frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N w_{ij} s_i s_j \qquad (\Delta E \le 0 \implies \text{convergencia monótona garantizada})$$
+                </div>
+                <div class="sheet-subcard">
+                  <strong>Capacidad y Ortogonalidad de Cátedra:</strong>
+                  <ul>
+                    <li><strong>Recuperación perfecta:</strong> $P_{\text{perf}} \le \frac{N}{4 \ln N}$</li>
+                    <li><strong>Recuperación buena:</strong> $P_{\text{buena}} \approx 0{,}138\,N$</li>
+                    <li><strong>Ortogonalidad (diferencia $\ge 50\%$):</strong> $\sum_{i=1}^N s_i^{(k)} s_i^{(m)} \le 0 \quad (\forall k \neq m)$</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer class="sheet-footer">
+            <span>Simulador IA UTN FRRe · Generado para estudio presencial</span>
+            <span>Uso exclusivo académico · 7 Temas Oficiales 2do Parcial</span>
+          </footer>
+        </article>
+
+        <!-- CARILLA 2 -->
+        <article class="sheet-page sheet-page-2">
+          <header class="sheet-header">
+            <div class="sheet-header-top">
+              <span class="sheet-brand">UTN Facultad Regional Resistencia · Inteligencia Artificial</span>
+              <span class="sheet-page-num">Carilla 2 de 2 · No Supervisado, Genéticos &amp; Cuadro de Trampas</span>
+            </div>
+            <h1 class="sheet-title">CLUSTERING, ALGORITMOS GENÉTICOS, NAÏVE BAYES &amp; TRAMPAS</h1>
+            <p class="sheet-subtitle">Modelos de examen y advertencias de corrección estricta de cátedra · Versión 2026</p>
+          </header>
+
+          <div class="sheet-grid-2col">
+            <!-- 4. CLUSTERING JERARQUICO -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">CLUSTERING</span>
+                <h2>4. Clustering Jerárquico Aglomerativo</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p><strong>Criterios de Enlace (Linkage):</strong></p>
+                <ul>
+                  <li><strong>Single-Link (Mínimo):</strong> $d(A, B) = \min \{d(x, y) : x \in A, y \in B\}$ <em>(chadenamiento)</em></li>
+                  <li><strong>Complete-Link (Máximo):</strong> $d(A, B) = \max \{d(x, y) : x \in A, y \in B\}$ <em>(clusters esféricos)</em></li>
+                  <li><strong>Average-Link (UPGMA Ponderado por cardinalidad):</strong>
+                    $$d_{(A \cup B), C} = \frac{|A| \cdot d(A, C) + |B| \cdot d(B, C)}{|A| + |B|}$$
+                  </li>
+                </ul>
+                <div class="sheet-note-box">
+                  <strong>⚠️ Dendrograma &amp; Salto Máximo:</strong> El eje vertical mide disimilitud / distancia de fusión. El corte óptimo se ubica en el mayor salto vertical (inconsistencia) entre fusiones consecutivas.
+                </div>
+              </div>
+            </section>
+
+            <!-- 5. ALGORITMOS GENETICOS -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">GENÉTICOS</span>
+                <h2>5. Algoritmos Genéticos (AG)</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p class="sheet-formula-row">
+                  <strong>Fitness Relativo:</strong> $p_i = \frac{f_i}{\sum f_k} \qquad$
+                  <strong>Copias Esperadas:</strong> $c_i = N \cdot p_i = \lfloor c_i \rfloor + d_i$
+                </p>
+                <div class="sheet-step-box">
+                  <div><strong>Ruleta Disjunta $[00\text{–}99]$:</strong> Intervalo $I_i = [q_{i-1}, q_i - 1]$ con cotas acumuladas exactas $q_i = \sum_{k=1}^i 100 \cdot p_k$. ¡Prohibido solapar cotas!</div>
+                  <div><strong>Control de Copias:</strong> Asignar enteros $\lfloor c_i \rfloor$; cupos restantes $\Delta N$ se asignan por <em>mayores restos $d_i$</em> (determinista) o <em>ruleta de restos</em> (estocástico).</div>
+                  <div><strong>Operadores:</strong> Cruce 1/2 puntos o binomial; mutación bit-flip ($p_m \approx 0.01\text{–}0.05$); <em>Elitismo</em> preserva el mejor individuo sin alteración.</div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="sheet-grid-2col" style="margin-top: 6px;">
+            <!-- 6. NAIVE BAYES -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">BAYES</span>
+                <h2>6. Naïve Bayes Gaussiano</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p><strong>Teorema con Supuesto de Independencia:</strong></p>
+                $$P(C_k | X) \propto P(C_k) \prod_{j=1}^D P(x_j | C_k)$$
+                <p><strong>Verosimilitud Continua Normal:</strong></p>
+                $$P(x_j | C_k) = \frac{1}{\sqrt{2\pi\sigma_{kj}^2}} \exp\left(-\frac{(x_j - \mu_{kj})^2}{2\sigma_{kj}^2}\right)$$
+                <div class="sheet-note-box">
+                  <strong>⚠️ A Priori:</strong> No olvidar multiplicar por $P(C_k)$ antes de comparar scores entre clases.
+                </div>
+              </div>
+            </section>
+
+            <!-- 7. KNN -->
+            <section class="sheet-card">
+              <div class="sheet-card-header">
+                <span class="sheet-tag">KNN</span>
+                <h2>7. K-Nearest Neighbors (KNN)</h2>
+              </div>
+              <div class="sheet-card-body">
+                <p><strong>Métrica de Distancia:</strong> Euclídea $d_2$ o Manhattan $d_1$.</p>
+                <ul>
+                  <li><strong>Votación Simple:</strong> Asigna la moda (mayoría de votos) de los $k$ vecinos. Usar $k$ impar para 2 clases.</li>
+                  <li><strong>Votación Ponderada ($1/d^2$):</strong> Peso $w_i = \frac{1}{d(x, x_i)^2}$.
+                    $$Score(C) = \sum_{x_i \in K_x, y_i = C} w_i$$
+                  </li>
+                </ul>
+                <div class="sheet-note-box">
+                  <strong>⚠️ Caso $d=0$:</strong> Si la distancia es 0, el punto coincide con el dato de entrenamiento (score infinito $\implies$ clase directa).
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- 8. LAS 10 TRAMPAS CANÓNICAS DE PARCIAL -->
+          <section class="sheet-card" style="margin-top: 6px;">
+            <div class="sheet-card-header" style="background: rgba(239, 68, 68, 0.08); border-bottom-color: rgba(239, 68, 68, 0.2);">
+              <span class="sheet-tag" style="background: #ef4444; color: white;">ATENCIÓN</span>
+              <h2 style="color: #b91c1c;">8. Cuadro Síntesis — Las 10 Trampas Canónicas de Parcial</h2>
+            </div>
+            <div class="sheet-card-body" style="padding: 4px 8px;">
+              <table class="sheet-traps-table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Tema</th>
+                    <th style="width: 38%;">Trampa / Error Frecuente</th>
+                    <th style="width: 42%;">Regla Canónica Obligatoria de Cátedra</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Hopfield</strong></td>
+                    <td>Usar 0 en vez de -1 para representar fondo/inactivo.</td>
+                    <td>Bipolar estricto: $\{-1, +1\}$. Si usás 0 anulás $(-1)(-1)=+1$ y arruinás la matriz $W$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hopfield</strong></td>
+                    <td>Poner valores distintos de cero en la diagonal de $W$.</td>
+                    <td>Sin autoconexiones: la diagonal principal es estrictamente nula ($w_{ii} = 0$).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hopfield</strong></td>
+                    <td>Cambiar de signo o forzar $+1$ cuando $net_i = 0$.</td>
+                    <td>En $net_i = 0$, la neurona <strong>conserva su estado previo</strong> ($s_i^{(t+1)} = s_i^{(t)}$).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>SOM</strong></td>
+                    <td>Recalcular distancias intermedias al ajustar vecinos.</td>
+                    <td>La BMU se determina al inicio del patrón y queda <strong>fija</strong> durante todo el paso.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>MLP</strong></td>
+                    <td>Omitir la derivada sigmoidal $y(1-y)$ en deltas de salida/oculta.</td>
+                    <td>En sigmoidal: $\delta_k = y_k(1-y_k)(d_k-y_k)$. Solo en neuronas lineales $\sigma'=1$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Clustering</strong></td>
+                    <td>En UPGMA, promediar $d_{AC}$ y $d_{BC}$ sin ponderar.</td>
+                    <td>Ponderar por cardinalidad: $d_{(A\cup B), C} = (|A|d_{AC} + |B|d_{BC}) / (|A|+|B|)$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Genéticos</strong></td>
+                    <td>Solapar intervalos en la ruleta o usar rango 1 a 100.</td>
+                    <td>Intervalos disjuntos exactos en $[00\text{–}99]$: $[00, q_1-1], [q_1, q_2-1], \dots$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Genéticos</strong></td>
+                    <td>Olvidar que en Control de Copias los cupos enteros ya están asignados.</td>
+                    <td>Solo los cupos faltantes $\Delta N$ se concursan entre los restos decimales $d_i$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Naïve Bayes</strong></td>
+                    <td>Comparar sólo verosimilitudes $\prod P(x_j|C_k)$ omitiendo a priori.</td>
+                    <td>Multiplicar siempre por la probabilidad a priori de cada clase $P(C_k)$.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>KNN</strong></td>
+                    <td>En votación con pesos usar $1/d$ cuando se pide $1/d^2$.</td>
+                    <td>Verificar consigna: si pide inversa del cuadrado, elevar rigurosamente al cuadrado.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <footer class="sheet-footer">
+            <span>Simulador IA UTN FRRe · Generado para estudio presencial</span>
+            <span>Uso exclusivo académico · 7 Temas Oficiales 2do Parcial</span>
+          </footer>
+        </article>
       </div>
     </div>
   </div>

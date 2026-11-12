@@ -319,9 +319,12 @@
       const cosA = Math.cos(ang);
       const anchor = cosA > 0.25 ? "start" : (cosA < -0.25 ? "end" : "middle");
       const dy = Math.sin(ang) > 0.7 ? "8" : (Math.sin(ang) < -0.7 ? "-2" : "3");
+      const spec = RADAR_TOPIC_SPECS[i];
       return `
         <line x1="${cx}" y1="${cy}" x2="${outer.x}" y2="${outer.y}" stroke="var(--border-color)" stroke-width="1" opacity="0.7" />
-        <text x="${lx}" y="${ly}" dy="${dy}" text-anchor="${anchor}" font-size="10" font-weight="700" fill="var(--text-main)">${escapeHtml(a.label)}</text>
+        <g style="cursor:pointer;" onclick="app.openRadarAction('${escapeHtml(spec.id)}', '${escapeHtml(spec.label)}', '${escapeHtml(spec.theoryKey)}', '${escapeHtml(spec.labKey)}', ${a.theoryPct}, ${a.practicePct})" role="button" aria-label="Reforzar ${escapeHtml(a.label)}">
+          <text x="${lx}" y="${ly}" dy="${dy}" text-anchor="${anchor}" font-size="10" font-weight="700" fill="var(--text-main)" style="transition:fill 0.15s ease;" onmouseover="this.setAttribute('fill','var(--primary)')" onmouseout="this.setAttribute('fill','var(--text-main)')">${escapeHtml(a.label)}</text>
+        </g>
       `;
     }).join("");
 
@@ -342,10 +345,12 @@
 
     const weakest = axes.slice().sort((a, b) => (a.theoryPct + a.practicePct) - (b.theoryPct + b.practicePct))[0];
     const weakestSpec = weakest ? RADAR_TOPIC_SPECS[weakest.idx] : null;
-    const breakdownHtml = axes.map((a) => `
-      <div class="vw-radar-chip">
+    const breakdownHtml = axes.map((a, i) => {
+      const spec = RADAR_TOPIC_SPECS[i];
+      return `
+      <div class="vw-radar-chip" style="cursor:pointer;transition:transform 0.14s ease, border-color 0.14s ease;" onclick="app.openRadarAction('${escapeHtml(spec.id)}', '${escapeHtml(spec.label)}', '${escapeHtml(spec.theoryKey)}', '${escapeHtml(spec.labKey)}', ${a.theoryPct}, ${a.practicePct})" title="Clic para repasar o entrenar ${escapeHtml(a.label)}">
         <div class="vw-radar-chip-head">
-          <span>${escapeHtml(a.label)}</span>
+          <span style="font-weight:700;">${escapeHtml(a.label)} <span style="font-size:0.75rem;color:var(--primary);font-weight:700;">↗</span></span>
           <span class="vw-tabular" style="color:var(--text-muted);">${a.theoryPct}% / ${a.practicePct}%</span>
         </div>
         <div class="vw-radar-dual-bar">
@@ -353,7 +358,8 @@
           <div class="vw-radar-mini-track"><div class="vw-radar-mini-fill" style="width:${a.practicePct}%;background:var(--success);"></div></div>
         </div>
       </div>
-    `).join("");
+    `;
+    }).join("");
 
     return `
       <div class="vw-radar-box">
