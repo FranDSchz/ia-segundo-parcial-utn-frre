@@ -41,7 +41,7 @@ window.ENTRENAMIENTO_PRACTICO = {
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           resumen: "Cómo leer los pesos en el dibujo (regla origen-destino), entender Forward/Backward y ver dónde actúa la función sigmoidal.",
           svgDiagram: `
-            <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama de flujo Forward y Backward en red MLP">
+            <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama de flujo Forward y Backward en red MLP con sumatoria de errores cruzados">
               <defs>
                 <marker id="mlp-arrow-fwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
@@ -52,75 +52,92 @@ window.ENTRENAMIENTO_PRACTICO = {
               </defs>
 
               <!-- Leyendas Superiores -->
-              <rect x="20" y="12" width="330" height="34" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8" stroke-width="1"/>
-              <text x="185" y="34" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">1. PASO FORWARD (→): Net_j y Salidas f(Net_j)</text>
+              <rect x="20" y="10" width="340" height="32" rx="8" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8" stroke-width="1"/>
+              <text x="190" y="31" text-anchor="middle" fill="#38bdf8" font-size="12.5" font-weight="700">1. PASO FORWARD (→): Net_j y Salidas f(Net_j)</text>
 
-              <rect x="410" y="12" width="330" height="34" rx="8" fill="rgba(251, 113, 133, 0.12)" stroke="#fb7185" stroke-width="1"/>
-              <text x="575" y="34" text-anchor="middle" fill="#fb7185" font-size="13" font-weight="700">2. PASO BACKWARD (←): Gradientes δ y Δw</text>
+              <rect x="390" y="10" width="350" height="32" rx="8" fill="rgba(251, 113, 133, 0.12)" stroke="#fb7185" stroke-width="1"/>
+              <text x="565" y="31" text-anchor="middle" fill="#fb7185" font-size="12.5" font-weight="700">2. PASO BACKWARD (←): Σ Errores Cruzados δ_k · w_kj</text>
 
               <!-- Capa Entrada -->
-              <text x="90" y="75" text-anchor="middle" class="svg-label-muted" font-size="12" font-weight="700">CAPA ENTRADA</text>
-              <circle cx="90" cy="120" r="24" class="svg-node svg-node-in"/>
-              <text x="90" y="125" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">x₁</text>
-              <circle cx="90" cy="220" r="24" class="svg-node svg-node-in"/>
-              <text x="90" y="225" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">x₂</text>
+              <text x="80" y="66" text-anchor="middle" class="svg-label-muted" font-size="11.5" font-weight="700">CAPA ENTRADA</text>
+              <circle cx="80" cy="110" r="22" class="svg-node svg-node-in"/>
+              <text x="80" y="115" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">x₁</text>
+              <circle cx="80" cy="205" r="22" class="svg-node svg-node-in"/>
+              <text x="80" y="210" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">x₂</text>
 
               <!-- Capa Oculta -->
-              <text x="330" y="75" text-anchor="middle" class="svg-label-muted" font-size="12" font-weight="700">CAPA OCULTA (o₁, o₂)</text>
-              <circle cx="330" cy="120" r="28" class="svg-node svg-node-hidden"/>
-              <text x="330" y="118" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">o₁</text>
-              <text x="330" y="135" text-anchor="middle" class="svg-label-muted" font-size="10">f(net_o1)</text>
+              <text x="310" y="66" text-anchor="middle" class="svg-label-muted" font-size="11.5" font-weight="700">CAPA OCULTA (o₁, o₂)</text>
+              <circle cx="310" cy="110" r="26" class="svg-node svg-node-hidden"/>
+              <text x="310" y="108" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">o₁</text>
+              <text x="310" y="124" text-anchor="middle" class="svg-label-muted" font-size="9.5">f(net_o1)</text>
 
-              <circle cx="330" cy="220" r="28" class="svg-node svg-node-hidden"/>
-              <text x="330" y="218" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">o₂</text>
-              <text x="330" y="235" text-anchor="middle" class="svg-label-muted" font-size="10">f(net_o2)</text>
+              <circle cx="310" cy="205" r="26" class="svg-node svg-node-hidden"/>
+              <text x="310" y="203" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">o₂</text>
+              <text x="310" y="219" text-anchor="middle" class="svg-label-muted" font-size="9.5">f(net_o2)</text>
 
               <!-- Capa Salida -->
-              <text x="570" y="75" text-anchor="middle" class="svg-label-muted" font-size="12" font-weight="700">CAPA SALIDA (s₁, s₂)</text>
-              <circle cx="570" cy="120" r="28" class="svg-node svg-node-out"/>
-              <text x="570" y="118" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">s₁</text>
-              <text x="570" y="135" text-anchor="middle" class="svg-label-muted" font-size="10">So₁ vs Sd₁</text>
+              <text x="590" y="66" text-anchor="middle" class="svg-label-muted" font-size="11.5" font-weight="700">CAPA SALIDA (s₁, s₂)</text>
+              <circle cx="590" cy="110" r="26" class="svg-node svg-node-out"/>
+              <text x="590" y="108" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₁</text>
+              <text x="590" y="124" text-anchor="middle" class="svg-label-muted" font-size="9.5">δ_s1</text>
 
-              <circle cx="570" cy="220" r="28" class="svg-node svg-node-out"/>
-              <text x="570" y="218" text-anchor="middle" class="svg-node-text" font-size="14" font-weight="700">s₂</text>
-              <text x="570" y="235" text-anchor="middle" class="svg-label-muted" font-size="10">So₂ vs Sd₂</text>
+              <circle cx="590" cy="205" r="26" class="svg-node svg-node-out"/>
+              <text x="590" y="203" text-anchor="middle" class="svg-node-text" font-size="13" font-weight="700">s₂</text>
+              <text x="590" y="219" text-anchor="middle" class="svg-label-muted" font-size="9.5">δ_s2</text>
 
-              <!-- Conexiones Forward (Entrada -> Oculta) -->
-              <line x1="115" y1="115" x2="298" y2="115" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
-              <text x="205" y="106" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w₁₋x₁ (dest=o₁, orig=x₁)</text>
+              <!-- Conexiones Forward Sólidas (Entrada -> Oculta) -->
+              <line x1="102" y1="106" x2="282" y2="106" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="185" y="99" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">w_o1-x1</text>
 
-              <line x1="114" y1="130" x2="299" y2="210" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
-              <line x1="114" y1="210" x2="299" y2="130" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="102" y1="118" x2="283" y2="196" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="102" y1="196" x2="283" y2="118" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#mlp-arrow-fwd)"/>
 
-              <line x1="115" y1="225" x2="298" y2="225" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
-              <text x="205" y="245" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w₂₋x₂ (dest=o₂, orig=x₂)</text>
+              <line x1="102" y1="210" x2="282" y2="210" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="185" y="226" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">w_o2-x2</text>
 
-              <!-- Conexiones Forward (Oculta -> Salida) -->
-              <line x1="360" y1="114" x2="538" y2="114" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
-              <text x="450" y="105" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w_s1-o1</text>
+              <!-- Conexiones Forward Sólidas (Oculta -> Salida) -->
+              <line x1="337" y1="104" x2="562" y2="104" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="450" y="96" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">w_s1-o1</text>
 
-              <line x1="358" y1="132" x2="540" y2="208" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
-              <line x1="358" y1="208" x2="540" y2="132" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="336" y1="118" x2="563" y2="195" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="336" y1="196" x2="563" y2="118" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#mlp-arrow-fwd)"/>
 
-              <line x1="360" y1="226" x2="538" y2="226" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="337" y1="210" x2="562" y2="210" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="450" y="224" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">w_s2-o2</text>
 
-              <!-- Retorno Backward (Salida -> Oculta -> Entrada) -->
-              <line x1="538" y1="126" x2="362" y2="126" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
-              <text x="450" y="146" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">δ_s1 · w_s1-o1</text>
+              <!-- Retorno Backward con Suma de Errores Cruzados (Salida -> Oculta) -->
+              <!-- Hacia o1: aporte directo de s1 y aporte cruzado de s2 -->
+              <line x1="562" y1="112" x2="338" y2="112" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
+              <line x1="563" y1="200" x2="339" y2="124" stroke="#fb7185" stroke-width="1.6" marker-end="url(#mlp-arrow-bwd)"/>
 
-              <line x1="538" y1="214" x2="362" y2="214" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
-              <text x="450" y="246" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">δ_s2 · w_s2-o2</text>
+              <!-- Hacia o2: aporte cruzado de s1 y aporte directo de s2 -->
+              <line x1="563" y1="120" x2="339" y2="198" stroke="#fb7185" stroke-width="1.6" marker-end="url(#mlp-arrow-bwd)"/>
+              <line x1="562" y1="216" x2="338" y2="216" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
+
+              <!-- Etiquetas analíticas de la suma de gradientes hacia o1 y o2 -->
+              <rect x="200" y="44" width="220" height="18" rx="4" fill="rgba(251, 113, 133, 0.16)" stroke="#fb7185" stroke-width="0.8"/>
+              <text x="310" y="57" text-anchor="middle" fill="#fb7185" font-size="9.5" font-weight="700">
+                δ_o1 = o₁(1−o₁) · [δ_s1·w_s1-o1 + δ_s2·w_s2-o1]
+              </text>
+
+              <rect x="200" y="238" width="220" height="18" rx="4" fill="rgba(251, 113, 133, 0.16)" stroke="#fb7185" stroke-width="0.8"/>
+              <text x="310" y="251" text-anchor="middle" fill="#fb7185" font-size="9.5" font-weight="700">
+                δ_o2 = o₂(1−o₂) · [δ_s1·w_s1-o2 + δ_s2·w_s2-o2]
+              </text>
 
               <!-- Salida final y Error Ep -->
-              <line x1="600" y1="120" x2="660" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
-              <text x="698" y="124" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">So₁ vs Sd₁</text>
-              <line x1="600" y1="220" x2="660" y2="220" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
-              <text x="698" y="224" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">So₂ vs Sd₂</text>
+              <line x1="618" y1="110" x2="675" y2="110" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="712" y="114" text-anchor="middle" fill="#10b981" font-size="11" font-weight="700">So₁ vs Sd₁</text>
+              <line x1="618" y1="205" x2="675" y2="205" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
+              <text x="712" y="209" text-anchor="middle" fill="#10b981" font-size="11" font-weight="700">So₂ vs Sd₂</text>
 
-              <!-- Regla mnemotécnica inferior -->
-              <rect x="20" y="264" width="720" height="28" rx="6" class="svg-note-bg"/>
-              <text x="380" y="283" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="600">
-                Regla de subíndices UTN: w_ji significa conexión DESDE i (origen) HACIA j (destino) ➔ Δw_ji = α · δ_j(destino) · y_i(origen)
+              <!-- Regla mnemotécnica inferior de cátedra -->
+              <rect x="18" y="270" width="724" height="42" rx="6" class="svg-note-bg"/>
+              <text x="380" y="288" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="700">
+                ⚠️ Regla Canónica de Cátedra UTN: En capa oculta, cada neurona j SUMA los aportes de error de TODAS las salidas k:
+              </text>
+              <text x="380" y="304" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">
+                δ_j = y_j(1 − y_j) · Σ_k (δ_k · w_k-j) ➔ Los pesos activos son sólidos y nunca se omiten términos cruzados.
               </text>
             </svg>
           `,

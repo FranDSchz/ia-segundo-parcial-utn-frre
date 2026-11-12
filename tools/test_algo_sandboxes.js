@@ -172,4 +172,111 @@ const VisualWidgets = require(path.join(__dirname, "..", "docs", "visual_widgets
   assert.ok(!fullSvg.includes("NaN") && !fullSvg.includes("undefined"), "Populated radar SVG must have zero NaN/undefined");
 }
 
+// 8. KNN Safe Singularity Guard d -> 0:
+{
+  const pts = [
+    { x: 1.0, y: 1.0, cls: "A" },
+    { x: 1.0000000001, y: 1.0, cls: "B" },
+    { x: 5.0, y: 5.0, cls: "B" }
+  ];
+  const qExact = { x: 1.0, y: 1.0 };
+  const res = AlgoSandboxes.computeKnnDecision(pts, qExact, 1, true);
+  assert.strictEqual(res.winner, "A", "Coincident point must win with safe d->0 weight");
+  assert.ok(Number.isFinite(res.scoreA) && !Number.isNaN(res.scoreA), "Score must be finite");
+  assert.ok(res.scoreA >= 1e6, "Score for coincident point must reach 10^6 cap");
+}
+
+// 9. Hopfield Asynchronous Step & Attractor Detection:
+{
+  const W = AlgoSandboxes.buildHopfieldWeights([AlgoSandboxes.HOPFIELD_PATTERNS.T]);
+  const noisy = AlgoSandboxes.HOPFIELD_PATTERNS.T.slice();
+  noisy[0] = -noisy[0]; // 1 bit flipped
+
+  const asyncRes = AlgoSandboxes.stepHopfieldAsync(noisy, W);
+  assert.strictEqual(asyncRes.changedIdx, 0, "Async step should identify and fix the discordant neuron 0");
+  assert.strictEqual(asyncRes.nextState[0], AlgoSandboxes.HOPFIELD_PATTERNS.T[0]);
+
+  // Test attractor detection
+  const curState = [1, -1, 1];
+  const historyFixed = ["1,-1,1", "1,-1,1"];
+  const detectFixed = AlgoSandboxes.detectHopfieldAttractor(curState, historyFixed);
+  assert.strictEqual(detectFixed.type, "fixed_point");
+
+  const historyCycle = ["1,-1,1", "-1,1,-1"];
+  const detectCycle = AlgoSandboxes.detectHopfieldAttractor(curState, historyCycle);
+  assert.strictEqual(detectCycle.type, "cycle");
+
+  const historyTransient = ["-1,-1,-1", "1,1,1"];
+  const detectTransient = AlgoSandboxes.detectHopfieldAttractor(curState, historyTransient);
+  assert.strictEqual(detectTransient.type, "transient");
+}
+
+// 10. SOM Post-Training Inference & Canonical Decay:
+{
+  const neurons = [
+    { label: "N1", x: 0.1, y: 0.1, gx: 0, gy: 0 },
+    { label: "N2", x: 0.9, y: 0.9, gx: 1, gy: 0 }
+  ];
+  const query = { x: 0.15, y: 0.12 };
+  const inf = AlgoSandboxes.somInference(neurons, query);
+  assert.strictEqual(inf.bmuLabel, "N1", "Query near N1 must select N1");
+  assert.ok(inf.distance < 0.1, "Euclidean distance to N1 must be < 0.1");
+  assert.ok(inf.affinity > 0.9, "Affinity must be high for close query");
+  assert.strictEqual(neurons[0].x, 0.1, "Inference must NOT mutate neuron weights");
+
+  // Decay test
+  const decay0 = AlgoSandboxes.computeSomDecay(0, 100, 0.5, 1.2);
+  assert.strictEqual(decay0.alpha, 0.5);
+  assert.strictEqual(decay0.sigma, 1.2);
+
+  const decayHalf = AlgoSandboxes.computeSomDecay(50, 100, 0.5, 1.2);
+  assert.ok(decayHalf.alpha < 0.5 && decayHalf.alpha > 0.2);
+
+  const decayEnd = AlgoSandboxes.computeSomDecay(150, 100, 0.5, 1.2, 0.04, 0.35);
+  assert.strictEqual(decayEnd.alpha, 0.04, "Alpha must obey minimum bound");
+  assert.strictEqual(decayEnd.sigma, 0.35, "Sigma must obey minimum bound");
+}
+
+// 11. UPGMA Clustering at Cut Height:
+{
+  const pts = [
+    { label: "A", x: 0, y: 0 },
+    { label: "B", x: 0, y: 2 },
+    { label: "C", x: 3, y: 0 }
+  ];
+  const tree = AlgoSandboxes.computeUpgmaTree(pts);
+  // Merge 1 at height 2.0 (A, B)
+  // Merge 2 at height ~3.303 ({A,B}, C)
+
+  // Cut below 2.0 -> 3 separate clusters
+  const cutLow = AlgoSandboxes.computeClustersAtCutHeight(tree, 3, 1.0);
+  assert.strictEqual(cutLow.k, 3, "Height < 2.0 must keep all 3 individual clusters");
+
+  // Cut between 2.0 and 3.303 -> 2 clusters: {A, B} and {C}
+  const cutMid = AlgoSandboxes.computeClustersAtCutHeight(tree, 3, 2.5);
+  assert.strictEqual(cutMid.k, 2, "Height 2.5 must form 2 clusters ({A,B} and {C})");
+
+  // Cut above 3.5 -> 1 single cluster
+  const cutHigh = AlgoSandboxes.computeClustersAtCutHeight(tree, 3, 4.0);
+  assert.strictEqual(cutHigh.k, 1, "Height 4.0 must merge all into 1 cluster");
+}
+
+// 12. AG Expected Copies & Generation Step:
+{
+  const fits = [20, 50, 30];
+  const expected = AlgoSandboxes.computeAgExpectedCopies(fits, 3);
+  assert.strictEqual(expected.length, 3);
+  assert.strictEqual(expected[0].p, 0.2);
+  assert.strictEqual(expected[1].p, 0.5);
+  assert.strictEqual(expected[2].p, 0.3);
+  assert.ok(Math.abs(expected[0].eta - 0.6) < 1e-6);
+  assert.ok(Math.abs(expected[1].eta - 1.5) < 1e-6);
+  assert.strictEqual(expected[1].intCopies, 1);
+  assert.ok(Math.abs(expected[1].frac - 0.5) < 1e-6);
+
+  const step = AlgoSandboxes.simulateAgGenerationStep(["11111", "00000"], [80, 20]);
+  assert.strictEqual(step.newPopulation.length, 2);
+  assert.ok(Number.isFinite(step.maxFitness) && Number.isFinite(step.avgFitness));
+}
+
 console.log("ALL ALGO SANDBOXES & RADAR TESTS PASSED!");

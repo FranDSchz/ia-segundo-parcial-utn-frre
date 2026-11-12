@@ -1,113 +1,262 @@
+/**
+ * AlgoSandboxes - High-Fidelity Interactive Visual Sandboxes & Pedagogical Lab
+ * UTN FRRe - Inteligencia Artificial (Segundo Parcial)
+ *
+ * Modules:
+ *  1. KNN 2D: Continuous pointer dragging (60 fps), expanding wave ripple (rAF),
+ *     safe d -> 0 weighting (w = 1e6), paradox badge & KaTeX formulas.
+ *  2. Hopfield 5x5: Freehand drag brush painting, synchronous vs asynchronous dynamics,
+ *     flash pulses on flipped neurons, Lyapunov energy curve with shaded area,
+ *     fixed point vs limit cycle detection & KaTeX formulas.
+ *  3. SOM Kohonen 2D: Smooth mesh node interpolation (rAF), training vs post-training
+ *     inference mode (read-only BMU query), canonical alpha/sigma decay & KaTeX formulas.
+ *  4. Clustering UPGMA: Size-weighted average linkage |C1|*|C2|, continuous horizontal
+ *     cut height slider (h -> k clusters), translucent 2D hull capsules, SVG dendrogram & KaTeX.
+ *  5. Genetic Algorithms: Realistic physics roulette wheel with inertial spin & ticking needle,
+ *     exact [00..99] disjoint intervals, expected copies eta_i, generational step simulator
+ *     with live max/avg fitness curves & KaTeX formulas.
+ *  6. Speed Controllers (0.5x, 1x, 2x, Max) with leaktight timer/rAF lifecycle cleanup.
+ *  7. Mini-Game: Authentic Exam Trap Hunter.
+ */
+
 (function (root, factory) {
-  if (typeof module === "object" && module.exports) {
+  if (typeof define === "function" && define.amd) {
+    define([], factory);
+  } else if (typeof module === "object" && module.exports) {
     module.exports = factory();
   } else {
     root.AlgoSandboxes = factory();
   }
-})(typeof window !== "undefined" ? window : globalThis, function () {
+})(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
+  // ---------------------------------------------------------------------------
+  // General Utilities
+  // ---------------------------------------------------------------------------
   function escapeHtml(str) {
-    return String(str === null || str === undefined ? "" : str)
+    if (str === null || str === undefined) return "";
+    return String(str)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replace(/'/g, "&#039;");
   }
 
   function readThemeColors() {
-    if (typeof window === "undefined" || !window.getComputedStyle) {
+    const isDark =
+      typeof document !== "undefined" &&
+      (document.documentElement.getAttribute("data-theme") === "dark" ||
+        document.body.classList.contains("dark-mode"));
+
+    if (typeof window === "undefined" || typeof getComputedStyle === "undefined") {
       return {
-        bgCard: "#1e293b",
-        bgSubtle: "#111827",
-        border: "#334155",
-        text: "#f8fafc",
-        muted: "#94a3b8",
-        primary: "#6366f1",
-        success: "#10b981",
-        warning: "#f59e0b",
-        danger: "#ef4444"
+        isDark,
+        bgCard: isDark ? "#1e293b" : "#ffffff",
+        bgSubtle: isDark ? "#0f172a" : "#f8fafc",
+        border: isDark ? "#334155" : "#e2e8f0",
+        text: isDark ? "#f8fafc" : "#0f172a",
+        muted: isDark ? "#94a3b8" : "#64748b",
+        primary: isDark ? "#818cf8" : "#4f46e5",
+        success: isDark ? "#34d399" : "#10b981",
+        warning: isDark ? "#fbbf24" : "#f59e0b",
+        danger: isDark ? "#f87171" : "#ef4444"
       };
     }
+
     const cs = getComputedStyle(document.documentElement);
     const get = (k, fb) => (cs.getPropertyValue(k) || "").trim() || fb;
     return {
-      bgCard: get("--bg-card", "#1e293b"),
-      bgSubtle: get("--bg-subtle", "#111827"),
-      border: get("--border-color", "#334155"),
-      text: get("--text-main", "#f8fafc"),
-      muted: get("--text-muted", "#94a3b8"),
-      primary: get("--primary", "#6366f1"),
-      success: get("--success", "#10b981"),
-      warning: get("--warning", "#f59e0b"),
-      danger: get("--danger", "#ef4444")
+      isDark,
+      bgCard: get("--bg-card", isDark ? "#1e293b" : "#ffffff"),
+      bgSubtle: get("--bg-subtle", isDark ? "#0f172a" : "#f8fafc"),
+      border: get("--border-color", isDark ? "#334155" : "#e2e8f0"),
+      text: get("--text-main", isDark ? "#f8fafc" : "#0f172a"),
+      muted: get("--text-muted", isDark ? "#94a3b8" : "#64748b"),
+      primary: get("--primary", isDark ? "#818cf8" : "#4f46e5"),
+      success: get("--success", isDark ? "#34d399" : "#10b981"),
+      warning: get("--warning", isDark ? "#fbbf24" : "#f59e0b"),
+      danger: get("--danger", isDark ? "#f87171" : "#ef4444")
     };
   }
 
+  function renderMathInSandbox(el) {
+    if (!el || typeof window === "undefined") return;
+    if (window.renderMathInElement) {
+      try {
+        window.renderMathInElement(el, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\[", right: "\\]", display: true },
+            { left: "\\(", right: "\\)", display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (_) {}
+    }
+  }
+
   // ---------------------------------------------------------------------------
-  // Pure Math Engines (Testable in Node)
+  // Leaktight Timer & Animation Lifecycle Manager
+  // ---------------------------------------------------------------------------
+  const trackedIntervals = new Set();
+  const trackedTimeouts = new Set();
+  const trackedRafs = new Set();
+
+  function trackInterval(fn, ms) {
+    const id = setInterval(fn, ms);
+    trackedIntervals.add(id);
+    return id;
+  }
+
+  function clearTrackedInterval(id) {
+    if (id) {
+      clearInterval(id);
+      trackedIntervals.delete(id);
+    }
+  }
+
+  function trackTimeout(fn, ms) {
+    const id = setTimeout(() => {
+      trackedTimeouts.delete(id);
+      fn();
+    }, ms);
+    trackedTimeouts.add(id);
+    return id;
+  }
+
+  function clearTrackedTimeout(id) {
+    if (id) {
+      clearTimeout(id);
+      trackedTimeouts.delete(id);
+    }
+  }
+
+  function trackRaf(cb) {
+    let id;
+    id = requestAnimationFrame((ts) => {
+      trackedRafs.delete(id);
+      cb(ts);
+    });
+    trackedRafs.add(id);
+    return id;
+  }
+
+  function clearTrackedRaf(id) {
+    if (id) {
+      cancelAnimationFrame(id);
+      trackedRafs.delete(id);
+    }
+  }
+
+  function clearAllSandboxTimers() {
+    trackedIntervals.forEach((id) => clearInterval(id));
+    trackedIntervals.clear();
+    trackedTimeouts.forEach((id) => clearTimeout(id));
+    trackedTimeouts.clear();
+    trackedRafs.forEach((id) => cancelAnimationFrame(id));
+    trackedRafs.clear();
+  }
+
+  function renderSpeedSelectorHtml(currentSpeed, speedKeys = ["0.5x", "1x", "2x", "max"]) {
+    return `
+      <div class="sb-speed-ctl" title="Velocidad de ejecución">
+        <span class="sb-speed-label">⏱ Ritmo:</span>
+        <div class="sb-speed-buttons">
+          ${speedKeys.map((k) => `
+            <button type="button" class="sb-speed-btn ${currentSpeed === k ? "active" : ""}" data-sb-speed="${k}">
+              ${k === "max" ? "⚡ Máx" : k}
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function getSpeedDelay(speedKey, baseMs = 300) {
+    switch (speedKey) {
+      case "0.5x": return Math.round(baseMs * 2);
+      case "1x": return baseMs;
+      case "2x": return Math.max(20, Math.round(baseMs / 2));
+      case "max": return Math.max(16, Math.round(baseMs / 6));
+      default: return baseMs;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pure Math: 1. KNN 2D
   // ---------------------------------------------------------------------------
   function computeKnnDecision(points, query, k = 3, weighted = true) {
     const safePts = Array.isArray(points) ? points : [];
     if (safePts.length === 0) {
-      return { neighbors: [], scoreA: 0, scoreB: 0, winner: "A" };
+      return { winner: "A", scoreA: 0, scoreB: 0, neighbors: [] };
     }
+
     const sorted = safePts
-      .map((p, idx) => {
-        const d2 = Math.pow(p.x - query.x, 2) + Math.pow(p.y - query.y, 2);
+      .map((p) => {
+        const dx = p.x - query.x;
+        const dy = p.y - query.y;
+        const d2 = dx * dx + dy * dy;
         const d = Math.sqrt(d2);
-        const w = d2 < 1e-6 ? 1e6 : 1 / d2;
-        return { ...p, idx, d2, d, w };
+        // Protection against division by zero / singularity as d -> 0
+        const w = d2 < 1e-10 ? 1e6 : (1 / d2);
+        return { ...p, d, d2, w };
       })
-      .sort((a, b) => a.d2 - b.d2);
+      .sort((a, b) => a.d - b.d);
 
     const kClamped = Math.max(1, Math.min(k, sorted.length));
     const topK = sorted.slice(0, kClamped);
     let scoreA = 0;
     let scoreB = 0;
+
     topK.forEach((n) => {
       const add = weighted ? n.w : 1;
       if (n.cls === "A") scoreA += add;
       else scoreB += add;
     });
-    return {
-      neighbors: topK,
-      scoreA,
-      scoreB,
-      winner: scoreA >= scoreB ? "A" : "B"
-    };
+
+    let winner;
+    if (Math.abs(scoreA - scoreB) < 1e-9) {
+      winner = topK[0].cls;
+    } else {
+      winner = scoreA > scoreB ? "A" : "B";
+    }
+
+    return { winner, scoreA, scoreB, neighbors: topK };
   }
 
-  // Hopfield 5x5 (25 neurons)
+  // ---------------------------------------------------------------------------
+  // Pure Math: 2. Hopfield 5x5 (25 Neurons)
+  // ---------------------------------------------------------------------------
   const HOPFIELD_PATTERNS = {
     T: [
-      1, 1, 1, 1, 1,
-      -1, -1, 1, -1, -1,
-      -1, -1, 1, -1, -1,
-      -1, -1, 1, -1, -1,
-      -1, -1, 1, -1, -1
+      1,  1,  1,  1,  1,
+     -1, -1,  1, -1, -1,
+     -1, -1,  1, -1, -1,
+     -1, -1,  1, -1, -1,
+     -1, -1,  1, -1, -1
     ],
     X: [
-      1, -1, -1, -1, 1,
-      -1, 1, -1, 1, -1,
-      -1, -1, 1, -1, -1,
-      -1, 1, -1, 1, -1,
-      1, -1, -1, -1, 1
+      1, -1, -1, -1,  1,
+     -1,  1, -1,  1, -1,
+     -1, -1,  1, -1, -1,
+     -1,  1, -1,  1, -1,
+      1, -1, -1, -1,  1
     ],
     L: [
       1, -1, -1, -1, -1,
       1, -1, -1, -1, -1,
       1, -1, -1, -1, -1,
       1, -1, -1, -1, -1,
-      1, 1, 1, 1, 1
+      1,  1,  1,  1,  1
     ],
     C: [
-      1, 1, 1, 1, 1,
+      1,  1,  1,  1,  1,
       1, -1, -1, -1, -1,
       1, -1, -1, -1, -1,
       1, -1, -1, -1, -1,
-      1, 1, 1, 1, 1
+      1,  1,  1,  1,  1
     ]
   };
 
@@ -115,18 +264,22 @@
     const N = 25;
     const W = Array.from({ length: N }, () => new Array(N).fill(0));
     const pats = (patternKeys || [])
-      .map((k) => (typeof k === "string" ? HOPFIELD_PATTERNS[k] : (Array.isArray(k) ? k : null)))
-      .filter(Boolean);
+      .map((k) => (Array.isArray(k) ? k : HOPFIELD_PATTERNS[k]))
+      .filter((p) => Array.isArray(p) && p.length === N);
+
     if (pats.length === 0) return W;
+
     for (let i = 0; i < N; i++) {
       for (let j = 0; j < N; j++) {
         if (i === j) {
-          W[i][j] = 0; // w_ii = 0 obligatorio
-          continue;
+          W[i][j] = 0; // Strict zero diagonal
+        } else {
+          let sum = 0;
+          for (let p = 0; p < pats.length; p++) {
+            sum += pats[p][i] * pats[p][j];
+          }
+          W[i][j] = sum;
         }
-        let sum = 0;
-        for (const p of pats) sum += p[i] * p[j];
-        W[i][j] = sum;
       }
     }
     return W;
@@ -134,13 +287,13 @@
 
   function computeHopfieldEnergy(state, W) {
     const N = state.length;
-    let sum = 0;
+    let E = 0;
     for (let i = 0; i < N; i++) {
       for (let j = 0; j < N; j++) {
-        sum += W[i][j] * state[i] * state[j];
+        E += W[i][j] * state[i] * state[j];
       }
     }
-    return -0.5 * sum;
+    return -0.5 * E;
   }
 
   function stepHopfield(state, W) {
@@ -148,29 +301,82 @@
     const next = new Array(N);
     const nets = new Array(N);
     const changedIndices = [];
-    let changed = 0;
+
     for (let i = 0; i < N; i++) {
       let net = 0;
-      for (let j = 0; j < N; j++) net += W[i][j] * state[j];
+      for (let j = 0; j < N; j++) {
+        net += W[i][j] * state[j];
+      }
       nets[i] = net;
-      // UTN rule: preserve s_i(t) if net_i === 0
       const sNew = net > 0 ? 1 : (net < 0 ? -1 : state[i]);
       next[i] = sNew;
-      if (sNew !== state[i]) {
-        changed++;
-        changedIndices.push(i);
-      }
+      if (sNew !== state[i]) changedIndices.push(i);
     }
+
+    const energy = computeHopfieldEnergy(next, W);
     return {
       nextState: next,
-      changed,
+      changed: changedIndices.length,
       changedIndices,
       nets,
-      converged: changed === 0,
-      energy: computeHopfieldEnergy(next, W)
+      energy,
+      converged: changedIndices.length === 0
     };
   }
 
+  function stepHopfieldAsync(state, W, neuronIdx = null) {
+    const N = state.length;
+    const next = [...state];
+    let chosen = neuronIdx;
+    if (chosen === null || chosen < 0 || chosen >= N) {
+      const discordant = [];
+      for (let i = 0; i < N; i++) {
+        let net = 0;
+        for (let j = 0; j < N; j++) net += W[i][j] * state[j];
+        const sNew = net > 0 ? 1 : (net < 0 ? -1 : state[i]);
+        if (sNew !== state[i]) discordant.push({ idx: i, diff: Math.abs(net) });
+      }
+      if (discordant.length > 0) {
+        discordant.sort((a, b) => b.diff - a.diff);
+        chosen = discordant[0].idx;
+      } else {
+        chosen = Math.floor(Math.random() * N);
+      }
+    }
+
+    let net = 0;
+    for (let j = 0; j < N; j++) net += W[chosen][j] * state[j];
+    const sNew = net > 0 ? 1 : (net < 0 ? -1 : state[chosen]);
+    const changed = sNew !== state[chosen];
+    next[chosen] = sNew;
+    const energy = computeHopfieldEnergy(next, W);
+
+    return {
+      nextState: next,
+      changed: changed ? 1 : 0,
+      changedIdx: chosen,
+      net,
+      energy,
+      converged: !changed
+    };
+  }
+
+  function detectHopfieldAttractor(state, history) {
+    if (!history || history.length === 0) return { type: "transient", period: null };
+    const curKey = state.join(",");
+    const lastKey = history[history.length - 1];
+    if (curKey === lastKey) {
+      return { type: "fixed_point", period: 1 };
+    }
+    if (history.length >= 2 && curKey === history[history.length - 2]) {
+      return { type: "cycle", period: 2 };
+    }
+    return { type: "transient", period: null };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pure Math: 3. SOM (Kohonen 2D)
+  // ---------------------------------------------------------------------------
   function somStep(neurons, p, alpha = 0.4, sigma = 0.9) {
     let bmuIdx = 0;
     let minDist = Infinity;
@@ -181,62 +387,110 @@
         bmuIdx = idx;
       }
     });
+
     const bmu = neurons[bmuIdx];
     const updated = neurons.map((n, idx) => {
       const gridDist = Math.hypot(n.gx - bmu.gx, n.gy - bmu.gy);
-      // Continuous neighborhood Gaussian / rational kernel
       const h = Math.exp(-(gridDist * gridDist) / (2 * sigma * sigma));
+      const nx = n.x + alpha * h * (p.x - n.x);
+      const ny = n.y + alpha * h * (p.y - n.y);
       return {
         ...n,
-        x: n.x + alpha * h * (p.x - n.x),
-        y: n.y + alpha * h * (p.y - n.y),
+        x: Math.max(0.04, Math.min(0.96, nx)),
+        y: Math.max(0.04, Math.min(0.96, ny)),
         lastH: h,
         isBmu: idx === bmuIdx
       };
     });
+
     return { neurons: updated, bmuIdx, bmuLabel: bmu.label, minDist };
   }
 
+  function somInference(neurons, query) {
+    if (!neurons || neurons.length === 0) return null;
+    let bmuIdx = 0;
+    let minDist = Infinity;
+    const distances = [];
+
+    neurons.forEach((n, idx) => {
+      const d = Math.hypot(query.x - n.x, query.y - n.y);
+      distances.push({ idx, label: n.label, d, x: n.x, y: n.y });
+      if (d < minDist) {
+        minDist = d;
+        bmuIdx = idx;
+      }
+    });
+
+    const bmu = neurons[bmuIdx];
+    const affinity = Math.exp(-(minDist * minDist) / (2 * 0.3 * 0.3));
+
+    return {
+      bmu,
+      bmuIdx,
+      bmuLabel: bmu.label,
+      distance: minDist,
+      affinity,
+      distances
+    };
+  }
+
+  function computeSomDecay(step, maxSteps, alpha0 = 0.5, sigma0 = 1.2, minAlpha = 0.04, minSigma = 0.35) {
+    const s = Math.max(0, Math.min(step, maxSteps));
+    const factor = 1 - (s / Math.max(1, maxSteps));
+    const alpha = Math.max(minAlpha, +(alpha0 * factor).toFixed(3));
+    const sigma = Math.max(minSigma, +(sigma0 * factor).toFixed(3));
+    return { alpha, sigma };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pure Math: 4. Clustering UPGMA
+  // ---------------------------------------------------------------------------
   function computeUpgmaTree(points) {
-    if (!Array.isArray(points) || points.length === 0) return { nodes: [], merges: [] };
+    if (!points || points.length === 0) return { root: null, merges: [] };
     const origDist = Array.from({ length: points.length }, (_, i) =>
-      Array.from({ length: points.length }, (__, j) =>
-        Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y)
+      Array.from({ length: points.length }, (_, j) =>
+        i === j ? 0 : Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y)
       )
     );
+
     let active = points.map((p, idx) => ({
       id: p.label,
       members: [idx],
       height: 0,
       left: null,
-      right: null,
-      leafOrder: idx
+      right: null
     }));
+
     const merges = [];
+
     while (active.length > 1) {
+      let bestDist = Infinity;
       let bestI = 0;
       let bestJ = 1;
-      let bestD = Infinity;
+
       for (let i = 0; i < active.length; i++) {
         for (let j = i + 1; j < active.length; j++) {
           let sum = 0;
-          for (const m1 of active[i].members) {
-            for (const m2 of active[j].members) sum += origDist[m1][m2];
-          }
+          active[i].members.forEach((m1) => {
+            active[j].members.forEach((m2) => {
+              sum += origDist[m1][m2];
+            });
+          });
           const avg = sum / (active[i].members.length * active[j].members.length);
-          if (avg < bestD) {
-            bestD = avg;
+          if (avg < bestDist) {
+            bestDist = avg;
             bestI = i;
             bestJ = j;
           }
         }
       }
+
       const c1 = active[bestI];
       const c2 = active[bestJ];
       const merged = {
-        id: `${c1.id}+${c2.id}`,
+        id: `{${c1.id},${c2.id}}`,
         members: [...c1.members, ...c2.members],
-        height: bestD,
+        height: bestDist,
         left: c1,
         right: c2,
         c1Label: c1.id,
@@ -248,9 +502,37 @@
       active = active.filter((_, idx) => idx !== bestI && idx !== bestJ);
       active.push(merged);
     }
-    return { root: active[0], merges };
+    return { root: active[0], merges, origDist };
   }
 
+  function computeClustersAtCutHeight(tree, nPoints, cutHeight) {
+    const CLUSTER_PALETTE = ["#10b981", "#f59e0b", "#6366f1", "#ec4899", "#06b6d4", "#8b5cf6", "#ef4444"];
+    if (!tree || !tree.merges) {
+      const groups = Array.from({ length: nPoints }, (_, i) => [i]);
+      return { groups, k: nPoints, colorByIdx: new Array(nPoints).fill(CLUSTER_PALETTE[0]) };
+    }
+
+    let groups = Array.from({ length: nPoints }, (_, i) => [i]);
+    const activeMerges = tree.merges.filter((m) => m.height <= cutHeight);
+
+    activeMerges.forEach((m) => {
+      const mSet = new Set(m.members);
+      groups = groups.filter((g) => !mSet.has(g[0]));
+      groups.push([...m.members]);
+    });
+
+    const colorByIdx = new Array(nPoints).fill(CLUSTER_PALETTE[0]);
+    groups.forEach((grp, gIdx) => {
+      const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
+      grp.forEach((ptIdx) => { colorByIdx[ptIdx] = col; });
+    });
+
+    return { groups, k: groups.length, colorByIdx };
+  }
+
+  // ---------------------------------------------------------------------------
+  // Pure Math: 5. Genetic Algorithms (Ruleta [00..99] & Generaciones)
+  // ---------------------------------------------------------------------------
   function computeAgRoulette(fitnessArr) {
     const f = (fitnessArr || [20, 45, 25, 10]).map((v) => Math.max(1, Number(v) || 1));
     const sum = f.reduce((a, b) => a + b, 0);
@@ -280,6 +562,80 @@
     return { sum, mean: sum / n, rows };
   }
 
+  function computeAgExpectedCopies(fitnessArr, N = (fitnessArr ? fitnessArr.length : 4)) {
+    const roulette = computeAgRoulette(fitnessArr);
+    return roulette.rows.map((r) => ({
+      id: r.id,
+      fitness: r.fitness,
+      p: r.p,
+      eta: r.p * N,
+      intCopies: Math.floor(r.p * N),
+      frac: (r.p * N) - Math.floor(r.p * N)
+    }));
+  }
+
+  function simulateAgGenerationStep(population, fitnesses, opts = {}) {
+    const pop = population || ["10110", "01101", "11001", "00111"];
+    const fits = fitnesses || [20, 45, 25, 10];
+    const N = pop.length;
+    const roulette = computeAgRoulette(fits);
+    const Pc = opts.Pc !== undefined ? opts.Pc : 0.85;
+    const Pm = opts.Pm !== undefined ? opts.Pm : 0.05;
+
+    // Roulette selection for N individuals
+    const selected = [];
+    for (let i = 0; i < N; i++) {
+      const r = Math.floor(Math.random() * 100);
+      const match = roulette.rows.find((row) => r >= row.startSlot && r <= row.endSlot) || roulette.rows[0];
+      const matchIdx = roulette.rows.indexOf(match);
+      selected.push(pop[matchIdx]);
+    }
+
+    // Pairwise 1-point crossover
+    const newPop = [];
+    const crossoverLog = [];
+    for (let i = 0; i < N; i += 2) {
+      const p1 = selected[i];
+      const p2 = selected[i + 1] || selected[0];
+      if (Math.random() < Pc && p1.length > 1) {
+        const cut = 1 + Math.floor(Math.random() * (p1.length - 1));
+        const c1 = p1.slice(0, cut) + p2.slice(cut);
+        const c2 = p2.slice(0, cut) + p1.slice(cut);
+        newPop.push(c1);
+        if (newPop.length < N) newPop.push(c2);
+        crossoverLog.push({ p1, p2, c1, c2, cut });
+      } else {
+        newPop.push(p1);
+        if (newPop.length < N) newPop.push(p2);
+      }
+    }
+
+    // Bit mutation
+    const mutated = newPop.map((chromo) => {
+      let res = "";
+      for (let b = 0; b < chromo.length; b++) {
+        if (Math.random() < Pm) {
+          res += chromo[b] === "1" ? "0" : "1";
+        } else {
+          res += chromo[b];
+        }
+      }
+      return res;
+    });
+
+    const newFits = mutated.map((c) => Math.max(5, Math.min(95, Math.round(parseInt(c, 2) * 2.8 + 8))));
+    const maxFitness = Math.max(...newFits);
+    const avgFitness = +(newFits.reduce((a, b) => a + b, 0) / newFits.length).toFixed(1);
+
+    return {
+      newPopulation: mutated,
+      newFitnesses: newFits,
+      maxFitness,
+      avgFitness,
+      crossoverLog
+    };
+  }
+
   function simulateAgGenerations(fitnessArr, gens = 10) {
     let pop = (fitnessArr || [20, 45, 25, 10]).map((v) => Math.max(1, Number(v) || 1));
     const history = [];
@@ -287,7 +643,6 @@
       const avg = pop.reduce((a, b) => a + b, 0) / pop.length;
       const max = Math.max(...pop);
       history.push({ gen: g, avg: +avg.toFixed(1), max: +max.toFixed(1) });
-      // Deterministic roulette/tournament selection + slight improvement drift
       const sorted = [...pop].sort((a, b) => b - a);
       pop = [
         sorted[0],
@@ -300,7 +655,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // 10 Authentic UTN Exam Trap Cases ("Cazador de Trampas de Parcial")
+  // 10 Authentic Exam Trap Cases ("Cazador de Trampas de Parcial")
   // ---------------------------------------------------------------------------
   const TRAP_CASES = [
     {
@@ -436,20 +791,11 @@
   ];
 
   // ---------------------------------------------------------------------------
-  // State & Controllers for Live UI Mounting
+  // 1. Live Interactive Sandbox: KNN 2D (Drag & Drop, Shockwave, KaTeX)
   // ---------------------------------------------------------------------------
-  let somAutoTimer = null;
-  let hopAutoTimer = null;
-  let trapSprintTimer = null;
-
-  function clearAllSandboxTimers() {
-    if (somAutoTimer) { clearInterval(somAutoTimer); somAutoTimer = null; }
-    if (hopAutoTimer) { clearInterval(hopAutoTimer); hopAutoTimer = null; }
-    if (trapSprintTimer) { clearInterval(trapSprintTimer); trapSprintTimer = null; }
-  }
-
-  // 1. KNN Interactive Canvas Sandbox
   function mountKnnSandbox(hostEl) {
+    clearAllSandboxTimers();
+
     const PRESETS = {
       classic: {
         points: [
@@ -464,7 +810,6 @@
         k: 3
       },
       reversal: {
-        // Exact exam paradox: 1 ultra-close A beats 2 farther B under 1/d²!
         points: [
           { x: 0.46, y: 0.50, cls: "A" },
           { x: 0.72, y: 0.38, cls: "B" },
@@ -492,13 +837,51 @@
 
     const state = {
       preset: "classic",
-      baseCount: PRESETS.classic.points.length,
       points: PRESETS.classic.points.map((p) => ({ ...p })),
       query: { ...PRESETS.classic.query },
       tool: "query", // "query" | "A" | "B"
       k: PRESETS.classic.k,
       weighted: true,
-      showMap: true
+      showMap: true,
+      speed: "1x",
+      isDragging: false,
+      wave: {
+        active: false,
+        r: 0,
+        maxR: 0,
+        alpha: 0
+      }
+    };
+
+    let waveRafId = null;
+
+    const triggerShockwave = (maxRadiusPx) => {
+      if (state.speed === "max") {
+        state.wave.active = false;
+        return;
+      }
+      state.wave.active = true;
+      state.wave.r = 0;
+      state.wave.maxR = Math.max(15, maxRadiusPx);
+      state.wave.alpha = 0.75;
+
+      const stepSpeed = state.speed === "0.5x" ? 0.035 : (state.speed === "2x" ? 0.09 : 0.055);
+
+      if (waveRafId) cancelAnimationFrame(waveRafId);
+
+      const animate = () => {
+        if (!state.wave.active) return;
+        state.wave.r += (state.wave.maxR - state.wave.r) * stepSpeed + 1.2;
+        state.wave.alpha *= 0.94;
+        if (state.wave.r >= state.wave.maxR * 0.96 || state.wave.alpha <= 0.05) {
+          state.wave.active = false;
+          draw();
+          return;
+        }
+        draw();
+        waveRafId = trackRaf(animate);
+      };
+      waveRafId = trackRaf(animate);
     };
 
     const draw = () => {
@@ -525,7 +908,7 @@
         }
       }
 
-      // Subtle grid + 0..10 axis ticks
+      // Axis ticks
       ctx.strokeStyle = c.border;
       ctx.globalAlpha = 0.35;
       ctx.lineWidth = 1;
@@ -552,11 +935,13 @@
       const qy = state.query.y * H;
 
       // Dashed lines + radius to k-th neighbor
+      let kNeighborPx = 30;
       if (decision.neighbors.length > 0) {
         const maxD = decision.neighbors[decision.neighbors.length - 1];
-        const rPx = Math.hypot((maxD.x - state.query.x) * W, (maxD.y - state.query.y) * H);
+        kNeighborPx = Math.hypot((maxD.x - state.query.x) * W, (maxD.y - state.query.y) * H);
+
         ctx.beginPath();
-        ctx.arc(qx, qy, rPx, 0, Math.PI * 2);
+        ctx.arc(qx, qy, kNeighborPx, 0, Math.PI * 2);
         ctx.strokeStyle = c.primary;
         ctx.setLineDash([5, 4]);
         ctx.lineWidth = 1.6;
@@ -571,6 +956,18 @@
           ctx.lineWidth = 1.8;
           ctx.stroke();
         });
+      }
+
+      // Animated shockwave circle
+      if (state.wave.active && state.wave.r > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(qx, qy, state.wave.r, 0, Math.PI * 2);
+        ctx.strokeStyle = c.danger;
+        ctx.lineWidth = 2.4;
+        ctx.globalAlpha = state.wave.alpha;
+        ctx.stroke();
+        ctx.restore();
       }
 
       // Training points
@@ -591,35 +988,46 @@
         ctx.fillText(p.cls, x, y + 0.5);
       });
 
-      // Query point diamond
+      // Query point diamond (highlight if dragging)
+      ctx.save();
       ctx.beginPath();
-      ctx.moveTo(qx, qy - 9.5);
-      ctx.lineTo(qx + 9.5, qy);
-      ctx.lineTo(qx, qy + 9.5);
-      ctx.lineTo(qx - 9.5, qy);
+      const diamondR = state.isDragging ? 12 : 9.5;
+      ctx.moveTo(qx, qy - diamondR);
+      ctx.lineTo(qx + diamondR, qy);
+      ctx.lineTo(qx, qy + diamondR);
+      ctx.lineTo(qx - diamondR, qy);
       ctx.closePath();
       ctx.fillStyle = c.danger;
       ctx.fill();
-      ctx.lineWidth = 2;
+      ctx.lineWidth = state.isDragging ? 3 : 2;
       ctx.strokeStyle = "#fff";
       ctx.stroke();
+      ctx.restore();
 
-      // Update side readout
+      // Side readout
       const readoutEl = hostEl.querySelector("#sb-knn-readout");
       if (readoutEl) {
         const totalScore = Math.max(0.0001, decision.scoreA + decision.scoreB);
         const pctA = Math.round((decision.scoreA / totalScore) * 100);
         const pctB = 100 - pctA;
-        const sumA10 = decision.neighbors.filter((n) => n.cls === "A").reduce((s, n) => s + (state.weighted ? 1 / Math.max(0.01, (n.d * 10) ** 2) : 1), 0);
-        const sumB10 = decision.neighbors.filter((n) => n.cls === "B").reduce((s, n) => s + (state.weighted ? 1 / Math.max(0.01, (n.d * 10) ** 2) : 1), 0);
-        const nbRows = decision.neighbors.map((nb, i) => `
+
+        const sumA10 = decision.neighbors
+          .filter((n) => n.cls === "A")
+          .reduce((s, n) => s + (state.weighted ? n.w : 1), 0);
+        const sumB10 = decision.neighbors
+          .filter((n) => n.cls === "B")
+          .reduce((s, n) => s + (state.weighted ? n.w : 1), 0);
+
+        const nbRows = decision.neighbors
+          .map((nb, i) => `
           <tr>
             <td>#${i + 1}</td>
             <td><span class="sb-dot-${nb.cls}">● ${nb.cls}</span></td>
             <td class="vw-tabular">${(nb.d * 10).toFixed(2)}</td>
-            <td class="vw-tabular">${state.weighted ? (1 / Math.max(0.01, (nb.d * 10) ** 2)).toFixed(3) : "1"}</td>
+            <td class="vw-tabular">${state.weighted ? (nb.w > 1e4 ? "10⁶ (d→0)" : (1 / Math.max(0.001, (nb.d * 10) ** 2)).toFixed(3)) : "1"}</td>
           </tr>
-        `).join("");
+        `)
+          .join("");
 
         readoutEl.innerHTML = `
           <div class="sb-verdict-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;">
@@ -627,9 +1035,16 @@
             <span class="sb-winner-pill cls-${decision.winner === "A" ? "a" : "b"}">Gana Clase ${decision.winner}</span>
           </div>
           <div class="sb-formula-box">
-            <strong>${state.weighted ? "Suma ponderada (1/d²):" : "Conteo simple:"}</strong>
-            <span class="vw-tabular"> Score(A) = ${sumA10.toFixed(state.weighted ? 3 : 0)} vs Score(B) = ${sumB10.toFixed(state.weighted ? 3 : 0)}</span>
-            ${reversedByWeight ? `<div style="margin-top:0.25rem;color:var(--primary);font-weight:700;">⚖️ ¡Paradoja activa! En este punto q, Mayoría Simple da ${simpleDecision.winner} pero 1/d² revierte a ${weightedDecision.winner}.</div>` : ""}
+            <strong>${state.weighted ? "Ponderación por distancia (1/d²):" : "Conteo simple:"}</strong>
+            <span class="vw-tabular"> Score(A) = ${sumA10 > 1e4 ? "10⁶" : sumA10.toFixed(state.weighted ? 3 : 0)} vs Score(B) = ${sumB10 > 1e4 ? "10⁶" : sumB10.toFixed(state.weighted ? 3 : 0)}</span>
+            ${
+              reversedByWeight
+                ? `<div style="margin-top:0.35rem;color:var(--primary);font-weight:700;">⚖️ ¡Paradoja de Cátedra activa! Mayoría Simple da ${simpleDecision.winner} pero 1/d² revierte a ${weightedDecision.winner}.</div>`
+                : ""
+            }
+            <div style="margin-top:0.35rem;font-size:0.78rem;color:var(--text-muted);">
+              $$w_i = \\frac{1}{d(q, x_i)^2} \\quad \\text{si } d < 10^{-5} \\implies w_i = 10^6$$
+            </div>
           </div>
           <div class="sb-bar-group">
             <div class="sb-bar-row">
@@ -648,6 +1063,7 @@
             </table>
           </div>
         `;
+        renderMathInSandbox(readoutEl);
       }
     };
 
@@ -655,7 +1071,7 @@
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
-            <button type="button" class="pe-mode-pill ${state.tool === "query" ? "active" : ""}" data-tool="query">📍 Mover q</button>
+            <button type="button" class="pe-mode-pill ${state.tool === "query" ? "active" : ""}" data-tool="query">📍 Arrastrar q</button>
             <button type="button" class="pe-mode-pill ${state.tool === "A" ? "active" : ""}" data-tool="A">🟢 Punto A</button>
             <button type="button" class="pe-mode-pill ${state.tool === "B" ? "active" : ""}" data-tool="B">🟠 Punto B</button>
             <button type="button" class="btn btn-outline btn-sm" id="sb-knn-undo" ${state.points.length <= 2 ? "disabled" : ""}>↩ Deshacer</button>
@@ -671,12 +1087,13 @@
             </label>
             <button type="button" class="pe-mode-pill ${state.weighted ? "active" : ""}" id="sb-knn-mode">${state.weighted ? "⚖️ Ponderado 1/d²" : "🗳️ Mayoría Simple"}</button>
             <label class="sb-inline-ctl"><input type="checkbox" id="sb-knn-map" ${state.showMap ? "checked" : ""}/> Fronteras</label>
+            ${renderSpeedSelectorHtml(state.speed, ["0.5x", "1x", "2x", "max"])}
           </div>
         </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
-            <canvas id="sb-knn-canvas" width="460" height="320" class="sb-canvas" title="Hacé clic para mover q o agregar puntos"></canvas>
-            <div class="sb-canvas-hint">💡 Hacé clic en el plano para ${state.tool === "query" ? "mover ◆ q" : `agregar un punto ${state.tool}`}. Probá el preset <strong>Paradoja 1/d²</strong> para ver cómo cambia el ganador.</div>
+            <canvas id="sb-knn-canvas" width="460" height="320" class="sb-canvas" style="touch-action:none;cursor:${state.tool === "query" ? "grab" : "crosshair"};" title="Hacé clic o arrastrá para mover q"></canvas>
+            <div class="sb-canvas-hint">💡 <strong>Arrastrá interactivamente</strong> el punto ◆ q a 60 fps para ver la onda expansiva y la actualización de probabilidades en vivo.</div>
           </div>
           <div id="sb-knn-readout" class="sb-readout-panel"></div>
         </div>
@@ -688,6 +1105,7 @@
           renderShell();
         });
       });
+
       hostEl.querySelector("#sb-knn-preset").addEventListener("change", (e) => {
         const key = e.target.value;
         const p = PRESETS[key] || PRESETS.classic;
@@ -696,117 +1114,199 @@
         state.query = { ...p.query };
         state.k = p.k;
         renderShell();
+        triggerShockwave(60);
       });
+
       hostEl.querySelector("#sb-knn-undo").addEventListener("click", () => {
         if (state.points.length > 2) {
           state.points.pop();
           renderShell();
         }
       });
+
       hostEl.querySelector("#sb-knn-k").addEventListener("change", (e) => {
         state.k = Number(e.target.value) || 3;
         draw();
+        triggerShockwave(70);
       });
+
       hostEl.querySelector("#sb-knn-mode").addEventListener("click", () => {
         state.weighted = !state.weighted;
         renderShell();
       });
+
       hostEl.querySelector("#sb-knn-map").addEventListener("change", (e) => {
         state.showMap = Boolean(e.target.checked);
         draw();
       });
 
+      hostEl.querySelectorAll("[data-sb-speed]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.speed = btn.getAttribute("data-sb-speed");
+          hostEl.querySelectorAll("[data-sb-speed]").forEach((b) => b.classList.toggle("active", b === btn));
+        });
+      });
+
       const canvas = hostEl.querySelector("#sb-knn-canvas");
-      canvas.addEventListener("click", (ev) => {
+
+      const handlePointerPos = (ev) => {
         const rect = canvas.getBoundingClientRect();
-        const nx = Math.max(0.05, Math.min(0.95, (ev.clientX - rect.left) / rect.width));
-        const ny = Math.max(0.05, Math.min(0.95, (ev.clientY - rect.top) / rect.height));
-        if (state.tool === "query") {
+        const nx = Math.max(0.04, Math.min(0.96, (ev.clientX - rect.left) / rect.width));
+        const ny = Math.max(0.04, Math.min(0.96, (ev.clientY - rect.top) / rect.height));
+        return { nx, ny, px: (ev.clientX - rect.left), py: (ev.clientY - rect.top) };
+      };
+
+      canvas.addEventListener("pointerdown", (ev) => {
+        const { nx, ny, px, py } = handlePointerPos(ev);
+        const qPxX = state.query.x * canvas.width;
+        const qPxY = state.query.y * canvas.height;
+        const distToQ = Math.hypot(px - qPxX, py - qPxY);
+
+        if (state.tool === "query" || distToQ <= 24) {
+          state.isDragging = true;
           state.query = { x: nx, y: ny };
+          canvas.style.cursor = "grabbing";
+          try { canvas.setPointerCapture(ev.pointerId); } catch (_) {}
+          draw();
         } else {
           state.points.push({ x: nx, y: ny, cls: state.tool });
+          renderShell();
+          triggerShockwave(50);
         }
+      });
+
+      canvas.addEventListener("pointermove", (ev) => {
+        if (!state.isDragging) return;
+        const { nx, ny } = handlePointerPos(ev);
+        state.query = { x: nx, y: ny };
         draw();
       });
 
+      const endDrag = (ev) => {
+        if (state.isDragging) {
+          state.isDragging = false;
+          canvas.style.cursor = state.tool === "query" ? "grab" : "crosshair";
+          try { canvas.releasePointerCapture(ev.pointerId); } catch (_) {}
+          const maxD = computeKnnDecision(state.points, state.query, state.k, state.weighted).neighbors;
+          const rPx = maxD.length > 0 ? Math.hypot((maxD[maxD.length - 1].x - state.query.x) * canvas.width, (maxD[maxD.length - 1].y - state.query.y) * canvas.height) : 40;
+          triggerShockwave(rPx);
+        }
+      };
+
+      canvas.addEventListener("pointerup", endDrag);
+      canvas.addEventListener("pointercancel", endDrag);
+
       draw();
+      triggerShockwave(50);
     };
 
     renderShell();
   }
 
-  // 2. Hopfield 5x5 Visual Sandbox + Lyapunov Energy Curve
+  // ---------------------------------------------------------------------------
+  // 2. Live Interactive Sandbox: Hopfield 5x5 (Continuous Paint, Flash, Dynamics, KaTeX)
+  // ---------------------------------------------------------------------------
   function mountHopfieldSandbox(hostEl) {
+    clearAllSandboxTimers();
+
     const state = {
       stored: ["T", "X"],
       grid: [...HOPFIELD_PATTERNS.T],
       energyHistory: [],
+      stateHistory: [],
       stepCount: 0,
       lastChanged: null,
       changedSet: new Set(),
-      lastNets: null
+      dynamicsMode: "sync", // "sync" | "async"
+      speed: "1x",
+      isPainting: false,
+      paintVal: 1,
+      runningAuto: false
     };
+
+    // Corrupt initial state
     state.grid[0] = -1;
     state.grid[6] = 1;
     state.grid[18] = 1;
 
-    const computeCurrentNets = (grid, W) => grid.map((_, i) => {
-      let sum = 0;
-      for (let j = 0; j < 25; j++) sum += W[i][j] * grid[j];
-      return sum;
-    });
+    const computeCurrentNets = (grid, W) =>
+      grid.map((_, i) => {
+        let sum = 0;
+        for (let j = 0; j < 25; j++) sum += W[i][j] * grid[j];
+        return sum;
+      });
 
     const recalcInitEnergy = () => {
       const W = buildHopfieldWeights(state.stored);
       state.energyHistory = [computeHopfieldEnergy(state.grid, W)];
+      state.stateHistory = [state.grid.join(",")];
       state.stepCount = 0;
       state.lastChanged = null;
       state.changedSet = new Set();
-      state.lastNets = computeCurrentNets(state.grid, W);
     };
     recalcInitEnergy();
 
     const buildEnergySparkline = (hist) => {
       if (!hist || hist.length === 0) return "";
-      const minE = Math.min(...hist, -300);
+      const minE = Math.min(...hist, -320);
       const maxE = Math.max(...hist, 0);
       const span = Math.max(10, maxE - minE);
-      const pts = hist.map((val, idx) => {
-        const x = hist.length === 1 ? 130 : 18 + (idx / (hist.length - 1)) * 224;
-        const y = 70 - ((val - minE) / span) * 52;
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-      }).join(" ");
+
+      const pts = hist
+        .map((val, idx) => {
+          const x = hist.length === 1 ? 130 : 20 + (idx / (hist.length - 1)) * 220;
+          const y = 68 - ((val - minE) / span) * 50;
+          return `${x.toFixed(1)},${y.toFixed(1)}`;
+        })
+        .join(" ");
+
+      const firstX = hist.length === 1 ? 130 : 20;
+      const lastX = hist.length === 1 ? 130 : 240;
+      const areaPts = `${pts} ${lastX},72 ${firstX},72`;
+
       return `
-        <svg viewBox="0 0 260 88" class="vw-svg-chart" aria-label="Energía de Lyapunov E(t)">
-          <line x1="18" y1="74" x2="244" y2="74" stroke="var(--border-color)" stroke-width="1" />
+        <svg viewBox="0 0 260 92" class="vw-svg-chart" aria-label="Energía de Lyapunov E(t)">
+          <defs>
+            <linearGradient id="sb-hop-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--success)" stop-opacity="0.32" />
+              <stop offset="100%" stop-color="var(--success)" stop-opacity="0.03" />
+            </linearGradient>
+          </defs>
+          <line x1="20" y1="72" x2="240" y2="72" stroke="var(--border-color)" stroke-width="1" />
+          ${hist.length >= 2 ? `<polygon points="${areaPts}" fill="url(#sb-hop-grad)" />` : ""}
           ${hist.length >= 2 ? `<polyline fill="none" stroke="var(--success)" stroke-width="2.4" points="${pts}" />` : ""}
-          ${hist.map((val, idx) => {
-            const x = hist.length === 1 ? 130 : 18 + (idx / (hist.length - 1)) * 224;
-            const y = 70 - ((val - minE) / span) * 52;
-            return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="var(--primary)"><title>t=${idx}: E=${val.toFixed(1)}</title></circle>`;
-          }).join("")}
-          <text x="130" y="85" text-anchor="middle" font-size="9" fill="var(--text-muted)">Energía de Lyapunov E(t) — actual: ${hist[hist.length - 1].toFixed(0)}</text>
+          ${hist
+            .map((val, idx) => {
+              const x = hist.length === 1 ? 130 : 20 + (idx / (hist.length - 1)) * 220;
+              const y = 68 - ((val - minE) / span) * 50;
+              return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.6" fill="var(--primary)"><title>t=${idx}: E=${val.toFixed(1)}</title></circle>`;
+            })
+            .join("")}
+          <text x="130" y="87" text-anchor="middle" font-size="9" fill="var(--text-muted)">Energía de Lyapunov E(t) — actual: ${hist[hist.length - 1].toFixed(0)}</text>
         </svg>
       `;
     };
 
     const render = () => {
       const W = buildHopfieldWeights(state.stored);
-      const nets = state.lastNets || computeCurrentNets(state.grid, W);
+      const nets = computeCurrentNets(state.grid, W);
       const matches = Object.keys(HOPFIELD_PATTERNS).map((k) => {
         const pat = HOPFIELD_PATTERNS[k];
         const same = pat.filter((v, i) => v === state.grid[i]).length;
         const pct = Math.round((same / 25) * 100);
         return { key: k, pct, stored: state.stored.includes(k) };
       });
-      const converged = state.lastChanged === 0;
+
+      const attractor = detectHopfieldAttractor(state.grid, state.stateHistory);
+      const isFixedPoint = state.lastChanged === 0 || attractor.type === "fixed_point";
+      const isCycle = attractor.type === "cycle";
       const capLimit = 0.138 * 25;
       const overloaded = state.stored.length > 3;
 
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
-            <span style="font-size:0.84rem;font-weight:700;">Memorias guardadas (w_ii = 0):</span>
+            <span style="font-size:0.84rem;font-weight:700;">Memorias (w_ii = 0):</span>
             ${["T", "X", "L", "C"].map((k) => `
               <button type="button" class="pe-mode-pill ${state.stored.includes(k) ? "active" : ""}" data-store="${k}">
                 ${state.stored.includes(k) ? "✓ " : ""}${k}
@@ -814,51 +1314,75 @@
             `).join("")}
           </div>
           <div class="sb-btn-group">
-            <span style="font-size:0.82rem;color:var(--text-muted);">Cargar patrón:</span>
+            <span style="font-size:0.82rem;color:var(--text-muted);">Cargar:</span>
             ${["T", "X", "L", "C"].map((k) => `<button type="button" class="btn btn-outline btn-sm" data-load="${k}">${k}</button>`).join("")}
             <button type="button" class="btn btn-outline btn-sm" id="sb-hop-noise">🎲 +20% Ruido</button>
+            <div class="sb-mode-toggle">
+              <button type="button" class="sb-mode-btn ${state.dynamicsMode === "sync" ? "active" : ""}" data-dyn="sync">⚡ Síncrono</button>
+              <button type="button" class="sb-mode-btn ${state.dynamicsMode === "async" ? "active" : ""}" data-dyn="async">🔀 Asíncrono</button>
+            </div>
+            ${renderSpeedSelectorHtml(state.speed, ["0.5x", "1x", "2x", "max"])}
           </div>
         </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap" style="text-align:center;">
-            <div class="sb-hop-grid" id="sb-hop-grid">
-              ${state.grid.map((v, i) => `
-                <button type="button" class="sb-hop-cell ${v > 0 ? "on" : ""} ${state.changedSet.has(i) ? "just-changed" : ""}" data-cell="${i}" title="N${i + 1}: s=${v > 0 ? "+1" : "-1"} · net=${nets[i]}">${v > 0 ? "+1" : "−1"}</button>
-              `).join("")}
+            <div class="sb-hop-grid" id="sb-hop-grid" style="user-select:none;touch-action:none;">
+              ${state.grid
+                .map(
+                  (v, i) => `
+                <button type="button" class="sb-hop-cell ${v > 0 ? "on" : ""} ${state.changedSet.has(i) ? "hop-flash-flip just-changed" : ""}" data-cell="${i}" title="N${i + 1}: s=${v > 0 ? "+1" : "-1"} · net=${nets[i]}">${v > 0 ? "+1" : "−1"}</button>
+              `
+                )
+                .join("")}
             </div>
             <div style="display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
-              <button type="button" class="btn btn-outline btn-sm" id="sb-hop-step">⚡ 1 Paso Síncrono</button>
-              <button type="button" class="btn btn-primary btn-sm" id="sb-hop-auto">▶ Auto-Converger</button>
+              <button type="button" class="btn btn-outline btn-sm" id="sb-hop-step">⚡ 1 Paso ${state.dynamicsMode === "sync" ? "Síncrono" : "Asíncrono"}</button>
+              <button type="button" class="btn btn-primary btn-sm" id="sb-hop-auto">${state.runningAuto ? "⏸ Pausar" : "▶ Auto-Converger"}</button>
+              <button type="button" class="btn btn-outline btn-sm" id="sb-hop-clear">↺ Limpiar Grilla</button>
             </div>
-            <div class="sb-canvas-hint">💡 Pasá el mouse sobre una celda para ver su campo local <strong>net_i</strong>. Borde ámbar = neurona invertida en el último paso.</div>
+            <div class="sb-canvas-hint">💡 <strong>Pincel libre:</strong> Hacé clic o <strong>arrastrá sobre la grilla</strong> para dibujar cualquier patrón y probar hacia qué atractor converge.</div>
           </div>
           <div class="sb-readout-panel">
             <div class="sb-verdict-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;">
-              <span>Paso <strong>t = ${state.stepCount}</strong>${state.lastChanged !== null ? ` (${state.lastChanged} cambios)` : ""}</span>
-              <span class="sb-winner-pill ${converged ? "cls-a" : ""}">${converged ? "✅ Atractor estable" : "⚡ Listo para actualizar"}</span>
+              <span>Paso <strong>t = ${state.stepCount}</strong>${state.lastChanged !== null ? ` (${state.lastChanged} cambio${state.lastChanged === 1 ? "" : "s"})` : ""}</span>
+              <span class="sb-winner-pill ${isFixedPoint ? "cls-a" : (isCycle ? "cls-b" : "")}">
+                ${isFixedPoint ? "✅ Atractor estable (Punto fijo)" : (isCycle ? "🔄 Ciclo límite oscilante" : "⚡ En transición...")}
+              </span>
             </div>
             <div class="sb-cap-meter ${overloaded ? "warn" : ""}">
-              <strong>Capacidad Hebbiana:</strong> ${state.stored.length}/25 neuronas (límite ≈ ${capLimit.toFixed(1)} patrones)
-              ${overloaded ? ` · <span style="color:var(--warning);font-weight:700;">⚠️ Sobrecarga: pueden aparecer mínimos espurios</span>` : ` · <span style="color:var(--success);font-weight:700;">Dentro del límite seguro</span>`}
+              <strong>Capacidad Hebbiana:</strong> ${state.stored.length}/25 neuronas (límite canónico ≈ ${capLimit.toFixed(1)} patrones)
+              ${overloaded ? ` · <span style="color:var(--warning);font-weight:700;">⚠️ Sobrecarga Hebbiana</span>` : ` · <span style="color:var(--success);font-weight:700;">Dentro del límite seguro</span>`}
             </div>
             ${buildEnergySparkline(state.energyHistory)}
-            <div class="sb-formula-box">Regla UTN: si <code>net_i &gt; 0</code> → +1, si <code>net_i &lt; 0</code> → −1, si <code>net_i = 0</code> → conserva <code>s_i(t)</code>.</div>
-            <div style="font-size:0.82rem;font-weight:700;">Similitud con patrones:</div>
+            <div class="sb-formula-box">
+              <strong>Regla UTN de Cátedra:</strong><br>
+              $$s_i(t+1) = \\begin{cases} +1 & net_i > 0 \\\\ -1 & net_i < 0 \\\\ s_i(t) & net_i = 0 \\end{cases} \\quad E = -\\frac{1}{2} \\sum_{i \\neq j} w_{ij} s_i s_j$$
+            </div>
+            <div style="font-size:0.82rem;font-weight:700;">Similitud con memorias guardadas:</div>
             <div class="sb-bar-group" style="margin-top:0;">
-              ${matches.filter((m) => m.stored || m.pct >= 64).map((m) => `
+              ${matches
+                .filter((m) => m.stored || m.pct >= 64)
+                .map(
+                  (m) => `
                 <div class="sb-bar-row">
                   <div class="sb-bar-meta"><span>Patrón ${m.key} ${m.stored ? "(guardado)" : "(no guardado)"}</span><span class="vw-tabular">${m.pct}%</span></div>
                   <div class="sb-bar-track"><div class="sb-bar-fill" style="width:${m.pct}%;background:${m.pct === 100 ? "var(--success)" : "var(--primary)"};"></div></div>
                 </div>
-              `).join("")}
+              `
+                )
+                .join("")}
             </div>
           </div>
         </div>
       `;
 
+      renderMathInSandbox(hostEl);
+
+      // Event Listeners
       hostEl.querySelectorAll("[data-store]").forEach((btn) => {
         btn.addEventListener("click", () => {
           clearAllSandboxTimers();
+          state.runningAuto = false;
           const k = btn.getAttribute("data-store");
           if (state.stored.includes(k) && state.stored.length > 1) {
             state.stored = state.stored.filter((x) => x !== k);
@@ -873,6 +1397,7 @@
       hostEl.querySelectorAll("[data-load]").forEach((btn) => {
         btn.addEventListener("click", () => {
           clearAllSandboxTimers();
+          state.runningAuto = false;
           const k = btn.getAttribute("data-load");
           state.grid = [...HOPFIELD_PATTERNS[k]];
           recalcInitEnergy();
@@ -880,8 +1405,27 @@
         });
       });
 
+      hostEl.querySelectorAll("[data-dyn]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.dynamicsMode = btn.getAttribute("data-dyn");
+          render();
+        });
+      });
+
+      hostEl.querySelectorAll("[data-sb-speed]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.speed = btn.getAttribute("data-sb-speed");
+          if (state.runningAuto) {
+            startAutoConverge();
+          } else {
+            render();
+          }
+        });
+      });
+
       hostEl.querySelector("#sb-hop-noise").addEventListener("click", () => {
         clearAllSandboxTimers();
+        state.runningAuto = false;
         for (let i = 0; i < 5; i++) {
           const idx = Math.floor(Math.random() * 25);
           state.grid[idx] = -state.grid[idx];
@@ -890,64 +1434,135 @@
         render();
       });
 
-      hostEl.querySelectorAll("[data-cell]").forEach((btn) => {
-        btn.addEventListener("click", () => {
+      hostEl.querySelector("#sb-hop-clear").addEventListener("click", () => {
+        clearAllSandboxTimers();
+        state.runningAuto = false;
+        state.grid = new Array(25).fill(-1);
+        recalcInitEnergy();
+        render();
+      });
+
+      // Continuous brush drag on cells
+      const cells = hostEl.querySelectorAll("[data-cell]");
+      cells.forEach((btn) => {
+        const idx = Number(btn.getAttribute("data-cell"));
+
+        btn.addEventListener("pointerdown", (ev) => {
           clearAllSandboxTimers();
-          const i = Number(btn.getAttribute("data-cell"));
-          state.grid[i] = -state.grid[i];
+          state.runningAuto = false;
+          state.isPainting = true;
+          state.paintVal = state.grid[idx] > 0 ? -1 : 1;
+          state.grid[idx] = state.paintVal;
           recalcInitEnergy();
           render();
         });
+
+        btn.addEventListener("pointerenter", () => {
+          if (state.isPainting && state.grid[idx] !== state.paintVal) {
+            state.grid[idx] = state.paintVal;
+            recalcInitEnergy();
+            render();
+          }
+        });
       });
 
+      window.addEventListener("pointerup", () => {
+        state.isPainting = false;
+      }, { once: true });
+
       const doOneStep = () => {
-        const res = stepHopfield(state.grid, buildHopfieldWeights(state.stored));
-        state.grid = res.nextState;
-        state.stepCount += 1;
-        state.lastChanged = res.changed;
-        state.changedSet = new Set(res.changedIndices || []);
-        state.lastNets = computeCurrentNets(state.grid, buildHopfieldWeights(state.stored));
+        const W = buildHopfieldWeights(state.stored);
+        let res;
+        if (state.dynamicsMode === "sync") {
+          res = stepHopfield(state.grid, W);
+          state.grid = res.nextState;
+          state.stepCount += 1;
+          state.lastChanged = res.changed;
+          state.changedSet = new Set(res.changedIndices || []);
+        } else {
+          res = stepHopfieldAsync(state.grid, W);
+          state.grid = res.nextState;
+          state.stepCount += 1;
+          state.lastChanged = res.changed;
+          state.changedSet = res.changed ? new Set([res.changedIdx]) : new Set();
+        }
+
         state.energyHistory.push(res.energy);
+        state.stateHistory.push(state.grid.join(","));
         render();
         return res.changed > 0;
       };
 
       hostEl.querySelector("#sb-hop-step").addEventListener("click", () => {
         clearAllSandboxTimers();
+        state.runningAuto = false;
         doOneStep();
       });
 
-      hostEl.querySelector("#sb-hop-auto").addEventListener("click", () => {
+      const startAutoConverge = () => {
         clearAllSandboxTimers();
+        state.runningAuto = true;
         let guard = 0;
-        hopAutoTimer = setInterval(() => {
-          if (!document.body.contains(hostEl) || guard++ >= 10) {
+        const delay = getSpeedDelay(state.speed, 360);
+
+        trackInterval(() => {
+          if (!document.body.contains(hostEl) || guard++ >= 20) {
             clearAllSandboxTimers();
+            state.runningAuto = false;
+            render();
             return;
           }
           const changed = doOneStep();
-          if (!changed) clearAllSandboxTimers();
-        }, 420);
+          const attractor = detectHopfieldAttractor(state.grid, state.stateHistory);
+          if (!changed || attractor.type === "fixed_point" || attractor.type === "cycle") {
+            clearAllSandboxTimers();
+            state.runningAuto = false;
+            render();
+          }
+        }, delay);
+      };
+
+      hostEl.querySelector("#sb-hop-auto").addEventListener("click", () => {
+        if (state.runningAuto) {
+          clearAllSandboxTimers();
+          state.runningAuto = false;
+          render();
+        } else {
+          startAutoConverge();
+          render();
+        }
       });
     };
 
     render();
   }
 
-  // 3. SOM Kohonen 2D Live Topological Mesh
+  // ---------------------------------------------------------------------------
+  // 3. Live Interactive Sandbox: SOM Kohonen 2D (rAF Lerp, Post-Training Inferencia, KaTeX)
+  // ---------------------------------------------------------------------------
   function mountSomSandbox(hostEl) {
+    clearAllSandboxTimers();
+
     const state = {
+      mode: "train", // "train" | "infer"
       topo: "grid3", // "line3" | "grid3"
       distMode: "cloud", // "cloud" | "ring" | "clusters"
       alpha: 0.45,
       sigma: 1.0,
+      decayEnabled: false,
+      maxSteps: 120,
+      speed: "1x",
       steps: 0,
       lastPattern: null,
       lastBmu: null,
       neurons: [],
-      prevNeurons: [],
-      running: false
+      displayNeurons: [],
+      running: false,
+      inferQuery: null,
+      inferResult: null
     };
+
+    let interpRafId = null;
 
     const initNeurons = () => {
       if (state.topo === "line3") {
@@ -973,10 +1588,12 @@
           }
         }
       }
-      state.prevNeurons = state.neurons.map((n) => ({ ...n }));
+      state.displayNeurons = state.neurons.map((n) => ({ ...n }));
       state.steps = 0;
       state.lastPattern = null;
       state.lastBmu = null;
+      state.inferQuery = null;
+      state.inferResult = null;
     };
     initNeurons();
 
@@ -987,7 +1604,11 @@
         return { x: 0.5 + r * Math.cos(ang), y: 0.5 + r * Math.sin(ang) };
       }
       if (state.distMode === "clusters") {
-        const centers = [{ x: 0.22, y: 0.24 }, { x: 0.78, y: 0.28 }, { x: 0.5, y: 0.78 }];
+        const centers = [
+          { x: 0.22, y: 0.24 },
+          { x: 0.78, y: 0.28 },
+          { x: 0.5, y: 0.78 }
+        ];
         const c = centers[Math.floor(Math.random() * centers.length)];
         return {
           x: Math.max(0.06, Math.min(0.94, c.x + (Math.random() - 0.5) * 0.18)),
@@ -995,6 +1616,43 @@
         };
       }
       return { x: 0.12 + Math.random() * 0.76, y: 0.12 + Math.random() * 0.76 };
+    };
+
+    const animateMeshStep = (targetNeurons) => {
+      if (state.speed === "max") {
+        state.displayNeurons = targetNeurons.map((n) => ({ ...n }));
+        state.neurons = targetNeurons;
+        draw();
+        return;
+      }
+
+      if (interpRafId) cancelAnimationFrame(interpRafId);
+      const startPositions = state.displayNeurons.map((n) => ({ x: n.x, y: n.y }));
+      let progress = 0;
+      const stepInc = state.speed === "0.5x" ? 0.08 : (state.speed === "2x" ? 0.22 : 0.14);
+
+      const stepAnimation = () => {
+        progress = Math.min(1, progress + stepInc);
+        const ease = 1 - Math.pow(1 - progress, 3);
+
+        state.displayNeurons = state.displayNeurons.map((n, idx) => ({
+          ...n,
+          x: startPositions[idx].x + (targetNeurons[idx].x - startPositions[idx].x) * ease,
+          y: startPositions[idx].y + (targetNeurons[idx].y - startPositions[idx].y) * ease,
+          lastH: targetNeurons[idx].lastH,
+          isBmu: targetNeurons[idx].isBmu
+        }));
+
+        draw();
+
+        if (progress < 1) {
+          interpRafId = trackRaf(stepAnimation);
+        } else {
+          state.neurons = targetNeurons;
+        }
+      };
+
+      interpRafId = trackRaf(stepAnimation);
     };
 
     const draw = () => {
@@ -1009,7 +1667,7 @@
       ctx.fillStyle = c.bgSubtle;
       ctx.fillRect(0, 0, W, H);
 
-      // Background manifold reference
+      // Background reference manifold
       ctx.save();
       ctx.strokeStyle = c.border;
       ctx.setLineDash([4, 4]);
@@ -1019,7 +1677,11 @@
         ctx.arc(0.5 * W, 0.5 * H, 0.32 * Math.min(W, H), 0, Math.PI * 2);
         ctx.stroke();
       } else if (state.distMode === "clusters") {
-        [{ x: 0.22, y: 0.24 }, { x: 0.78, y: 0.28 }, { x: 0.5, y: 0.78 }].forEach((ctr) => {
+        [
+          { x: 0.22, y: 0.24 },
+          { x: 0.78, y: 0.28 },
+          { x: 0.5, y: 0.78 }
+        ].forEach((ctr) => {
           ctx.beginPath();
           ctx.arc(ctr.x * W, ctr.y * H, 0.11 * Math.min(W, H), 0, Math.PI * 2);
           ctx.stroke();
@@ -1029,12 +1691,15 @@
       }
       ctx.restore();
 
-      // Draw topological mesh links
+      // Mesh topological lines
       ctx.strokeStyle = c.border;
       ctx.lineWidth = 2;
-      state.neurons.forEach((a) => {
-        state.neurons.forEach((b) => {
-          if (Math.abs(a.gx - b.gx) + Math.abs(a.gy - b.gy) === 1 && (a.gx < b.gx || a.gy < b.gy)) {
+      state.displayNeurons.forEach((a) => {
+        state.displayNeurons.forEach((b) => {
+          if (
+            Math.abs(a.gx - b.gx) + Math.abs(a.gy - b.gy) === 1 &&
+            (a.gx < b.gx || a.gy < b.gy)
+          ) {
             ctx.beginPath();
             ctx.moveTo(a.x * W, a.y * H);
             ctx.lineTo(b.x * W, b.y * H);
@@ -1043,26 +1708,11 @@
         });
       });
 
-      // Last-step displacement trails W(t) -> W(t+1)
-      if (state.prevNeurons && state.prevNeurons.length === state.neurons.length && state.steps > 0) {
-        state.neurons.forEach((n, idx) => {
-          const prev = state.prevNeurons[idx];
-          if (Math.hypot(n.x - prev.x, n.y - prev.y) > 0.004) {
-            ctx.beginPath();
-            ctx.moveTo(prev.x * W, prev.y * H);
-            ctx.lineTo(n.x * W, n.y * H);
-            ctx.strokeStyle = c.success;
-            ctx.lineWidth = 1.6;
-            ctx.stroke();
-          }
-        });
-      }
-
-      // Last input pattern + BMU pull link
-      if (state.lastPattern) {
+      // Training mode: last pattern link & triangle
+      if (state.mode === "train" && state.lastPattern) {
         const px = state.lastPattern.x * W;
         const py = state.lastPattern.y * H;
-        const bmu = state.neurons.find((n) => n.isBmu);
+        const bmu = state.displayNeurons.find((n) => n.isBmu);
         if (bmu) {
           ctx.beginPath();
           ctx.moveTo(px, py);
@@ -1081,11 +1731,48 @@
         ctx.fill();
       }
 
-      // Neurons with neighborhood strength halo h(j, j*)
-      state.neurons.forEach((n) => {
+      // Inferencia mode: query point and winning BMU radar circle
+      if (state.mode === "infer" && state.inferQuery && state.inferResult) {
+        const qx = state.inferQuery.x * W;
+        const qy = state.inferQuery.y * H;
+        const bmu = state.inferResult.bmu;
+
+        // Line to BMU
+        ctx.beginPath();
+        ctx.moveTo(qx, qy);
+        ctx.lineTo(bmu.x * W, bmu.y * H);
+        ctx.strokeStyle = c.danger;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Pulsing circle around winning BMU
+        ctx.beginPath();
+        ctx.arc(bmu.x * W, bmu.y * H, 18, 0, Math.PI * 2);
+        ctx.strokeStyle = c.warning;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Query diamond
+        ctx.beginPath();
+        ctx.moveTo(qx, qy - 8);
+        ctx.lineTo(qx + 8, qy);
+        ctx.lineTo(qx, qy + 8);
+        ctx.lineTo(qx - 8, qy);
+        ctx.closePath();
+        ctx.fillStyle = c.danger;
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+      }
+
+      // Neurons and halos
+      state.displayNeurons.forEach((n) => {
         const nx = n.x * W;
         const ny = n.y * H;
-        if (n.lastH > 0.08 && !n.isBmu) {
+        if (n.lastH > 0.08 && !n.isBmu && state.mode === "train") {
           ctx.beginPath();
           ctx.arc(nx, ny, 8 + n.lastH * 8, 0, Math.PI * 2);
           ctx.strokeStyle = "rgba(16, 185, 129, 0.45)";
@@ -1105,33 +1792,55 @@
         ctx.fillText(n.label, nx, ny - 13);
       });
 
+      // Side readout
       const infoEl = hostEl.querySelector("#sb-som-info");
       if (infoEl) {
-        const coordsHtml = state.neurons.slice(0, state.topo === "line3" ? 3 : 5).map((n) =>
-          `<span class="vw-tabular" style="display:inline-block;margin-right:0.55rem;"><strong>${escapeHtml(n.label)}</strong>(${n.x.toFixed(2)},${(1 - n.y).toFixed(2)})</span>`
-        ).join("");
-        infoEl.innerHTML = `
-          <div><strong>Iteraciones:</strong> ${state.steps} · <strong>Última BMU:</strong> ${state.lastBmu ? escapeHtml(state.lastBmu) : "—"}</div>
-          <div><strong>Parámetros:</strong> α = ${state.alpha.toFixed(2)} · σ = ${state.sigma.toFixed(2)}</div>
-          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.15rem;">Pesos activos: ${coordsHtml}${state.neurons.length > 5 ? "…" : ""}</div>
-        `;
+        if (state.mode === "train") {
+          const coordsHtml = state.displayNeurons.slice(0, state.topo === "line3" ? 3 : 5).map((n) =>
+            `<span class="vw-tabular" style="display:inline-block;margin-right:0.55rem;"><strong>${escapeHtml(n.label)}</strong>(${n.x.toFixed(2)},${(1 - n.y).toFixed(2)})</span>`
+          ).join("");
+          infoEl.innerHTML = `
+            <div><strong>Iteraciones:</strong> ${state.steps} · <strong>Última BMU:</strong> ${state.lastBmu ? escapeHtml(state.lastBmu) : "—"}</div>
+            <div><strong>Parámetros:</strong> α = ${state.alpha.toFixed(2)} · σ = ${state.sigma.toFixed(2)} ${state.decayEnabled ? "(decaimiento activo)" : ""}</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.15rem;">Pesos activos: ${coordsHtml}${state.displayNeurons.length > 5 ? "…" : ""}</div>
+          `;
+        } else {
+          const inf = state.inferResult;
+          infoEl.innerHTML = `
+            <div style="display:flex;align-items:center;gap:0.4rem;margin-bottom:0.25rem;">
+              <span class="sb-infer-badge">🎯 Modo Inferencia Post-Entrenamiento</span>
+            </div>
+            ${inf ? `
+              <div>Consulta <strong>x = (${state.inferQuery.x.toFixed(2)}, ${(1 - state.inferQuery.y).toFixed(2)})</strong></div>
+              <div>BMU Ganadora: <strong style="color:var(--success);font-size:1rem;">${escapeHtml(inf.bmuLabel)}</strong> en (${inf.bmu.x.toFixed(2)}, ${(1 - inf.bmu.y).toFixed(2)})</div>
+              <div>Distancia mínima: <span class="vw-tabular">d = ${(inf.distance * 10).toFixed(3)}</span> · Afinidad Gaussiana: <span class="vw-tabular">${(inf.affinity * 100).toFixed(1)}%</span></div>
+            ` : `<span style="color:var(--text-muted);">Hacé clic en cualquier lugar del plano para clasificar un vector desconocido sin alterar los pesos.</span>`}
+          `;
+        }
       }
     };
 
-    const feedPattern = (p, redraw = true) => {
-      state.prevNeurons = state.neurons.map((n) => ({ ...n }));
+    const feedPattern = (p) => {
+      if (state.decayEnabled) {
+        const decayed = computeSomDecay(state.steps, state.maxSteps, 0.5, 1.2);
+        state.alpha = decayed.alpha;
+        state.sigma = decayed.sigma;
+      }
       const res = somStep(state.neurons, p, state.alpha, state.sigma);
-      state.neurons = res.neurons;
       state.lastPattern = p;
       state.lastBmu = res.bmuLabel;
       state.steps += 1;
-      if (redraw) draw();
+      animateMeshStep(res.neurons);
     };
 
     const renderShell = () => {
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
+            <div class="sb-mode-toggle">
+              <button type="button" class="sb-mode-btn ${state.mode === "train" ? "active" : ""}" data-som-mode="train">🏋️ Entrenamiento</button>
+              <button type="button" class="sb-mode-btn ${state.mode === "infer" ? "active" : ""}" data-som-mode="infer">🎯 Inferencia</button>
+            </div>
             <button type="button" class="pe-mode-pill ${state.topo === "line3" ? "active" : ""}" data-topo="line3">Cadena 1×3 (Parcial)</button>
             <button type="button" class="pe-mode-pill ${state.topo === "grid3" ? "active" : ""}" data-topo="grid3">Grilla 3×3 (Mapa 2D)</button>
             <select id="sb-som-dist" class="inline-input">
@@ -1141,27 +1850,43 @@
             </select>
           </div>
           <div class="sb-btn-group">
-            <label class="sb-inline-ctl">α <input id="sb-som-alpha" type="range" min="0.1" max="0.8" step="0.05" value="${state.alpha}" /></label>
-            <label class="sb-inline-ctl">σ <input id="sb-som-sigma" type="range" min="0.4" max="1.8" step="0.1" value="${state.sigma}" /></label>
+            <label class="sb-inline-ctl">α <input id="sb-som-alpha" type="range" min="0.05" max="0.8" step="0.05" value="${state.alpha}" /></label>
+            <label class="sb-inline-ctl">σ <input id="sb-som-sigma" type="range" min="0.35" max="1.8" step="0.05" value="${state.sigma}" /></label>
+            <label class="sb-inline-ctl"><input type="checkbox" id="sb-som-decay" ${state.decayEnabled ? "checked" : ""}/> Decaimiento</label>
             <button type="button" class="btn btn-outline btn-sm" id="sb-som-burst">⚡ +10 Pasos</button>
             <button type="button" class="btn btn-primary btn-sm" id="sb-som-auto">${state.running ? "⏸ Pausar" : "▶ Auto-Entrenar"}</button>
             <button type="button" class="btn btn-outline btn-sm" id="sb-som-reset">↺ Reiniciar</button>
+            ${renderSpeedSelectorHtml(state.speed, ["0.5x", "1x", "2x", "max"])}
           </div>
         </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
-            <canvas id="sb-som-canvas" width="460" height="320" class="sb-canvas"></canvas>
-            <div class="sb-canvas-hint">💡 Hacé clic para lanzar un patrón ▲ p. Las líneas verdes muestran ΔW(t) y los halos verdes la vecindad h(j,j*).</div>
+            <canvas id="sb-som-canvas" width="460" height="320" class="sb-canvas" style="cursor:crosshair;"></canvas>
+            <div class="sb-canvas-hint">
+              💡 ${state.mode === "train" ? "Hacé clic en el plano para lanzar un patrón ▲ p y ver cómo la BMU y su vecindad se adaptan con suavidad." : "<strong>Modo Inferencia:</strong> Hacé clic en cualquier coordenada para clasificar el vector en tiempo real."}
+            </div>
           </div>
           <div class="sb-readout-panel">
             <div id="sb-som-info" class="sb-verdict-box" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.35rem;"></div>
             <div class="sb-formula-box">
-              <strong>Regla de Kohonen:</strong> W_j(t+1) = W_j(t) + α · h(j,j*) · [p − W_j(t)].<br>
-              Con <strong>σ alto</strong> se desplaza toda la malla unida; al bajar <strong>σ</strong> se afinan los detalles locales.
+              <strong>Regla Canónica de Kohonen:</strong><br>
+              $$W_j(t+1) = W_j(t) + \\alpha(t) \\cdot h(j, j^*) \\cdot [x - W_j(t)]$$
+              $$h(j, j^*) = \\exp\\left(-\\frac{\\|r_j - r_{j^*}\\|^2}{2\\sigma(t)^2}\\right)$$
             </div>
           </div>
         </div>
       `;
+
+      renderMathInSandbox(hostEl);
+
+      hostEl.querySelectorAll("[data-som-mode]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          clearAllSandboxTimers();
+          state.running = false;
+          state.mode = btn.getAttribute("data-som-mode");
+          renderShell();
+        });
+      });
 
       hostEl.querySelectorAll("[data-topo]").forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -1172,43 +1897,71 @@
           renderShell();
         });
       });
+
       hostEl.querySelector("#sb-som-dist").addEventListener("change", (e) => {
         state.distMode = e.target.value;
         draw();
       });
+
       hostEl.querySelector("#sb-som-alpha").addEventListener("input", (e) => {
         state.alpha = Number(e.target.value);
         draw();
       });
+
       hostEl.querySelector("#sb-som-sigma").addEventListener("input", (e) => {
         state.sigma = Number(e.target.value);
         draw();
       });
-      hostEl.querySelector("#sb-som-burst").addEventListener("click", () => {
-        for (let i = 0; i < 10; i++) feedPattern(samplePattern(), i === 9);
+
+      hostEl.querySelector("#sb-som-decay").addEventListener("change", (e) => {
+        state.decayEnabled = Boolean(e.target.checked);
+        draw();
       });
+
+      hostEl.querySelectorAll("[data-sb-speed]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.speed = btn.getAttribute("data-sb-speed");
+          if (state.running) {
+            startSomAuto();
+          } else {
+            hostEl.querySelectorAll("[data-sb-speed]").forEach((b) => b.classList.toggle("active", b === btn));
+          }
+        });
+      });
+
+      hostEl.querySelector("#sb-som-burst").addEventListener("click", () => {
+        for (let i = 0; i < 10; i++) feedPattern(samplePattern());
+      });
+
       hostEl.querySelector("#sb-som-reset").addEventListener("click", () => {
         clearAllSandboxTimers();
         state.running = false;
         initNeurons();
         renderShell();
       });
+
+      const startSomAuto = () => {
+        clearAllSandboxTimers();
+        state.running = true;
+        const delay = getSpeedDelay(state.speed, 200);
+        trackInterval(() => {
+          if (!document.body.contains(hostEl)) {
+            clearAllSandboxTimers();
+            state.running = false;
+            return;
+          }
+          feedPattern(samplePattern());
+        }, delay);
+      };
+
       hostEl.querySelector("#sb-som-auto").addEventListener("click", () => {
         if (state.running) {
           clearAllSandboxTimers();
           state.running = false;
           renderShell();
         } else {
-          clearAllSandboxTimers();
-          state.running = true;
+          startSomAuto();
           renderShell();
-          somAutoTimer = setInterval(() => {
-            if (!document.body.contains(hostEl)) {
-              clearAllSandboxTimers();
-              return;
-            }
-            feedPattern(samplePattern());
-          }, 160);
         }
       });
 
@@ -1217,7 +1970,14 @@
         const rect = canvas.getBoundingClientRect();
         const x = Math.max(0.04, Math.min(0.96, (ev.clientX - rect.left) / rect.width));
         const y = Math.max(0.04, Math.min(0.96, (ev.clientY - rect.top) / rect.height));
-        feedPattern({ x, y });
+
+        if (state.mode === "train") {
+          feedPattern({ x, y });
+        } else {
+          state.inferQuery = { x, y };
+          state.inferResult = somInference(state.neurons, state.inferQuery);
+          draw();
+        }
       });
 
       draw();
@@ -1226,9 +1986,13 @@
     renderShell();
   }
 
-  // 4. Clustering Jerárquico UPGMA + Corte de Clústeres (k) + Dendrograma
+  // ---------------------------------------------------------------------------
+  // 4. Live Interactive Sandbox: Clustering UPGMA (Cut Slider, Hull Capsules, KaTeX)
+  // ---------------------------------------------------------------------------
   function mountClusteringSandbox(hostEl) {
+    clearAllSandboxTimers();
     const CLUSTER_PALETTE = ["#10b981", "#f59e0b", "#6366f1", "#ec4899", "#06b6d4", "#8b5cf6", "#ef4444"];
+
     const state = {
       points: [
         { label: "A", x: 1.8, y: 7.4 },
@@ -1237,26 +2001,13 @@
         { label: "D", x: 2.3, y: 5.6 },
         { label: "E", x: 7.6, y: 2.8 }
       ],
-      visibleStep: 4
+      cutHeight: 3.2,
+      visibleStep: 4,
+      speed: "1x",
+      autoFusing: false
     };
 
-    const getClustersAtStep = (nPoints, merges, step) => {
-      let groups = Array.from({ length: nPoints }, (_, i) => [i]);
-      const applied = merges.slice(0, step);
-      applied.forEach((m) => {
-        const mSet = new Set(m.members);
-        groups = groups.filter((g) => !mSet.has(g[0]));
-        groups.push([...m.members]);
-      });
-      const colorByIdx = new Array(nPoints).fill(CLUSTER_PALETTE[0]);
-      groups.forEach((grp, gIdx) => {
-        const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
-        grp.forEach((ptIdx) => { colorByIdx[ptIdx] = col; });
-      });
-      return { groups, colorByIdx };
-    };
-
-    const drawDendrogramSvg = (tree, shownSteps) => {
+    const drawDendrogramSvg = (tree, cutH) => {
       const { root, merges } = tree;
       if (!root) return "";
       const leafOrder = [];
@@ -1267,19 +2018,19 @@
       collectLeaves(root);
 
       const W = 320;
-      const H = 220;
+      const H = 210;
       const padL = 36;
       const padR = 16;
       const padT = 18;
-      const padB = 28;
-      const maxH = Math.max(0.5, root.height * 1.12);
+      const padB = 26;
+      const maxH = Math.max(0.5, root.height * 1.15);
+
       const xPos = new Map();
       leafOrder.forEach((lf, i) => {
         xPos.set(lf, padL + (i / Math.max(1, leafOrder.length - 1)) * (W - padL - padR));
       });
       const yFor = (h) => H - padB - (h / maxH) * (H - padT - padB);
 
-      const activeMerges = new Set(merges.slice(0, shownSteps));
       const getCoord = (node) => {
         if (!node.left && !node.right) return { x: xPos.get(node), y: yFor(0) };
         const L = getCoord(node.left);
@@ -1292,38 +2043,33 @@
         if (!node.left || !node.right) return;
         walkPaths(node.left);
         walkPaths(node.right);
-        if (!activeMerges.has(node)) return;
         const L = getCoord(node.left);
         const R = getCoord(node.right);
         const yTop = yFor(node.height);
-        paths.push(`<path d="M${L.x.toFixed(1)},${L.y.toFixed(1)} V${yTop.toFixed(1)} H${R.x.toFixed(1)} V${R.y.toFixed(1)}" fill="none" stroke="var(--primary)" stroke-width="2.2" />`);
-        paths.push(`<text x="${((L.x + R.x) / 2).toFixed(1)}" y="${(yTop - 4).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="var(--success)">${node.height.toFixed(2)}</text>`);
+        const isBelowCut = node.height <= cutH;
+        const strokeCol = isBelowCut ? "var(--primary)" : "var(--border-color)";
+
+        paths.push(`<path d="M${L.x.toFixed(1)},${L.y.toFixed(1)} V${yTop.toFixed(1)} H${R.x.toFixed(1)} V${R.y.toFixed(1)}" fill="none" stroke="${strokeCol}" stroke-width="${isBelowCut ? 2.4 : 1.4}" />`);
+        paths.push(`<text x="${((L.x + R.x) / 2).toFixed(1)}" y="${(yTop - 4).toFixed(1)}" text-anchor="middle" font-size="8.5" font-weight="700" fill="${isBelowCut ? "var(--success)" : "var(--text-muted)"}">${node.height.toFixed(2)}</text>`);
       };
       walkPaths(root);
 
-      // Horizontal cut line separating active clusters (k = N - shownSteps)
-      let cutLineHtml = "";
-      if (shownSteps < merges.length) {
-        const prevH = shownSteps > 0 ? merges[shownSteps - 1].height : 0;
-        const nextH = merges[shownSteps].height;
-        const cutH = (prevH + nextH) / 2;
-        const cutY = yFor(cutH);
-        const kNow = Math.max(1, leafOrder.length - shownSteps);
-        cutLineHtml = `
-          <line x1="${padL}" y1="${cutY.toFixed(1)}" x2="${W - padR}" y2="${cutY.toFixed(1)}" stroke="var(--danger)" stroke-width="1.5" stroke-dasharray="5 3" />
-          <text x="${W - padR}" y="${(cutY - 3).toFixed(1)}" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--danger)">Corte k=${kNow} (h=${cutH.toFixed(2)})</text>
-        `;
-      }
+      // Horizontal cut line
+      const cutY = yFor(cutH);
+      const cutLineHtml = `
+        <line x1="${padL}" y1="${cutY.toFixed(1)}" x2="${W - padR}" y2="${cutY.toFixed(1)}" stroke="var(--danger)" stroke-width="1.8" stroke-dasharray="5 3" />
+        <text x="${W - padR}" y="${(cutY - 4).toFixed(1)}" text-anchor="end" font-size="9" font-weight="800" fill="var(--danger)">Corte h=${cutH.toFixed(2)}</text>
+      `;
 
       const ticks = [0, 0.5, 1].map((f) => {
         const val = maxH * f;
         const y = yFor(val);
-        return `<line x1="${padL - 4}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="var(--border-color)" stroke-dasharray="3 3" opacity="0.5" />
-          <text x="${padL - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-size="8.5" fill="var(--text-muted)">${val.toFixed(1)}</text>`;
+        return `<line x1="${padL - 4}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="var(--border-color)" stroke-dasharray="3 3" opacity="0.45" />
+          <text x="${padL - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--text-muted)">${val.toFixed(1)}</text>`;
       }).join("");
 
       const leafLabels = leafOrder.map((lf) =>
-        `<text x="${xPos.get(lf).toFixed(1)}" y="${H - 10}" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">${escapeHtml(lf.id)}</text>`
+        `<text x="${xPos.get(lf).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="11" font-weight="800" fill="var(--text-main)">${escapeHtml(lf.id)}</text>`
       ).join("");
 
       return `
@@ -1338,62 +2084,72 @@
 
     const render = () => {
       const tree = computeUpgmaTree(state.points);
-      state.visibleStep = Math.max(0, Math.min(tree.merges.length, state.visibleStep));
-      const c = readThemeColors();
-      const clusterInfo = getClustersAtStep(state.points.length, tree.merges, state.visibleStep);
-      const kClusters = clusterInfo.groups.length;
-      const lastMerge = state.visibleStep > 0 ? tree.merges[state.visibleStep - 1] : null;
+      const maxH = tree.root ? tree.root.height * 1.08 : 5;
+      state.cutHeight = Math.max(0.1, Math.min(maxH, state.cutHeight));
+
+      const clusterInfo = computeClustersAtCutHeight(tree, state.points.length, state.cutHeight);
+      const kClusters = clusterInfo.k;
 
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
-            <span style="font-size:0.84rem;font-weight:700;">Fusiones: ${state.visibleStep}/${tree.merges.length} (k=${kClusters} clúster${kClusters > 1 ? "es" : ""})</span>
-            <button type="button" class="btn btn-outline btn-sm" id="sb-clu-prev">◀</button>
-            <button type="button" class="btn btn-primary btn-sm" id="sb-clu-next">▶ Siguiente Fusión</button>
+            <span style="font-size:0.84rem;font-weight:700;">k = ${kClusters} Clúster${kClusters > 1 ? "es" : ""}</span>
             <button type="button" class="btn btn-outline btn-sm" id="sb-clu-pop" ${state.points.length <= 3 ? "disabled" : ""}>↩ Quitar punto</button>
             <button type="button" class="btn btn-outline btn-sm" id="sb-clu-reset">↺ Caso Base</button>
           </div>
           <div class="sb-btn-group">
             <span style="font-size:0.78rem;color:var(--text-muted);">Corte rápido:</span>
-            ${Array.from({ length: Math.min(4, state.points.length) }, (_, idx) => {
-              const targetK = idx + 1;
-              return `<button type="button" class="sb-pill-btn ${kClusters === targetK ? "active" : ""}" data-cutk="${targetK}">k=${targetK}</button>`;
-            }).join("")}
+            ${[1, 2, 3, 4].filter((k) => k <= state.points.length).map((targetK) =>
+              `<button type="button" class="sb-pill-btn ${kClusters === targetK ? "active" : ""}" data-cutk="${targetK}">k=${targetK}</button>`
+            ).join("")}
+            ${renderSpeedSelectorHtml(state.speed, ["0.5x", "1x", "2x"])}
           </div>
         </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
-            <canvas id="sb-clu-canvas" width="400" height="270" class="sb-canvas"></canvas>
-            <div class="sb-canvas-hint">💡 Hacé clic en el plano para agregar puntos hasta G (${state.points.length}/7) o usá <strong>Corte rápido (k)</strong> para ver los grupos por color.</div>
+            <canvas id="sb-clu-canvas" width="400" height="270" class="sb-canvas" style="cursor:crosshair;"></canvas>
+            <div class="sb-canvas-hint">💡 Hacé clic en el plano para agregar puntos hasta 7. Usá el <strong>slider inferior</strong> para variar la altura de corte $h$ a 60 fps.</div>
+            <div class="sb-cut-slider-wrap">
+              <span style="font-weight:700;color:var(--danger);white-space:nowrap;">✂ Altura h = ${(state.cutHeight).toFixed(2)}</span>
+              <input type="range" id="sb-clu-cut-h" class="sb-cut-slider" min="0.1" max="${maxH.toFixed(2)}" step="0.05" value="${state.cutHeight.toFixed(2)}" />
+            </div>
           </div>
           <div class="sb-readout-panel">
-            <div class="vw-chart-title" style="margin-bottom:0.2rem;">Dendrograma UPGMA (altura exacta |C1|·|C2|)</div>
-            ${drawDendrogramSvg(tree, state.visibleStep)}
-            ${lastMerge ? `
-              <div class="sb-formula-box">
-                <strong>Última fusión:</strong> {${escapeHtml(lastMerge.c1Label)}} + {${escapeHtml(lastMerge.c2Label)}}<br>
-                <span>UPGMA ponderado por tamaños |C₁|=${lastMerge.size1}, |C₂|=${lastMerge.size2} (|C₁|·|C₂|=${lastMerge.size1 * lastMerge.size2} pares) → <strong>d = ${lastMerge.height.toFixed(3)}</strong></span>
-              </div>
-            ` : ""}
+            <div class="vw-chart-title" style="margin-bottom:0.2rem;">Dendrograma UPGMA (altura exacta $|C_1| \\cdot |C_2|$)</div>
+            ${drawDendrogramSvg(tree, state.cutHeight)}
+            <div class="sb-formula-box">
+              <strong>Fórmula UPGMA de Cátedra:</strong><br>
+              $$d(C_1 \\cup C_2, C_3) = \\frac{|C_1| \\cdot d(C_1, C_3) + |C_2| \\cdot d(C_2, C_3)}{|C_1| + |C_2|}$$
+            </div>
             <div style="font-size:0.8rem;">
-              ${tree.merges.slice(0, state.visibleStep).map((m, idx) =>
-                `<div><strong>Fusión ${idx + 1}:</strong> {${escapeHtml(m.c1Label)}} + {${escapeHtml(m.c2Label)}} → d = <strong>${m.height.toFixed(3)}</strong></div>`
-              ).join("") || `<span style="color:var(--text-muted);">Usá "▶ Siguiente Fusión" para construir el dendrograma.</span>`}
+              <strong>Clústeres formados a corte h = ${state.cutHeight.toFixed(2)}:</strong>
+              <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.3rem;">
+                ${clusterInfo.groups.map((grp, gIdx) => {
+                  const labels = grp.map((pIdx) => state.points[pIdx].label).join(", ");
+                  const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
+                  return `<span style="background:${col}22;border:1px solid ${col};color:${col};padding:0.15rem 0.45rem;border-radius:4px;font-weight:700;">G${gIdx + 1}: {${labels}}</span>`;
+                }).join("")}
+              </div>
             </div>
           </div>
         </div>
       `;
 
+      renderMathInSandbox(hostEl);
+
+      // Canvas rendering
       const canvas = hostEl.querySelector("#sb-clu-canvas");
       const ctx = canvas.getContext("2d");
       const W = canvas.width;
       const H = canvas.height;
+      const c = readThemeColors();
+
       ctx.fillStyle = c.bgSubtle;
       ctx.fillRect(0, 0, W, H);
       const sx = (x) => (x / 10) * (W - 36) + 18;
       const sy = (y) => H - 18 - (y / 10) * (H - 36);
 
-      // Draw active cluster ellipses at current cut level
+      // Translucent capsule/hull fills for active clusters
       clusterInfo.groups.forEach((grp, gIdx) => {
         if (grp.length < 2) return;
         const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
@@ -1401,10 +2157,13 @@
         const ys = grp.map((idx) => sy(state.points[idx].y));
         const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
         const cy = (Math.min(...ys) + Math.max(...ys)) / 2;
-        const rx = Math.max(24, (Math.max(...xs) - Math.min(...xs)) / 2 + 19);
-        const ry = Math.max(22, (Math.max(...ys) - Math.min(...ys)) / 2 + 17);
+        const rx = Math.max(26, (Math.max(...xs) - Math.min(...xs)) / 2 + 20);
+        const ry = Math.max(24, (Math.max(...ys) - Math.min(...ys)) / 2 + 18);
+
         ctx.beginPath();
         ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `${col}18`;
+        ctx.fill();
         ctx.strokeStyle = col;
         ctx.setLineDash([5, 3]);
         ctx.lineWidth = 2;
@@ -1412,21 +2171,43 @@
         ctx.setLineDash([]);
       });
 
+      // Draw points
       state.points.forEach((p, ptIdx) => {
         const px = sx(p.x);
         const py = sy(p.y);
         ctx.beginPath();
-        ctx.arc(px, py, 10.5, 0, Math.PI * 2);
+        ctx.arc(px, py, 11, 0, Math.PI * 2);
         ctx.fillStyle = clusterInfo.colorByIdx[ptIdx] || c.primary;
         ctx.fill();
         ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fillStyle = "#fff";
         ctx.font = "bold 10px sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(p.label, px, py + 0.5);
+      });
+
+      // Events
+      const slider = hostEl.querySelector("#sb-clu-cut-h");
+      slider.addEventListener("input", (e) => {
+        state.cutHeight = Number(e.target.value);
+        render();
+      });
+
+      hostEl.querySelectorAll("[data-cutk]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetK = Number(btn.getAttribute("data-cutk")) || 1;
+          const targetMergeIdx = state.points.length - targetK;
+          if (targetMergeIdx > 0 && targetMergeIdx <= tree.merges.length) {
+            const m = tree.merges[targetMergeIdx - 1];
+            state.cutHeight = m.height + 0.05;
+          } else {
+            state.cutHeight = 0.2;
+          }
+          render();
+        });
       });
 
       canvas.addEventListener("click", (ev) => {
@@ -1436,32 +2217,16 @@
         const ny = Math.max(0.5, Math.min(9.5, (1 - (ev.clientY - rect.top) / rect.height) * 10));
         const nextLabel = String.fromCharCode(65 + state.points.length);
         state.points.push({ label: nextLabel, x: nx, y: ny });
-        state.visibleStep = state.points.length - 1;
         render();
       });
 
-      hostEl.querySelector("#sb-clu-prev").addEventListener("click", () => {
-        state.visibleStep = Math.max(0, state.visibleStep - 1);
-        render();
-      });
-      hostEl.querySelector("#sb-clu-next").addEventListener("click", () => {
-        state.visibleStep = Math.min(tree.merges.length, state.visibleStep + 1);
-        render();
-      });
-      hostEl.querySelectorAll("[data-cutk]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const targetK = Number(btn.getAttribute("data-cutk")) || 1;
-          state.visibleStep = Math.max(0, Math.min(tree.merges.length, state.points.length - targetK));
-          render();
-        });
-      });
       hostEl.querySelector("#sb-clu-pop").addEventListener("click", () => {
         if (state.points.length > 3) {
           state.points.pop();
-          state.visibleStep = Math.min(state.visibleStep, state.points.length - 1);
           render();
         }
       });
+
       hostEl.querySelector("#sb-clu-reset").addEventListener("click", () => {
         mountClusteringSandbox(hostEl);
       });
@@ -1470,94 +2235,181 @@
     render();
   }
 
-  // 5. Algoritmos Genéticos: Ruleta Física [00-99], Tabla UTN & Cruce 1-Punto
+  // ---------------------------------------------------------------------------
+  // 5. Live Interactive Sandbox: Algoritmos Genéticos (Physics Roulette, Generations, KaTeX)
+  // ---------------------------------------------------------------------------
   function mountAgSandbox(hostEl) {
+    clearAllSandboxTimers();
     const CHROMOS = ["10110", "01101", "11001", "00111"];
+    const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ec4899"];
+
     const state = {
       fitness: [20, 45, 25, 10],
       wheelAngle: 0,
+      needleWobble: 0,
+      isSpinning: false,
       lastR: null,
       lastWinner: null,
       spinCount: 0,
       crossover: null,
-      colors: ["#6366f1", "#10b981", "#f59e0b", "#ec4899"]
+      speed: "1x",
+      generation: 0,
+      genHistory: [{ gen: 0, max: 45, avg: 25 }]
     };
 
+    let spinRafId = null;
+
     const buildWheelSvg = (roulette) => {
-      const r = 74;
+      const r = 76;
       let startAng = 0;
-      const slices = roulette.rows.map((row, idx) => {
-        const sweep = row.p * Math.PI * 2;
-        const endAng = startAng + sweep;
-        const x1 = +(r * Math.sin(startAng)).toFixed(2);
-        const y1 = +(-r * Math.cos(startAng)).toFixed(2);
-        const x2 = +(r * Math.sin(endAng)).toFixed(2);
-        const y2 = +(-r * Math.cos(endAng)).toFixed(2);
-        const largeArc = sweep > Math.PI ? 1 : 0;
-        const midAng = startAng + sweep / 2;
-        const lx = +(r * 0.62 * Math.sin(midAng)).toFixed(1);
-        const ly = +(-r * 0.62 * Math.cos(midAng)).toFixed(1);
-        startAng = endAng;
-        return `
-          <path d="M0,0 L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z" fill="${state.colors[idx]}" opacity="0.84" stroke="var(--bg-card)" stroke-width="2" />
+      const slices = roulette.rows
+        .map((row, idx) => {
+          const sweep = row.p * Math.PI * 2;
+          const endAng = startAng + sweep;
+          const x1 = +(r * Math.sin(startAng)).toFixed(2);
+          const y1 = +(-r * Math.cos(startAng)).toFixed(2);
+          const x2 = +(r * Math.sin(endAng)).toFixed(2);
+          const y2 = +(-r * Math.cos(endAng)).toFixed(2);
+          const largeArc = sweep > Math.PI ? 1 : 0;
+          const midAng = startAng + sweep / 2;
+          const lx = +(r * 0.62 * Math.sin(midAng)).toFixed(1);
+          const ly = +(-r * 0.62 * Math.cos(midAng)).toFixed(1);
+          startAng = endAng;
+          return `
+          <path d="M0,0 L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z" fill="${COLORS[idx]}" opacity="0.86" stroke="var(--bg-card)" stroke-width="2" />
           <text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="800" fill="#ffffff">${row.id}</text>
         `;
-      }).join("");
+        })
+        .join("");
 
       return `
         <svg viewBox="0 0 210 190" class="vw-algo-svg" style="max-width:210px;" role="img" aria-label="Ruleta genética">
           <g transform="translate(105 100)">
-            <g style="transform: rotate(${state.wheelAngle}deg); transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);">
+            <g id="sb-wheel-rotor" style="transform: rotate(${state.wheelAngle}deg);">
               ${slices}
-              <circle r="10" fill="var(--bg-card)" stroke="var(--text-main)" stroke-width="2" />
+              <circle r="11" fill="var(--bg-card)" stroke="var(--text-main)" stroke-width="2" />
             </g>
           </g>
-          <polygon points="105,22 97,8 113,8" fill="var(--danger)" />
+          <!-- Realistic pointer needle with spring bounce -->
+          <g id="sb-wheel-needle" transform="translate(105 16) rotate(${state.needleWobble})">
+            <polygon points="0,14 -7,-4 7,-4" fill="var(--danger)" />
+            <circle cx="0" cy="-4" r="3.5" fill="var(--text-main)" />
+          </g>
         </svg>
       `;
     };
 
-    const buildEvolutionChart = (fitnessArr) => {
-      const hist = simulateAgGenerations(fitnessArr, 8);
-      const maxVal = Math.max(...hist.map((h) => h.max), 10);
-      const ptsAvg = hist.map((h, i) => `${(24 + (i / 8) * 218).toFixed(1)},${(74 - (h.avg / maxVal) * 56).toFixed(1)}`).join(" ");
-      const ptsMax = hist.map((h, i) => `${(24 + (i / 8) * 218).toFixed(1)},${(74 - (h.max / maxVal) * 56).toFixed(1)}`).join(" ");
+    const buildEvolutionChart = (history) => {
+      const maxVal = Math.max(...history.map((h) => h.max), 10);
+      const span = Math.max(1, history.length - 1);
+      const ptsAvg = history.map((h, i) => `${(24 + (i / span) * 218).toFixed(1)},${(74 - (h.avg / maxVal) * 56).toFixed(1)}`).join(" ");
+      const ptsMax = history.map((h, i) => `${(24 + (i / span) * 218).toFixed(1)},${(74 - (h.max / maxVal) * 56).toFixed(1)}`).join(" ");
+
       return `
         <svg viewBox="0 0 260 92" class="vw-svg-chart" aria-label="Curva de fitness promedio y máximo">
           <line x1="22" y1="76" x2="246" y2="76" stroke="var(--border-color)" stroke-width="1" />
-          <polyline fill="none" stroke="var(--success)" stroke-width="2.2" points="${ptsMax}" />
+          <polyline fill="none" stroke="var(--success)" stroke-width="2.4" points="${ptsMax}" />
           <polyline fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-dasharray="4 2" points="${ptsAvg}" />
-          <text x="132" y="88" text-anchor="middle" font-size="9" fill="var(--text-muted)">Evolución 8 gen: Máx (verde) vs Promedio (azul)</text>
+          ${history.map((h, i) => `<circle cx="${(24 + (i / span) * 218).toFixed(1)}" cy="${(74 - (h.max / maxVal) * 56).toFixed(1)}" r="3" fill="var(--success)"><title>Gen ${h.gen}: Max ${h.max}</title></circle>`).join("")}
+          <text x="132" y="88" text-anchor="middle" font-size="9" fill="var(--text-muted)">Evolución Gen ${state.generation}: Máx (verde) vs Promedio (azul)</text>
         </svg>
       `;
     };
 
     const renderBitsRow = (label, bits, originFlags, cutK) => {
-      const items = bits.split("").map((b, i) => {
-        const cls = originFlags[i] === 1 ? "p1" : "p2";
-        return `${i === cutK ? `<span class="sb-cut-divider" title="Punto de corte k=${cutK}"></span>` : ""}<span class="sb-bit ${cls}">${b}</span>`;
-      }).join("");
+      const items = bits
+        .split("")
+        .map((b, i) => {
+          const cls = originFlags[i] === 1 ? "p1" : "p2";
+          return `${i === cutK ? `<span class="sb-cut-divider" title="Punto de corte k=${cutK}"></span>` : ""}<span class="sb-bit ${cls}">${b}</span>`;
+        })
+        .join("");
       const dec = parseInt(bits, 2);
       return `<div class="sb-bits-row"><strong style="min-width:68px;">${escapeHtml(label)}:</strong>${items}<span class="vw-tabular" style="color:var(--text-muted);margin-left:0.25rem;">(x=${dec})</span></div>`;
+    };
+
+    const spinWheelPhysics = (targetR, onComplete) => {
+      if (state.speed === "max") {
+        const slotMidPct = (targetR + 0.5) / 100;
+        state.wheelAngle = 360 - slotMidPct * 360;
+        state.isSpinning = false;
+        if (onComplete) onComplete();
+        render();
+        return;
+      }
+
+      state.isSpinning = true;
+      const slotMidPct = (targetR + 0.5) / 100;
+      const targetDeg = 360 - slotMidPct * 360;
+      const currentMod = state.wheelAngle % 360;
+      const delta = ((targetDeg - currentMod) + 360) % 360;
+      const totalSpin = 1080 + delta;
+
+      const startAngle = state.wheelAngle;
+      const finalAngle = startAngle + totalSpin;
+      const startTime = performance.now();
+      const duration = state.speed === "0.5x" ? 2200 : (state.speed === "2x" ? 700 : 1300);
+
+      const animate = (now) => {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        // Smooth inertial cubic-bezier deceleration
+        const ease = 1 - Math.pow(1 - t, 4);
+        state.wheelAngle = startAngle + totalSpin * ease;
+        // Needle wiggling physics
+        state.needleWobble = Math.sin(t * 35) * (1 - t) * 14;
+
+        const rotor = hostEl.querySelector("#sb-wheel-rotor");
+        const needle = hostEl.querySelector("#sb-wheel-needle");
+        if (rotor) rotor.style.transform = `rotate(${state.wheelAngle}deg)`;
+        if (needle) needle.setAttribute("transform", `translate(105 16) rotate(${state.needleWobble.toFixed(1)})`);
+
+        if (t < 1) {
+          spinRafId = trackRaf(animate);
+        } else {
+          state.wheelAngle = finalAngle;
+          state.needleWobble = 0;
+          state.isSpinning = false;
+          if (rotor) rotor.style.transform = `rotate(${finalAngle}deg)`;
+          if (needle) needle.setAttribute("transform", "translate(105 16) rotate(0)");
+          if (onComplete) onComplete();
+          render();
+        }
+      };
+
+      if (spinRafId) cancelAnimationFrame(spinRafId);
+      spinRafId = trackRaf(animate);
     };
 
     const render = () => {
       const roulette = computeAgRoulette(state.fitness);
       const xo = state.crossover;
+
       hostEl.innerHTML = `
+        <div class="sb-toolbar">
+          <div class="sb-btn-group">
+            <button type="button" class="btn btn-primary btn-sm" id="sb-ag-spin" ${state.isSpinning ? "disabled" : ""}>🎰 Girar Ruleta [00–99]</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-ag-cross" ${state.isSpinning ? "disabled" : ""}>🧬 Sortear Par &amp; Cruce</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-ag-next-gen" ${state.isSpinning ? "disabled" : ""}>⏩ Avanzar 1 Gen</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-ag-reset">↺ Caso Base</button>
+          </div>
+          <div class="sb-btn-group">
+            ${renderSpeedSelectorHtml(state.speed, ["0.5x", "1x", "2x", "max"])}
+          </div>
+        </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap" style="text-align:center;">
             ${buildWheelSvg(roulette)}
-            <div style="display:flex;justify-content:center;gap:0.45rem;flex-wrap:wrap;margin-top:0.35rem;">
-              <button type="button" class="btn btn-primary btn-sm" id="sb-ag-spin">🎰 Girar Ruleta [00–99]</button>
-              <button type="button" class="btn btn-outline btn-sm" id="sb-ag-cross">🧬 Sortear Par &amp; Cruce</button>
-            </div>
             <div style="margin-top:0.45rem;font-size:0.85rem;">
-              ${state.lastR !== null
-                ? `Sorteo #${state.spinCount}: <strong>r = ${String(state.lastR).padStart(2, "0")}</strong> → Seleccionado <span class="sb-winner-pill cls-a">${escapeHtml(state.lastWinner)}</span>`
-                : `<span style="color:var(--text-muted);">Ajustá los fitness y girá para sortear padres o simular cruce 1-punto.</span>`}
+              ${
+                state.lastR !== null
+                  ? `Sorteo #${state.spinCount}: <strong>r = ${String(state.lastR).padStart(2, "0")}</strong> → Seleccionado <span class="sb-winner-pill cls-a">${escapeHtml(state.lastWinner)}</span>`
+                  : `<span style="color:var(--text-muted);">Girá la ruleta física con inercia para seleccionar padres según $p_i = \\frac{f_i}{\\sum f}$.</span>`
+              }
             </div>
-            ${xo ? `
+            ${
+              xo
+                ? `
               <div class="sb-chromo-card" style="text-align:left;margin-top:0.45rem;">
                 <div style="font-size:0.79rem;font-weight:700;">Cruce 1-Punto (corte k=${xo.cutK}) · r₁=${String(xo.r1).padStart(2, "0")} (${xo.p1Id}), r₂=${String(xo.r2).padStart(2, "0")} (${xo.p2Id})</div>
                 ${renderBitsRow("Padre 1", xo.b1, [1, 1, 1, 1, 1], xo.cutK)}
@@ -1565,25 +2417,33 @@
                 ${renderBitsRow("Hijo 1", xo.c1, xo.c1Flags, xo.cutK)}
                 ${renderBitsRow("Hijo 2", xo.c2, xo.c2Flags, xo.cutK)}
               </div>
-            ` : ""}
+            `
+                : ""
+            }
           </div>
           <div class="sb-readout-panel">
             <div class="sb-ag-sliders">
-              ${roulette.rows.map((row, idx) => `
+              ${roulette.rows
+                .map(
+                  (row, idx) => `
                 <label class="sb-ag-row">
-                  <span style="color:${state.colors[idx]};font-weight:800;">${row.id}</span>
+                  <span style="color:${COLORS[idx]};font-weight:800;">${row.id}</span>
                   <input type="range" class="sb-ag-range" min="5" max="90" value="${row.fitness}" data-ag-idx="${idx}" />
                   <span class="vw-tabular" style="text-align:right;">f=${row.fitness} · [${String(row.startSlot).padStart(2, "0")}–${String(row.endSlot).padStart(2, "0")}]</span>
                 </label>
-              `).join("")}
+              `
+                )
+                .join("")}
             </div>
             <div class="pe-table-wrap">
               <table class="pe-data-table">
                 <thead><tr><th>Crom.</th><th>Bits</th><th>f_i</th><th>p_i</th><th>η_i</th><th>Copias</th><th>Slot</th></tr></thead>
                 <tbody>
-                  ${roulette.rows.map((row, idx) => `
+                  ${roulette.rows
+                    .map(
+                      (row, idx) => `
                     <tr style="${state.lastWinner === row.id ? "background:rgba(16,185,129,0.14);font-weight:700;" : ""}">
-                      <td style="color:${state.colors[idx]};font-weight:800;">${row.id}</td>
+                      <td style="color:${COLORS[idx]};font-weight:800;">${row.id}</td>
                       <td class="vw-tabular"><code>${CHROMOS[idx]}</code></td>
                       <td class="vw-tabular">${row.fitness}</td>
                       <td class="vw-tabular">${row.p.toFixed(2)}</td>
@@ -1591,14 +2451,22 @@
                       <td class="vw-tabular">${row.intCopies} + ${row.frac.toFixed(2)}</td>
                       <td class="vw-tabular">[${String(row.startSlot).padStart(2, "0")}–${String(row.endSlot).padStart(2, "0")}]</td>
                     </tr>
-                  `).join("")}
+                  `
+                    )
+                    .join("")}
                 </tbody>
               </table>
             </div>
-            ${buildEvolutionChart(state.fitness)}
+            ${buildEvolutionChart(state.genHistory)}
+            <div class="sb-formula-box" style="margin-top:0.35rem;">
+              <strong>Rigor de Cátedra:</strong> Intervalos $[00..99]$ disjuntos y contiguos: $\sum \\text{slots} = 100$.<br>
+              $$p_i = \\frac{f_i}{\\sum_{j} f_j} \\quad \\eta_i = p_i \\cdot N = \\lfloor \\eta_i \\rfloor + d_i$$
+            </div>
           </div>
         </div>
       `;
+
+      renderMathInSandbox(hostEl);
 
       hostEl.querySelectorAll("[data-ag-idx]").forEach((inp) => {
         inp.addEventListener("change", (e) => {
@@ -1608,28 +2476,33 @@
         });
       });
 
-      const spinOnce = () => {
+      hostEl.querySelectorAll("[data-sb-speed]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.speed = btn.getAttribute("data-sb-speed");
+          hostEl.querySelectorAll("[data-sb-speed]").forEach((b) => b.classList.toggle("active", b === btn));
+        });
+      });
+
+      const pickRandomSlot = () => {
         const r = Math.floor(Math.random() * 100);
         const match = roulette.rows.find((row) => r >= row.startSlot && r <= row.endSlot) || roulette.rows[0];
         return { r, match };
       };
 
       hostEl.querySelector("#sb-ag-spin").addEventListener("click", () => {
-        const { r, match } = spinOnce();
-        const slotMidPct = (r + 0.5) / 100;
-        const targetDeg = 360 - slotMidPct * 360;
-        const currentMod = state.wheelAngle % 360;
-        const delta = ((targetDeg - currentMod) + 360) % 360;
-        state.wheelAngle += 720 + delta;
-        state.lastR = r;
-        state.lastWinner = match.id;
-        state.spinCount += 1;
-        render();
+        if (state.isSpinning) return;
+        const { r, match } = pickRandomSlot();
+        spinWheelPhysics(r, () => {
+          state.lastR = r;
+          state.lastWinner = match.id;
+          state.spinCount += 1;
+        });
       });
 
       hostEl.querySelector("#sb-ag-cross").addEventListener("click", () => {
-        const s1 = spinOnce();
-        const s2 = spinOnce();
+        if (state.isSpinning) return;
+        const s1 = pickRandomSlot();
+        const s2 = pickRandomSlot();
         const i1 = roulette.rows.indexOf(s1.match);
         const i2 = roulette.rows.indexOf(s2.match);
         const b1 = CHROMOS[i1];
@@ -1639,26 +2512,50 @@
         const c2 = b2.slice(0, cutK) + b1.slice(cutK);
         const c1Flags = [0, 1, 2, 3, 4].map((idx) => (idx < cutK ? 1 : 2));
         const c2Flags = [0, 1, 2, 3, 4].map((idx) => (idx < cutK ? 2 : 1));
-        const slotMidPct = (s2.r + 0.5) / 100;
-        const targetDeg = 360 - slotMidPct * 360;
-        const currentMod = state.wheelAngle % 360;
-        const delta = ((targetDeg - currentMod) + 360) % 360;
-        state.wheelAngle += 720 + delta;
-        state.lastR = s2.r;
-        state.lastWinner = s2.match.id;
-        state.spinCount += 1;
-        state.crossover = {
-          r1: s1.r, r2: s2.r,
-          p1Id: s1.match.id, p2Id: s2.match.id,
-          b1, b2, c1, c2, c1Flags, c2Flags, cutK
-        };
+
+        spinWheelPhysics(s2.r, () => {
+          state.lastR = s2.r;
+          state.lastWinner = s2.match.id;
+          state.spinCount += 1;
+          state.crossover = {
+            r1: s1.r,
+            r2: s2.r,
+            p1Id: s1.match.id,
+            p2Id: s2.match.id,
+            b1,
+            b2,
+            c1,
+            c2,
+            c1Flags,
+            c2Flags,
+            cutK
+          };
+        });
+      });
+
+      hostEl.querySelector("#sb-ag-next-gen").addEventListener("click", () => {
+        const stepRes = simulateAgGenerationStep(CHROMOS, state.fitness);
+        state.generation += 1;
+        state.fitness = stepRes.newFitnesses;
+        state.genHistory.push({
+          gen: state.generation,
+          max: stepRes.maxFitness,
+          avg: stepRes.avgFitness
+        });
         render();
+      });
+
+      hostEl.querySelector("#sb-ag-reset").addEventListener("click", () => {
+        mountAgSandbox(hostEl);
       });
     };
 
     render();
   }
 
+  // ---------------------------------------------------------------------------
+  // Sandboxes Hub (Tab Strip & Submode Controller)
+  // ---------------------------------------------------------------------------
   function mountSandboxesHub(container) {
     if (!container) return;
     clearAllSandboxTimers();
@@ -1678,7 +2575,7 @@
         <div class="card">
           <div style="margin-bottom:0.8rem;">
             <h2 style="font-size:1.15rem;margin-bottom:0.25rem;">🧪 Simuladores Interactivos en Vivo</h2>
-            <p style="font-size:0.88rem;color:var(--text-muted);">Experimentá en tiempo real con datos reales (clic para agregar puntos, meter ruido, cortar dendrogramas o cruzar cromosomas) para consolidar la intuición antes del parcial.</p>
+            <p style="font-size:0.88rem;color:var(--text-muted);">Experimentá en tiempo real con datos de parcial (arrastre 60 fps, ruido en neuronas, corte continuo de dendrogramas y ruletas físicas) con rigor matemático y fórmulas de cátedra.</p>
           </div>
           <div class="sb-tab-strip">
             ${specs.map((s) => `<button type="button" class="lab-topic-btn ${s.id === activeSandbox ? "active" : ""}" data-sb="${s.id}">${escapeHtml(s.label)}</button>`).join("")}
@@ -1700,6 +2597,8 @@
       else if (activeSandbox === "SOM") mountSomSandbox(stage);
       else if (activeSandbox === "CLUSTERING") mountClusteringSandbox(stage);
       else if (activeSandbox === "AG") mountAgSandbox(stage);
+
+      renderMathInSandbox(container);
     };
 
     renderHub();
@@ -1719,216 +2618,143 @@
       score: 0,
       streak: 0,
       bestStreak: 0,
-      resultsById: {}, // id -> "ok" | "bad"
+      resultsById: {},
       sprintActive: false,
-      sprintFinished: false,
-      timeLeft: 60
+      sprintTimeLeft: 60,
+      sprintFinished: false
     };
 
-    const getVisibleCases = () => {
+    const getFilteredCases = () => {
       if (state.topicFilter === "ALL") return TRAP_CASES;
       return TRAP_CASES.filter((c) => c.topic === state.topicFilter);
     };
 
     const renderGame = () => {
-      const pool = getVisibleCases();
-      if (pool.length === 0) return;
-      state.idx = Math.max(0, Math.min(pool.length - 1, state.idx));
-      const c = pool[state.idx];
-      const hasPicked = state.selectedLine !== null;
-      const isRight = hasPicked && state.selectedLine === c.trapLineIdx;
-      const allTopics = ["ALL", ...Array.from(new Set(TRAP_CASES.map((t) => t.topic)))];
-      const answeredCount = pool.filter((item) => Boolean(state.resultsById[item.id])).length;
-      const okCount = pool.filter((item) => state.resultsById[item.id] === "ok").length;
-      const badItems = pool.filter((item) => state.resultsById[item.id] === "bad");
-      const showSummary = state.sprintFinished || (answeredCount === pool.length && !hasPicked && pool.length > 0);
+      const cases = getFilteredCases();
+      if (state.idx >= cases.length) state.idx = 0;
+      const curCase = cases[state.idx];
+      const prevResult = curCase ? state.resultsById[curCase.id] : null;
 
       container.innerHTML = `
-        <div class="card">
-          <div class="vw-vis-top">
+        <div class="card trap-shell">
+          <div class="trap-hud-bar">
             <div>
-              <h2 style="font-size:1.15rem;margin-bottom:0.2rem;">🎯 Cazador de Trampas de Parcial</h2>
-              <p style="font-size:0.86rem;color:var(--text-muted);">Cada desarrollo tiene <strong>1 error sutil típico de parcial</strong>. Hacé clic en la línea tramposa antes de caer en ella en tu hoja.</p>
+              <h2 style="font-size:1.15rem;margin-bottom:0.2rem;">🕵️ Cazador de Trampas de Parcial</h2>
+              <p style="font-size:0.86rem;color:var(--text-muted);margin:0;">Identificá la línea exacta con el error conceptual o trampa típica de examen.</p>
             </div>
-            <div class="hud-stat-pills">
-              <span class="hud-pill">🎯 Aciertos: ${okCount}/${pool.length}</span>
-              <span class="hud-pill ${state.streak >= 3 ? "streak-hot" : ""}">🔥 Racha: ${state.streak}</span>
-              ${state.sprintActive
-                ? `<span class="badge badge-timer ${state.timeLeft <= 15 ? "danger" : ""}" id="trap-sprint-timer">⏱ ${state.timeLeft}s</span>`
-                : `<button type="button" class="btn btn-outline btn-sm" id="trap-sprint-btn">⏱️ Reto 60s</button>`}
+            <div class="trap-stats-pills">
+              <span class="trap-hud-pill">Aciertos: <strong>${state.score}</strong></span>
+              <span class="trap-hud-pill">Racha: <strong>${state.streak}🔥</strong></span>
+              ${state.sprintActive ? `<span class="trap-hud-pill" style="background:var(--danger);color:#fff;">⏱ ${state.sprintTimeLeft}s</span>` : ""}
+            </div>
+          </div>
+          <div class="sb-toolbar" style="margin-bottom:0.8rem;">
+            <div class="sb-btn-group">
+              ${["ALL", "HOPFIELD", "SOM", "CLUSTERING", "AG", "KNN", "NAIVE_BAYES", "MLP"].map((t) =>
+                `<button type="button" class="pe-mode-pill ${state.topicFilter === t ? "active" : ""}" data-trap-topic="${t}">${t === "ALL" ? "Todos" : t}</button>`
+              ).join("")}
+            </div>
+            <div class="sb-btn-group">
+              <button type="button" class="btn btn-outline btn-sm" id="trap-btn-sprint">${state.sprintActive ? "Detener Sprint" : "⚡ Sprint 60s"}</button>
+              <button type="button" class="btn btn-outline btn-sm" id="trap-restart-all">↺ Reiniciar</button>
             </div>
           </div>
 
-          <div class="trap-filter-bar">
-            ${allTopics.map((tp) => `
-              <button type="button" class="sb-pill-btn ${state.topicFilter === tp ? "active" : ""}" data-trap-topic="${tp}">
-                ${tp === "ALL" ? `Todos (${TRAP_CASES.length})` : escapeHtml(tp)}
-              </button>
-            `).join("")}
-          </div>
-
-          <div class="trap-case-dots">
-            ${pool.map((item, i) => {
-              const st = state.resultsById[item.id];
-              const cls = `trap-dot-btn ${i === state.idx ? "active" : ""} ${st === "ok" ? "done-ok" : (st === "bad" ? "done-bad" : "")}`;
-              return `<button type="button" class="${cls}" data-trap-jump="${i}" title="${escapeHtml(item.title)}">${i + 1}${st === "ok" ? "✓" : (st === "bad" ? "✕" : "")}</button>`;
-            }).join("")}
-          </div>
-
-          ${showSummary ? `
-            <div class="trap-summary-card">
-              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
-                <h3 style="margin:0;">${state.sprintFinished ? "⏱️ ¡Tiempo cumplido en Reto 60s!" : "🏁 ¡Serie completada!"}</h3>
-                <span class="sb-winner-pill cls-a">Precisión: ${answeredCount > 0 ? Math.round((okCount / answeredCount) * 100) : 0}% (${okCount}/${answeredCount}) · Mejor racha: ${state.bestStreak}</span>
-              </div>
-              ${badItems.length > 0 ? `
-                <div style="font-size:0.84rem;color:var(--text-muted);">
-                  <strong>Trampas a repasar (${badItems.length}):</strong>
-                  <ul style="margin:0.35rem 0 0 1.2rem;">
-                    ${badItems.map((bi) => `<li><strong>[${escapeHtml(bi.topic)}]</strong> ${escapeHtml(bi.title)}</li>`).join("")}
-                  </ul>
-                </div>
-              ` : `<div style="color:var(--success);font-weight:700;font-size:0.9rem;">✨ ¡Cero errores! Estás blindado contra todas las trampas de esta serie.</div>`}
-              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-                ${badItems.length > 0 ? `<button type="button" class="btn btn-primary btn-sm" id="trap-retry-bad">🔄 Reintentar falladas</button>` : ""}
-                <button type="button" class="btn btn-outline btn-sm" id="trap-restart-all">↺ Reiniciar serie</button>
-              </div>
-            </div>
-          ` : `
+          ${curCase ? `
             <div class="trap-card-box">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.65rem;flex-wrap:wrap;">
-                <span class="badge badge-topic">${escapeHtml(c.topic)}</span>
-                <span style="font-size:0.82rem;color:var(--text-muted);">Caso ${state.idx + 1} de ${pool.length}</span>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <span class="trap-topic-tag">${escapeHtml(curCase.topic)}</span>
+                <span style="font-size:0.82rem;color:var(--text-muted);">Caso ${state.idx + 1} de ${cases.length}</span>
               </div>
-              <h3 style="font-size:1.02rem;margin-bottom:0.7rem;">${escapeHtml(c.title)}</h3>
+              <h3 style="font-size:1rem;margin-bottom:0.6rem;">${escapeHtml(curCase.title)}</h3>
               <div class="trap-lines-list">
-                ${c.lines.map((ln, lIdx) => {
-                  let cls = "trap-line-btn";
-                  if (hasPicked) {
-                    if (lIdx === c.trapLineIdx) cls += " is-trap-correct";
-                    else if (lIdx === state.selectedLine) cls += " is-trap-wrong";
+                ${curCase.lines.map((l, lIdx) => {
+                  let statusCls = "";
+                  if (prevResult) {
+                    if (lIdx === curCase.trapLineIdx) statusCls = "trap-line-correct";
+                    else if (lIdx === prevResult.picked && !prevResult.ok) statusCls = "trap-line-wrong";
                   }
-                  return `<button type="button" class="${cls}" data-line="${lIdx}" ${hasPicked ? "disabled" : ""}>${escapeHtml(ln)}</button>`;
+                  return `<button type="button" class="trap-line-btn ${statusCls}" data-line="${lIdx}" ${prevResult ? "disabled" : ""}>${escapeHtml(l)}</button>`;
                 }).join("")}
               </div>
-
-              ${hasPicked ? `
-                <div class="trap-feedback ${isRight ? "ok" : "bad"}">
-                  <strong>${isRight ? "✅ ¡Trampa detectada!" : "❌ Era la línea " + (c.trapLineIdx + 1) + ":"}</strong>
-                  <span>${escapeHtml(c.explanation)}</span>
-                </div>
-                <div style="display:flex;justify-content:flex-end;margin-top:0.85rem;gap:0.5rem;">
-                  <button type="button" class="btn btn-primary btn-sm" id="trap-next-btn">${answeredCount === pool.length ? "Ver Resumen Final →" : "Siguiente Caso →"}</button>
+              ${prevResult ? `
+                <div class="trap-feedback ${prevResult.ok ? "ok" : "fail"}">
+                  <div style="font-weight:800;font-size:0.95rem;margin-bottom:0.25rem;">
+                    ${prevResult.ok ? "🎯 ¡Excelente! Descubriste la trampa de cátedra:" : "❌ ¡Caíste en la trampa! El error estaba en:"}
+                  </div>
+                  <div>${escapeHtml(curCase.explanation)}</div>
+                  <div style="margin-top:0.6rem;">
+                    <button type="button" class="btn btn-primary btn-sm" id="trap-next-case">Siguiente Caso ▶</button>
+                  </div>
                 </div>
               ` : ""}
             </div>
+          ` : `
+            <div class="empty-state">No hay casos para el tema seleccionado.</div>
           `}
         </div>
       `;
+
+      renderMathInSandbox(container);
 
       container.querySelectorAll("[data-trap-topic]").forEach((btn) => {
         btn.addEventListener("click", () => {
           state.topicFilter = btn.getAttribute("data-trap-topic");
           state.idx = 0;
-          state.selectedLine = null;
-          state.sprintFinished = false;
           renderGame();
         });
       });
-
-      container.querySelectorAll("[data-trap-jump]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          state.idx = Number(btn.getAttribute("data-trap-jump")) || 0;
-          state.selectedLine = null;
-          state.sprintFinished = false;
-          renderGame();
-        });
-      });
-
-      const sprintBtn = container.querySelector("#trap-sprint-btn");
-      if (sprintBtn) {
-        sprintBtn.addEventListener("click", () => {
-          clearAllSandboxTimers();
-          state.topicFilter = "ALL";
-          state.sprintActive = true;
-          state.sprintFinished = false;
-          state.timeLeft = 60;
-          state.score = 0;
-          state.streak = 0;
-          state.idx = 0;
-          state.selectedLine = null;
-          state.resultsById = {};
-          trapSprintTimer = setInterval(() => {
-            if (!document.body.contains(container)) {
-              clearAllSandboxTimers();
-              return;
-            }
-            state.timeLeft -= 1;
-            const timerEl = container.querySelector("#trap-sprint-timer");
-            if (timerEl) {
-              timerEl.textContent = `⏱ ${Math.max(0, state.timeLeft)}s`;
-              if (state.timeLeft <= 15) timerEl.classList.add("danger");
-            }
-            if (state.timeLeft <= 0) {
-              clearAllSandboxTimers();
-              state.sprintActive = false;
-              state.sprintFinished = true;
-              state.selectedLine = null;
-              renderGame();
-            }
-          }, 1000);
-          renderGame();
-        });
-      }
 
       container.querySelectorAll("[data-line]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          if (state.selectedLine !== null) return;
           const picked = Number(btn.getAttribute("data-line"));
-          state.selectedLine = picked;
-          const ok = picked === c.trapLineIdx;
-          const alreadyCorrect = state.resultsById[c.id] === "ok";
+          const ok = picked === curCase.trapLineIdx;
+          state.resultsById[curCase.id] = { picked, ok };
           if (ok) {
+            state.score += 10;
             state.streak += 1;
-            state.bestStreak = Math.max(state.bestStreak, state.streak);
-            if (!alreadyCorrect) {
-              state.score += 1;
-              if (typeof onAwardXp === "function") onAwardXp(c.id, true);
-            }
-            state.resultsById[c.id] = "ok";
+            if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+            if (typeof onAwardXp === "function") onAwardXp(curCase.id, true);
           } else {
             state.streak = 0;
-            if (!alreadyCorrect) state.resultsById[c.id] = "bad";
-            if (typeof onAwardXp === "function") onAwardXp(c.id, false);
+            if (typeof onAwardXp === "function") onAwardXp(curCase.id, false);
           }
           renderGame();
         });
       });
 
-      const nextBtn = container.querySelector("#trap-next-btn");
+      const nextBtn = container.querySelector("#trap-next-case");
       if (nextBtn) {
         nextBtn.addEventListener("click", () => {
-          const nextUnseen = pool.findIndex((item, i) => i > state.idx && !state.resultsById[item.id]);
-          state.idx = nextUnseen >= 0 ? nextUnseen : (state.idx + 1) % pool.length;
-          state.selectedLine = null;
+          state.idx = (state.idx + 1) % cases.length;
           renderGame();
         });
       }
 
-      const retryBadBtn = container.querySelector("#trap-retry-bad");
-      if (retryBadBtn) {
-        retryBadBtn.addEventListener("click", () => {
-          let firstBad = -1;
-          pool.forEach((item, i) => {
-            if (state.resultsById[item.id] === "bad") {
-              delete state.resultsById[item.id];
-              if (firstBad < 0) firstBad = i;
-            }
-          });
-          state.idx = firstBad >= 0 ? firstBad : 0;
-          state.selectedLine = null;
-          state.sprintFinished = false;
-          renderGame();
+      const sprintBtn = container.querySelector("#trap-btn-sprint");
+      if (sprintBtn) {
+        sprintBtn.addEventListener("click", () => {
+          if (state.sprintActive) {
+            clearAllSandboxTimers();
+            state.sprintActive = false;
+            renderGame();
+          } else {
+            clearAllSandboxTimers();
+            state.sprintActive = true;
+            state.sprintTimeLeft = 60;
+            state.score = 0;
+            state.streak = 0;
+            trackInterval(() => {
+              state.sprintTimeLeft -= 1;
+              if (state.sprintTimeLeft <= 0) {
+                clearAllSandboxTimers();
+                state.sprintActive = false;
+                state.sprintFinished = true;
+              }
+              renderGame();
+            }, 1000);
+            renderGame();
+          }
         });
       }
 
@@ -1952,17 +2778,34 @@
   }
 
   return {
+    escapeHtml,
+    readThemeColors,
+    renderMathInSandbox,
+    clearAllSandboxTimers,
+    renderSpeedSelectorHtml,
+    getSpeedDelay,
     computeKnnDecision,
     HOPFIELD_PATTERNS,
     buildHopfieldWeights,
     computeHopfieldEnergy,
     stepHopfield,
+    stepHopfieldAsync,
+    detectHopfieldAttractor,
     somStep,
+    somInference,
+    computeSomDecay,
     computeUpgmaTree,
+    computeClustersAtCutHeight,
     computeAgRoulette,
+    computeAgExpectedCopies,
+    simulateAgGenerationStep,
     simulateAgGenerations,
     TRAP_CASES,
-    clearAllSandboxTimers,
+    mountKnnSandbox,
+    mountHopfieldSandbox,
+    mountSomSandbox,
+    mountClusteringSandbox,
+    mountAgSandbox,
     mountSandboxesHub,
     mountTrapHunterGame
   };

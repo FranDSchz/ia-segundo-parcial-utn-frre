@@ -3930,6 +3930,132 @@ code {
   transform-origin: 50% 50%;
 }
 
+/* Speed Controller */
+.sb-speed-ctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.78rem;
+}
+
+.sb-speed-label {
+  font-weight: 700;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+}
+
+.sb-speed-buttons {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+.sb-speed-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 0.15rem 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.sb-speed-btn:hover {
+  color: var(--text-main);
+  background: var(--bg-hover);
+}
+
+.sb-speed-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  font-weight: 700;
+}
+
+/* Hopfield Pulse & Cell States */
+.sb-hop-cell.hop-flash-flip {
+  animation: hopCellPulse 0.45s ease-out;
+}
+
+@keyframes hopCellPulse {
+  0% {
+    transform: scale(1.18);
+    box-shadow: 0 0 14px var(--warning);
+    border-color: var(--warning);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* SOM Inferencia Toggle & Badges */
+.sb-mode-toggle {
+  display: inline-flex;
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 2px;
+  gap: 2px;
+}
+
+.sb-mode-btn {
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sb-mode-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.sb-infer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+/* Clustering Cut Slider */
+.sb-cut-slider-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-md);
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+}
+
+.sb-cut-slider {
+  flex: 1;
+  accent-color: var(--danger);
+  cursor: pointer;
+}
+
 /* Trap Hunter Game */
 .trap-shell {
   padding: 1.15rem 1.25rem;

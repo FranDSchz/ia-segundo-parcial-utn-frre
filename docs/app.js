@@ -3635,6 +3635,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       if (isSandboxes) {
         if (window.AlgoSandboxes && sandboxesPanel) {
           AlgoSandboxes.mountSandboxesHub(sandboxesPanel);
+          this.renderMath(sandboxesPanel);
         }
         return;
       }
@@ -3644,6 +3645,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
           AlgoSandboxes.mountTrapHunterGame(trapsPanel, {
             onAwardXp: (caseId, ok) => this.awardTrapHunterXp(caseId, ok)
           });
+          this.renderMath(trapsPanel);
         }
         return;
       }

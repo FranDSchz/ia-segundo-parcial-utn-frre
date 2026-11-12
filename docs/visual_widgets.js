@@ -602,21 +602,27 @@
 
     const edgeColor1 = isFwdH ? "var(--primary)" : (isBack ? "var(--warning)" : (isUpd ? "var(--success)" : "var(--border-color)"));
     const edgeColor2 = isFwdY ? "var(--primary)" : (isBack ? "var(--warning)" : (isUpd ? "var(--success)" : "var(--border-color)"));
-    const cls1 = isFwdH ? "vw-edge-flow" : (isBack ? "vw-edge-flow-rev" : "");
-    const cls2 = isFwdY ? "vw-edge-flow" : (isBack ? "vw-edge-flow-rev" : "");
 
     const nodeFill = (active, color = "var(--primary)") => active ? color : "var(--bg-subtle)";
     const nodeText = (active) => active ? "#ffffff" : "var(--text-main)";
 
     return `
-      <svg viewBox="0 0 460 180" class="vw-algo-svg" role="img" aria-label="Animación MLP 2x2x1">
-        <g stroke-width="${isFwdH || isBack || isUpd ? 2.6 : 1.7}">
-          <line x1="85" y1="52" x2="215" y2="52" stroke="${edgeColor1}" class="${cls1}" />
-          <line x1="85" y1="52" x2="215" y2="128" stroke="${edgeColor1}" class="${cls1}" />
-          <line x1="85" y1="128" x2="215" y2="52" stroke="${edgeColor1}" class="${cls1}" />
-          <line x1="85" y1="128" x2="215" y2="128" stroke="${edgeColor1}" class="${cls1}" />
-          <line x1="245" y1="52" x2="375" y2="90" stroke="${edgeColor2}" class="${cls2}" />
-          <line x1="245" y1="128" x2="375" y2="90" stroke="${edgeColor2}" class="${cls2}" />
+      <svg viewBox="0 0 460 195" class="vw-algo-svg" role="img" aria-label="Animación MLP 2x2x1">
+        <defs>
+          <marker id="vw-arr-fwd" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="${edgeColor1}" />
+          </marker>
+          <marker id="vw-arr-bwd" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 8 1.5 L 0 5 L 8 8.5 z" fill="var(--warning)" />
+          </marker>
+        </defs>
+        <g stroke-width="${isFwdH || isBack || isUpd ? 2.4 : 1.6}">
+          <line x1="88" y1="52" x2="212" y2="52" stroke="${edgeColor1}" />
+          <line x1="88" y1="52" x2="212" y2="128" stroke="${edgeColor1}" />
+          <line x1="88" y1="128" x2="212" y2="52" stroke="${edgeColor1}" />
+          <line x1="88" y1="128" x2="212" y2="128" stroke="${edgeColor1}" />
+          <line x1="248" y1="52" x2="370" y2="90" stroke="${edgeColor2}" marker-end="${isBack ? "url(#vw-arr-bwd)" : ""}" />
+          <line x1="248" y1="128" x2="370" y2="90" stroke="${edgeColor2}" marker-end="${isBack ? "url(#vw-arr-bwd)" : ""}" />
         </g>
         <g>
           <circle cx="70" cy="52" r="17" fill="${nodeFill(phase === "init" || isFwdH)}" stroke="var(--primary)" stroke-width="2" />
@@ -632,9 +638,17 @@
           <circle cx="390" cy="90" r="20" fill="${nodeFill(isFwdY || isBack || isUpd, isBack ? "var(--warning)" : (isUpd ? "var(--success)" : "var(--primary)"))}" stroke="var(--primary)" stroke-width="2" />
           <text x="390" y="94" text-anchor="middle" font-size="12" font-weight="800" fill="${nodeText(isFwdY || isBack || isUpd)}">o_y</text>
         </g>
-        <text x="70" y="166" text-anchor="middle" font-size="10" fill="var(--text-muted)">Entrada</text>
-        <text x="230" y="166" text-anchor="middle" font-size="10" fill="var(--text-muted)">Oculta σ(net)</text>
-        <text x="390" y="166" text-anchor="middle" font-size="10" fill="var(--text-muted)">Salida vs d</text>
+
+        ${isBack ? `
+          <rect x="254" y="32" width="126" height="18" rx="4" fill="rgba(245, 158, 11, 0.16)" stroke="var(--warning)" stroke-width="0.8"/>
+          <text x="317" y="45" text-anchor="middle" fill="var(--warning)" font-size="9" font-weight="700">← δ_y · w_y-h1 (flujo a h₁)</text>
+          <rect x="254" y="130" width="126" height="18" rx="4" fill="rgba(245, 158, 11, 0.16)" stroke="var(--warning)" stroke-width="0.8"/>
+          <text x="317" y="143" text-anchor="middle" fill="var(--warning)" font-size="9" font-weight="700">← δ_y · w_y-h2 (flujo a h₂)</text>
+        ` : ""}
+
+        <text x="70" y="172" text-anchor="middle" font-size="10" fill="var(--text-muted)">Entrada</text>
+        <text x="230" y="172" text-anchor="middle" font-size="10" fill="var(--text-muted)">Oculta σ(net)</text>
+        <text x="390" y="172" text-anchor="middle" font-size="10" fill="var(--text-muted)">Salida vs d</text>
       </svg>
     `;
   }
