@@ -71,7 +71,7 @@
       id: "combo_5",
       icon: "⚡",
       title: "Precisión x5",
-      desc: "Encadenar 5 respuestas con 80%+ seguidas en práctica.",
+      desc: "Encadenar 5 respuestas con 80%+ seguidas en repaso teórico.",
       check: (ctx) => ctx.gamif.bestPracticeCombo >= 5,
       progress: (ctx) => [Math.min(5, ctx.gamif.bestPracticeCombo), 5]
     },
