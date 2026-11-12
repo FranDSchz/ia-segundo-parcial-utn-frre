@@ -111,7 +111,7 @@
           </div>
           <div class="preset-meta">
             <span>⏱ 75 Minutos</span>
-            <span>📝 77 Preguntas</span>
+            <span>📝 71 Preguntas</span>
             <span>🎯 Cobertura 100%</span>
           </div>
         </div>
@@ -122,7 +122,11 @@
           <input type="checkbox" id="check-include-p1">
           <span>Incluir preguntas de repaso de <strong>1er Parcial</strong> (Búsqueda $A^*$, Árboles C4.5, Apriori, POP)</span>
         </label>
-        <span style="font-size: 0.85rem; color: var(--text-muted);">(Por defecto excluido para foco total en P2)</span>
+        <label class="checkbox-label">
+          <input type="checkbox" id="check-include-svm">
+          <span>Incluir preguntas de <strong>SVM (Support Vector Machines)</strong> — <em>tema de Finales, no visto este cuatrimestre para P2</em></span>
+        </label>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">(Por defecto ambos excluidos para foco 100% en el 2do Parcial)</span>
       </div>
 
       <div style="text-align: center; margin-top: 1.5rem;">
@@ -326,7 +330,7 @@
         <select id="qa-topic-select" class="qa-topic-select" onchange="app.setQATopic(this.value)">
           <option value="ALL">Todos los Temas (87)</option>
           <option value="ALGORITMOS_GENETICOS">Algoritmos Genéticos</option>
-          <option value="SVM">Support Vector Machines (SVM)</option>
+          <option value="SVM">Support Vector Machines · SVM (Solo Finales · no entra en P2)</option>
           <option value="SOM">Mapas Auto-organizados (SOM)</option>
           <option value="MLP">Perceptrón Multicapa (MLP)</option>
           <option value="CLUSTERING">Clustering Jerárquico</option>
@@ -423,7 +427,7 @@
         <div class="community-topics-grid">
           <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=SVM" target="_blank" rel="noopener noreferrer">
             <span class="topic-dot" style="background-color: #6366f1;"></span>
-            <span>Support Vector Machines (SVM)</span>
+            <span>SVM (Solo Finales · fuera de P2)</span>
           </a>
           <a class="community-topic-btn" href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre/discussions?discussions_q=SOM" target="_blank" rel="noopener noreferrer">
             <span class="topic-dot" style="background-color: #10b981;"></span>
@@ -520,8 +524,8 @@
       <div class="lab-isolation-banner">
         <div class="lab-isolation-badge">🛠️ ENTRENAMIENTO PRÁCTICO DE RESOLUCIÓN · NO SON PREGUNTAS DE PARCIAL</div>
         <p class="lab-isolation-note">
-          Este módulo <strong>no se mezcla</strong> con el banco teórico de parciales/Moodle (<a href="#qa" onclick="app.navigate('qa'); return false;">Banco QA</a> ni <a href="#home" onclick="app.navigate('home'); return false;">Simulacro</a>).
-          Reúne algoritmos paso a paso, qué justificar en la hoja, fórmulas clave, plantillas de tablas, trampas de cálculo y diagramas para resolver la práctica sin errores.
+          Este módulo <strong>no se mezcla</strong> con el banco teórico (<a href="#qa" onclick="app.navigate('qa'); return false;">Banco QA</a> ni <a href="#home" onclick="app.navigate('home'); return false;">Simulacro</a>) y cubre los <strong>7 temas oficiales del 2do Parcial</strong> (sin SVM).
+          No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP) y ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.
         </p>
       </div>
 

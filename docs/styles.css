@@ -446,13 +446,12 @@ p.subtitle {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.25rem 1.5rem;
+  padding: 1.15rem 1.4rem;
   margin-bottom: 1.75rem;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
 }
 
 .checkbox-label {
@@ -1503,6 +1502,15 @@ code {
   padding: 0.85rem;
   overflow-x: auto;
   margin-bottom: 1rem;
+}
+
+.lab-svg-wrap.lab-svg-extra {
+  margin-top: 0.25rem;
+}
+
+.lab-svg-wrap.lab-svg-inline {
+  margin: 0.55rem 0 0.7rem 0;
+  padding: 0.65rem;
 }
 
 .lab-svg-diagram {

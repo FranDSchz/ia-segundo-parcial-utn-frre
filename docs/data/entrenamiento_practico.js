@@ -10,7 +10,6 @@ window.ENTRENAMIENTO_PRACTICO = {
     { id: "MLP_PERCEPTRON", nombre: "MLP, Perceptrón y ADALINE", estado: "completo" },
     { id: "ALGORITMOS_GENETICOS", nombre: "Algoritmos Genéticos", estado: "completo" },
     { id: "NAIVE_BAYES", nombre: "Naïve Bayes (Histogramas y Normal)", estado: "completo" },
-    { id: "SVM", nombre: "Support Vector Machines (SVM)", estado: "completo" },
     { id: "HOPFIELD", nombre: "Redes de Hopfield", estado: "completo" },
     { id: "SOM", nombre: "Mapas Auto-organizados (SOM)", estado: "completo" },
     { id: "KNN", nombre: "K-Nearest Neighbors y LOOCV", estado: "completo" },
@@ -32,14 +31,14 @@ window.ENTRENAMIENTO_PRACTICO = {
           tipo: "diagrama",
           titulo: "Arquitectura MLP, Flujo Forward/Backward y Lectura de Subíndices",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Cómo leer correctamente los pesos en el dibujo del parcial y entender hacia dónde viaja cada cálculo en la red.",
+          resumen: "Cómo leer los pesos en el dibujo (regla origen-destino), entender Forward/Backward y ver dónde actúa la función sigmoidal.",
           svgDiagram: `
             <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama de flujo Forward y Backward en red MLP">
               <defs>
-                <marker id="arrow-fwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="mlp-arrow-fwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
                 </marker>
-                <marker id="arrow-bwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <marker id="mlp-arrow-bwd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1 L 10 5 L 0 9 z" fill="#fb7185" />
                 </marker>
               </defs>
@@ -79,35 +78,35 @@ window.ENTRENAMIENTO_PRACTICO = {
               <text x="570" y="235" text-anchor="middle" class="svg-label-muted" font-size="10">So₂ vs Sd₂</text>
 
               <!-- Conexiones Forward (Entrada -> Oculta) -->
-              <line x1="115" y1="115" x2="298" y2="115" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="115" y1="115" x2="298" y2="115" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
               <text x="205" y="106" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w₁₋x₁ (dest=o₁, orig=x₁)</text>
 
-              <line x1="114" y1="130" x2="299" y2="210" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#arrow-fwd)"/>
-              <line x1="114" y1="210" x2="299" y2="130" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#arrow-fwd)"/>
+              <line x1="114" y1="130" x2="299" y2="210" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="114" y1="210" x2="299" y2="130" stroke="#38bdf8" stroke-width="1.6" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
 
-              <line x1="115" y1="225" x2="298" y2="225" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="115" y1="225" x2="298" y2="225" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
               <text x="205" y="245" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w₂₋x₂ (dest=o₂, orig=x₂)</text>
 
               <!-- Conexiones Forward (Oculta -> Salida) -->
-              <line x1="360" y1="114" x2="538" y2="114" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="360" y1="114" x2="538" y2="114" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
               <text x="450" y="105" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">w_s1-o1</text>
 
-              <line x1="358" y1="132" x2="540" y2="208" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-fwd)"/>
-              <line x1="358" y1="208" x2="540" y2="132" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-fwd)"/>
+              <line x1="358" y1="132" x2="540" y2="208" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
+              <line x1="358" y1="208" x2="540" y2="132" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#mlp-arrow-fwd)"/>
 
-              <line x1="360" y1="226" x2="538" y2="226" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="360" y1="226" x2="538" y2="226" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
 
               <!-- Retorno Backward (Salida -> Oculta -> Entrada) -->
-              <line x1="538" y1="126" x2="362" y2="126" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-bwd)"/>
+              <line x1="538" y1="126" x2="362" y2="126" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
               <text x="450" y="146" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">δ_s1 · w_s1-o1</text>
 
-              <line x1="538" y1="214" x2="362" y2="214" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-bwd)"/>
+              <line x1="538" y1="214" x2="362" y2="214" stroke="#fb7185" stroke-width="2" marker-end="url(#mlp-arrow-bwd)"/>
               <text x="450" y="246" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">δ_s2 · w_s2-o2</text>
 
               <!-- Salida final y Error Ep -->
-              <line x1="600" y1="120" x2="660" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="600" y1="120" x2="660" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
               <text x="698" y="124" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">So₁ vs Sd₁</text>
-              <line x1="600" y1="220" x2="660" y2="220" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-fwd)"/>
+              <line x1="600" y1="220" x2="660" y2="220" stroke="#10b981" stroke-width="2" marker-end="url(#mlp-arrow-fwd)"/>
               <text x="698" y="224" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">So₂ vs Sd₂</text>
 
               <!-- Regla mnemotécnica inferior -->
@@ -115,6 +114,62 @@ window.ENTRENAMIENTO_PRACTICO = {
               <text x="380" y="283" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="600">
                 Regla de subíndices UTN: w_ji significa conexión DESDE i (origen) HACIA j (destino) ➔ Δw_ji = α · δ_j(destino) · y_i(origen)
               </text>
+            </svg>
+          `,
+          svgDiagram2: `
+            <svg viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Curva Sigmoidal f(net) y su derivada f'(net) = y(1-y)">
+              <rect x="16" y="12" width="468" height="252" rx="10" fill="rgba(15,23,42,0.55)" stroke="#334155" stroke-width="1"/>
+              <text x="250" y="34" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">Función Sigmoidal y = 1/(1+e⁻ⁿᵉᵗ) y su Derivada y(1−y)</text>
+
+              <!-- Zona activa net en [-2, 2] -->
+              <rect x="180" y="54" width="140" height="170" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="250" y="70" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">ZONA ACTIVA (mayor f')</text>
+              <text x="95" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Saturación → 0</text>
+              <text x="415" y="70" text-anchor="middle" fill="#94a3b8" font-size="10">Saturación → 1</text>
+
+              <!-- Ejes y grilla -->
+              <line x1="40" y1="224" x2="460" y2="224" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="250" y1="54" x2="250" y2="232" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="40" y1="64" x2="460" y2="64" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="40" y1="144" x2="460" y2="144" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="40" y1="184" x2="460" y2="184" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+
+              <!-- Etiquetas de ejes -->
+              <text x="34" y="68" text-anchor="end" class="svg-label-muted" font-size="10">1.0</text>
+              <text x="34" y="148" text-anchor="end" class="svg-label-muted" font-size="10">0.5</text>
+              <text x="34" y="188" text-anchor="end" fill="#fbbf24" font-size="10">0.25</text>
+              <text x="34" y="228" text-anchor="end" class="svg-label-muted" font-size="10">0</text>
+              <text x="110" y="242" text-anchor="middle" class="svg-label-muted" font-size="10">-4</text>
+              <text x="180" y="242" text-anchor="middle" class="svg-label-muted" font-size="10">-2</text>
+              <text x="250" y="242" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="700">net=0</text>
+              <text x="320" y="242" text-anchor="middle" class="svg-label-muted" font-size="10">+2</text>
+              <text x="390" y="242" text-anchor="middle" class="svg-label-muted" font-size="10">+4</text>
+              <text x="455" y="242" text-anchor="middle" class="svg-label-muted" font-size="10">net</text>
+
+              <!-- Curva y = 1/(1+e^-net): x = 250 + 35*net, svgY = 224 - 160*y -->
+              <path d="M 40 223.6 L 75 222.9 L 110 221.1 L 145 216.4 L 180 204.9 L 215 181.0 L 232.5 163.6 L 250 144.0 L 267.5 124.4 L 285 107.0 L 320 83.1 L 355 71.6 L 390 66.9 L 425 65.1 L 460 64.4" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+
+              <!-- Curva f'(net) = y(1-y): pico 0.25 en net=0 -> svgY=184 -->
+              <path d="M 40 223.6 L 75 222.9 L 110 221.2 L 145 216.8 L 180 207.2 L 215 192.5 L 232.5 186.4 L 250 184.0 L 267.5 186.4 L 285 192.5 L 320 207.2 L 355 216.8 L 390 221.2 L 425 222.9 L 460 223.6" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-dasharray="6,4"/>
+
+              <!-- Puntos clave -->
+              <circle cx="250" cy="144" r="5" fill="#38bdf8" stroke="#0f172a" stroke-width="1.5"/>
+              <text x="292" y="138" fill="#7dd3fc" font-size="10" font-weight="700">y(0) = 0.50</text>
+              <circle cx="250" cy="184" r="5" fill="#fbbf24" stroke="#0f172a" stroke-width="1.5"/>
+              <text x="250" y="175" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">Pico f'=0.25</text>
+
+              <!-- Panel derecho resumen práctico sigmoidal -->
+              <rect x="498" y="12" width="246" height="252" rx="10" fill="rgba(16,185,129,0.08)" stroke="#10b981" stroke-width="1.2"/>
+              <text x="621" y="38" text-anchor="middle" fill="#34d399" font-size="13" font-weight="700">Foco Parcial: Sigmoidal</text>
+              <text x="514" y="68" fill="#e2e8f0" font-size="12" font-weight="700">1. Salida en Forward:</text>
+              <text x="520" y="88" fill="#7dd3fc" font-size="12">y = 1 / (1 + e⁻ⁿᵉᵗ) ∈ (0, 1)</text>
+              <text x="514" y="120" fill="#e2e8f0" font-size="12" font-weight="700">2. Derivada en Backward:</text>
+              <text x="520" y="140" fill="#fbbf24" font-size="12">f'(net) = y · (1 − y)</text>
+              <text x="520" y="158" class="svg-label-muted" font-size="10">(Usás directamente la y recién sacada)</text>
+              <rect x="512" y="176" width="218" height="74" rx="6" class="svg-note-bg"/>
+              <text x="621" y="196" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Chequeo rápido en hoja:</text>
+              <text x="621" y="214" text-anchor="middle" class="svg-node-text" font-size="10.5">Si y &lt; 0 o y &gt; 1 ➔ ¡error de signo!</text>
+              <text x="621" y="232" text-anchor="middle" class="svg-node-text" font-size="10.5">f' siempre está entre 0 y 0.25</text>
             </svg>
           `,
           notasClave: [
@@ -128,49 +183,49 @@ window.ENTRENAMIENTO_PRACTICO = {
           tipo: "algoritmo",
           titulo: "Algoritmo MLP (Backpropagation) en 6 Pasos + Cierre de Época (Pasos 7 y 8)",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Guía paso a paso exactamente como figura en las diapositivas de cátedra (`Sem11-2-MLP-BPN_26.pptx`), incluyendo qué fórmula escribir y qué comentar brevemente en tu hoja de examen.",
+          resumen: "Guía práctica en 6 pasos para entender qué va pasando en cada cuenta (sin recitar definiciones de memoria), con foco en activación sigmoidal y comentarios cortos para tu hoja.",
           pasos: [
             {
               nro: 1,
               titulo: "Inicialización de los pesos y parámetros",
-              queHago: "Verifico todos los pesos iniciales $w_{ji}(0)$ (ya sean de tabla o sobre el grafo de la red), la tasa de aprendizaje $\\alpha$ y si existe término de momento $\\beta$ (si no lo menciona, $\\beta = 0$). En código real se eligen valores aleatorios pequeños.",
+              queHago: "Anoto los pesos iniciales $w_{ji}(0)$, los sesgos/umbrales si hay, la tasa de aprendizaje $\\alpha$ y el momento $\\beta$ (si no lo mencionan, vale $0$).",
               formula: "$$W(0) = \\{w_{ji}(0)\\}, \\quad \\alpha \\in (0, 1], \\quad \\beta \\in [0, 1)$$",
-              queEscriboEnHoja: "«Paso 1: Partimos de los pesos sinápticos iniciales W(0), coeficiente de aprendizaje α = ... y momento β = ... suministrados por la consigna.»"
+              queEscriboEnHoja: "«Arranco con los pesos iniciales W(0), α = ... y β = ... que da el enunciado.»"
             },
             {
               nro: 2,
               titulo: "Presentación de datos y codificación de la salida",
-              queHago: "Tomo el patrón $p$ a evaluar anotando sus entradas $x_i$ y su salida deseada $S_{dk}$ (o $d_k$). Si el problema tiene clases categóricas (ej. `Sol / Lluvia` o clases A/B), dejo explícita su codificación numérica (ej. `[0, 1]`).",
+              queHago: "Elijo el patrón $p$ a procesar: separo lo que entra a la red ($x_i$) de la respuesta objetivo ($S_{dk}$). Si son etiquetas o clases, dejo clara su codificación numérica.",
               formula: "$$\\text{Patrón } p: \\; (\\mathbf{E}_p; \\mathbf{S}_d) = ([x_1, x_2, \\dots]; [S_{d1}, S_{d2}, \\dots])$$",
-              queEscriboEnHoja: "«Paso 2: Presentamos el patrón p₁ con vector de entrada E = [...] y salida deseada codificada Sd = [...].»"
+              queEscriboEnHoja: "«Pruebo el patrón 1 con entradas x = [...] buscando que salga Sd = [...].»"
             },
             {
               nro: 3,
               titulo: "Calcular la salida actual de la red (Forward Pass)",
-              queHago: "Voy capa por capa **de izquierda a derecha** (primero capa oculta, luego capa de salida). En cada neurona calculo su entrada neta $net_j$ multiplicando cada entrada por su peso y sumando (ojo si hay sesgo/bias $b_j$), y luego aplico la función de activación que indique esa neurona (**Lineal** o **Sigmoidal**).",
-              formula: "$$net_j = \\sum_{i} w_{ji} \\cdot y_i \\qquad \\Longrightarrow \\qquad y_j = f(net_j) = \\begin{cases} net_j & \\text{si es Lineal (Identidad)} \\\\ \\dfrac{1}{1 + e^{-net_j}} & \\text{si es Sigmoidal} \\end{cases}$$",
-              queEscriboEnHoja: "«Paso 3 (Forward): Calculo el net y la activación f(net) de las neuronas ocultas (función [lineal/sigmoidal]) y propago esos valores hacia las neuronas de salida.»"
+              queHago: "Avanzo **de izquierda a derecha** (primero capa oculta, luego salida). Sumo entradas por pesos ($net_j$) y paso el resultado por la **sigmoidal** $f(net)=\\frac{1}{1+e^{-net}}$ (o dejo $net_j$ directo si alguna neurona fuera lineal).",
+              formula: "$$net_j = \\sum_{i} w_{ji} \\cdot y_i + b_j \\qquad \\Longrightarrow \\qquad y_j = f(net_j) = \\begin{cases} \\dfrac{1}{1 + e^{-net_j}} & \\text{Sigmoidal (más probable en parcial)} \\\\ net_j & \\text{si aclara Lineal} \\end{cases}$$",
+              queEscriboEnHoja: "«Voy para adelante (Forward): saco net y la sigmoidal f(net) en las ocultas y con eso calculo la salida actual de la red.»"
             },
             {
               nro: 4,
               titulo: "Calcular los términos de error δ (Backward Pass)",
-              queHago: "Retropropago **de derecha a izquierda**. Primero calculo $\\delta_{sk}$ en la **Capa de Salida** usando $S_{dk} - S_{ok}$. Luego calculo $\\delta_{oj}$ en cada **Neurona Oculta** sumando todos los $\\delta$ de las neuronas a las que se conecta multiplicados por sus respectivos pesos, y todo por la derivada $f'(net_{oj})$.",
-              formula: "$$\\delta_{sk} = (S_{dk} - S_{ok}) \\cdot f'(net_{sk}) \\qquad\\mid\\qquad \\delta_{oj} = f'(net_{oj}) \\cdot \\sum_{k \\in \\text{Salidas}} (\\delta_{sk} \\cdot w_{sk-oj})$$\n$$f'(net) = \\begin{cases} 1 & \\text{si neurona es Lineal} \\\\ f(net)\\cdot(1 - f(net)) & \\text{si neurona es Sigmoidal} \\end{cases}$$",
-              queEscriboEnHoja: "«Paso 4 (Backward): Determino los gradientes locales δ en capa de salida y los retropropago hacia las neuronas ocultas multiplicados por la derivada de su función de transferencia.»"
+              queHago: "Ahora vuelvo **de derecha a izquierda** para ver cuánto aportó cada neurona al error. En la salida comparo $(S_{dk}-y_k)$ por su derivada sigmoidal $y_k(1-y_k)$; en la oculta sumo los $\\delta$ que vuelven multiplicados por cada peso que sale de ella.",
+              formula: "$$\\delta_{sk} = (S_{dk} - S_{ok}) \\cdot f'(net_{sk}) \\qquad\\mid\\qquad \\delta_{oj} = f'(net_{oj}) \\cdot \\sum_{k \\in \\text{Salidas}} (\\delta_{sk} \\cdot w_{sk-oj})$$\n$$f'(net) = \\begin{cases} f(net)\\cdot(1 - f(net)) & \\text{Sigmoidal (foco de parcial)} \\\\ 1 & \\text{si es Lineal} \\end{cases}$$",
+              queEscriboEnHoja: "«Vuelvo para atrás (Backward): mido cuánto erró la salida (δ_s) y lo reparto hacia las ocultas (δ_o) usando su derivada f'(net).»"
             },
             {
               nro: 5,
-              titulo: "Actualización de los pesos sinápticos (Regla Delta Generalizada)",
-              queHago: "Actualizo cada peso pedido (tanto de salida como ocultos). Uso siempre la regla mnemotécnica: **$\\alpha \\times \\delta_{\\text{neurona destino}} \\times \\text{activación}_{\\text{neurona origen}}$**. Si la consigna pide **momento $\\beta$**, sumo $\\beta \\cdot \\Delta w_{ji}(t-1)$.",
+              titulo: "Actualización de los pesos sinápticos",
+              queHago: "Corrijo cada peso en la dirección que achica el error: multiplico **$\\alpha \\cdot \\delta_{\\text{destino}} \\cdot y_{\\text{origen}}$** (y sumo $\\beta \\cdot \\Delta w_{ji}(t-1)$ si hay momento). Ojo con los signos: un $\\delta$ negativo baja el peso.",
               formula: "$$\\Delta w_{ji}(t) = \\alpha \\cdot \\delta_j \\cdot y_i + \\beta \\cdot \\Delta w_{ji}(t-1) \\qquad\\Longrightarrow\\qquad w_{ji}(t+1) = w_{ji}(t) + \\Delta w_{ji}(t)$$",
-              queEscriboEnHoja: "«Paso 5: Actualizo los pesos mediante la Regla Delta Generalizada (w(t+1) = w(t) + Δw), aplicando el término de momento β donde corresponde.»"
+              queEscriboEnHoja: "«Actualizo cada peso corriendo un poquito con α·δ_destino·y_origen (+ momento β si pide).»"
             },
             {
               nro: 6,
-              titulo: "Calcular el Error del Patrón (Ep), Error Global (EG) y Criterio de Parada (Pasos 7-8)",
-              queHago: "Calculo el error cuadrático producido para ese patrón ($E_p$). Nota de la cátedra: si faltan patrones, vuelvo al Paso 2; cuando completo los $L$ patrones de la época, promedio todos los $E_p$ para hallar el **Error Global ($E_G$)** y decido si paro o sigo iterando.",
+              titulo: "Calcular el Error del Patrón (Ep), Error Global (EG) y Criterio de Parada",
+              queHago: "Mido el error cuadrático del patrón ($E_p$). Si quedan más patrones en la época, sigo con el siguiente; al terminar los $L$ patrones promedio para sacar el **Error Global ($E_G$)** y decido si paro o hago otra iteración.",
               formula: "$$E_p = \\frac{1}{2} \\sum_{k=1}^{M} (S_{dk} - S_{ok})^2 \\qquad\\Longrightarrow\\qquad E_G = \\frac{1}{L} \\sum_{p=1}^{L} E_p$$",
-              queEscriboEnHoja: "«Paso 6 y Cierre de Época: Calculo el error del patrón Ep y el error global medio EG = (1/L) Σ Ep. Como EG [<= / >] E_mínimo aceptable, el entrenamiento [finaliza / debe realizar una iteración más].»"
+              queEscriboEnHoja: "«Saco el error de este patrón Ep; al completar la época promedio en EG y como EG [<= / >] mínimo pedido, [termino / sigo otra época].»"
             }
           ]
         },
@@ -185,23 +240,61 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Perceptrón — Método Analítico (Ecuación de la Recta Frontera)",
-              queHago: "Planteo el potencial nulo $net = 0$ con $x_0 = 1$ y $w_0 = -\\theta$. Despejo $x_2$ en función de $x_1$. Luego dibujo los puntos de clase 0 y clase 1 en los ejes $(x_1, x_2)$ y elijo **una recta que los separe** con su pendiente $m$ y ordenada al origen $b$. Igualando coeficientes saco $\\theta, w_1, w_2$.",
+              queHago: "Grafico los puntos de ambas clases en $(x_1, x_2)$ y trazo **una recta que los separe** ($x_2 = m\\,x_1 + b$). Igualo con $w_1 x_1 + w_2 x_2 - \\theta = 0$ y fijo un valor simple (ej. $w_2 = 1$) para sacar $w_1$ y $\\theta$.",
               formula: "$$w_1 x_1 + w_2 x_2 - \\theta = 0 \\quad\\Longrightarrow\\quad x_2 = -\\frac{w_1}{w_2} x_1 + \\frac{\\theta}{w_2}$$",
-              queEscriboEnHoja: "«Trazo la recta separadora x₂ = m·x₁ + b entre ambas clases, fijando arbitrariamente θ (o w₂) para despejar los pesos proporcionales.»"
+              queEscriboEnHoja: "«Dibujo la recta x₂ = m·x₁ + b que separa las dos clases y despejo w₁, w₂ y θ.»"
             },
             {
               nro: 2,
               titulo: "Perceptrón — Verificación OBLIGATORIA del Semiplano (Invertir Signos)",
-              queHago: "Tomo un punto testigo de Clase 1 y otro de Clase 0 y calculo $net = w_1 x_1 + w_2 x_2 - \\theta$. Si la recta separa bien pero el punto de Clase 1 me da $net < 0$ (me da salida 0 en vez de 1), **invierto el signo a TODOS**: $-w_1, -w_2, -\\theta$ (es decir, cambio de signo $w_0, w_1, w_2$).",
-              formula: "$$\\text{Si un patrón Clase 1 da } f(net) = 0 \\implies w_0 \\leftarrow -w_0, \\; w_1 \\leftarrow -w_1, \\; w_2 \\leftarrow -w_2$$",
-              queEscriboEnHoja: "«Verifico con un patrón de cada clase: como el signo obtenido es opuesto a la salida deseada, invierto el signo de θ y de todos los pesos para orientar el semiplano positivo.»"
+              queHago: "Pruebo un punto de Clase 1 en $net$. Si la recta separa bien pero el punto de Clase 1 me da $net < 0$ (salida $0$ en vez de $1$), el vector apunta para el lado contrario: **le doy vuelta el signo a TODOS**: $-w_0, -w_1, -w_2$.",
+              svgDiagram: `
+                <svg viewBox="0 0 760 215" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Inversión de signos de pesos para orientar el semiplano positivo">
+                  <defs>
+                    <marker id="mlp-p-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#fb7185"/></marker>
+                    <marker id="mlp-p-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#34d399"/></marker>
+                  </defs>
+                  <!-- Panel izquierdo -->
+                  <rect x="14" y="10" width="300" height="195" rx="10" fill="rgba(251,113,133,0.08)" stroke="#fb7185" stroke-width="1.2"/>
+                  <text x="164" y="32" text-anchor="middle" fill="#fb7185" font-size="12" font-weight="700">1. Recta bien ubicada, signo AL REVÉS</text>
+                  <line x1="45" y1="168" x2="290" y2="168" stroke="#64748b" stroke-width="1.2"/>
+                  <line x1="65" y1="50" x2="65" y2="185" stroke="#64748b" stroke-width="1.2"/>
+                  <line x1="80" y1="158" x2="260" y2="62" stroke="#38bdf8" stroke-width="2.5"/>
+                  <circle cx="115" cy="92" r="7" fill="#34d399"/>
+                  <text x="115" y="79" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Clase 1 (da net &lt; 0 ✗)</text>
+                  <circle cx="220" cy="142" r="7" fill="#fb7185"/>
+                  <text x="220" y="159" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">Clase 0 (da net &gt; 0)</text>
+                  <line x1="170" y1="110" x2="200" y2="146" stroke="#fb7185" stroke-width="2.5" marker-end="url(#mlp-p-red)"/>
+                  <text x="214" y="124" fill="#fb7185" font-size="11" font-weight="700">w</text>
+
+                  <!-- Flecha cambio de signo -->
+                  <rect x="330" y="76" width="100" height="60" rx="8" class="svg-note-bg"/>
+                  <text x="380" y="102" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="700">× (−1)</text>
+                  <text x="380" y="121" text-anchor="middle" class="svg-node-text" font-size="10.5">a w₀, w₁ y w₂</text>
+
+                  <!-- Panel derecho -->
+                  <rect x="446" y="10" width="300" height="195" rx="10" fill="rgba(52,211,153,0.08)" stroke="#34d399" stroke-width="1.2"/>
+                  <text x="596" y="32" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">2. Misma recta, semiplano CORREGIDO</text>
+                  <line x1="477" y1="168" x2="722" y2="168" stroke="#64748b" stroke-width="1.2"/>
+                  <line x1="497" y1="50" x2="497" y2="185" stroke="#64748b" stroke-width="1.2"/>
+                  <line x1="512" y1="158" x2="692" y2="62" stroke="#38bdf8" stroke-width="2.5"/>
+                  <circle cx="547" cy="92" r="7" fill="#34d399"/>
+                  <text x="547" y="79" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Clase 1 (net &gt; 0 ✓)</text>
+                  <circle cx="652" cy="142" r="7" fill="#fb7185"/>
+                  <text x="652" y="159" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">Clase 0 (net &lt; 0 ✓)</text>
+                  <line x1="602" y1="110" x2="572" y2="74" stroke="#34d399" stroke-width="2.5" marker-end="url(#mlp-p-green)"/>
+                  <text x="592" y="84" fill="#34d399" font-size="11" font-weight="700">−w</text>
+                </svg>
+              `,
+              formula: "$$\\text{Si Clase 1 da } f(net) = 0 \\implies w_0 \\leftarrow -w_0, \\; w_1 \\leftarrow -w_1, \\; w_2 \\leftarrow -w_2$$",
+              queEscriboEnHoja: "«Pruebo un punto de cada clase: como dio el signo al revés, invierto los signos de w₁, w₂ y θ para apuntar al lado correcto.»"
             },
             {
               nro: 3,
               titulo: "Perceptrón — Método Iterativo vs. ADALINE (Regla Delta / LMS)",
-              queHago: "En **Perceptrón Simple**, primero paso $net$ por el escalón $y = f(net) \\in \\{0, 1\\}$ y calculo $\\varepsilon = S_d - y$. En **ADALINE**, el error se calcula **antes del escalón** usando la salida lineal ($S_o = net$): $\\varepsilon = S_d - net$. Si $\\varepsilon \\ne 0$, actualizo cada peso (incluyendo $w_0$ con $x_0 = 1$).",
+              queHago: "En **Perceptrón**, aplico el escalón $y \\in \\{0, 1\\}$ y comparo $S_d - y$. En **ADALINE**, el error se saca **antes del escalón** usando $net$ directo ($S_d - net$). Si el error no es $0$, corrijo todos los pesos (incluyendo $w_0 = -\\theta$) antes del siguiente patrón.",
               formula: "$$w_i(t+1) = w_i(t) + \\alpha \\cdot (S_d - y) \\cdot x_i \\qquad (x_0 = 1, \\; w_0 = -\\theta)$$",
-              queEscriboEnHoja: "«Para el patrón pᵢ evalúo net, comparo con Sd y al haber error ε ≠ 0 aplico la regla de ajuste a w₀, w₁, w₂ antes de pasar al patrón siguiente.»"
+              queEscriboEnHoja: "«Evalúo el patrón pᵢ; como hay diferencia con Sd, ajusto w₀, w₁ y w₂ antes de pasar al patrón siguiente.»"
             }
           ]
         },
@@ -209,35 +302,118 @@ window.ENTRENAMIENTO_PRACTICO = {
           id: "PRAC-MLP-04",
           tema: "MLP_PERCEPTRON",
           tipo: "plantilla",
-          titulo: "Plantilla de Tablas para Dibujar en tu Hoja en Blanco (MLP)",
+          titulo: "Plantilla en Hoja + Ejemplo Resuelto Sigmoidal Completo (Red 2-2-1, α=0.5)",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Qué columnas armar en papel para no perder variables, redondeos ni subíndices mientras usás la calculadora.",
+          resumen: "Cómo ordenar las cuentas en hoja con un ejemplo numérico real 100% sigmoidal verificado a 4 decimales.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 225" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Ejemplo numérico completo MLP 2-2-1 Sigmoidal">
+              <defs>
+                <marker id="mlp-ex-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#38bdf8"/></marker>
+              </defs>
+              <text x="380" y="22" text-anchor="middle" fill="#34d399" font-size="12.5" font-weight="700">Ejemplo resuelto Sigmoidal: x=[1.0, 0.5] · Sd=1.0 · α=0.5 · Ep=0.1036</text>
+
+              <!-- Entrada -->
+              <circle cx="80" cy="72" r="22" class="svg-node svg-node-in"/>
+              <text x="80" y="69" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">x₁=1.0</text>
+              <circle cx="80" cy="158" r="22" class="svg-node svg-node-in"/>
+              <text x="80" y="155" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">x₂=0.5</text>
+
+              <!-- Ocultas -->
+              <circle cx="290" cy="72" r="27" class="svg-node svg-node-hidden"/>
+              <text x="290" y="67" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">o₁ (b=0.1)</text>
+              <text x="290" y="83" text-anchor="middle" fill="#c4b5fd" font-size="9.5">y=0.5987</text>
+
+              <circle cx="290" cy="158" r="27" class="svg-node svg-node-hidden"/>
+              <text x="290" y="153" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">o₂ (b=0.2)</text>
+              <text x="290" y="169" text-anchor="middle" fill="#c4b5fd" font-size="9.5">y=0.5498</text>
+
+              <!-- Salida -->
+              <circle cx="520" cy="115" r="30" class="svg-node svg-node-out"/>
+              <text x="520" y="110" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">s₁ (b=0.1)</text>
+              <text x="520" y="126" text-anchor="middle" fill="#6ee7b7" font-size="10">y=0.5447</text>
+
+              <!-- Flechas con pesos -->
+              <line x1="103" y1="68" x2="260" y2="68" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-ex-arr)"/>
+              <text x="180" y="60" text-anchor="middle" fill="#7dd3fc" font-size="10">0.4</text>
+              <line x1="102" y1="150" x2="262" y2="79" stroke="#38bdf8" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#mlp-ex-arr)"/>
+              <text x="150" y="112" text-anchor="middle" fill="#7dd3fc" font-size="10">−0.2</text>
+              <line x1="102" y1="80" x2="262" y2="150" stroke="#38bdf8" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#mlp-ex-arr)"/>
+              <text x="150" y="135" text-anchor="middle" fill="#7dd3fc" font-size="10">−0.3</text>
+              <line x1="103" y1="162" x2="260" y2="162" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#mlp-ex-arr)"/>
+              <text x="180" y="176" text-anchor="middle" fill="#7dd3fc" font-size="10">0.6</text>
+
+              <line x1="319" y1="77" x2="487" y2="108" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-ex-arr)"/>
+              <text x="405" y="83" text-anchor="middle" fill="#7dd3fc" font-size="10.5" font-weight="700">w=0.5</text>
+              <line x1="319" y1="152" x2="487" y2="122" stroke="#38bdf8" stroke-width="2" marker-end="url(#mlp-ex-arr)"/>
+              <text x="405" y="150" text-anchor="middle" fill="#7dd3fc" font-size="10.5" font-weight="700">w=−0.4</text>
+
+              <!-- Caja resultado Backward derecha -->
+              <rect x="572" y="42" width="174" height="145" rx="8" fill="rgba(251,113,133,0.10)" stroke="#fb7185" stroke-width="1.2"/>
+              <text x="659" y="64" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">Backward (δ y nuevos w)</text>
+              <text x="584" y="86" fill="#e2e8f0" font-size="10.5">δ_s1 = 0.1129</text>
+              <text x="584" y="104" fill="#e2e8f0" font-size="10.5">δ_o1 = 0.0136</text>
+              <text x="584" y="122" fill="#e2e8f0" font-size="10.5">δ_o2 = −0.0112</text>
+              <line x1="584" y1="133" x2="734" y2="133" stroke="#475569" stroke-width="1"/>
+              <text x="584" y="151" fill="#34d399" font-size="10.5">w_s1-o1 → 0.5338</text>
+              <text x="584" y="169" fill="#34d399" font-size="10.5">w_o1-x1 → 0.4068</text>
+
+              <rect x="14" y="192" width="732" height="24" rx="5" class="svg-note-bg"/>
+              <text x="380" y="208" text-anchor="middle" class="svg-node-text" font-size="10.5">
+                Chequeo: f'(s1) = 0.5447×0.4553 = 0.2480 → δ_s1 = (1 − 0.5447)×0.2480 = 0.1129 → Ep = 0.5×(1 − 0.5447)² = 0.1036
+              </text>
+            </svg>
+          `,
           tablaPlantilla: {
-            tituloTabla: "1) Tabla Paso Forward (una fila por neurona, de Oculta a Salida)",
-            columnas: ["Neurona j", "Función", "Cálculo de net_j = Σ w_ji · y_i", "Salida f(net_j)", "Derivada f'(net_j)"],
+            tituloTabla: "1) Forward Sigmoidal (Ejemplo resuelto + plantilla)",
+            columnas: ["Neurona", "net = Σ w·y + b", "Salida y = 1/(1+e⁻ⁿᵉᵗ)", "Derivada f' = y(1−y)", "Comentario breve en hoja"],
             filas: [
-              ["o₁ (oculta)", "Lineal / Sigmoide", "x₁·w₁₋ₓ₁ + x₂·w₁₋ₓ₂", "net₁ ó 1/(1+e⁻ⁿᵉᵗ)", "1 ó f(1 - f)"],
-              ["s₁ (salida)", "Sigmoide / Lineal", "f(net_o1)·w_s1-o1 + ...", "1/(1+e⁻ⁿᵉᵗ) ó net", "f(1 - f) ó 1"]
+              ["o₁ (oculta)", "1·0.4 + 0.5·(−0.2) + 0.1 = 0.4000", "0.5987", "0.5987·0.4013 = 0.2403", "Saco net y sigmoidal de oculta 1"],
+              ["o₂ (oculta)", "1·(−0.3) + 0.5·0.6 + 0.2 = 0.2000", "0.5498", "0.5498·0.4502 = 0.2475", "Saco net y sigmoidal de oculta 2"],
+              ["s₁ (salida)", "0.5987·0.5 + 0.5498·(−0.4) + 0.1 = 0.1794", "0.5447", "0.5447·0.4553 = 0.2480", "Salida obtenida (buscaba Sd = 1.0)"]
             ]
           },
           tablaPlantilla2: {
-            tituloTabla: "2) Tabla Paso Backward (Errores δ) y 3) Actualización de Pesos",
-            columnas: ["Peso w_ji", "w_ji(t) actual", "δ_j (destino)", "y_i (origen)", "Δw = α·δ_j·y_i + β·Δw(t-1)", "w_ji(t+1) nuevo"],
+            tituloTabla: "2) Backward y Actualización de Pesos (α = 0.5, β = 0)",
+            columnas: ["Elemento", "Cálculo paso a paso", "Resultado", "Comentario breve en hoja"],
             filas: [
-              ["w_s1-o1 (salida)", "w_s1-o1(t)", "δ_s1", "f(net_o1)", "α · δ_s1 · f(net_o1) + ...", "w(t) + Δw"],
-              ["w_o1-x1 (oculta)", "w_o1-x1(t)", "δ_o1", "x₁ (entrada)", "α · δ_o1 · x₁ + ...", "w(t) + Δw"]
+              ["δ_s1 (salida)", "(1.0 − 0.5447) · 0.2480", "0.1129", "Mido cuánto faltó en salida por f'"],
+              ["δ_o1 (oculta)", "0.2403 · (0.1129 · 0.5)", "0.0136", "Reparto error hacia atrás a o₁"],
+              ["δ_o2 (oculta)", "0.2475 · (0.1129 · (−0.4))", "−0.0112", "Reparto error hacia atrás a o₂"],
+              ["w_s1-o1(t+1)", "0.5 + 0.5 · 0.1129 · 0.5987", "0.5338", "Subo el peso que conecta o₁ con s₁"],
+              ["w_o1-x1(t+1)", "0.4 + 0.5 · 0.0136 · 1.0", "0.4068", "Ajusto peso de entrada hacia o₁"]
             ]
           },
-          tipHoja: "💡 **Tip de examen:** Antes de hacer cualquier cuenta en la calculadora, dejá escrita la fórmula con letras arriba de tu tabla y trabajá siempre con **3 o 4 decimales** consistentes (como pide el Ej. 03 de la guía)."
+          tipHoja: "💡 **Tip de examen:** Fijate en los comentarios de la última columna: son cortos, naturales y muestran que entendés qué representa cada número sin escribir párrafos largos."
         },
         {
           id: "PRAC-MLP-05",
           tema: "MLP_PERCEPTRON",
           tipo: "formula",
-          titulo: "Flashcard 1: Derivada f'(net) — Lineal vs. Sigmoidal",
+          titulo: "Flashcard 1: Derivada f'(net) — Foco Sigmoidal vs. Lineal",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          preguntaFrente: "El enunciado dice: «Neuronas 1, 2, 3: lineales. Neuronas 4, 5: sigmoidales». ¿Cuánto valen f(net) y f'(net) en cada una y cuál es el error clásico en parcial?",
-          respuestaDorso: "1. **Si la neurona es Lineal (Identidad):**\n   $$f(net) = net \\qquad\\Longrightarrow\\qquad f'(net) = 1$$\n   *(No multiplicás por nada extra en la derivada, es directamente 1).* \n2. **Si la neurona es Sigmoidal:**\n   $$f(net) = \\frac{1}{1 + e^{-net}} \\qquad\\Longrightarrow\\qquad f'(net) = f(net) \\cdot (1 - f(net))$$\n   *(Si el parcial ya te da el valor $f(net)$ en una tabla, **NO calcules $e^{-net}$**: usá directamente ese valor para hacer $\\text{valor} \\times (1 - \\text{valor})$).* \n\n⚠️ **Error clásico:** Aplicar $f(1-f)$ a una neurona oculta que el gráfico aclaraba que era **lineal** (como pasa en los Ejercicios 01.2, 01.3 y 01.5 de la Guía)."
+          preguntaFrente: "El profesor aclaró que probablemente den neuronas sigmoidales (y a veces combinan con alguna lineal). ¿Cuánto valen f(net) y f'(net) en cada caso?",
+          respuestaDorso: "1. **Si la neurona es Sigmoidal (prioritaria):**\n   $$f(net) = \\frac{1}{1 + e^{-net}} \\qquad\\Longrightarrow\\qquad f'(net) = y \\cdot (1 - y)$$\n   *(Una vez sacada la salida $y = f(net)$, su derivada es directa: multiplicás ese mismo número por $1 - y$. Nunca vuelve a necesitar exponenciales).*\n2. **Si el gráfico aclara que es Lineal (Identidad):**\n   $$f(net) = net \\qquad\\Longrightarrow\\qquad f'(net) = 1$$\n\n⚠️ **Ojo al dibujar/leer la red:** No apliques $y(1-y)$ a una neurona que el diagrama marca como lineal, ni olvides calcular $y(1-y)$ cuando es sigmoidal.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 155" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Comparación rápida Sigmoidal vs Lineal">
+              <rect x="16" y="10" width="352" height="134" rx="8" fill="rgba(56,189,248,0.08)" stroke="#38bdf8" stroke-width="1.2"/>
+              <text x="192" y="32" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">Sigmoidal (muy probable en parcial)</text>
+              <line x1="36" y1="112" x2="180" y2="112" stroke="#64748b" stroke-width="1"/>
+              <line x1="108" y1="44" x2="108" y2="124" stroke="#64748b" stroke-width="1"/>
+              <path d="M 40 110 C 88 109, 98 84, 108 78 C 118 72, 128 47, 176 46" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+              <text x="195" y="68" fill="#e2e8f0" font-size="11.5">• Rango: (0, 1)</text>
+              <text x="195" y="90" fill="#fbbf24" font-size="11.5" font-weight="700">• f' = y · (1 − y)</text>
+              <text x="195" y="112" class="svg-label-muted" font-size="10.5">Ej: y=0.7 ⇒ f'=0.21</text>
+
+              <rect x="392" y="10" width="352" height="134" rx="8" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1.2"/>
+              <text x="568" y="32" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">Lineal / Identidad (si lo aclara)</text>
+              <line x1="412" y1="112" x2="556" y2="112" stroke="#64748b" stroke-width="1"/>
+              <line x1="484" y1="44" x2="484" y2="124" stroke="#64748b" stroke-width="1"/>
+              <line x1="428" y1="120" x2="540" y2="46" stroke="#c4b5fd" stroke-width="2.5"/>
+              <text x="572" y="68" fill="#e2e8f0" font-size="11.5">• Rango: (−∞, +∞)</text>
+              <text x="572" y="90" fill="#fbbf24" font-size="11.5" font-weight="700">• f' = 1 siempre</text>
+              <text x="572" y="112" class="svg-label-muted" font-size="10.5">Pendiente constante</text>
+            </svg>
+          `
         },
         {
           id: "PRAC-MLP-06",
@@ -264,7 +440,31 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Flashcard 4: Tabla de Errores (Entrenamiento, Validación, Test) — Early Stopping",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           preguntaFrente: "Te dan una tabla con Error de Entrenamiento, Error de Validación y Error de Test desde I₁₁ hasta I₂₀ (como el Ej. 02 de la guía). ¿Cómo elegís la iteración exacta para detener el entrenamiento?",
-          respuestaDorso: "Se mira **primero la fila de Error de Validación** (no la de Entrenamiento ni Test para decidir el corte).\n\n* Mientras el **Error de Validación** baja junto con el de entrenamiento, la red sigue generalizando bien.\n* En el instante en que el Error de Validación **alcanza su mínimo y en la iteración siguiente empieza a subir** (mientras entrenamiento sigue bajando), comenzó el **sobreajuste (overfitting)**.\n* **Qué escribir en la hoja:** «Se debe detener el entrenamiento en la iteración $I_k$ (la del mínimo de validación), ya que a partir de $I_{k+1}$ el error de validación crece mientras el de entrenamiento sigue descendiendo, evidenciando sobreajuste (*overfitting*).»\n* *Nota:* Si el ejercicio aclara expresamente «no se utiliza error de validación», recién ahí comparás **$E_G \\le E_{\\text{mínimo aceptable}}$**."
+          respuestaDorso: "Se mira **primero la fila de Error de Validación** (no la de Entrenamiento ni Test para decidir el corte).\n\n* Mientras el **Error de Validación** baja junto con el de entrenamiento, la red sigue generalizando bien.\n* En el instante en que el Error de Validación **alcanza su mínimo y en la iteración siguiente empieza a subir** (mientras entrenamiento sigue bajando), comenzó el **sobreajuste (overfitting)**.\n* **Comentario breve en la hoja:** «Corto acá en la iteración $I_k$ porque el error de validación toca su mínimo y después empieza a subir (sobreajuste).»\n* *Nota:* Si el ejercicio aclara expresamente «no se utiliza error de validación», recién ahí comparás **$E_G \\le E_{\\text{mínimo aceptable}}$**.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Curvas de Early Stopping: Entrenamiento vs Validación">
+              <text x="380" y="22" text-anchor="middle" fill="#fbbf24" font-size="12.5" font-weight="700">Criterio de Parada Temprana (Early Stopping): cortás donde Validación toca el mínimo</text>
+              <line x1="65" y1="158" x2="700" y2="158" stroke="#64748b" stroke-width="1.4"/>
+              <line x1="65" y1="36" x2="65" y2="158" stroke="#64748b" stroke-width="1.4"/>
+              <text x="45" y="48" class="svg-label-muted" font-size="10.5">Error</text>
+              <text x="705" y="162" class="svg-label-muted" font-size="10.5">Épocas</text>
+
+              <!-- Zona overfitting -->
+              <rect x="430" y="40" width="260" height="118" fill="rgba(251,113,133,0.10)"/>
+              <line x1="430" y1="40" x2="430" y2="158" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,4"/>
+              <text x="430" y="174" text-anchor="middle" fill="#fbbf24" font-size="11.5" font-weight="700">I_min (PARAR ACÁ ✓)</text>
+              <text x="565" y="58" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">Zona Overfitting ✗</text>
+
+              <!-- Curva Validación (baja y luego sube) -->
+              <path d="M 80 54 Q 260 112 430 104 T 680 68" fill="none" stroke="#fb7185" stroke-width="2.8"/>
+              <circle cx="430" cy="104" r="5.5" fill="#fbbf24" stroke="#0f172a" stroke-width="1.5"/>
+              <text x="645" y="60" fill="#fb7185" font-size="11" font-weight="700">Validación ↑</text>
+
+              <!-- Curva Entrenamiento (siempre baja) -->
+              <path d="M 80 62 Q 260 124 430 138 T 680 148" fill="none" stroke="#38bdf8" stroke-width="2.8"/>
+              <text x="635" y="142" fill="#38bdf8" font-size="11" font-weight="700">Entrenamiento ↓</text>
+            </svg>
+          `
         },
         {
           id: "PRAC-MLP-09",
@@ -397,6 +597,50 @@ window.ENTRENAMIENTO_PRACTICO = {
               </text>
             </svg>
           `,
+          svgDiagram2: `
+            <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Ranking lineal segun R_min y descomposicion de copias esperadas">
+              <!-- Panel izquierdo: Ranking Lineal -->
+              <rect x="14" y="10" width="420" height="198" rx="10" fill="rgba(56,189,248,0.07)" stroke="#38bdf8" stroke-width="1.2"/>
+              <text x="224" y="32" text-anchor="middle" fill="#38bdf8" font-size="12.5" font-weight="700">Ranking Lineal: efecto de R_min sobre las copias cᵢ (N=4)</text>
+              <text x="28" y="64" class="svg-node-text" font-size="11" font-weight="700">i=1 (Mejor)</text>
+              <rect x="115" y="50" width="180" height="10" rx="2" fill="#38bdf8"/>
+              <text x="303" y="59" fill="#7dd3fc" font-size="10">R_min=0 → 2.00</text>
+              <rect x="115" y="63" width="135" height="9" rx="2" fill="#34d399"/>
+              <text x="258" y="71" fill="#6ee7b7" font-size="9.5">R_min=0.5 → 1.50</text>
+
+              <text x="28" y="104" class="svg-node-text" font-size="11" font-weight="700">i=2</text>
+              <rect x="115" y="90" width="120" height="10" rx="2" fill="#38bdf8"/>
+              <text x="242" y="99" fill="#7dd3fc" font-size="10">1.33</text>
+              <rect x="115" y="103" width="105" height="9" rx="2" fill="#34d399"/>
+              <text x="228" y="111" fill="#6ee7b7" font-size="9.5">1.17</text>
+
+              <text x="28" y="142" class="svg-node-text" font-size="11" font-weight="700">i=3</text>
+              <rect x="115" y="128" width="60" height="10" rx="2" fill="#38bdf8"/>
+              <text x="182" y="137" fill="#7dd3fc" font-size="10">0.67</text>
+              <rect x="115" y="141" width="75" height="9" rx="2" fill="#34d399"/>
+              <text x="197" y="149" fill="#6ee7b7" font-size="9.5">0.83</text>
+
+              <text x="28" y="180" class="svg-node-text" font-size="11" font-weight="700">i=4 (Peor)</text>
+              <rect x="115" y="166" width="4" height="10" rx="1" fill="#fb7185"/>
+              <text x="126" y="175" fill="#fb7185" font-size="10">R_min=0 → 0.00 (afuera)</text>
+              <rect x="115" y="179" width="45" height="9" rx="2" fill="#34d399"/>
+              <text x="167" y="187" fill="#6ee7b7" font-size="9.5">R_min=0.5 → 0.50</text>
+
+              <!-- Panel derecho: Control de Copias Esperadas -->
+              <rect x="448" y="10" width="298" height="198" rx="10" fill="rgba(251,191,36,0.08)" stroke="#fbbf24" stroke-width="1.2"/>
+              <text x="597" y="32" text-anchor="middle" fill="#fbbf24" font-size="12.5" font-weight="700">Descomponer cᵢ = fᵢ / f̄</text>
+              <text x="597" y="54" text-anchor="middle" class="svg-node-text" font-size="12">Ejemplo: cᵢ = 1.72 copias</text>
+              <rect x="476" y="72" width="130" height="36" rx="6" fill="#0284c7" stroke="#7dd3fc" stroke-width="1"/>
+              <text x="541" y="94" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Entera: ⌊1.72⌋ = 1</text>
+              <rect x="612" y="72" width="108" height="36" rx="6" fill="#d97706" stroke="#fde68a" stroke-width="1"/>
+              <text x="666" y="94" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">Decimal: 0.72</text>
+
+              <text x="470" y="136" fill="#7dd3fc" font-size="11" font-weight="700">1° Cupos fijos:</text>
+              <text x="470" y="152" class="svg-label-muted" font-size="10.5">Copiás directo las partes enteras.</text>
+              <text x="470" y="176" fill="#fbbf24" font-size="11" font-weight="700">2° Cupos faltantes (ΔN):</text>
+              <text x="470" y="192" class="svg-label-muted" font-size="10.5">Mayor resto dᵢ o ruleta sobre dᵢ.</text>
+            </svg>
+          `,
           notasClave: [
             "**Vocabulario oficial UTN FRRe:** **Cromosoma** = Estructura/Individuo; **Gen** = Posición o característica; **Alelo** = Valor del gen (`0` o `1`); **Locus** = Índice de posición ($1 \\dots L$); **Genotipo** = Cadena codificada; **Fenotipo** = Solución decodificada / Aptitud $f_i$.",
             "**Salto Generacional ($G_{gap}$):** Proporción reemplazada por generación: $G_{gap} = N_{\\text{hijos}} / N_{\\text{población}}$. Si $G_{gap} = 1$, reemplazo total; si $0 < G_{gap} < 1$ (ej. con elitismo o selección del $40\\%$), es reemplazo parcial."
@@ -413,37 +657,37 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Calcular N, Suma Total y aplicar Elitismo (si lo pide)",
-              queHago: "Contar la cantidad total $N$ de individuos y sumar todas las aptitudes $\\sum f_i$. Si piden **Selección Elitista** del $k\\%$, ordenás por aptitud descendente y copiás directo a los $\\text{round}(k\\% \\cdot N)$ mejores **sin pasarlos por cruce ni mutación**.",
+              queHago: "Sumo todas las aptitudes $\\sum f_i$ y saco el promedio $\\bar{f}$. Si hay **Elitismo** del $k\\%$, ordeno de mayor a menor y paso directo a esos mejores individuos sin cruzarlos ni mutarlos.",
               formula: "$$S = \\sum_{i=1}^{N} f_i \\qquad \\bar{f} = \\frac{S}{N} \\qquad N_{\\text{elite}} = k\\% \\cdot N$$",
-              queEscriboEnHoja: "«Calculo la aptitud total de la población $\\sum f_i = \\dots$ y la media $\\bar{f} = \\dots$. En caso de selección elitista del $k\\%$, preservo intactos los mejores individuos sin recombinación.»"
+              queEscriboEnHoja: "«Sumo la aptitud total de la población (Σfᵢ = ...) y saco el promedio f̄. Los mejores del elitismo pasan derecho sin cruce ni mutación.»"
             },
             {
               nro: 2,
               titulo: "Método 1 — Selección por Ruleta Proporcional [00–99]",
-              queHago: "Calculás la aptitud normalizada $p_i = f_i / \\sum f$, multiplicás por $100$ y redondeás a ranuras enteras (verificando que sumen exactamente $100$). Asignás rangos consecutivos empezando en `00` hasta `99` y leés la lista de aleatorios en orden.",
+              queHago: "Divido cada aptitud por la suma total ($p_i = f_i / S$), paso a ranuras redondeando a 100 en total, armo rangos seguidos desde `00` hasta `99` y selecciono leyendo los aleatorios.",
               formula: "$$p_i = \\frac{f_i}{\\sum_{j=1}^N f_j} \\qquad \\text{Ranuras}_i = \\text{round}(100 \\cdot p_i) \\qquad \\text{Rango}_i = [\\text{Fin}_{i-1}+1,\\; \\text{Fin}_{i-1}+\\text{Ranuras}_i]$$",
-              queEscriboEnHoja: "«Normalizo las aptitudes como $p_i = f_i / \\sum f_j$, asigno 100 ranuras en el rango $[00-99]$ sin huecos ni solapamientos y selecciono cada individuo según el intervalo que contiene al número aleatorio $r_k$.»"
+              queEscriboEnHoja: "«Saco el % de cada individuo, reparto las 100 ranuras del [00-99] sin dejar huecos y elijo mirando dónde cae cada aleatorio r_k.»"
             },
             {
               nro: 3,
               titulo: "Método 2 — Control sobre el Número Esperado de Copias",
-              queHago: "Calculás el valor esperado $c_i = f_i / \\bar{f}$ (equivalente a $N \\cdot p_i$). Si piden seleccionar una fracción $M$ (ej. $50\\%$ de $N$, como en el Parcial 19/11/2025), asignás primero las partes enteras $\\lfloor c_i \\rfloor$. Los cupos faltantes hasta $M$ se completan o bien **por mayor parte decimal** (Criterio Determinista) o haciendo una **nueva ruleta normalizada sobre las partes decimales** $d_i / \\sum d_k$ (Guía Ej. 01-e).",
+              queHago: "Divido cada aptitud por el promedio ($c_i = f_i / \\bar{f}$). Asigno primero las copias enteras $\\lfloor c_i \\rfloor$; los lugares que falten hasta llegar al cupo $M$ se completan por mayor parte decimal (o con una ruleta sobre los decimales $d_i$ si pide azar).",
               formula: "$$c_i = \\frac{f_i}{\\bar{f}} = \\lfloor c_i \\rfloor + d_i \\qquad P_i^{\\text{dec}} = \\frac{d_i}{\\sum_{k=1}^N d_k}$$",
-              queEscriboEnHoja: "«Calculo las copias esperadas $c_i = f_i / \\bar{f}$, asigno determinísticamente la parte entera $\\lfloor c_i \\rfloor$ y completo los cupos vacantes mediante [los mayores residuos decimales / ruleta normalizada sobre $d_i$].»"
+              queEscriboEnHoja: "«Divido cada fᵢ por f̄ para ver cuántas copias le tocan; aseguro las partes enteras y reparto lo que falta usando los restos decimales.»"
             },
             {
               nro: 4,
               titulo: "Método 3 — Selección por Ranking Lineal (Orden Descendente)",
-              queHago: "Primero **ordenás la tabla de mayor a menor aptitud**: $i = 1$ es el **más apto** y $i = n$ es el **menos apto**. Aplicás la fórmula oficial de la cátedra para obtener copias esperadas $c_i$ usando $R_{\\min} \\in [0, 1]$ (verificando que $\\sum c_i = n$). Luego aplicás parte entera + mayor parte decimal (o ruleta sobre $d_i$, según pida el enunciado).",
+              queHago: "Ordeno primero **de mayor a menor aptitud** ($i=1$ el mejor, $i=n$ el peor) para evitar que un súper-individuo domine todo. Calculo $c_i$ con $R_{\\min}$ (chequeo $\\sum c_i = n$) y reparto enteras + decimales.",
               formula: "$$c_i = R_{\\min} + 2 \\cdot \\frac{(n - i)(1 - R_{\\min})}{n - 1} \\qquad (i = 1:\\text{ mejor},\\; i = n:\\text{ peor})$$",
-              queEscriboEnHoja: "«Para evitar convergencia prematura por súper-individuos, ordeno decrecientemente la población ($i=1$ mejor, $i=n$ peor), aplico Ranking Lineal con $R_{\\min} = \\dots$ verificando $\\sum c_i = n$, y asigno copias enteras y decimales.»"
+              queEscriboEnHoja: "«Ordeno del mejor (i=1) al peor (i=n), calculo las copias por Ranking con R_min = ... y reparto enteros más restos decimales.»"
             },
             {
               nro: 5,
               titulo: "Cierre: Ajuste cuando piden un % de la población (ej. 30%, 40%, 50%)",
-              queHago: "Si el enunciado pide seleccionar por ejemplo *«el 40% de la población»* sobre $N=10$ (es decir $M=4$ individuos), en Ruleta leés solo los primeros 4 aleatorios (o tomás las copias pedidas); en Control de Copias o Ranking podés trabajar con $\\sum c_i = N$ asignando enteros sin pasarte de $M$ y cubriendo los cupos restantes hasta $M$ con las mayores partes decimales.",
+              queHago: "Si piden seleccionar por ejemplo el $40\\%$ de $N=10$ ($M=4$ lugares), en Ruleta leo solo 4 aleatorios; en Control de Copias/Ranking asigno las enteras sin pasarme de $M$ y cubro lo que falta con los decimales.",
               formula: "$$M_{\\text{objetivo}} = \\text{Porcentaje} \\cdot N \\qquad \\Delta N = M_{\\text{objetivo}} - N_{\\text{enteras asignadas}}$$",
-              queEscriboEnHoja: "«El cupo objetivo es del $\\dots\\%$ ($M = \\dots$ individuos). Con las copias por parte entera cubro $\\dots$ plazas y las $\\Delta N$ restantes se asignan según la parte fraccionaria.»"
+              queEscriboEnHoja: "«Necesito seleccionar M = ... individuos (...%); cubro ... con parte entera y completo los ΔN que faltan por decimal.»"
             }
           ]
         },
@@ -458,37 +702,74 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Cruza Simple en Gen k (Gk)",
-              queHago: "Ubicás el corte **después del bit $k$** contando desde la izquierda ($1 \\dots k \\mid k+1 \\dots L$). Hijo 1 toma prefijo de Padre 1 + sufijo de Padre 2. **Cuidado:** leé bien si te piden el Hijo 2 clásico (prefijo P2 + sufijo P1) o *«por complemento binario del primero»* ($\\text{NOT}(\\text{Hijo 1})$ bit a bit).",
+              queHago: "Corto **después del bit $k$** ($1\\dots k \\mid k+1\\dots L$). Hijo 1 toma comienzo de P1 + cola de P2. Para Hijo 2, miro bien si pide cruce clásico (comienzo P2 + cola P1) o **complemento binario** ($\\overline{H_1}$).",
               formula: "$$H_1 = P_1[1..k] \\parallel P_2[k+1..L] \\qquad H_2^{\\text{clásico}} = P_2[1..k] \\parallel P_1[k+1..L] \\quad \\text{ó} \\quad H_2^{\\text{comp}} = \\overline{H_1}$$",
-              queEscriboEnHoja: "«Aplico cruce simple en el gen $G_k$, conservando en el Hijo 1 los primeros $k$ bits del primer progenitor y los restantes del segundo (y obtengo Hijo 2 según el criterio solicitado).»"
+              queEscriboEnHoja: "«Corto después del bit k: Hijo 1 junta la primera parte de P1 con la cola de P2, y armo Hijo 2 según lo que pide el enunciado.»"
             },
             {
               nro: 2,
               titulo: "Cruza Multipunto en Gk1, Gk2, ..., Gkm",
-              queHago: "Trazás líneas verticales **después** de cada posición indicada ($k_1, k_2, \\dots$) dividiendo el cromosoma en segmentos. Si hay cantidad impar de cortes (ej. 3 cortes en `G2, G5, G7`), se asume un corte implícito en 0 (anillo). Alternás bloques: Hijo 1 toma `Seg1(P1) + Seg2(P2) + Seg3(P1) + Seg4(P2)` y Hijo 2 lo opuesto.",
+              queHago: "Trazo líneas verticales después de cada gen indicado. Si son cortes impares (ej. 3 cortes en `G2, G5, G7`), se asume anillo y alterno bloques entre P1 y P2 para ambos hijos.",
               formula: "$$H_1 = \\text{Seg}_1(P_1) \\parallel \\text{Seg}_2(P_2) \\parallel \\text{Seg}_3(P_1) \\parallel \\dots$$",
-              queEscriboEnHoja: "«Segmento ambos cromosomas en los loci $G_{k1}, G_{k2}, \\dots$ alternando bloques entre Padre 1 y Padre 2 (modelo de anillo) para generar ambos descendientes.»"
+              queEscriboEnHoja: "«Divido en segmentos tras cada gen indicado y voy alternando bloques de P1 y P2 para sacar Hijo 1 y Hijo 2.»"
             },
             {
               nro: 3,
               titulo: "Cruza Binomial / Uniforme (Ranuras gen a gen)",
-              queHago: "Si el primer progenitor tiene prob $p$ y el segundo $1-p$, asignás ranuras $[00\\text{ a }(100p-1)]$ al primero y $[100p\\text{ a }99]$ al segundo (si $p=0.5$ es Uniforme: `00-49` y `50-99`). Para cada bit $j = 1 \\dots L$, mirás el aleatorio $r_j$ para decidir de qué progenitor copiás el bit $j$ para Hijo 1. Para Hijo 2 fijate cuál de los **dos métodos** piden: (a) **genes no seleccionados**, o (b) **complemento binario de Hijo 1**.",
+              queHago: "Reparto `[00..(100p-1)]` para Padre 1 y `[100p..99]` para Padre 2 (`00-49`/`50-99` si es Uniforme). Miro cada aleatorio $r_j$ gen por gen para armar Hijo 1; y para Hijo 2 sigo el criterio pedido (**no elegidos** vs **complemento**).",
+              svgDiagram: `
+                <svg viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Cruce Binomial gen a gen y dos formas de Hijo 2">
+                  <text x="380" y="22" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">Cruce Binomial (p_Madre=0.6 → [00–59], p_Padre=0.4 → [60–99])</text>
+                  <text x="26" y="54" class="svg-label-muted" font-size="11" font-weight="700">Locus / rⱼ:</text>
+                  <rect x="120" y="38" width="60" height="22" rx="4" fill="#0d9488"/><text x="150" y="53" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">j1: r=14 (M)</text>
+                  <rect x="188" y="38" width="60" height="22" rx="4" fill="#7c3aed"/><text x="218" y="53" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">j2: r=78 (P)</text>
+                  <rect x="256" y="38" width="60" height="22" rx="4" fill="#0d9488"/><text x="286" y="53" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">j3: r=42 (M)</text>
+                  <rect x="324" y="38" width="60" height="22" rx="4" fill="#7c3aed"/><text x="354" y="53" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="700">j4: r=65 (P)</text>
+
+                  <text x="26" y="84" fill="#34d399" font-size="11" font-weight="700">Madre (M):</text>
+                  <text x="150" y="84" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="700">1</text>
+                  <text x="218" y="84" text-anchor="middle" class="svg-label-muted" font-size="12">1</text>
+                  <text x="286" y="84" text-anchor="middle" fill="#6ee7b7" font-size="13" font-weight="700">0</text>
+                  <text x="354" y="84" text-anchor="middle" class="svg-label-muted" font-size="12">1</text>
+
+                  <text x="26" y="108" fill="#c4b5fd" font-size="11" font-weight="700">Padre (P):</text>
+                  <text x="150" y="108" text-anchor="middle" class="svg-label-muted" font-size="12">1</text>
+                  <text x="218" y="108" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">0</text>
+                  <text x="286" y="108" text-anchor="middle" class="svg-label-muted" font-size="12">1</text>
+                  <text x="354" y="108" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">1</text>
+
+                  <text x="26" y="138" fill="#38bdf8" font-size="11.5" font-weight="700">Hijo 1:</text>
+                  <rect x="135" y="122" width="30" height="22" rx="4" fill="#0d9488"/><text x="150" y="137" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1</text>
+                  <rect x="203" y="122" width="30" height="22" rx="4" fill="#7c3aed"/><text x="218" y="137" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">0</text>
+                  <rect x="271" y="122" width="30" height="22" rx="4" fill="#0d9488"/><text x="286" y="137" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">0</text>
+                  <rect x="339" y="122" width="30" height="22" rx="4" fill="#7c3aed"/><text x="354" y="137" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">1</text>
+
+                  <!-- Comparacion Hijo 2 derecha -->
+                  <rect x="410" y="38" width="332" height="132" rx="8" fill="rgba(251,191,36,0.08)" stroke="#fbbf24" stroke-width="1"/>
+                  <text x="576" y="60" text-anchor="middle" fill="#fbbf24" font-size="11.5" font-weight="700">¡Atención en Hijo 2! (M y P empatan en j1 y j4)</text>
+                  <text x="424" y="88" fill="#34d399" font-size="11.5" font-weight="700">Opción A (genes no elegidos):</text>
+                  <text x="424" y="106" fill="#e2e8f0" font-size="11.5">H₂ = [P(1), M(1), P(1), M(1)] = 1 1 1 1</text>
+                  <text x="424" y="134" fill="#fb7185" font-size="11.5" font-weight="700">Opción B (complemento NOT(H₁)):</text>
+                  <text x="424" y="152" fill="#e2e8f0" font-size="11.5">H₂ = NOT(1 0 0 1) = 0 1 1 0  (¡cambia!)</text>
+                  <text x="26" y="170" class="svg-label-muted" font-size="10.5">H₁ = 1 0 0 1</text>
+                </svg>
+              `,
               formula: "$$r_j \\in [00,\\, 100p-1] \\implies H_1[j] = P_1[j], \\qquad r_j \\in [100p,\\, 99] \\implies H_1[j] = P_2[j]$$",
-              queEscriboEnHoja: "«Asigno ranuras $[00 - \\dots]$ al Padre 1 ($p = \\dots$) y $[\\dots - 99]$ al Padre 2 ($1-p = \\dots$). Evalúo cada locus con su aleatorio $r_j$ y construyo el segundo hijo mediante [genes no seleccionados / complemento binario del Hijo 1].»"
+              queEscriboEnHoja: "«Reparto [00-..] para Madre y [..-99] para Padre; voy bit a bit con los aleatorios para armar H1 y saco H2 por [no elegidos / complemento].»"
             },
             {
               nro: 4,
               titulo: "Mutación Simple vs. Adaptativa por Temperatura (Ascendente / Descendente)",
-              queHago: "En Mutación Simple, invertís únicamente el bit indicado ($0 \\leftrightarrow 1$). En **Temperatura**, recordá que en la cátedra **las generaciones arrancan en $t = 0$**! Aplicás la fórmula lineal **sin pasarte** de $[P_{\\min}, P_{\\max}]$. Si el enunciado aclara **reinicio cíclico** (caso `Alg_gen_Adapt_Temp.pdf`), primero hallás la longitud del ciclo $T = \\frac{P_{\\max}-P_{\\min}}{\\lambda} + 1$ y evaluás $t_{\\text{rel}} = t \\pmod{T}$.",
+              queHago: "En simple doy vuelta un bit. En Temperatura **arranco en $t=0$** y ajusto linealmente con $\\lambda$ sin salirme de $[P_{\\min}, P_{\\max}]$. Si aclara **reinicio cíclico**, uso $t_{\\text{rel}} = t \\pmod{T}$ donde $T = \\frac{P_{\\max}-P_{\\min}}{\\lambda}+1$.",
               formula: "$$\\text{Asc: } p_m(t) = \\min(P_{\\max},\\; P_{\\min} + \\lambda \\cdot t_{\\text{rel}}) \\qquad \\text{Desc: } p_m(t) = \\max(P_{\\min},\\; P_{\\max} - \\lambda \\cdot t_{\\text{rel}})$$",
-              queEscriboEnHoja: "«Siendo $t=0$ la generación inicial, evalúo el esquema térmico [ascendente/descendente] con paso $\\lambda$ acotado al intervalo $[P_{\\min}, P_{\\max}]$ (con ciclo modular $T$ si reinicia al saturar).»"
+              queEscriboEnHoja: "«Tomando t=0 como inicio, avanzo/bajo la probabilidad con paso λ dentro de [P_min, P_max] (o reinicio ciclo mod T si lo pide).»"
             },
             {
               nro: 5,
               titulo: "Justificación conceptual: Temperatura vs. Convergencia",
-              queHago: "Si te preguntan si la Mutación por Temperatura (ascendente o descendente) mide la **homogeneidad de la población**, respondés con firmeza **NO**. Solo depende del contador temporal $t$; la que sí evalúa diversidad/similitud genética real es la **Mutación Adaptativa por Convergencia**.",
+              queHago: "Si preguntan si Temperatura mide qué tan parecida está la población, la respuesta es **NO**: solo sigue al reloj $t$. El método que sí mide diversidad genética real es **Convergencia**.",
               formula: "$$\\text{Temperatura } \\implies f(t) \\text{ (exógena)} \\qquad \\text{Convergencia } \\implies f(\\text{diversidad}) = \\frac{N_{\\text{distintos}}}{N_{\\text{total}}}$$",
-              queEscriboEnHoja: "«La mutación por temperatura NO evalúa la homogeneidad poblacional porque solo depende del número de generación $t$; el método que sí mide la diversidad real es la mutación adaptativa por convergencia.»"
+              queEscriboEnHoja: "«Temperatura NO mira la homogeneidad de la población porque solo depende del tiempo t; la que mide diversidad es Convergencia.»"
             }
           ]
         },
@@ -561,7 +842,40 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Flashcard 3: Mutación Adaptativa por Temperatura — Estándar vs. Reinicio Cíclico",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           preguntaFrente: "Te dan $P_{\\min} = 0.001$, $P_{\\max} = 0.1$, $\\lambda = 0.001$ y arranca en $t = 0$. ¿Cómo calculás $p_m(200)$, $p_m(320)$ y $p_m(435)$ en esquema **estándar** vs. cuando el enunciado dice **«al alcanzar $P_{\\max}$, la siguiente toma $P_{\\min}$ y reinicia»** (`Alg_gen_Adapt_Temp`)?",
-          respuestaDorso: "* **Esquema Estándar (se estabiliza en el tope):**\n  * Temperatura Ascendente: $p_m(t) = \\min(P_{\\max},\\; P_{\\min} + \\lambda \\cdot t)$.\n  * Temperatura Descendente: $p_m(t) = \\max(P_{\\min},\\; P_{\\max} - \\lambda \\cdot t)$.\n  * Como se alcanza $P_{\\max} = 0.1$ en $t = \\frac{0.1 - 0.001}{0.001} = 99$, para $t \\ge 99$ quedaría fijo en $0.100$.\n* **Esquema con Reinicio Cíclico (trampa clásica de `Alg_gen_Adapt_Temp.pdf`):**\n  * De $t = 0$ a $t = 99$ hay exactamente **$T = 99 + 1 = 100$ generaciones por ciclo**. En $t = 100$ reinicia a $P_{\\min} = 0.001$.\n  * Usás aritmética modular $t_{\\text{rel}} = t \\pmod{100}$:\n    * $t = 200 \\implies t_{\\text{rel}} = 0 \\implies p_m(200) = 0.001 + 0.001(0) = \\mathbf{0.001}$\n    * $t = 320 \\implies t_{\\text{rel}} = 20 \\implies p_m(320) = 0.001 + 0.001(20) = \\mathbf{0.021}$\n    * $t = 435 \\implies t_{\\text{rel}} = 35 \\implies p_m(435) = 0.001 + 0.001(35) = \\mathbf{0.036}$"
+          respuestaDorso: "* **Esquema Estándar (se estabiliza en el tope):**\n  * Temperatura Ascendente: $p_m(t) = \\min(P_{\\max},\\; P_{\\min} + \\lambda \\cdot t)$.\n  * Temperatura Descendente: $p_m(t) = \\max(P_{\\min},\\; P_{\\max} - \\lambda \\cdot t)$.\n  * Como se alcanza $P_{\\max} = 0.1$ en $t = \\frac{0.1 - 0.001}{0.001} = 99$, para $t \\ge 99$ quedaría fijo en $0.100$.\n* **Esquema con Reinicio Cíclico (trampa clásica de `Alg_gen_Adapt_Temp.pdf`):**\n  * De $t = 0$ a $t = 99$ hay exactamente **$T = 99 + 1 = 100$ generaciones por ciclo**. En $t = 100$ reinicia a $P_{\\min} = 0.001$.\n  * Usás aritmética modular $t_{\\text{rel}} = t \\pmod{100}$:\n    * $t = 200 \\implies t_{\\text{rel}} = 0 \\implies p_m(200) = 0.001 + 0.001(0) = \\mathbf{0.001}$\n    * $t = 320 \\implies t_{\\text{rel}} = 20 \\implies p_m(320) = 0.001 + 0.001(20) = \\mathbf{0.021}$\n    * $t = 435 \\implies t_{\\text{rel}} = 35 \\implies p_m(435) = 0.001 + 0.001(35) = \\mathbf{0.036}$",
+          svgDiagram: `
+            <svg viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Mutacion por Temperatura Estandar vs Reinicio Ciclico">
+              <text x="380" y="22" text-anchor="middle" fill="#38bdf8" font-size="12.5" font-weight="700">Temperatura Ascendente (t=0): Estándar (techo plano) vs. Reinicio Cíclico (diente de sierra)</text>
+              <line x1="65" y1="150" x2="710" y2="150" stroke="#64748b" stroke-width="1.3"/>
+              <line x1="65" y1="42" x2="65" y2="155" stroke="#64748b" stroke-width="1.3"/>
+              <text x="58" y="54" text-anchor="end" fill="#fb7185" font-size="10">0.100</text>
+              <text x="58" y="148" text-anchor="end" fill="#34d399" font-size="10">0.001</text>
+              <line x1="65" y1="50" x2="700" y2="50" stroke="#334155" stroke-width="1" stroke-dasharray="3,3"/>
+
+              <!-- Eje t ticks: t=0 -> 80, t=100 -> 200, t=200 -> 320, t=300 -> 440, t=400 -> 560, t=500 -> 680 -->
+              <text x="80" y="166" text-anchor="middle" class="svg-label-muted" font-size="10">t=0</text>
+              <text x="200" y="166" text-anchor="middle" class="svg-label-muted" font-size="10">100</text>
+              <text x="320" y="166" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">200</text>
+              <text x="440" y="166" text-anchor="middle" class="svg-label-muted" font-size="10">300</text>
+              <text x="560" y="166" text-anchor="middle" class="svg-label-muted" font-size="10">400</text>
+              <text x="680" y="166" text-anchor="middle" class="svg-label-muted" font-size="10">500</text>
+
+              <!-- Esquema estandar (punteado): sube 80..199 hasta y=50 y sigue plano -->
+              <polyline points="80,145 198,50 690,50" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,4"/>
+              <text x="605" y="42" fill="#cbd5e1" font-size="10.5">Estándar (se clava en P_max)</text>
+
+              <!-- Esquema ciclico: diente de sierra T=100 -->
+              <polyline points="80,145 198,50 200,145 318,50 320,145 438,50 440,145 558,50 560,145 678,50" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+
+              <!-- Puntos ejemplo: t=200 (x=320, y=145), t=320 (x=464, y=126), t=435 (x=602, y=111) -->
+              <circle cx="320" cy="145" r="4.5" fill="#fbbf24"/>
+              <text x="320" y="136" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">200 → 0.001</text>
+              <circle cx="464" cy="126" r="4.5" fill="#34d399"/>
+              <text x="466" y="116" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">320 → 0.021</text>
+              <circle cx="602" cy="111" r="4.5" fill="#fb7185"/>
+              <text x="625" y="102" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">435 → 0.036</text>
+            </svg>
+          `
         },
         {
           id: "PRAC-AG-08",
@@ -680,6 +994,43 @@ window.ENTRENAMIENTO_PRACTICO = {
               </text>
             </svg>
           `,
+          svgDiagram2: `
+            <svg viewBox="0 0 760 205" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Bordes de intervalo en histogramas, suavizado de Laplace y pico de densidad mayor a 1">
+              <!-- Panel 1: Bordes (a, b] -->
+              <rect x="14" y="10" width="234" height="184" rx="10" fill="rgba(56,189,248,0.08)" stroke="#38bdf8" stroke-width="1"/>
+              <text x="131" y="32" text-anchor="middle" fill="#38bdf8" font-size="11.5" font-weight="700">1. Bordes abiertos ( vs cerrados ]</text>
+              <line x1="30" y1="95" x2="230" y2="95" stroke="#64748b" stroke-width="2"/>
+              <line x1="130" y1="74" x2="130" y2="116" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <text x="80" y="78" text-anchor="middle" fill="#34d399" font-size="10.5" font-weight="700">(-∞, -12]</text>
+              <text x="180" y="78" text-anchor="middle" fill="#94a3b8" font-size="10.5">(-12, -1]</text>
+              <circle cx="122" cy="95" r="5" fill="#34d399"/>
+              <circle cx="138" cy="95" r="5" fill="#0b1120" stroke="#94a3b8" stroke-width="2"/>
+              <text x="131" y="138" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">x = -12 entra en ]</text>
+              <text x="131" y="156" text-anchor="middle" class="svg-label-muted" font-size="10">] incluye el borde</text>
+              <text x="131" y="171" text-anchor="middle" class="svg-label-muted" font-size="10">( lo deja afuera</text>
+
+              <!-- Panel 2: Cero vs Laplace -->
+              <rect x="263" y="10" width="234" height="184" rx="10" fill="rgba(251,113,133,0.08)" stroke="#fb7185" stroke-width="1"/>
+              <text x="380" y="32" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">2. Frecuencia 0 vs Laplace (+1)</text>
+              <rect x="278" y="48" width="204" height="46" rx="6" fill="rgba(251,113,133,0.14)"/>
+              <text x="380" y="67" text-anchor="middle" fill="#fb7185" font-size="11" font-weight="700">Sin corregir: 0.7 · 0.8 · (0/Nₖ) = 0</text>
+              <text x="380" y="84" text-anchor="middle" class="svg-label-muted" font-size="10">Un solo cero borra toda la clase</text>
+              <rect x="278" y="108" width="204" height="66" rx="6" fill="rgba(52,211,153,0.12)" stroke="#10b981" stroke-width="1"/>
+              <text x="380" y="128" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Con Laplace (+1):</text>
+              <text x="380" y="146" text-anchor="middle" class="svg-node-text" font-size="11">P = (Frec + 1) / (Nₖ + Bins)</text>
+              <text x="380" y="163" text-anchor="middle" class="svg-label-muted" font-size="10">Evita el bloqueo multiplicativo</text>
+
+              <!-- Panel 3: Densidad > 1 -->
+              <rect x="512" y="10" width="234" height="184" rx="10" fill="rgba(52,211,153,0.08)" stroke="#10b981" stroke-width="1"/>
+              <text x="629" y="32" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">3. ¡Densidad f(x) puede ser &gt; 1!</text>
+              <line x1="532" y1="145" x2="726" y2="145" stroke="#64748b" stroke-width="1.2"/>
+              <line x1="532" y1="95" x2="726" y2="95" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="536" y="90" fill="#fbbf24" font-size="9.5">y = 1.0</text>
+              <path d="M 555 144 Q 602 140 618 75 Q 629 44 640 75 Q 656 140 703 144" fill="rgba(52,211,153,0.22)" stroke="#34d399" stroke-width="2.4"/>
+              <text x="629" y="164" text-anchor="middle" class="svg-node-text" font-size="10.5">Si σ es chico (ej. 0.2), pico = 1.99</text>
+              <text x="629" y="179" text-anchor="middle" class="svg-label-muted" font-size="10">¡No te asustes! Lo que vale 1 es el área.</text>
+            </svg>
+          `,
           notasClave: [
             "**¿Qué significa el símbolo $\\propto$ («proporcional a»)?** Como el denominador de Bayes $P(\\mathbf{x})$ es idéntico para todas las clases, la cátedra escribe $P(C_k \\mid \\mathbf{x}) \\propto P(C_k) \\prod P(x_i \\mid C_k)$ para comparar solo los numeradores (*scores*) y decidir $\\arg\\max$.",
             "**Cuidado con paréntesis vs. corchetes en Histogramas:** En un intervalo `(a, b]`, el paréntesis **`(` excluye** al extremo `a` y el corchete **`]` incluye** al extremo `b`. Ej: `-12` entra en `(-∞, -12]`, NO en `(-12, -1]`."
@@ -696,37 +1047,37 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Calcular las Probabilidades a Priori P(Ck) y los totales por clase Nk",
-              queHago: "Leé cuántas muestras hay en cada clase $N_k$ y el total general $N_{\\text{total}}$. Si el enunciado da porcentajes (ej. `T1=30%` de `125.000`), calculás $N_1 = 0.30 \\times 125.000 = 37.500$ porque **lo vas a necesitar como denominador de los bins**. Si falta una clase («y el resto de $E_4$»), restás del total.",
+              queHago: "Saco cuántas muestras tiene cada clase ($N_k$) y su proporción inicial $P(C_k) = N_k / N_{\\text{total}}$. Si el enunciado da porcentajes (ej. `30%` de `125.000`), multiplico primero para tener $N_k = 37.500$, porque ese número va en los denominadores.",
               formula: "$$P(C_k) = \\frac{N_k}{N_{\\text{total}}} \\qquad N_k = P(C_k) \\cdot N_{\\text{total}}$$",
-              queEscriboEnHoja: "«Determino la cantidad de muestras por clase $N_k$ (si vienen en %, calculo $N_k = P(C_k)\\cdot N_{\\text{total}}$) y obtengo las probabilidades *a priori* $P(C_k) = N_k / N_{\\text{total}}$ verificando que sumen $1$.»"
+              queEscriboEnHoja: "«Saco primero cuántas muestras tiene cada clase (Nₖ) y su probabilidad inicial P(Cₖ) = Nₖ / Total.»"
             },
             {
               nro: 2,
               titulo: "Ubicar el bin exacto de cada atributo de la nueva instancia",
-              queHago: "Para cada coordenada de la instancia $X_{\\text{nueva}} = (x_1, x_2, \\dots)$, localizás en qué columna/intervalo cae respetando estrictamente bordes abiertos `(` vs. cerrados `]`.",
+              queHago: "Miro en qué columna cae cada coordenada de la instancia nueva, cuidando el borde `(` abierto vs `]` cerrado.",
               formula: "$$x_i \\in (a, b] \\iff a < x_i \\le b$$",
-              queEscriboEnHoja: "«Para la instancia $X = (\\dots)$, identifico los intervalos correspondientes: $x_1$ pertenece al bin $(\\dots]$, $x_2$ al bin $(\\dots]$, etc.»"
+              queEscriboEnHoja: "«Ubico en qué intervalo (bin) cae cada dato de la instancia nueva, respetando bordes abiertos y cerrados.»"
             },
             {
               nro: 3,
               titulo: "Extraer las Verosimilitudes Condicionales P(xi ∈ Bin | Ck)",
-              queHago: "Para cada clase $C_k$, tomás la frecuencia observada en ese bin y la dividís por **$N_k$ (total de ESA clase, NO $N_{\\text{total}}$)**. **Ojo:** si una celda vale $0$, comentá el efecto anulador y aplicá **Laplace** si corresponde.",
+              queHago: "Para cada clase, divido la frecuencia de ese bin **por $N_k$ (total de ESA clase, no del dataset completo)**. Si aparece un $0$, aclaro el efecto anulador (o aplico Laplace si lo pide).",
               formula: "$$P(x_i \\in \\text{Bin}_m \\mid C_k) = \\frac{\\text{Frec}(\\text{Bin}_m,\\, C_k)}{N_k} \\qquad (\\text{con Laplace: } \\frac{\\text{Frec} + 1}{N_k + B})$$",
-              queEscriboEnHoja: "«Asumiendo independencia condicional entre atributos dada la clase, calculo cada verosimilitud dividiendo la frecuencia del intervalo por el total de esa clase $N_k$.»"
+              queEscriboEnHoja: "«Para cada clase divido las veces que cayó en ese bin por el total de esa clase (Nₖ).»"
             },
             {
               nro: 4,
               titulo: "Multiplicar A Priori × Verosimilitudes (Score por clase)",
-              queHago: "Aplicás el Teorema de Naïve Bayes sin el denominador $P(\\mathbf{x})$: multiplicás $P(C_k)$ por todas las verosimilitudes de esa clase. Anotá el resultado en **notación científica** clara (`5.87 × 10^-3`) para no perder dígitos significativos.",
+              queHago: "Multiplico $P(C_k)$ por todas las verosimilitudes de esa clase (como el denominador $P(\\mathbf{x})$ es igual para todas, comparo numeradores). Escribo los resultados en **notación científica** clara.",
               formula: "$$P(C_k \\mid \\mathbf{x}) \\propto \\text{Score}(C_k) = P(C_k) \\cdot \\prod_{i=1}^{D} P(x_i \\in \\text{Bin}_m \\mid C_k)$$",
-              queEscriboEnHoja: "«Calculo el producto proporcional a la probabilidad *a posteriori* para cada clase: $P(C_k \\mid \\mathbf{x}) \\propto P(C_k) \\cdot P(x_1 \\mid C_k) \\cdots P(x_D \\mid C_k) = \\dots$»"
+              queEscriboEnHoja: "«Multiplico el P(Cₖ) por la probabilidad de cada atributo dentro de esa clase para sacar su puntaje.»"
             },
             {
               nro: 5,
               titulo: "Aplicar Regla MAP (ArgMax) y Normalizar si piden probabilidad %",
-              queHago: "Comparás todos los $\\text{Score}(C_k)$ y elegís la clase mayor (cuidado con exponentes negativos: $10^{-3} > 10^{-6}$). Si la consigna pide la *«probabilidad de pertenecer a cada clase»*, dividís cada Score por la suma $\\sum \\text{Score}(C_j)$ para normalizar al $100\\%$.",
+              queHago: "Elijo la clase con el puntaje más grande (cuidado mirando el exponente de las potencias negativas: $10^{-3} > 10^{-6}$). Si preguntan el porcentaje exacto, divido cada puntaje por la suma de todos.",
               formula: "$$C^* = \\arg\\max_{C_k} \\text{Score}(C_k) \\qquad P(C_k \\mid \\mathbf{x}) = \\frac{\\text{Score}(C_k)}{\\sum_j \\text{Score}(C_j)}$$",
-              queEscriboEnHoja: "«Por regla MAP ($\\arg\\max$), como $\\text{Score}(C^*) > \\text{Score}(C_{\\text{otras}})$, la nueva instancia se clasifica como perteneciente a la clase **$C^*$** [con probabilidad normalizada del $\\dots\\%$].»"
+              queEscriboEnHoja: "«Como la clase C* dio el puntaje más alto, clasifico el ejemplo ahí (y normalizo dividiendo por la suma si pide %).»"
             }
           ]
         },
@@ -741,30 +1092,30 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Estimar μ y σ por atributo y clase (solo si dan puntos crudos)",
-              queHago: "Si ya te dan la tabla de $(\\mu, \\sigma)$, salteás este paso. Si te dan puntos $(x, y, \\text{Clase})$ (Ej. 03 o gráfico del Ej. 04), separás por clase y calculás la media $\\mu$ y el desvío $\\sigma$ de cada atributo. *(Nota: la guía resuelta de cátedra usa desvío poblacional dividiendo por $N_k$, tecla `xσn` en Casio; si usás $N_k-1$ aclará tu convención).* ",
+              queHago: "Si ya te dan tabla con $\\mu$ y $\\sigma$, salteás este paso. Si dan puntos crudos, separo por clase y saco media $\\mu$ y desvío $\\sigma$ (la guía usa desvío poblacional dividiendo por $N_k$, `xσn` en Casio).",
               formula: "$$\\mu_{ik} = \\frac{1}{N_k} \\sum_{p \\in C_k} x_{pi} \\qquad \\sigma_{ik} = \\sqrt{\\frac{1}{N_k} \\sum_{p \\in C_k} (x_{pi} - \\mu_{ik})^2}$$",
-              queEscriboEnHoja: "«Calculo la media $\\mu$ y el desvío estándar $\\sigma$ de entrenamiento para cada atributo dentro de cada clase y armo la tabla de parámetros gaussianos.»"
+              queEscriboEnHoja: "«Como me dieron los puntos sueltos, saco primero la media μ y el desvío σ de cada clase.»"
             },
             {
               nro: 2,
               titulo: "Calcular Probabilidades a Priori P(Ck)",
-              queHago: "Contás cuántos ejemplos pertenecen a cada clase y dividís por el total $N_{\\text{total}}$. Si todas las clases tienen la misma cantidad de ejemplos (ej. 3 de clase `0` y 3 de clase `1`), $P(C_0) = P(C_1) = 0.5$.",
+              queHago: "Cuento cuántas instancias tiene cada clase y divido por el total. Si las clases están repartidas iguales, todas arrancan con la misma chance.",
               formula: "$$P(C_k) = \\frac{N_k}{N_{\\text{total}}}$$",
-              queEscriboEnHoja: "«Las probabilidades *a priori* de cada clase son $P(C_1) = N_1 / N_{\\text{total}} = \\dots$»"
+              queEscriboEnHoja: "«Anoto cuánta chance previa tiene cada clase: P(C₁) = N₁/N_tot, P(C₂) = ...»"
             },
             {
               nro: 3,
               titulo: "Evaluar la Función de Densidad Gaussiana para cada atributo",
-              queHago: "Para cada clase $C_k$ y cada atributo $x_i$ de la consulta, reemplazás $x_i, \\mu_{ik}, \\sigma_{ik}$ en la campana de Gauss. **¡Atención!** Si $\\sigma$ es chico (ej. $0.2$), el valor de densidad puede dar **$> 1$** (ej. $1.76$): es completamente normal porque es una *densidad*, no una probabilidad acumulada.",
+              queHago: "Meto cada dato de consulta $x_i$ en la campana de Gauss con el $(\\mu, \\sigma)$ de cada clase. Si el desvío $\\sigma$ es muy chico, puede dar un valor $> 1$: es normal porque es una densidad.",
               formula: "$$p(x_i \\mid C_k) = \\frac{1}{\\sigma_{ik}\\sqrt{2\\pi}} \\cdot e^{-\\frac{(x_i - \\mu_{ik})^2}{2\\sigma_{ik}^2}}$$",
-              queEscriboEnHoja: "«Asumiendo distribución normal para cada atributo continuo, reemplazo $(x_i, \\mu_{ik}, \\sigma_{ik})$ en la función de densidad gaussiana para obtener las verosimilitudes.»"
+              queEscriboEnHoja: "«Reemplazo cada valor en la campana de Gauss usando la media y el desvío de esa clase.»"
             },
             {
               nro: 4,
               titulo: "Multiplicar A Priori × Verosimilitudes y Clasificar (ArgMax)",
-              queHago: "Calculás $\\text{Score}(C_k) = P(C_k) \\cdot p(x_1 \\mid C_k) \\cdot p(x_2 \\mid C_k) \\cdots$ para todas las clases, normalizás si la consigna pide *«calcule la probabilidad»* (Ej. 01) y declarás ganadora la clase de mayor valor.",
+              queHago: "Multiplico $P(C_k)$ por las densidades de cada atributo para sacar el puntaje de cada clase; el mayor gana (y si pide % exacto, divido por la suma).",
               formula: "$$C^* = \\arg\\max_{C_k} \\left[ P(C_k) \\prod_{i=1}^D p(x_i \\mid C_k) \\right]$$",
-              queEscriboEnHoja: "«Comparando los productos *a posteriori* (notación proporcional / normalizada), el mayor valor corresponde a la clase **$C^*$**, por lo tanto la nueva instancia se asigna a dicha clase.»"
+              queEscriboEnHoja: "«Multiplico P(Cₖ) por todas las densidades y elijo la clase que da el puntaje más grande.»"
             }
           ]
         },
@@ -827,7 +1178,32 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Flashcard 4: ¿Cuándo falla Naïve Bayes Gaussiano vs. Histogramas? (Pregunta de Parcial)",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           preguntaFrente: "Pregunta conceptual de las diapositivas oficiales (`Slide 37` y `Slide 47`): ¿En qué datos falla Naïve Bayes con distribución Gaussiana, qué alternativa se usa y qué 3 cuidados requieren los Histogramas?",
-          respuestaDorso: "* **Limitación de la Gaussiana:** Asume que cada clase y atributo sigue una única campana unimodal e independencia entre dimensiones. **Falla** si los datos son **multimodales** (varios grupos separados de la misma clase), tienen formas no convexas/entrelazadas (**espirales, anillos concéntricos**) o fuerte correlación diagonal.\n* **Alternativa:** Discretizar en **Histogramas (bins)** cuando no se conoce la distribución.\n* **3 factores clave al usar Histogramas (Slide 47):**\n  1. **No usar bins** si los datos responden claramente a una distribución paramétrica conocida.\n  2. Determinar correctamente la **amplitud (cantidad y ancho) de los bins**.\n  3. Manejar adecuadamente las probabilidades de los **bins vacíos (frecuencia cero)**."
+          respuestaDorso: "* **Limitación de la Gaussiana:** Asume que cada clase y atributo sigue una única campana unimodal e independencia entre dimensiones. **Falla** si los datos son **multimodales** (varios grupos separados de la misma clase), tienen formas no convexas/entrelazadas (**espirales, anillos concéntricos**) o fuerte correlación diagonal.\n* **Alternativa:** Discretizar en **Histogramas (bins)** cuando no se conoce la distribución.\n* **3 factores clave al usar Histogramas (Slide 47):**\n  1. **No usar bins** si los datos responden claramente a una distribución paramétrica conocida.\n  2. Determinar correctamente la **amplitud (cantidad y ancho) de los bins**.\n  3. Manejar adecuadamente las probabilidades de los **bins vacíos (frecuencia cero)**.",
+          svgDiagram: `
+            <svg viewBox="0 0 760 165" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Casos donde falla Naive Bayes Gaussiano">
+              <rect x="16" y="10" width="232" height="145" rx="8" fill="rgba(251,113,133,0.08)" stroke="#fb7185" stroke-width="1"/>
+              <text x="132" y="30" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">1. Datos Multimodales ✗</text>
+              <line x1="34" y1="115" x2="230" y2="115" stroke="#64748b" stroke-width="1"/>
+              <circle cx="62" cy="108" r="4" fill="#38bdf8"/><circle cx="72" cy="108" r="4" fill="#38bdf8"/><circle cx="82" cy="108" r="4" fill="#38bdf8"/>
+              <circle cx="182" cy="108" r="4" fill="#38bdf8"/><circle cx="192" cy="108" r="4" fill="#38bdf8"/><circle cx="202" cy="108" r="4" fill="#38bdf8"/>
+              <circle cx="132" cy="108" r="5" fill="#fb7185"/>
+              <path d="M 40 114 Q 85 52 132 52 Q 179 52 224 114" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,3"/>
+              <text x="132" y="138" text-anchor="middle" class="svg-label-muted" font-size="9.5">La campana pone su pico donde no hay datos</text>
+
+              <rect x="264" y="10" width="232" height="145" rx="8" fill="rgba(251,113,133,0.08)" stroke="#fb7185" stroke-width="1"/>
+              <text x="380" y="30" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">2. Anillos Concéntricos ✗</text>
+              <circle cx="380" cy="82" r="36" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="5,4"/>
+              <circle cx="380" cy="82" r="14" fill="none" stroke="#34d399" stroke-width="2.5"/>
+              <circle cx="380" cy="82" r="3" fill="#fbbf24"/>
+              <text x="380" y="138" text-anchor="middle" class="svg-label-muted" font-size="9.5">Misma media μ para ambas clases</text>
+
+              <rect x="512" y="10" width="232" height="145" rx="8" fill="rgba(52,211,153,0.08)" stroke="#10b981" stroke-width="1"/>
+              <text x="628" y="30" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">3. Correlación Diagonal ✗</text>
+              <line x1="540" y1="120" x2="710" y2="48" stroke="#38bdf8" stroke-width="2.5"/>
+              <ellipse cx="625" cy="84" rx="45" ry="26" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3"/>
+              <text x="628" y="138" text-anchor="middle" class="svg-label-muted" font-size="9.5">Asume ejes alineados (sin covarianza)</text>
+            </svg>
+          `
         },
         {
           id: "PRAC-NB-09",
@@ -847,308 +1223,8 @@ window.ENTRENAMIENTO_PRACTICO = {
         }
       ]
     },
-    {
-      id: "SVM",
-      nombre: "Support Vector Machines (SVM) — Primal, Dual KKT y Margen",
-      badge: "SVM",
-      icono: "📐",
-      ponderacion: "20% – 25% del Parcial Práctico",
-      tiempoSugerido: "20 - 25 min en hoja",
-      objetivo: "Identificar Vectores de Soporte (α_i > 0), reconstruir el vector w y el sesgo promediado b_prom, trazar los hiperplanos H_0, H+ y H- con sus cortes de ejes, verificar soluciones propuestas (Guía Ej. 02) y plantear el Dual Lagrangiano L_D con restricciones KKT y Margen Blando C.",
-      items: [
-        {
-          id: "PRAC-SVM-01",
-          tema: "SVM",
-          tipo: "diagrama",
-          titulo: "Geometría de Hiperplanos (H₀, H⁺, H⁻), Margen Máximo M y Vectores de Soporte",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Cómo visualizar en R² los 3 hiperplanos paralelos, la dirección perpendicular de w y qué puntos definen realmente la frontera (α_i > 0 vs α_i = 0).",
-          svgDiagram: `
-            <svg viewBox="0 0 760 320" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Diagrama geometrico SVM con hiperplanos H0, H+, H-, margen 2/||w|| y vectores de soporte">
-              <defs>
-                <marker id="svm-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24" />
-                </marker>
-                <marker id="svm-arrow-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
-                </marker>
-              </defs>
-
-              <!-- Panel Izquierdo: Plano geometrico R^2 -->
-              <rect x="20" y="14" width="435" height="254" rx="10" class="svg-node svg-node-in"/>
-              <text x="237" y="36" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="800">PLANO R²: SEPARACIÓN DE MARGEN MÁXIMO</text>
-
-              <!-- Ejes suaves -->
-              <line x1="65" y1="226" x2="425" y2="226" stroke="#475569" stroke-width="1.2"/>
-              <line x1="85" y1="54" x2="85" y2="246" stroke="#475569" stroke-width="1.2"/>
-              <text x="432" y="230" class="svg-label-muted" font-size="11">x₁</text>
-              <text x="85" y="48" text-anchor="middle" class="svg-label-muted" font-size="11">x₂</text>
-
-              <!-- H+ (+1) -->
-              <line x1="115" y1="74" x2="390" y2="174" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="6,4"/>
-              <text x="396" y="170" fill="#38bdf8" font-size="11" font-weight="700">H⁺ (= +1)</text>
-
-              <!-- H0 (= 0) -->
-              <line x1="95" y1="104" x2="364" y2="202" stroke="#f8fafc" stroke-width="2.5"/>
-              <text x="374" y="208" class="svg-node-text" font-size="11.5" font-weight="800">H₀ (= 0)</text>
-
-              <!-- H- (-1) -->
-              <line x1="75" y1="134" x2="355" y2="236" stroke="#fb7185" stroke-width="1.8" stroke-dasharray="6,4"/>
-              <text x="360" y="246" fill="#fb7185" font-size="11" font-weight="700">H⁻ (= -1)</text>
-
-              <!-- Vector normal w -->
-              <line x1="168" y1="131" x2="188" y2="76" stroke="#fbbf24" stroke-width="2.4" marker-end="url(#svm-arrow)"/>
-              <text x="198" y="82" fill="#fbbf24" font-size="12" font-weight="800">w (⊥ H₀)</text>
-
-              <!-- Margen M = 2 / ||w|| -->
-              <line x1="274" y1="132" x2="254" y2="188" stroke="#10b981" stroke-width="2" marker-start="url(#svm-arrow-m)" marker-end="url(#svm-arrow-m)"/>
-              <rect x="275" y="140" width="95" height="22" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-              <text x="322" y="155" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">M = 2 / ||w||</text>
-
-              <!-- Puntos clase +1 -->
-              <circle cx="239" cy="119" r="7" fill="#38bdf8" stroke="#fbbf24" stroke-width="2.4"/>
-              <text x="239" y="106" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₁>0)</text>
-
-              <circle cx="310" cy="145" r="7" fill="#38bdf8" stroke="#fbbf24" stroke-width="2.4"/>
-              <text x="342" y="128" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₂>0)</text>
-
-              <circle cx="325" cy="76" r="6" fill="#0284c7" stroke="#94a3b8" stroke-width="1.4"/>
-              <text x="364" y="80" class="svg-label-muted" font-size="10">+1 (α=0)</text>
-
-              <!-- Puntos clase -1 -->
-              <rect x="172" y="166" width="13" height="13" rx="2" fill="#fb7185" stroke="#fbbf24" stroke-width="2.4"/>
-              <text x="206" y="196" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">SV (α₃>0)</text>
-
-              <rect x="115" y="198" width="12" height="12" rx="2" fill="#e11d48" stroke="#94a3b8" stroke-width="1.4"/>
-              <text x="155" y="210" class="svg-label-muted" font-size="10">-1 (α=0)</text>
-
-              <!-- Panel Derecho: Reglas de decision rapida -->
-              <rect x="470" y="14" width="270" height="254" rx="10" class="svg-node svg-node-in"/>
-              <text x="605" y="38" text-anchor="middle" fill="#10b981" font-size="13" font-weight="800">CHEQUEO DE VALIDEZ (Ej. 02)</text>
-
-              <rect x="486" y="54" width="238" height="58" rx="6" fill="rgba(56, 189, 248, 0.12)" stroke="#38bdf8"/>
-              <text x="605" y="73" text-anchor="middle" fill="#38bdf8" font-size="11.5" font-weight="700">1. Equilibrio KKT obligatorio:</text>
-              <text x="605" y="91" text-anchor="middle" class="svg-node-text" font-size="11.5">Σ αᵢ yᵢ = 0   y   αᵢ ≥ 0</text>
-              <text x="605" y="105" text-anchor="middle" class="svg-label-muted" font-size="10">(Si no da 0, el resultado dado es erróneo)</text>
-
-              <rect x="486" y="122" width="238" height="64" rx="6" fill="rgba(16, 185, 129, 0.12)" stroke="#10b981"/>
-              <text x="605" y="141" text-anchor="middle" fill="#10b981" font-size="11.5" font-weight="700">2. Consistencia geométrica:</text>
-              <text x="605" y="159" text-anchor="middle" class="svg-node-text" font-size="11">• Los αᵢ > 0 deben caer SOBRE H⁺ / H⁻.</text>
-              <text x="605" y="175" text-anchor="middle" class="svg-node-text" font-size="11">• Los puntos con yᵢ=+1 arriba, yᵢ=-1 abajo.</text>
-
-              <rect x="486" y="196" width="238" height="58" rx="6" fill="rgba(251, 113, 133, 0.12)" stroke="#fb7185"/>
-              <text x="605" y="215" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">3. Ningún punto dentro de banda:</text>
-              <text x="605" y="233" text-anchor="middle" class="svg-node-text" font-size="11">yᵢ (wᵀxᵢ + b) ≥ 1  ∀i  (caso separable)</text>
-              <text x="605" y="247" text-anchor="middle" class="svg-label-muted" font-size="10">Si algún punto queda del lado opuesto ➔ Falla</text>
-
-              <!-- Regla inferior -->
-              <rect x="20" y="280" width="720" height="28" rx="6" class="svg-note-bg"/>
-              <text x="380" y="299" text-anchor="middle" class="svg-node-text" font-size="11.5" font-weight="600">
-                Regla clave de cátedra: SOLO los puntos con αᵢ > 0 (Vectores de Soporte) participan en w, b_prom y definen el margen óptimo.
-              </text>
-            </svg>
-          `,
-          notasClave: [
-            "**Significado de $d(+)$ y $d(-)$:** Son la distancia ortogonal mínima desde el hiperplano central $H_0$ hasta el punto positivo más cercano ($H^+$) y negativo más cercano ($H^-$). Ambas miden $\\frac{1}{\\|\\mathbf{w}\\|}$, por lo que el margen total vale $M = \\frac{2}{\\|\\mathbf{w}\\|}$.",
-            "**¿Por qué maximizar el margen equivale a minimizar $\\frac{1}{2}\\|\\mathbf{w}\\|^2$?** Porque $M = 2/\\|\\mathbf{w}\\|$ crece cuando $\\|\\mathbf{w}\\|$ decrece, y minimizar $\\frac{1}{2}\\mathbf{w}^T\\mathbf{w}$ convierte el problema en una optimización cuadrática convexa derivable."
-          ]
-        },
-        {
-          id: "PRAC-SVM-02",
-          tema: "SVM",
-          tipo: "algoritmo",
-          titulo: "Variante A (80% Exámenes): Dados los α_i, hallar w, b_prom, Hiperplanos y Margen",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Los 6 pasos exactos de la guía resuelta de cátedra (`guia_practica_svm.pdf` Págs. 4–9) para reconstruir el clasificador y validar soluciones.",
-          pasos: [
-            {
-              nro: 1,
-              titulo: "Identificar Vectores de Soporte (αi > 0) y verificar Σ αi·yi = 0",
-              queHago: "Filtrás únicamente las filas con $\\alpha_i > 0$ (el resto son puntos interiores inactivos que **no entran** en ningún cálculo de $\\mathbf{w}$ ni de $b$). Como chequeo rápido KKT, verificás si $\\sum \\alpha_i y_i = 0$.",
-              formula: "$$SV = \\{\\mathbf{x}_i : \\alpha_i > 0\\} \\qquad \\text{Control KKT: } \\sum_{i \\in SV} \\alpha_i y_i = 0$$",
-              queEscriboEnHoja: "«Identifico como Vectores de Soporte únicamente los ejemplos con multiplicador $\\alpha_i > 0$ (descartando los de $\\alpha_i = 0$) y verifico la condición KKT $\\sum \\alpha_i y_i = 0$.»"
-            },
-            {
-              nro: 2,
-              titulo: "Calcular el Vector de Pesos w componente a componente",
-              queHago: "Escribís primero la sumatoria simbólica y luego sumás los productos $\\alpha_i \\cdot y_i \\cdot \\mathbf{x}_i$ componente a componente ($w_1$ y $w_2$). Atención al signo de $y_i = -1$ combinado con coordenadas negativas.",
-              formula: "$$\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i \\, y_i \\, \\mathbf{x}_i$$",
-              queEscriboEnHoja: "«Reconstruyo el vector de pesos $\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i y_i \\mathbf{x}_i$, obteniendo $\\mathbf{w} = [w_1,\\; w_2]^T$.»"
-            },
-            {
-              nro: 3,
-              titulo: "Calcular b_i en CADA Vector de Soporte y promediar (b_prom)",
-              queHago: "La cátedra escribe $b_i = \\frac{1}{y_i} - \\mathbf{w}^T \\mathbf{x}_i$ (que es idéntico a $y_i - \\mathbf{w}^T \\mathbf{x}_i$ porque $y_i \\in \\{+1, -1\\}$). Calculás **un $b_i$ por cada SV** ($\\alpha_i > 0$) y sacás el promedio $b_{\\text{prom}}$ (fundamental si los datos traen redondeo o pertenecen al Ej. 02).",
-              formula: "$$b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i \\qquad b_{\\text{prom}} = \\frac{1}{|SV|} \\sum_{i \\in SV} b_i$$",
-              queEscriboEnHoja: "«Por la condición $y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$, calculo $b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$ para cada vector de soporte y tomo su promedio $b_{\\text{prom}} = \\frac{1}{|SV|} \\sum b_i$ para absorber posibles redondeos.»"
-            },
-            {
-              nro: 4,
-              titulo: "Escribir los Hiperplanos (H₀, H⁺, H⁻) y hallar cortes con los ejes",
-              queHago: "Armás las 3 ecuaciones reemplazando $\\mathbf{w}$ y $b_{\\text{prom}}$: $H_0 (=0)$, $H^+ (=+1)$ y $H^- (=-1)$. En cada recta evaluás **si $x_1 = 0 \\implies x_2 = \\dots$** y **si $x_2 = 0 \\implies x_1 = \\dots$** para dibujar las 3 líneas paralelas con precisión.",
-              formula: "$$H_0: w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = 0 \\qquad H^{\\pm}: w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = \\pm 1$$",
-              queEscriboEnHoja: "«Defino el hiperplano separador $H_0$ y los márgenes canónicos $H^+, H^-$, calculando sus intersecciones con ambos ejes coordenados para el trazado gráfico.»"
-            },
-            {
-              nro: 5,
-              titulo: "Graficar puntos y validar si la solución es correcta (caso Guía Ej. 02)",
-              queHago: "Dibujás todos los puntos (aunque tengan $\\alpha_i = 0$!). Si te preguntan si la solución obtenida es correcta, evaluás 3 cosas: (1) $\\sum \\alpha_i y_i = 0$, (2) los puntos con $\\alpha_i > 0$ caen sobre $H^+$ o $H^-$, y (3) ningún punto queda mal clasificado ni dentro del margen.",
-              formula: "$$\\text{Clasificación nueva muestra: } \\hat{y}(\\mathbf{x}) = \\operatorname{sgn}(\\mathbf{w}^T \\mathbf{x} + b_{\\text{prom}})$$",
-              queEscriboEnHoja: "«Al graficar el hiperplano, los márgenes y la totalidad de puntos de entrenamiento, verifico [que separa correctamente / que viola la separación o KKT porque el punto ... queda mal ubicado].»"
-            },
-            {
-              nro: 6,
-              titulo: "Calcular la Norma ||w|| y el Ancho Total del Margen M",
-              queHago: "Calculás $\\|\\mathbf{w}\\| = \\sqrt{\\mathbf{w}^T \\mathbf{w}} = \\sqrt{w_1^2 + w_2^2}$ y dividís $2$ por ese valor para reportar el margen de maximización completo $M$.",
-              formula: "$$\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2} \\qquad M = d(+) + d(-) = \\frac{2}{\\|\\mathbf{w}\\|}$$",
-              queEscriboEnHoja: "«Calculo la norma euclídea $\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2}$ y el margen geométrico máximo entre hiperplanos paralelos $M = 2 / \\|\\mathbf{w}\\|$.»"
-            }
-          ]
-        },
-        {
-          id: "PRAC-SVM-03",
-          tema: "SVM",
-          tipo: "algoritmo",
-          titulo: "Variante B: Planteo del Lagrangiano Dual L_D, Matriz de Gram y Caso No Separable",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Cómo armar paso a paso la función objetivo cuadrática L_D(α) y las restricciones KKT (Guía Ej. 01 y `Sem12-SVM`).",
-          pasos: [
-            {
-              nro: 1,
-              titulo: "Armar Matriz simétrica de Productos Internos (Gram) Kij = xiᵀ·xj",
-              queHago: "Para no equivocarte signos en la doble sumatoria, primero armás la tabla de productos escalares $K_{ij} = x_{i1} x_{j1} + x_{i2} x_{j2}$ (como $K_{ij} = K_{ji}$, calculás solo la triangular superior y diagonal).",
-              formula: "$$K_{ij} = \\langle \\mathbf{x}_i, \\mathbf{x}_j \\rangle = \\mathbf{x}_i^T \\mathbf{x}_j$$",
-              queEscriboEnHoja: "«Construyo la matriz de productos escalares $K_{ij} = \\mathbf{x}_i^T \\mathbf{x}_j$ para todos los pares de ejemplos de entrenamiento.»"
-            },
-            {
-              nro: 2,
-              titulo: "Desarrollar la doble sumatoria ½ ΣΣ αi αj yi yj Kij con signo y factor 2",
-              queHago: "En la diagonal ($i = j$), siempre vale $y_i^2 = +1$, quedando $\\frac{1}{2} K_{ii} \\alpha_i^2$. En los pares cruzados ($i < j$), como aparecen dos veces —$(i, j)$ y $(j, i)$— se cancela el $\\frac{1}{2}$ y queda **$y_i y_j K_{ij} \\alpha_i \\alpha_j$**. ¡Ojo al signo del producto $y_i y_j$!",
-              formula: "$$\\frac{1}{2}\\sum_i\\sum_j \\alpha_i \\alpha_j y_i y_j K_{ij} = \\frac{1}{2}\\sum_{i} K_{ii}\\alpha_i^2 + \\sum_{i < j} (y_i y_j K_{ij}) \\alpha_i \\alpha_j$$",
-              queEscriboEnHoja: "«Desarrollo el término cuadrático separando elementos diagonales ($y_i^2=1$) y términos cruzados duplicados por simetría, cuidando el signo de $y_i y_j$.»"
-            },
-            {
-              nro: 3,
-              titulo: "Escribir el Lagrangiano Dual L_D(α) a Maximizar",
-              queHago: "Recordá el signo menos delante de toda la parte cuadrática: $\\max_{\\boldsymbol{\\alpha}} L_D(\\boldsymbol{\\alpha}) = \\sum \\alpha_i - \\frac{1}{2}\\sum\\sum \\dots$. Distribuí bien el signo negativo al abrir paréntesis.",
-              formula: "$$\\max_{\\boldsymbol{\\alpha}} \\; L_D(\\boldsymbol{\\alpha}) = \\sum_{i=1}^N \\alpha_i - \\frac{1}{2} \\sum_{i=1}^N \\sum_{j=1}^N \\alpha_i \\alpha_j y_i y_j (\\mathbf{x}_i^T \\mathbf{x}_j)$$",
-              queEscriboEnHoja: "«Planteo la función objetivo dual $L_D(\\boldsymbol{\\alpha})$ a maximizar en función exclusivamente de los multiplicadores de Lagrange $\\alpha_i$.»"
-            },
-            {
-              nro: 4,
-              titulo: "Detallar todas las Restricciones KKT (Separable vs. Margen Blando C)",
-              queHago: "Escribís la igualdad $\\sum \\alpha_i y_i = 0$ explícita con $+1$ y $-1$ según la clase, y $\\alpha_i \\ge 0$ para todo $i$. Si el ejercicio menciona **margen blando / ruido / parámetro $C$**, la cota cambia a **$0 \\le \\alpha_i \\le C$**.",
-              formula: "$$\\text{s.a. } \\sum_{i=1}^N \\alpha_i y_i = 0, \\qquad \\alpha_i \\ge 0 \\; (\\text{o } 0 \\le \\alpha_i \\le C \\text{ en margen blando})$$",
-              queEscriboEnHoja: "«Establezco las restricciones KKT de igualdad $\\sum \\alpha_i y_i = 0$ y no negatividad $\\alpha_i \\ge 0$ (acotadas por $C$ en caso de margen blando).»"
-            },
-            {
-              nro: 5,
-              titulo: "Qué hacer si los datos NO son linealmente separables (Kernels y Holgura)",
-              queHago: "Si los datos presentan ruido o no admiten recta separadora en $\\mathbb{R}^2$, la cátedra plantea dos recursos complementarios: (a) **Margen blando** introduciendo variables de holgura $\\xi_i \\ge 0$ penalizadas por $C\\sum \\xi_i$, o (b) **Función Kernel** $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\langle \\Phi(\\mathbf{x}_i), \\Phi(\\mathbf{x}_j)\\rangle$ que mapea los datos a mayor dimensión donde sí son separables.",
-              formula: "$$\\min \\frac{1}{2}\\|\\mathbf{w}\\|^2 + C\\sum_{i=1}^N \\xi_i \\qquad \\text{ó} \\qquad \\mathbf{x}_i^T \\mathbf{x}_j \\mapsto \\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j) = \\Phi(\\mathbf{x}_i)^T\\Phi(\\mathbf{x}_j)$$",
-              queEscriboEnHoja: "«Ante datos no linealmente separables se permiten holguras $\\xi_i \\ge 0$ penalizadas por $C$ ($0 \\le \\alpha_i \\le C$), o bien se sustituye el producto interno por una función Kernel $\\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j)$ que proyecta a un espacio de mayor dimensión.»"
-            }
-          ]
-        },
-        {
-          id: "PRAC-SVM-04",
-          tema: "SVM",
-          tipo: "plantilla",
-          titulo: "Plantillas para Hoja en Blanco (Tabla de SVs/Sesgos + Cortes de Hiperplanos)",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Formato exacto para resolver cualquier ejercicio tipo Guía 02 o Parcial 2023 en papel con cero errores de índice.",
-          tablaPlantilla: {
-            tituloTabla: "1) Tabla de Reconstrucción de w y b_prom (solo usar filas con α_i > 0)",
-            columnas: [
-              "Punto",
-              "Vector $\\mathbf{x}_i = [x_1, x_2]$",
-              "$y_i$",
-              "$\\alpha_i$",
-              "¿Es SV?",
-              "Aporte a $\\mathbf{w}$: $\\alpha_i y_i \\mathbf{x}_i$",
-              "$\\mathbf{w}^T \\mathbf{x}_i$",
-              "$b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$"
-            ],
-            filas: [
-              ["$p_1$", "$[x_{11}, x_{12}]$", "$+1$", "$\\alpha_1 > 0$", "**Sí**", "$\\alpha_1(+1)\\mathbf{x}_1$", "$w_1 x_{11}+w_2 x_{12}$", "$1 - \\mathbf{w}^T p_1$"],
-              ["$p_2$", "$[x_{21}, x_{22}]$", "$-1$", "$\\alpha_2 > 0$", "**Sí**", "$\\alpha_2(-1)\\mathbf{x}_2$", "$w_1 x_{21}+w_2 x_{22}$", "$-1 - \\mathbf{w}^T p_2$"],
-              ["$p_k$", "$[x_{k1}, x_{k2}]$", "$\\pm 1$", "$0$", "No (omitir)", "$[0, 0]$", "—", "**No promediar**"],
-              ["**Totales**", "—", "—", "$\\sum \\alpha_i y_i = 0$", "$|SV|$ filas", "$\\mathbf{w} = [w_1, w_2]^T$", "—", "$b_{\\text{prom}} = \\frac{1}{|SV|}\\sum b_i$"]
-            ]
-          },
-          tablaPlantilla2: {
-            tituloTabla: "2) Cortes con los Ejes para Graficar las 3 Rectas en R²",
-            columnas: [
-              "Hiperplano",
-              "Ecuación Cartesiana",
-              "Corte eje $x_2$ ($x_1 = 0$)",
-              "Corte eje $x_1$ ($x_2 = 0$)"
-            ],
-            filas: [
-              ["**Separador $H_0$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = 0$", "$x_2 = -b_{\\text{prom}} / w_2$", "$x_1 = -b_{\\text{prom}} / w_1$"],
-              ["**Margen $H^+$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = +1$", "$x_2 = (1 - b_{\\text{prom}}) / w_2$", "$x_1 = (1 - b_{\\text{prom}}) / w_1$"],
-              ["**Margen $H^-$**", "$w_1 x_1 + w_2 x_2 + b_{\\text{prom}} = -1$", "$x_2 = (-1 - b_{\\text{prom}}) / w_2$", "$x_1 = (-1 - b_{\\text{prom}}) / w_1$"]
-            ]
-          },
-          tipHoja: "💡 **Atajo al graficar en hoja:** Si un coeficiente ($w_1$ o $w_2$) da $0$, esa recta es horizontal o vertical ($x_k = \\text{cte}$). En caso general, calculá primero los dos cortes de $H_0$, unilos con regla, y trazá $H^+$ y $H^-$ paralelos usando sus propios cortes!"
-        },
-        {
-          id: "PRAC-SVM-05",
-          tema: "SVM",
-          tipo: "formula",
-          titulo: "Flashcard 1: Reconstrucción Primal (w, b_prom), Norma y Ancho del Margen M",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          preguntaFrente: "Te dan los multiplicadores óptimos $\\alpha_i$. ¿Cómo calculás $\\mathbf{w}$, $b_{\\text{prom}}$, las distancias $d^+$ y $d^-$, el margen total $M$ y cómo clasificás un nuevo punto $\\mathbf{x}_{\\text{nuevo}}$?",
-          respuestaDorso: "* **Vector de pesos $\\mathbf{w}$:**\n  $$\\mathbf{w} = \\sum_{i \\in SV} \\alpha_i y_i \\mathbf{x}_i \\quad (\\text{sólo con } \\alpha_i > 0)$$\n* **Sesgo individual y promedio:**\n  $$b_i = \\frac{1}{y_i} - \\mathbf{w}^T \\mathbf{x}_i = y_i - \\mathbf{w}^T \\mathbf{x}_i, \\qquad b_{\\text{prom}} = \\frac{1}{|SV|} \\sum_{i \\in SV} b_i$$\n* **Distancias y Margen Geométrico Total:**\n  $$\\|\\mathbf{w}\\| = \\sqrt{\\mathbf{w}^T \\mathbf{w}} = \\sqrt{\\sum_k w_k^2}, \\qquad d^+ = d^- = \\frac{1}{\\|\\mathbf{w}\\|}, \\qquad M = d^+ + d^- = \\frac{2}{\\|\\mathbf{w}\\|}$$\n* **Regla de clasificación:**\n  $$f(\\mathbf{x}_{\\text{nuevo}}) = \\mathbf{w}^T \\mathbf{x}_{\\text{nuevo}} + b_{\\text{prom}} \\implies \\text{Clase } +1 \\text{ si } f \\ge 0,\\; \\text{Clase } -1 \\text{ si } f < 0$$"
-        },
-        {
-          id: "PRAC-SVM-06",
-          tema: "SVM",
-          tipo: "formula",
-          titulo: "Flashcard 2: Formulación Dual L_D(α) y las 3 Condiciones KKT",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          preguntaFrente: "Escribí de memoria el problema de optimización Dual Lagrangiano $L_D(\\boldsymbol{\\alpha})$ completo y las **3 condiciones de Karush-Kuhn-Tucker (KKT)** que exige la cátedra.",
-          respuestaDorso: "**Función Objetivo Dual (a Maximizar):**\n$$L_D(\\boldsymbol{\\alpha}) = \\sum_{i=1}^N \\alpha_i - \\frac{1}{2} \\sum_{i=1}^N \\sum_{j=1}^N \\alpha_i \\alpha_j y_i y_j (\\mathbf{x}_i^T \\mathbf{x}_j)$$\n\n**Las 3 Condiciones KKT:**\n1. **Estacionariedad / Equilibrio de pesos:** $\\sum_{i=1}^N \\alpha_i y_i = 0$ *(y $\\mathbf{w} = \\sum \\alpha_i y_i \\mathbf{x}_i$)*. \n2. **Factibilidad dual (no negatividad):** $\\alpha_i \\ge 0 \\; \\forall i$ *(si es Margen Blando: $0 \\le \\alpha_i \\le C$)*. \n3. **Holgura complementaria:** $\\alpha_i \\cdot [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0 \\; \\forall i$ *(implica que si $\\alpha_i > 0$, el punto DEBE estar sobre $H^+$ o $H^-$).* "
-        },
-        {
-          id: "PRAC-SVM-07",
-          tema: "SVM",
-          tipo: "formula",
-          titulo: "Flashcard 3: Cómo evaluar si una solución propuesta (Guía Ej. 02) es válida o errónea",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          preguntaFrente: "En el Ejercicio 02 de la Guía TP-SVM te dan una tabla con 7 puntos, clases y valores $\\alpha_i$, y te piden *«grafique y explique si la solución obtenida es correcta»*. ¿Qué verificás paso a paso?",
-          respuestaDorso: "Seguís esta lista rápida de validación (como en `guia_practica_svm.pdf` Ej. 2.1 y 2.3):\n1. **Chequeo KKT algebraico inmediato:** Calculá $\\sum \\alpha_i y_i$. Si da distinto de $0$ (como en Ej. 2.1 donde $\\frac{1}{9} - \\frac{1}{3} + \\frac{5}{9} = \\frac{1}{3} \\ne 0$), **ya podés anticipar que es incorrecta** (aunque igual graficás $\\mathbf{w}, b_{\\text{prom}}, H_0, H^+, H^-$ si piden gráfico).\n2. **Chequeo de ubicación en $H_0, H^+, H^-$:** Verificá en el dibujo si los puntos con $\\alpha_i > 0$ caen sobre las líneas de margen ($y_i(\\mathbf{w}^T\\mathbf{x}_i + b) = 1$) y si la banda entre $H^+$ y $H^-$ queda libre.\n3. **Separación de clases:** Si un punto de clase $+1$ cae del lado negativo o viceversa (o puntos mezclados sin margen separable), la solución lineal hard-margin **no es válida**."
-        },
-        {
-          id: "PRAC-SVM-08",
-          tema: "SVM",
-          tipo: "formula",
-          titulo: "Flashcard 4: Caso No Linealmente Separable — Margen Blando (ξ_i, C) y Kernel Φ(x)",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          preguntaFrente: "¿Qué cambia exactamente en la formulación primal y dual cuando los datos tienen ruido (Margen Blando), y qué hace conceptualmente una función Kernel $\\mathcal{K}$?",
-          respuestaDorso: "* **1) Margen Blando (Soft Margin):**\n  * Se agregan **variables de holgura** $\\xi_i \\ge 0$ a cada restricción: $y_i(\\mathbf{w}^T\\mathbf{x}_i + b) \\ge 1 - \\xi_i$.\n  * El objetivo primal suma el castigo por error: $\\min \\frac{1}{2}\\|\\mathbf{w}\\|^2 + C \\sum \\xi_i$.\n  * **Dato de oro para examen (`Slide 28`):** ¡En el **Dual**, $\\xi_i$ desaparece por completo! La fórmula de $L_D(\\boldsymbol{\\alpha})$ es **idéntica**, solo cambia la cota a **$0 \\le \\alpha_i \\le C$**.\n  * $C$ alto penaliza errores fuertemente (margen estrecho, riesgo de overfitting); $C$ bajo tolera más errores (margen más ancho).\n* **2) Truco del Kernel:**\n  * Mapea los vectores $\\mathbf{x} \\mapsto \\Phi(\\mathbf{x})$ a un espacio de mayor dimensión donde las clases sí sean linealmente separables, calculando $\\mathcal{K}(\\mathbf{x}_i, \\mathbf{x}_j) = \\Phi(\\mathbf{x}_i)^T\\Phi(\\mathbf{x}_j)$ directamente en $L_D$ sin computar $\\Phi$ explícitamente."
-        },
-        {
-          id: "PRAC-SVM-09",
-          tema: "SVM",
-          tipo: "trampa",
-          titulo: "Las 6 Trampas Clásicas de Examen en Support Vector Machines (SVM)",
-          etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
-          resumen: "Errores habituales de cálculo y signo al resolver SVM en hoja.",
-          trampas: [
-            "**Usar solo un $b_i$ sin promediar todos los Vectores de Soporte:** Cuando los $\\alpha_i$ vienen redondeados o son de prueba (`Ej. 02` o `Parcial 2023`), $b_1, b_2, b_3$ dan distintos. La cátedra exige promediar sobre todos los SVs: $b_{\\text{prom}} = \\frac{1}{|SV|}\\sum b_i$.",
-            "**Incluir puntos con $\\alpha_i = 0$ en el cálculo de $b_{\\text{prom}}$:** JAMÁS. Un punto con $\\alpha_i = 0$ está fuera del margen (`y_i(wᵀx_i + b) > 1`), NO cumple la igualdad $y_i(\\mathbf{w}^T\\mathbf{x}_i + b) = 1$, y arruinaría $b_{\\text{prom}}$.",
-            "**Poner $+1$ en vez de $y_i$ al despejar $b_i$:** Es $b_i = y_i - \\mathbf{w}^T \\mathbf{x}_i$. Si el vector de soporte es de clase negativa ($y_i = -1$), arrancás con **$-1 - \\mathbf{w}^T \\mathbf{x}_i$**, ¡nunca $1 - \\mathbf{w}^T \\mathbf{x}_i$!",
-            "**Confundir el ancho del margen $M$ con $d^+$:** La distancia del hiperplano central $H_0$ a un margen es $d^+ = \\frac{1}{\\|\\mathbf{w}\\|}$, pero el **margen total entre $H^+$ y $H^-$** es el doble: **$M = \\frac{2}{\\|\\mathbf{w}\\|}$**.",
-            "**Comerse el factor $2$ o errar el signo $y_i y_j$ en el Dual $L_D$:** Al expandir $\\frac{1}{2}\\sum_i\\sum_j$, cada par distinto $(i, j)$ aparece dos veces (`2 · 1/2 = 1`). Además, si $y_1 = +1$, $y_3 = -1$ y $K_{13} = -12$, entonces $-y_1 y_3 K_{13} = -(+1)(-1)(-12) = -12$, pero en $L_D = \\dots - Q$ cambia el signo de nuevo! Escribí primero $Q$ completo y después restalo.",
-            "**Olvidar que $\\|\\mathbf{w}\\|$ lleva raíz cuadrada:** La norma euclídea es $\\|\\mathbf{w}\\| = \\sqrt{w_1^2 + w_2^2}$, mientras que $\\mathbf{w}^T \\mathbf{w} = \\|\\mathbf{w}\\|^2$. Al dividir $M = 2 / \\|\\mathbf{w}\\|$, aplicá siempre la raíz cuadrada."
-          ]
-        }
-      ]
-    },
-
     // =========================================================================
-    // TEMA 5: REDES DE HOPFIELD (MEMORIA AUTOASOCIATIVA)
+    // TEMA 4: REDES DE HOPFIELD (MEMORIA AUTOASOCIATIVA)
     // =========================================================================
     {
       id: "HOPFIELD",
@@ -1264,6 +1340,57 @@ window.ENTRENAMIENTO_PRACTICO = {
   <text x="688" y="296" text-anchor="middle" class="svg-label-muted" font-size="10.5">S(t) = S(t+n)</text>
   <text x="688" y="314" text-anchor="middle" fill="#f87171" font-size="10.5">NO estabiliza</text>
 </svg>`,
+          svgDiagram2: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Recuperacion visual de grilla 2x2 y pozos de atraccion en Hopfield">
+  <defs>
+    <marker id="hop2-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#34d399"/></marker>
+  </defs>
+  <!-- Panel izquierdo: Grilla 2x2 bipolar -->
+  <rect x="14" y="10" width="380" height="195" rx="10" fill="rgba(56,189,248,0.07)" stroke="#38bdf8" stroke-width="1"/>
+  <text x="204" y="32" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">De la Grilla (Guía TP) al Vector Bipolar {+1, −1}</text>
+
+  <!-- Patron E1 -->
+  <text x="72" y="56" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">Patrón E₁</text>
+  <rect x="44" y="64" width="28" height="28" fill="#1e293b" stroke="#94a3b8"/><text x="58" y="82" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="72" y="64" width="28" height="28" fill="#f8fafc" stroke="#94a3b8"/><text x="86" y="82" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="700">−1</text>
+  <rect x="44" y="92" width="28" height="28" fill="#1e293b" stroke="#94a3b8"/><text x="58" y="110" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="72" y="92" width="28" height="28" fill="#f8fafc" stroke="#94a3b8"/><text x="86" y="110" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="700">−1</text>
+  <text x="72" y="138" text-anchor="middle" class="svg-label-muted" font-size="10">[+1, −1, +1, −1]</text>
+
+  <!-- Consulta con ruido Ed -->
+  <text x="192" y="56" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">Consulta E_d</text>
+  <rect x="164" y="64" width="28" height="28" fill="#1e293b" stroke="#94a3b8"/><text x="178" y="82" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="192" y="64" width="28" height="28" fill="#fb7185" stroke="#f43f5e"/><text x="206" y="82" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">+1</text>
+  <rect x="164" y="92" width="28" height="28" fill="#1e293b" stroke="#94a3b8"/><text x="178" y="110" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="192" y="92" width="28" height="28" fill="#f8fafc" stroke="#94a3b8"/><text x="206" y="110" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="700">−1</text>
+  <text x="192" y="138" text-anchor="middle" fill="#fb7185" font-size="10">bit 2 invertido</text>
+
+  <line x1="230" y1="92" x2="274" y2="92" stroke="#34d399" stroke-width="2" marker-end="url(#hop2-arr)"/>
+  <text x="252" y="83" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">W</text>
+
+  <!-- Recuperado -->
+  <text x="326" y="56" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">S(1) = E₁ ✓</text>
+  <rect x="298" y="64" width="28" height="28" fill="#1e293b" stroke="#34d399"/><text x="312" y="82" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="326" y="64" width="28" height="28" fill="#f8fafc" stroke="#34d399"/><text x="340" y="82" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="700">−1</text>
+  <rect x="298" y="92" width="28" height="28" fill="#1e293b" stroke="#34d399"/><text x="312" y="110" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">+1</text>
+  <rect x="326" y="92" width="28" height="28" fill="#f8fafc" stroke="#34d399"/><text x="340" y="110" text-anchor="middle" fill="#0f172a" font-size="11" font-weight="700">−1</text>
+  <text x="326" y="138" text-anchor="middle" fill="#34d399" font-size="10">Limpia el ruido</text>
+
+  <rect x="28" y="156" width="352" height="36" rx="6" class="svg-note-bg"/>
+  <text x="204" y="178" text-anchor="middle" class="svg-node-text" font-size="10.5">Regla fija: Negro/Sí = +1 · Blanco/No = −1 · Faltante en E_d = 0</text>
+
+  <!-- Panel derecho: Pozos de Energia -->
+  <rect x="408" y="10" width="338" height="195" rx="10" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="577" y="32" text-anchor="middle" fill="#c4b5fd" font-size="12" font-weight="700">Atractores (Mínimos de Energía)</text>
+  <path d="M 430 62 Q 465 56 490 132 Q 515 170 538 118 Q 560 74 585 118 Q 610 170 638 132 Q 668 56 720 62" fill="none" stroke="#c4b5fd" stroke-width="2.5"/>
+  <circle cx="514" cy="147" r="5" fill="#34d399"/>
+  <text x="514" y="168" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Eₖ (mínimo)</text>
+  <circle cx="614" cy="147" r="5" fill="#fbbf24"/>
+  <text x="614" y="168" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">−Eₖ (inverso)</text>
+  <circle cx="562" cy="96" r="4.5" fill="#fb7185"/>
+  <text x="562" y="84" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">A ↔ B (ciclo)</text>
+  <text x="577" y="192" text-anchor="middle" class="svg-label-muted" font-size="10">W guarda igual a Eₖ y −Eₖ porque (−1)·(−1) = +1</text>
+</svg>`,
           notasClave: [
             "Hopfield discreta opera exclusivamente con **vectores bipolares** $\\{+1, -1\\}$ (no binarios $\\{0, 1\\}$).",
             "Toda matriz $W$ válida cumple dos invariantes visuales instantáneas: **diagonal principal nula** ($w_{ii}=0$) y **simetría** ($w_{ij}=w_{ji}$).",
@@ -1281,37 +1408,53 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Codificar los patrones de entrada en representación bipolar",
-              queHago: "Traduzco cada figura o ficha de variables a un vector fila $E_k$ de tamaño $N$ usando $+1$ (negro / verdadero) y $-1$ (blanco / falso). Si un patrón de consulta $E_d$ omite variables (ej. problema meteorológico donde solo informan $VN$ y $TE$), coloco $0$ en las posiciones desconocidas.",
+              queHago: "Paso cada dibujo o variable a vector con `+1` (negro / verdadero) y `-1` (blanco / falso). Si una consulta $E_d$ tiene variables desconocidas, pongo `0` en esos lugares.",
               formula: "$$E_k = [e_1^{(k)}, e_2^{(k)}, \\dots, e_N^{(k)}] \\in \\{-1, +1\\}^N$$",
-              queEscriboEnHoja: "Paso 1 — Codificación bipolar (negro/v = +1, blanco/f = -1): E_1 = [...], E_2 = [...], patrón de consulta E_d = [...]."
+              queEscriboEnHoja: "«Paso todo a +1 (negro/sí) y -1 (blanco/no): E₁ = [...], E₂ = [...] y la consulta E_d = [...].»"
             },
             {
               nro: 2,
               titulo: "Calcular cada matriz individual sin autorrecurrencias",
-              queHago: "Para cada patrón $E_k$, armo el producto exterior $E_k^T \\cdot E_k$ (matriz $N \\times N$ donde la celda $(i,j)$ vale $e_i^{(k)} \\cdot e_j^{(k)}$) y le resto la matriz identidad $I$ (dejando $0$ en toda la diagonal principal).",
+              queHago: "Para cada patrón armo la tabla $E_k^T \\cdot E_k$ (si fila y columna tienen igual signo va `+1`, si distinto `-1`) y pongo ceros en toda la diagonal principal ($-I$).",
               formula: "$$W_k = E_k^T \\cdot E_k - I \\qquad (w_{ii}^{(k)} = 0)$$",
-              queEscriboEnHoja: "Paso 2 — Aprendizaje individual: Escribo las tablas de producto exterior E_1^T E_1 - I y E_2^T E_2 - I poniendo explícitamente ceros en la diagonal."
+              queEscriboEnHoja: "«Armo la matriz de cada patrón y le pongo 0 en la diagonal para que ninguna neurona se conecte consigo misma.»"
             },
             {
               nro: 3,
               titulo: "Sumar las matrices para obtener W",
-              queHago: "Sumo componente a componente las $M$ matrices individuales $W_k$. Verifico visualmente que la matriz resultante $W$ tenga ceros en la diagonal y sea simétrica respecto a ella.",
+              queHago: "Sumo celda a celda las matrices de todos los patrones. Chequeo rápido en un segundo: diagonal toda en `0` y arriba/abajo iguales (simétrica).",
               formula: "$$W = \\sum_{k=1}^{M} \\left(E_k^T \\cdot E_k - I\\right)$$",
-              queEscriboEnHoja: "Paso 3 — Matriz de pesos total: W = W_1 + ... + W_M = [...]. Verificación: diagonal = 0 y w_ij = w_ji."
+              queEscriboEnHoja: "«Sumo las matrices individuales para obtener W (verifico diagonal nula y simetría).»"
             },
             {
               nro: 4,
               titulo: "Presentar E_d e iterar el cálculo sincrónico",
-              queHago: "Inicio con $S(0) = E_d$. Calculo $net = S(t) \\cdot W$ multiplicando el vector fila por cada columna de $W$ (como $W$ es simétrica, fila o columna da idéntico producto). Luego aplico la función escalón $f(net_i)$: positivo $\\to +1$, negativo $\\to -1$, y **si $net_i = 0$ copio el valor anterior $s_i(t)$**.",
+              queHago: "Arranco con $S(0)=E_d$ y multiplico $S(t)\\cdot W$ columna por columna. Si $net_i>0 \\to +1$; si $net_i<0 \\to -1$; y si da exacto $0$, **copio lo que tenía antes $s_i(t)$**.",
+              svgDiagram: `
+                <svg viewBox="0 0 760 112" xmlns="http://www.w3.org/2000/svg" class="lab-svg-diagram" role="img" aria-label="Regla de activacion signo y empate net = 0">
+                  <text x="380" y="22" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">Regla rápida del escalón s_i(t+1) = f(net_i)</text>
+                  <rect x="24" y="36" width="220" height="58" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34d399"/>
+                  <text x="134" y="58" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">netᵢ &gt; 0  ➔  +1</text>
+                  <text x="134" y="78" text-anchor="middle" class="svg-label-muted" font-size="10.5">Se activa positivo</text>
+
+                  <rect x="270" y="36" width="220" height="58" rx="8" fill="rgba(251,191,36,0.12)" stroke="#fbbf24" stroke-width="1.5"/>
+                  <text x="380" y="58" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">netᵢ = 0  ➔  sᵢ(t)</text>
+                  <text x="380" y="78" text-anchor="middle" class="svg-node-text" font-size="10.5">Conserva su estado previo (¡NO poner 0!)</text>
+
+                  <rect x="516" y="36" width="220" height="58" rx="8" fill="rgba(251,113,133,0.10)" stroke="#fb7185"/>
+                  <text x="626" y="58" text-anchor="middle" fill="#fb7185" font-size="12" font-weight="700">netᵢ &lt; 0  ➔  −1</text>
+                  <text x="626" y="78" text-anchor="middle" class="svg-label-muted" font-size="10.5">Se activa negativo</text>
+                </svg>
+              `,
               formula: "$$net(t) = S(t)\\cdot W, \\qquad s_i(t+1) = \\begin{cases} +1 & net_i > 0 \\\\ s_i(t) & net_i = 0 \\\\ -1 & net_i < 0 \\end{cases}$$",
-              queEscriboEnHoja: "Iteración 1: S(0).W = [net_1 ... net_N] -> S(1) = f(net) = [...]. (Aclaro al margen: como net_j = 0, conserva s_j(0))."
+              queEscriboEnHoja: "«Multiplico S(t)·W y paso por el signo para sacar S(t+1) (donde dio net=0 mantengo el valor que ya tenía).»"
             },
             {
               nro: 5,
               titulo: "Evaluar convergencia, ciclo límite o patrón espurio",
-              queHago: "Comparo $S(t+1)$ con todos los estados anteriores. Si $S(t+1) = S(t)$ la red **se estabiliza**; si vuelvo a un estado de hace $n > 1$ pasos ($S(t) = S(t+n)$) entra en **oscilación (no estabiliza)**. Si estabilizó, verifico si coincide con algún $E_k$ aprendido o con un **atractor inverso / espurio** ($-E_k$).",
+              queHago: "Si $S(t+1) = S(t)$ la red ya frenó y comparo si recuperó algún $E_k$ o su opuesto $-E_k$. Si vuelve a un vector anterior tras 2+ pasos, entra en ciclo y no estabiliza.",
               formula: "$$S(t+1) = S(t) \\implies \\text{Converge} \\quad | \\quad S(t+n) = S(t)\\;(n>1) \\implies \\text{No estabiliza}$$",
-              queEscriboEnHoja: "Iteración 2: S(1).W = [...] -> S(2) = [...]. Como S(2) = S(1), la red se estabiliza y recupera el patrón E_k (o el patrón inverso -E_k)."
+              queEscriboEnHoja: "«Como S(t+1) dio igual a S(t), la red estabiliza y recupera el patrón Eₖ (o su inverso / entra en ciclo si alterna).»"
             }
           ]
         },
@@ -1326,23 +1469,23 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Verificar condiciones de recuperabilidad (Capacidad)",
-              queHago: "Con $N$ neuronas y $M$ patrones almacenados, calculo los dos umbrales: recuperación suficientemente buena ($0{,}138\\,N$) y recuperación perfecta ($N / (4\\ln N)$). Comparo $M$ contra ambos límites.",
+              queHago: "Con $N$ neuronas y $M$ patrones, calculo los dos límites con `ln(N)` (logaritmo natural, no base 10) y comparo si $M$ entra dentro de lo esperado.",
               formula: "$$M_{\\text{buena}} \\approx 0{,}138\\,N \\qquad M_{\\text{perfecta}} \\le \\frac{N}{4\\,\\ln(N)}$$",
-              queEscriboEnHoja: "Con N neuronas: Buena <= 0,138*N = ...; Perfecta <= N / (4*ln(N)) = .... Como almacenamos M = ... patrones (> límite), no se garantiza teóricamente la recuperación sin interferencia."
+              queEscriboEnHoja: "«Con N = ..., los límites dan M_buena = ... y M_perf = ...; como guardamos M patrones, [entra / supera] la capacidad teórica.»"
             },
             {
               nro: 2,
               titulo: "Verificar condición de ortogonalidad entre cada par (k, m)",
-              queHago: "Calculo el producto escalar entre cada par distinto de patrones $E_k$ y $E_m$. En esta cátedra se exige que los patrones difieran en al menos $50\\%$ de sus componentes, lo que equivale a suma $\\le 0$.",
+              queHago: "Hago el producto punto entre cada pareja de patrones. Si da $\\le 0$, difieren en al menos la mitad de sus bits y se interfieren poco.",
               formula: "$$\\sum_{i=1}^{N} e_i^{(k)}\\,e_i^{(m)} \\le 0 \\quad (\\forall\\,k \\neq m)$$",
-              queEscriboEnHoja: "Producto escalar E_1 . E_2 = (...). Como da <= 0 (diferencia >= 50%), cumplen la condición de ortogonalidad de la cátedra."
+              queEscriboEnHoja: "«Producto escalar E₁·E₂ = ... (≤ 0, difieren en ≥50%), así que cumplen ortogonalidad.»"
             },
             {
               nro: 3,
               titulo: "Auditar una matriz W dada (Ejercicio tipo 04)",
-              queHago: "Cuando el enunciado da $E_1, E_2$ y matrices $W_1, W_2, W$ precalculadas pidiendo encontrar errores: 1) chequeo diagonal de $W_1, W_2, W$ (deben ser $0$); 2) chequeo simetría; 3) recalculo fila a fila $e_i e_j$ donde sospecho error y verifico la suma $W = W_1 + W_2$; 4) recién con la $W$ **corregida** pruebo $E_d$.",
+              queHago: "Si ya te dan $W_1, W_2, W$ para revisar fallas: mirá la diagonal (tiene que ser 0), la simetría y el signo $e_i e_j$ de cada posición antes de evaluar $E_d$.",
               formula: "$$w_{ij} \\stackrel{?}{=} \\sum_{k=1}^{M} e_i^{(k)} e_j^{(k)} \\quad (i \\neq j), \\qquad w_{ii} \\stackrel{?}{=} 0$$",
-              queEscriboEnHoja: "Errores detectados: en W_1 posición (fila, col) figura X en lugar de Y (porque e_i*e_j = ...); además no se restó la identidad en (...). Con W corregida presento E_d..."
+              queEscriboEnHoja: "«Encontré errores en W: falta poner cero en la diagonal / la posición (i,j) debería valer Y. Corrijo W y pruebo E_d.»"
             }
           ]
         },
@@ -1429,7 +1572,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     },
 
     // =========================================================================
-    // TEMA 6: MAPAS AUTO-ORGANIZADOS DE KOHONEN (SOM)
+    // TEMA 5: MAPAS AUTO-ORGANIZADOS DE KOHONEN (SOM)
     // =========================================================================
     {
       id: "SOM",
@@ -1546,6 +1689,56 @@ window.ENTRENAMIENTO_PRACTICO = {
   <text x="565" y="292" text-anchor="middle" class="svg-label-muted" font-size="10.5">El patrón p₂ compite contra W(1), NUNCA contra W(0)</text>
   <text x="565" y="311" text-anchor="middle" fill="#fbbf24" font-size="10.5">Vecindad nula: solo cambia j* | Continua: cambian todas</text>
 </svg>`,
+          svgDiagram2: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Curvas de vecindad SOM y flujo online p1 a p2">
+  <defs>
+    <marker id="som2-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#38bdf8"/></marker>
+  </defs>
+  <!-- Panel izquierdo: Curvas de vecindad -->
+  <rect x="14" y="10" width="366" height="184" rx="10" fill="rgba(251,191,36,0.07)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="197" y="32" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">¿Cuánto vale h en la ganadora (d=0) y vecinas?</text>
+  <line x1="65" y1="162" x2="355" y2="162" stroke="#64748b" stroke-width="1.2"/>
+  <line x1="65" y1="46" x2="65" y2="162" stroke="#64748b" stroke-width="1.2"/>
+  <text x="58" y="60" text-anchor="end" fill="#38bdf8" font-size="10">1.0</text>
+  <text x="58" y="110" text-anchor="end" fill="#34d399" font-size="10">0.5</text>
+  <text x="58" y="164" text-anchor="end" class="svg-label-muted" font-size="10">0</text>
+  <text x="65" y="176" text-anchor="middle" class="svg-label-muted" font-size="10">d=0</text>
+  <text x="200" y="176" text-anchor="middle" class="svg-label-muted" font-size="10">dist(Wᵢ, W_j*)</text>
+
+  <!-- 1/(1+d) -->
+  <path d="M 65 56 Q 120 108 345 142" fill="none" stroke="#38bdf8" stroke-width="2.4"/>
+  <circle cx="65" cy="56" r="4" fill="#38bdf8"/>
+  <text x="138" y="62" fill="#38bdf8" font-size="10.5" font-weight="700">1/(1+d) → gana=1.0</text>
+
+  <!-- 1/(2+d) -->
+  <path d="M 65 109 Q 130 132 345 150" fill="none" stroke="#34d399" stroke-width="2.4"/>
+  <circle cx="65" cy="109" r="4" fill="#34d399"/>
+  <text x="155" y="106" fill="#34d399" font-size="10.5" font-weight="700">1/(2+d) → ¡gana=0.5!</text>
+
+  <!-- Vecindad Nula -->
+  <line x1="65" y1="56" x2="65" y2="162" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="68" y1="160" x2="345" y2="160" stroke="#fb7185" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="255" y="152" fill="#fb7185" font-size="10">Nula (d&gt;0 → h=0)</text>
+
+  <!-- Panel derecho: Flujo Online -->
+  <rect x="394" y="10" width="352" height="184" rx="10" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1"/>
+  <text x="570" y="32" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">Regla Online: nunca recicles W(0)</text>
+  <rect x="414" y="54" width="128" height="44" rx="7" class="svg-node svg-node-in"/>
+  <text x="478" y="73" text-anchor="middle" class="svg-node-text" font-size="11" font-weight="700">1. Entra p₁ + W(0)</text>
+  <text x="478" y="89" text-anchor="middle" class="svg-label-muted" font-size="9.5">Gana BMU y mueve pesos</text>
+
+  <line x1="544" y1="76" x2="588" y2="76" stroke="#38bdf8" stroke-width="2" marker-end="url(#som2-arr)"/>
+
+  <rect x="594" y="54" width="134" height="44" rx="7" class="svg-node svg-node-out"/>
+  <text x="661" y="73" text-anchor="middle" fill="#6ee7b7" font-size="11.5" font-weight="700">W(1) Guardado</text>
+  <text x="661" y="89" text-anchor="middle" class="svg-label-muted" font-size="9.5">Pisa al W(0) viejo</text>
+
+  <line x1="661" y1="100" x2="661" y2="124" stroke="#38bdf8" stroke-width="2" marker-end="url(#som2-arr)"/>
+
+  <rect x="414" y="128" width="314" height="46" rx="7" class="svg-note-bg"/>
+  <text x="571" y="148" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">2. Entra p₂ ➔ compite SÍ o SÍ contra W(1) ✓</text>
+  <text x="571" y="164" text-anchor="middle" fill="#fb7185" font-size="10">(Comparar p₂ contra W(0) da ejercicio anulado ✗)</text>
+</svg>`,
           notasClave: [
             "**Sin neurona bias:** A diferencia de Perceptrón y MLP, en SOM las $D$ entradas se conectan directamente a las $M$ neuronas competitivas de salida.",
             "**Atracción geométrica:** El vector $\\mathbf{x} - \\mathbf{w}_i(t)$ apunta desde $\\mathbf{w}_i$ hacia $\\mathbf{x}$, por eso al sumar $\\alpha\\,h\\,(\\mathbf{x} - \\mathbf{w}_i)$ cada neurona se mueve **acercándose** al patrón presentado.",
@@ -1563,37 +1756,37 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Fijar arquitectura inicial, tasa α y función de vecindad",
-              queHago: "Identifico la dimensión $D$ de entrada, la cantidad $M$ de neuronas de salida y copio la tabla de pesos iniciales $W_1(0), \\dots, W_M(0)$. Anoto la tasa de aprendizaje $\\alpha$ (si la guía TP no la aclara, en TP 01 suele indicarse $\\alpha = 0{,}5$) y si la vecindad $h$ es **nula** o **continua**.",
+              queHago: "Anoto entradas $D$, neuronas de salida $M$, los pesos iniciales $W_j(0)$, la tasa $\\alpha$ y si la vecindad $h$ es **nula** o **continua**.",
               formula: "$$W_j(0) = [w_{j1}(0),\\; w_{j2}(0),\\; \\dots,\\; w_{jD}(0)], \\qquad \\alpha \\in (0, 1]$$",
-              queEscriboEnHoja: "Datos iniciales: D = ... entradas, M = ... neuronas de salida, α = ..., vecindad h = ... . Pesos iniciales W_1(0) = [...], W_2(0) = [...]."
+              queEscriboEnHoja: "«Arranco con los pesos iniciales W(0), α = ... y la vecindad h dada por el enunciado.»"
             },
             {
               nro: 2,
               titulo: "Presentar el patrón p con los pesos vigentes W(t)",
-              queHago: "Tomo el vector de entrada $\\mathbf{x} = E_k$ indicado por el enunciado. Si estoy en una secuencia de varios patrones ($p_1$, luego $p_2$, luego $p_3$...), **uso obligatoriamente la matriz de pesos recién actualizada** $W(t)$, nunca los iniciales $W(0)$.",
+              queHago: "Tomo el patrón actual; si ya vengo de otro patrón ($p_1 \\to p_2$), uso **sí o sí los pesos nuevos $W(t)$**, nunca los iniciales.",
               formula: "$$\\mathbf{x}(t) = [x_1,\\; x_2,\\; \\dots,\\; x_D], \\qquad \\text{comparar contra } W_j(t)$$",
-              queEscriboEnHoja: "Iteración t — Presento el patrón p = [...] utilizando los pesos actuales W(t) = ..."
+              queEscriboEnHoja: "«Presento el patrón p = [...] evaluando contra los pesos vigentes W(t).»"
             },
             {
               nro: 3,
               titulo: "Fase de Competencia: distancias euclídeas y ganadora (BMU)",
-              queHago: "Calculo explícitamente la distancia euclídea (con raíz cuadrada escrita) entre $\\mathbf{x}$ y cada vector de pesos $W_j(t)$. La neurona con la **menor distancia** es la ganadora $j^*$ (Best Matching Unit).",
+              queHago: "Mido la distancia euclídea (con la raíz escrita) de $\\mathbf{x}$ a cada neurona; la más cercana gana ($j^*$).",
               formula: "$$d_j = \\sqrt{\\sum_{i=1}^{D} (x_i - w_{ji}(t))^2} \\qquad\\Longrightarrow\\qquad j^* = \\arg\\min_j\\, d_j$$",
-              queEscriboEnHoja: "Competencia: d(p, W_1) = √(...) = ...; d(p, W_2) = √(...) = ... . Como d_k es mínima, la neurona ganadora (BMU) es j* = k."
+              queEscriboEnHoja: "«Mido la distancia del patrón a cada neurona: como d_k es la más chica, gana la neurona W_k.»"
             },
             {
               nro: 4,
               titulo: "Fase de Cooperación: evaluar factor de vecindad h(i, j*)",
-              queHago: "- **Si vecindad es nula:** $h(j^*, j^*) = 1$ y $h(i, j^*) = 0$ para todas las demás neuronas.\n- **Si vecindad es continua** (ej. $\\frac{1}{1 + \\text{dist}(W_i, W_{j^*})}$ o $\\frac{1}{2 + \\text{dist}(W_i, W_{j^*})}$): evalúo $h$ tanto para $j^*$ (donde $\\text{dist}(W_{j^*}, W_{j^*}) = 0$) como para cada neurona vecina usando los pesos $W(t)$ **previos a actualizar**.",
+              queHago: "Si la vecindad es **nula**, solo cambia la ganadora ($h=1$, resto $0$). Si es **continua**, calculo $h$ tanto en la ganadora (`dist=0`) como en cada vecina usando las distancias entre los pesos **actuales $W(t)$**.",
               formula: "$$h(i, j^*) = \\begin{cases} 1 \\text{ si } i=j^*,\\; 0 \\text{ si } i\\neq j^* & \\text{(vecindad nula)} \\\\ \\dfrac{1}{c + \\sqrt{\\sum_k (w_{ik}(t) - w_{j^* k}(t))^2}} & \\text{(vecindad continua, } c\\in\\{1,2\\}\\text{)} \\end{cases}$$",
-              queEscriboEnHoja: "Cooperación: Para la ganadora dist = 0 -> h(j*) = ...; para la vecina dist(W_i, W_j*) = √(...) -> h(i) = 1/(c + dist) = ..."
+              queEscriboEnHoja: "«Calculo cuánto arrastra la ganadora a cada neurona usando la función de vecindad h (tanto para la ganadora d=0 como para las vecinas).»"
             },
             {
               nro: 5,
               titulo: "Fase de Adaptación: actualizar todas las neuronas con h > 0",
-              queHago: "Aplico la regla de Kohonen componente a componente sobre todas las neuronas con $h(i, j^*) > 0$. Verifico que cada componente nueva haya quedado ubicada entre el peso anterior y el patrón $\\mathbf{x}$, y guardo $W(t+1)$ para la siguiente iteración o gráfica.",
+              queHago: "Corro los pesos hacia el patrón haciendo **peso actual + $\\alpha\\cdot h\\cdot(\\text{patrón} - \\text{peso})$** y guardo $W(t+1)$ para el próximo patrón.",
               formula: "$$w_{ji}(t+1) = w_{ji}(t) + \\alpha \\cdot h(j, j^*) \\cdot \\big(x_i - w_{ji}(t)\\big)$$",
-              queEscriboEnHoja: "Adaptación: w_ji(t+1) = w_ji(t) + α·h·(x_i - w_ji(t)) = ... . Nuevo vector W(t+1) = [...]. (Si hay siguiente patrón, repito desde el Paso 2 con estos nuevos pesos)."
+              queEscriboEnHoja: "«Acerco los pesos hacia el patrón según α·h y guardo W(t+1) para lo que sigue.»"
             }
           ]
         },
@@ -1608,16 +1801,16 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Clasificar ejemplos de prueba usando pesos actualizados W(final)",
-              queHago: "Cuando piden *'Suponga que cada $W_i$ corresponde a la clase $C_i$; determine con los pesos actualizados a qué clase pertenecen los ejemplos'*, tomo el último vector de pesos actualizado $W_i(\\text{final})$, calculo la distancia euclídea del ejemplo de prueba $\\mathbf{x}_{\\text{test}}$ a cada $W_i(\\text{final})$, y asigno la clase de la neurona de **menor distancia**. ¡En clasificación NO se modifican pesos!",
+              queHago: "Mido la distancia de cada ejemplo de prueba a los últimos pesos actualizados $W_j(\\text{final})$ y le asigno la clase de la más cercana (**sin modificar los pesos**).",
               formula: "$$\\text{Clase}(\\mathbf{x}_{\\text{test}}) = C_{j^*}, \\qquad j^* = \\arg\\min_j \\|\\mathbf{x}_{\\text{test}} - W_j(\\text{final})\\|_2$$",
-              queEscriboEnHoja: "Clasificación Ejemplo k: d(x_test, W_1(final)) = ...; d(x_test, W_2(final)) = ... . Mínima en W_m -> pertenece a la Clase C_m (sin modificar pesos)."
+              queEscriboEnHoja: "«Mido distancia a los pesos finales sin moverlos: como quedó más cerca de W_m, pertenece a la Clase C_m.»"
             },
             {
               nro: 2,
               titulo: "Graficar la arquitectura final con pesos etiquetados",
-              queHago: "Dibujo abajo (o a la izquierda) los $D$ nodos de entrada $x_1, \\dots, x_D$ (SIN neurona bias $x_0$), arriba (o a la derecha) los $M$ nodos de salida $W_1, \\dots, W_M$, trazo flechas de cada entrada hacia todas las salidas y escribo sobre cada flecha el valor final $w_{ji}$.",
+              queHago: "Dibujo los $D$ nodos de entrada (sin bias $x_0$), los $M$ de salida y rotulo cada flecha con su valor final $w_{ji}$.",
               formula: "$$\\text{Entrada } x_i \\xrightarrow{\\;w_{ji}\\;} \\text{Salida } W_j \\qquad (D \\times M \\text{ conexiones totales})$$",
-              queEscriboEnHoja: "Arquitectura de la Red: esquema con D nodos de entrada conectando hacia M neuronas competitivas de salida, rotulando cada flecha con w_ji final."
+              queEscriboEnHoja: "«Dibujo las entradas conectadas a todas las salidas (sin bias) poniendo el valor final de cada peso sobre su flecha.»"
             }
           ]
         },
@@ -1628,6 +1821,45 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Plantilla de Hoja en Blanco: Parcial Real 2023 (Vecindad Continua h = 1/(2 + dist))",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           resumen: "Modelo completo con números verificados del Parcial 2023 (IA-H0075): W_1(0) = [+0,70; -0,10], W_2(0) = [-0,10; +0,40], α = 0,70, p_2 = [-0,80; -0,90] y vecindad h(i) = 1 / (2 + dist(W_i, W_j*)).",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Movimiento vectorial de W1 y W2 hacia p2 en Parcial 2023 SOM">
+  <defs>
+    <marker id="som3-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#34d399"/></marker>
+    <marker id="som3-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#fbbf24"/></marker>
+  </defs>
+  <text x="380" y="22" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">Visualización geométrica del Parcial 2023: W₁ y W₂ se acercan hacia p₂ = (−0.80, −0.90)</text>
+  <!-- Plot box x in [-1, +1] mapped to [120..520] (x_px = 320 + 200*x), y in [-1, +1] mapped to [180..40] (y_px = 110 - 70*y) -->
+  <line x1="100" y1="110" x2="540" y2="110" stroke="#475569" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <line x1="320" y1="36" x2="320" y2="188" stroke="#475569" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <text x="536" y="104" fill="#64748b" font-size="10">x₁</text>
+  <text x="328" y="46" fill="#64748b" font-size="10">x₂</text>
+
+  <!-- p2=(-0.80, -0.90) -> (160, 173) -->
+  <circle cx="160" cy="173" r="7" fill="#38bdf8" stroke="#fff" stroke-width="1.5"/>
+  <text x="148" y="191" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">p₂ (−0.80, −0.90)</text>
+
+  <!-- W2(0)=(-0.10, +0.40) -> (300, 82) | W2(1)=(-0.345, -0.055) -> (251, 113.8) -->
+  <circle cx="300" cy="82" r="6" class="svg-node svg-node-out"/>
+  <text x="300" y="70" text-anchor="middle" class="svg-node-text" font-size="10.5" font-weight="700">W₂(0) (−0.10, 0.40)</text>
+  <line x1="296" y1="86" x2="256" y2="110" stroke="#34d399" stroke-width="2.5" marker-end="url(#som3-g)"/>
+  <circle cx="251" cy="114" r="5.5" fill="#34d399"/>
+  <text x="238" y="130" text-anchor="end" fill="#34d399" font-size="10.5" font-weight="700">W₂(1) ganadora (h=0.50)</text>
+
+  <!-- W1(0)=(+0.70, -0.10) -> (460, 117) | W1(1)=(+0.343, -0.290) -> (388.6, 130.3) -->
+  <circle cx="460" cy="117" r="6" class="svg-node svg-node-hidden"/>
+  <text x="466" y="134" text-anchor="start" class="svg-node-text" font-size="10.5" font-weight="700">W₁(0) (0.70, −0.10)</text>
+  <line x1="454" y1="118" x2="395" y2="129" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#som3-a)"/>
+  <circle cx="389" cy="130" r="5.5" fill="#fbbf24"/>
+  <text x="404" y="152" fill="#fbbf24" font-size="10.5" font-weight="700">W₁(1) vecina (h=0.34)</text>
+
+  <rect x="556" y="44" width="188" height="136" rx="8" class="svg-note-bg"/>
+  <text x="650" y="68" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Control visual rápido</text>
+  <text x="568" y="92" class="svg-node-text" font-size="10.5">• Ambas flechas apuntan</text>
+  <text x="568" y="108" class="svg-node-text" font-size="10.5">  hacia p₂ (nunca al revés).</text>
+  <text x="568" y="132" class="svg-label-muted" font-size="10">• +0.70 bajó a +0.343</text>
+  <text x="568" y="148" class="svg-label-muted" font-size="10">• +0.40 bajó a −0.055</text>
+  <text x="568" y="166" fill="#fbbf24" font-size="10">✓ ¡Signo verificado!</text>
+</svg>`,
           tablaPlantilla: {
             tituloTabla: "Tabla 1 — Fases de Competencia y Cooperación",
             columnas: ["Neurona j", "Peso W_j(0)", "d(p_2, W_j)", "¿Ganadora BMU?", "dist(W_j, W_2)", "Factor h(j)"],
@@ -1702,7 +1934,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     },
 
     // =========================================================================
-    // TEMA 7: K-NEAREST NEIGHBORS (KNN) Y LEAVE-ONE-OUT (LOOCV)
+    // TEMA 6: K-NEAREST NEIGHBORS (KNN) Y LEAVE-ONE-OUT (LOOCV)
     // =========================================================================
     {
       id: "KNN",
@@ -1795,6 +2027,69 @@ window.ENTRENAMIENTO_PRACTICO = {
   <text x="566" y="280" text-anchor="middle" class="svg-label-muted" font-size="10.5">Solo calculás N(N−1)/2 pares de distancias una vez</text>
   <text x="566" y="302" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="600">En binario usar K impares (1, 3, 5) para evitar empates</text>
 </svg>`,
+          svgDiagram2: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Efecto del parametro K y matriz triangular simetrica LOOCV">
+  <!-- Panel izquierdo: Efecto de K -->
+  <rect x="14" y="10" width="356" height="184" rx="10" fill="rgba(56,189,248,0.07)" stroke="#38bdf8" stroke-width="1"/>
+  <text x="192" y="32" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">¿Qué pasa al cambiar K? (Sesgo vs Varianza)</text>
+  <rect x="28" y="48" width="154" height="82" rx="6" class="svg-note-bg"/>
+  <text x="105" y="68" text-anchor="middle" fill="#fb7185" font-size="11.5" font-weight="700">K = 1 (muy chico)</text>
+  <text x="105" y="88" text-anchor="middle" class="svg-node-text" font-size="10">Sigue cada punto aislado</text>
+  <text x="105" y="104" text-anchor="middle" class="svg-label-muted" font-size="10">Muy sensible al ruido</text>
+  <text x="105" y="120" text-anchor="middle" fill="#fb7185" font-size="10">(Overfitting local)</text>
+
+  <rect x="196" y="48" width="160" height="82" rx="6" class="svg-note-bg"/>
+  <text x="276" y="68" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">K = m+n (todos)</text>
+  <text x="276" y="88" text-anchor="middle" class="svg-node-text" font-size="10">Si simple: gana la clase</text>
+  <text x="276" y="104" text-anchor="middle" class="svg-node-text" font-size="10">con más muestras (m &gt; n).</text>
+  <text x="276" y="120" text-anchor="middle" fill="#fbbf24" font-size="10">Si m = n decide distancia</text>
+
+  <text x="192" y="158" text-anchor="middle" class="svg-node-text" font-size="10.5">Usando LOOCV elegís K* que minimiza errores reales</text>
+  <text x="192" y="176" text-anchor="middle" fill="#34d399" font-size="10">Tip: K impar en 2 clases evita empates</text>
+
+  <!-- Panel derecho: Matriz triangular LOOCV -->
+  <rect x="384" y="10" width="362" height="184" rx="10" fill="rgba(251,191,36,0.07)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="565" y="32" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">Atajo Matriz LOOCV (Triangular + Diagonal Tachada)</text>
+  <!-- Grid 5x5 simple -->
+  <text x="454" y="54" text-anchor="middle" class="svg-label-muted" font-size="10">p₁</text>
+  <text x="494" y="54" text-anchor="middle" class="svg-label-muted" font-size="10">p₂</text>
+  <text x="534" y="54" text-anchor="middle" class="svg-label-muted" font-size="10">p₃</text>
+  <text x="574" y="54" text-anchor="middle" class="svg-label-muted" font-size="10">p₄</text>
+  <text x="614" y="54" text-anchor="middle" class="svg-label-muted" font-size="10">p₅</text>
+
+  <text x="424" y="76" text-anchor="end" class="svg-label-muted" font-size="10">p₁</text>
+  <rect x="438" y="61" width="32" height="20" fill="rgba(251,113,133,0.2)" stroke="#fb7185"/><text x="454" y="75" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕</text>
+  <rect x="478" y="61" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="494" y="75" text-anchor="middle" fill="#7dd3fc" font-size="10">d₁₂</text>
+  <rect x="518" y="61" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="534" y="75" text-anchor="middle" fill="#7dd3fc" font-size="10">d₁₃</text>
+  <rect x="558" y="61" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="574" y="75" text-anchor="middle" fill="#7dd3fc" font-size="10">d₁₄</text>
+  <rect x="598" y="61" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="614" y="75" text-anchor="middle" fill="#7dd3fc" font-size="10">d₁₅</text>
+
+  <text x="424" y="98" text-anchor="end" class="svg-label-muted" font-size="10">p₂</text>
+  <text x="454" y="97" text-anchor="middle" fill="#64748b" font-size="9.5">=</text>
+  <rect x="478" y="83" width="32" height="20" fill="rgba(251,113,133,0.2)" stroke="#fb7185"/><text x="494" y="97" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕</text>
+  <rect x="518" y="83" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="534" y="97" text-anchor="middle" fill="#7dd3fc" font-size="10">d₂₃</text>
+  <rect x="558" y="83" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="574" y="97" text-anchor="middle" fill="#7dd3fc" font-size="10">d₂₄</text>
+  <rect x="598" y="83" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="614" y="97" text-anchor="middle" fill="#7dd3fc" font-size="10">d₂₅</text>
+
+  <text x="424" y="120" text-anchor="end" class="svg-label-muted" font-size="10">p₃</text>
+  <text x="454" y="119" text-anchor="middle" fill="#64748b" font-size="9.5">=</text>
+  <text x="494" y="119" text-anchor="middle" fill="#64748b" font-size="9.5">=</text>
+  <rect x="518" y="105" width="32" height="20" fill="rgba(251,113,133,0.2)" stroke="#fb7185"/><text x="534" y="119" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕</text>
+  <rect x="558" y="105" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="574" y="119" text-anchor="middle" fill="#7dd3fc" font-size="10">d₃₄</text>
+  <rect x="598" y="105" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="614" y="119" text-anchor="middle" fill="#7dd3fc" font-size="10">d₃₅</text>
+
+  <text x="424" y="142" text-anchor="end" class="svg-label-muted" font-size="10">p₄</text>
+  <rect x="558" y="127" width="32" height="20" fill="rgba(251,113,133,0.2)" stroke="#fb7185"/><text x="574" y="141" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕</text>
+  <rect x="598" y="127" width="32" height="20" fill="rgba(56,189,248,0.18)" stroke="#38bdf8"/><text x="614" y="141" text-anchor="middle" fill="#7dd3fc" font-size="10">d₄₅</text>
+
+  <text x="424" y="164" text-anchor="end" class="svg-label-muted" font-size="10">p₅</text>
+  <rect x="598" y="149" width="32" height="20" fill="rgba(251,113,133,0.2)" stroke="#fb7185"/><text x="614" y="163" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕</text>
+
+  <text x="688" y="88" text-anchor="middle" fill="#7dd3fc" font-size="10.5" font-weight="700">N(N−1)/2</text>
+  <text x="688" y="104" text-anchor="middle" class="svg-label-muted" font-size="9.5">cuentas únicas</text>
+  <text x="688" y="132" text-anchor="middle" fill="#fb7185" font-size="10" font-weight="700">✕ Sin autovecino</text>
+  <text x="565" y="184" text-anchor="middle" class="svg-label-muted" font-size="9.5">Para evaluar pᵢ leés su fila completa y su columna hacia arriba</text>
+</svg>`,
           notasClave: [
             "**Algoritmo perezoso (lazy):** No existe etapa de entrenamiento ni ecuación de frontera previa; todo cálculo ocurre recién al llegar $\\mathbf{x}_q$.",
             "**Tres pesos ponderados en cátedra:** $1/d$ y $1/d^2$ (Guía TP) y $1/(1+d^2)$ (para evitar división por cero cuando un punto coincide con $\\mathbf{x}_q$).",
@@ -1812,30 +2107,30 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Calcular la distancia euclídea entre x_q y todas las instancias",
-              queHago: "Tomo el punto nuevo $\\mathbf{x}_q$ y calculo su distancia euclídea a **todos** los $N$ ejemplos del conjunto de entrenamiento (escribiendo la raíz cuadrada en la hoja).",
+              queHago: "Calculo la distancia euclídea (anotando la raíz) desde el punto nuevo $\\mathbf{x}_q$ hacia cada dato conocido.",
               formula: "$$d(\\mathbf{x}_q, \\mathbf{x}_i) = \\sqrt{\\sum_{r=1}^{D} \\big(a_r(\\mathbf{x}_q) - a_r(\\mathbf{x}_i)\\big)^2}$$",
-              queEscriboEnHoja: "Paso 1 — Distancias a x_q = (...): d(x_q, p_1) = √(...) = ...; d(x_q, p_2) = ... [listo las N instancias]."
+              queEscriboEnHoja: "«Calculo la distancia euclídea de x_q a cada punto conocido para ver cuáles quedan más cerca.»"
             },
             {
               nro: 2,
               titulo: "Ordenar las instancias de menor a mayor distancia y tomar las K primeras",
-              queHago: "Asigno el orden $1^{\\circ}, 2^{\\circ}, \\dots, N^{\\circ}$ desde la distancia más pequeña hasta la más grande y selecciono el subconjunto $V_K$ de los $K$ vecinos más cercanos con sus respectivas etiquetas $f(\\mathbf{x}_i)$.",
+              queHago: "Ordeno de menor a mayor distancia y agarro solo los $K$ más cercanos con sus etiquetas de clase.",
               formula: "$$d_{(1)} \\le d_{(2)} \\le \\dots \\le d_{(K)} \\le \\dots \\le d_{(N)} \\quad\\Longrightarrow\\quad V_K = \\{\\mathbf{x}_{(1)}, \\dots, \\mathbf{x}_{(K)}\\}$$",
-              queEscriboEnHoja: "Paso 2 — Selección K = ... vecinos más cercanos: 1° p_a (d=..., Clase ...), 2° p_b (d=..., Clase ...), ..."
+              queEscriboEnHoja: "«Elijo los K = ... vecinos con menor distancia: p_a (Clase ...), p_b (Clase ...).»"
             },
             {
               nro: 3,
               titulo: "Asignar pesos w_i (solo si es KNN Ponderado)",
-              queHago: "- **Si es KNN Simple:** cada vecino seleccionado vale $w_i = 1$.\n- **Si es KNN Ponderado:** calculo el peso inverso de cada uno de los $K$ vecinos usando la función pedida en el enunciado: $1/d$, $1/d^2$ o $1/(1+d^2)$.",
+              queHago: "Si es simple, cada uno vale $1$ voto. Si es ponderado, le doy más peso a los que están más cerca usando la fórmula que pide el enunciado ($1/d$, $1/d^2$ o $1/(1+d^2)$).",
               formula: "$$w_i = 1 \\;\\text{(Simple)} \\quad \\bigg| \\quad w_i = \\frac{1}{d_i} \\;\\text{ ó }\\; w_i = \\frac{1}{d_i^2} \\;\\text{ ó }\\; w_i = \\frac{1}{1 + d_i^2}$$",
-              queEscriboEnHoja: "Paso 3 — Ponderación w_i = ...: w_(1) = ..., w_(2) = ..., ... [con 3 decimales]."
+              queEscriboEnHoja: "«Calculo el peso de cada vecino cercano para darle más voto a los que están más próximos.»"
             },
             {
               nro: 4,
               titulo: "Sumar votos / puntajes por clase y decidir por arg max",
-              queHago: "Aplico la función indicadora $\\delta(v, f(\\mathbf{x}_i))$ acumulada por cada clase candidata $v \\in V$. Asigno a $\\mathbf{x}_q$ la clase con mayor suma (de conteo o de pesos $w_i$).",
+              queHago: "Sumo los votos (o los pesos $w_i$) por clase y asigno el punto nuevo a la clase que junta mayor puntaje.",
               formula: "$$\\hat{f}(\\mathbf{x}_q) = \\arg\\max_{v \\in V} \\sum_{i \\in V_K} w_i\\,\\delta\\big(v, f(\\mathbf{x}_i)\\big), \\qquad \\delta(a,b) = \\begin{cases} 1 & a=b \\\\ 0 & a\\neq b \\end{cases}$$",
-              queEscriboEnHoja: "Paso 4 — Votación: Para Clase A = sum(...) = ...; Para Clase B = sum(...) = ... . Como Score(...) es mayor, x_q se clasifica en Clase ..."
+              queEscriboEnHoja: "«Sumo los puntajes de cada clase y como gana Clase ..., clasifico x_q ahí.»"
             }
           ]
         },
@@ -1850,30 +2145,30 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Construir la matriz simétrica de distancias por pares (N(N−1)/2 cálculos)",
-              queHago: "Como $d(p_i, p_j) = d(p_j, p_i)$, calculo solo el triángulo superior de distancias entre puntos distintos, dejando vacía/tachada la diagonal ($i=j$, porque el punto de prueba queda excluido).",
+              queHago: "Calculo solo la mitad superior porque $d(p_i, p_j) = d(p_j, p_i)$, y tacho la diagonal porque ningún punto puede usarse de vecino propio.",
               formula: "$$d(p_i, p_j) = d(p_j, p_i), \\qquad i \\neq j \\quad\\Longrightarrow\\quad \\text{solo } \\frac{N(N-1)}{2} \\text{ pares}$$",
-              queEscriboEnHoja: "Tabla de distancias entre pares (simétrica, sin autovecino): d(p1,p2)=..., d(p1,p3)=..., ..."
+              queEscriboEnHoja: "«Armo la tabla simétrica de distancias tachando la diagonal (porque dejo afuera el punto que estoy probando).»"
             },
             {
               nro: 2,
               titulo: "Listar para cada instancia p_i su ranking de N − 1 vecinos",
-              queHago: "En cada columna $p_i$, ordeno de arriba hacia abajo sus vecinos del $1^{\\circ}$ más cercano al $(N-1)^{\\circ}$ más lejano.",
+              queHago: "Para cada punto $p_i$, ordeno sus vecinos del más cercano al más lejano.",
               formula: "$$\\text{Columna } p_i: \\; \\big[p_{(1)}^{(i)},\\; p_{(2)}^{(i)},\\; \\dots,\\; p_{(N-1)}^{(i)}\\big]$$",
-              queEscriboEnHoja: "Ranking de cercanía por punto excluido: Col p_1 -> [1° ..., 2° ...]; Col p_2 -> [1° ..., 2° ...]..."
+              queEscriboEnHoja: "«Ordeno de más cerca a más lejos qué vecinos le quedan a cada punto.»"
             },
             {
               nro: 3,
               titulo: "Evaluar aciertos y tasa de error para cada K candidato",
-              queHago: "Para cada $K$ solicitado (por ej. $K \\in \\{1, 3, 5\\}$ o $1..N-1$), tomo los primeros $K$ vecinos de cada columna, determino qué clase predicen para $p_i$, la comparo contra su clase verdadera y cuento aciertos y errores.",
+              queHago: "Pruebo cada $K$ pedido (ej. $K=1, 3, 5$) mirando si esos $K$ vecinos aciertan la clase real de cada punto, y divido errores por $N$.",
               formula: "$$E_{\\text{LOOCV}}(K) = \\frac{\\text{Cantidad de Errores}(K)}{N}, \\qquad \\text{Precisión}(K) = \\frac{\\text{Aciertos}(K)}{N}$$",
-              queEscriboEnHoja: "Evaluación K=1: p1->ok, p2->ok... Aciertos = .../N, Error = .../N. Repito para K=3 y K=5."
+              queEscriboEnHoja: "«Pruebo K=1 (errores/N), K=3 (errores/N)... comparando contra la clase real de cada ejemplo.»"
             },
             {
               nro: 4,
               titulo: "Seleccionar K* óptimo (mínimo error LOOCV)",
-              queHago: "Elijo el $K$ con **menor tasa de error LOOCV** (máxima precisión). Si hay empate entre varios $K$, se suele preferir el menor $K$ impar que evite empates de votación.",
+              queHago: "Me quedo con el $K$ que tuvo menor error (en empate prefiero el menor impar).",
               formula: "$$K^* = \\arg\\min_{K} E_{\\text{LOOCV}}(K)$$",
-              queEscriboEnHoja: "Conclusión: El valor óptimo es K* = ... porque minimiza el error LOOCV (E = .../N)."
+              queEscriboEnHoja: "«Elijo K* = ... porque fue el que cometió menos errores en Leave-One-Out.»"
             }
           ]
         },
@@ -1884,6 +2179,44 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Plantilla de Hoja en Blanco: KNN Ponderado + LOOCV (Parcial IA-H0122)",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           resumen: "Modelo completo con puntos p_1(1,2,+1), p_2(2,3,+1), p_3(2,1,+1), p_4(4,2,-1), p_5(5,3,-1), p_6(5,1,-1) clasificando x_0 = (3, 2) con K = 3 y w_i = 1 / (1 + d²).",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa espacial del parcial IA-H0122 mostrando K=3 alrededor de x0=(3,2)">
+  <text x="380" y="22" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">Mapa espacial Parcial IA-H0122: x₀ = (3, 2) rodeado de K=3 vecinos</text>
+  <!-- x in [0..6] -> [120..520] (x_px = 120 + 66*x), y in [0..4] -> [168..42] (y_px = 168 - 31*y) -->
+  <line x1="100" y1="168" x2="540" y2="168" stroke="#64748b" stroke-width="1.2"/>
+  <line x1="120" y1="38" x2="120" y2="174" stroke="#64748b" stroke-width="1.2"/>
+
+  <!-- Radio K=3 alrededor de x0(3,2) -> (318, 106), radio d=1.5 -> ~99 px -->
+  <circle cx="318" cy="106" r="96" fill="rgba(52,211,153,0.06)" stroke="#34d399" stroke-width="1.8" stroke-dasharray="5,4"/>
+  <text x="418" y="64" fill="#34d399" font-size="10.5" font-weight="700">K = 3 adentro</text>
+
+  <!-- x0=(3,2) -->
+  <polygon points="318,97 327,106 318,115 309,106" fill="#fbbf24" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="318" y="130" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700">x₀ (3,2)</text>
+
+  <!-- Clase +1 (azules): p1(1,2)->(186,106), p2(2,3)->(252,75), p3(2,1)->(252,137) -->
+  <circle cx="186" cy="106" r="6" fill="#38bdf8" opacity="0.5"/>
+  <text x="166" y="100" text-anchor="end" class="svg-label-muted" font-size="10">p₁ (+1) d=2</text>
+  <circle cx="252" cy="75" r="7" fill="#38bdf8" stroke="#fff" stroke-width="1.4"/>
+  <text x="242" y="66" text-anchor="end" fill="#7dd3fc" font-size="10.5" font-weight="700">p₂(+1) d=1.41</text>
+  <circle cx="252" cy="137" r="7" fill="#38bdf8" stroke="#fff" stroke-width="1.4"/>
+  <text x="242" y="152" text-anchor="end" fill="#7dd3fc" font-size="10.5" font-weight="700">p₃(+1) d=1.41</text>
+
+  <!-- Clase -1 (rojos): p4(4,2)->(384,106), p5(5,3)->(450,75), p6(5,1)->(450,137) -->
+  <rect x="377" y="99" width="14" height="14" rx="2" fill="#fb7185" stroke="#fff" stroke-width="1.4"/>
+  <text x="384" y="128" text-anchor="middle" fill="#fb7185" font-size="10.5" font-weight="700">p₄(−1) d=1</text>
+  <rect x="444" y="69" width="12" height="12" rx="2" fill="#fb7185" opacity="0.5"/>
+  <text x="462" y="79" class="svg-label-muted" font-size="10">p₅(−1) d=2.2</text>
+  <rect x="444" y="131" width="12" height="12" rx="2" fill="#fb7185" opacity="0.5"/>
+  <text x="462" y="141" class="svg-label-muted" font-size="10">p₆(−1) d=2.2</text>
+
+  <rect x="556" y="42" width="188" height="132" rx="8" class="svg-note-bg"/>
+  <text x="650" y="66" text-anchor="middle" fill="#38bdf8" font-size="11.5" font-weight="700">Competencia K=3:</text>
+  <text x="568" y="90" fill="#fb7185" font-size="10.5">• p₄ solo: w = 0.500</text>
+  <text x="568" y="110" fill="#7dd3fc" font-size="10.5">• p₂ + p₃: 0.333 + 0.333</text>
+  <text x="568" y="126" fill="#7dd3fc" font-size="10.5" font-weight="700">  = 0.666</text>
+  <text x="650" y="154" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">2 vecinos ganan → +1 ✓</text>
+</svg>`,
           tablaPlantilla: {
             tituloTabla: "Tabla 1 — Clasificación de x_0 = (3, 2) con K = 3 y w_i = 1 / (1 + d²)",
             columnas: ["Instancia (Clase)", "d(x_0, p_i)", "Orden", "¿En K=3?", "Peso w_i = 1 / (1 + d²)", "Aporte por Clase"],
@@ -1962,7 +2295,7 @@ window.ENTRENAMIENTO_PRACTICO = {
     },
 
     // =========================================================================
-    // TEMA 8: CLUSTERING (K-MEANS Y JERÁRQUICO AGLOMERATIVO)
+    // TEMA 7: CLUSTERING (K-MEANS Y JERÁRQUICO AGLOMERATIVO)
     // =========================================================================
     {
       id: "CLUSTERING",
@@ -2075,6 +2408,50 @@ window.ENTRENAMIENTO_PRACTICO = {
   <text x="565" y="302" text-anchor="middle" fill="#34d399" font-size="10.5" font-weight="700">Correcto: (2·d(AN,SP) + 1·d(R,SP)) / 3 = 6,107</text>
   <text x="565" y="320" text-anchor="middle" fill="#fbbf24" font-size="10">Prohibido dividir por 2 cuando |A| ≠ |B|</text>
 </svg>`,
+          svgDiagram2: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Efecto cadena Single Link vs Complete Link y convergencia visual K-Means">
+  <defs>
+    <marker id="clu2-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1 L10 5 L0 9 z" fill="#34d399"/></marker>
+  </defs>
+  <!-- Panel izquierdo: Single vs Complete -->
+  <rect x="14" y="10" width="358" height="184" rx="10" fill="rgba(56,189,248,0.07)" stroke="#38bdf8" stroke-width="1"/>
+  <text x="193" y="32" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">Single-Link (cadenas) vs. Complete-Link (bolas compactas)</text>
+
+  <!-- Single link encadenado -->
+  <text x="30" y="64" fill="#fb7185" font-size="11" font-weight="700">Single (mínimo):</text>
+  <ellipse cx="195" cy="86" rx="145" ry="18" fill="rgba(251,113,133,0.12)" stroke="#fb7185" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <circle cx="80" cy="86" r="5" fill="#38bdf8"/><circle cx="115" cy="86" r="5" fill="#38bdf8"/><circle cx="150" cy="86" r="5" fill="#fbbf24"/><circle cx="195" cy="86" r="5" fill="#fbbf24"/><circle cx="240" cy="86" r="5" fill="#34d399"/><circle cx="280" cy="86" r="5" fill="#34d399"/>
+  <text x="193" y="116" text-anchor="middle" class="svg-label-muted" font-size="9.5">Un puente de puntos une todo en un grupo alargado (efecto cadena)</text>
+
+  <!-- Complete link compacto -->
+  <text x="30" y="140" fill="#34d399" font-size="11" font-weight="700">Complete (máximo):</text>
+  <circle cx="115" cy="158" r="24" fill="rgba(56,189,248,0.14)" stroke="#38bdf8" stroke-width="1.5"/>
+  <circle cx="105" cy="154" r="4.5" fill="#38bdf8"/><circle cx="122" cy="162" r="4.5" fill="#38bdf8"/><circle cx="114" cy="148" r="4.5" fill="#38bdf8"/>
+  <circle cx="268" cy="158" r="24" fill="rgba(52,211,153,0.14)" stroke="#34d399" stroke-width="1.5"/>
+  <circle cx="258" cy="154" r="4.5" fill="#34d399"/><circle cx="276" cy="160" r="4.5" fill="#34d399"/><circle cx="266" cy="148" r="4.5" fill="#34d399"/>
+  <text x="193" y="186" text-anchor="middle" class="svg-label-muted" font-size="9.5">Fuerza clusters compactos y diámetros chicos</text>
+
+  <!-- Panel derecho: Evolucion K-Means -->
+  <rect x="386" y="10" width="360" height="184" rx="10" fill="rgba(52,211,153,0.07)" stroke="#34d399" stroke-width="1"/>
+  <text x="566" y="32" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">Evolución K-Means: cómo viajan los centroides μ</text>
+  <!-- Puntos grupo 1 abajo izq -->
+  <circle cx="430" cy="150" r="5" fill="#38bdf8"/><circle cx="430" cy="122" r="5" fill="#38bdf8"/><circle cx="456" cy="136" r="5" fill="#38bdf8"/>
+  <!-- Puntos grupo 2 arriba der -->
+  <circle cx="655" cy="70" r="5" fill="#fbbf24"/><circle cx="695" cy="70" r="5" fill="#fbbf24"/>
+
+  <!-- Semilla mu1=(1,1)->(430,150) y final mu1=(1.33,2)->(438,136) -->
+  <line x1="432" y1="148" x2="438" y2="140" stroke="#34d399" stroke-width="2" marker-end="url(#clu2-arr)"/>
+  <text x="415" y="168" fill="#38bdf8" font-size="10" font-weight="700">μ₁(0)</text>
+  <text x="470" y="156" fill="#34d399" font-size="10" font-weight="700">μ₁*=(1.33, 2)</text>
+
+  <!-- Semilla mu2=(2,2)->(456,136) salta al grupo 2 (675,70) -->
+  <circle cx="456" cy="136" r="7" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="2,2"/>
+  <line x1="464" y1="130" x2="664" y2="74" stroke="#34d399" stroke-width="2.4" marker-end="url(#clu2-arr)"/>
+  <circle cx="675" cy="70" r="6" fill="#34d399" stroke="#fff" stroke-width="1.5"/>
+  <text x="546" y="88" text-anchor="middle" fill="#34d399" font-size="10.5" font-weight="700">μ₂ salta Iter 1→2</text>
+  <text x="675" y="54" text-anchor="middle" fill="#fbbf24" font-size="10.5" font-weight="700">μ₂*=(7, 6)</text>
+  <text x="566" y="182" text-anchor="middle" class="svg-label-muted" font-size="10">Frena recién cuando μ(t+1) = μ(t) (nadie cambia de grupo)</text>
+</svg>`,
           notasClave: [
             "**Dendrograma con escala:** Siempre graduá el eje vertical $h$ con las alturas numéricas exactas ($h_1 < h_2 < \\dots$) y dejá todas las hojas individuales en la línea base $h = 0$.",
             "**Average Link ponderado:** Si un cluster tiene tamaño $|A|$ y se fusiona con otro de tamaño $|B|$, la fórmula recurrente pondera por $|A|$ y $|B|$ dividiendo por $|A|+|B|$ (equivale al promedio exacto de todos los pares originales cruzados).",
@@ -2092,30 +2469,30 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Fijar K semillas iniciales (dadas o por heurística oficial)",
-              queHago: "- Si el enunciado indica semillas (ej. $Seeds = I_2, I_3$), las copio como $\\boldsymbol{\\mu}_1^{(0)}, \\boldsymbol{\\mu}_2^{(0)}$.\n- Si el enunciado pide aplicar la **heurística de la cátedra** (`Guía TP 02`): calculo primero la media global $\\bar{\\mathbf{x}}$ de todo el dataset; tomo como $\\boldsymbol{\\mu}_1^{(0)}$ el punto **más lejano** a $\\bar{\\mathbf{x}}$, como $\\boldsymbol{\\mu}_2^{(0)}$ el **más lejano** a $\\boldsymbol{\\mu}_1^{(0)}$, y así sucesivamente.",
+              queHago: "Pongo los $K$ centros iniciales dados en el enunciado (si no dan semillas, uso la heurística: primero el punto más lejano al promedio general, después el más lejano a ese, etc.).",
               formula: "$$\\boldsymbol{\\mu}_1^{(0)}, \\dots, \\boldsymbol{\\mu}_K^{(0)} \\in \\mathbb{R}^D \\qquad (\\text{o } \\arg\\max \\|\\mathbf{x}_i - \\bar{\\mathbf{x}}\\| \\text{ si usa heurística})$$",
-              queEscriboEnHoja: "Iteración 0 — Semillas iniciales: C_1^(0) = μ_1 = (...), C_2^(0) = μ_2 = (...)."
+              queEscriboEnHoja: "«Arranco tomando las K semillas iniciales C₁⁽⁰⁾ = (...), C₂⁽⁰⁾ = (...).»"
             },
             {
               nro: 2,
               titulo: "Calcular distancias euclídeas y asignar cada instancia al centroide más cercano",
-              queHago: "Para cada instancia $\\mathbf{x}_i$, calculo $d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)})$ contra cada uno de los $K$ centroides y la asigno al cluster $C_j$ de **menor distancia**. (En Iteración 1, cada punto elegido como semilla está a distancia $0$ de sí mismo).",
+              queHago: "Mido la distancia euclídea de cada punto a los $K$ centros actuales y lo meto en el grupo que le queda más cerca.",
               formula: "$$d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)}) = \\sqrt{\\sum_{r=1}^{D} (x_{ir} - \\mu_{jr}^{(t)})^2}, \\qquad c(\\mathbf{x}_i) = \\arg\\min_j\\, d(\\mathbf{x}_i, \\boldsymbol{\\mu}_j^{(t)})$$",
-              queEscriboEnHoja: "Asignación Iteración t: tabla con d(I_i, C_1) y d(I_i, C_2). Marco en recuadro la menor distancia -> I_1 en C_1, I_2 en C_2..."
+              queEscriboEnHoja: "«Mido la distancia de cada punto a los centros y lo asigno al grupo más cercano.»"
             },
             {
               nro: 3,
               titulo: "Recalcular los K centroides (media aritmética por componente)",
-              queHago: "Agrupo los puntos asignados a cada $C_j$ y promedio coordenada a coordenada. *(Nota: si el dataset tuviera atributos categóricos sin media posible, se reemplaza por **K-Modes** usando la moda)*.",
+              queHago: "Promediamos las coordenadas de los puntos que cayeron en cada grupo para mover cada centroide (en datos categóricos va la moda / **K-Modes**).",
               formula: "$$\\boldsymbol{\\mu}_j^{(t+1)} = \\frac{1}{|C_j|} \\sum_{\\mathbf{x}_i \\in C_j} \\mathbf{x}_i$$",
-              queEscriboEnHoja: "Nuevos centroides: C_1 tiene |C_1| puntos -> μ_1 = [sum x_1 / |C_1|; sum x_2 / |C_1|; ...] = (...). Repito para C_2."
+              queEscriboEnHoja: "«Promediamos los puntos de cada cluster para correr los nuevos centroides μ₁ y μ₂.»"
             },
             {
               nro: 4,
               titulo: "Repetir y verificar criterio de parada (estabilidad o SSE)",
-              queHago: "Vuelvo al Paso 2 usando los nuevos centroides $\\boldsymbol{\\mu}_j^{(t+1)}$. Si ninguna instancia cambió de cluster (o los centroides permanecen idénticos $\\boldsymbol{\\mu}^{(t+1)} = \\boldsymbol{\\mu}^{(t)}$), **el algoritmo converge y finaliza** (minimización local de $SSE$).",
+              queHago: "Vuelvo a asignar contra los nuevos centros; cuando ningún punto cambia de grupo y los centroides quedan idénticos, ya convergió y termino.",
               formula: "$$\\text{Parada: } \\boldsymbol{\\mu}_j^{(t+1)} = \\boldsymbol{\\mu}_j^{(t)} \\;\\forall j \\qquad \\Longleftrightarrow \\qquad SSE = \\sum_{j=1}^{K} \\sum_{\\mathbf{x} \\in C_j} \\|\\mathbf{x} - \\boldsymbol{\\mu}_j\\|^2$$",
-              queEscriboEnHoja: "Conclusión: En la iteración t+1 no hay reasignación de instancias (los centroides coinciden con los anteriores), por lo que el algoritmo converge y finaliza."
+              queEscriboEnHoja: "«Como en esta vuelta nadie cambió de cluster y los centroides dieron igual, el algoritmo converge y termina.»"
             }
           ]
         },
@@ -2130,30 +2507,30 @@ window.ENTRENAMIENTO_PRACTICO = {
             {
               nro: 1,
               titulo: "Partir de la matriz inicial D_0 y localizar la mínima distancia no diagonal",
-              queHago: "Si dan puntos $\\mathbf{x}_i$ en $\\mathbb{R}^D$, calculo primero las $\\frac{N(N-1)}{2}$ distancias euclídeas por pares; si ya entregan $D_0$, la copio y rodeo con un círculo el **menor valor fuera de la diagonal principal**.",
+              queHago: "Busco el número más chico fuera de la diagonal principal de la tabla: esos dos grupos se unen primero y su distancia marca la altura $h_t$.",
               formula: "$$(C_i^*, C_j^*) = \\arg\\min_{i \\neq j} d(C_i, C_j), \\qquad h_t = d(C_i^*, C_j^*)$$",
-              queEscriboEnHoja: "Paso 1: En D_0 la menor distancia es d(A, N) = 1,45. Se fusionan {A} y {N} formando (AN) a nivel h_1 = 1,45."
+              queEscriboEnHoja: "«Busco la menor distancia en la matriz (d(A, N) = 1,45), así que junto {A} y {N} a altura h₁ = 1,45.»"
             },
             {
               nro: 2,
               titulo: "Actualizar filas/columnas hacia el nuevo cluster según el enlace pedido",
-              queHago: "Tacho las filas/columnas individuales fusionadas y creo la fila/columna del nuevo cluster $(C_i \\cup C_j)$. Calculo su distancia contra cada otro grupo $C_k$ aplicando el método asignado (¡en Average-Link ponderar SIEMPRE por $|C_i|$ y $|C_j|$ o sumar todos los $|C_i \\cup C_j| \\cdot |C_k|$ pares de $D_0$!).",
+              queHago: "Achico la matriz recalculando la distancia del grupo recién unido hacia los demás según Single (mínimo), Complete (máximo) o **Average (ponderando siempre por $|A|$ y $|B|$)**.",
               formula: "$$d(A \\cup B, C) = \\begin{cases} \\min\\{d(A,C),\\, d(B,C)\\} & \\text{Single-Link} \\\\ \\max\\{d(A,C),\\, d(B,C)\\} & \\text{Complete-Link} \\\\ \\dfrac{|A|\\,d(A,C) + |B|\\,d(B,C)}{|A| + |B|} & \\text{Average-Link (UPGMA)} \\end{cases}$$",
-              queEscriboEnHoja: "Cálculo explícito hacia (AN) (|AN|=2): d((AN), R) = (3,23+2,44)/2 = 2,835... Escribo la matriz reducida D_1."
+              queEscriboEnHoja: "«Armo la matriz reducida D₁ calculando la nueva distancia del grupo recién armado contra cada resto (ponderando tamaños en Average).»"
             },
             {
               nro: 3,
               titulo: "Repetir reducción hasta llegar a matriz 2 × 2 (fusión raíz)",
-              queHago: "Repito los Pasos 1 y 2 sobre $D_1, D_2, \\dots$ registrando explícitamente el nivel $h_t$ de cada fusión y el cardinal acumulado de cada macro-cluster hasta unir los últimos dos grupos en la raíz.",
+              queHago: "Repito buscar el mínimo y achicar la matriz hasta unir los dos últimos grupos (acordándome cuántos elementos tiene cada grupo).",
               formula: "$$D_0\\,(N\\times N) \\longrightarrow D_1\\,((N-1)\\times(N-1)) \\longrightarrow \\dots \\longrightarrow D_{N-2}\\,(2\\times 2) \\;\\text{(altura raíz } h_{N-1}\\text{)}$$",
-              queEscriboEnHoja: "Paso final (D_3 de 2x2): se unen ((AN)R) (cardinal 3) y (SP) (cardinal 2) a nivel h_4 = (2*4,855 + 1*8,610)/3 = 6,107."
+              queEscriboEnHoja: "«Llego a la tabla 2×2 y uno los dos últimos grupos ponderando por su cantidad de elementos (h = 6,11).»"
             },
             {
               nro: 4,
               titulo: "Dibujar el dendrograma con eje vertical escalado",
-              queHago: "Trazo un eje vertical graduado con escala acorde a los niveles $h_1, h_2, \\dots, h_{N-1}$. Ubico los $N$ elementos individuales en el nivel $0$ (reordenando horizontalmente para que **ninguna rama se cruce**) y dibujo cada puente horizontal exactamente a su altura $h_t$.",
+              queHago: "Pongo el eje vertical graduado con las alturas de unión, ordeno las hojas abajo para que no se crucen ramas y uno cada grupo exactamente a su altura.",
               formula: "$$h_1 \\le h_2 \\le \\dots \\le h_{N-1} \\qquad \\text{(monotonía garantizada en Single, Complete y Average)}$$",
-              queEscriboEnHoja: "Dendrograma: eje vertical con marcas 1,45; 1,98; 2,84; 6,11; hojas A, N, R, S, P ordenadas sin cruces de ramas."
+              queEscriboEnHoja: "«Dibujo el dendrograma respetando en el eje vertical la altura h de cada unión sin cruzar líneas.»"
             }
           ]
         },
@@ -2164,6 +2541,26 @@ window.ENTRENAMIENTO_PRACTICO = {
           titulo: "Plantilla de Hoja en Blanco: Average-Link (Parcial 2023 IA-H0075) + K-Means (Final)",
           etiquetaNaturaleza: "ENTRENAMIENTO PRÁCTICO · NO ES PREGUNTA DE PARCIAL",
           resumen: "Dos desarrollos modelo con números exactos: primero la secuencia de Average-Link sobre {A, N, R, S, P} donde aparece la Trampa de Cardinalidad (3 vs 2), y luego 2 iteraciones completas de K-Means.",
+          svgDiagram: `
+<svg class="lab-svg-diagram" viewBox="0 0 760 155" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pares cruzados Average Link en D3 3 vs 2">
+  <text x="380" y="22" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">¿Por qué h₄ = 6,107? Regla visual de todos los 3 × 2 = 6 pares cruzados</text>
+  <rect x="30" y="38" width="210" height="96" rx="8" fill="rgba(56,189,248,0.10)" stroke="#38bdf8"/>
+  <text x="135" y="58" text-anchor="middle" fill="#38bdf8" font-size="11.5" font-weight="700">Grupo ((AN)R) · |·| = 3</text>
+  <circle cx="72" cy="96" r="14" class="svg-node svg-node-in"/><text x="72" y="101" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">A</text>
+  <circle cx="135" cy="96" r="14" class="svg-node svg-node-in"/><text x="135" y="101" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">N</text>
+  <circle cx="198" cy="96" r="14" class="svg-node svg-node-in"/><text x="198" y="101" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">R</text>
+
+  <rect x="275" y="54" width="210" height="64" rx="8" class="svg-note-bg"/>
+  <text x="380" y="76" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Suma de 6 aristas en D₀ / 6</text>
+  <text x="380" y="96" text-anchor="middle" class="svg-node-text" font-size="10.5">= (2·4,855 + 1·8,610) / 3 = 6,107</text>
+  <line x1="242" y1="84" x2="273" y2="84" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="487" y1="84" x2="518" y2="84" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <rect x="520" y="38" width="210" height="96" rx="8" fill="rgba(52,211,153,0.10)" stroke="#34d399"/>
+  <text x="625" y="58" text-anchor="middle" fill="#34d399" font-size="11.5" font-weight="700">Grupo (SP) · |·| = 2</text>
+  <circle cx="585" cy="96" r="14" class="svg-node svg-node-out"/><text x="585" y="101" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">S</text>
+  <circle cx="665" cy="96" r="14" class="svg-node svg-node-out"/><text x="665" y="101" text-anchor="middle" class="svg-node-text" font-size="12" font-weight="700">P</text>
+</svg>`,
           tablaPlantilla: {
             tituloTabla: "Tabla 1 — Resumen de Fusiones Average-Link (D_0 de 5×5 con A, N, R, S, P)",
             columnas: ["Paso", "Matriz", "Mínimo hallado", "Nuevo Cluster (Cardinal)", "Cálculo de Recálculo Obligatorio"],

@@ -9,7 +9,7 @@
   // Topic Labels & Friendly Names
   const TOPIC_NAMES = {
     ALGORITMOS_GENETICOS: "Algoritmos Genéticos",
-    SVM: "Support Vector Machines (SVM)",
+    SVM: "Support Vector Machines · SVM (Solo Finales · no entra en P2)",
     SOM: "Mapas Auto-organizados (SOM)",
     MLP: "Perceptrón Multicapa (MLP)",
     HOPFIELD: "Redes de Hopfield",
@@ -26,6 +26,7 @@
     currentView: "home",
     selectedPreset: "oficial",
     includeP1: false,
+    includeSVM: false,
 
     // Active Exam State
     examQuestions: [],
@@ -74,10 +75,15 @@
       const savedTheme = localStorage.getItem("ia_quiz_theme") || "dark";
       this.setTheme(savedTheme);
 
-      // 3. Setup P1 checkbox
+      // 3. Setup P1 and SVM filter checkboxes
       const checkP1 = document.getElementById("check-include-p1");
+      const checkSVM = document.getElementById("check-include-svm");
       const updatePresetCompletoCount = () => {
-        const poolCount = this.allQuestions.filter((q) => this.includeP1 || !q.es_p1).length;
+        const poolCount = this.allQuestions.filter((q) => {
+          if (!this.includeP1 && q.es_p1) return false;
+          if (!this.includeSVM && q.tema === "SVM") return false;
+          return true;
+        }).length;
         const presetCompletoMeta = document.querySelector("#preset-completo .preset-meta span:nth-child(2)");
         if (presetCompletoMeta) {
           presetCompletoMeta.textContent = `📝 ${poolCount} Preguntas`;
@@ -87,6 +93,13 @@
         checkP1.checked = false;
         checkP1.addEventListener("change", (e) => {
           this.includeP1 = e.target.checked;
+          updatePresetCompletoCount();
+        });
+      }
+      if (checkSVM) {
+        checkSVM.checked = false;
+        checkSVM.addEventListener("change", (e) => {
+          this.includeSVM = e.target.checked;
           updatePresetCompletoCount();
         });
       }
@@ -432,9 +445,10 @@
     // Start Exam Engine
     // -------------------------------------------------------------
     startExam() {
-      // 1. Filter bank based on P1 checkbox
+      // 1. Filter bank based on P1 and SVM checkboxes
       let pool = this.allQuestions.filter((q) => {
         if (!this.includeP1 && q.es_p1) return false;
+        if (!this.includeSVM && q.tema === "SVM") return false;
         return true;
       });
 
@@ -1872,6 +1886,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       `).join("");
       return `
         <div class="lab-svg-wrap">${item.svgDiagram || ""}</div>
+        ${item.svgDiagram2 ? `<div class="lab-svg-wrap lab-svg-extra">${item.svgDiagram2}</div>` : ""}
         ${notes ? `<div class="lab-notes-list">${notes}</div>` : ""}
       `;
     },
@@ -1891,11 +1906,12 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
               </label>
             </div>
             <div class="lab-step-body">
-              <div><strong>🧠 Qué hago:</strong> ${this.formatLabText(p.queHago)}</div>
+              <div><strong>🧠 Qué está pasando:</strong> ${this.formatLabText(p.queHago)}</div>
+              ${p.svgDiagram ? `<div class="lab-svg-wrap lab-svg-inline">${p.svgDiagram}</div>` : ""}
               ${p.formula ? `<div class="lab-formula-box">${this.formatLabText(p.formula)}</div>` : ""}
               ${p.queEscriboEnHoja ? `
                 <div class="lab-paper-quote">
-                  <span class="lab-paper-quote-label">✍️ Qué escribo en la hoja</span>
+                  <span class="lab-paper-quote-label">💬 Comentario breve en la hoja (con tus palabras)</span>
                   <div>${this.formatLabText(p.queEscriboEnHoja)}</div>
                 </div>
               ` : ""}
@@ -1940,6 +1956,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
             : `<div class="lab-tip-box"><strong>💡 Tip de hoja:</strong> ${this.formatLabText(item.tipHoja)}</div>`)
         : "";
       return `
+        ${item.svgDiagram ? `<div class="lab-svg-wrap lab-svg-inline">${item.svgDiagram}</div>` : ""}
         ${this.renderLabTableBlock(item.tablaPlantilla)}
         ${this.renderLabTableBlock(item.tablaPlantilla2)}
         ${tipHtml}
@@ -1957,6 +1974,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         </div>
         <div class="lab-flashcard-back ${isOpen ? "" : "hidden"}">
           ${this.formatLabText(item.respuestaDorso)}
+          ${item.svgDiagram ? `<div class="lab-svg-wrap lab-svg-inline">${item.svgDiagram}</div>` : ""}
         </div>
       `;
     },
