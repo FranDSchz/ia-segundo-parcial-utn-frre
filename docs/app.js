@@ -197,6 +197,9 @@
 
     bindKeyboardShortcuts() {
       document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          this.closeMobileDrawer();
+        }
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : "";
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 
@@ -481,10 +484,14 @@
       this.currentView = viewName;
       window.location.hash = viewName;
 
-      // Update Nav Tabs
+      // Update Nav Tabs & Mobile Drawer Links
       document.querySelectorAll(".nav-tab-btn").forEach((btn) => {
         btn.classList.toggle("active", btn.id === `tab-${viewName}`);
       });
+      document.querySelectorAll(".drawer-link").forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-nav") === viewName);
+      });
+      this.closeMobileDrawer();
 
       // Show/Hide Sections
       document.querySelectorAll(".view-section").forEach((sec) => {
@@ -516,6 +523,31 @@
       window.scrollTo({ top: 0, behavior: "auto" });
     },
 
+    toggleMobileMenu(open) {
+      const drawer = document.getElementById("mobile-drawer");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+      const btn = document.getElementById("mobile-menu-btn");
+      if (!drawer) return;
+      const isOpen = open !== undefined ? Boolean(open) : !drawer.classList.contains("open");
+      drawer.classList.toggle("open", isOpen);
+      drawer.setAttribute("aria-hidden", String(!isOpen));
+      if (backdrop) backdrop.classList.toggle("open", isOpen);
+      if (btn) {
+        btn.setAttribute("aria-expanded", String(isOpen));
+        const icon = btn.querySelector(".hamburger-icon");
+        if (icon) icon.textContent = isOpen ? "✕" : "☰";
+      }
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    },
+
+    closeMobileDrawer() {
+      this.toggleMobileMenu(false);
+    },
+
     // -------------------------------------------------------------
     // Presets & Setup
     // -------------------------------------------------------------
@@ -524,6 +556,21 @@
       document.querySelectorAll(".preset-card").forEach((c) => c.classList.remove("selected"));
       const targetCard = document.getElementById(`preset-${preset}`);
       if (targetCard) targetCard.classList.add("selected");
+
+      const metaMap = {
+        oficial: { name: "Simulacro de Cátedra", meta: "⏱ 40 Min · 📝 25 Preguntas" },
+        2025: { name: "⭐ Parcial Moodle 2025", meta: "⏱ 30 Min · 📝 28 Preguntas" },
+        express: { name: "⚡ Focus Express", meta: "⏱ 10 Min · 📝 8 Preguntas" },
+        rapido: { name: "Simulacro Rápido", meta: "⏱ 20 Min · 📝 15 Preguntas" },
+        completo: { name: "Banco Completo P2", meta: "⏱ 75 Min · 📝 71 Preguntas" }
+      };
+      const m = metaMap[preset];
+      if (m) {
+        const t = document.getElementById("mobile-sticky-preset-name");
+        const sub = document.getElementById("mobile-sticky-preset-meta");
+        if (t) t.textContent = m.name;
+        if (sub) sub.textContent = m.meta;
+      }
     },
 
     updateFailedButtonVisibility() {
@@ -1567,14 +1614,14 @@
         if (isChecked) {
           if (correctSet.has(oIdx) && isSelected) {
             optClass = "is-correct-key";
-            feedbackBadge = `<span style="color: var(--success); font-weight: bold; margin-left: auto;">✅ +${(100 / q.correctas.length).toFixed(1)}%</span>`;
+            feedbackBadge = `<span class="option-feedback-badge" style="color: var(--success);">✅ +${(100 / q.correctas.length).toFixed(1)}%</span>`;
           } else if (correctSet.has(oIdx) && !isSelected) {
             optClass = "is-correct-key";
-            feedbackBadge = `<span style="color: var(--success); font-weight: bold; margin-left: auto;">🟢 Clave Correcta</span>`;
+            feedbackBadge = `<span class="option-feedback-badge" style="color: var(--success);">🟢 Clave Correcta</span>`;
           } else if (!correctSet.has(oIdx) && isSelected) {
             optClass = "is-wrong-selection";
             const pen = (100 / (q.opciones.length - q.correctas.length)).toFixed(1);
-            feedbackBadge = `<span style="color: var(--danger); font-weight: bold; margin-left: auto;">❌ -${pen}%</span>`;
+            feedbackBadge = `<span class="option-feedback-badge" style="color: var(--danger);">❌ -${pen}%</span>`;
           }
         }
 

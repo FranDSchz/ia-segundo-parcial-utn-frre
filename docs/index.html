@@ -16,18 +16,18 @@
 <body>
 
   <!-- Header -->
-  <header>
+  <header id="main-header">
     <div class="header-container">
       <div class="brand" onclick="app.navigate('home')">
         <div class="brand-icon">IA</div>
-        <div>
+        <div class="brand-text">
           <div class="brand-title">Simulador de Examen</div>
           <span class="brand-badge">UTN FRRe · ISI 5to Nivel</span>
         </div>
       </div>
 
       <div class="header-actions">
-        <nav class="nav-tabs">
+        <nav class="nav-tabs desktop-only-nav">
           <button class="nav-tab-btn active" id="tab-home" onclick="app.navigate('home')">Simulacro</button>
           <button class="nav-tab-btn" id="tab-practice" onclick="app.navigate('practice')">Repaso Teórico</button>
           <button class="nav-tab-btn" id="tab-lab" onclick="app.navigate('lab')">🛠️ Práctica Guiada</button>
@@ -44,7 +44,7 @@
           href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre"
           target="_blank"
           rel="noopener noreferrer"
-          class="icon-link-btn"
+          class="icon-link-btn desktop-only"
           title="Ver Repositorio en GitHub"
           aria-label="Repositorio en GitHub"
         >
@@ -52,9 +52,81 @@
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
           </svg>
         </a>
+
+        <!-- Mobile Drawer Hamburger Button -->
+        <button
+          type="button"
+          class="mobile-menu-btn"
+          id="mobile-menu-btn"
+          onclick="app.toggleMobileMenu()"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+        >
+          <span class="hamburger-icon">☰</span>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer Backdrop & Menu -->
+  <div id="mobile-drawer-backdrop" class="drawer-backdrop" onclick="app.closeMobileDrawer()"></div>
+  <aside id="mobile-drawer" class="mobile-drawer" aria-label="Menú principal de navegación" aria-hidden="true">
+    <div class="drawer-header">
+      <div class="brand" onclick="app.navigate('home')">
+        <div class="brand-icon">IA</div>
+        <div>
+          <div class="brand-title" style="font-size: 1.05rem;">Simulador P2</div>
+          <span class="brand-badge">UTN FRRe · ISI 5to</span>
+        </div>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="app.closeMobileDrawer()" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <nav class="drawer-nav">
+        <button type="button" class="drawer-link active" data-nav="home" onclick="app.navigate('home')">
+          <span class="drawer-link-icon">📝</span>
+          <span class="drawer-link-text">Simulacro de Examen</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="practice" onclick="app.navigate('practice')">
+          <span class="drawer-link-icon">📚</span>
+          <span class="drawer-link-text">Repaso Teórico (Anki)</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="lab" onclick="app.navigate('lab')">
+          <span class="drawer-link-icon">🛠️</span>
+          <span class="drawer-link-text">Práctica Guiada (Lab)</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="history" onclick="app.navigate('history')">
+          <span class="drawer-link-icon">🏆</span>
+          <span class="drawer-link-text">Progreso &amp; Estadísticas</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="qa" onclick="app.navigate('qa')">
+          <span class="drawer-link-icon">🔍</span>
+          <span class="drawer-link-text">Banco QA Teórico</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="community" onclick="app.navigate('community')">
+          <span class="drawer-link-icon">💬</span>
+          <span class="drawer-link-text">Comunidad &amp; Erratas</span>
+        </button>
+
+        <div class="drawer-divider"></div>
+
+        <button type="button" class="drawer-link drawer-action-btn" onclick="app.closeMobileDrawer(); app.openPrintCheatSheet();">
+          <span class="drawer-link-icon">🖨️</span>
+          <span class="drawer-link-text">Cheat-sheet A4 Oficial</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="drawer-footer">
+      <div class="drawer-footer-row">
+        <span class="drawer-version">ISI 5to Nivel · 2do Parcial 2026</span>
+        <a href="https://github.com/FranDSchz/ia-segundo-parcial-utn-frre" target="_blank" rel="noopener noreferrer" class="drawer-gh-link">
+          GitHub ★
+        </a>
+      </div>
+    </div>
+  </aside>
 
   <!-- Main Content Views -->
   <main>
@@ -158,6 +230,17 @@
       <div id="resume-failed-box" style="display: none; margin-top: 1rem; text-align: center;">
         <button class="btn btn-outline" onclick="app.startPracticeFailed()">
           🔁 Repasar mis <span id="failed-count">0</span> preguntas falladas anteriormente
+        </button>
+      </div>
+
+      <!-- Sticky Quick-Start Bar for Mobile -->
+      <div id="mobile-sticky-start" class="mobile-sticky-start">
+        <div class="mobile-sticky-info">
+          <span class="mobile-sticky-title" id="mobile-sticky-preset-name">Simulacro de Cátedra</span>
+          <span class="mobile-sticky-meta" id="mobile-sticky-preset-meta">⏱ 40 Min · 📝 25 Preguntas</span>
+        </div>
+        <button type="button" class="btn btn-primary btn-sm" onclick="app.startExam()">
+          🚀 Iniciar
         </button>
       </div>
     </section>
