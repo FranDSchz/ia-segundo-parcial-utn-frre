@@ -232,7 +232,10 @@
         <div style="font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">
           Calificación Obtenida (Fórmula Moodle UTN)
         </div>
-        <div class="score-display" id="res-score-number">85%</div>
+        <div class="vw-score-ring-wrap">
+          <div id="res-score-ring-slot" aria-hidden="true"></div>
+          <div class="score-display" id="res-score-number">85%</div>
+        </div>
         <div class="score-badge-status" id="res-status-badge">¡PROMOCIONADO! 🚀</div>
         <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;" id="res-status-text">
           Has superado el umbral del 80% requerido para la promoción directa de la parte teórica.
@@ -311,6 +314,8 @@
       <div id="history-profile-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
       <div id="history-topics-card" class="card" style="margin-bottom: 1.5rem;"></div>
+
+      <div id="history-charts-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
       <div id="history-achievements-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
@@ -577,6 +582,8 @@
 
         <div id="lab-topic-header" class="lab-topic-header card"></div>
 
+        <div id="lab-visualizer-container" class="lab-visualizer-container"></div>
+
         <div class="lab-controls-bar">
           <div id="lab-type-filters" class="lab-type-filters"></div>
           <button id="lab-reveal-all-btn" class="btn btn-outline btn-sm" onclick="app.toggleAllFlashcards()">
@@ -676,6 +683,7 @@
   <script src="data/entrenamiento_practico.js"></script>
   <script src="study_engine.js"></script>
   <script src="practical_engine.js"></script>
+  <script src="visual_widgets.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>

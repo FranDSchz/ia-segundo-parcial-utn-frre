@@ -77,6 +77,8 @@
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-main);
+  background-image: radial-gradient(ellipse 85% 38% at 50% -8%, var(--primary-light) 0%, transparent 72%);
+  background-repeat: no-repeat;
   color: var(--text-main);
   line-height: 1.6;
   min-height: 100vh;
@@ -90,11 +92,13 @@ body {
    ========================================================================== */
 header {
   background-color: var(--bg-card);
+  background-color: color-mix(in srgb, var(--bg-card) 86%, transparent);
   border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .header-container {
@@ -2919,6 +2923,319 @@ code {
   }
   .pe-fields-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Tasteful UX/UI Polish, Radial Widgets, Charts & Animated Visualizers
+   ========================================================================== */
+.vw-tabular,
+.badge-timer,
+.profile-stat-val,
+.score-display,
+.pe-timer-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.btn:active:not(:disabled),
+.preset-card:active,
+.lab-subtab-btn:active,
+.vw-step-pill:active {
+  transform: scale(0.985);
+}
+
+.hud-pill.countdown-soon {
+  background-color: var(--warning-bg);
+  border-color: rgba(245, 158, 11, 0.45);
+  color: var(--warning);
+}
+
+.hud-pill.countdown-urgent {
+  background-color: var(--danger-bg);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: var(--danger);
+}
+
+.vw-hud-ring-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.2rem 0.65rem 0.2rem 0.28rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.vw-radial-svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.vw-radial-arc {
+  transition: stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vw-score-ring-wrap {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vw-score-ring-wrap #res-score-ring-slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vw-score-ring-wrap .score-display {
+  font-size: 2.05rem;
+  margin: 0;
+  z-index: 1;
+}
+
+.vw-stat-with-ring {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.vw-charts-header {
+  margin-bottom: 0.85rem;
+}
+
+.vw-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.vw-chart-panel {
+  min-width: 0;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.vw-chart-title {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.vw-svg-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.vw-chart-empty {
+  text-align: center;
+  padding: 1.1rem 0.6rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.vw-pace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.vw-pace-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 0.22rem;
+}
+
+.vw-pace-track {
+  position: relative;
+  height: 9px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: visible;
+}
+
+.vw-pace-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.vw-pace-target-mark {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background-color: var(--text-main);
+  opacity: 0.75;
+}
+
+/* Lab Interactive Algorithm Visualizers */
+.lab-visualizer-container {
+  margin-bottom: 1.15rem;
+}
+
+.vw-visualizer-card {
+  min-width: 0;
+  padding: 1.1rem 1.25rem;
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.vw-vis-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.vw-vis-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.vw-vis-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.vw-vis-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.vw-vis-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.vw-step-pill {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vw-step-pill:hover {
+  border-color: var(--primary);
+  color: var(--text-main);
+}
+
+.vw-step-pill.active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.vw-vis-stage {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.vw-algo-svg {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+}
+
+.vw-vis-comment {
+  background-color: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  padding: 0.55rem 0.8rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+.vw-edge-flow {
+  stroke-dasharray: 7 5;
+  animation: vwDashFlow 0.9s linear infinite;
+}
+
+.vw-edge-flow-rev {
+  stroke-dasharray: 7 5;
+  animation: vwDashFlowRev 0.9s linear infinite;
+}
+
+.vw-pulse-ring {
+  transform-origin: center;
+  animation: vwSoftPulse 1.8s ease-in-out infinite;
+}
+
+.vw-draw-line {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 0;
+  animation: vwDrawIn 0.55s ease-out;
+}
+
+@keyframes vwDashFlow {
+  to { stroke-dashoffset: -24; }
+}
+
+@keyframes vwDashFlowRev {
+  to { stroke-dashoffset: 24; }
+}
+
+@keyframes vwSoftPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes vwDrawIn {
+  from { stroke-dashoffset: 240; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (max-width: 720px) {
+  .vw-charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .vw-stat-with-ring {
+    flex-direction: row;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
 

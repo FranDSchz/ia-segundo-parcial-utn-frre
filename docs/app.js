@@ -422,6 +422,9 @@
       if (viewName !== "lab" && this.peTimerInterval) {
         this.stopPeTimer();
       }
+      if (viewName !== "lab" && window.VisualWidgets) {
+        VisualWidgets.clearActiveVisualizerTimer();
+      }
 
       this.currentView = viewName;
       window.location.hash = viewName;
@@ -956,7 +959,24 @@
       if (!res) return;
 
       const scoreNum = document.getElementById("res-score-number");
-      if (scoreNum) scoreNum.textContent = `${res.score}%`;
+      const scoreRingSlot = document.getElementById("res-score-ring-slot");
+      if (scoreRingSlot && window.VisualWidgets) {
+        const ringColor = res.score >= 80 ? "var(--success)" : (res.score >= 60 ? "var(--primary)" : "var(--warning)");
+        scoreRingSlot.innerHTML = VisualWidgets.renderRadialRingSvg({
+          pct: res.score,
+          size: 132,
+          strokeWidth: 9,
+          color: ringColor,
+          centerText: ""
+        });
+      }
+      if (scoreNum) {
+        if (window.VisualWidgets) {
+          VisualWidgets.animateCountUp(scoreNum, res.score, "%", 480);
+        } else {
+          scoreNum.textContent = `${res.score}%`;
+        }
+      }
 
       const statusBadge = document.getElementById("res-status-badge");
       const statusText = document.getElementById("res-status-text");
@@ -1910,6 +1930,15 @@
         : summary.p2.newCount > 0
           ? `🧠 Sesión Anki (${summary.p2.newCount} nuevas)`
           : "🧠 Repasar Banco Activo";
+      const cd = window.VisualWidgets ? VisualWidgets.getExamCountdownInfo(now) : null;
+      const p2RingHtml = window.VisualWidgets
+        ? VisualWidgets.renderRadialRingSvg({
+            pct: summary.p2.masteredPct,
+            size: 46,
+            strokeWidth: 5,
+            color: summary.p2.masteredPct >= 80 ? "var(--success)" : "var(--primary)"
+          })
+        : "";
 
       hudEl.innerHTML = `
         <div class="study-hud-top">
@@ -1926,6 +1955,8 @@
             </div>
           </div>
           <div class="hud-stat-pills">
+            ${p2RingHtml ? `<div class="vw-hud-ring-chip" title="Dominio total del banco P2">${p2RingHtml}<span>Dominio P2</span></div>` : ""}
+            ${cd ? `<span class="hud-pill ${cd.urgencyCls}">${this.escapeHtml(cd.label)}</span>` : ""}
             <span class="hud-pill ${streak > 0 ? "streak-hot" : ""}">🔥 Racha: ${streak} ${streak === 1 ? "día" : "días"}</span>
             <span class="hud-pill ${goalMet ? "goal-done" : ""}">🎯 Meta hoy: ${todayActions}/${goalTarget}${goalMet ? " ✓" : ""}</span>
             <span class="hud-pill">🛠️ Lab: ${summary.lab.pct}%</span>
@@ -2056,8 +2087,25 @@
 
       this.renderProfileSummaryCard(summary, now);
       this.renderTopicsMasteryCard(summary);
+      this.renderProgressChartsCard();
       this.renderAchievementsCard(summary);
       this.renderLeaderboardCard(summary, now);
+    },
+
+    renderProgressChartsCard() {
+      const el = document.getElementById("history-charts-card");
+      if (!el || !window.VisualWidgets) return;
+      let quizHist = [];
+      try {
+        quizHist = JSON.parse(localStorage.getItem("ia_quiz_history") || "[]");
+      } catch (e) {
+        quizHist = [];
+      }
+      el.innerHTML = VisualWidgets.renderProgressChartsHtml({
+        quizHistory: quizHist,
+        practicalAttempts: this.peAttempts || [],
+        topicMeta: window.PracticalEngine ? PracticalEngine.TOPIC_META : null
+      });
     },
 
     renderProfileSummaryCard(summary, now) {
@@ -2101,21 +2149,30 @@
         </div>
 
         <div class="profile-top-grid">
-          <div class="profile-stat-box">
-            <div class="profile-stat-val">${summary.p2.mastered} / ${summary.p2.total} <span style="font-size:0.9rem;color:var(--success);">(${summary.p2.masteredPct}%)</span></div>
-            <div class="profile-stat-lbl">Banco P2 dominado (SRS)</div>
+          <div class="profile-stat-box vw-stat-with-ring">
+            ${window.VisualWidgets ? VisualWidgets.renderRadialRingSvg({ pct: summary.p2.masteredPct, size: 52, strokeWidth: 5, color: "var(--success)" }) : ""}
+            <div>
+              <div class="profile-stat-val">${summary.p2.mastered} / ${summary.p2.total}</div>
+              <div class="profile-stat-lbl">Banco P2 dominado (SRS)</div>
+            </div>
           </div>
           <div class="profile-stat-box">
             <div class="profile-stat-val">${summary.p2.dueNow}</div>
             <div class="profile-stat-lbl">Tarjetas vencidas para hoy (${summary.p2.newCount} nuevas)</div>
           </div>
-          <div class="profile-stat-box">
-            <div class="profile-stat-val">${summary.lab.pct}%</div>
-            <div class="profile-stat-lbl">Lab Práctico (${summary.lab.stepsDone}/${summary.lab.stepsTotal} pasos · ${summary.lab.flashcardsEvaluated}/${summary.lab.flashcardsTotal} cards)</div>
+          <div class="profile-stat-box vw-stat-with-ring">
+            ${window.VisualWidgets ? VisualWidgets.renderRadialRingSvg({ pct: summary.lab.pct, size: 52, strokeWidth: 5, color: "var(--primary)" }) : ""}
+            <div>
+              <div class="profile-stat-val">${summary.lab.stepsDone}/${summary.lab.stepsTotal}</div>
+              <div class="profile-stat-lbl">Lab Práctico (${summary.lab.flashcardsEvaluated}/${summary.lab.flashcardsTotal} cards)</div>
+            </div>
           </div>
-          <div class="profile-stat-box">
-            <div class="profile-stat-val">${this.gamif.best2025Score || 0}% · ${unlockedCount}/${StudyEngine.ACHIEVEMENTS.length}</div>
-            <div class="profile-stat-lbl">Mejor Moodle 2025 · Logros</div>
+          <div class="profile-stat-box vw-stat-with-ring">
+            ${window.VisualWidgets ? VisualWidgets.renderRadialRingSvg({ pct: goalPct, size: 52, strokeWidth: 5, color: todayActions >= goalTarget ? "var(--success)" : "var(--warning)" }) : ""}
+            <div>
+              <div class="profile-stat-val">${this.gamif.best2025Score || 0}% · ${unlockedCount}/${StudyEngine.ACHIEVEMENTS.length}</div>
+              <div class="profile-stat-lbl">Mejor Moodle 2025 · Logros</div>
+            </div>
           </div>
         </div>
 
@@ -3340,6 +3397,9 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       if (next !== "timed" && this.peTimerInterval) {
         this.stopPeTimer();
       }
+      if (next === "timed" && window.VisualWidgets) {
+        VisualWidgets.clearActiveVisualizerTimer();
+      }
       this.labSubMode = next;
       this.renderLabView();
     },
@@ -3357,6 +3417,7 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       if (timedPanel) timedPanel.classList.toggle("hidden", !isTimed);
 
       if (isTimed) {
+        if (window.VisualWidgets) VisualWidgets.clearActiveVisualizerTimer();
         this.renderTimedPracticalPanel();
         return;
       }
@@ -3403,8 +3464,15 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
         `).join("");
       }
 
-      // 3. Topic Header + Checklist + Flashcard Progress
+      // 3. Topic Header + Checklist + Flashcard Progress + Animated Algo Visualizer
       this.renderLabTopicHeader(activeTema, summary);
+      const visContainer = document.getElementById("lab-visualizer-container");
+      if (visContainer && window.VisualWidgets) {
+        if (visContainer.dataset.mountedTopic !== activeTema.id || !visContainer.innerHTML.trim()) {
+          visContainer.dataset.mountedTopic = activeTema.id;
+          VisualWidgets.mountLabVisualizer(visContainer, activeTema.id);
+        }
+      }
 
       // 4. Type Filters with counts
       const filterDefs = [
