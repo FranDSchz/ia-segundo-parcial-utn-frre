@@ -54,6 +54,9 @@ const VisualWidgets = require(path.join(__dirname, "..", "docs", "visual_widgets
   assert.ok(converged, "Hopfield network should reach fixed point within 12 synchronous steps");
   assert.ok(eFinal <= e0, "Final energy must be <= initial noisy energy");
   assert.deepStrictEqual(cur, targetT, "Corrupted T (3 bits flipped) should recover exact stored T");
+  const extraCheck = AlgoSandboxes.stepHopfield(noisy, W);
+  assert.ok(Array.isArray(extraCheck.changedIndices) && extraCheck.changedIndices.length >= 1, "Must expose flipped neuron indices");
+  assert.ok(Array.isArray(extraCheck.nets) && extraCheck.nets.length === 25, "Must expose local fields net_i for all 25 neurons");
 }
 
 // 3. SOM Kohonen 2D: BMU moves closer to sample x

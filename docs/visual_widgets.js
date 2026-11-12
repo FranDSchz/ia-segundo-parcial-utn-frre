@@ -340,6 +340,21 @@
       <text x="${cx + 4}" y="${cy - R + 3}" font-size="8" font-weight="700" fill="var(--text-muted)">100%</text>
     `;
 
+    const weakest = axes.slice().sort((a, b) => (a.theoryPct + a.practicePct) - (b.theoryPct + b.practicePct))[0];
+    const weakestSpec = weakest ? RADAR_TOPIC_SPECS[weakest.idx] : null;
+    const breakdownHtml = axes.map((a) => `
+      <div class="vw-radar-chip">
+        <div class="vw-radar-chip-head">
+          <span>${escapeHtml(a.label)}</span>
+          <span class="vw-tabular" style="color:var(--text-muted);">${a.theoryPct}% / ${a.practicePct}%</span>
+        </div>
+        <div class="vw-radar-dual-bar">
+          <div class="vw-radar-mini-track"><div class="vw-radar-mini-fill" style="width:${a.theoryPct}%;background:var(--primary);"></div></div>
+          <div class="vw-radar-mini-track"><div class="vw-radar-mini-fill" style="width:${a.practicePct}%;background:var(--success);"></div></div>
+        </div>
+      </div>
+    `).join("");
+
     return `
       <div class="vw-radar-box">
         <svg class="vw-svg-chart vw-radar-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa radar de dominio en los 7 temas del Segundo Parcial">
@@ -359,6 +374,13 @@
           <span class="vw-legend-item"><span class="vw-legend-swatch" style="background:var(--primary);"></span>Teoría (Anki SM-2)</span>
           <span class="vw-legend-item"><span class="vw-legend-swatch" style="background:var(--success);"></span>Práctica (Guías + Cronometrados)</span>
         </div>
+        <div class="vw-radar-breakdown">${breakdownHtml}</div>
+        ${weakest && weakestSpec ? `
+          <div class="vw-radar-alert">
+            <span>🎯 <strong>Brecha prioritaria:</strong> ${escapeHtml(weakest.label)} (Teoría ${weakest.theoryPct}% · Práctica ${weakest.practicePct}%)</span>
+            <button type="button" class="btn btn-outline btn-sm" onclick="app.selectLabTopic('${escapeHtml(weakestSpec.labKey)}'); app.navigate('lab');">Reforzar en Práctica →</button>
+          </div>
+        ` : ""}
       </div>
     `;
   }

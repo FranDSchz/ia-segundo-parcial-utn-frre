@@ -3279,6 +3279,65 @@ code {
   display: inline-block;
 }
 
+.vw-radar-breakdown {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+}
+
+.vw-radar-chip {
+  padding: 0.42rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.vw-radar-chip-head {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.vw-radar-dual-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vw-radar-mini-track {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.vw-radar-mini-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.vw-radar-alert {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.58rem 0.78rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  font-size: 0.81rem;
+  margin-top: 0.15rem;
+}
+
 .sb-shell {
   padding: 1.15rem 1.25rem;
 }
@@ -3338,12 +3397,108 @@ code {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem 0.75rem;
   margin-bottom: 0.9rem;
   padding: 0.65rem 0.8rem;
   border-radius: var(--radius-md);
   background: var(--bg-subtle);
   border: 1px solid var(--border-color);
+}
+
+.sb-btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.sb-inline-ctl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.sb-dot-A {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.sb-dot-B {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+.sb-formula-box {
+  padding: 0.55rem 0.78rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+.sb-cap-meter {
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  font-size: 0.79rem;
+}
+
+.sb-cap-meter.warn {
+  border-color: var(--warning);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.sb-chromo-card {
+  padding: 0.7rem 0.82rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.sb-bits-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.79rem;
+}
+
+.sb-bit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 24px;
+  border-radius: 5px;
+  font-weight: 800;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  color: #fff;
+}
+
+.sb-bit.p1 {
+  background: #6366f1;
+}
+
+.sb-bit.p2 {
+  background: #10b981;
+}
+
+.sb-cut-divider {
+  width: 2px;
+  height: 24px;
+  background: var(--danger);
+  border-radius: 2px;
 }
 
 .sb-ctrl-group {
@@ -3552,6 +3707,10 @@ code {
   color: #ffffff;
 }
 
+.sb-hop-cell.just-changed {
+  box-shadow: 0 0 0 2.5px var(--warning);
+}
+
 .sb-svg-box {
   width: 100%;
   max-width: 100%;
@@ -3573,7 +3732,7 @@ code {
 
 .sb-ag-row {
   display: grid;
-  grid-template-columns: 74px minmax(0, 1fr) 86px;
+  grid-template-columns: 34px minmax(0, 1fr) 124px;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.8rem;
@@ -3713,14 +3872,73 @@ code {
   cursor: default;
 }
 
-.trap-line-btn.correct {
+.trap-line-btn.correct,
+.trap-line-btn.is-trap-correct {
   border-color: var(--success);
-  background: rgba(16, 185, 129, 0.14);
+  background: rgba(16, 185, 129, 0.16);
+  font-weight: 700;
 }
 
-.trap-line-btn.wrong {
+.trap-line-btn.wrong,
+.trap-line-btn.is-trap-wrong {
   border-color: var(--danger);
-  background: rgba(239, 68, 68, 0.13);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.trap-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.trap-case-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.85rem;
+}
+
+.trap-dot-btn {
+  min-width: 28px;
+  height: 26px;
+  padding: 0 0.4rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trap-dot-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.trap-dot-btn.done-ok {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.trap-dot-btn.done-bad {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.trap-summary-card {
+  margin-top: 0.9rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
 .trap-line-num {

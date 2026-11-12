@@ -146,18 +146,26 @@
   function stepHopfield(state, W) {
     const N = state.length;
     const next = new Array(N);
+    const nets = new Array(N);
+    const changedIndices = [];
     let changed = 0;
     for (let i = 0; i < N; i++) {
       let net = 0;
       for (let j = 0; j < N; j++) net += W[i][j] * state[j];
+      nets[i] = net;
       // UTN rule: preserve s_i(t) if net_i === 0
       const sNew = net > 0 ? 1 : (net < 0 ? -1 : state[i]);
       next[i] = sNew;
-      if (sNew !== state[i]) changed++;
+      if (sNew !== state[i]) {
+        changed++;
+        changedIndices.push(i);
+      }
     }
     return {
       nextState: next,
       changed,
+      changedIndices,
+      nets,
       converged: changed === 0,
       energy: computeHopfieldEnergy(next, W)
     };
@@ -442,18 +450,53 @@
 
   // 1. KNN Interactive Canvas Sandbox
   function mountKnnSandbox(hostEl) {
+    const PRESETS = {
+      classic: {
+        points: [
+          { x: 0.48, y: 0.50, cls: "A" },
+          { x: 0.25, y: 0.30, cls: "A" },
+          { x: 0.72, y: 0.36, cls: "B" },
+          { x: 0.74, y: 0.68, cls: "B" },
+          { x: 0.62, y: 0.80, cls: "B" },
+          { x: 0.28, y: 0.72, cls: "A" }
+        ],
+        query: { x: 0.55, y: 0.52 },
+        k: 3
+      },
+      reversal: {
+        // Exact exam paradox: 1 ultra-close A beats 2 farther B under 1/d²!
+        points: [
+          { x: 0.46, y: 0.50, cls: "A" },
+          { x: 0.72, y: 0.38, cls: "B" },
+          { x: 0.70, y: 0.66, cls: "B" },
+          { x: 0.16, y: 0.24, cls: "A" },
+          { x: 0.85, y: 0.84, cls: "B" }
+        ],
+        query: { x: 0.51, y: 0.50 },
+        k: 3
+      },
+      nonlinear: {
+        points: [
+          { x: 0.50, y: 0.50, cls: "A" },
+          { x: 0.42, y: 0.44, cls: "A" },
+          { x: 0.58, y: 0.56, cls: "A" },
+          { x: 0.20, y: 0.20, cls: "B" },
+          { x: 0.80, y: 0.22, cls: "B" },
+          { x: 0.22, y: 0.80, cls: "B" },
+          { x: 0.78, y: 0.78, cls: "B" }
+        ],
+        query: { x: 0.48, y: 0.53 },
+        k: 5
+      }
+    };
+
     const state = {
-      points: [
-        { x: 0.48, y: 0.50, cls: "A" },
-        { x: 0.25, y: 0.30, cls: "A" },
-        { x: 0.72, y: 0.36, cls: "B" },
-        { x: 0.74, y: 0.68, cls: "B" },
-        { x: 0.62, y: 0.80, cls: "B" },
-        { x: 0.28, y: 0.72, cls: "A" }
-      ],
-      query: { x: 0.55, y: 0.52 },
+      preset: "classic",
+      baseCount: PRESETS.classic.points.length,
+      points: PRESETS.classic.points.map((p) => ({ ...p })),
+      query: { ...PRESETS.classic.query },
       tool: "query", // "query" | "A" | "B"
-      k: 3,
+      k: PRESETS.classic.k,
       weighted: true,
       showMap: true
     };
@@ -470,7 +513,7 @@
       ctx.fillStyle = c.bgSubtle;
       ctx.fillRect(0, 0, W, H);
 
-      // Decision region heatmap (6px step)
+      // Decision region heatmap
       if (state.showMap) {
         const step = 8;
         for (let px = 0; px < W; px += step) {
@@ -482,17 +525,29 @@
         }
       }
 
-      // Subtle grid
+      // Subtle grid + 0..10 axis ticks
       ctx.strokeStyle = c.border;
       ctx.globalAlpha = 0.35;
       ctx.lineWidth = 1;
-      for (let i = 1; i < 4; i++) {
-        ctx.beginPath(); ctx.moveTo((W * i) / 4, 0); ctx.lineTo((W * i) / 4, H); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, (H * i) / 4); ctx.lineTo(W, (H * i) / 4); ctx.stroke();
+      for (let i = 1; i < 5; i++) {
+        ctx.beginPath(); ctx.moveTo((W * i) / 5, 0); ctx.lineTo((W * i) / 5, H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, (H * i) / 5); ctx.lineTo(W, (H * i) / 5); ctx.stroke();
+      }
+      ctx.globalAlpha = 0.75;
+      ctx.fillStyle = c.muted;
+      ctx.font = "600 9px sans-serif";
+      ctx.textAlign = "center";
+      for (let i = 1; i < 5; i++) {
+        ctx.fillText(String(i * 2), (W * i) / 5, H - 5);
+        ctx.fillText(String(10 - i * 2), 10, (H * i) / 5 + 3);
       }
       ctx.globalAlpha = 1;
 
       const decision = computeKnnDecision(state.points, state.query, state.k, state.weighted);
+      const simpleDecision = computeKnnDecision(state.points, state.query, state.k, false);
+      const weightedDecision = computeKnnDecision(state.points, state.query, state.k, true);
+      const reversedByWeight = simpleDecision.winner !== weightedDecision.winner;
+
       const qx = state.query.x * W;
       const qy = state.query.y * H;
 
@@ -523,7 +578,7 @@
         const x = p.x * W;
         const y = p.y * H;
         ctx.beginPath();
-        ctx.arc(x, y, 7, 0, Math.PI * 2);
+        ctx.arc(x, y, 7.5, 0, Math.PI * 2);
         ctx.fillStyle = p.cls === "A" ? c.success : c.warning;
         ctx.fill();
         ctx.lineWidth = 2;
@@ -538,10 +593,10 @@
 
       // Query point diamond
       ctx.beginPath();
-      ctx.moveTo(qx, qy - 9);
-      ctx.lineTo(qx + 9, qy);
-      ctx.lineTo(qx, qy + 9);
-      ctx.lineTo(qx - 9, qy);
+      ctx.moveTo(qx, qy - 9.5);
+      ctx.lineTo(qx + 9.5, qy);
+      ctx.lineTo(qx, qy + 9.5);
+      ctx.lineTo(qx - 9.5, qy);
       ctx.closePath();
       ctx.fillStyle = c.danger;
       ctx.fill();
@@ -555,23 +610,36 @@
         const totalScore = Math.max(0.0001, decision.scoreA + decision.scoreB);
         const pctA = Math.round((decision.scoreA / totalScore) * 100);
         const pctB = 100 - pctA;
+        const sumA10 = decision.neighbors.filter((n) => n.cls === "A").reduce((s, n) => s + (state.weighted ? 1 / Math.max(0.01, (n.d * 10) ** 2) : 1), 0);
+        const sumB10 = decision.neighbors.filter((n) => n.cls === "B").reduce((s, n) => s + (state.weighted ? 1 / Math.max(0.01, (n.d * 10) ** 2) : 1), 0);
         const nbRows = decision.neighbors.map((nb, i) => `
           <tr>
             <td>#${i + 1}</td>
-            <td><span class="sb-dot-${nb.cls}">● Clase ${nb.cls}</span></td>
+            <td><span class="sb-dot-${nb.cls}">● ${nb.cls}</span></td>
             <td class="vw-tabular">${(nb.d * 10).toFixed(2)}</td>
             <td class="vw-tabular">${state.weighted ? (1 / Math.max(0.01, (nb.d * 10) ** 2)).toFixed(3) : "1"}</td>
           </tr>
         `).join("");
 
         readoutEl.innerHTML = `
-          <div class="sb-verdict-box">
-            <span>Clasificación de consulta <strong>q</strong> (k=${state.k}):</span>
-            <span class="sb-winner-pill cls-${decision.winner}">Gana Clase ${decision.winner}</span>
+          <div class="sb-verdict-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;">
+            <span>Consulta <strong>q = (${(state.query.x * 10).toFixed(1)}, ${((1 - state.query.y) * 10).toFixed(1)})</strong> · k=${state.k}</span>
+            <span class="sb-winner-pill cls-${decision.winner === "A" ? "a" : "b"}">Gana Clase ${decision.winner}</span>
+          </div>
+          <div class="sb-formula-box">
+            <strong>${state.weighted ? "Suma ponderada (1/d²):" : "Conteo simple:"}</strong>
+            <span class="vw-tabular"> Score(A) = ${sumA10.toFixed(state.weighted ? 3 : 0)} vs Score(B) = ${sumB10.toFixed(state.weighted ? 3 : 0)}</span>
+            ${reversedByWeight ? `<div style="margin-top:0.25rem;color:var(--primary);font-weight:700;">⚖️ ¡Paradoja activa! En este punto q, Mayoría Simple da ${simpleDecision.winner} pero 1/d² revierte a ${weightedDecision.winner}.</div>` : ""}
           </div>
           <div class="sb-bar-group">
-            <div class="sb-bar-row"><span>Clase A (${pctA}%)</span><div class="sb-bar-track"><div style="width:${pctA}%;background:var(--success);"></div></div></div>
-            <div class="sb-bar-row"><span>Clase B (${pctB}%)</span><div class="sb-bar-track"><div style="width:${pctB}%;background:var(--warning);"></div></div></div>
+            <div class="sb-bar-row">
+              <div class="sb-bar-meta"><span>Clase A</span><span class="vw-tabular">${pctA}%</span></div>
+              <div class="sb-bar-track"><div class="sb-bar-fill" style="width:${pctA}%;background:var(--success);"></div></div>
+            </div>
+            <div class="sb-bar-row">
+              <div class="sb-bar-meta"><span>Clase B</span><span class="vw-tabular">${pctB}%</span></div>
+              <div class="sb-bar-track"><div class="sb-bar-fill" style="width:${pctB}%;background:var(--warning);"></div></div>
+            </div>
           </div>
           <div class="pe-table-wrap">
             <table class="pe-data-table">
@@ -590,9 +658,14 @@
             <button type="button" class="pe-mode-pill ${state.tool === "query" ? "active" : ""}" data-tool="query">📍 Mover q</button>
             <button type="button" class="pe-mode-pill ${state.tool === "A" ? "active" : ""}" data-tool="A">🟢 Punto A</button>
             <button type="button" class="pe-mode-pill ${state.tool === "B" ? "active" : ""}" data-tool="B">🟠 Punto B</button>
-            <button type="button" class="btn btn-outline btn-sm" id="sb-knn-reset">↺ Caso clásico</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-knn-undo" ${state.points.length <= 2 ? "disabled" : ""}>↩ Deshacer</button>
           </div>
           <div class="sb-btn-group">
+            <select id="sb-knn-preset" class="inline-input" title="Cargar escenario de parcial">
+              <option value="classic" ${state.preset === "classic" ? "selected" : ""}>🎯 Caso clásico</option>
+              <option value="reversal" ${state.preset === "reversal" ? "selected" : ""}>⚖️ Paradoja 1/d² (Parcial)</option>
+              <option value="nonlinear" ${state.preset === "nonlinear" ? "selected" : ""}>🌀 Frontera no-lineal</option>
+            </select>
             <label class="sb-inline-ctl">k:
               <select id="sb-knn-k" class="inline-input">${[1, 3, 5, 7].map((v) => `<option value="${v}" ${state.k === v ? "selected" : ""}>${v}</option>`).join("")}</select>
             </label>
@@ -603,7 +676,7 @@
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
             <canvas id="sb-knn-canvas" width="460" height="320" class="sb-canvas" title="Hacé clic para mover q o agregar puntos"></canvas>
-            <div class="sb-canvas-hint">💡 Hacé clic sobre el plano para ${state.tool === "query" ? "mover la consulta ◆ q" : `agregar un punto Clase ${state.tool}`}. Probá alternar <strong>1/d²</strong> vs <strong>Mayoría Simple</strong>.</div>
+            <div class="sb-canvas-hint">💡 Hacé clic en el plano para ${state.tool === "query" ? "mover ◆ q" : `agregar un punto ${state.tool}`}. Probá el preset <strong>Paradoja 1/d²</strong> para ver cómo cambia el ganador.</div>
           </div>
           <div id="sb-knn-readout" class="sb-readout-panel"></div>
         </div>
@@ -614,6 +687,21 @@
           state.tool = btn.getAttribute("data-tool");
           renderShell();
         });
+      });
+      hostEl.querySelector("#sb-knn-preset").addEventListener("change", (e) => {
+        const key = e.target.value;
+        const p = PRESETS[key] || PRESETS.classic;
+        state.preset = key;
+        state.points = p.points.map((pt) => ({ ...pt }));
+        state.query = { ...p.query };
+        state.k = p.k;
+        renderShell();
+      });
+      hostEl.querySelector("#sb-knn-undo").addEventListener("click", () => {
+        if (state.points.length > 2) {
+          state.points.pop();
+          renderShell();
+        }
       });
       hostEl.querySelector("#sb-knn-k").addEventListener("change", (e) => {
         state.k = Number(e.target.value) || 3;
@@ -626,9 +714,6 @@
       hostEl.querySelector("#sb-knn-map").addEventListener("change", (e) => {
         state.showMap = Boolean(e.target.checked);
         draw();
-      });
-      hostEl.querySelector("#sb-knn-reset").addEventListener("click", () => {
-        mountKnnSandbox(hostEl);
       });
 
       const canvas = hostEl.querySelector("#sb-knn-canvas");
@@ -657,18 +742,27 @@
       grid: [...HOPFIELD_PATTERNS.T],
       energyHistory: [],
       stepCount: 0,
-      lastChanged: null
+      lastChanged: null,
+      changedSet: new Set(),
+      lastNets: null
     };
-    // Start with 2 corrupted bits so recovery is immediate
     state.grid[0] = -1;
     state.grid[6] = 1;
     state.grid[18] = 1;
+
+    const computeCurrentNets = (grid, W) => grid.map((_, i) => {
+      let sum = 0;
+      for (let j = 0; j < 25; j++) sum += W[i][j] * grid[j];
+      return sum;
+    });
 
     const recalcInitEnergy = () => {
       const W = buildHopfieldWeights(state.stored);
       state.energyHistory = [computeHopfieldEnergy(state.grid, W)];
       state.stepCount = 0;
       state.lastChanged = null;
+      state.changedSet = new Set();
+      state.lastNets = computeCurrentNets(state.grid, W);
     };
     recalcInitEnergy();
 
@@ -698,6 +792,7 @@
 
     const render = () => {
       const W = buildHopfieldWeights(state.stored);
+      const nets = state.lastNets || computeCurrentNets(state.grid, W);
       const matches = Object.keys(HOPFIELD_PATTERNS).map((k) => {
         const pat = HOPFIELD_PATTERNS[k];
         const same = pat.filter((v, i) => v === state.grid[i]).length;
@@ -705,11 +800,13 @@
         return { key: k, pct, stored: state.stored.includes(k) };
       });
       const converged = state.lastChanged === 0;
+      const capLimit = 0.138 * 25;
+      const overloaded = state.stored.length > 3;
 
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
-            <span style="font-size:0.84rem;font-weight:700;">Memorias guardadas (W Hebbiana, w_ii=0):</span>
+            <span style="font-size:0.84rem;font-weight:700;">Memorias guardadas (w_ii = 0):</span>
             ${["T", "X", "L", "C"].map((k) => `
               <button type="button" class="pe-mode-pill ${state.stored.includes(k) ? "active" : ""}" data-store="${k}">
                 ${state.stored.includes(k) ? "✓ " : ""}${k}
@@ -726,27 +823,32 @@
           <div class="sb-canvas-wrap" style="text-align:center;">
             <div class="sb-hop-grid" id="sb-hop-grid">
               ${state.grid.map((v, i) => `
-                <button type="button" class="sb-hop-cell ${v > 0 ? "on" : ""}" data-cell="${i}" title="Neurona ${i + 1}: ${v > 0 ? "+1" : "-1"}">${v > 0 ? "+1" : "−1"}</button>
+                <button type="button" class="sb-hop-cell ${v > 0 ? "on" : ""} ${state.changedSet.has(i) ? "just-changed" : ""}" data-cell="${i}" title="N${i + 1}: s=${v > 0 ? "+1" : "-1"} · net=${nets[i]}">${v > 0 ? "+1" : "−1"}</button>
               `).join("")}
             </div>
             <div style="display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
               <button type="button" class="btn btn-outline btn-sm" id="sb-hop-step">⚡ 1 Paso Síncrono</button>
               <button type="button" class="btn btn-primary btn-sm" id="sb-hop-auto">▶ Auto-Converger</button>
             </div>
-            <div class="sb-canvas-hint">💡 Hacé clic en las celdas para invertir bits y probá activar 3 o 4 letras para ver la saturación por mínimos espurios.</div>
+            <div class="sb-canvas-hint">💡 Pasá el mouse sobre una celda para ver su campo local <strong>net_i</strong>. Borde ámbar = neurona invertida en el último paso.</div>
           </div>
           <div class="sb-readout-panel">
-            <div class="sb-verdict-box">
-              <span>Paso <strong>t = ${state.stepCount}</strong></span>
-              <span class="sb-winner-pill ${converged ? "cls-A" : ""}">${converged ? "✅ Atractor estable" : "⚡ Listo para actualizar"}</span>
+            <div class="sb-verdict-box" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.45rem;">
+              <span>Paso <strong>t = ${state.stepCount}</strong>${state.lastChanged !== null ? ` (${state.lastChanged} cambios)` : ""}</span>
+              <span class="sb-winner-pill ${converged ? "cls-a" : ""}">${converged ? "✅ Atractor estable" : "⚡ Listo para actualizar"}</span>
+            </div>
+            <div class="sb-cap-meter ${overloaded ? "warn" : ""}">
+              <strong>Capacidad Hebbiana:</strong> ${state.stored.length}/25 neuronas (límite ≈ ${capLimit.toFixed(1)} patrones)
+              ${overloaded ? ` · <span style="color:var(--warning);font-weight:700;">⚠️ Sobrecarga: pueden aparecer mínimos espurios</span>` : ` · <span style="color:var(--success);font-weight:700;">Dentro del límite seguro</span>`}
             </div>
             ${buildEnergySparkline(state.energyHistory)}
-            <div style="font-size:0.82rem;font-weight:700;margin-top:0.4rem;">Similitud con patrones:</div>
-            <div class="sb-bar-group">
-              ${matches.filter((m) => m.stored || m.pct >= 68).map((m) => `
+            <div class="sb-formula-box">Regla UTN: si <code>net_i &gt; 0</code> → +1, si <code>net_i &lt; 0</code> → −1, si <code>net_i = 0</code> → conserva <code>s_i(t)</code>.</div>
+            <div style="font-size:0.82rem;font-weight:700;">Similitud con patrones:</div>
+            <div class="sb-bar-group" style="margin-top:0;">
+              ${matches.filter((m) => m.stored || m.pct >= 64).map((m) => `
                 <div class="sb-bar-row">
-                  <span>Patrón ${m.key} ${m.stored ? "(guardado)" : "(no guardado)"}: ${m.pct}%</span>
-                  <div class="sb-bar-track"><div style="width:${m.pct}%;background:${m.pct === 100 ? "var(--success)" : "var(--primary)"};"></div></div>
+                  <div class="sb-bar-meta"><span>Patrón ${m.key} ${m.stored ? "(guardado)" : "(no guardado)"}</span><span class="vw-tabular">${m.pct}%</span></div>
+                  <div class="sb-bar-track"><div class="sb-bar-fill" style="width:${m.pct}%;background:${m.pct === 100 ? "var(--success)" : "var(--primary)"};"></div></div>
                 </div>
               `).join("")}
             </div>
@@ -803,6 +905,8 @@
         state.grid = res.nextState;
         state.stepCount += 1;
         state.lastChanged = res.changed;
+        state.changedSet = new Set(res.changedIndices || []);
+        state.lastNets = computeCurrentNets(state.grid, buildHopfieldWeights(state.stored));
         state.energyHistory.push(res.energy);
         render();
         return res.changed > 0;
@@ -841,6 +945,7 @@
       lastPattern: null,
       lastBmu: null,
       neurons: [],
+      prevNeurons: [],
       running: false
     };
 
@@ -868,6 +973,7 @@
           }
         }
       }
+      state.prevNeurons = state.neurons.map((n) => ({ ...n }));
       state.steps = 0;
       state.lastPattern = null;
       state.lastBmu = null;
@@ -903,6 +1009,26 @@
       ctx.fillStyle = c.bgSubtle;
       ctx.fillRect(0, 0, W, H);
 
+      // Background manifold reference
+      ctx.save();
+      ctx.strokeStyle = c.border;
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1.2;
+      if (state.distMode === "ring") {
+        ctx.beginPath();
+        ctx.arc(0.5 * W, 0.5 * H, 0.32 * Math.min(W, H), 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (state.distMode === "clusters") {
+        [{ x: 0.22, y: 0.24 }, { x: 0.78, y: 0.28 }, { x: 0.5, y: 0.78 }].forEach((ctr) => {
+          ctx.beginPath();
+          ctx.arc(ctr.x * W, ctr.y * H, 0.11 * Math.min(W, H), 0, Math.PI * 2);
+          ctx.stroke();
+        });
+      } else {
+        ctx.strokeRect(0.12 * W, 0.12 * H, 0.76 * W, 0.76 * H);
+      }
+      ctx.restore();
+
       // Draw topological mesh links
       ctx.strokeStyle = c.border;
       ctx.lineWidth = 2;
@@ -917,7 +1043,22 @@
         });
       });
 
-      // Last input pattern + BMU neighborhood ring
+      // Last-step displacement trails W(t) -> W(t+1)
+      if (state.prevNeurons && state.prevNeurons.length === state.neurons.length && state.steps > 0) {
+        state.neurons.forEach((n, idx) => {
+          const prev = state.prevNeurons[idx];
+          if (Math.hypot(n.x - prev.x, n.y - prev.y) > 0.004) {
+            ctx.beginPath();
+            ctx.moveTo(prev.x * W, prev.y * H);
+            ctx.lineTo(n.x * W, n.y * H);
+            ctx.strokeStyle = c.success;
+            ctx.lineWidth = 1.6;
+            ctx.stroke();
+          }
+        });
+      }
+
+      // Last input pattern + BMU pull link
       if (state.lastPattern) {
         const px = state.lastPattern.x * W;
         const py = state.lastPattern.y * H;
@@ -940,10 +1081,17 @@
         ctx.fill();
       }
 
-      // Neurons
+      // Neurons with neighborhood strength halo h(j, j*)
       state.neurons.forEach((n) => {
         const nx = n.x * W;
         const ny = n.y * H;
+        if (n.lastH > 0.08 && !n.isBmu) {
+          ctx.beginPath();
+          ctx.arc(nx, ny, 8 + n.lastH * 8, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(16, 185, 129, 0.45)";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
         ctx.beginPath();
         ctx.arc(nx, ny, n.isBmu ? 11 : 8, 0, Math.PI * 2);
         ctx.fillStyle = n.isBmu ? c.success : c.primary;
@@ -959,21 +1107,25 @@
 
       const infoEl = hostEl.querySelector("#sb-som-info");
       if (infoEl) {
+        const coordsHtml = state.neurons.slice(0, state.topo === "line3" ? 3 : 5).map((n) =>
+          `<span class="vw-tabular" style="display:inline-block;margin-right:0.55rem;"><strong>${escapeHtml(n.label)}</strong>(${n.x.toFixed(2)},${(1 - n.y).toFixed(2)})</span>`
+        ).join("");
         infoEl.innerHTML = `
-          <div><strong>Iteraciones:</strong> ${state.steps}</div>
-          <div><strong>Última BMU:</strong> ${state.lastBmu ? escapeHtml(state.lastBmu) : "—"}</div>
-          <div><strong>α =</strong> ${state.alpha.toFixed(2)} · <strong>σ =</strong> ${state.sigma.toFixed(2)}</div>
+          <div><strong>Iteraciones:</strong> ${state.steps} · <strong>Última BMU:</strong> ${state.lastBmu ? escapeHtml(state.lastBmu) : "—"}</div>
+          <div><strong>Parámetros:</strong> α = ${state.alpha.toFixed(2)} · σ = ${state.sigma.toFixed(2)}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.15rem;">Pesos activos: ${coordsHtml}${state.neurons.length > 5 ? "…" : ""}</div>
         `;
       }
     };
 
-    const feedPattern = (p) => {
+    const feedPattern = (p, redraw = true) => {
+      state.prevNeurons = state.neurons.map((n) => ({ ...n }));
       const res = somStep(state.neurons, p, state.alpha, state.sigma);
       state.neurons = res.neurons;
       state.lastPattern = p;
       state.lastBmu = res.bmuLabel;
       state.steps += 1;
-      draw();
+      if (redraw) draw();
     };
 
     const renderShell = () => {
@@ -991,6 +1143,7 @@
           <div class="sb-btn-group">
             <label class="sb-inline-ctl">α <input id="sb-som-alpha" type="range" min="0.1" max="0.8" step="0.05" value="${state.alpha}" /></label>
             <label class="sb-inline-ctl">σ <input id="sb-som-sigma" type="range" min="0.4" max="1.8" step="0.1" value="${state.sigma}" /></label>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-som-burst">⚡ +10 Pasos</button>
             <button type="button" class="btn btn-primary btn-sm" id="sb-som-auto">${state.running ? "⏸ Pausar" : "▶ Auto-Entrenar"}</button>
             <button type="button" class="btn btn-outline btn-sm" id="sb-som-reset">↺ Reiniciar</button>
           </div>
@@ -998,13 +1151,14 @@
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
             <canvas id="sb-som-canvas" width="460" height="320" class="sb-canvas"></canvas>
-            <div class="sb-canvas-hint">💡 Hacé clic para lanzar un patrón ▲ p y ver cómo la BMU arrastra a sus vecinas según h(j,j*).</div>
+            <div class="sb-canvas-hint">💡 Hacé clic para lanzar un patrón ▲ p. Las líneas verdes muestran ΔW(t) y los halos verdes la vecindad h(j,j*).</div>
           </div>
           <div class="sb-readout-panel">
-            <div id="sb-som-info" class="sb-verdict-box" style="flex-direction:column;align-items:flex-start;gap:0.35rem;"></div>
-            <p style="font-size:0.83rem;color:var(--text-muted);margin-top:0.6rem;line-height:1.45;">
-              En <strong>Grilla 3×3</strong> con distribución <em>Anillo</em> o <em>3 Clusters</em> podés ver cómo la red se despliega tratando de preservar la topología vecina mientras cubre los datos.
-            </p>
+            <div id="sb-som-info" class="sb-verdict-box" style="display:flex;flex-direction:column;align-items:flex-start;gap:0.35rem;"></div>
+            <div class="sb-formula-box">
+              <strong>Regla de Kohonen:</strong> W_j(t+1) = W_j(t) + α · h(j,j*) · [p − W_j(t)].<br>
+              Con <strong>σ alto</strong> se desplaza toda la malla unida; al bajar <strong>σ</strong> se afinan los detalles locales.
+            </div>
           </div>
         </div>
       `;
@@ -1020,6 +1174,7 @@
       });
       hostEl.querySelector("#sb-som-dist").addEventListener("change", (e) => {
         state.distMode = e.target.value;
+        draw();
       });
       hostEl.querySelector("#sb-som-alpha").addEventListener("input", (e) => {
         state.alpha = Number(e.target.value);
@@ -1028,6 +1183,9 @@
       hostEl.querySelector("#sb-som-sigma").addEventListener("input", (e) => {
         state.sigma = Number(e.target.value);
         draw();
+      });
+      hostEl.querySelector("#sb-som-burst").addEventListener("click", () => {
+        for (let i = 0; i < 10; i++) feedPattern(samplePattern(), i === 9);
       });
       hostEl.querySelector("#sb-som-reset").addEventListener("click", () => {
         clearAllSandboxTimers();
@@ -1068,8 +1226,9 @@
     renderShell();
   }
 
-  // 4. Clustering Jerárquico UPGMA + Real Proportional Dendrogram
+  // 4. Clustering Jerárquico UPGMA + Corte de Clústeres (k) + Dendrograma
   function mountClusteringSandbox(hostEl) {
+    const CLUSTER_PALETTE = ["#10b981", "#f59e0b", "#6366f1", "#ec4899", "#06b6d4", "#8b5cf6", "#ef4444"];
     const state = {
       points: [
         { label: "A", x: 1.8, y: 7.4 },
@@ -1079,6 +1238,22 @@
         { label: "E", x: 7.6, y: 2.8 }
       ],
       visibleStep: 4
+    };
+
+    const getClustersAtStep = (nPoints, merges, step) => {
+      let groups = Array.from({ length: nPoints }, (_, i) => [i]);
+      const applied = merges.slice(0, step);
+      applied.forEach((m) => {
+        const mSet = new Set(m.members);
+        groups = groups.filter((g) => !mSet.has(g[0]));
+        groups.push([...m.members]);
+      });
+      const colorByIdx = new Array(nPoints).fill(CLUSTER_PALETTE[0]);
+      groups.forEach((grp, gIdx) => {
+        const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
+        grp.forEach((ptIdx) => { colorByIdx[ptIdx] = col; });
+      });
+      return { groups, colorByIdx };
     };
 
     const drawDendrogramSvg = (tree, shownSteps) => {
@@ -1126,6 +1301,20 @@
       };
       walkPaths(root);
 
+      // Horizontal cut line separating active clusters (k = N - shownSteps)
+      let cutLineHtml = "";
+      if (shownSteps < merges.length) {
+        const prevH = shownSteps > 0 ? merges[shownSteps - 1].height : 0;
+        const nextH = merges[shownSteps].height;
+        const cutH = (prevH + nextH) / 2;
+        const cutY = yFor(cutH);
+        const kNow = Math.max(1, leafOrder.length - shownSteps);
+        cutLineHtml = `
+          <line x1="${padL}" y1="${cutY.toFixed(1)}" x2="${W - padR}" y2="${cutY.toFixed(1)}" stroke="var(--danger)" stroke-width="1.5" stroke-dasharray="5 3" />
+          <text x="${W - padR}" y="${(cutY - 3).toFixed(1)}" text-anchor="end" font-size="8.5" font-weight="700" fill="var(--danger)">Corte k=${kNow} (h=${cutH.toFixed(2)})</text>
+        `;
+      }
+
       const ticks = [0, 0.5, 1].map((f) => {
         const val = maxH * f;
         const y = yFor(val);
@@ -1141,6 +1330,7 @@
         <svg viewBox="0 0 ${W} ${H}" class="vw-svg-chart" role="img" aria-label="Dendrograma UPGMA en tiempo real">
           ${ticks}
           ${paths.join("")}
+          ${cutLineHtml}
           ${leafLabels}
         </svg>
       `;
@@ -1150,28 +1340,45 @@
       const tree = computeUpgmaTree(state.points);
       state.visibleStep = Math.max(0, Math.min(tree.merges.length, state.visibleStep));
       const c = readThemeColors();
+      const clusterInfo = getClustersAtStep(state.points.length, tree.merges, state.visibleStep);
+      const kClusters = clusterInfo.groups.length;
+      const lastMerge = state.visibleStep > 0 ? tree.merges[state.visibleStep - 1] : null;
 
       hostEl.innerHTML = `
         <div class="sb-toolbar">
           <div class="sb-btn-group">
-            <span style="font-size:0.84rem;font-weight:700;">Fusiones visibles: ${state.visibleStep}/${tree.merges.length}</span>
+            <span style="font-size:0.84rem;font-weight:700;">Fusiones: ${state.visibleStep}/${tree.merges.length} (k=${kClusters} clúster${kClusters > 1 ? "es" : ""})</span>
             <button type="button" class="btn btn-outline btn-sm" id="sb-clu-prev">◀</button>
             <button type="button" class="btn btn-primary btn-sm" id="sb-clu-next">▶ Siguiente Fusión</button>
-            <button type="button" class="btn btn-outline btn-sm" id="sb-clu-reset">↺ Caso Base (5 pts)</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-clu-pop" ${state.points.length <= 3 ? "disabled" : ""}>↩ Quitar punto</button>
+            <button type="button" class="btn btn-outline btn-sm" id="sb-clu-reset">↺ Caso Base</button>
           </div>
-          <div style="font-size:0.78rem;color:var(--text-muted);">Hacé clic en el plano para agregar puntos hasta G (${state.points.length}/7)</div>
+          <div class="sb-btn-group">
+            <span style="font-size:0.78rem;color:var(--text-muted);">Corte rápido:</span>
+            ${Array.from({ length: Math.min(4, state.points.length) }, (_, idx) => {
+              const targetK = idx + 1;
+              return `<button type="button" class="sb-pill-btn ${kClusters === targetK ? "active" : ""}" data-cutk="${targetK}">k=${targetK}</button>`;
+            }).join("")}
+          </div>
         </div>
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap">
             <canvas id="sb-clu-canvas" width="400" height="270" class="sb-canvas"></canvas>
+            <div class="sb-canvas-hint">💡 Hacé clic en el plano para agregar puntos hasta G (${state.points.length}/7) o usá <strong>Corte rápido (k)</strong> para ver los grupos por color.</div>
           </div>
           <div class="sb-readout-panel">
-            <div class="vw-chart-title" style="margin-bottom:0.35rem;">Dendrograma UPGMA (altura exacta |C1|·|C2|)</div>
+            <div class="vw-chart-title" style="margin-bottom:0.2rem;">Dendrograma UPGMA (altura exacta |C1|·|C2|)</div>
             ${drawDendrogramSvg(tree, state.visibleStep)}
-            <div style="font-size:0.8rem;margin-top:0.5rem;">
+            ${lastMerge ? `
+              <div class="sb-formula-box">
+                <strong>Última fusión:</strong> {${escapeHtml(lastMerge.c1Label)}} + {${escapeHtml(lastMerge.c2Label)}}<br>
+                <span>UPGMA ponderado por tamaños |C₁|=${lastMerge.size1}, |C₂|=${lastMerge.size2} (|C₁|·|C₂|=${lastMerge.size1 * lastMerge.size2} pares) → <strong>d = ${lastMerge.height.toFixed(3)}</strong></span>
+              </div>
+            ` : ""}
+            <div style="font-size:0.8rem;">
               ${tree.merges.slice(0, state.visibleStep).map((m, idx) =>
                 `<div><strong>Fusión ${idx + 1}:</strong> {${escapeHtml(m.c1Label)}} + {${escapeHtml(m.c2Label)}} → d = <strong>${m.height.toFixed(3)}</strong></div>`
-              ).join("") || `<span style="color:var(--text-muted);">Usá "▶ Siguiente Fusión" para armar el árbol.</span>`}
+              ).join("") || `<span style="color:var(--text-muted);">Usá "▶ Siguiente Fusión" para construir el dendrograma.</span>`}
             </div>
           </div>
         </div>
@@ -1186,29 +1393,31 @@
       const sx = (x) => (x / 10) * (W - 36) + 18;
       const sy = (y) => H - 18 - (y / 10) * (H - 36);
 
-      // Draw bounding ellipses around merged clusters up to visibleStep
-      tree.merges.slice(0, state.visibleStep).forEach((m) => {
-        const xs = m.members.map((idx) => sx(state.points[idx].x));
-        const ys = m.members.map((idx) => sy(state.points[idx].y));
+      // Draw active cluster ellipses at current cut level
+      clusterInfo.groups.forEach((grp, gIdx) => {
+        if (grp.length < 2) return;
+        const col = CLUSTER_PALETTE[gIdx % CLUSTER_PALETTE.length];
+        const xs = grp.map((idx) => sx(state.points[idx].x));
+        const ys = grp.map((idx) => sy(state.points[idx].y));
         const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
         const cy = (Math.min(...ys) + Math.max(...ys)) / 2;
-        const rx = Math.max(22, (Math.max(...xs) - Math.min(...xs)) / 2 + 18);
-        const ry = Math.max(20, (Math.max(...ys) - Math.min(...ys)) / 2 + 16);
+        const rx = Math.max(24, (Math.max(...xs) - Math.min(...xs)) / 2 + 19);
+        const ry = Math.max(22, (Math.max(...ys) - Math.min(...ys)) / 2 + 17);
         ctx.beginPath();
         ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = c.primary;
-        ctx.setLineDash([4, 3]);
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = col;
+        ctx.setLineDash([5, 3]);
+        ctx.lineWidth = 2;
         ctx.stroke();
         ctx.setLineDash([]);
       });
 
-      state.points.forEach((p) => {
+      state.points.forEach((p, ptIdx) => {
         const px = sx(p.x);
         const py = sy(p.y);
         ctx.beginPath();
-        ctx.arc(px, py, 10, 0, Math.PI * 2);
-        ctx.fillStyle = c.primary;
+        ctx.arc(px, py, 10.5, 0, Math.PI * 2);
+        ctx.fillStyle = clusterInfo.colorByIdx[ptIdx] || c.primary;
         ctx.fill();
         ctx.strokeStyle = "#fff";
         ctx.lineWidth = 1.8;
@@ -1239,6 +1448,20 @@
         state.visibleStep = Math.min(tree.merges.length, state.visibleStep + 1);
         render();
       });
+      hostEl.querySelectorAll("[data-cutk]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const targetK = Number(btn.getAttribute("data-cutk")) || 1;
+          state.visibleStep = Math.max(0, Math.min(tree.merges.length, state.points.length - targetK));
+          render();
+        });
+      });
+      hostEl.querySelector("#sb-clu-pop").addEventListener("click", () => {
+        if (state.points.length > 3) {
+          state.points.pop();
+          state.visibleStep = Math.min(state.visibleStep, state.points.length - 1);
+          render();
+        }
+      });
       hostEl.querySelector("#sb-clu-reset").addEventListener("click", () => {
         mountClusteringSandbox(hostEl);
       });
@@ -1247,14 +1470,16 @@
     render();
   }
 
-  // 5. Algoritmos Genéticos: Ruleta Física [00-99] & Evolución
+  // 5. Algoritmos Genéticos: Ruleta Física [00-99], Tabla UTN & Cruce 1-Punto
   function mountAgSandbox(hostEl) {
+    const CHROMOS = ["10110", "01101", "11001", "00111"];
     const state = {
       fitness: [20, 45, 25, 10],
       wheelAngle: 0,
       lastR: null,
       lastWinner: null,
       spinCount: 0,
+      crossover: null,
       colors: ["#6366f1", "#10b981", "#f59e0b", "#ec4899"]
     };
 
@@ -1274,13 +1499,13 @@
         const ly = +(-r * 0.62 * Math.cos(midAng)).toFixed(1);
         startAng = endAng;
         return `
-          <path d="M0,0 L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z" fill="${state.colors[idx]}" opacity="0.82" stroke="var(--bg-card)" stroke-width="2" />
+          <path d="M0,0 L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z" fill="${state.colors[idx]}" opacity="0.84" stroke="var(--bg-card)" stroke-width="2" />
           <text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="800" fill="#ffffff">${row.id}</text>
         `;
       }).join("");
 
       return `
-        <svg viewBox="0 0 210 190" class="vw-algo-svg" style="max-width:220px;" role="img" aria-label="Ruleta genética">
+        <svg viewBox="0 0 210 190" class="vw-algo-svg" style="max-width:210px;" role="img" aria-label="Ruleta genética">
           <g transform="translate(105 100)">
             <g style="transform: rotate(${state.wheelAngle}deg); transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);">
               ${slices}
@@ -1307,30 +1532,68 @@
       `;
     };
 
+    const renderBitsRow = (label, bits, originFlags, cutK) => {
+      const items = bits.split("").map((b, i) => {
+        const cls = originFlags[i] === 1 ? "p1" : "p2";
+        return `${i === cutK ? `<span class="sb-cut-divider" title="Punto de corte k=${cutK}"></span>` : ""}<span class="sb-bit ${cls}">${b}</span>`;
+      }).join("");
+      const dec = parseInt(bits, 2);
+      return `<div class="sb-bits-row"><strong style="min-width:68px;">${escapeHtml(label)}:</strong>${items}<span class="vw-tabular" style="color:var(--text-muted);margin-left:0.25rem;">(x=${dec})</span></div>`;
+    };
+
     const render = () => {
       const roulette = computeAgRoulette(state.fitness);
+      const xo = state.crossover;
       hostEl.innerHTML = `
         <div class="sb-split-grid">
           <div class="sb-canvas-wrap" style="text-align:center;">
             ${buildWheelSvg(roulette)}
-            <div style="margin-top:0.5rem;">
+            <div style="display:flex;justify-content:center;gap:0.45rem;flex-wrap:wrap;margin-top:0.35rem;">
               <button type="button" class="btn btn-primary btn-sm" id="sb-ag-spin">🎰 Girar Ruleta [00–99]</button>
+              <button type="button" class="btn btn-outline btn-sm" id="sb-ag-cross">🧬 Sortear Par &amp; Cruce</button>
             </div>
-            <div style="margin-top:0.45rem;font-size:0.86rem;">
+            <div style="margin-top:0.45rem;font-size:0.85rem;">
               ${state.lastR !== null
-                ? `Sorteo #${state.spinCount}: <strong>r = ${String(state.lastR).padStart(2, "0")}</strong> → Seleccionado <span class="sb-winner-pill cls-A">${escapeHtml(state.lastWinner)}</span>`
-                : `<span style="color:var(--text-muted);">Ajustá los fitness y girá para sortear padres.</span>`}
+                ? `Sorteo #${state.spinCount}: <strong>r = ${String(state.lastR).padStart(2, "0")}</strong> → Seleccionado <span class="sb-winner-pill cls-a">${escapeHtml(state.lastWinner)}</span>`
+                : `<span style="color:var(--text-muted);">Ajustá los fitness y girá para sortear padres o simular cruce 1-punto.</span>`}
             </div>
+            ${xo ? `
+              <div class="sb-chromo-card" style="text-align:left;margin-top:0.45rem;">
+                <div style="font-size:0.79rem;font-weight:700;">Cruce 1-Punto (corte k=${xo.cutK}) · r₁=${String(xo.r1).padStart(2, "0")} (${xo.p1Id}), r₂=${String(xo.r2).padStart(2, "0")} (${xo.p2Id})</div>
+                ${renderBitsRow("Padre 1", xo.b1, [1, 1, 1, 1, 1], xo.cutK)}
+                ${renderBitsRow("Padre 2", xo.b2, [2, 2, 2, 2, 2], xo.cutK)}
+                ${renderBitsRow("Hijo 1", xo.c1, xo.c1Flags, xo.cutK)}
+                ${renderBitsRow("Hijo 2", xo.c2, xo.c2Flags, xo.cutK)}
+              </div>
+            ` : ""}
           </div>
           <div class="sb-readout-panel">
             <div class="sb-ag-sliders">
               ${roulette.rows.map((row, idx) => `
                 <label class="sb-ag-row">
                   <span style="color:${state.colors[idx]};font-weight:800;">${row.id}</span>
-                  <input type="range" min="5" max="90" value="${row.fitness}" data-ag-idx="${idx}" />
-                  <span class="vw-tabular" style="min-width:118px;text-align:right;">f=${row.fitness} · [${String(row.startSlot).padStart(2, "0")}–${String(row.endSlot).padStart(2, "0")}]</span>
+                  <input type="range" class="sb-ag-range" min="5" max="90" value="${row.fitness}" data-ag-idx="${idx}" />
+                  <span class="vw-tabular" style="text-align:right;">f=${row.fitness} · [${String(row.startSlot).padStart(2, "0")}–${String(row.endSlot).padStart(2, "0")}]</span>
                 </label>
               `).join("")}
+            </div>
+            <div class="pe-table-wrap">
+              <table class="pe-data-table">
+                <thead><tr><th>Crom.</th><th>Bits</th><th>f_i</th><th>p_i</th><th>η_i</th><th>Copias</th><th>Slot</th></tr></thead>
+                <tbody>
+                  ${roulette.rows.map((row, idx) => `
+                    <tr style="${state.lastWinner === row.id ? "background:rgba(16,185,129,0.14);font-weight:700;" : ""}">
+                      <td style="color:${state.colors[idx]};font-weight:800;">${row.id}</td>
+                      <td class="vw-tabular"><code>${CHROMOS[idx]}</code></td>
+                      <td class="vw-tabular">${row.fitness}</td>
+                      <td class="vw-tabular">${row.p.toFixed(2)}</td>
+                      <td class="vw-tabular">${row.eta.toFixed(2)}</td>
+                      <td class="vw-tabular">${row.intCopies} + ${row.frac.toFixed(2)}</td>
+                      <td class="vw-tabular">[${String(row.startSlot).padStart(2, "0")}–${String(row.endSlot).padStart(2, "0")}]</td>
+                    </tr>
+                  `).join("")}
+                </tbody>
+              </table>
             </div>
             ${buildEvolutionChart(state.fitness)}
           </div>
@@ -1345,9 +1608,14 @@
         });
       });
 
-      hostEl.querySelector("#sb-ag-spin").addEventListener("click", () => {
+      const spinOnce = () => {
         const r = Math.floor(Math.random() * 100);
         const match = roulette.rows.find((row) => r >= row.startSlot && r <= row.endSlot) || roulette.rows[0];
+        return { r, match };
+      };
+
+      hostEl.querySelector("#sb-ag-spin").addEventListener("click", () => {
+        const { r, match } = spinOnce();
         const slotMidPct = (r + 0.5) / 100;
         const targetDeg = 360 - slotMidPct * 360;
         const currentMod = state.wheelAngle % 360;
@@ -1356,6 +1624,34 @@
         state.lastR = r;
         state.lastWinner = match.id;
         state.spinCount += 1;
+        render();
+      });
+
+      hostEl.querySelector("#sb-ag-cross").addEventListener("click", () => {
+        const s1 = spinOnce();
+        const s2 = spinOnce();
+        const i1 = roulette.rows.indexOf(s1.match);
+        const i2 = roulette.rows.indexOf(s2.match);
+        const b1 = CHROMOS[i1];
+        const b2 = CHROMOS[i2];
+        const cutK = 1 + Math.floor(Math.random() * 4);
+        const c1 = b1.slice(0, cutK) + b2.slice(cutK);
+        const c2 = b2.slice(0, cutK) + b1.slice(cutK);
+        const c1Flags = [0, 1, 2, 3, 4].map((idx) => (idx < cutK ? 1 : 2));
+        const c2Flags = [0, 1, 2, 3, 4].map((idx) => (idx < cutK ? 2 : 1));
+        const slotMidPct = (s2.r + 0.5) / 100;
+        const targetDeg = 360 - slotMidPct * 360;
+        const currentMod = state.wheelAngle % 360;
+        const delta = ((targetDeg - currentMod) + 360) % 360;
+        state.wheelAngle += 720 + delta;
+        state.lastR = s2.r;
+        state.lastWinner = s2.match.id;
+        state.spinCount += 1;
+        state.crossover = {
+          r1: s1.r, r2: s2.r,
+          p1Id: s1.match.id, p2Id: s2.match.id,
+          b1, b2, c1, c2, c1Flags, c2Flags, cutK
+        };
         render();
       });
     };
@@ -1382,7 +1678,7 @@
         <div class="card">
           <div style="margin-bottom:0.8rem;">
             <h2 style="font-size:1.15rem;margin-bottom:0.25rem;">🧪 Simuladores Interactivos en Vivo</h2>
-            <p style="font-size:0.88rem;color:var(--text-muted);">Experimentá en tiempo real con datos reales (clic para agregar puntos, meter ruido o girar la ruleta) para consolidar la intuición antes del parcial.</p>
+            <p style="font-size:0.88rem;color:var(--text-muted);">Experimentá en tiempo real con datos reales (clic para agregar puntos, meter ruido, cortar dendrogramas o cruzar cromosomas) para consolidar la intuición antes del parcial.</p>
           </div>
           <div class="sb-tab-strip">
             ${specs.map((s) => `<button type="button" class="lab-topic-btn ${s.id === activeSandbox ? "active" : ""}" data-sb="${s.id}">${escapeHtml(s.label)}</button>`).join("")}
@@ -1417,20 +1713,35 @@
     clearAllSandboxTimers();
 
     const state = {
+      topicFilter: "ALL",
       idx: 0,
       selectedLine: null,
       score: 0,
       streak: 0,
       bestStreak: 0,
-      answeredSet: new Set(),
+      resultsById: {}, // id -> "ok" | "bad"
       sprintActive: false,
+      sprintFinished: false,
       timeLeft: 60
     };
 
+    const getVisibleCases = () => {
+      if (state.topicFilter === "ALL") return TRAP_CASES;
+      return TRAP_CASES.filter((c) => c.topic === state.topicFilter);
+    };
+
     const renderGame = () => {
-      const c = TRAP_CASES[state.idx % TRAP_CASES.length];
+      const pool = getVisibleCases();
+      if (pool.length === 0) return;
+      state.idx = Math.max(0, Math.min(pool.length - 1, state.idx));
+      const c = pool[state.idx];
       const hasPicked = state.selectedLine !== null;
       const isRight = hasPicked && state.selectedLine === c.trapLineIdx;
+      const allTopics = ["ALL", ...Array.from(new Set(TRAP_CASES.map((t) => t.topic)))];
+      const answeredCount = pool.filter((item) => Boolean(state.resultsById[item.id])).length;
+      const okCount = pool.filter((item) => state.resultsById[item.id] === "ok").length;
+      const badItems = pool.filter((item) => state.resultsById[item.id] === "bad");
+      const showSummary = state.sprintFinished || (answeredCount === pool.length && !hasPicked && pool.length > 0);
 
       container.innerHTML = `
         <div class="card">
@@ -1440,7 +1751,7 @@
               <p style="font-size:0.86rem;color:var(--text-muted);">Cada desarrollo tiene <strong>1 error sutil típico de parcial</strong>. Hacé clic en la línea tramposa antes de caer en ella en tu hoja.</p>
             </div>
             <div class="hud-stat-pills">
-              <span class="hud-pill">🎯 Aciertos: ${state.score}/${TRAP_CASES.length}</span>
+              <span class="hud-pill">🎯 Aciertos: ${okCount}/${pool.length}</span>
               <span class="hud-pill ${state.streak >= 3 ? "streak-hot" : ""}">🔥 Racha: ${state.streak}</span>
               ${state.sprintActive
                 ? `<span class="badge badge-timer ${state.timeLeft <= 15 ? "danger" : ""}" id="trap-sprint-timer">⏱ ${state.timeLeft}s</span>`
@@ -1448,47 +1759,105 @@
             </div>
           </div>
 
-          <div class="trap-card-box">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.65rem;flex-wrap:wrap;">
-              <span class="badge badge-topic">${escapeHtml(c.topic)}</span>
-              <span style="font-size:0.82rem;color:var(--text-muted);">Caso ${state.idx + 1} de ${TRAP_CASES.length}</span>
-            </div>
-            <h3 style="font-size:1.02rem;margin-bottom:0.7rem;">${escapeHtml(c.title)}</h3>
-            <div class="trap-lines-list">
-              ${c.lines.map((ln, lIdx) => {
-                let cls = "trap-line-btn";
-                if (hasPicked) {
-                  if (lIdx === c.trapLineIdx) cls += " is-trap-correct";
-                  else if (lIdx === state.selectedLine) cls += " is-trap-wrong";
-                }
-                return `<button type="button" class="${cls}" data-line="${lIdx}" ${hasPicked ? "disabled" : ""}>${escapeHtml(ln)}</button>`;
-              }).join("")}
-            </div>
-
-            ${hasPicked ? `
-              <div class="trap-feedback ${isRight ? "ok" : "bad"}">
-                <strong>${isRight ? "✅ ¡Trampa detectada!" : "❌ Era la línea " + (c.trapLineIdx + 1) + ":"}</strong>
-                <span>${escapeHtml(c.explanation)}</span>
-              </div>
-              <div style="display:flex;justify-content:flex-end;margin-top:0.85rem;gap:0.5rem;">
-                <button type="button" class="btn btn-primary btn-sm" id="trap-next-btn">Siguiente Caso →</button>
-              </div>
-            ` : ""}
+          <div class="trap-filter-bar">
+            ${allTopics.map((tp) => `
+              <button type="button" class="sb-pill-btn ${state.topicFilter === tp ? "active" : ""}" data-trap-topic="${tp}">
+                ${tp === "ALL" ? `Todos (${TRAP_CASES.length})` : escapeHtml(tp)}
+              </button>
+            `).join("")}
           </div>
+
+          <div class="trap-case-dots">
+            ${pool.map((item, i) => {
+              const st = state.resultsById[item.id];
+              const cls = `trap-dot-btn ${i === state.idx ? "active" : ""} ${st === "ok" ? "done-ok" : (st === "bad" ? "done-bad" : "")}`;
+              return `<button type="button" class="${cls}" data-trap-jump="${i}" title="${escapeHtml(item.title)}">${i + 1}${st === "ok" ? "✓" : (st === "bad" ? "✕" : "")}</button>`;
+            }).join("")}
+          </div>
+
+          ${showSummary ? `
+            <div class="trap-summary-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+                <h3 style="margin:0;">${state.sprintFinished ? "⏱️ ¡Tiempo cumplido en Reto 60s!" : "🏁 ¡Serie completada!"}</h3>
+                <span class="sb-winner-pill cls-a">Precisión: ${answeredCount > 0 ? Math.round((okCount / answeredCount) * 100) : 0}% (${okCount}/${answeredCount}) · Mejor racha: ${state.bestStreak}</span>
+              </div>
+              ${badItems.length > 0 ? `
+                <div style="font-size:0.84rem;color:var(--text-muted);">
+                  <strong>Trampas a repasar (${badItems.length}):</strong>
+                  <ul style="margin:0.35rem 0 0 1.2rem;">
+                    ${badItems.map((bi) => `<li><strong>[${escapeHtml(bi.topic)}]</strong> ${escapeHtml(bi.title)}</li>`).join("")}
+                  </ul>
+                </div>
+              ` : `<div style="color:var(--success);font-weight:700;font-size:0.9rem;">✨ ¡Cero errores! Estás blindado contra todas las trampas de esta serie.</div>`}
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                ${badItems.length > 0 ? `<button type="button" class="btn btn-primary btn-sm" id="trap-retry-bad">🔄 Reintentar falladas</button>` : ""}
+                <button type="button" class="btn btn-outline btn-sm" id="trap-restart-all">↺ Reiniciar serie</button>
+              </div>
+            </div>
+          ` : `
+            <div class="trap-card-box">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.65rem;flex-wrap:wrap;">
+                <span class="badge badge-topic">${escapeHtml(c.topic)}</span>
+                <span style="font-size:0.82rem;color:var(--text-muted);">Caso ${state.idx + 1} de ${pool.length}</span>
+              </div>
+              <h3 style="font-size:1.02rem;margin-bottom:0.7rem;">${escapeHtml(c.title)}</h3>
+              <div class="trap-lines-list">
+                ${c.lines.map((ln, lIdx) => {
+                  let cls = "trap-line-btn";
+                  if (hasPicked) {
+                    if (lIdx === c.trapLineIdx) cls += " is-trap-correct";
+                    else if (lIdx === state.selectedLine) cls += " is-trap-wrong";
+                  }
+                  return `<button type="button" class="${cls}" data-line="${lIdx}" ${hasPicked ? "disabled" : ""}>${escapeHtml(ln)}</button>`;
+                }).join("")}
+              </div>
+
+              ${hasPicked ? `
+                <div class="trap-feedback ${isRight ? "ok" : "bad"}">
+                  <strong>${isRight ? "✅ ¡Trampa detectada!" : "❌ Era la línea " + (c.trapLineIdx + 1) + ":"}</strong>
+                  <span>${escapeHtml(c.explanation)}</span>
+                </div>
+                <div style="display:flex;justify-content:flex-end;margin-top:0.85rem;gap:0.5rem;">
+                  <button type="button" class="btn btn-primary btn-sm" id="trap-next-btn">${answeredCount === pool.length ? "Ver Resumen Final →" : "Siguiente Caso →"}</button>
+                </div>
+              ` : ""}
+            </div>
+          `}
         </div>
       `;
+
+      container.querySelectorAll("[data-trap-topic]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.topicFilter = btn.getAttribute("data-trap-topic");
+          state.idx = 0;
+          state.selectedLine = null;
+          state.sprintFinished = false;
+          renderGame();
+        });
+      });
+
+      container.querySelectorAll("[data-trap-jump]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.idx = Number(btn.getAttribute("data-trap-jump")) || 0;
+          state.selectedLine = null;
+          state.sprintFinished = false;
+          renderGame();
+        });
+      });
 
       const sprintBtn = container.querySelector("#trap-sprint-btn");
       if (sprintBtn) {
         sprintBtn.addEventListener("click", () => {
           clearAllSandboxTimers();
+          state.topicFilter = "ALL";
           state.sprintActive = true;
+          state.sprintFinished = false;
           state.timeLeft = 60;
           state.score = 0;
           state.streak = 0;
           state.idx = 0;
           state.selectedLine = null;
-          state.answeredSet.clear();
+          state.resultsById = {};
           trapSprintTimer = setInterval(() => {
             if (!document.body.contains(container)) {
               clearAllSandboxTimers();
@@ -1503,6 +1872,8 @@
             if (state.timeLeft <= 0) {
               clearAllSandboxTimers();
               state.sprintActive = false;
+              state.sprintFinished = true;
+              state.selectedLine = null;
               renderGame();
             }
           }, 1000);
@@ -1516,16 +1887,18 @@
           const picked = Number(btn.getAttribute("data-line"));
           state.selectedLine = picked;
           const ok = picked === c.trapLineIdx;
+          const alreadyCorrect = state.resultsById[c.id] === "ok";
           if (ok) {
             state.streak += 1;
             state.bestStreak = Math.max(state.bestStreak, state.streak);
-            if (!state.answeredSet.has(c.id)) {
+            if (!alreadyCorrect) {
               state.score += 1;
-              state.answeredSet.add(c.id);
               if (typeof onAwardXp === "function") onAwardXp(c.id, true);
             }
+            state.resultsById[c.id] = "ok";
           } else {
             state.streak = 0;
+            if (!alreadyCorrect) state.resultsById[c.id] = "bad";
             if (typeof onAwardXp === "function") onAwardXp(c.id, false);
           }
           renderGame();
@@ -1535,8 +1908,41 @@
       const nextBtn = container.querySelector("#trap-next-btn");
       if (nextBtn) {
         nextBtn.addEventListener("click", () => {
-          state.idx = (state.idx + 1) % TRAP_CASES.length;
+          const nextUnseen = pool.findIndex((item, i) => i > state.idx && !state.resultsById[item.id]);
+          state.idx = nextUnseen >= 0 ? nextUnseen : (state.idx + 1) % pool.length;
           state.selectedLine = null;
+          renderGame();
+        });
+      }
+
+      const retryBadBtn = container.querySelector("#trap-retry-bad");
+      if (retryBadBtn) {
+        retryBadBtn.addEventListener("click", () => {
+          let firstBad = -1;
+          pool.forEach((item, i) => {
+            if (state.resultsById[item.id] === "bad") {
+              delete state.resultsById[item.id];
+              if (firstBad < 0) firstBad = i;
+            }
+          });
+          state.idx = firstBad >= 0 ? firstBad : 0;
+          state.selectedLine = null;
+          state.sprintFinished = false;
+          renderGame();
+        });
+      }
+
+      const restartAllBtn = container.querySelector("#trap-restart-all");
+      if (restartAllBtn) {
+        restartAllBtn.addEventListener("click", () => {
+          clearAllSandboxTimers();
+          state.sprintActive = false;
+          state.sprintFinished = false;
+          state.score = 0;
+          state.streak = 0;
+          state.idx = 0;
+          state.selectedLine = null;
+          state.resultsById = {};
           renderGame();
         });
       }
