@@ -1295,7 +1295,7 @@
 
           <div class="justification-box">
             <div class="justification-title">
-              <span>📖 Justificación Doctrinal Oficial de Cátedra:</span>
+              <span>📖 Justificación Teórica Oficial de Cátedra:</span>
             </div>
             <div>${this.formatRichText(q.explicacion)}</div>
             ${this.renderHistoricalRefHtml(q)}
@@ -1650,7 +1650,7 @@
         ? `
         <div class="justification-box" style="margin-top: 1.25rem;">
           <div class="justification-title">
-            <span>💡 Justificación Doctrinal de Cátedra:</span>
+            <span>💡 Criterio Oficial de Cátedra:</span>
             <span style="margin-left: auto; font-family: var(--font-mono); font-weight: 800; font-size: 1rem; color: ${
               score >= 80 ? "var(--success)" : score > 0 ? "var(--warning)" : "var(--danger)"
             };">
@@ -3298,7 +3298,7 @@ ${formattedOptions}
 **Enunciado:**
 > ${q.enunciado.split("\n").join("\n> ")}
 
-**Justificación Doctrinal Oficial:**
+**Criterio Oficial de Cátedra:**
 > ${q.explicacion.split("\n").join("\n> ")}
 
 ---

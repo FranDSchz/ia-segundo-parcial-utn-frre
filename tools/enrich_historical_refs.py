@@ -685,7 +685,7 @@ HISTORICAL_MAP = {
     },
     "MC-AG-06": {
         "anio": None,
-        "fuente": "Basada en Compendio Doctrinal de Finales (Preg. 28 del compilado, s/f)",
+        "fuente": "Basada en Compendio Teórico de Finales (Preg. 28 del compilado, s/f)",
         "tags": ["HISTORICO", "CATEDRA", "DERIVADA"],
         "ref": ref(
             "compendio_sin_fecha",
@@ -825,7 +825,7 @@ HISTORICAL_MAP = {
     },
     "MC-HOP-02": {
         "anio": None,
-        "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 25 y 35 del compilado, s/f)",
+        "fuente": "Basada en Compendio Teórico de Finales (Pregs. 25 y 35 del compilado, s/f)",
         "tags": ["HISTORICO", "CATEDRA", "DERIVADA"],
         "ref": ref(
             "compendio_sin_fecha",
@@ -979,7 +979,7 @@ HISTORICAL_MAP = {
     },
     "MC-GEN-01": {
         "anio": None,
-        "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 24 y 26 del compilado, s/f)",
+        "fuente": "Basada en Compendio Teórico de Finales (Pregs. 24 y 26 del compilado, s/f)",
         "tags": ["HISTORICO", "CATEDRA", "DERIVADA"],
         "ref": ref(
             "compendio_sin_fecha",

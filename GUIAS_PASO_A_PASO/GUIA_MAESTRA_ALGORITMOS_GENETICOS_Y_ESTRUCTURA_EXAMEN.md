@@ -193,7 +193,7 @@ $$G_{gap} = \frac{N_{hijos}}{N_{poblacion}}$$
 
 ### 2.3 Justificación formal: ¿Por qué y cuándo usar Algoritmos Genéticos?
 
-De acuerdo a la doctrina teórica de la Cátedra, los Algoritmos Genéticos presentan ventajas excepcionales frente a los métodos clásicos de optimización matemática (gradiente descendente, programación lineal, métodos de Newton):
+De acuerdo al criterio teórico de la Cátedra, los Algoritmos Genéticos presentan ventajas excepcionales frente a los métodos clásicos de optimización matemática (gradiente descendente, programación lineal, métodos de Newton):
 
 1. **Ausencia de requisitos de derivabilidad:** No requieren conocer la derivada analítica de la función objetivo ni que esta sea continua. Solo necesitan una función de caja negra capaz de evaluar un individuo y retornar un escalar de aptitud.
 2. **Robustez ante alta dimensionalidad y no linealidad:** Son inmunes al atrapamiento sistemático en óptimos locales que sufren los algoritmos miopes de escalada de colinas (*hill-climbing*).
@@ -529,7 +529,7 @@ En la Guía de Trabajos Prácticos (Ejercicio 03-d), la Cátedra solicita:
 
 La intuición ingenua de muchos alumnos consiste en contar el número de individuos idénticos dividido el tamaño de la población ($\frac{N_{repetidos}}{N}$). Sin embargo, **la Cátedra rechaza esta formulación simplista** porque dos individuos pueden no ser idénticos pero diferir únicamente en un solo bit en una cadena de 100 bits (lo que representa una homogeneidad genética del 99% que el conteo ingenuo clasificaría erróneamente como diversidad).
 
-La formulación analítica de rigor doctoral adoptada en la doctrina de la Cátedra se basa en la **Transformación Bipolar y el Producto Interno de Ortogonalidad**:
+La formulación analítica de rigor académico adoptada en el criterio de la Cátedra se basa en la **Transformación Bipolar y el Producto Interno de Ortogonalidad**:
 
 #### 1. Mapeo al Espacio Bipolar
 Dado un cromosoma binario $\mathbf{x}^{(i)} \in \{0, 1\}^L$, se transforma cada alelo binario $x_k^{(i)}$ a un alelo bipolar $s_k^{(i)} \in \{-1, +1\}$ mediante la biyección:

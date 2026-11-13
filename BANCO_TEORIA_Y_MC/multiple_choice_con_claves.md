@@ -278,7 +278,7 @@
 
 ## Pregunta MC 58 — Support Vector Machines: Multiplicadores de Lagrange $\alpha_i$ y Condiciones KKT de Soporte
 * **Fuente Oficial:** Exámenes de Cátedra (Parciales y Finales).
-* **Consigna:** En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\alpha_i [y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1] = 0$ con $\alpha_i \ge 0$. De acuerdo con esta doctrina:
+* **Consigna:** En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\alpha_i [y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1] = 0$ con $\alpha_i \ge 0$. De acuerdo con este criterio:
   - [x] **A) Los vectores de soporte son exclusivamente aquellos situados sobre los hiperplanos de margen ($y_i(\mathbf{w}^T \mathbf{x}_i + b) = 1$), para los cuales $\alpha_i > 0$. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
   - [x] **B) Para todas las instancias interiores que no son de soporte ($y_i(\mathbf{w}^T \mathbf{x}_i + b) > 1$), sus multiplicadores de Lagrange son idénticamente nulos ($\alpha_i = 0$). <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**
   - [x] **C) El vector director normal del hiperplano depende de la suma de todo el dataset: $\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i$, pero solo los vectores de soporte con $\alpha_i > 0$ contribuyen activamente a su valor. <span style="color:red; font-weight:bold;">[CLAVE CORRECTA]</span>**

@@ -171,7 +171,7 @@ def validar():
                 errores.append(f"Pregunta {qid}: Índice correcto {c} fuera de rango [0, {len(opciones)-1}]")
                 
         if not q.get('explicacion', '').strip():
-            errores.append(f"Pregunta {qid}: Explicación doctrinal vacía")
+            errores.append(f"Pregunta {qid}: Explicación teórica vacía")
         if not q.get('fuente', '').strip():
             errores.append(f"Pregunta {qid}: Fuente no informada")
 

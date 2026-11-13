@@ -1,4 +1,4 @@
-# BANCO MAESTRO CONSOLIDADO TOTAL DE PREGUNTAS TEÓRICAS, EXÁMENES REALES, GUÍA DOCTRINARIA Y TIPS PARA EL EXAMEN PRÁCTICO
+# BANCO MAESTRO CONSOLIDADO TOTAL DE PREGUNTAS TEÓRICAS, EXÁMENES REALES, GUÍA TEÓRICA Y TIPS PARA EL EXAMEN PRÁCTICO
 
 **Materia:** Inteligencia Artificial  
 **Institución:** Universidad Tecnológica Nacional – Facultad Regional Resistencia (UTN FRRe)  
@@ -14,9 +14,9 @@ El documento integra en un único cuerpo armónico:
 1. **Tips Metodológicos de la Cátedra para el Examen Práctico y Teórico:** Criterios formales de diagramación, construcción paso a paso de dendrogramas, tabulación de errores en MLP, cómo justificar condiciones de parada, cómo graficar arquitecturas de Hopfield y SOM, y cómo presentar soluciones formales en Perceptrón y SVM.
 2. **Banco Exhaustivo de Exámenes Finales y Mesas de Examen de Cátedra:** Resoluciones integrales de mesas de examen de cátedra y parciales presenciales.
 3. **Exámenes Finales Históricos Rescatados (2020 – 2021) y Examen Escaneado Oficial (`teoria.jpg`).**
-4. **Banco Exhaustivo de 51 Preguntas de Multiple Choice Oficiales:** Cada opción clasificada como Verdadero o Falso con su correspondiente fundamentación doctrinal canónica.
-5. **Compendio Total de las 78 Preguntas de Desarrollo Reales de Segundo Parcial (`Preguntas_Parcial_2.pdf`) + 4 Preguntas Doctrinales (82 Preguntas en Total):** Cada pregunta desarrollada en profundidad con fórmulas en KaTeX, análisis dimensional y tablas comparativas tridimensionales completas (SOM vs Hopfield vs Perceptrón; $k$-NN vs $K$-Means vs Naïve Bayes).
-6. **Compendio Doctrinario y Preguntas Teóricas Avanzadas de la Cátedra (`doc_2do_parcial_D3.md`):** Demostraciones formales de optimalidad, derivación analítica de pesos en SVM, función de energía de Liapunov en Hopfield, y análisis de convergencia.
+4. **Banco Exhaustivo de 51 Preguntas de Multiple Choice Oficiales:** Cada opción clasificada como Verdadero o Falso con su correspondiente fundamentación teórica canónica.
+5. **Compendio Total de las 78 Preguntas de Desarrollo Reales de Segundo Parcial (`Preguntas_Parcial_2.pdf`) + 4 Preguntas de Examen Teórico (82 Preguntas en Total):** Cada pregunta desarrollada en profundidad con fórmulas en KaTeX, análisis dimensional y tablas comparativas tridimensionales completas (SOM vs Hopfield vs Perceptrón; $k$-NN vs $K$-Means vs Naïve Bayes).
+6. **Compendio Teórico y Preguntas Avanzadas de la Cátedra (`doc_2do_parcial_D3.md`):** Demostraciones formales de optimalidad, derivación analítica de pesos en SVM, función de energía de Liapunov en Hopfield, y análisis de convergencia.
 7. **Compendio Especial de Temas de Primer Parcial `[TEMA_P1_RENDIDO]`:** Conservado íntegramente con etiqueta de advertencia para repaso de finales (Apriori, Árboles C4.5, Planificación POP y Búsqueda Heurística).
 
 ---
@@ -42,7 +42,7 @@ El documento integra en un único cuerpo armónico:
 * [PARTE III: EXAMEN TEÓRICO OFICIAL ESCANEADO PRESENCIAL (`teoria.jpg`)](#parte-iii-examen-teórico-oficial-escaneado-presencial-teoriajpg)
 * [PARTE IV: BANCO EXHAUSTIVO DE 51 PREGUNTAS DE MULTIPLE CHOICE OFICIALES](#parte-iv-banco-exhaustivo-de-51-preguntas-de-multiple-choice-oficiales)
 * [PARTE V: COMPENDIO TOTAL DE LAS 78 PREGUNTAS DE DESARROLLO DE SEGUNDO PARCIAL CON RESPUESTAS OFICIALES](#parte-v-compendio-total-de-las-78-preguntas-de-desarrollo-de-segundo-parcial-con-respuestas-oficiales)
-* [PARTE VI: COMPENDIO DOCTRINARIO Y PREGUNTAS TEÓRICAS AVANZADAS DE LA CÁTEDRA](#parte-vi-compendio-doctrinario-y-preguntas-teóricas-avanzadas-de-la-cátedra)
+* [PARTE VI: COMPENDIO TEÓRICO Y PREGUNTAS AVANZADAS DE LA CÁTEDRA](#parte-vi-compendio-teorico-y-preguntas-avanzadas-de-la-catedra)
 * [PARTE VII: COMPENDIO ESPECIAL DE TEMAS DE PRIMER PARCIAL `[TEMA_P1_RENDIDO]`](#parte-vii-compendio-especial-de-temas-de-primer-parcial-tema_p1_rendido)
 
 ---
@@ -2267,7 +2267,7 @@ En clustering jerárquico, la distancia entre dos clusters:
 2. Se calcula utilizando la mínima distancia de sus centroides si se emplea el método single-link. **(V / F)**
 3. Se calcula utilizando el promedio de la distancia de sus centroides si se emplea el método average-link. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** En *complete-link* (enlace completo), la distancia entre dos clusters $A$ y $B$ se define como la distancia máxima entre **pares de elementos individuales** ($d(A, B) = \max\_{x \in A, y \in B} d(x, y)$ ), **NO** entre sus centroides.
 2. **FALSO.** En *single-link* (enlace simple), la distancia inter-cluster se define como la distancia mínima entre **pares de puntos individuales** ($d(A, B) = \min\_{x \in A, y \in B} d(x, y)$ ), **NO** entre sus centroides.
 3. **FALSO.** En *average-link* (enlace promedio), la distancia se calcula como el promedio de **todas las distancias entre pares de elementos** de ambos clusters ($d(A, B) = \frac{1}{|A| \cdot |B|} \sum\_{x \in A} \sum\_{y \in B} d(x, y)$ ). La distancia entre centroides corresponde a una técnica totalmente distinta denominada *Centroid Linkage*.
@@ -2281,7 +2281,7 @@ Para utilizar el algoritmo $k$-NN ponderado:
 2. Es necesario establecer previamente el valor del $k$-óptimo. **(V / F)**
 3. Puede utilizarse todo el conjunto de datos para estimar la clase de una nueva instancia. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** $k$-NN es un algoritmo de aprendizaje no paramétrico y basado en instancias (local), capaz de modelar fronteras de decisión arbitrariamente complejas, cóncavas o no lineales sin requerir separabilidad lineal.
 2. **FALSO.** No es estrictamente obligatorio conocer el $k$-óptimo antes de ejecutar; puede emplearse un valor empírico predeterminado o estimarse iterativamente mediante técnicas de validación cruzada (*Leave-One-Out*).
 3. **VERDADERO.** En $k$-NN ponderado con función de peso por distancia inversa ($w\_i = \frac{1}{1 + d(x\_0, x\_i)^2}$ o $w\_i = \frac{1}{d^2}$), los puntos situados a gran distancia reciben una ponderación infinitesimalmente cercana a cero. Por ende, puede fijarse $k = N$ (todo el dataset) sin que las instancias remotas distorsionen negativamente la clasificación.
@@ -2295,7 +2295,7 @@ El algoritmo Disk $K$-Means:
 2. Requiere establecer la cantidad de clusters al inicio de la ejecución. **(V / F)**
 3. Permite analizar distintas configuraciones de clusters para seleccionar la adecuada. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** Disk $K$-Means implementa exactamente el mismo modelo matemático de actualización centroidal que $K$-Means estándar; la única diferencia es de arquitectura de almacenamiento (acumula sumas y contadores en un buffer en memoria leyendo los datos secuencialmente desde disco). Por ende, ante idénticas semillas iniciales, converge a idénticos clusters.
 2. **VERDADERO.** Como todo algoritmo de la familia $K$-Means, el número de agrupamientos $k$ es un hiperparámetro obligatorio que debe especificarse antes de la corrida.
 3. **VERDADERO.** Al procesar eficientemente datasets que exceden la memoria RAM mediante lecturas en bloque, posibilita evaluar corridas con diferentes valores de $k$ para aplicar el método del codo o coeficiente de silueta.
@@ -2310,7 +2310,7 @@ En SVM (caso lineal separable canónico):
 3. Entre $H\_+$ y $H\_-$ no existen instancias de entrenamiento. **(V / F)**
 4. Ninguna de las anteriores. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** De acuerdo con las condiciones de Karush-Kuhn-Tucker (KKT), los puntos de datos que no están sobre el margen tienen $\alpha\_i = 0$, mientras que los puntos situados exactamente sobre los hiperplanos de margen ($H\_1$ y $H\_2$) son los únicos con multiplicadores de Lagrange $\alpha\_i > 0$.
 2. **VERDADERO.** En el aprendizaje supervisado por lotes (*batch*), la incorporación de una nueva instancia puede alterar la envolvente convexa y la posición del hiperplano de soporte óptimo, requiriendo un reentrenamiento del modelo.
 3. **VERDADERO.** En la formulación de margen duro (*Hard Margin*), por definición analítica estricta, la región comprendida entre $H\_+$ ($\mathbf{w}^T \mathbf{x} + b = +1$) y $H\_-$ ($\mathbf{w}^T \mathbf{x} + b = -1$) constituye una zona de margen vacía donde no puede residir ninguna instancia de entrenamiento.
@@ -2325,7 +2325,7 @@ En el modelo Hopfield, el concepto de ortogonalidad está asociado a:
 2. Al grado de diferencia que hay entre los patrones de entrenamiento. **(V / F)**
 3. A la complejidad de los cálculos en el proceso de entrenamiento. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** Si los patrones almacenados son ortogonales entre sí, se minimiza la diafonía o interferencia (*crosstalk*) en la matriz de pesos Hebbiana, lo que permite a la red aproximarse a su cota máxima de memorización ($M \approx 0.138 N$).
 2. **VERDADERO.** En el espacio bipolar $\{-1, +1\}^N$, dos patrones $E\_k$ y $E\_m$ son ortogonales ($E\_k \cdot E\_m = 0$) si y solo si difieren en exactamente la mitad ($50\%$) de sus componentes vectoriales.
 3. **FALSO.** La complejidad de cómputo para construir la matriz de pesos ($W = \sum (E\_k E\_k^T - I)$ ) es $O(M \cdot N^2)$ y es idéntica independientemente de si los patrones son ortogonales o no.
@@ -2340,7 +2340,7 @@ El algoritmo $K$-Means:
 3. Es un algoritmo de aprendizaje supervisado. **(V / F)**
 4. Ninguna de las anteriores. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** $K$-Means **NO es un método de clasificación**; es un algoritmo de agrupamiento (*clustering*) no supervisado que busca estructura intrínseca en datos no etiquetados.
 2. **FALSO.** No es un método de clasificación ni es *lazy*; construye un modelo explícito basado en centroides durante la fase iterativa de ajuste.
 3. **FALSO.** No es aprendizaje supervisado; opera sin etiquetas de clase externas.
@@ -2356,11 +2356,11 @@ El algoritmo $k$-NN:
 3. Requiere una cantidad parecida de instancias en las clases. **(V / F)**
 4. Ninguna de las anteriores. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** Es un clasificador *lazy* (perezoso) porque no construye un modelo de generalización explícito durante el entrenamiento; posterga todo el cómputo de distancias hasta el momento de clasificar una nueva consulta.
 2. **VERDADERO.** Es un método local porque estima la clase basándose únicamente en el entorno o vecindario geométrico inmediato de la consulta.
 3. **VERDADERO.** En $k$-NN estándar sin ponderación, si las clases están fuertemente desbalanceadas, la clase mayoritaria tiende a predominar estadísticamente en los $k$ vecinos más próximos, provocando un sesgo perjudicial; por ello, requiere clases con proporciones comparables o el uso de pesos normalizados.
-4. **FALSO.** Las opciones 1, 2 y 3 son doctrinalmente correctas.
+4. **FALSO.** Las opciones 1, 2 y 3 son teóricamente correctas según el criterio de cátedra.
 
 ---
 
@@ -2371,7 +2371,7 @@ En $k$-NN estándar se tienen $p$ instancias de la clase A y $q$ instancias de l
 2. Se clasifica como B si $p < q$. **(V / F)**
 3. No se puede determinar de antemano sin haber calculado las distancias con la nueva instancia. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **VERDADERO.** En $k$-NN simple (votación mayoritaria sin ponderar por distancia), si $k$ incluye a todas las instancias del dataset ($k = p + q$), todos los datos emiten exactamente un voto. Por ende, la clase A obtiene $p$ votos y la clase B obtiene $q$ votos. Si $p > q$, la clase A gana indefectiblemente.
 2. **VERDADERO.** Por la misma razón matemática, si $p < q$, la clase B gana por mayoría simple ($q > p$).
 3. **FALSO.** Para el caso de $k$-NN **no ponderado**, el resultado es totalmente independiente de las distancias y se conoce a priori mediante el recuento total de instancias. (Nota: Si fuese $k$-NN ponderado, esta proposición sería verdadera).
@@ -2385,7 +2385,7 @@ En clustering jerárquico:
 2. En complete link la distancia entre dos clusters es la distancia máxima entre sus centroides. **(V / F)**
 3. En average link la distancia entre dos clusters es la distancia promedio entre sus centroides. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** La distancia de enlace simple es la distancia mínima entre cualquier par de instancias $x \in C\_1, y \in C\_2$.
 2. **FALSO.** La distancia de enlace completo es la distancia máxima entre cualquier par de instancias $x \in C\_1, y \in C\_2$.
 3. **FALSO.** La distancia de enlace promedio es la media aritmética de todas las distancias entre pares de puntos. Ninguna de las tres utiliza centroides.
@@ -2399,7 +2399,7 @@ En una SVM, los vectores que no son de soporte tienen asociados multiplicadores 
 2. Ceros. **(V / F)**
 3. Negativos. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** Los multiplicadores estrictamente positivos ($\alpha\_i > 0$) pertenecen con exclusividad a los vectores de soporte.
 2. **VERDADERO.** La condición de holgura complementaria KKT establece que $\alpha\_i [y\_i (\mathbf{w}^T \mathbf{x}\_i + b) - 1] = 0$. Como para los vectores no de soporte la distancia al margen es mayor a cero ($y\_i (\mathbf{w}^T \mathbf{x}\_i + b) > 1$), obligatoriamente debe cumplirse $\alpha\_i = 0$.
 3. **FALSO.** Por restricción primal-dual de optimización convexa, los multiplicadores de Lagrange en SVM están acotados inferiormente por cero ($\alpha\_i \ge 0$). Nunca pueden ser negativos.
@@ -2414,7 +2414,7 @@ La cantidad de patrones ($M$) que puede memorizar una red de Hopfield de $N$ neu
 3. $N = \frac{N}{4 \ln M}$ **(V / F)**
 4. $M = \frac{N}{4 \ln N}$ **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** Ecuación circular inconsistente.
 2. **FALSO.**
 3. **FALSO.**
@@ -2430,7 +2430,7 @@ En la fase de competencia del entrenamiento de un SOM:
 3. Se establece la neurona de salida ganadora. **(V / F)**
 4. Las entradas compiten por actualizar los pesos de las conexiones. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** En la fase de competencia las entradas no se seleccionan; compiten las **neuronas de salida** para determinar cuál se asemeja más al vector de entrada.
 2. **FALSO.** La magnitud de actualización mediante la función de vecindad corresponde a las fases posteriores de **cooperación y adaptación**.
 3. **VERDADERO.** La fase de competencia consiste exclusivamente en calcular la distancia entre el patrón de entrada y el vector de pesos de cada neurona de salida; la neurona cuya distancia sea mínima es declarada la neurona ganadora o *Best Matching Unit* (BMU).
@@ -2446,7 +2446,7 @@ La cantidad de entradas de una red SOM está definida por:
 3. La cantidad de pesos de las conexiones. **(V / F)**
 4. El diseñador de la red. **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** La cantidad de conexiones es un resultado derivado del producto entre entradas y salidas.
 2. **VERDADERO.** La cantidad de neuronas en la capa de entrada coincide exactamente con la dimensión del espacio de características del dataset (número de atributos del vector de entrada $\mathbf{x} \in \mathbb{R}^d$).
 3. **FALSO.** Los pesos son parámetros libres dependientes de la arquitectura total.
@@ -2462,7 +2462,7 @@ Las SVM (caso lineal estándar) realizan separaciones lineales:
 3. En problemas de clasificación de varias clases (mayor a dos clases). **(V / F)**
 4. En problemas de clasificación de varias dimensiones (mayor a dos dimensiones). **(V / F)**
 
-**Evaluación y Justificación Doctrinal de la Cátedra:**
+**Evaluación y Justificación Teórica de la Cátedra:**
 1. **FALSO.** Las SVM lineales operan en espacios vectoriales $\mathbb{R}^d$ de cualquier dimensionalidad arbitraria ($d \ge 2$), definiendo hiperplanos de dimensión $d-1$.
 2. **VERDADERO.** La formulación matemática canónica de SVM es estrictamente binaria ($y\_i \in \{-1, +1\}$), separando exactamente dos clases mediante un único hiperplano de soporte óptimo.
 3. **FALSO.** La SVM estándar no es directamente multiclase; para resolver problemas con más de dos clases requiere acoplar múltiples clasificadores binarios mediante estrategias heurísticas externas como *One-vs-Rest* (OvR) o *One-vs-One* (OvO).
@@ -2471,7 +2471,7 @@ Las SVM (caso lineal estándar) realizan separaciones lineales:
 # PARTE V: COMPENDIO TOTAL DE LAS 78 PREGUNTAS DE DESARROLLO DE SEGUNDO PARCIAL CON RESPUESTAS OFICIALES
 
 > [!NOTE]
-> Este bloque reúne las 78 preguntas de desarrollo reales de parciales con sus respuestas canónicas emitidas y convalidadas por la Cátedra de Inteligencia Artificial (UTN FRRe), más las 4 preguntas doctrinales de exámenes anteriores (página 29).
+> Este bloque reúne las 78 preguntas de desarrollo reales de parciales con sus respuestas canónicas emitidas y convalidadas por la Cátedra de Inteligencia Artificial (UTN FRRe), más las 4 preguntas teóricas de exámenes anteriores (página 29).
 
 ### Pregunta 01: Principio Fundamental del Modelo Naïve Bayes
 **Enunciado Oficial de la Cátedra:**
@@ -4073,7 +4073,7 @@ $$
 
 ---
 
-# PARTE VI: COMPENDIO DOCTRINARIO Y PREGUNTAS TEÓRICAS AVANZADAS DE LA CÁTEDRA
+# PARTE VI: COMPENDIO TEÓRICO Y PREGUNTAS AVANZADAS DE LA CÁTEDRA
 
 > [!NOTE]
 > Esta parte unifica las demostraciones analíticas canónicas y preguntas teóricas de desarrollo profundo del documento oficial de la Cátedra (`doc_2do_parcial_D3.md`) junto a los núcleos temáticos estructurales de Segundo Parcial.
@@ -4830,7 +4830,7 @@ En el algoritmo $k$-NN estándar:
 
 # PARTE VII: COMPENDIO ESPECIAL DE TEMAS DE PRIMER PARCIAL `[TEMA_P1_RENDIDO]`
 
-Esta sección contiene el desarrollo doctrinal exhaustivo de los contenidos de la primera mitad de la asignatura evaluados recurrentemente en exámenes finales y recuperatorios. Se mantiene aislada bajo la etiqueta `[TEMA_P1_RENDIDO]` para facilitar el estudio selectivo del alumno.
+Esta sección contiene el desarrollo teórico exhaustivo de los contenidos de la primera mitad de la asignatura evaluados recurrentemente en exámenes finales y recuperatorios. Se mantiene aislada bajo la etiqueta `[TEMA_P1_RENDIDO]` para facilitar el estudio selectivo del alumno.
 
 ---
 

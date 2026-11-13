@@ -190,7 +190,7 @@ for idx, b in enumerate(q_blocks, 1):
                 if is_corr:
                     correct_indices.append(current_idx)
 
-    just_m = re.search(r'\*\*(?:Justificación Canónica de la Cátedra|Evaluación y Justificación Doctrinal de la Cátedra|Justificación):\*\*\s*(.*?)(?=\n---|\Z)', b, re.DOTALL)
+    just_m = re.search(r'\*\*(?:Justificación Canónica de la Cátedra|Evaluación y Justificación Teórica de la Cátedra|Justificación):\*\*\s*(.*?)(?=\n---|\Z)', b, re.DOTALL)
     just = just_m.group(1).strip() if just_m else ""
 
     if opts and len(correct_indices) >= 1:
@@ -206,7 +206,7 @@ for idx, b in enumerate(q_blocks, 1):
             'explicacion': normalizar_latex(just),
             'es_oficial': True,
             'es_p1': is_p1,
-            'fuente': 'Compendio Doctrinal y Exámenes Reales UTN FRRe'
+            'fuente': 'Compendio Teórico y Exámenes Reales UTN FRRe'
         })
 
 print(f"Total acumulado tras Fase 2 (sin duplicados): {len(preguntas)} preguntas.")
@@ -221,7 +221,7 @@ preguntas_adicionales = [
         'id': 'MC-AG-01',
         'tema': 'ALGORITMOS_GENETICOS',
         'titulo': 'Algoritmos Genéticos: Selección Proporcional por Ruleta Acumulada (00-99)',
-        'enunciado': 'En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según la doctrina de la Cátedra?',
+        'enunciado': 'En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según el criterio de la Cátedra?',
         'opciones': [
             'A cada individuo se le asigna un sector de ruleta proporcional a su aptitud relativa $p_i = f_i / \\sum f_k$.',
             'Se generan intervalos cerrados acumulados normalizados (por ejemplo en el rango de ranuras 00 a 99) para indexar con números aleatorios.',
@@ -317,7 +317,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa (Pregunta Oficial de Examen): reemplazar cruza y mutación por selección basada en orden destruiría toda capacidad de búsqueda y exploración de nuevas soluciones.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Pregunta 28 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Pregunta 28 del Compendio Teórico)'
     },
     # NAÏVE BAYES (4 preguntas)
     {
@@ -386,7 +386,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa: como explica la Pregunta 27 del banco de finales, Naïve Bayes falla ante espirales entrelazadas porque ignora las dependencias cruzadas entre variables.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Pregunta 27 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Pregunta 27 del Compendio Teórico)'
     },
     # MLP / BACKPROPAGATION / ADALINE (5 preguntas)
     {
@@ -444,7 +444,7 @@ preguntas_adicionales = [
         'id': 'MC-MLP-04',
         'tema': 'MLP',
         'titulo': 'Redes Neuronales: Diferencias entre ADALINE y Perceptrón Simple',
-        'enunciado': 'Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según la doctrina de la Cátedra:',
+        'enunciado': 'Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según el criterio de la Cátedra:',
         'opciones': [
             'ADALINE calcula el error sobre la salida lineal continua ($e = d - Net$) antes de aplicar el umbral bipolar.',
             'El Perceptrón Simple calcula el error únicamente sobre la salida discreta umbralizada ($e = d - y$).',
@@ -455,7 +455,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa: el Perceptrón Simple solo genera un hiperplano lineal y no puede resolver XOR ni paridad de 3 bits $(x \\oplus y) \\oplus z$.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Pregunta 17 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Pregunta 17 del Compendio Teórico)'
     },
     # HOPFIELD (2 preguntas adicionales)
     {
@@ -490,7 +490,7 @@ preguntas_adicionales = [
         'explicacion': 'Las 4 opciones son verdaderas y constituyen la respuesta completa a la Pregunta 25 de exámenes finales ("Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield").',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Pregunta 25 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Pregunta 25 del Compendio Teórico)'
     },
     # SOM (2 preguntas adicionales)
     {
@@ -525,7 +525,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa: SOM es estrictamente no supervisado y competitivo; calcula distancias únicamente entre el vector de entrada $X$ y los vectores de pesos $W_j$.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Pregunta 15 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Pregunta 15 del Compendio Teórico)'
     },
     {
         'id': 'MC-SOM-03',
@@ -542,7 +542,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa (Pregunta Clásica de Cátedra): no existen conexiones físicas ponderadas entre las neuronas de la grilla de salida; su interacción ocurre únicamente a través de la función de vecindad topológica $h$.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Hoja de Fórmulas Oficial y Pregunta 14 del Compendio Doctrinal'
+        'fuente': 'Hoja de Fórmulas Oficial y Pregunta 14 del Compendio Teórico'
     },
     # SVM (2 preguntas adicionales)
     {
@@ -612,7 +612,7 @@ preguntas_adicionales = [
         'explicacion': 'Las 4 afirmaciones son verdaderas (Hoja de Fórmulas Oficial y Preguntas 16 y 18 del Compendio Teórico de la Cátedra).',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Hoja de Fórmulas Oficial y Pregunta 18 del Compendio Doctrinal'
+        'fuente': 'Hoja de Fórmulas Oficial y Pregunta 18 del Compendio Teórico'
     },
     {
         'id': 'MC-CLU-02',
@@ -664,7 +664,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa: el peso es inversamente proporcional al cuadrado de la distancia, por lo que las instancias más cercanas reciben el mayor peso.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Examen Final Oficial (Preguntas 20 y 22 del Compendio Doctrinal)'
+        'fuente': 'Examen Final Oficial (Preguntas 20 y 22 del Compendio Teórico)'
     },
     {
         'id': 'MC-GEN-01',
@@ -681,7 +681,7 @@ preguntas_adicionales = [
         'explicacion': 'La opción 4 es falsa: en Aprendizaje por Refuerzo no se conoce la salida deseada ni el gradiente analítico; solo se observa una señal escalar de recompensa.',
         'es_oficial': True,
         'es_p1': False,
-        'fuente': 'Exámenes Finales Oficiales (Preguntas 24 y 26 del Compendio Doctrinal)'
+        'fuente': 'Exámenes Finales Oficiales (Preguntas 24 y 26 del Compendio Teórico)'
     }
 ]
 

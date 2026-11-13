@@ -23,7 +23,7 @@ NUEVAS_PREGUNTAS = [
       "D) N neuronas de entrada y M neuronas de salida."
     ],
     "correctas": [3],
-    "explicacion": "Doctrina oficial de la Cátedra: Los mapas auto-organizados de Kohonen (SOM) proyectan un espacio de entrada continuo de $N$ dimensiones sobre un espacio discreto de salida conformado por una retícula topológica de $M$ neuronas (frecuentemente bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión del vector de entrada ($N$).",
+    "explicacion": "Criterio oficial de la Cátedra: Los mapas auto-organizados de Kohonen (SOM) proyectan un espacio de entrada continuo de $N$ dimensiones sobre un espacio discreto de salida conformado por una retícula topológica de $M$ neuronas (frecuentemente bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión del vector de entrada ($N$).",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -46,7 +46,7 @@ NUEVAS_PREGUNTAS = [
       "D) Se ha completado una época con error menor al error aceptable para todos los patrones."
     ],
     "correctas": [2],
-    "explicacion": "Doctrina oficial de la Cátedra: Según el Teorema de Convergencia del Perceptrón, para conjuntos de entrenamiento linealmente separables el algoritmo garantiza alcanzar un vector de pesos que clasifica exactamente todos los patrones, finalizando cuando se completa una época completa con error cero. En cambio, en MLP se tolera un error menor a una cota prefijada.",
+    "explicacion": "Criterio oficial de la Cátedra: Según el Teorema de Convergencia del Perceptrón, para conjuntos de entrenamiento linealmente separables el algoritmo garantiza alcanzar un vector de pesos que clasifica exactamente todos los patrones, finalizando cuando se completa una época completa con error cero. En cambio, en MLP se tolera un error menor a una cota prefijada.",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -69,7 +69,7 @@ NUEVAS_PREGUNTAS = [
       "D) Suponer que cada clase responde a la misma distribución de probabilidades."
     ],
     "correctas": [1],
-    "explicacion": "Doctrina oficial de la Cátedra: La hipótesis simplificadora fundamental del modelo Naïve Bayes ('ingenuo') es asumir que los atributos o variables predictoras son condicionalmente independientes entre sí dada la clase observada. Las clases no son independientes entre sí (son mutuamente excluyentes).",
+    "explicacion": "Criterio oficial de la Cátedra: La hipótesis simplificadora fundamental del modelo Naïve Bayes ('ingenuo') es asumir que los atributos o variables predictoras son condicionalmente independientes entre sí dada la clase observada. Las clases no son independientes entre sí (son mutuamente excluyentes).",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -92,7 +92,7 @@ NUEVAS_PREGUNTAS = [
       "D) Alfa por el error cometido en la neurona $i$ por la salida de la neurona $j$."
     ],
     "correctas": [2],
-    "explicacion": "Doctrina oficial de la Cátedra: De acuerdo a la regla delta generalizada para la conexión dirigida desde la neurona de origen $i$ hacia la neurona de destino $j$, el incremento sináptico es $\\Delta w_{ji} = \\alpha \\cdot \\delta_j \\cdot y_i$, correspondiente a la tasa de aprendizaje $\\alpha$ multiplicada por el gradiente de error local de la neurona destino $j$ ($\\delta_j$) multiplicada por la salida o activación de la neurona origen $i$ ($y_i$).",
+    "explicacion": "Criterio oficial de la Cátedra: De acuerdo a la regla delta generalizada para la conexión dirigida desde la neurona de origen $i$ hacia la neurona de destino $j$, el incremento sináptico es $\\Delta w_{ji} = \\alpha \\cdot \\delta_j \\cdot y_i$, correspondiente a la tasa de aprendizaje $\\alpha$ multiplicada por el gradiente de error local de la neurona destino $j$ ($\\delta_j$) multiplicada por la salida o activación de la neurona origen $i$ ($y_i$).",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -115,7 +115,7 @@ NUEVAS_PREGUNTAS = [
       "D) El tipo de aprendizaje que utilizan (el del Perceptrón es supervisado y el del ADALINE es semi-supervisado)."
     ],
     "correctas": [0],
-    "explicacion": "Doctrina oficial de la Cátedra: Ambos modelos son monocapa y supervisados. La diferencia reside en la función de transferencia: el Perceptrón calcula el error a partir de la salida cuantizada por la función escalón, mientras que ADALINE (regla LMS / Widrow-Hoff) aplica una función de activación lineal (identidad) para calcular la diferencia con la salida deseada antes del umbral de decisión final.",
+    "explicacion": "Criterio oficial de la Cátedra: Ambos modelos son monocapa y supervisados. La diferencia reside en la función de transferencia: el Perceptrón calcula el error a partir de la salida cuantizada por la función escalón, mientras que ADALINE (regla LMS / Widrow-Hoff) aplica una función de activación lineal (identidad) para calcular la diferencia con la salida deseada antes del umbral de decisión final.",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -138,7 +138,7 @@ NUEVAS_PREGUNTAS = [
       "D) Aumenta el error de entrenamiento."
     ],
     "correctas": [2],
-    "explicacion": "Doctrina oficial de la Cátedra: El conjunto de validación sirve para controlar el sobreentrenamiento (overfitting). Si durante el entrenamiento el error sobre el conjunto de validación comienza a incrementarse mientras el de entrenamiento sigue cayendo, significa que la red está perdiendo capacidad de generalización sobre datos no vistos, debiendo detenerse el entrenamiento (parada temprana / Early Stopping).",
+    "explicacion": "Criterio oficial de la Cátedra: El conjunto de validación sirve para controlar el sobreentrenamiento (overfitting). Si durante el entrenamiento el error sobre el conjunto de validación comienza a incrementarse mientras el de entrenamiento sigue cayendo, significa que la red está perdiendo capacidad de generalización sobre datos no vistos, debiendo detenerse el entrenamiento (parada temprana / Early Stopping).",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -160,7 +160,7 @@ NUEVAS_PREGUNTAS = [
       "C) Backforward."
     ],
     "correctas": [1],
-    "explicacion": "Doctrina oficial de la Cátedra: La red de Hopfield es una red asociativa puramente autorrecurrente (recurrent network) compuesta por una capa interconectada donde las salidas de las neuronas se retroalimentan como entradas de las demás hasta converger a un atractor o estado de equilibrio estable.",
+    "explicacion": "Criterio oficial de la Cátedra: La red de Hopfield es una red asociativa puramente autorrecurrente (recurrent network) compuesta por una capa interconectada donde las salidas de las neuronas se retroalimentan como entradas de las demás hasta converger a un atractor o estado de equilibrio estable.",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",
@@ -182,7 +182,7 @@ NUEVAS_PREGUNTAS = [
       "C) Está conectada a todas las neuronas de entrada."
     ],
     "correctas": [1],
-    "explicacion": "Doctrina oficial de la Cátedra: En la red de Hopfield discreta clásica, la conectividad es completa entre neuronas distintas ($w_{ij} = w_{ji}$), pero la diagonal principal es nula ($w_{ii} = 0$), lo que significa que cada neurona de salida está conectada a todas las demás neuronas y no posee conexiones autorrecurrentes hacia sí misma.",
+    "explicacion": "Criterio oficial de la Cátedra: En la red de Hopfield discreta clásica, la conectividad es completa entre neuronas distintas ($w_{ij} = w_{ji}$), pero la diagonal principal es nula ($w_{ii} = 0$), lo que significa que cada neurona de salida está conectada a todas las demás neuronas y no posee conexiones autorrecurrentes hacia sí misma.",
     "es_oficial": True,
     "es_p1": False,
     "fuente": "2do Parcial Oficial UTN FRRe (DOCX Grupo 2 - 2025)",

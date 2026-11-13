@@ -170,7 +170,7 @@ def enrich_bank():
             'id': 'MC-58',
             'tema': 'SVM',
             'titulo': 'Support Vector Machines: Multiplicadores de Lagrange $\\alpha_i$ y Condiciones KKT de Soporte',
-            'enunciado': 'En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con esta doctrina:',
+            'enunciado': 'En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con este criterio:',
             'opciones': [
                 'Los vectores de soporte son exclusivamente aquellos situados sobre los hiperplanos de margen ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$), para los cuales $\\alpha_i > 0$.',
                 'Para todas las instancias interiores que no son de soporte ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) > 1$), sus multiplicadores de Lagrange son idénticamente nulos ($\\alpha_i = 0$).',

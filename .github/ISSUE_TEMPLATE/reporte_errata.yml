@@ -36,7 +36,7 @@ body:
   - type: textarea
     id: problem-description
     attributes:
-      label: Descripción del Problema o Duda Doctrinal
+      label: Descripción del Problema o Duda Teórica
       description: Explicá claramente qué considerás incorrecto (clave, fórmula, cálculo a mano, enunciado o justificación). Podés arrastrar imágenes y fotos directamente aquí.
       placeholder: En la opción B se indica que... sin embargo, según el apunte de cátedra...
     validations:

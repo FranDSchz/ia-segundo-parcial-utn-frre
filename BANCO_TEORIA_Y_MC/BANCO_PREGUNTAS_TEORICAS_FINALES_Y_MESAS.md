@@ -46,7 +46,7 @@
    - [Ejercicio 4: Factor Determinante en Aprendizaje Basado en Explicaciones (EBL)](#ejercicio-4-factor-determinante-en-aprendizaje-basado-en-explicaciones-ebl)
    - [Ejercicios 5 a 8: Baterías Multiple Choice Oficiales con Corrección Docente](#ejercicios-5-a-8-baterías-multiple-choice-oficiales-con-corrección-docente)
 4. [PARTE IV: Banco Exhaustivo de 37 Preguntas de Multiple Choice Oficiales](#parte-iv-banco-exhaustivo-de-37-preguntas-de-multiple-choice-oficiales)
-5. [PARTE V: Compendio Doctrinario Maestro de Temas del Segundo Parcial](#parte-v-compendio-doctrinario-maestro-de-temas-del-segundo-parcial)
+5. [PARTE V: Compendio Teórico Maestro de Temas del Segundo Parcial](#parte-v-compendio-teorico-maestro-de-temas-del-segundo-parcial)
    - [1. Redes Neuronales Artificiales y Perceptrón Multicapa (MLP)](#1-redes-neuronales-artificiales-y-perceptrón-multicapa-mlp)
    - [2. Máquinas de Vectores de Soporte (SVM)](#2-máquinas-de-vectores-de-soporte-svm)
    - [3. Mapas Autoorganizados de Kohonen (SOM)](#3-mapas-autoorganizados-de-kohonen-som)
@@ -1707,7 +1707,7 @@ Esta sección compila de forma integral las **37 preguntas reales de opción mú
 
 
 
-# PARTE V: Compendio Doctrinario Maestro de Temas del Segundo Parcial
+# PARTE V: Compendio Teórico Maestro de Temas del Segundo Parcial
 
 Esta sección sintetiza el marco teórico formal unificado de la Cátedra para todos los núcleos temáticos del Segundo Parcial y Exámenes Finales, con formulación matemática rigurosa en KaTeX y enfoque en los errores conceptuales penalizados en las correcciones.
 
@@ -2146,7 +2146,7 @@ $$
 
 # PARTE VI: Compendio Especial de Temas de Primer Parcial `[TEMA_P1_RENDIDO]`
 
-Esta sección contiene el desarrollo doctrinal exhaustivo de los contenidos de la primera mitad de la asignatura evaluados recurrentemente en exámenes finales y recuperatorios. Se mantiene aislada bajo la etiqueta `[TEMA_P1_RENDIDO]` para facilitar el estudio selectivo del alumno.
+Esta sección contiene el desarrollo teórico exhaustivo de los contenidos de la primera mitad de la asignatura evaluados recurrentemente en exámenes finales y recuperatorios. Se mantiene aislada bajo la etiqueta `[TEMA_P1_RENDIDO]` para facilitar el estudio selectivo del alumno.
 
 ---
 

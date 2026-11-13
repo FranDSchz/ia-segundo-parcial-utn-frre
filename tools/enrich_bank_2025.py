@@ -113,7 +113,7 @@ MOODLE_2025_PREGUNTAS = [
             "C) Tiene conexiones hacia neuronas de capas posteriores y hacia neuronas de capas anteriores."
         ],
         "correctas": [1, 2],
-        "explicacion": "Doctrina oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
+        "explicacion": "Criterio oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
         "es_oficial": True,
         "es_p1": False,
         "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
@@ -353,7 +353,7 @@ MOODLE_2025_PREGUNTAS = [
             "C) La cantidad de grupos a conformar entre los datos."
         ],
         "correctas": [0],
-        "explicacion": "Doctrina oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
+        "explicacion": "Criterio oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
         "es_oficial": True,
         "es_p1": False,
         "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",
@@ -419,7 +419,7 @@ MOODLE_2025_PREGUNTAS = [
             "D) De aprendizaje semi-supervisado."
         ],
         "correctas": [1],
-        "explicacion": "Doctrina estricta de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
+        "explicacion": "Criterio estricto de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
         "es_oficial": True,
         "es_p1": False,
         "fuente": "2do Parcial Oficial UTN FRRe (Moodle 2025)",

@@ -173,4 +173,4 @@ Aplicando la función signo:
 $$S(1) = [\text{sgn}(-2),\; \text{sgn}(+2),\; \text{sgn}(-2),\; \text{sgn}(+2)] = [-1,\; +1,\; -1,\; +1] = S(0)$$
 Y su energía de Lyapunov es:
 $$E(-E_1) = -\frac{1}{2} (-E_1) \cdot W \cdot (-E_1)^T = -\frac{1}{2} E_1 \cdot W \cdot E_1^T = \mathbf{-4.000}$$
-**Conclusión Doctrinal:** Todo patrón almacenado $E_k$ induce inevitablemente un atractor espurio simétrico en su complemento $-E_k$ con idéntica energía mínima.
+**Conclusión Teórica de Cátedra:** Todo patrón almacenado $E_k$ induce inevitablemente un atractor espurio simétrico en su complemento $-E_k$ con idéntica energía mínima.

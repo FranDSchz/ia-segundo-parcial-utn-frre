@@ -1291,7 +1291,7 @@
     "id": "MC-AG-01",
     "tema": "ALGORITMOS_GENETICOS",
     "titulo": "Algoritmos Genéticos: Selección Proporcional por Ruleta Acumulada (00-99)",
-    "enunciado": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según la doctrina de la Cátedra?",
+    "enunciado": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según el criterio de la Cátedra?",
     "opciones": [
       "A cada individuo se le asigna un sector de ruleta proporcional a su aptitud relativa $p_i = f_i / \\sum f_k$.",
       "Se generan intervalos cerrados acumulados normalizados (por ejemplo en el rango de ranuras 00 a 99) para indexar con números aleatorios.",
@@ -1309,7 +1309,7 @@
     "fuente": "Basada en Guía Práctica Nº 6 TP-AG y antecedente Moodle 19/11/2025 (Preg. 12)",
     "nro": 26,
     "origen": "Basada en Guía Práctica Nº 6 TP-AG y antecedente Moodle 19/11/2025 (Preg. 12)",
-    "pregunta": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según la doctrina de la Cátedra?",
+    "pregunta": "En el método de Selección por Ruleta tradicional en Algoritmos Genéticos, ¿cuáles de las siguientes proposiciones son verdaderas según el criterio de la Cátedra?",
     "multiple": true,
     "justificacion": "Las opciones 1, 2 y 4 son verdaderas. La opción 3 es falsa: la ruleta simple es vulnerable al fenómeno del superindividuo que monopoliza la probabilidad y causa convergencia prematura.",
     "tags": [
@@ -1594,9 +1594,9 @@
     "explicacion": "La opción 4 es falsa (Pregunta Oficial de Examen): reemplazar cruza y mutación por selección basada en orden destruiría toda capacidad de búsqueda y exploración de nuevas soluciones.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Basada en Compendio Doctrinal de Finales (Preg. 28 del compilado, s/f)",
+    "fuente": "Basada en Compendio Teórico de Finales (Preg. 28 del compilado, s/f)",
     "nro": 31,
-    "origen": "Basada en Compendio Doctrinal de Finales (Preg. 28 del compilado, s/f)",
+    "origen": "Basada en Compendio Teórico de Finales (Preg. 28 del compilado, s/f)",
     "pregunta": "Si un Algoritmo Genético utiliza selección elitista (15%), cruza (70%) y mutación (15%) y se estanca en un óptimo local sin alcanzar la solución esperada, ¿cuál es el diagnóstico correcto de la Cátedra?",
     "multiple": true,
     "justificacion": "La opción 4 es falsa (Pregunta Oficial de Examen): reemplazar cruza y mutación por selección basada en orden destruiría toda capacidad de búsqueda y exploración de nuevas soluciones.",
@@ -2056,7 +2056,7 @@
     "id": "MC-MLP-04",
     "tema": "MLP",
     "titulo": "Redes Neuronales: Diferencias entre ADALINE y Perceptrón Simple",
-    "enunciado": "Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según la doctrina de la Cátedra:",
+    "enunciado": "Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según el criterio de la Cátedra:",
     "opciones": [
       "ADALINE calcula el error sobre la salida lineal continua ($e = d - Net$) antes de aplicar el umbral bipolar.",
       "El Perceptrón Simple calcula el error únicamente sobre la salida discreta umbralizada ($e = d - y$).",
@@ -2074,7 +2074,7 @@
     "fuente": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 01) y Compilado (Preg. 17)",
     "nro": 39,
     "origen": "Basada en Recuperatorio 2do Parcial Nov 2023 (Ej. 01) y Compilado (Preg. 17)",
-    "pregunta": "Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según la doctrina de la Cátedra:",
+    "pregunta": "Al comparar el proceso de aprendizaje del modelo ADALINE (Widrow-Hoff / LMS) con el Perceptrón Simple (Rosenblatt) según el criterio de la Cátedra:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: el Perceptrón Simple solo genera un hiperplano lineal y no puede resolver XOR ni paridad de 3 bits $(x \\oplus y) \\oplus z$.",
     "tags": [
@@ -2187,9 +2187,9 @@
     "explicacion": "Las 4 opciones son verdaderas y constituyen la respuesta completa a la Pregunta 25 de exámenes finales (\"Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield\").",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 25 y 35 del compilado, s/f)",
+    "fuente": "Basada en Compendio Teórico de Finales (Pregs. 25 y 35 del compilado, s/f)",
     "nro": 41,
-    "origen": "Basada en Compendio Doctrinal de Finales (Pregs. 25 y 35 del compilado, s/f)",
+    "origen": "Basada en Compendio Teórico de Finales (Pregs. 25 y 35 del compilado, s/f)",
     "pregunta": "¿Cuáles de los siguientes son problemas o limitaciones intrínsecas de reconocimiento en una red neuronal de Hopfield según la Cátedra?",
     "multiple": true,
     "justificacion": "Las 4 opciones son verdaderas y constituyen la respuesta completa a la Pregunta 25 de exámenes finales (\"Mencione todos los problemas de reconocimiento que puede tener una red neuronal Hopfield\").",
@@ -2839,9 +2839,9 @@
     "explicacion": "La opción 4 es falsa: en Aprendizaje por Refuerzo no se conoce la salida deseada ni el gradiente analítico; solo se observa una señal escalar de recompensa.",
     "es_oficial": true,
     "es_p1": false,
-    "fuente": "Basada en Compendio Doctrinal de Finales (Pregs. 24 y 26 del compilado, s/f)",
+    "fuente": "Basada en Compendio Teórico de Finales (Pregs. 24 y 26 del compilado, s/f)",
     "nro": 52,
-    "origen": "Basada en Compendio Doctrinal de Finales (Pregs. 24 y 26 del compilado, s/f)",
+    "origen": "Basada en Compendio Teórico de Finales (Pregs. 24 y 26 del compilado, s/f)",
     "pregunta": "De acuerdo con las preguntas teóricas de examen final de la Cátedra sobre paradigmas de aprendizaje:",
     "multiple": true,
     "justificacion": "La opción 4 es falsa: en Aprendizaje por Refuerzo no se conoce la salida deseada ni el gradiente analítico; solo se observa una señal escalar de recompensa.",
@@ -3199,7 +3199,7 @@
     "id": "MC-58",
     "tema": "SVM",
     "titulo": "Support Vector Machines: Multiplicadores de Lagrange $\\alpha_i$ y Condiciones KKT de Soporte",
-    "enunciado": "En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con esta doctrina:",
+    "enunciado": "En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con este criterio:",
     "opciones": [
       "Los vectores de soporte son exclusivamente aquellos situados sobre los hiperplanos de margen ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$), para los cuales $\\alpha_i \\gt 0$.",
       "Para todas las instancias interiores que no son de soporte ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$), sus multiplicadores de Lagrange son idénticamente nulos ($\\alpha_i = 0$).",
@@ -3217,7 +3217,7 @@
     "fuente": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Preg. 4) y MC Oficial (#4, #10)",
     "origen": "Basada en Final 17/02/2021 (Preg. 3), Final 08/06/2021 (Preg. 4) y MC Oficial (#4, #10)",
     "nro": 58,
-    "pregunta": "En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con esta doctrina:",
+    "pregunta": "En la formulación dual de una Support Vector Machine lineal para datos linealmente separables, las condiciones de holgura complementaria de Karush-Kuhn-Tucker (KKT) establecen $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1] = 0$ con $\\alpha_i \\ge 0$. De acuerdo con este criterio:",
     "multiple": true,
     "justificacion": "Condiciones KKT y multiplicadores de Lagrange en SVM:\n  * **Las opciones 1, 2 y 3 son verdaderas:**\n    - Por holgura complementaria KKT, el producto $\\alpha_i [y_i(\\mathbf{w}^T \\mathbf{x}_i + b) - 1]$ debe anularse para toda instancia $i$. Si el punto se sitúa estrictamente detrás del margen ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) \\gt 1$), el corchete es estrictamente positivo, obligando a que $\\alpha_i = 0$. Únicamente cuando la instancia descansa exactamente sobre el margen límite ($y_i(\\mathbf{w}^T \\mathbf{x}_i + b) = 1$), el multiplicador puede ser positivo ($\\alpha_i \\gt 0$), definiendo un vector de soporte.\n    - Como $\\alpha_i = 0$ para todos los puntos no soporte, el vector de pesos $\\mathbf{w} = \\sum_{i \\in \\text{SV}} \\alpha_i y_i \\mathbf{x}_i$ es una combinación lineal dispersa (*sparse*) sustentada únicamente en los vectores de soporte.\n  * **La opción 4 es falsa:** La remoción o desplazamiento de cualquier punto interior que mantenga $\\alpha_i = 0$ no produce alteración alguna en la frontera de separación ni en los márgenes de decisión.",
     "tags": [
@@ -3535,7 +3535,7 @@
       1,
       2
     ],
-    "explicacion": "Doctrina oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
+    "explicacion": "Criterio oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 5)",
@@ -3543,7 +3543,7 @@
     "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 5)",
     "pregunta": "Una red neuronal de propagación hacia atrás:",
     "multiple": true,
-    "justificacion": "Doctrina oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
+    "justificacion": "Criterio oficial de Cátedra: Las arquitecturas generales entrenadas con algoritmos de propagación hacia atrás abarcan tanto redes feedforward estándar con posibles conexiones laterales intracapa (opción B), como redes recurrentes con retroalimentación hacia capas anteriores o de contexto (opción C, p. ej. redes de Elman y Jordan). Por ello, ambas configuraciones extendidas son computacionalmente admitidas.",
     "tags": [
       "2025",
       "OFICIAL",
@@ -4087,7 +4087,7 @@
     "correctas": [
       0
     ],
-    "explicacion": "Doctrina oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
+    "explicacion": "Criterio oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 16)",
@@ -4095,7 +4095,7 @@
     "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 16)",
     "pregunta": "¿Qué representa la tupla $x_i = (x_1 \\dots x_r)$ en el algoritmo K-means?",
     "multiple": false,
-    "justificacion": "Doctrina oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
+    "justificacion": "Criterio oficial de la Cátedra (apunte teórico de Clustering UTN FRRe): la tupla $x_i = (x_1, \\dots, x_r)$ formaliza el vector de características de la instancia $i$, donde el índice $r$ representa la cantidad de dimensiones o atributos que describen a los datos en el espacio euclídeo.",
     "tags": [
       "2025",
       "OFICIAL",
@@ -4234,7 +4234,7 @@
     "correctas": [
       1
     ],
-    "explicacion": "Doctrina estricta de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
+    "explicacion": "Criterio estricto de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 19)",
@@ -4242,7 +4242,7 @@
     "origen": "2do Parcial Oficial UTN FRRe · Moodle 19/11/2025 (Preg. 19)",
     "pregunta": "El algoritmo del modelo de Hopfield es:",
     "multiple": false,
-    "justificacion": "Doctrina estricta de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
+    "justificacion": "Criterio estricto de Cátedra: La red de Hopfield es clasificada como un modelo de **aprendizaje no supervisado** (o autoasociativo sin maestro), dado que calcula su matriz sináptica únicamente a través de la autocorrelación directa de los patrones de entrada ($W = \\sum E_k^T E_k - I$) sin requerir retroalimentación de error ni etiquetas de clase externas.",
     "tags": [
       "2025",
       "OFICIAL",
@@ -4332,7 +4332,7 @@
     "correctas": [
       3
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: Los mapas auto-organizados de Kohonen (SOM) proyectan un espacio de entrada continuo de $N$ dimensiones sobre un espacio discreto de salida conformado por una retícula topológica de $M$ neuronas (frecuentemente bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión del vector de entrada ($N$).",
+    "explicacion": "Criterio oficial de la Cátedra: Los mapas auto-organizados de Kohonen (SOM) proyectan un espacio de entrada continuo de $N$ dimensiones sobre un espacio discreto de salida conformado por una retícula topológica de $M$ neuronas (frecuentemente bidimensional). La cantidad de neuronas de salida ($M$) es independiente de la dimensión del vector de entrada ($N$).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 1)",
@@ -4388,7 +4388,7 @@
     "correctas": [
       2
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: Según el Teorema de Convergencia del Perceptrón, para conjuntos de entrenamiento linealmente separables el algoritmo garantiza alcanzar un vector de pesos que clasifica exactamente todos los patrones, finalizando cuando se completa una época completa con error cero. En cambio, en MLP se tolera un error menor a una cota prefijada.",
+    "explicacion": "Criterio oficial de la Cátedra: Según el Teorema de Convergencia del Perceptrón, para conjuntos de entrenamiento linealmente separables el algoritmo garantiza alcanzar un vector de pesos que clasifica exactamente todos los patrones, finalizando cuando se completa una época completa con error cero. En cambio, en MLP se tolera un error menor a una cota prefijada.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 2)",
@@ -4437,7 +4437,7 @@
     "correctas": [
       1
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: La hipótesis simplificadora fundamental del modelo Naïve Bayes ('ingenuo') es asumir que los atributos o variables predictoras son condicionalmente independientes entre sí dada la clase observada. Las clases no son independientes entre sí (son mutuamente excluyentes).",
+    "explicacion": "Criterio oficial de la Cátedra: La hipótesis simplificadora fundamental del modelo Naïve Bayes ('ingenuo') es asumir que los atributos o variables predictoras son condicionalmente independientes entre sí dada la clase observada. Las clases no son independientes entre sí (son mutuamente excluyentes).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 3)",
@@ -4493,7 +4493,7 @@
     "correctas": [
       2
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: De acuerdo a la regla delta generalizada para la conexión dirigida desde la neurona de origen $i$ hacia la neurona de destino $j$, el incremento sináptico es $\\Delta w_{ji} = \\alpha \\cdot \\delta_j \\cdot y_i$, correspondiente a la tasa de aprendizaje $\\alpha$ multiplicada por el gradiente de error local de la neurona destino $j$ ($\\delta_j$) multiplicada por la salida o activación de la neurona origen $i$ ($y_i$).",
+    "explicacion": "Criterio oficial de la Cátedra: De acuerdo a la regla delta generalizada para la conexión dirigida desde la neurona de origen $i$ hacia la neurona de destino $j$, el incremento sináptico es $\\Delta w_{ji} = \\alpha \\cdot \\delta_j \\cdot y_i$, correspondiente a la tasa de aprendizaje $\\alpha$ multiplicada por el gradiente de error local de la neurona destino $j$ ($\\delta_j$) multiplicada por la salida o activación de la neurona origen $i$ ($y_i$).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 4)",
@@ -4542,7 +4542,7 @@
     "correctas": [
       0
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: Ambos modelos son monocapa y supervisados. La diferencia reside en la función de transferencia: el Perceptrón calcula el error a partir de la salida cuantizada por la función escalón, mientras que ADALINE (regla LMS / Widrow-Hoff) aplica una función de activación lineal (identidad) para calcular la diferencia con la salida deseada antes del umbral de decisión final.",
+    "explicacion": "Criterio oficial de la Cátedra: Ambos modelos son monocapa y supervisados. La diferencia reside en la función de transferencia: el Perceptrón calcula el error a partir de la salida cuantizada por la función escalón, mientras que ADALINE (regla LMS / Widrow-Hoff) aplica una función de activación lineal (identidad) para calcular la diferencia con la salida deseada antes del umbral de decisión final.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 5)",
@@ -4591,7 +4591,7 @@
     "correctas": [
       2
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: El conjunto de validación sirve para controlar el sobreentrenamiento (overfitting). Si durante el entrenamiento el error sobre el conjunto de validación comienza a incrementarse mientras el de entrenamiento sigue cayendo, significa que la red está perdiendo capacidad de generalización sobre datos no vistos, debiendo detenerse el entrenamiento (parada temprana / Early Stopping).",
+    "explicacion": "Criterio oficial de la Cátedra: El conjunto de validación sirve para controlar el sobreentrenamiento (overfitting). Si durante el entrenamiento el error sobre el conjunto de validación comienza a incrementarse mientras el de entrenamiento sigue cayendo, significa que la red está perdiendo capacidad de generalización sobre datos no vistos, debiendo detenerse el entrenamiento (parada temprana / Early Stopping).",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 7)",
@@ -4639,7 +4639,7 @@
     "correctas": [
       1
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: La red de Hopfield es una red asociativa puramente autorrecurrente (recurrent network) compuesta por una capa interconectada donde las salidas de las neuronas se retroalimentan como entradas de las demás hasta converger a un atractor o estado de equilibrio estable.",
+    "explicacion": "Criterio oficial de la Cátedra: La red de Hopfield es una red asociativa puramente autorrecurrente (recurrent network) compuesta por una capa interconectada donde las salidas de las neuronas se retroalimentan como entradas de las demás hasta converger a un atractor o estado de equilibrio estable.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 8)",
@@ -4687,7 +4687,7 @@
     "correctas": [
       1
     ],
-    "explicacion": "Doctrina oficial de la Cátedra: En la red de Hopfield discreta clásica, la conectividad es completa entre neuronas distintas ($w_{ij} = w_{ji}$), pero la diagonal principal es nula ($w_{ii} = 0$), lo que significa que cada neurona de salida está conectada a todas las demás neuronas y no posee conexiones autorrecurrentes hacia sí misma.",
+    "explicacion": "Criterio oficial de la Cátedra: En la red de Hopfield discreta clásica, la conectividad es completa entre neuronas distintas ($w_{ij} = w_{ji}$), pero la diagonal principal es nula ($w_{ii} = 0$), lo que significa que cada neurona de salida está conectada a todas las demás neuronas y no posee conexiones autorrecurrentes hacia sí misma.",
     "es_oficial": true,
     "es_p1": false,
     "fuente": "2do Parcial Oficial UTN FRRe · Grupo 2 Moodle 2025 (Preg. 9)",
