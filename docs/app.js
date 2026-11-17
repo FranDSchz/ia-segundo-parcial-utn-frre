@@ -179,7 +179,7 @@
           } else {
             this.renderLabView();
           }
-        } else if (["home", "practice", "lab", "history", "qa", "community"].includes(hash)) {
+        } else if (["home", "practice", "lab", "machete", "history", "qa", "community"].includes(hash)) {
           if (this.currentView !== hash) {
             this.navigate(hash);
           }
@@ -406,6 +406,8 @@
               this.renderQuestion(this.currentIndex);
             } else if (this.currentView === "results") {
               this.renderResults();
+            } else if (this.currentView === "machete") {
+              this.renderMacheteView();
             }
             this.renderStaticMath();
           } else if (retries > 50) { // 5 segundos sin CDN
@@ -521,6 +523,8 @@
         this.renderPracticeQuestion();
       } else if (viewName === "lab") {
         this.renderLabView();
+      } else if (viewName === "machete") {
+        this.renderMacheteView();
       } else if (viewName === "community") {
         this.initCommunityView();
       }
@@ -4950,6 +4954,26 @@ Simulador IA UTN FRRe: https://frandschz.github.io/ia-segundo-parcial-utn-frre/`
       if (this.peSession && !this.peSession.finished && !this.pePaused) {
         this.startPeTimerIfNeeded();
       }
+    },
+
+    openMacheteTopic(topicId) {
+      this._macheteInitialTopic = topicId || "P2_ONLY";
+      this.navigate("machete");
+    },
+
+    renderMacheteView() {
+      const root = document.getElementById("machete-root");
+      if (!root || !window.MacheteView) return;
+      MacheteView.mountMacheteView(root, {
+        initialTopic: this._macheteInitialTopic || "P2_ONLY",
+        onRenderMath: (el) => this.renderMath(el),
+        onJumpToLab: (labKey) => {
+          this.selectLabTopic(labKey);
+          this.setLabSubMode("guides");
+          this.navigate("lab");
+        },
+        onOpenPrintSheet: () => this.openPrintCheatSheet()
+      });
     }
   };
 

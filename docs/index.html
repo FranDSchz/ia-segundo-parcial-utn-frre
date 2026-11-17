@@ -31,6 +31,7 @@
           <button class="nav-tab-btn active" id="tab-home" onclick="app.navigate('home')">Simulacro</button>
           <button class="nav-tab-btn" id="tab-practice" onclick="app.navigate('practice')">Repaso Teórico</button>
           <button class="nav-tab-btn" id="tab-lab" onclick="app.navigate('lab')">🛠️ Práctica Guiada</button>
+          <button class="nav-tab-btn" id="tab-machete" onclick="app.navigate('machete')">⚡ Machete</button>
           <button class="nav-tab-btn" id="tab-history" onclick="app.navigate('history')">Progreso 🏆</button>
           <button class="nav-tab-btn" id="tab-qa" onclick="app.navigate('qa')">Banco QA</button>
           <button class="nav-tab-btn" id="tab-community" onclick="app.navigate('community')">Comunidad 💬</button>
@@ -95,6 +96,10 @@
         <button type="button" class="drawer-link" data-nav="lab" onclick="app.navigate('lab')">
           <span class="drawer-link-icon">🛠️</span>
           <span class="drawer-link-text">Práctica Guiada (Lab)</span>
+        </button>
+        <button type="button" class="drawer-link" data-nav="machete" onclick="app.navigate('machete')">
+          <span class="drawer-link-icon">⚡</span>
+          <span class="drawer-link-text">Machete Maestro &amp; Ejemplos</span>
         </button>
         <button type="button" class="drawer-link" data-nav="history" onclick="app.navigate('history')">
           <span class="drawer-link-icon">🏆</span>
@@ -664,6 +669,9 @@
           <span class="lab-note-extra">No busques recitar definiciones formales de memoria: usá los gráficos, fórmulas clave (foco en <strong>sigmoidal</strong> para MLP), el cronómetro por ejercicio y los ejemplos guiados para ir <strong>comentando cortito y con tus palabras qué estás haciendo</strong> mientras calculás.</span>
         </p>
         <div style="margin-top: 0.85rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-sm btn-primary" onclick="app.navigate('machete')" style="font-weight: 600;">
+            ⚡ Ver Machete Maestro &amp; Ejemplos por Variante
+          </button>
           <button type="button" class="btn btn-sm btn-outline" onclick="app.openPrintCheatSheet()" style="background: var(--surface); font-weight: 600;">
             🖨️ Formulario &amp; Fórmulas Oficiales para Imprimir (PDF / A4)
           </button>
@@ -707,6 +715,11 @@
       <div id="lab-timed-panel" class="pe-panel hidden"></div>
       <div id="lab-sandboxes-panel" class="pe-panel hidden"></div>
       <div id="lab-traps-panel" class="pe-panel hidden"></div>
+    </section>
+
+    <!-- VIEW: MACHETE MAESTRO & EJEMPLOS DE CÁTEDRA (#machete) -->
+    <section id="view-machete" class="view-section">
+      <div id="machete-root"></div>
     </section>
 
   </main>
@@ -1155,6 +1168,7 @@
   <script src="visual_widgets.js"></script>
   <script src="algo_sandboxes.js"></script>
   <script src="sync_engine.js"></script>
+  <script src="machete_view.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>
