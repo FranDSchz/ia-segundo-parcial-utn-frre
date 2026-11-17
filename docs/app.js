@@ -164,9 +164,14 @@
       // 6. Bind keyboard shortcuts for active exam
       this.bindKeyboardShortcuts();
 
-      // 7. Check URL hash for direct routing and listen to back/forward/hash changes
+      // 7. Check URL hash for direct routing, incoming sync payload, and history listeners
       const handleHashRoute = () => {
-        const hash = window.location.hash.replace("#", "").toLowerCase();
+        const rawHash = window.location.hash || "";
+        if (rawHash.startsWith("#sync=") && window.SyncEngine) {
+          this.handleIncomingSyncHash(rawHash);
+          return;
+        }
+        const hash = rawHash.replace("#", "").toLowerCase();
         if (hash === "practical-exam") {
           this.labSubMode = "timed";
           if (this.currentView !== "lab") {
@@ -2261,6 +2266,7 @@
       if (!summary) return;
 
       this.renderProfileSummaryCard(summary, now);
+      this.renderQuickSyncCard();
       this.renderTopicsMasteryCard(summary);
       this.renderProgressChartsCard();
       this.renderAchievementsCard(summary);
@@ -2770,19 +2776,283 @@
       }
     },
 
+    buildProgressPayload() {
+      return {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        srsMap: this.srsMap || {},
+        gamif: this.gamif || {},
+        labSteps: [...(this.labCompletedSteps || [])],
+        practicalAttempts: this.peAttempts || [],
+        groupLeaderboard: this.groupLeaderboard || [],
+        history: JSON.parse(localStorage.getItem("ia_quiz_history") || "[]"),
+        failedIds: JSON.parse(localStorage.getItem("ia_quiz_failed_ids") || "[]")
+      };
+    },
+
+    applyProgressPayload(rawData, mode = "replace") {
+      if (!rawData || typeof rawData !== "object" || (!rawData.srsMap && !rawData.gamif && !Array.isArray(rawData.labSteps) && !Array.isArray(rawData.practicalAttempts))) {
+        throw new Error("Formato incompatible");
+      }
+      const data = (mode === "merge" && window.SyncEngine)
+        ? SyncEngine.mergeProgressPayloads(this.buildProgressPayload(), rawData)
+        : rawData;
+
+      if (data.srsMap && typeof data.srsMap === "object" && !Array.isArray(data.srsMap)) {
+        this.srsMap = data.srsMap;
+      }
+      if (data.gamif && typeof data.gamif === "object" && window.StudyEngine) {
+        this.gamif = StudyEngine.normalizeGamification(data.gamif);
+      }
+      if (Array.isArray(data.labSteps)) {
+        this.labCompletedSteps = new Set(data.labSteps.map(String));
+        this.saveLabSteps();
+      }
+      if (Array.isArray(data.practicalAttempts)) {
+        this.peAttempts = data.practicalAttempts.slice(0, 60);
+        this.savePeAttempts();
+      }
+      if (Array.isArray(data.groupLeaderboard) && window.StudyEngine) {
+        this.groupLeaderboard = data.groupLeaderboard.filter((e) => e && e.code && StudyEngine.decodeRankCode(e.code));
+      }
+      if (Array.isArray(data.history)) {
+        localStorage.setItem("ia_quiz_history", JSON.stringify(data.history.slice(0, 30)));
+      }
+      if (Array.isArray(data.failedIds)) {
+        localStorage.setItem("ia_quiz_failed_ids", JSON.stringify(data.failedIds));
+      }
+
+      this.saveStudyState();
+      this.updateFailedButtonVisibility();
+      this.updateSmartPracticeFilterLabel();
+      this.renderGlobalStudyHud();
+      this.renderHistory();
+      this.renderProgressDashboard();
+      if (this.currentView === "lab") this.renderLabView();
+    },
+
+    renderQuickSyncCard() {
+      const el = document.getElementById("history-sync-card");
+      if (!el || !window.SyncEngine) return;
+      const lastQr = this._lastSyncView || null;
+      const lightChecked = this._syncLightMode ? "checked" : "";
+
+      el.innerHTML = `
+        <div class="sync-header-row">
+          <div>
+            <h3 style="margin:0;">📲 Sincronización Rápida (PC ↔ Celular)</h3>
+            <p style="margin:0.2rem 0 0;font-size:0.83rem;color:var(--text-muted);">Sin servidores ni cuentas: pasá o <strong>fusioná</strong> tu progreso entre dispositivos usando QR, link o código comprimido.</p>
+          </div>
+          <label class="sb-inline-ctl" title="Recorta historial viejo si el QR queda muy denso">
+            <input type="checkbox" id="sync-light-toggle" ${lightChecked} onchange="app.toggleSyncLightMode(this.checked)" />
+            Modo QR Ligero
+          </label>
+        </div>
+        <div class="sync-grid">
+          <div class="sync-pane">
+            <div class="sync-pane-title">1. Enviar desde este dispositivo</div>
+            <p style="margin:0;font-size:0.8rem;color:var(--text-muted);">PC → Celu: generá el QR y escanealo con la cámara. Celu → PC: tocá Copiar Link/Código y mandátelo por chat.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="app.generateQuickSync()">📲 Generar QR y Link</button>
+              ${lastQr ? `
+                <button type="button" class="btn btn-outline btn-sm" onclick="app.copySyncText('link')">🔗 Copiar Link</button>
+                <button type="button" class="btn btn-outline btn-sm" onclick="app.copySyncText('code')">📋 Copiar Código</button>
+              ` : ""}
+            </div>
+            ${lastQr ? `
+              <div class="sync-qr-stage">
+                ${lastQr.qrSvg
+                  ? `<div class="sync-qr-frame">${lastQr.qrSvg}</div>`
+                  : `<div class="sync-meta-line" style="color:var(--warning);padding:0.75rem;">⚠️ El historial completo excede el QR. Activá "Modo QR Ligero" arriba o usá Copiar Link/Código.</div>`}
+                <div class="sync-meta-line">
+                  ${lastQr.qrVersion ? `QR v${lastQr.qrVersion} · ` : ""}${lastQr.token.length} caracteres · ${lastQr.light ? "Modo Ligero" : "Completo"}
+                </div>
+                ${lastQr.tooDense && !lastQr.light ? `
+                  <button type="button" class="btn btn-outline btn-sm" onclick="app.generateQuickSync(true)">⚡ Cambiar a QR Ligero (más fácil de escanear)</button>
+                ` : ""}
+              </div>
+            ` : ""}
+          </div>
+          <div class="sync-pane">
+            <div class="sync-pane-title">2. Recibir en este dispositivo</div>
+            <p style="margin:0;font-size:0.8rem;color:var(--text-muted);">Pegá el link (<code>#sync=...</code>) o código (<code>IAS2:...</code>) recibido del otro equipo. <strong>Fusionar</strong> combina ambos sin perder nada.</p>
+            <input type="text" id="sync-paste-input" class="sync-input" placeholder="Pegá aquí el link o código IAS2:..." autocomplete="off" />
+            <div style="display:flex;flex-wrap:wrap;gap:0.45rem;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="app.importSyncCodeFromInput('merge')">🔀 Fusionar progreso</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="app.importSyncCodeFromInput('replace')">📥 Reemplazar todo</button>
+            </div>
+          </div>
+        </div>
+      `;
+    },
+
+    toggleSyncLightMode(enabled) {
+      this._syncLightMode = Boolean(enabled);
+      if (this._lastSyncView) {
+        this.generateQuickSync(this._syncLightMode);
+      }
+    },
+
+    async generateQuickSync(forceLight) {
+      if (!window.SyncEngine) return;
+      if (typeof forceLight === "boolean") this._syncLightMode = forceLight;
+      const light = Boolean(this._syncLightMode);
+      try {
+        const token = await SyncEngine.encodeSyncToken(this.buildProgressPayload(), { light });
+        const baseUrl = window.location.href.split("#")[0];
+        const link = `${baseUrl}#sync=${token}`;
+        let qr = null;
+        try {
+          qr = SyncEngine.renderQrSvg(link, { quiet: 4 });
+        } catch (err) {
+          qr = null;
+        }
+        this._lastSyncView = {
+          token,
+          link,
+          light,
+          qrSvg: qr ? qr.svg : null,
+          qrVersion: qr ? qr.version : null,
+          tooDense: Boolean(qr && qr.version >= 18)
+        };
+        this.renderQuickSyncCard();
+        this.showToast(qr ? "📲 QR y enlace listos para escanear o copiar" : "🔗 Enlace listo (usá Copiar Link o Modo Ligero para QR)");
+      } catch (e) {
+        this.showToast("⚠️ No se pudo generar el código de sincronización");
+      }
+    },
+
+    copySyncText(kind) {
+      const data = this._lastSyncView;
+      if (!data) return;
+      const txt = kind === "code" ? data.token : data.link;
+      const onOk = () => this.showToast(kind === "code" ? "📋 Código copiado" : "🔗 Link de sincronización copiado");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(onOk).catch(() => this.fallbackCopyText(txt, onOk));
+      } else {
+        this.fallbackCopyText(txt, onOk);
+      }
+    },
+
+    fallbackCopyText(txt, onOk) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = txt;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        if (onOk) onOk();
+      } catch (e) {
+        this.showToast("⚠️ Copiá el texto manualmente");
+      }
+    },
+
+    async importSyncCodeFromInput(mode) {
+      if (!window.SyncEngine) return;
+      const inp = document.getElementById("sync-paste-input");
+      const raw = inp ? inp.value.trim() : "";
+      if (!raw) {
+        this.showToast("⚠️ Pegá primero un código o link de sincronización");
+        return;
+      }
+      try {
+        const payload = await SyncEngine.decodeSyncToken(raw);
+        this.applyProgressPayload(payload, mode === "replace" ? "replace" : "merge");
+        if (inp) inp.value = "";
+        this.showToast(mode === "replace" ? "📥 Progreso reemplazado desde código" : "🔀 Progreso fusionado sin pérdidas");
+      } catch (e) {
+        this.showToast(`❌ ${e.message || "Código de sincronización inválido"}`);
+      }
+    },
+
+    async handleIncomingSyncHash(rawHash) {
+      if (!window.SyncEngine) return;
+      try {
+        const payload = await SyncEngine.decodeSyncToken(rawHash);
+        this.openSyncImportModal(payload);
+      } catch (e) {
+        this.clearSyncHash();
+        this.showToast(`❌ Link de sincronización inválido: ${e.message || "error"}`);
+      }
+    },
+
+    clearSyncHash() {
+      try {
+        if (window.location.hash && window.location.hash.startsWith("#sync=")) {
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, "", window.location.href.split("#")[0]);
+          } else {
+            window.location.hash = "";
+          }
+        }
+      } catch (e) {
+        window.location.hash = "";
+      }
+    },
+
+    openSyncImportModal(incoming) {
+      this._pendingSyncPayload = incoming;
+      const sumEl = document.getElementById("sync-modal-summary");
+      if (sumEl) {
+        const local = this.buildProgressPayload();
+        const countTouched = (map) => Object.values(map || {}).filter((c) => c && (c.reps > 0 || c.lapses > 0 || c.lastReviewedAt)).length;
+        const incCards = countTouched(incoming.srsMap);
+        const locCards = countTouched(local.srsMap);
+        const incXp = Number((incoming.gamif && incoming.gamif.xp) || 0);
+        const locXp = Number((local.gamif && local.gamif.xp) || 0);
+        const incLab = (incoming.labSteps || []).length;
+        const locLab = (local.labSteps || []).length;
+        const incEx = (incoming.history || []).length + (incoming.practicalAttempts || []).length;
+        const locEx = (local.history || []).length + (local.practicalAttempts || []).length;
+
+        sumEl.innerHTML = `
+          <div class="sync-compare-box">
+            <strong>📲 Entrante</strong><br>
+            <span>${incCards} tarjetas repasadas</span><br>
+            <span>${incXp} XP · ${incLab} pasos guía</span><br>
+            <span>${incEx} simulacros/prácticos</span>
+          </div>
+          <div class="sync-compare-box">
+            <strong>💻 Este dispositivo</strong><br>
+            <span>${locCards} tarjetas repasadas</span><br>
+            <span>${locXp} XP · ${locLab} pasos guía</span><br>
+            <span>${locEx} simulacros/prácticos</span>
+          </div>
+        `;
+      }
+      this.openModal("modal-sync-import");
+    },
+
+    confirmSyncImport(mode) {
+      const payload = this._pendingSyncPayload;
+      this._pendingSyncPayload = null;
+      this.closeModal("modal-sync-import");
+      this.clearSyncHash();
+      if (!payload) return;
+      try {
+        this.applyProgressPayload(payload, mode === "replace" ? "replace" : "merge");
+        this.navigate("history");
+        this.showToast(mode === "replace" ? "📥 Progreso reemplazado correctamente" : "🔀 Progreso de ambos dispositivos fusionado");
+      } catch (e) {
+        this.showToast("❌ No se pudo aplicar la sincronización");
+      }
+    },
+
+    cancelSyncImport() {
+      this._pendingSyncPayload = null;
+      this.closeModal("modal-sync-import");
+      this.clearSyncHash();
+      if (!this.currentView || this.currentView === "home") {
+        this.navigate("home");
+      }
+    },
+
     exportProgressBackup() {
       try {
-        const payload = {
-          version: 1,
-          exportedAt: new Date().toISOString(),
-          srsMap: this.srsMap || {},
-          gamif: this.gamif || {},
-          labSteps: [...(this.labCompletedSteps || [])],
-          practicalAttempts: this.peAttempts || [],
-          groupLeaderboard: this.groupLeaderboard || [],
-          history: JSON.parse(localStorage.getItem("ia_quiz_history") || "[]"),
-          failedIds: JSON.parse(localStorage.getItem("ia_quiz_failed_ids") || "[]")
-        };
+        const payload = this.buildProgressPayload();
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -2805,40 +3075,7 @@
       reader.onload = () => {
         try {
           const data = JSON.parse(String(reader.result || "{}"));
-          if (!data || typeof data !== "object" || (!data.srsMap && !data.gamif && !Array.isArray(data.labSteps) && !Array.isArray(data.practicalAttempts))) {
-            throw new Error("Formato incompatible");
-          }
-          if (data.srsMap && typeof data.srsMap === "object" && !Array.isArray(data.srsMap)) {
-            this.srsMap = data.srsMap;
-          }
-          if (data.gamif && typeof data.gamif === "object" && window.StudyEngine) {
-            this.gamif = StudyEngine.normalizeGamification(data.gamif);
-          }
-          if (Array.isArray(data.labSteps)) {
-            this.labCompletedSteps = new Set(data.labSteps.map(String));
-            this.saveLabSteps();
-          }
-          if (Array.isArray(data.practicalAttempts)) {
-            this.peAttempts = data.practicalAttempts.slice(0, 60);
-            this.savePeAttempts();
-          }
-          if (Array.isArray(data.groupLeaderboard) && window.StudyEngine) {
-            this.groupLeaderboard = data.groupLeaderboard.filter((e) => e && e.code && StudyEngine.decodeRankCode(e.code));
-          }
-          if (Array.isArray(data.history)) {
-            localStorage.setItem("ia_quiz_history", JSON.stringify(data.history));
-          }
-          if (Array.isArray(data.failedIds)) {
-            localStorage.setItem("ia_quiz_failed_ids", JSON.stringify(data.failedIds));
-          }
-
-          this.saveStudyState();
-          this.updateFailedButtonVisibility();
-          this.updateSmartPracticeFilterLabel();
-          this.renderGlobalStudyHud();
-          this.renderHistory();
-          this.renderProgressDashboard();
-          if (this.currentView === "lab") this.renderLabView();
+          this.applyProgressPayload(data, "replace");
           this.showToast("✅ Progreso restaurado desde respaldo JSON");
         } catch (e) {
           this.showToast("❌ Archivo JSON de progreso inválido");

@@ -412,6 +412,8 @@
 
       <div id="history-profile-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
+      <div id="history-sync-card" class="card" style="margin-bottom: 1.5rem;"></div>
+
       <div id="history-topics-card" class="card" style="margin-bottom: 1.5rem;"></div>
 
       <div id="history-charts-card" class="card" style="margin-bottom: 1.5rem;"></div>
@@ -783,6 +785,35 @@
     </div>
   </div>
 
+  <!-- Modal: Confirmar Sincronización Entrante (#sync=...) -->
+  <div class="modal-backdrop" id="modal-sync-import">
+    <div class="modal-content" style="max-width: 520px;">
+      <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.45rem;">
+        <span style="font-size: 1.6rem;">📲</span>
+        <div>
+          <h3 style="margin: 0;">Sincronización de Progreso Detectada</h3>
+          <p style="margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--text-muted);" id="sync-modal-subtitle">
+            Elegí cómo combinar estos datos con el progreso actual de este dispositivo.
+          </p>
+        </div>
+      </div>
+
+      <div id="sync-modal-summary" class="sync-compare-grid"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+        <button type="button" class="btn btn-primary" onclick="app.confirmSyncImport('merge')">
+          🔀 Fusionar con mi progreso actual (Recomendado)
+        </button>
+        <button type="button" class="btn btn-outline" onclick="app.confirmSyncImport('replace')">
+          📥 Reemplazar todo con el progreso recibido
+        </button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="app.cancelSyncImport()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Compendio Teórico y Formulario Oficial Imprimible (2 Carillas A4) -->
   <div class="modal-backdrop" id="modal-print-cheatsheet" onclick="if (event.target === this) app.closeModal('modal-print-cheatsheet')">
     <div class="modal-content modal-content-sheet">
@@ -1123,6 +1154,7 @@
   <script src="practical_engine.js"></script>
   <script src="visual_widgets.js"></script>
   <script src="algo_sandboxes.js"></script>
+  <script src="sync_engine.js"></script>
 
   <!-- Application Logic -->
   <script src="app.js"></script>
